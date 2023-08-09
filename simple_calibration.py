@@ -50,7 +50,8 @@ def drawAxes(img, imgpts):
     img = cv.line(img, corner, tuple(imgpts[2].ravel()), (0, 0, 255), 5)
     return img
 
-#========================================
+
+# ========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
 focal_length_x = 1.88842395e+03
 focal_length_y = 1.89329463e+03
@@ -58,7 +59,7 @@ camera_center_x = 9.21949329e+02
 camera_center_y = 3.34464319e+02
 distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
 use_external_cam = 0
-#========================================
+# ========================================
 
 parser = argparse.ArgumentParser(description='Code for calibration.')
 parser.add_argument('--input1', help='Path to input zone image.', default='zone_map.png')

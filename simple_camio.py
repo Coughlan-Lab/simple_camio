@@ -4,6 +4,7 @@ import datetime
 import numpy as np
 import argparse
 from playsound import playsound
+import pyglet.media
 from scipy import stats
 from map_parameters import *
 
@@ -181,7 +182,9 @@ while cap.isOpened():
             if prev_zone_name != zone_name:
                 soundfile = './sound_files/' + sound_dict.get(zone.mode[0], None)
                 if os.path.exists(soundfile):
-                    playsound(soundfile, block=False)
+                    sound = pyglet.media.load(soundfile, streaming=False)
+                    sound.play()
+                    #playsound(soundfile, block=False)
             prev_zone_name = zone_name
             print(zone_name)
         else:

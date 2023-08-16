@@ -4,7 +4,15 @@ import datetime
 import numpy as np
 import argparse
 from scipy import optimize
+import matplotlib.pyplot as plt
 from map_parameters import *
+
+
+def solvePnP_lists_from_focal_length(fl, obj_list, scene_list, cx, cy):
+    sum_of_offsets = 0
+    for scene, obj in zip(scene_list, obj_list):
+        sum_of_offsets += solvePnP_from_focal_length(fl, obj, scene, cx, cy)
+    return sum_of_offsets
 
 
 def solvePnP_from_focal_length(fl, obj, scene, cx, cy):
@@ -53,10 +61,10 @@ def drawAxes(img, imgpts):
 
 # ========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
-focal_length_x = 1.88842395e+03
-focal_length_y = 1.89329463e+03
-camera_center_x = 9.21949329e+02
-camera_center_y = 3.34464319e+02
+focal_length_x = 950.4602909088135
+focal_length_y = 950.4602909088135
+camera_center_x = 640.0
+camera_center_y = 360.0
 distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
 use_external_cam = 0
 # ========================================
@@ -74,6 +82,8 @@ img_map_color = cv.imread(args.input1, cv.IMREAD_COLOR)  # Image.open(cv.samples
 img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 
 scene = np.empty((16, 2), dtype=np.float32)
+obj_list = []
+scene_list = []
 
 cap = cv.VideoCapture(use_external_cam)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT,1080) #set camera image height
@@ -100,7 +110,7 @@ while cap.isOpened():
     (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
     scene, use_index = sort_corners_by_id(corners, id, scene)
 
-    if ids is None:
+    if ids is None or not any(use_index):
         #print("No markers found.")
         cv.imshow('image reprojection', img_scene_color)
         waitkey = cv.waitKey(1)
@@ -127,8 +137,25 @@ while cap.isOpened():
     now = datetime.datetime.now()
     cv.imshow('image reprojection', img_scene_color)
     waitkey = cv.waitKey(1)
+    if waitkey == ord('a'):
+        obj_list.append(obj[use_index, :])
+        scene_list.append(scene[use_index, :])
+    if waitkey == ord('g'):
+        res = optimize.fmin(solvePnP_lists_from_focal_length, 1800,
+                            args=(obj_list, scene_list, camera_center_x, camera_center_y))
+        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
+              f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
+        minsums = []
+        # for fl in np.linspace(300,2300, 201):
+        #     minsums.append(solvePnP_lists_from_focal_length([fl], obj_list, scene_list, camera_center_x, camera_center_y))
+        # plt.scatter(np.linspace(300,2300, 201), minsums)
+        # plt.xlabel('Focal Length')
+        # plt.ylabel('Sum of Average Reprojection Error')
+        # plt.show()
+        obj_list = []
+        scene_list = []
     if waitkey == ord('c'):
-        res = optimize.fmin(solvePnP_from_focal_length, 1000,
+        res = optimize.fmin(solvePnP_from_focal_length, 1800,
                             args=(obj[use_index, :], scene[use_index, :], camera_center_x, camera_center_y))
         print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
               f"camera_center_x = {frame.shape[1]/2}\ncamera_center_y = {frame.shape[0]/2}")

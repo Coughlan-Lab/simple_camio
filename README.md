@@ -20,7 +20,7 @@ For best performance, we recommend the camera sit above the map to get a fronto-
 
 To run, simply run the simple_camio.py script.
 
----------------------------------------------------------
+--------------------------------------------------
 How to estimate calibration parameters using simple_calibration.py:
 
 1. Print the pattern from map_with_aruco.png. Should be printed at 300dpi.

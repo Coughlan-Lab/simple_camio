@@ -1,6 +1,7 @@
 import os
 import cv2 as cv
 import datetime
+import time
 import numpy as np
 import pickle
 import argparse
@@ -99,6 +100,7 @@ img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 scene = np.empty((16, 2), dtype=np.float32)
 
 cap = cv.VideoCapture(use_external_cam)
+start_time = time.time()
 # cap.set(cv.CAP_PROP_FRAME_HEIGHT,1440) #set camera image height
 # cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width
 # cap.set(cv.CAP_PROP_FOCUS,0)
@@ -188,9 +190,10 @@ while cap.isOpened():
         if zone_name:
             if prev_zone_name != zone_name:
                 soundfile = './MP3/' + sound_dict_ukraine.get(zone.mode[0], None)
-                if os.path.exists(soundfile):
+                if os.path.exists(soundfile) and time.time()-start_time>1.5:
                     sound = pyglet.media.load(soundfile, streaming=False)
                     sound.play()
+                    start_time = time.time()
                     #playsound(soundfile, block=False)
             prev_zone_name = zone_name
             print(zone_name)

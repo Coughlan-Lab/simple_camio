@@ -3,6 +3,7 @@ import cv2 as cv
 import datetime
 import numpy as np
 import argparse
+import pickle
 from scipy import optimize
 import matplotlib.pyplot as plt
 from map_parameters import *
@@ -80,6 +81,7 @@ intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
 # Load color image
 img_map_color = cv.imread(args.input1, cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
 img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
+template_img = cv.imread('template.png', cv.IMREAD_COLOR)
 
 scene = np.empty((16, 2), dtype=np.float32)
 obj_list = []
@@ -101,6 +103,11 @@ while cap.isOpened():
 
     # load images grayscale
     img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
+
+    # overlay template image on video stream
+    if img_scene_color.shape[1] != template_img.shape[1] or img_scene_color.shape[0] != template_img.shape[0]:
+        template_img = cv.resize(template_img, (img_scene_color.shape[1], img_scene_color.shape[0]))
+    img_scene_color = (img_scene_color /2 + template_img /2) /255
 
     # Define aruco marker dictionary and parameters object to include subpixel resolution
     aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
@@ -141,11 +148,14 @@ while cap.isOpened():
         obj_list.append(obj[use_index, :])
         scene_list.append(scene[use_index, :])
     if waitkey == ord('g'):
-        res = optimize.fmin(solvePnP_lists_from_focal_length, 1800,
+        if len(obj_list) == 0:
+            obj_list.append(obj[use_index, :])
+            scene_list.append(scene[use_index, :])
+        res = optimize.fmin(solvePnP_lists_from_focal_length, 1000,
                             args=(obj_list, scene_list, camera_center_x, camera_center_y))
-        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
-              f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
-        minsums = []
+        with open('camera_parameters.pkl', 'wb') as f:
+            pickle.dump([res[0], res[0], frame.shape[1]/2, frame.shape[0]/2], f)
+        # minsums = []
         # for fl in np.linspace(300,2300, 201):
         #     minsums.append(solvePnP_lists_from_focal_length([fl], obj_list, scene_list, camera_center_x, camera_center_y))
         # plt.scatter(np.linspace(300,2300, 201), minsums)

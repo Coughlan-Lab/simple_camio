@@ -2,11 +2,13 @@ import os
 import cv2 as cv
 import datetime
 import numpy as np
+import pickle
 import argparse
 from playsound import playsound
 import pyglet.media
 from scipy import stats
 from map_parameters import *
+
 
 
 # Function to sort corners by id based on how they are arranged
@@ -73,6 +75,11 @@ use_external_cam = 0
 parser = argparse.ArgumentParser(description='Code for CamIO.')
 parser.add_argument('--input1', help='Path to input zone image.', default='zone_map.png')
 args = parser.parse_args()
+
+if os.path.isfile('camera_parameters.pkl'):
+    with open('camera_parameters.pkl', 'rb') as f:
+        focal_length_x, focal_length_y, camera_center_y, camera_center_y = pickle.load(f)
+        print("loaded camera parameters from file.")
 
 intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
                              [0.00000000e+00, focal_length_y, camera_center_y],
@@ -177,10 +184,10 @@ while cap.isOpened():
     # Check if the Z position is within the threshold, if so, play a sound
     Z_threshold_cm = 1.0
     if np.abs(point_of_interest[2]) < Z_threshold_cm:
-        zone_name = map_dict.get(zone.mode[0], None)
+        zone_name = map_dict_ukraine.get(zone.mode[0], None)
         if zone_name:
             if prev_zone_name != zone_name:
-                soundfile = './sound_files/' + sound_dict.get(zone.mode[0], None)
+                soundfile = './MP3/' + sound_dict_ukraine.get(zone.mode[0], None)
                 if os.path.exists(soundfile):
                     sound = pyglet.media.load(soundfile, streaming=False)
                     sound.play()

@@ -98,7 +98,7 @@ img_map_color = cv.imread(args.input1, cv.IMREAD_COLOR)  # Image.open(cv.samples
 img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 
 scene = np.empty((16, 2), dtype=np.float32)
-
+player = pyglet.media.Player()
 cap = cv.VideoCapture(use_external_cam)
 start_time = time.time()
 # cap.set(cv.CAP_PROP_FRAME_HEIGHT,1440) #set camera image height
@@ -184,15 +184,18 @@ while cap.isOpened():
     zone = stats.mode(zone_filter)
 
     # Check if the Z position is within the threshold, if so, play a sound
-    Z_threshold_cm = 1.0
+    Z_threshold_cm = 2.0
     if np.abs(point_of_interest[2]) < Z_threshold_cm:
         zone_name = map_dict_ukraine.get(zone.mode[0], None)
         if zone_name:
             if prev_zone_name != zone_name:
                 soundfile = './MP3/' + sound_dict_ukraine.get(zone.mode[0], None)
-                if os.path.exists(soundfile) and time.time()-start_time>1.5:
+                if os.path.exists(soundfile):
                     sound = pyglet.media.load(soundfile, streaming=False)
-                    sound.play()
+                    player.next_source()
+                    player.queue(sound)
+                    player.play()
+                    #sound.play()
                     start_time = time.time()
                     #playsound(soundfile, block=False)
             prev_zone_name = zone_name

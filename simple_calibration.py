@@ -4,6 +4,7 @@ import datetime
 import numpy as np
 import argparse
 import pickle
+from typing import Tuple
 from scipy import optimize
 import matplotlib.pyplot as plt
 from map_parameters import *
@@ -60,6 +61,26 @@ def drawAxes(img, imgpts):
     return img
 
 
+def resize_with_pad(image: np.array, new_shape: Tuple[int, int],
+                    padding_color: Tuple[int] = (255, 255, 255)) -> np.array:
+    original_shape = (image.shape[1], image.shape[0])
+    ratio = float(max(new_shape)) / max(original_shape)
+    new_size = tuple([int(x * ratio) for x in original_shape])
+
+    if new_size[0] > new_shape[0] or new_size[1] > new_shape[1]:
+        ratio = float(min(new_shape)) / min(original_shape)
+        new_size = tuple([int(x * ratio) for x in original_shape])
+
+    image = cv.resize(image, new_size)
+    delta_w = new_shape[0] - new_size[0]
+    delta_h = new_shape[1] - new_size[1]
+    top, bottom = delta_h // 2, delta_h - (delta_h // 2)
+    left, right = delta_w // 2, delta_w - (delta_w // 2)
+
+    image = cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, None, value=padding_color)
+    return image
+
+
 # ========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
 focal_length_x = 950.4602909088135
@@ -106,7 +127,7 @@ while cap.isOpened():
 
     # overlay template image on video stream
     if img_scene_color.shape[1] != template_img.shape[1] or img_scene_color.shape[0] != template_img.shape[0]:
-        template_img = cv.resize(template_img, (img_scene_color.shape[1], img_scene_color.shape[0]))
+        template_img = resize_with_pad(template_img, (img_scene_color.shape[1], img_scene_color.shape[0]), (0,0,0))
     img_scene_color = (img_scene_color /2 + template_img /2) /255
 
     # Define aruco marker dictionary and parameters object to include subpixel resolution

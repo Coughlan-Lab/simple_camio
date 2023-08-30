@@ -176,6 +176,8 @@ while cap.isOpened():
                             args=(obj_list, scene_list, camera_center_x, camera_center_y))
         with open('camera_parameters.pkl', 'wb') as f:
             pickle.dump([res[0], res[0], frame.shape[1]/2, frame.shape[0]/2], f)
+        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
+              f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
         # minsums = []
         # for fl in np.linspace(300,2300, 201):
         #     minsums.append(solvePnP_lists_from_focal_length([fl], obj_list, scene_list, camera_center_x, camera_center_y))

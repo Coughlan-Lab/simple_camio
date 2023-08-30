@@ -23,9 +23,22 @@ To run, simply run the simple_camio.py script.
 --------------------------------------------------
 How to estimate calibration parameters using simple_calibration.py:
 
-1. Print the pattern from map_with_aruco.png. Should be printed at 300dpi.
-2. Plug in the camera (if using external camera). If using an external camera, make sure to set value of use_external_camera to 1 on line 61 of simple_calibration.py.
+1. Print the pattern from map_with_aruco.pdf. Should be printed at 300dpi.
+2. Plug in the camera (if using external camera). If using an external camera, make sure to set value of use_external_camera to 1 on line 91 of simple_calibration.py.
 3. Run simple_calibration.py.
-4. Place the target pattern in front of the camera, so all markers are visible by the camera.
-5. When all markers are visible, press the 'c' key.  The calibration info should then be printed to the console. It includes focal_length_x, focal_length_y, camera_center_x, and camera_center_y.
-6. Copy values and paste into simple_camio.py (at lines 64-67).
+4. Place the target pattern in front of the camera, so all markers are visible by the camera. Hold the paper against a flat surface, if possible, and hold at an angle as shown in the template image overlay on the screen. Try to match the orientation of the template image.
+5. When all markers are visible and matching the template image, press the 'g' key.  The calibration info should then be printed to the console. It includes focal_length_x, focal_length_y, camera_center_x, and camera_center_y.
+6. Calibration info will be saved to file: camera_parameters.pkl.
+
+__________________________________________________
+How to install Python via Anaconda.
+1. Download and install the Anaconda Navigator from https://www.anaconda.com/download.
+2. Once opened, select Environments, and then create a new environment.
+3. Call the new environment "camio" and select Package Python 3.8.17. Hit Create.
+4. From the pulldown menu select All.
+5. Search for 'opencv', select 'opencv' and 'py-opencv', and hit Apply.
+7. Do the same for 'scipy' and 'numpy'.
+8. Then hit Home on the Anaconda Navigator and Launch (or Install) PyCharm Community.
+9. In the Welcome to PyCharm window, select 'Get from VCS', make sure Git is selected for Version control and paste URL: https://github.com/rcrabb-ski/simple_camio.git
+10. In the bottom right of the window, it should say the version of Python and the environment name which should be Python 3.8 (camio).  If it is not, click it and hit "Interpreter settings" and under Python Interpreter select Python 3.8 (camio)--if there is not an option for Python 3.8 (camio) select Show All... (if there is still not an option for Python 3.8 (camio) then go back to step 2).
+11. Select Terminal from the bottom row of tabs and here type "pip install --upgrade --user pyglet".

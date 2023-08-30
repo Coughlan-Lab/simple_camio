@@ -5,7 +5,6 @@ import time
 import numpy as np
 import pickle
 import argparse
-from playsound import playsound
 import pyglet.media
 from scipy import stats
 from map_parameters import *

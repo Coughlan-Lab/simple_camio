@@ -142,6 +142,11 @@ while cap.isOpened():
         #print("No markers found.")
         cv.imshow('image reprojection', img_scene_color)
         waitkey = cv.waitKey(1)
+        if waitkey == 27:
+            print('Escape.')
+            cap.release()
+            cv.destroyAllWindows()
+            break
         continue
 
     # Run solvePnP using the markers that have been observed
@@ -166,6 +171,9 @@ while cap.isOpened():
     cv.imshow('image reprojection', img_scene_color)
     waitkey = cv.waitKey(1)
     if waitkey == 27 or waitkey == ord('q'):
+        print('Escape.')
+        cap.release()
+        cv.destroyAllWindows()
         break
     if waitkey == ord('a'):
         obj_list.append(obj[use_index, :])

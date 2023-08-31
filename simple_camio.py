@@ -100,9 +100,9 @@ scene = np.empty((16, 2), dtype=np.float32)
 player = pyglet.media.Player()
 cap = cv.VideoCapture(use_external_cam)
 start_time = time.time()
-# cap.set(cv.CAP_PROP_FRAME_HEIGHT,1440) #set camera image height
-# cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width
-# cap.set(cv.CAP_PROP_FOCUS,0)
+cap.set(cv.CAP_PROP_FRAME_HEIGHT,1080) #set camera image height
+cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width
+cap.set(cv.CAP_PROP_FOCUS,0)
 
 # Main loop
 while cap.isOpened():
@@ -208,3 +208,8 @@ while cap.isOpened():
     waitkey = cv.waitKey(1)
     if waitkey == ord('s'):
         cv.imwrite(f'{now.strftime("%Y.%m.%d.%H.%M.%S")}_backproject.jpg', img_scene_color)
+    if waitkey == 27:#Escape key
+        print('Escape.')
+        cap.release()
+        cv.destroyAllWindows()
+        break

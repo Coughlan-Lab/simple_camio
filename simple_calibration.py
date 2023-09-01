@@ -6,7 +6,6 @@ import argparse
 import pickle
 from typing import Tuple
 from scipy import optimize
-import matplotlib.pyplot as plt
 from map_parameters import *
 
 

@@ -78,7 +78,7 @@ args = parser.parse_args()
 
 if os.path.isfile('camera_parameters.pkl'):
     with open('camera_parameters.pkl', 'rb') as f:
-        focal_length_x, focal_length_y, camera_center_y, camera_center_y = pickle.load(f)
+        focal_length_x, focal_length_y, camera_center_x, camera_center_y = pickle.load(f)
         print("loaded camera parameters from file.")
 
 intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],

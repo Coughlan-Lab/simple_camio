@@ -124,10 +124,15 @@ while cap.isOpened():
     (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
     scene, use_index = sort_corners_by_id(corners, id, scene)
 
-    if ids is None:
+    if ids is None or not any(use_index):
         print("No markers found.")
         cv.imshow('image reprojection', img_scene_color)
         waitkey = cv.waitKey(1)
+        if waitkey == 27:
+            print('Escape.')
+            cap.release()
+            cv.destroyAllWindows()
+            break
         continue
 
     # Run solvePnP using the markers that have been observed
@@ -172,7 +177,8 @@ while cap.isOpened():
     # Backproject pointer tip and draw it on the image
     backprojection_pt, other = cv.projectPoints(np.array([0, 0, 0], dtype=np.float32).reshape(1, 3), rvec_aruco,
                                                 tvec_aruco, intrinsic_matrix, distortion)
-    cv.circle(img_scene_color, (int(backprojection_pt[0, 0, 0]), int(backprojection_pt[0, 0, 1])), 2, (0, 255, 0), 2)
+    if len(corners) > 0:
+        cv.circle(img_scene_color, (int(backprojection_pt[0, 0, 0]), int(backprojection_pt[0, 0, 1])), 2, (0, 255, 0), 2)
 
     # Get pointer location in coordinates of the aruco markers
     point_of_interest = reverse_project(tvec_aruco, rvec, tvec)

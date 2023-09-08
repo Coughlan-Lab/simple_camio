@@ -195,12 +195,12 @@ while cap.isOpened():
         if zone_name:
             if prev_zone_name != zone_name:
                 soundfile = './MP3/' + sound_dict_ukraine.get(zone.mode[0], None)
-                if os.path.exists(soundfile):
+                if os.path.exists(soundfile) and time.time() - start_time > 0.5:
                     sound = pyglet.media.load(soundfile, streaming=False)
-                    player.next_source()
-                    player.queue(sound)
-                    player.play()
-                    #sound.play()
+                    # player.next_source()
+                    # player.queue(sound)
+                    # player.play()
+                    sound.play()
                     start_time = time.time()
                     #playsound(soundfile, block=False)
             prev_zone_name = zone_name

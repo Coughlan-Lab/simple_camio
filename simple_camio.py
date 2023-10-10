@@ -10,7 +10,6 @@ from scipy import stats
 from map_parameters import *
 
 
-
 # Function to sort corners by id based on how they are arranged
 def sort_corners_by_id(corners, id, scene):
     use_index = np.zeros(16, dtype=bool)
@@ -63,17 +62,19 @@ def get_zone(point_of_interest, img_map, pixels_per_cm):
         return 0
 
 #========================================
-pixels_per_cm_obj = 118.49  # text-with-aruco.png
-focal_length_x = 1.88842395e+03
-focal_length_y = 1.89329463e+03
-camera_center_x = 9.21949329e+02
-camera_center_y = 3.34464319e+02
-distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
-use_external_cam = 0
+pixels_per_cm_obj = 39.367 #57.26-tinwhistle
+pixels_per_cm_map = 118.49  # text-with-aruco.png
+focal_length_x = 921.79416387  # 1.88842395e+03
+focal_length_y = 925.03017654  # 1.89329463e+03
+camera_center_x = 629.1557583  # 9.21949329e+02
+camera_center_y = 337.8371034  # 3.34464319e+02
+distortion = np.array([-0.08594861, 0.41315288, -0.00314358, -0.00145223, -0.77625844], dtype=np.float32) * 0.0
+use_external_cam = 1
 #========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
 parser.add_argument('--input1', help='Path to input zone image.', default='zone_map.png')
+parser.add_argument('--input2', help='Path to reference image.', default='/Users/rcrabb/Documents/map-with-aruco_text_kiev.png')
 args = parser.parse_args()
 
 if os.path.isfile('camera_parameters.pkl'):
@@ -96,6 +97,15 @@ zone_filter_cnt = 0
 img_map_color = cv.imread(args.input1, cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
 img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 
+# Load color images
+img_object_color = cv.imread(args.input2, cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
+img_object = cv.imread(args.input2, cv.IMREAD_GRAYSCALE)
+
+# Detect ORB keypoints
+detector = cv.ORB_create(nfeatures=2500, scaleFactor=1.2, nlevels=8, edgeThreshold=31, firstLevel=0, WTA_K=2)
+keypoints_obj, descriptors_obj = detector.detectAndCompute(img_object, mask=None)
+print("Number of keypoints Detected: ", len(keypoints_obj))
+
 scene = np.empty((16, 2), dtype=np.float32)
 player = pyglet.media.Player()
 cap = cv.VideoCapture(use_external_cam)
@@ -116,27 +126,98 @@ while cap.isOpened():
     # load images grayscale
     img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
 
-    # Define aruco marker dictionary and parameters object to include subpixel resolution
-    aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
-    arucoParams = cv.aruco.DetectorParameters_create()
-    arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
-    # Detect aruco markers in image
-    (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
-    scene, use_index = sort_corners_by_id(corners, id, scene)
+    # Detect ORB keypoints in frame
+    tic = time.perf_counter()
+    keypoints_scene, descriptors_scene = detector.detectAndCompute(img_scene, None)
+    toc = time.perf_counter()
+    print("Detection took {} seconds.".format(toc - tic))
+    print("Number of keypoints Detected: ", len(keypoints_scene))
+    # Match keypoints using BFMatcher
+    # FLANN_INDEX_LSH = 6
+    # index_params = dict(algorithm=FLANN_INDEX_LSH,
+    #                     table_number=12,  #12
+    #                     key_size=10,  # 20
+    #                     multi_probe_level=1)  # 1
+    # search_params = dict(checks=100)
+    # flann = cv.FlannBasedMatcher(index_params, search_params)
+    # knn_matches = flann.knnMatch(descriptors_obj, descriptors_scene, k=2)
 
-    if ids is None or not any(use_index):
-        print("No markers found.")
-        cv.imshow('image reprojection', img_scene_color)
-        waitkey = cv.waitKey(1)
-        if waitkey == 27:
-            print('Escape.')
-            cap.release()
-            cv.destroyAllWindows()
-            break
-        continue
+    bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=True)
+    matches = bf.match(descriptors_obj, descriptors_scene)
+    good_matches = sorted(matches, key=lambda x: x.distance)
+    # matcher = cv.DescriptorMatcher_create(cv.DescriptorMatcher_FLANNBASED)
+    # knn_matches = matcher.knnMatch(descriptors_obj, descriptors_scene, 2)
+    #
+    # # Only keep uniquely good matches
+    # ratio_thresh = 0.75
+    # good_matches = []
+    # for m,n in knn_matches:
+    #     if m.distance < ratio_thresh * n.distance:
+    #         good_matches.append(m)
+    toc1 = time.perf_counter()
+    print("Matching took {} seconds.".format(toc1 - toc))
+    print("Number of good matches: ", len(good_matches))
+    obj = np.empty((len(good_matches), 2), dtype=np.float32)
+    scene = np.empty((len(good_matches), 2), dtype=np.float32)
+    for i in range(len(good_matches)):
+        # -- Get the keypoints from the good matches
+        obj[i, 0] = keypoints_obj[good_matches[i].queryIdx].pt[0]
+        obj[i, 1] = keypoints_obj[good_matches[i].queryIdx].pt[1]
+        scene[i, 0] = keypoints_scene[good_matches[i].trainIdx].pt[0]
+        scene[i, 1] = keypoints_scene[good_matches[i].trainIdx].pt[1]
+    # Use RANSAC findHomography to find the inliers
+    H, mask_out = cv.findHomography(obj, scene, cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995)
 
-    # Run solvePnP using the markers that have been observed
-    retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], intrinsic_matrix, None)
+    obj_inliers = np.empty((np.sum(mask_out), 2))
+    scene_inliers = np.empty((np.sum(mask_out), 2))
+    inlier_matches = []
+    cnt = 0
+    for i in range(len(mask_out)):
+        if mask_out[i, 0] > 0:
+            inlier_matches.append(good_matches[i])
+            obj_inliers[cnt, :] = obj[i, :]
+            scene_inliers[cnt, :] = scene[i, :]
+            cnt = cnt + 1
+    print("Number of inliers: ", cnt)
+    # # Check the quality of the inliers
+    # pts = obj_inliers.reshape(-1, 1, 2)
+    # print(pts.shape)
+    # print(obj_inliers.shape)
+    # dst = np.squeeze(cv.perspectiveTransform(pts, H))
+    # dst_error = np.sqrt(np.sum((dst - scene_inliers) ** 2, axis=1))
+    # print("Average dst error: ", np.mean(dst_error))
+
+    obj_3d = get_3d_points_from_pixels(obj_inliers, pixels_per_cm_obj)
+    # Run PnP to get rotation and translation vectors
+    # retval, rvec, tvec, inliers = cv.solvePnPRansac(obj_3d, scene, intrinsic_matrix, distortion, iterationsCount=5000,
+    #                                                 reprojectionError=5.0, confidence=0.99)
+    retval, rvec, tvec = cv.solvePnP(obj_3d, scene_inliers, intrinsic_matrix, None)
+    toc2 = time.perf_counter()
+    print("Homography + PnP took {} seconds.".format(toc2 - toc1))
+    match_img = cv.drawMatches(img_object, keypoints_obj, img_scene, keypoints_scene, inlier_matches, None,
+                               flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    cv.imwrite('match_img.png', match_img)
+    # # Define aruco marker dictionary and parameters object to include subpixel resolution
+    # aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
+    # arucoParams = cv.aruco.DetectorParameters_create()
+    # arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
+    # # Detect aruco markers in image
+    # (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
+    # scene, use_index = sort_corners_by_id(corners, id, scene)
+    #
+    # if ids is None or not any(use_index):
+    #     print("No markers found.")
+    #     cv.imshow('image reprojection', img_scene_color)
+    #     waitkey = cv.waitKey(1)
+    #     if waitkey == 27:
+    #         print('Escape.')
+    #         cap.release()
+    #         cv.destroyAllWindows()
+    #         break
+    #     continue
+    #
+    # # Run solvePnP using the markers that have been observed
+    # retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], intrinsic_matrix, None)
 
     # Draw axes on the image
     axis = np.float32([[6, 0, 0], [0, 6, 0], [0, 0, -6], [0, 0, 0]]).reshape(-1, 3)
@@ -144,7 +225,7 @@ while cap.isOpened():
     img_scene_color = drawAxes(img_scene_color, axis_pts)
 
     # Draw circles on the backprojected corner points
-    backprojection_pts, other = cv.projectPoints(obj, rvec, tvec, intrinsic_matrix, None)
+    backprojection_pts, other = cv.projectPoints(obj_3d, rvec, tvec, intrinsic_matrix, None)
     for idx, pts in enumerate(backprojection_pts):
         cv.circle(img_scene_color, (int(pts[0, 0]), int(pts[0, 1])), 4, (255, 255, 255), 2)
         cv.line(img_scene_color, (int(pts[0, 0] - 1), int(pts[0, 1])), (int(pts[0, 0]) + 1, int(pts[0, 1])),
@@ -184,7 +265,7 @@ while cap.isOpened():
     point_of_interest = reverse_project(tvec_aruco, rvec, tvec)
 
     # Filter the zones by returning the mode of the last [zone_filter_size] zones
-    zone_filter[zone_filter_cnt] = get_zone(point_of_interest, img_map, pixels_per_cm_obj)
+    zone_filter[zone_filter_cnt] = get_zone(point_of_interest, img_map, pixels_per_cm_map)
     zone_filter_cnt = (zone_filter_cnt + 1) % zone_filter_size
     zone = stats.mode(zone_filter)
 
@@ -200,21 +281,24 @@ while cap.isOpened():
                     # player.next_source()
                     # player.queue(sound)
                     # player.play()
-                    sound.play()
+                    try:
+                        sound.play()
+                    except Exception as e:
+                        print(e)
                     start_time = time.time()
                     #playsound(soundfile, block=False)
             prev_zone_name = zone_name
             print(zone_name)
         else:
             prev_zone_name = None
-    # print(point_of_interest)#, dist, current_region)
+    print(point_of_interest)#, dist, current_region)
 
     now = datetime.datetime.now()
     cv.imshow('image reprojection', img_scene_color)
     waitkey = cv.waitKey(1)
     if waitkey == ord('s'):
         cv.imwrite(f'{now.strftime("%Y.%m.%d.%H.%M.%S")}_backproject.jpg', img_scene_color)
-    if waitkey == 27:#Escape key
+    if waitkey == 27 or waitkey == ord('q'):#Escape key
         print('Escape.')
         cap.release()
         cv.destroyAllWindows()

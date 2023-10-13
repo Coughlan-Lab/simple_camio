@@ -4,6 +4,7 @@ import datetime
 import time
 import numpy as np
 import pickle
+import json
 import argparse
 import pyglet.media
 from scipy import stats
@@ -62,6 +63,28 @@ def get_zone(point_of_interest, img_map, pixels_per_cm):
     else:
         return 0
 
+
+def match_color(rgb_color_list, bgr_color_np_array):
+    if np.array_equal(np.array(rgb_color_list[::-1]), np.squeeze(bgr_color_np_array)):
+        return True
+    else:
+        return False
+
+
+def get_dict_from_color(list_of_dicts, color):
+    for dictionary in list_of_dicts:
+        if (dictionary['color'] == color):
+            return dictionary
+    return None
+
+
+def get_dict_idx_from_color(list_of_dicts, color):
+    for i in range(len(list_of_dicts)):
+        dictionary = list_of_dicts[i]
+        if match_color(dictionary['color'], color):
+            return i
+    return -1
+
 #========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
 focal_length_x = 1.88842395e+03
@@ -73,7 +96,7 @@ use_external_cam = 0
 #========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='zone_map.png')
+parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
 args = parser.parse_args()
 
 if os.path.isfile('camera_parameters.pkl'):
@@ -89,11 +112,15 @@ intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
 # Zone filter logic
 prev_zone_name = None
 zone_filter_size = 10
-zone_filter = np.zeros(zone_filter_size, dtype=int)
+zone_filter = -1*np.ones(zone_filter_size, dtype=int)
 zone_filter_cnt = 0
 
+# Load map parameters
+with open(args.input1, 'r') as fp:
+    map_params_data = json.load(fp)
+model = map_params_data['model']
 # Load color image
-img_map_color = cv.imread(args.input1, cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
+img_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
 img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 
 scene = np.empty((16, 2), dtype=np.float32)
@@ -172,6 +199,15 @@ while cap.isOpened():
         for i in range(4):
             scene_aruco[i, :] = corners[0][0][i]
             cv.circle(img_scene_color, (int(scene_aruco[i, 0]), int(scene_aruco[i, 1])), 3, (255, 255, 255), 2)
+    else:
+        cv.imshow('image reprojection', img_scene_color)
+        waitkey = cv.waitKey(1)
+        if waitkey == 27:
+            print('Escape.')
+            cap.release()
+            cv.destroyAllWindows()
+            break
+        continue
 
     retval, rvec_aruco, tvec_aruco = cv.solvePnP(obj_aruco, scene_aruco, intrinsic_matrix, distortion)
     # Backproject pointer tip and draw it on the image
@@ -184,29 +220,33 @@ while cap.isOpened():
     point_of_interest = reverse_project(tvec_aruco, rvec, tvec)
 
     # Filter the zones by returning the mode of the last [zone_filter_size] zones
-    zone_filter[zone_filter_cnt] = get_zone(point_of_interest, img_map, pixels_per_cm_obj)
+    zone_color = get_zone(point_of_interest, img_map_color, pixels_per_cm_obj)
+    zone_filter[zone_filter_cnt] = get_dict_idx_from_color(model['hotspots'], zone_color)
     zone_filter_cnt = (zone_filter_cnt + 1) % zone_filter_size
-    zone = stats.mode(zone_filter)
+    zone = stats.mode(zone_filter).mode[0]
 
     # Check if the Z position is within the threshold, if so, play a sound
     Z_threshold_cm = 2.0
-    if np.abs(point_of_interest[2]) < Z_threshold_cm:
-        zone_name = map_dict_ukraine.get(zone.mode[0], None)
-        if zone_name:
-            if prev_zone_name != zone_name:
-                soundfile = './MP3/' + sound_dict_ukraine.get(zone.mode[0], None)
-                if os.path.exists(soundfile) and time.time() - start_time > 0.5:
-                    sound = pyglet.media.load(soundfile, streaming=False)
-                    # player.next_source()
-                    # player.queue(sound)
-                    # player.play()
+    if np.abs(point_of_interest[2]) < Z_threshold_cm and zone > -1:
+        zone_name = model['hotspots'][zone]['textDescription']
+        if prev_zone_name != zone_name:
+            soundfile = model['hotspots'][zone]['audioDescription']
+            if os.path.exists(soundfile) and time.time() - start_time > 0.5:
+                sound = pyglet.media.load(soundfile, streaming=False)
+                # player.next_source()
+                # player.queue(sound)
+                # player.play()
+                try:
                     sound.play()
-                    start_time = time.time()
-                    #playsound(soundfile, block=False)
-            prev_zone_name = zone_name
-            print(zone_name)
-        else:
-            prev_zone_name = None
+                except(BaseException):
+                    print("Exception raised. Cannot play sound. Please restart the application.")
+                start_time = time.time()
+                #playsound(soundfile, block=False)
+        prev_zone_name = zone_name
+        print(zone_name)
+    else:
+        pass
+        #prev_zone_name = None
     # print(point_of_interest)#, dist, current_region)
 
     now = datetime.datetime.now()
@@ -214,7 +254,7 @@ while cap.isOpened():
     waitkey = cv.waitKey(1)
     if waitkey == ord('s'):
         cv.imwrite(f'{now.strftime("%Y.%m.%d.%H.%M.%S")}_backproject.jpg', img_scene_color)
-    if waitkey == 27:#Escape key
+    if waitkey == 27 or waitkey == ord('q'):#Escape key
         print('Escape.')
         cap.release()
         cv.destroyAllWindows()

@@ -8,16 +8,15 @@ import json
 import argparse
 import pyglet.media
 from scipy import stats
-from map_parameters import *
-
 
 
 # Function to sort corners by id based on how they are arranged
-def sort_corners_by_id(corners, id, scene):
-    use_index = np.zeros(16, dtype=bool)
+def sort_corners_by_id(corners, ids, id_list, scene):
+    use_index = np.zeros(len(id_list)*4, dtype=bool)
     for i in range(len(corners)):
-        corner_num = ids[i, 0]
-        if corner_num < 4:
+        id = ids[i, 0]
+        if id in id_list:
+            corner_num = id_list.index(id)
             for j in range(4):
                 use_index[4 * corner_num + j] = True
                 scene[4 * corner_num + j, :] = corners[i][0][j]
@@ -85,6 +84,17 @@ def get_dict_idx_from_color(list_of_dicts, color):
             return i
     return -1
 
+
+def parse_aruco_codes(list_of_aruco_codes):
+    obj = np.empty((len(list_of_aruco_codes)*4,3), dtype=np.float32)
+    ids = []
+    for cnt, aruco_code in enumerate(list_of_aruco_codes):
+        for i in range(4):
+            obj[cnt*4+i,:] = aruco_code['position'][i]
+        ids.append(aruco_code['id'])
+    return obj, ids
+
+
 #========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
 focal_length_x = 1.88842395e+03
@@ -123,7 +133,8 @@ model = map_params_data['model']
 img_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
 img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 
-scene = np.empty((16, 2), dtype=np.float32)
+obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
+scene = np.empty((len(list_of_ids)*4, 2), dtype=np.float32)
 player = pyglet.media.Player()
 cap = cv.VideoCapture(use_external_cam)
 start_time = time.time()
@@ -149,7 +160,7 @@ while cap.isOpened():
     arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
     # Detect aruco markers in image
     (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
-    scene, use_index = sort_corners_by_id(corners, id, scene)
+    scene, use_index = sort_corners_by_id(corners, ids, list_of_ids, scene)
 
     if ids is None or not any(use_index):
         print("No markers found.")

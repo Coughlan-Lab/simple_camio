@@ -3,6 +3,7 @@ import cv2 as cv
 import datetime
 import numpy as np
 import argparse
+import json
 import pickle
 from typing import Tuple
 from scipy import optimize
@@ -87,7 +88,7 @@ focal_length_y = 950.4602909088135
 camera_center_x = 640.0
 camera_center_y = 360.0
 distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
-use_external_cam = 0
+use_external_cam = 1
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for calibration.')
@@ -183,8 +184,8 @@ while cap.isOpened():
             scene_list.append(scene[use_index, :])
         res = optimize.fmin(solvePnP_lists_from_focal_length, 1000,
                             args=(obj_list, scene_list, camera_center_x, camera_center_y))
-        with open('camera_parameters.pkl', 'wb') as f:
-            pickle.dump([res[0], res[0], frame.shape[1]/2, frame.shape[0]/2], f)
+        with open('camera_parameters.json', 'w') as f:
+            json.dump({'focal_length_x':res[0], 'focal_length_y':res[0], 'camera_center_x':frame.shape[1]/2, 'camera_center_y':frame.shape[0]/2}, f)
         print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
               f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
         # minsums = []

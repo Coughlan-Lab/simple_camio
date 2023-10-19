@@ -27,7 +27,7 @@ How to install Python via Anaconda.
 3. Call the new environment "camio" and select Package Python 3.8.17. Hit Create.
 4. From the pulldown menu select All.
 5. Search for 'opencv', select 'opencv' and 'py-opencv', version 4.6.0 and hit Apply.
-7. Do the same for 'scipy' (1.11.3) and 'numpy' (1.24.3).
+7. Do the same for 'scipy' (1.10.1) and 'numpy' (1.24.3).
 8. Then hit Home on the Anaconda Navigator and Launch (or Install) PyCharm Community.
 9. In the Welcome to PyCharm window, select 'Get from VCS', make sure Git is selected for Version control and paste URL: https://github.com/rcrabb-ski/simple_camio.git. Proceed to check out the project.
 10. In the bottom right of the window, it should say the version of Python and the environment name which should be Python 3.8 (camio).  If it is not, click it and hit "Interpreter settings" and under Python Interpreter select Python 3.8 (camio)--if there is not an option for Python 3.8 (camio) select Show All... (if there is still not an option for Python 3.8 (camio) then go back to step 2).

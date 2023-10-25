@@ -186,15 +186,15 @@ while cap.isOpened():
     # Filter the zones by returning the mode of the last [zone_filter_size] zones
     zone_filter[zone_filter_cnt] = get_zone(point_of_interest, img_map, pixels_per_cm_obj)
     zone_filter_cnt = (zone_filter_cnt + 1) % zone_filter_size
-    zone = stats.mode(zone_filter)
+    zone = stats.mode(zone_filter).mode[0]
 
     # Check if the Z position is within the threshold, if so, play a sound
     Z_threshold_cm = 2.0
     if np.abs(point_of_interest[2]) < Z_threshold_cm:
-        zone_name = map_dict_ukraine.get(zone.mode, None)
+        zone_name = map_dict_ukraine.get(zone, None)
         if zone_name:
             if prev_zone_name != zone_name:
-                soundfile = './MP3/' + sound_dict_ukraine.get(zone.mode, None)
+                soundfile = './MP3/' + sound_dict_ukraine.get(zone, None)
                 if os.path.exists(soundfile) and time.time() - start_time > 0.5:
                     sound = pyglet.media.load(soundfile, streaming=False)
                     # player.next_source()

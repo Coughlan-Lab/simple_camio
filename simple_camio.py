@@ -70,6 +70,7 @@ def match_color(rgb_color_list, bgr_color_np_array):
         return False
 
 
+# Returns the dictionary in the list of dictionaries that matches the color given
 def get_dict_from_color(list_of_dicts, color):
     for dictionary in list_of_dicts:
         if (dictionary['color'] == color):
@@ -77,6 +78,7 @@ def get_dict_from_color(list_of_dicts, color):
     return None
 
 
+# Returns the index of the dictionary in the list of dictionaries that matches the color given
 def get_dict_idx_from_color(list_of_dicts, color):
     for i in range(len(list_of_dicts)):
         dictionary = list_of_dicts[i]
@@ -85,6 +87,7 @@ def get_dict_idx_from_color(list_of_dicts, color):
     return -1
 
 
+# Parses the list of aruco codes and returns the 2D points and ids
 def parse_aruco_codes(list_of_aruco_codes):
     obj = np.empty((len(list_of_aruco_codes)*4,3), dtype=np.float32)
     ids = []
@@ -94,6 +97,23 @@ def parse_aruco_codes(list_of_aruco_codes):
         ids.append(aruco_code['id'])
     return obj, ids
 
+
+# Returns the dictionary code for the given string
+def get_arcuo_dict_from_string(aruco_dict_string):
+    if aruco_dict_string == "DICT_4X4_50":
+        return cv.aruco.DICT_4X4_50
+    elif aruco_dict_string == "DICT_4X4_100":
+        return cv.aruco.DICT_4X4_100
+    elif aruco_dict_string == "DICT_4X4_250":
+        return cv.aruco.DICT_4X4_250
+    elif aruco_dict_string == "DICT_4X4_1000":
+        return cv.aruco.DICT_4X4_1000
+    elif aruco_dict_string == "DICT_5X5_50":
+        return cv.aruco.DICT_5X5_50
+    elif aruco_dict_string == "DICT_5X5_100":
+        return cv.aruco.DICT_5X5_100
+    elif aruco_dict_string == "DICT_5X5_250":
+        return cv.aruco.DICT_5X5_250
 
 #========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
@@ -156,7 +176,7 @@ while cap.isOpened():
     img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
 
     # Define aruco marker dictionary and parameters object to include subpixel resolution
-    aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
+    aruco_dict = cv.aruco.Dictionary_get(get_arcuo_dict_from_string(model['positioningData']['arucoType']))
     arucoParams = cv.aruco.DetectorParameters_create()
     arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
     # Detect aruco markers in image

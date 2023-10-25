@@ -109,15 +109,16 @@ parser = argparse.ArgumentParser(description='Code for CamIO.')
 parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
 args = parser.parse_args()
 
-if os.path.isfile('camera_parameters.pkl'):
-    with open('camera_parameters.pkl', 'rb') as f:
-        focal_length_x, focal_length_y, camera_center_x, camera_center_y = pickle.load(f)
+if os.path.isfile('camera_parameters.json'):
+    with open('camera_parameters.json', 'r') as f:
+        cam_params = json.load(f)
         print("loaded camera parameters from file.")
-
-intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
-                             [0.00000000e+00, focal_length_y, camera_center_y],
+else:
+    print("No camera parameters file found. Please run simple_calibration.py script.")
+    exit(0)
+intrinsic_matrix = np.array([[cam_params['focal_length_x'], 0.0, cam_params['camera_center_x']],
+                             [0.00000000e+00, cam_params['focal_length_y'], cam_params['camera_center_y']],
                              [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
-# intrinsic_matrix = np.transpose(np.array([[1469.8549, 0.0, 0.0], [0.0, 1469.8549, 0.0], [964.5927, 718.271, 1.0]], dtype=np.float32))
 
 # Zone filter logic
 prev_zone_name = None

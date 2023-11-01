@@ -2,6 +2,7 @@
     "model":{
       "name":"UkraineMap Example",
       "filename":"models/UkraineMap.png",
+      "pixels_per_cm": 118.49,
       "modelType": "2D",
       "positioningData":{
         "arucoType": "DICT_4X4_50",

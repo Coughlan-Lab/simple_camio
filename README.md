@@ -6,11 +6,11 @@ Requirements: To run Simple CamIO, one needs to set up several things.
 
 -Secondly, a digital version of the map that represents zones with a different index, as in zone_map.png, and this filename should be specified in the argument as input1. The precise resolution of the map should be specified in the variable pixels_per_cm_obj (in units of pixels per cm) in simple_camio.py, such that it matches the printed version. 
 
--The camera should be calibrated and the calibration parameters should be saved in the camera_parameters.pkl file created by using simple_calibration.py. Otherwise they are specified in simple_camio.py by the variables focal_length_x, focal_length_y, camera_center_x, camera_center_y. Calibration parameters can be estimated using simple_calibration.py (described below).  Distortion parameters are also settable via the variable distortion (although these can safely be left to zero, assuming little distortion). 
+-The camera should be calibrated and the calibration parameters should be saved in the camera_parameters.json file created by using simple_calibration.py. Otherwise they are specified in simple_camio.py by the variables focal_length_x, focal_length_y, camera_center_x, camera_center_y. Calibration parameters can be estimated using simple_calibration.py (described below).  Distortion parameters are also settable via the variable distortion (although these can safely be left to zero, assuming little distortion). 
 
 -A pointer needs to be printed and cut out, using the pattern found in marker_pointer.pdf (printed at 300 dpi, such that the Aruco marker is exactly 3cm).
 
--Sound files, as named in the sound_dict dictionary in map_parameters.py, should be placed in the sound_files folder. The dictionary maps the zone index (from the zone map) to the sound file.
+-Sound files, as named in the hotspots dictionary in Ukraine_map.json, should be placed in the MP3 folder. The dictionary maps the zone color index (from the zone map) to the sound file.
 
 -Setting the camera: if an external webcam is to be used, set use_external_cam to 1, otherwise use 0 for the laptop's internal camera (or if you get a camera out of bounds error).
 
@@ -40,6 +40,7 @@ How to estimate calibration parameters using simple_calibration.py:
 1. Print the pattern from map_with_aruco.pdf. Should be printed at 300dpi.
 2. Plug in the camera (if using external camera). If using an external camera, make sure to set value of use_external_camera to 1 on line 91 of simple_calibration.py.
 3. Run simple_calibration.py.
-4. Place the target pattern in front of the camera, so all markers are visible by the camera. Hold the paper against a flat surface, if possible, and hold at an angle as shown in the template image overlay on the screen. Try to match the orientation of the template image.
-5. When all markers are visible and matching the template image, press the 'g' key.  The calibration info should then be printed to the console. It includes focal_length_x, focal_length_y, camera_center_x, and camera_center_y.
-6. Calibration info will be saved to file: camera_parameters.pkl.
+4. Place the target pattern in front of the camera, so all markers are visible by the camera. Hold the paper against a flat surface, if possible, and hold at an angle as shown in the template image overlay on the screen. Try to match the orientation of the template image. It need not match up identically--close is good enough.
+5. When all markers are visible and approximately matching the template image, press the 'g' key.  The calibration info should then be printed to the console. It includes focal_length_x, focal_length_y, camera_center_x, and camera_center_y.
+6. Calibration info will be saved to file: camera_parameters.json.
+7. After calibration, feel free to move the target pattern (in fact, we recommend a more fronto-parallel view).

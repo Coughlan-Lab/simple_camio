@@ -7,7 +7,7 @@ import json
 import pickle
 from typing import Tuple
 from scipy import optimize
-from map_parameters import *
+from simple_camio import load_map_parameters, parse_aruco_codes, sort_corners_by_id , list_ports
 
 
 def solvePnP_lists_from_focal_length(fl, obj_list, scene_list, cx, cy):
@@ -27,18 +27,6 @@ def solvePnP_from_focal_length(fl, obj, scene, cx, cy):
             (backprojection_pts[i, 0, 0] - scene[i, 0]) ** 2 + (backprojection_pts[i, 0, 1] - scene[i, 1]) ** 2))
     mean_offset = np.mean(offsets)
     return mean_offset
-
-
-# Function to sort corners by id based on how they are arranged
-def sort_corners_by_id(corners, id, scene):
-    use_index = np.zeros(16, dtype=bool)
-    for i in range(len(corners)):
-        corner_num = ids[i, 0]
-        if corner_num < 4:
-            for j in range(4):
-                use_index[4 * corner_num + j] = True
-                scene[4 * corner_num + j, :] = corners[i][0][j]
-    return scene, use_index
 
 
 # Function to create 3D points from 2D pixels on a sheet of paper
@@ -92,7 +80,7 @@ use_external_cam = 1
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for calibration.')
-parser.add_argument('--input1', help='Path to input zone image.', default='zone_map.png')
+parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
 args = parser.parse_args()
 
 intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
@@ -100,9 +88,11 @@ intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
                              [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
 
 # Load color image
-img_map_color = cv.imread(args.input1, cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
-img_map = cv.cvtColor(img_map_color, cv.COLOR_BGR2GRAY)
 template_img = cv.imread('template.png', cv.IMREAD_COLOR)
+
+# Load aruco marker positions
+model = load_map_parameters(args.input1)
+obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
 
 scene = np.empty((16, 2), dtype=np.float32)
 obj_list = []
@@ -136,7 +126,7 @@ while cap.isOpened():
     arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
     # Detect aruco markers in image
     (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
-    scene, use_index = sort_corners_by_id(corners, id, scene)
+    scene, use_index = sort_corners_by_id(corners, id, list_of_ids)
 
     if ids is None or not any(use_index):
         #print("No markers found.")
@@ -157,15 +147,9 @@ while cap.isOpened():
     axis_pts, other = cv.projectPoints(axis, rvec, tvec, intrinsic_matrix, None)
     img_scene_color = drawAxes(img_scene_color, axis_pts)
 
-    # Draw circles on the backprojected corner points
-    backprojection_pts, other = cv.projectPoints(obj, rvec, tvec, intrinsic_matrix, None)
-    for idx, pts in enumerate(backprojection_pts):
-        cv.circle(img_scene_color, (int(pts[0, 0]), int(pts[0, 1])), 4, (255, 255, 255), 2)
-        cv.line(img_scene_color, (int(pts[0, 0] - 1), int(pts[0, 1])), (int(pts[0, 0]) + 1, int(pts[0, 1])),
-                (255, 0, 0), 1)
-        cv.line(img_scene_color, (int(pts[0, 0]), int(pts[0, 1]) - 1), (int(pts[0, 0]), int(pts[0, 1]) + 1),
-                (255, 0, 0), 1)
-        # cv.line(img_scene_color, (int(pts[0,0]), int(pts[0,1])), (int(scene[idx,0]), int(scene[idx,1])), (0, 255, 0), 1)
+    # Draw circles on detected corner points
+    for pts in scene:
+        cv.circle(img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2)
 
     now = datetime.datetime.now()
     cv.imshow('image reprojection', img_scene_color)
@@ -183,7 +167,7 @@ while cap.isOpened():
             obj_list.append(obj[use_index, :])
             scene_list.append(scene[use_index, :])
         res = optimize.fmin(solvePnP_lists_from_focal_length, 1000,
-                            args=(obj_list, scene_list, camera_center_x, camera_center_y))
+                            args=(obj_list, scene_list, frame.shape[1]/2, frame.shape[0]/2))
         with open('camera_parameters.json', 'w') as f:
             json.dump({'focal_length_x':res[0], 'focal_length_y':res[0], 'camera_center_x':frame.shape[1]/2, 'camera_center_y':frame.shape[0]/2}, f)
         print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +

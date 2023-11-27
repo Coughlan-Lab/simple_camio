@@ -10,6 +10,33 @@ import pyglet.media
 from scipy import stats
 
 
+def list_ports():
+    """
+    Test the ports and returns a tuple with the available ports and the ones that are working.
+    """
+    non_working_ports = []
+    dev_port = 0
+    working_ports = []
+    available_ports = []
+    while len(non_working_ports) < 6:  # if there are more than 5 non working ports stop the testing.
+        camera = cv.VideoCapture(dev_port)
+        if not camera.isOpened():
+            non_working_ports.append(dev_port)
+            print("Port %s is not working." % dev_port)
+        else:
+            is_reading, img = camera.read()
+            w = camera.get(3)
+            h = camera.get(4)
+            if is_reading:
+                print("Port %s is working and reads images (%s x %s)" % (dev_port, h, w))
+                working_ports.append((dev_port, h, w))
+            else:
+                print("Port %s for camera ( %s x %s) is present but does not read." % (dev_port, h, w))
+                available_ports.append(dev_port)
+        dev_port += 1
+    return available_ports, working_ports, non_working_ports
+
+
 # Function to load camera intrinsic parameters from a JSON file
 def load_camera_parameters(filename):
     if os.path.isfile(filename):
@@ -32,7 +59,7 @@ def load_map_parameters(filename):
             map_params = json.load(f)
             print("loaded map parameters from file.")
     else:
-        print("No map parameters file found. Please run simple_calibration.py script.")
+        print("No map parameters file found.")
         exit(0)
     return map_params['model']
 
@@ -57,6 +84,7 @@ def check_and_play_sound(point_of_interest, zone, model, prev_zone_name, start_t
                 start_time = time.time()
         return zone_name, start_time
     return prev_zone_name, start_time
+
 
 # Function to sort corners by id based on the order specified in the id_list,
 # such that the scene array matches the obj array in terms of aruco marker ids
@@ -183,7 +211,8 @@ def get_arcuo_dict_from_string(aruco_dict_string):
     elif aruco_dict_string == "DICT_5X5_250":
         return cv.aruco.DICT_5X5_250
 
-
+available_ports, working_ports, non_working_ports = list_ports()
+print(f"working ports: {working_ports}")
 # ========================================
 distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
 use_external_cam = 0
@@ -207,7 +236,8 @@ intrinsic_matrix = load_camera_parameters('camera_parameters.json')
 
 # Load color image
 img_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
-
+# Step 0
+# Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
 obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
 # Define aruco marker dictionary and parameters object to include subpixel resolution
 aruco_dict_scene = cv.aruco.Dictionary_get(get_arcuo_dict_from_string(model['positioningData']['arucoType']))
@@ -266,7 +296,7 @@ while cap.isOpened():
     obj_aruco[2, :] = [3.5, 3.5, 0]
     obj_aruco[3, :] = [0.5, 3.5, 0]
 
-    # If marker is detected, draw it on the image and copy the corner points to the scene aruco array for SolvePnP,
+    # If marker is detected, draw it on the image and copy the corner points to the scene_aruco array for SolvePnP,
     # otherwise show image and continue to next iteration.
     if len(corners) > 0:
         for i in range(4):

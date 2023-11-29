@@ -10,6 +10,106 @@ import pyglet.media
 from scipy import stats
 
 
+# The ModelDetector class is responsible for detecting the Aruco markers in
+# the image that make up the model, and determining the pose of the model in
+# the scene.
+class ModelDetector:
+    def __init__(self, model, intrinsic_matrix):
+        # Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
+        self.obj, self.list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
+        # Define aruco marker dictionary and parameters object to include subpixel resolution
+        self.aruco_dict_scene = cv.aruco.Dictionary_get(
+            get_aruco_dict_id_from_string(model['positioningData']['arucoType']))
+        self.arucoParams = cv.aruco.DetectorParameters_create()
+        self.arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
+        self.intrinsic_matrix = intrinsic_matrix
+
+    def detect(self, frame):
+        # Detect the markers in the frame
+        (corners, ids, rejected) = cv.aruco.detectMarkers(frame, self.aruco_dict_scene, parameters=self.arucoParams)
+        scene, use_index = sort_corners_by_id(corners, ids, self.list_of_ids)
+        if ids is None or not any(use_index):
+            print("No markers found.")
+            return False, None, None
+
+        # Run solvePnP using the markers that have been observed to determine the pose
+        retval, rvec, tvec = cv.solvePnP(self.obj[use_index, :], scene[use_index, :], self.intrinsic_matrix, None)
+        return retval, rvec, tvec
+
+
+# The PoseDetector class determines the pose of the pointer, and returns the
+# position of the tip in the coordinate system of the model.
+class PoseDetector:
+    def __init__(self, stylus, intrinsic_matrix):
+        # Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
+        self.obj, self.list_of_ids = parse_aruco_codes(stylus['positioningData']['arucoCodes'])
+        self.aruco_dict = cv.aruco.Dictionary_get(get_aruco_dict_id_from_string(stylus['positioningData']['arucoType']))
+        self.arucoParams = cv.aruco.DetectorParameters_create()
+        self.arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
+        self.intrinsic_matrix = intrinsic_matrix
+
+    def detect(self, frame, rvec_model, tvec_model):
+        corners, ids, _ = cv.aruco.detectMarkers(frame, self.aruco_dict, parameters=self.arucoParams)
+        scene, use_index = sort_corners_by_id(corners, ids, self.list_of_ids)
+        if ids is None or not any(use_index):
+            print("No pointer detected.")
+            return None
+        retval, rvec_arcuo, tvec_aruco = cv.solvePnP(self.obj, scene, self.intrinsic_matrix, None)
+
+        # Get pointer location in coordinates of the aruco markers
+        point_of_interest = reverse_project(tvec_aruco, rvec_model, tvec_model)
+        return point_of_interest
+
+
+# The InteractionPolicy class takes the position and determines where on the
+# map it is, finding the color of the zone, if any, which is decoded into
+# zone ID number. This zone ID number is filtered through a ring buffer that
+# returns the mode. If the position is near enough to the plane (within 2cm)
+# then the zone ID number is returned.
+class InteractionPolicy:
+    def __init__(self, model):
+        self.model = model
+        self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
+        self.zone_filter_size = 10
+        self.zone_filter = -1 * np.ones(self.zone_filter_size, dtype=int)
+        self.zone_filter_cnt = 0
+
+    def push_gesture(self, position):
+        zone_color = get_zone(position, self.image_map_color, self.model['pixels_per_cm'])
+        self.zone_filter[self.zone_filter_cnt] = get_dict_idx_from_color(self.model['hotspots'], zone_color)
+        self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.zone_filter_size
+        zone = stats.mode(self.zone_filter).mode[0]
+        if np.abs(position[2]) < 2.0:
+            return zone
+        else:
+            return -1
+
+
+class CamIOPlayer:
+    def __init__(self, model):
+        self.model = model
+        self.prev_zone_name = ''
+        self.start_time = time.time()
+        self.sound_files = []
+        for hotspot in self.model['hotspots']:
+            if os.path.exists(hotspot['audioDescription']):
+                self.sound_files.append(pyglet.media.load(hotspot['audioDescription'], streaming=False))
+            else:
+                print("warning. file not found:" + hotspot['audioDescription'])
+
+    def convey(self, zone):
+        zone_name = self.model['hotspots'][zone]['textDescription']
+        if self.prev_zone_name != zone_name:
+            if time.time() - self.start_time > 0.5:
+                sound = self.sound_files[zone]
+                try:
+                    sound.play()
+                except(BaseException):
+                    print("Exception raised. Cannot play sound. Please restart the application.")
+                self.start_time = time.time()
+                self.prev_zone_name = zone_name
+
+
 def list_ports():
     """
     Test the ports and returns a tuple with the available ports and the ones that are working.
@@ -64,26 +164,16 @@ def load_map_parameters(filename):
     return map_params['model']
 
 
-# function to check if pointer location is within threshold of Z dimension, and if so, play a sound
-def check_and_play_sound(point_of_interest, zone, model, prev_zone_name, start_time):
-    # Check if the Z position is within the threshold, if so, play a sound
-    Z_threshold_cm = 2.0
-    if np.abs(point_of_interest[2]) < Z_threshold_cm and zone > -1:
-        zone_name = model['hotspots'][zone]['textDescription']
-        if prev_zone_name != zone_name:
-            soundfile = model['hotspots'][zone]['audioDescription']
-            if os.path.exists(soundfile) and time.time() - start_time > 0.5:
-                sound = pyglet.media.load(soundfile, streaming=False)
-                # player.next_source()
-                # player.queue(sound)
-                # player.play()
-                try:
-                    sound.play()
-                except(BaseException):
-                    print("Exception raised. Cannot play sound. Please restart the application.")
-                start_time = time.time()
-        return zone_name, start_time
-    return prev_zone_name, start_time
+# Function to load map parameters from a JSON file
+def load_stylus_parameters(filename):
+    if os.path.isfile(filename):
+        with open(filename, 'r') as f:
+            stylus_params = json.load(f)
+            print("loaded stylus parameters from file.")
+    else:
+        print("No stylus parameters file found.")
+        exit(0)
+    return stylus_params['stylus']
 
 
 # Function to sort corners by id based on the order specified in the id_list,
@@ -195,7 +285,7 @@ def parse_aruco_codes(list_of_aruco_codes):
 
 
 # Returns the dictionary code for the given string
-def get_arcuo_dict_from_string(aruco_dict_string):
+def get_aruco_dict_id_from_string(aruco_dict_string):
     if aruco_dict_string == "DICT_4X4_50":
         return cv.aruco.DICT_4X4_50
     elif aruco_dict_string == "DICT_4X4_100":
@@ -214,42 +304,28 @@ def get_arcuo_dict_from_string(aruco_dict_string):
 available_ports, working_ports, non_working_ports = list_ports()
 print(f"working ports: {working_ports}")
 # ========================================
-distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
-use_external_cam = 0
+USE_EXTERNAL_CAM = 0
 #========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
 parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
 args = parser.parse_args()
 
-
-# Setting up a ring buffer to be a temporal filter for the zone selection. It
-# will keep track of the last [zone_filter_size] zones and return the mode.
-zone_filter_size = 10
-zone_filter = -1*np.ones(zone_filter_size, dtype=int)
-zone_filter_cnt = 0
-prev_zone_name = None
-
 # Load map and camera parameters
 model = load_map_parameters(args.input1)
 intrinsic_matrix = load_camera_parameters('camera_parameters.json')
+stylus = load_stylus_parameters('TeardropStylus.json')
 
-# Load color image
-img_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)  # Image.open(cv.samples.findFile(args.input1))
-# Step 0
-# Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
-obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
-# Define aruco marker dictionary and parameters object to include subpixel resolution
-aruco_dict_scene = cv.aruco.Dictionary_get(get_arcuo_dict_from_string(model['positioningData']['arucoType']))
-aruco_dict_marker = cv.aruco.Dictionary_get(cv.aruco.DICT_5X5_50)
-arucoParams = cv.aruco.DetectorParameters_create()
-arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
-player = pyglet.media.Player()
-cap = cv.VideoCapture(use_external_cam)
-start_time = time.time()
+model_detector = ModelDetector(model, intrinsic_matrix)
+pose_detector = PoseDetector(stylus, intrinsic_matrix)
+interact = InteractionPolicy(model)
+camio_player = CamIOPlayer(model)
+
+cap = cv.VideoCapture(USE_EXTERNAL_CAM)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT,1080) #set camera image height
 cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width
 cap.set(cv.CAP_PROP_FOCUS,0)
+loop_has_run = False
 
 # Main loop
 while cap.isOpened():
@@ -257,89 +333,42 @@ while cap.isOpened():
     if not ret:
         print("No camera image returned.")
         break
+    if loop_has_run:
+        cv.imshow('image reprojection', img_scene_color)
+        waitkey = cv.waitKey(1)
+        if waitkey == 27 or waitkey == ord('q'):
+            print('Escape.')
+            cap.release()
+            cv.destroyAllWindows()
+            break
 
     img_scene_color = frame
+    loop_has_run = True
 
     # load images grayscale
     img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
-
     # Detect aruco markers for map in image
-    (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict_scene, parameters=arucoParams)
-    scene, use_index = sort_corners_by_id(corners, ids, list_of_ids)
+    retval, rvec, tvec = model_detector.detect(img_scene)
 
-    # If no  markers found, show image and continue to next iteration
-    if ids is None or not any(use_index):
+    # If no  markers found, continue to next iteration
+    if not retval:
         print("No markers found.")
-        cv.imshow('image reprojection', img_scene_color)
-        waitkey = cv.waitKey(1)
-        if waitkey == 27:
-            print('Escape.')
-            cap.release()
-            cv.destroyAllWindows()
-            break
         continue
-
-    # Run solvePnP using the markers that have been observed
-    retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], intrinsic_matrix, None)
 
     # Annotate image with 3D points and axes
-    img_scene_color = annotate_image(img_scene_color, obj, rvec, tvec, intrinsic_matrix)
+    img_scene_color = annotate_image(img_scene_color, model_detector.obj, rvec, tvec, intrinsic_matrix)
 
     # Detect aruco marker for pointer in image
-    corners, ids, _ = cv.aruco.detectMarkers(img_scene, aruco_dict_marker, parameters=arucoParams)
-    obj_aruco = np.empty((4, 3), dtype=np.float32)
-    scene_aruco = np.empty((4, 2), dtype=np.float32)
+    point_of_interest = pose_detector.detect(img_scene, rvec, tvec)
 
-    # if we are just using 1 large marker
-    obj_aruco[0, :] = [0.5, 0.5, 0]
-    obj_aruco[1, :] = [3.5, 0.5, 0]
-    obj_aruco[2, :] = [3.5, 3.5, 0]
-    obj_aruco[3, :] = [0.5, 3.5, 0]
-
-    # If marker is detected, draw it on the image and copy the corner points to the scene_aruco array for SolvePnP,
-    # otherwise show image and continue to next iteration.
-    if len(corners) > 0:
-        for i in range(4):
-            scene_aruco[i, :] = corners[0][0][i]
-            cv.circle(img_scene_color, (int(scene_aruco[i, 0]), int(scene_aruco[i, 1])), 3, (255, 255, 255), 2)
-    else:
-        cv.imshow('image reprojection', img_scene_color)
-        waitkey = cv.waitKey(1)
-        if waitkey == 27:
-            print('Escape.')
-            cap.release()
-            cv.destroyAllWindows()
-            break
+    # If no pointer is detected, move on to the next frame
+    if point_of_interest is None:
+        print("No pointer detected.")
         continue
 
-    retval, rvec_aruco, tvec_aruco = cv.solvePnP(obj_aruco, scene_aruco, intrinsic_matrix, distortion)
-    # Backproject pointer tip and draw it on the image
-    backprojection_pt, other = cv.projectPoints(np.array([0, 0, 0], dtype=np.float32).reshape(1, 3), rvec_aruco,
-                                                tvec_aruco, intrinsic_matrix, distortion)
-    if len(corners) > 0:
-        cv.circle(img_scene_color, (int(backprojection_pt[0, 0, 0]), int(backprojection_pt[0, 0, 1])), 2, (0, 255, 0), 2)
+    # Determine zone from point of interest
+    zone_id = interact.push_gesture(point_of_interest)
 
-    # Get pointer location in coordinates of the aruco markers
-    point_of_interest = reverse_project(tvec_aruco, rvec, tvec)
-
-    # Filter the zones by returning the mode of the last [zone_filter_size] zones
-    zone_color = get_zone(point_of_interest, img_map_color, model['pixels_per_cm'])
-    zone_filter[zone_filter_cnt] = get_dict_idx_from_color(model['hotspots'], zone_color)
-    zone_filter_cnt = (zone_filter_cnt + 1) % zone_filter_size
-    zone = stats.mode(zone_filter).mode[0]
-
-    # Check if the Z position is within the threshold, if so, play a sound
-    prev_zone_name, start_time = check_and_play_sound(point_of_interest, zone, model, prev_zone_name, start_time)
-
-    # print(point_of_interest)#, dist, current_region)
-
-    now = datetime.datetime.now()
-    cv.imshow('image reprojection', img_scene_color)
-    waitkey = cv.waitKey(1)
-    if waitkey == ord('s'):
-        cv.imwrite(f'{now.strftime("%Y.%m.%d.%H.%M.%S")}_backproject.jpg', img_scene_color)
-    if waitkey == 27 or waitkey == ord('q'):#Escape key
-        print('Escape.')
-        cap.release()
-        cv.destroyAllWindows()
-        break
+    # If the zone id is valid, play the sound for the zone
+    if zone_id > -1:
+        camio_player.convey(zone_id)

@@ -7,7 +7,6 @@ import json
 import pickle
 from typing import Tuple
 from scipy import optimize
-from simple_camio import load_map_parameters, parse_aruco_codes, sort_corners_by_id , list_ports
 
 
 def solvePnP_lists_from_focal_length(fl, obj_list, scene_list, cx, cy):
@@ -27,6 +26,33 @@ def solvePnP_from_focal_length(fl, obj, scene, cx, cy):
             (backprojection_pts[i, 0, 0] - scene[i, 0]) ** 2 + (backprojection_pts[i, 0, 1] - scene[i, 1]) ** 2))
     mean_offset = np.mean(offsets)
     return mean_offset
+
+
+# Parses the list of aruco codes and returns the 2D points and ids
+def parse_aruco_codes(list_of_aruco_codes):
+    obj_array = np.empty((len(list_of_aruco_codes) * 4, 3), dtype=np.float32)
+    ids = []
+    for cnt, aruco_code in enumerate(list_of_aruco_codes):
+        for i in range(4):
+            obj_array[cnt * 4 + i, :] = aruco_code['position'][i]
+        ids.append(aruco_code['id'])
+    return obj_array, ids
+
+
+# Function to sort corners by id based on the order specified in the id_list,
+# such that the scene array matches the obj array in terms of aruco marker ids
+# and the appropriate corners.
+def sort_corners_by_id(corners, ids, id_list):
+    use_index = np.zeros(len(id_list) * 4, dtype=bool)
+    scene = np.empty((len(id_list) * 4, 2), dtype=np.float32)
+    for i in range(len(corners)):
+        id = ids[i, 0]
+        if id in id_list:
+            corner_num = id_list.index(id)
+            for j in range(4):
+                use_index[4 * corner_num + j] = True
+                scene[4 * corner_num + j, :] = corners[i][0][j]
+    return scene, use_index
 
 
 # Function to create 3D points from 2D pixels on a sheet of paper
@@ -69,6 +95,18 @@ def resize_with_pad(image: np.array, new_shape: Tuple[int, int],
     return image
 
 
+# Function to load map parameters from a JSON file
+def load_map_parameters(filename):
+    if os.path.isfile(filename):
+        with open(filename, 'r') as f:
+            map_params = json.load(f)
+            print("loaded map parameters from file.")
+    else:
+        print("No map parameters file found.")
+        exit(0)
+    return map_params['model']
+
+
 # ========================================
 pixels_per_cm_obj = 118.49  # text-with-aruco.png
 focal_length_x = 950.4602909088135
@@ -76,7 +114,7 @@ focal_length_y = 950.4602909088135
 camera_center_x = 640.0
 camera_center_y = 360.0
 distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
-use_external_cam = 1
+use_external_cam = 0
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for calibration.')
@@ -126,7 +164,7 @@ while cap.isOpened():
     arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
     # Detect aruco markers in image
     (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
-    scene, use_index = sort_corners_by_id(corners, id, list_of_ids)
+    scene, use_index = sort_corners_by_id(corners, ids, list_of_ids)
 
     if ids is None or not any(use_index):
         #print("No markers found.")

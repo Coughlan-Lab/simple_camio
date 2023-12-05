@@ -8,6 +8,7 @@ import json
 import argparse
 import pyglet.media
 from scipy import stats
+from collections import deque
 
 
 # The ModelDetector class is responsible for detecting the Aruco markers in
@@ -49,7 +50,7 @@ class PoseDetector:
         self.arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
         self.intrinsic_matrix = intrinsic_matrix
 
-    # Function to load map parameters from a JSON file
+    # Function to load stylus parameters from a JSON file
     def load_stylus_parameters(self, filename):
         if os.path.isfile(filename):
             with open(filename, 'r') as f:
@@ -60,6 +61,7 @@ class PoseDetector:
             exit(0)
         return stylus_params['stylus']
 
+    # Main function to detect aruco markers in the image and use solvePnP to determine the pose
     def detect(self, frame, rvec_model, tvec_model):
         corners, ids, _ = cv.aruco.detectMarkers(frame, self.aruco_dict, parameters=self.arucoParams)
         scene, use_index = sort_corners_by_id(corners, ids, self.list_of_ids)
@@ -72,10 +74,10 @@ class PoseDetector:
         point_of_interest = self.reverse_project(self.tvec_aruco, rvec_model, tvec_model)
         return point_of_interest
 
+    # Draw a green dot on the origin to denote where the pointer is pointing
     def drawOrigin(self, img_scene):
         backprojection_pt, other = cv.projectPoints(np.array([0, 0, 0], dtype=np.float32).reshape(1, 3),
-                                                    self.rvec_aruco,
-                                                    self.tvec_aruco, self.intrinsic_matrix, None)
+                                                    self.rvec_aruco, self.tvec_aruco, self.intrinsic_matrix, None)
         cv.circle(img_scene, (int(backprojection_pt[0, 0, 0]), int(backprojection_pt[0, 0, 1])), 2, (0, 255, 0), 2)
         return img_scene
 
@@ -140,12 +142,44 @@ class InteractionPolicy:
                 return i
         return -1
 
+class GestureDetector:
+    def __init__(self):
+        self.positions = deque(maxlen=30)
+        self.times = deque(maxlen=30)
+        self.DWELL_TIME_THRESH = .75
+
+    def push_position(self, position):
+        self.positions.append(position)
+        now = time.time()
+        self.times.append(now)
+        self.X_MVMNT_THRESH = 0.5
+        self.Y_MVMNT_THRESH = 0.5
+        self.Z_MVMNT_THRESH = 4.0
+        i = len(self.times)-1
+        Xs = []
+        Ys = []
+        Zs = []
+        while (i >= 0 and now - self.times[i] < self.DWELL_TIME_THRESH):
+            Xs.append(self.positions[i][0])
+            Ys.append(self.positions[i][1])
+            Zs.append(self.positions[i][2])
+            i -= 1
+        Xdiff = max(Xs) - min(Xs)
+        Ydiff = max(Ys) - min(Ys)
+        Zdiff = max(Zs) - min(Zs)
+        print("(i: " + str(i) + ") X: " + str(Xdiff) + ", Y: " + str(Ydiff) + ", Z: " + str(Zdiff))
+        if Xdiff < self.X_MVMNT_THRESH and Ydiff < self.Y_MVMNT_THRESH and Zdiff < self.Z_MVMNT_THRESH:
+            return(np.array([sum(Xs)/float(len(Xs)), sum(Ys)/float(len(Ys)), sum(Zs)/float(len(Zs))]))
+        else:
+            return None
+
 class CamIOPlayer:
     def __init__(self, model):
         self.model = model
         self.prev_zone_name = ''
         self.start_time = time.time()
         self.sound_files = []
+        self.player = pyglet.media.Player()
         for hotspot in self.model['hotspots']:
             if os.path.exists(hotspot['audioDescription']):
                 self.sound_files.append(pyglet.media.load(hotspot['audioDescription'], streaming=False))
@@ -155,14 +189,15 @@ class CamIOPlayer:
     def convey(self, zone):
         zone_name = self.model['hotspots'][zone]['textDescription']
         if self.prev_zone_name != zone_name:
-            if time.time() - self.start_time > 0.5:
-                sound = self.sound_files[zone]
-                try:
-                    sound.play()
-                except(BaseException):
-                    print("Exception raised. Cannot play sound. Please restart the application.")
-                self.start_time = time.time()
-                self.prev_zone_name = zone_name
+            if self.player.playing:
+                self.player.pause()
+            sound = self.sound_files[zone]
+            try:
+                self.player = sound.play()
+            except(BaseException):
+                print("Exception raised. Cannot play sound. Please restart the application.")
+            self.start_time = time.time()
+            self.prev_zone_name = zone_name
 
 
 class ImageAnnotator:
@@ -177,6 +212,14 @@ class ImageAnnotator:
         img = cv.line(img, corner, tuple(imgpts[1].ravel()), (0, 255, 0), 5)
         img = cv.line(img, corner, tuple(imgpts[2].ravel()), (0, 0, 255), 5)
         return img
+
+    # Draws axes and projects the 3D points onto the image
+    def draw_points_in_image(self, img_scene_color, obj, rvec, tvec):
+        # Draws the 3D points on the image
+        backprojection_pts, other = cv.projectPoints(obj, rvec, tvec, self.intrinsic_matrix, None)
+        for pts in backprojection_pts:
+            cv.circle(img_scene_color, (int(pts[0, 0]), int(pts[0, 1])), 4, (255, 255, 255), 2)
+        return img_scene_color
 
     # Draws axes and projects the 3D points onto the image
     def annotate_image(self, img_scene_color, obj, rvec, tvec):
@@ -311,6 +354,7 @@ intrinsic_matrix = load_camera_parameters('camera_parameters.json')
 # Initialize objects
 model_detector = ModelDetector(model, intrinsic_matrix)
 pose_detector = PoseDetector('teardrop_stylus.json', intrinsic_matrix)
+gesture_detector = GestureDetector()
 image_annotator = ImageAnnotator(intrinsic_matrix)
 interact = InteractionPolicy(model)
 camio_player = CamIOPlayer(model)
@@ -320,6 +364,7 @@ cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 1920)  # set camera image width
 cap.set(cv.CAP_PROP_FOCUS, 0)
 loop_has_run = False
+timer = time.time()
 
 # Main loop
 while cap.isOpened():
@@ -337,7 +382,10 @@ while cap.isOpened():
             cap.release()
             cv.destroyAllWindows()
             break
-
+    prev_time = timer
+    timer = time.time()
+    elapsed_time = timer - prev_time
+    print("current fps: " + str(1/elapsed_time))
     img_scene_color = frame
     loop_has_run = True
 
@@ -348,7 +396,6 @@ while cap.isOpened():
 
     # If no  markers found, continue to next iteration
     if not retval:
-        print("No markers found.")
         continue
 
     # Annotate image with 3D points and axes
@@ -359,15 +406,19 @@ while cap.isOpened():
 
     # If no pointer is detected, move on to the next frame
     if point_of_interest is None:
-        print("No pointer detected.")
         continue
 
     # Draw where the user was pointing
     img_scene_color = pose_detector.drawOrigin(img_scene_color)
 
-    # Determine zone from point of interest
-    zone_id = interact.push_gesture(point_of_interest)
+    # Determine if the user is trying to make a gesture
+    gesture = gesture_detector.push_position(point_of_interest)
 
-    # If the zone id is valid, play the sound for the zone
-    if zone_id > -1:
-        camio_player.convey(zone_id)
+    # Determine zone from point of interest
+    if gesture is not None:
+        img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture, rvec, tvec)
+        zone_id = interact.push_gesture(gesture)
+
+        # If the zone id is valid, play the sound for the zone
+        if zone_id > -1:
+            camio_player.convey(zone_id)

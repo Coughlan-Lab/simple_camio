@@ -186,7 +186,7 @@ while cap.isOpened():
     img_scene_color = drawAxes(img_scene_color, axis_pts)
 
     # Draw circles on detected corner points
-    for pts in scene:
+    for pts in scene[use_index, :]:
         cv.circle(img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2)
 
     now = datetime.datetime.now()

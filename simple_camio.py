@@ -144,17 +144,18 @@ class InteractionPolicy:
 
 class GestureDetector:
     def __init__(self):
-        self.positions = deque(maxlen=30)
-        self.times = deque(maxlen=30)
+        self.MAX_QUEUE_LENGTH = 30
+        self.positions = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.times = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.DWELL_TIME_THRESH = .75
+        self.X_MVMNT_THRESH = 0.5
+        self.Y_MVMNT_THRESH = 0.5
+        self.Z_MVMNT_THRESH = 4.0
 
     def push_position(self, position):
         self.positions.append(position)
         now = time.time()
         self.times.append(now)
-        self.X_MVMNT_THRESH = 0.5
-        self.Y_MVMNT_THRESH = 0.5
-        self.Z_MVMNT_THRESH = 4.0
         i = len(self.times)-1
         Xs = []
         Ys = []
@@ -167,30 +168,42 @@ class GestureDetector:
         Xdiff = max(Xs) - min(Xs)
         Ydiff = max(Ys) - min(Ys)
         Zdiff = max(Zs) - min(Zs)
-        print("(i: " + str(i) + ") X: " + str(Xdiff) + ", Y: " + str(Ydiff) + ", Z: " + str(Zdiff))
+        #print("(i: " + str(i) + ") X: " + str(Xdiff) + ", Y: " + str(Ydiff) + ", Z: " + str(Zdiff))
         if Xdiff < self.X_MVMNT_THRESH and Ydiff < self.Y_MVMNT_THRESH and Zdiff < self.Z_MVMNT_THRESH:
-            return(np.array([sum(Xs)/float(len(Xs)), sum(Ys)/float(len(Ys)), sum(Zs)/float(len(Zs))]))
+            return np.array([sum(Xs)/float(len(Xs)), sum(Ys)/float(len(Ys)), sum(Zs)/float(len(Zs))]), 'still'
         else:
-            return None
+            return position, 'moving'
 
 class CamIOPlayer:
     def __init__(self, model):
         self.model = model
         self.prev_zone_name = ''
+        self.prev_zone_moving = -1
         self.start_time = time.time()
         self.sound_files = []
         self.player = pyglet.media.Player()
+        self.blip_sound = pyglet.media.load('MP3/quick_blip.wav', streaming=False)
         for hotspot in self.model['hotspots']:
             if os.path.exists(hotspot['audioDescription']):
                 self.sound_files.append(pyglet.media.load(hotspot['audioDescription'], streaming=False))
             else:
                 print("warning. file not found:" + hotspot['audioDescription'])
 
-    def convey(self, zone):
+    def convey(self, zone, status):
+        if status == "moving":
+            if self.prev_zone_moving != zone:
+                if self.player.playing:
+                    self.player.delete()
+                try:
+                    self.player = self.blip_sound.play()
+                except(BaseException):
+                    print("Exception raised. Cannot play sound. Please restart the application.")
+                self.prev_zone_moving = zone
+            return
         zone_name = self.model['hotspots'][zone]['textDescription']
         if self.prev_zone_name != zone_name:
             if self.player.playing:
-                self.player.pause()
+                self.player.delete()
             sound = self.sound_files[zone]
             try:
                 self.player = sound.play()
@@ -372,8 +385,6 @@ while cap.isOpened():
     if not ret:
         print("No camera image returned.")
         break
-    # Sergio: minor issue: do we really need this loop_has_run variable? As far as I understood, it is just checking if this is the first run of the loop
-    # if you move this if statment at the end of the loop, you can get rid of this variable.
     if loop_has_run:
         cv.imshow('image reprojection', img_scene_color)
         waitkey = cv.waitKey(1)
@@ -385,7 +396,7 @@ while cap.isOpened():
     prev_time = timer
     timer = time.time()
     elapsed_time = timer - prev_time
-    print("current fps: " + str(1/elapsed_time))
+    #print("current fps: " + str(1/elapsed_time))
     img_scene_color = frame
     loop_has_run = True
 
@@ -412,13 +423,14 @@ while cap.isOpened():
     img_scene_color = pose_detector.drawOrigin(img_scene_color)
 
     # Determine if the user is trying to make a gesture
-    gesture = gesture_detector.push_position(point_of_interest)
+    gesture_loc, gesture_status = gesture_detector.push_position(point_of_interest)
 
     # Determine zone from point of interest
-    if gesture is not None:
-        img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture, rvec, tvec)
-        zone_id = interact.push_gesture(gesture)
+    if gesture_status != "moving":
+        img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture_loc, rvec, tvec)
 
-        # If the zone id is valid, play the sound for the zone
-        if zone_id > -1:
-            camio_player.convey(zone_id)
+    zone_id = interact.push_gesture(gesture_loc)
+
+    # If the zone id is valid, play the sound for the zone
+    if zone_id > -1:
+        camio_player.convey(zone_id, gesture_status)

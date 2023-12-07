@@ -4,7 +4,6 @@ import datetime
 import numpy as np
 import argparse
 import json
-import pickle
 from typing import Tuple
 from scipy import optimize
 

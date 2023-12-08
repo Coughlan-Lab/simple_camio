@@ -251,6 +251,19 @@ class ImageAnnotator:
         return img_scene_color
 
 
+def select_cam_port():
+    available_ports, working_ports, non_working_ports = list_ports()
+    if len(working_ports) == 1:
+        return working_ports[0][0]
+    elif len(working_ports) > 1:
+        print("The following cameras were detected:")
+        for i in range(len(working_ports)):
+            print(f'{i}) Port {working_ports[i][0]}: {working_ports[i][1]} x {working_ports[i][2]}')
+        cam_selection = input("Please select which camera you would like to use: ")
+        return working_ports[int(cam_selection)][0]
+    else:
+        return 0
+
 def list_ports():
     """
     Test the ports and returns a tuple with the available ports and the ones that are working.
@@ -259,7 +272,7 @@ def list_ports():
     dev_port = 0
     working_ports = []
     available_ports = []
-    while len(non_working_ports) < 6:  # if there are more than 5 non working ports stop the testing.
+    while len(non_working_ports) < 3:  # if there are more than 2 non working ports stop the testing.
         camera = cv.VideoCapture(dev_port)
         if not camera.isOpened():
             non_working_ports.append(dev_port)
@@ -349,11 +362,8 @@ def get_aruco_dict_id_from_string(aruco_dict_string):
     elif aruco_dict_string == "DICT_5X5_250":
         return cv.aruco.DICT_5X5_250
 
-
-available_ports, working_ports, non_working_ports = list_ports()
-print(f"working ports: {working_ports}")
 # ========================================
-USE_EXTERNAL_CAM = 0
+cam_port = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
@@ -372,7 +382,7 @@ image_annotator = ImageAnnotator(intrinsic_matrix)
 interact = InteractionPolicy(model)
 camio_player = CamIOPlayer(model)
 
-cap = cv.VideoCapture(USE_EXTERNAL_CAM)
+cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 1920)  # set camera image width
 cap.set(cv.CAP_PROP_FOCUS, 0)

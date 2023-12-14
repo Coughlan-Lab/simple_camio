@@ -75,10 +75,10 @@ class PoseDetector:
         return point_of_interest
 
     # Draw a green dot on the origin to denote where the pointer is pointing
-    def drawOrigin(self, img_scene):
+    def drawOrigin(self, img_scene, color=(0, 255, 0)):
         backprojection_pt, other = cv.projectPoints(np.array([0, 0, 0], dtype=np.float32).reshape(1, 3),
                                                     self.rvec_aruco, self.tvec_aruco, self.intrinsic_matrix, None)
-        cv.circle(img_scene, (int(backprojection_pt[0, 0, 0]), int(backprojection_pt[0, 0, 1])), 2, (0, 255, 0), 2)
+        cv.circle(img_scene, (int(backprojection_pt[0, 0, 0]), int(backprojection_pt[0, 0, 1])), 2, color, 2)
         return img_scene
 
     # Function to reverse the projection of a point given a rvec and tvec
@@ -182,7 +182,7 @@ class CamIOPlayer:
         self.start_time = time.time()
         self.sound_files = []
         self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load('MP3/quick_blip.wav', streaming=False)
+        self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
         for hotspot in self.model['hotspots']:
             if os.path.exists(hotspot['audioDescription']):
                 self.sound_files.append(pyglet.media.load(hotspot['audioDescription'], streaming=False))

@@ -2,6 +2,7 @@
     "model":{
       "name":"UkraineMap Example",
       "filename":"models/UkraineMap.png",
+      "blipsound":"MP3/quick_blip.wav",
       "pixels_per_cm": 118.49,
       "modelType": "2D",
       "positioningData":{

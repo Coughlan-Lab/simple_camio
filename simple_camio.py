@@ -110,7 +110,7 @@ class InteractionPolicy:
     # Sergio (2): I have a concern about this function, I will discuss it in an email.
     def push_gesture(self, position):
         zone_color = self.get_zone(position, self.image_map_color, self.model['pixels_per_cm'])
-        self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(self.model['hotspots'], zone_color)
+        self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
         zone = stats.mode(self.zone_filter).mode[0]
         if np.abs(position[2]) < self.Z_THRESHOLD:
@@ -125,7 +125,7 @@ class InteractionPolicy:
         if 0 <= x < img_map.shape[1] and 0 <= y < img_map.shape[0]:
             return img_map[y, x]
         else:
-            return 0
+            return [0,0,0]
 
     # returns true if rgb color matches bgr color
     def match_color(self, rgb_color_list, bgr_color_np_array):
@@ -134,13 +134,10 @@ class InteractionPolicy:
         else:
             return False
 
-    # Returns the index of the dictionary in the list of dictionaries that matches the color given
-    def get_dict_idx_from_color(self, list_of_dicts, color):
-        for i in range(len(list_of_dicts)):
-            dictionary = list_of_dicts[i]
-            if self.match_color(dictionary['color'], color):
-                return i
-        return -1
+    # Returns the key of the dictionary in the dictionary of dictionaries that matches the color given
+    def get_dict_idx_from_color(self, color):
+        color_idx = 256*256*color[2] + 256*color[1] + color[0]
+        return color_idx
 
 class GestureDetector:
     def __init__(self):
@@ -174,20 +171,48 @@ class GestureDetector:
         else:
             return position, 'moving'
 
+
+class AmbientSoundPlayer:
+    def __init__(self, soundfile):
+        self.sound = pyglet.media.load(soundfile, streaming=False)
+        self.player = pyglet.media.Player()
+        self.player.queue(self.sound)
+        self.player.eos_action = 'loop'
+        self.player.loop = True
+
+    def play_sound(self):
+        if not self.player.playing:
+            self.player.play()
+
+    def pause_sound(self):
+        if self.player.playing:
+            self.player.pause()
+
+
 class CamIOPlayer:
     def __init__(self, model):
         self.model = model
         self.prev_zone_name = ''
         self.prev_zone_moving = -1
-        self.start_time = time.time()
-        self.sound_files = []
+        self.sound_files = {}
+        self.hotspots = {}
         self.player = pyglet.media.Player()
         self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
+        self.welcome_message = pyglet.media.load(self.model['welcome_message'], streaming=False)
+        self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
         for hotspot in self.model['hotspots']:
+            key = hotspot['color'][2] + hotspot['color'][1] * 256 + hotspot['color'][0] * 256 * 256
+            self.hotspots |= {key:hotspot}
             if os.path.exists(hotspot['audioDescription']):
-                self.sound_files.append(pyglet.media.load(hotspot['audioDescription'], streaming=False))
+                self.sound_files[key] = pyglet.media.load(hotspot['audioDescription'], streaming=False)
             else:
                 print("warning. file not found:" + hotspot['audioDescription'])
+
+    def play_welcome(self):
+        self.welcome_message.play()
+
+    def play_goodbye(self):
+        self.goodbye_message.play()
 
     def convey(self, zone, status):
         if status == "moving":
@@ -199,8 +224,12 @@ class CamIOPlayer:
                 except(BaseException):
                     print("Exception raised. Cannot play sound. Please restart the application.")
                 self.prev_zone_moving = zone
+            self.prev_zone_name = None
             return
-        zone_name = self.model['hotspots'][zone]['textDescription']
+        if zone not in self.hotspots:
+            self.prev_zone_name = None
+            return
+        zone_name = self.hotspots[zone]['textDescription']
         if self.prev_zone_name != zone_name:
             if self.player.playing:
                 self.player.delete()
@@ -209,7 +238,6 @@ class CamIOPlayer:
                 self.player = sound.play()
             except(BaseException):
                 print("Exception raised. Cannot play sound. Please restart the application.")
-            self.start_time = time.time()
             self.prev_zone_name = zone_name
 
 
@@ -381,6 +409,9 @@ gesture_detector = GestureDetector()
 image_annotator = ImageAnnotator(intrinsic_matrix)
 interact = InteractionPolicy(model)
 camio_player = CamIOPlayer(model)
+camio_player.play_welcome()
+crickets_player = AmbientSoundPlayer(model['crickets'])
+heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
 
 cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
@@ -407,6 +438,8 @@ while cap.isOpened():
     timer = time.time()
     elapsed_time = timer - prev_time
     #print("current fps: " + str(1/elapsed_time))
+    pyglet.clock.tick()
+    pyglet.app.platform_event_loop.dispatch_posted_events()
     img_scene_color = frame
     loop_has_run = True
 
@@ -417,8 +450,10 @@ while cap.isOpened():
 
     # If no  markers found, continue to next iteration
     if not retval:
+        crickets_player.play_sound()
         continue
 
+    crickets_player.pause_sound()
     # Annotate image with 3D points and axes
     img_scene_color = image_annotator.annotate_image(img_scene_color, model_detector.obj, rvec, tvec)
 
@@ -427,8 +462,10 @@ while cap.isOpened():
 
     # If no pointer is detected, move on to the next frame
     if point_of_interest is None:
+        heartbeat_player.pause_sound()
         continue
 
+    heartbeat_player.play_sound()
     # Draw where the user was pointing
     img_scene_color = pose_detector.drawOrigin(img_scene_color)
 
@@ -444,3 +481,8 @@ while cap.isOpened():
     # If the zone id is valid, play the sound for the zone
     if zone_id > -1:
         camio_player.convey(zone_id, gesture_status)
+
+camio_player.play_goodbye()
+heartbeat_player.pause_sound()
+crickets_player.pause_sound()
+time.sleep(1)

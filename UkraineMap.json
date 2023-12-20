@@ -5,7 +5,7 @@
       "blipsound":"MP3/quick_blip.wav",
       "welcome_message":"MP3/welcome.mp3",
       "goodbye_message":"MP3/goodbye.mp3",
-      "heartbeat": "MP3/heartbeat.wav",
+      "heartbeat": "MP3/white_noise.mp3",
       "crickets": "MP3/crickets.mp3",
       "pixels_per_cm": 118.49,
       "modelType": "2D",

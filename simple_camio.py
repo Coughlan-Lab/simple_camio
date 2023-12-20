@@ -395,7 +395,7 @@ cam_port = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
+parser.add_argument('--input1', help='Path to input zone image.', default='Test1/Test1.json')
 args = parser.parse_args()
 
 # Load map and camera parameters
@@ -450,6 +450,7 @@ while cap.isOpened():
 
     # If no  markers found, continue to next iteration
     if not retval:
+        heartbeat_player.pause_sound()
         crickets_player.play_sound()
         continue
 

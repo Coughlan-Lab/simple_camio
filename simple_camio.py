@@ -9,6 +9,7 @@ import argparse
 import pyglet.media
 from scipy import stats
 from collections import deque
+from simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
 
 
 # The ModelDetector class is responsible for detecting the Aruco markers in
@@ -68,7 +69,7 @@ class PoseDetector:
         if ids is None or not any(use_index):
             print("No pointer detected.")
             return None
-        retval, self.rvec_aruco, self.tvec_aruco = cv.solvePnP(self.obj, scene, self.intrinsic_matrix, None)
+        retval, self.rvec_aruco, self.tvec_aruco = cv.solvePnP(self.obj[use_index, :], scene[use_index, :], self.intrinsic_matrix, None)
 
         # Get pointer location in coordinates of the aruco markers
         point_of_interest = self.reverse_project(self.tvec_aruco, rvec_model, tvec_model)
@@ -145,8 +146,8 @@ class GestureDetector:
         self.positions = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.times = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.DWELL_TIME_THRESH = .75
-        self.X_MVMNT_THRESH = 0.5
-        self.Y_MVMNT_THRESH = 0.5
+        self.X_MVMNT_THRESH = 0.95
+        self.Y_MVMNT_THRESH = 0.95
         self.Z_MVMNT_THRESH = 4.0
 
     def push_position(self, position):
@@ -265,14 +266,15 @@ class ImageAnnotator:
     # Draws axes and projects the 3D points onto the image
     def annotate_image(self, img_scene_color, obj, rvec, tvec):
         # Draws the 3D points on the image
-        backprojection_pts, other = cv.projectPoints(obj, rvec, tvec, self.intrinsic_matrix, None)
-        for idx, pts in enumerate(backprojection_pts):
-            cv.circle(img_scene_color, (int(pts[0, 0]), int(pts[0, 1])), 4, (255, 255, 255), 2)
-            cv.line(img_scene_color, (int(pts[0, 0] - 1), int(pts[0, 1])), (int(pts[0, 0]) + 1, int(pts[0, 1])),
-                    (255, 0, 0), 1)
-            cv.line(img_scene_color, (int(pts[0, 0]), int(pts[0, 1]) - 1), (int(pts[0, 0]), int(pts[0, 1]) + 1),
-                    (255, 0, 0), 1)
-        # Draw axes on the image
+        if len(obj) > 0:
+            backprojection_pts, other = cv.projectPoints(obj, rvec, tvec, self.intrinsic_matrix, None)
+            for idx, pts in enumerate(backprojection_pts):
+                cv.circle(img_scene_color, (int(pts[0, 0]), int(pts[0, 1])), 4, (255, 255, 255), 2)
+                cv.line(img_scene_color, (int(pts[0, 0] - 1), int(pts[0, 1])), (int(pts[0, 0]) + 1, int(pts[0, 1])),
+                        (255, 0, 0), 1)
+                cv.line(img_scene_color, (int(pts[0, 0]), int(pts[0, 1]) - 1), (int(pts[0, 0]), int(pts[0, 1]) + 1),
+                        (255, 0, 0), 1)
+            # Draw axes on the image
         axis = np.float32([[6, 0, 0], [0, 6, 0], [0, 0, -6], [0, 0, 0]]).reshape(-1, 3)
         axis_pts, other = cv.projectPoints(axis, rvec, tvec, self.intrinsic_matrix, None)
         img_scene_color = self.drawAxes(img_scene_color, axis_pts)
@@ -395,7 +397,7 @@ cam_port = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='Test1/Test1.json')
+parser.add_argument('--input1', help='Path to input zone image.', default='SimpleMap.json')
 args = parser.parse_args()
 
 # Load map and camera parameters
@@ -403,15 +405,26 @@ model = load_map_parameters(args.input1)
 intrinsic_matrix = load_camera_parameters('camera_parameters.json')
 
 # Initialize objects
-model_detector = ModelDetector(model, intrinsic_matrix)
-pose_detector = PoseDetector('teardrop_stylus.json', intrinsic_matrix)
-gesture_detector = GestureDetector()
-image_annotator = ImageAnnotator(intrinsic_matrix)
-interact = InteractionPolicy(model)
-camio_player = CamIOPlayer(model)
-camio_player.play_welcome()
-crickets_player = AmbientSoundPlayer(model['crickets'])
-heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+if model["modelType"] == "2D":
+    model_detector = ModelDetector(model, intrinsic_matrix)
+    pose_detector = PoseDetector('teardrop_stylus.json', intrinsic_matrix)
+    gesture_detector = GestureDetector()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicy(model)
+    camio_player = CamIOPlayer(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+elif model["modelType"] == "3D":
+    model_detector = SIFTModelDetector(model, intrinsic_matrix)
+    pose_detector = PoseDetector(model['stylus_file'], intrinsic_matrix)
+    gesture_detector = GestureDetector()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicyOBJ(model)
+    camio_player = CamIOPlayerOBJ(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
 
 cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
@@ -456,7 +469,10 @@ while cap.isOpened():
 
     crickets_player.pause_sound()
     # Annotate image with 3D points and axes
-    img_scene_color = image_annotator.annotate_image(img_scene_color, model_detector.obj, rvec, tvec)
+    if model["modelType"] == "2D":
+        img_scene_color = image_annotator.annotate_image(img_scene_color, model_detector.scene, rvec, tvec)
+    else:
+        img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
 
     # Detect aruco marker for pointer in image
     point_of_interest = pose_detector.detect(img_scene_gray, rvec, tvec)
@@ -480,8 +496,7 @@ while cap.isOpened():
     zone_id = interact.push_gesture(gesture_loc)
 
     # If the zone id is valid, play the sound for the zone
-    if zone_id > -1:
-        camio_player.convey(zone_id, gesture_status)
+    camio_player.convey(zone_id, gesture_status)
 
 camio_player.play_goodbye()
 heartbeat_player.pause_sound()

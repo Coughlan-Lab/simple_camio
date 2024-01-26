@@ -405,26 +405,23 @@ model = load_map_parameters(args.input1)
 intrinsic_matrix = load_camera_parameters('camera_parameters.json')
 
 # Initialize objects
-if model["modelType"] == "2D":
-    model_detector = ModelDetector(model, intrinsic_matrix)
-    pose_detector = PoseDetector('teardrop_stylus.json', intrinsic_matrix)
-    gesture_detector = GestureDetector()
-    image_annotator = ImageAnnotator(intrinsic_matrix)
-    interact = InteractionPolicy(model)
-    camio_player = CamIOPlayer(model)
-    camio_player.play_welcome()
-    crickets_player = AmbientSoundPlayer(model['crickets'])
-    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
-elif model["modelType"] == "3D":
-    model_detector = SIFTModelDetector(model, intrinsic_matrix)
-    pose_detector = PoseDetector(model['stylus_file'], intrinsic_matrix)
-    gesture_detector = GestureDetector()
-    image_annotator = ImageAnnotator(intrinsic_matrix)
-    interact = InteractionPolicyOBJ(model)
-    camio_player = CamIOPlayerOBJ(model)
-    camio_player.play_welcome()
-    crickets_player = AmbientSoundPlayer(model['crickets'])
-    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+if (model["modelType"] != "2D") and (model["modelType"] != "3D"):
+    print("Invalid model type. Please set modelType to either 2D or 3D in the map parameters file.")
+    exit(0)
+
+model2D = model["modelType"] == "2D" 
+
+model_detector = ModelDetector(model, intrinsic_matrix) if model2D else SIFTModelDetector(model, intrinsic_matrix)
+pose_detector = PoseDetector('teardrop_stylus.json', intrinsic_matrix) if model2D else PoseDetector(model['stylus_file'], intrinsic_matrix)
+gesture_detector = GestureDetector()
+image_annotator = ImageAnnotator(intrinsic_matrix)
+interact = InteractionPolicy(model) if model2D else InteractionPolicyOBJ(model)
+camio_player = CamIOPlayer(model) if model2D else CamIOPlayerOBJ(model)
+crickets_player = AmbientSoundPlayer(model['crickets'])
+heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+
+camio_player.play_welcome()
+
 
 cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height

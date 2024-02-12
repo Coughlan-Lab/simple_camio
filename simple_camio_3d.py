@@ -74,13 +74,15 @@ class SIFTModelDetector:
 
 
 class InteractionPolicyOBJ:
-    def __init__(self, model):
+    def __init__(self, model, intrinsic_matrix):
         self.model = model
-        self.ZONE_FILTER_SIZE = 10
-        self.D_THRESHOLD = 2.0
+        self.ZONE_FILTER_SIZE = 5
+        self.D_SET_THRESHOLD = 1
+        self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
-        self.map_obj = OBJ(model["model_file"], swapyz=True)
+        self.intrinsic_matrix = intrinsic_matrix
+        self.map_obj = OBJ(model["model_file"], model["excluded_regions"], swapyz=True)
         R = np.array(model["model_rotation"], dtype=np.float32)
         T = np.array(model["model_translation"], dtype=np.float32)
         offset = np.array(model["model_offset"], dtype=np.float32)
@@ -88,16 +90,24 @@ class InteractionPolicyOBJ:
         vertsmult = np.matmul(R, vertices) + T - offset
         self.vertices = vertsmult.transpose()
 
+    def project_vertices(self, R, T):
+        if self.vertices.shape[1] == 2:
+            return
+        vertices, _ = cv.projectPoints(self.vertices, R, T, self.intrinsic_matrix, None)
+        self.vertices = np.squeeze(vertices)
+        self.D_SET_THRESHOLD = 10
+        self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
+
     def push_gesture(self, position):
         min_idx, dist = find_closest_point(position, self.vertices)
         self.zone_filter[self.zone_filter_cnt] = self.map_obj.vertex_reg_id[min_idx]
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
         zone_id = stats.mode(self.zone_filter).mode[0]
         if dist < self.D_THRESHOLD:
-            self.D_THRESHOLD = 3.0
+            self.D_THRESHOLD = 3.0 * self.D_SET_THRESHOLD
             return self.map_obj.Region_names[zone_id]
         else:
-            self.D_THRESHOLD = 2.0
+            self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
             return -1
 
 
@@ -136,7 +146,7 @@ class GestureDetector:
 
 # Class to load and represent an object file
 class OBJ:
-    def __init__(self, filename, swapyz=False):
+    def __init__(self, filename, exclude_regions=[], swapyz=False):
         """Loads a Wavefront OBJ file. """
         self.vertices = []
         self.normals = []
@@ -154,9 +164,8 @@ class OBJ:
             if values[0] == 'o':
                 self.Region_names.append(values[1])
                 current_reg_id += 1
-            elif current_reg_id > -1 and self.Region_names[current_reg_id] == "GROUND_SPARSE_023" \
-                or current_reg_id > -1 and self.Region_names[current_reg_id] == "CURBS_SPARSE_051" \
-                or current_reg_id > -1 and self.Region_names[current_reg_id] == "MISC_SPARSE_034":
+            elif current_reg_id > -1 and \
+                    any([reg_name in self.Region_names[current_reg_id] for reg_name in exclude_regions]):
                 continue
             elif values[0] == 'v':
                 v = list(map(float, values[1:4]))
@@ -227,15 +236,14 @@ class CamIOPlayerOBJ:
 
     def convey(self, zone, status):
         if status == "moving":
-            if zone in self.sound_files:
-                if self.prev_zone_moving != zone:
-                    if self.player.playing:
-                        self.player.delete()
-                    try:
-                        self.player = self.blip_sound.play()
-                    except(BaseException):
-                        print("Exception raised. Cannot play sound. Please restart the application.")
-                    self.prev_zone_moving = zone
+            if self.prev_zone_moving != zone:
+                if self.player.playing:
+                    self.player.delete()
+                try:
+                    self.player = self.blip_sound.play()
+                except(BaseException):
+                    print("Exception raised. Cannot play sound. Please restart the application.")
+                self.prev_zone_moving = zone
             #self.prev_zone = None
             return
         if zone not in self.sound_files:

@@ -10,41 +10,17 @@ import pyglet.media
 from scipy import stats
 from collections import deque
 from simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
-
-
-# The ModelDetector class is responsible for detecting the Aruco markers in
-# the image that make up the model, and determining the pose of the model in
-# the scene.
-class ModelDetector:
-    def __init__(self, model, intrinsic_matrix):
-        # Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
-        self.obj, self.list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
-        # Define aruco marker dictionary and parameters object to include subpixel resolution
-        self.aruco_dict_scene = cv.aruco.Dictionary_get(
-            get_aruco_dict_id_from_string(model['positioningData']['arucoType']))
-        self.arucoParams = cv.aruco.DetectorParameters_create()
-        self.arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
-        self.intrinsic_matrix = intrinsic_matrix
-
-    def detect(self, frame):
-        # Detect the markers in the frame
-        (corners, ids, rejected) = cv.aruco.detectMarkers(frame, self.aruco_dict_scene, parameters=self.arucoParams)
-        scene, use_index = sort_corners_by_id(corners, ids, self.list_of_ids)
-        if ids is None or not any(use_index):
-            print("No markers found.")
-            return False, None, None
-
-        # Run solvePnP using the markers that have been observed to determine the pose
-        retval, rvec, tvec = cv.solvePnP(self.obj[use_index, :], scene[use_index, :], self.intrinsic_matrix, None)
-        return retval, rvec, tvec
+from simple_camio_2d import InteractionPolicy2D, CamIOPlayer2D, ModelDetectorAruco, parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
+from simple_camio_mp import PoseDetectorMP
+from simple_camio_mp_3d import PoseDetectorMP3D
 
 
 # The PoseDetector class determines the pose of the pointer, and returns the
 # position of the tip in the coordinate system of the model.
 class PoseDetector:
-    def __init__(self, stylus_filename, intrinsic_matrix):
+    def __init__(self, model, intrinsic_matrix):
         # Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
-        self.stylus = self.load_stylus_parameters(stylus_filename)
+        self.stylus = self.load_stylus_parameters(model['stylus_file'])
         self.obj, self.list_of_ids = parse_aruco_codes(self.stylus['positioningData']['arucoCodes'])
         self.aruco_dict = cv.aruco.Dictionary_get(get_aruco_dict_id_from_string(self.stylus['positioningData']['arucoType']))
         self.arucoParams = cv.aruco.DetectorParameters_create()
@@ -92,53 +68,40 @@ class PoseDetector:
         return np.array(R_inv * (poi - T))
 
 
-# The InteractionPolicy class takes the position and determines where on the
-# map it is, finding the color of the zone, if any, which is decoded into
-# zone ID number. This zone ID number is filtered through a ring buffer that
-# returns the mode. If the position is near enough to the plane (within 2cm)
-# then the zone ID number is returned.
-class InteractionPolicy:
-    def __init__(self, model):
-        self.model = model
-        self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
-        self.ZONE_FILTER_SIZE = 10
-        self.Z_THRESHOLD = 2.0
-        self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
-        self.zone_filter_cnt = 0
+class MovementFilter:
+    def __init__(self):
+        self.prev_position = None
+        self.BETA = 0.5
 
-    # Sergio: we are currently returning the zone id also when the ring buffer is not full. Is this the desired behavior?
-    # the impact is clearly minor, but conceptually I am not convinced that this is the right behavior.
-    # Sergio (2): I have a concern about this function, I will discuss it in an email.
-    def push_gesture(self, position):
-        zone_color = self.get_zone(position, self.image_map_color, self.model['pixels_per_cm'])
-        self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
-        self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
-        zone = stats.mode(self.zone_filter).mode[0]
-        if np.abs(position[2]) < self.Z_THRESHOLD:
-            return zone
+    def push_position(self, position):
+        if self.prev_position is None:
+            self.prev_position = position
         else:
-            return -1
+            self.prev_position = self.prev_position*(1-self.BETA) + position*self.BETA
+        return self.prev_position
 
-    # Retrieves the zone of the point of interest on the map
-    def get_zone(self, point_of_interest, img_map, pixels_per_cm):
-        x = int(point_of_interest[0] * pixels_per_cm)
-        y = int(point_of_interest[1] * pixels_per_cm)
-        if 0 <= x < img_map.shape[1] and 0 <= y < img_map.shape[0]:
-            return img_map[y, x]
-        else:
-            return [0,0,0]
 
-    # returns true if rgb color matches bgr color
-    def match_color(self, rgb_color_list, bgr_color_np_array):
-        if np.array_equal(np.array(rgb_color_list[::-1]), np.squeeze(bgr_color_np_array)):
-            return True
-        else:
-            return False
+class MovementMedianFilter:
+    def __init__(self):
+        self.MAX_QUEUE_LENGTH = 30
+        self.positions = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.times = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.AVERAGING_TIME = .7
 
-    # Returns the key of the dictionary in the dictionary of dictionaries that matches the color given
-    def get_dict_idx_from_color(self, color):
-        color_idx = 256*256*color[2] + 256*color[1] + color[0]
-        return color_idx
+    def push_position(self, position):
+        self.positions.append(position)
+        now = time.time()
+        self.times.append(now)
+        i = len(self.times)-1
+        Xs = []
+        Ys = []
+        Zs = []
+        while i >= 0 and now - self.times[i] < self.AVERAGING_TIME:
+            Xs.append(self.positions[i][0])
+            Ys.append(self.positions[i][1])
+            Zs.append(self.positions[i][2])
+            i -= 1
+        return np.array([np.median(Xs), np.median(Ys), np.median(Zs)])
 
 class GestureDetector:
     def __init__(self):
@@ -166,7 +129,7 @@ class GestureDetector:
         Xdiff = max(Xs) - min(Xs)
         Ydiff = max(Ys) - min(Ys)
         Zdiff = max(Zs) - min(Zs)
-        #print("(i: " + str(i) + ") X: " + str(Xdiff) + ", Y: " + str(Ydiff) + ", Z: " + str(Zdiff))
+        print("(i: " + str(i) + ") X: " + str(Xdiff) + ", Y: " + str(Ydiff) + ", Z: " + str(Zdiff))
         if Xdiff < self.X_MVMNT_THRESH and Ydiff < self.Y_MVMNT_THRESH and Zdiff < self.Z_MVMNT_THRESH:
             return np.array([sum(Xs)/float(len(Xs)), sum(Ys)/float(len(Ys)), sum(Zs)/float(len(Zs))]), 'still'
         else:
@@ -181,6 +144,10 @@ class AmbientSoundPlayer:
         self.player.eos_action = 'loop'
         self.player.loop = True
 
+    def set_volume(self, volume):
+        if 0 <= volume <= 1:
+            self.player.volume = volume
+
     def play_sound(self):
         if not self.player.playing:
             self.player.play()
@@ -188,58 +155,6 @@ class AmbientSoundPlayer:
     def pause_sound(self):
         if self.player.playing:
             self.player.pause()
-
-
-class CamIOPlayer:
-    def __init__(self, model):
-        self.model = model
-        self.prev_zone_name = ''
-        self.prev_zone_moving = -1
-        self.sound_files = {}
-        self.hotspots = {}
-        self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
-        self.welcome_message = pyglet.media.load(self.model['welcome_message'], streaming=False)
-        self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
-        for hotspot in self.model['hotspots']:
-            key = hotspot['color'][2] + hotspot['color'][1] * 256 + hotspot['color'][0] * 256 * 256
-            self.hotspots |= {key:hotspot}
-            if os.path.exists(hotspot['audioDescription']):
-                self.sound_files[key] = pyglet.media.load(hotspot['audioDescription'], streaming=False)
-            else:
-                print("warning. file not found:" + hotspot['audioDescription'])
-
-    def play_welcome(self):
-        self.welcome_message.play()
-
-    def play_goodbye(self):
-        self.goodbye_message.play()
-
-    def convey(self, zone, status):
-        if status == "moving":
-            if self.prev_zone_moving != zone:
-                if self.player.playing:
-                    self.player.delete()
-                try:
-                    self.player = self.blip_sound.play()
-                except(BaseException):
-                    print("Exception raised. Cannot play sound. Please restart the application.")
-                self.prev_zone_moving = zone
-            self.prev_zone_name = None
-            return
-        if zone not in self.hotspots:
-            self.prev_zone_name = None
-            return
-        zone_name = self.hotspots[zone]['textDescription']
-        if self.prev_zone_name != zone_name:
-            if self.player.playing:
-                self.player.delete()
-            sound = self.sound_files[zone]
-            try:
-                self.player = sound.play()
-            except(BaseException):
-                print("Exception raised. Cannot play sound. Please restart the application.")
-            self.prev_zone_name = zone_name
 
 
 class ImageAnnotator:
@@ -261,6 +176,12 @@ class ImageAnnotator:
         backprojection_pts, other = cv.projectPoints(obj, rvec, tvec, self.intrinsic_matrix, None)
         for pts in backprojection_pts:
             cv.circle(img_scene_color, (int(pts[0, 0]), int(pts[0, 1])), 4, (255, 255, 255), 2)
+        return img_scene_color
+
+    # Draws axes and projects the 3D points onto the image
+    def draw_point_in_image(self, img_scene_color, obj):
+        # Draws the 3D points on the image
+        cv.circle(img_scene_color, (int(obj[0]), int(obj[1])), 4, (255, 255, 255), 2)
         return img_scene_color
 
     # Draws axes and projects the 3D points onto the image
@@ -348,50 +269,6 @@ def load_map_parameters(filename):
     return map_params['model']
 
 
-# Function to sort corners by id based on the order specified in the id_list,
-# such that the scene array matches the obj array in terms of aruco marker ids
-# and the appropriate corners.
-def sort_corners_by_id(corners, ids, id_list):
-    use_index = np.zeros(len(id_list) * 4, dtype=bool)
-    scene = np.empty((len(id_list) * 4, 2), dtype=np.float32)
-    for i in range(len(corners)):
-        id = ids[i, 0]
-        if id in id_list:
-            corner_num = id_list.index(id)
-            for j in range(4):
-                use_index[4 * corner_num + j] = True
-                scene[4 * corner_num + j, :] = corners[i][0][j]
-    return scene, use_index
-
-
-# Parses the list of aruco codes and returns the 2D points and ids
-def parse_aruco_codes(list_of_aruco_codes):
-    obj_array = np.empty((len(list_of_aruco_codes) * 4, 3), dtype=np.float32)
-    ids = []
-    for cnt, aruco_code in enumerate(list_of_aruco_codes):
-        for i in range(4):
-            obj_array[cnt * 4 + i, :] = aruco_code['position'][i]
-        ids.append(aruco_code['id'])
-    return obj_array, ids
-
-
-# Returns the dictionary code for the given string
-def get_aruco_dict_id_from_string(aruco_dict_string):
-    if aruco_dict_string == "DICT_4X4_50":
-        return cv.aruco.DICT_4X4_50
-    elif aruco_dict_string == "DICT_4X4_100":
-        return cv.aruco.DICT_4X4_100
-    elif aruco_dict_string == "DICT_4X4_250":
-        return cv.aruco.DICT_4X4_250
-    elif aruco_dict_string == "DICT_4X4_1000":
-        return cv.aruco.DICT_4X4_1000
-    elif aruco_dict_string == "DICT_5X5_50":
-        return cv.aruco.DICT_5X5_50
-    elif aruco_dict_string == "DICT_5X5_100":
-        return cv.aruco.DICT_5X5_100
-    elif aruco_dict_string == "DICT_5X5_250":
-        return cv.aruco.DICT_5X5_250
-
 # ========================================
 cam_port = select_cam_port()
 # ========================================
@@ -405,24 +282,50 @@ model = load_map_parameters(args.input1)
 intrinsic_matrix = load_camera_parameters('camera_parameters.json')
 
 # Initialize objects
-if (model["modelType"] != "2D") and (model["modelType"] != "3D"):
-    print("Invalid model type. Please set modelType to either 2D or 3D in the map parameters file.")
-    exit(0)
-
-model2D = model["modelType"] == "2D" 
-
-model_detector = ModelDetector(model, intrinsic_matrix) if model2D else SIFTModelDetector(model, intrinsic_matrix)
-pose_detector = PoseDetector('teardrop_stylus.json', intrinsic_matrix) if model2D else PoseDetector(model['stylus_file'], intrinsic_matrix)
-gesture_detector = GestureDetector()
-image_annotator = ImageAnnotator(intrinsic_matrix)
-interact = InteractionPolicy(model) if model2D else InteractionPolicyOBJ(model)
-camio_player = CamIOPlayer(model) if model2D else CamIOPlayerOBJ(model)
-crickets_player = AmbientSoundPlayer(model['crickets'])
-heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
-
-camio_player.play_welcome()
-
-
+if model["modelType"] == "2D":
+    model_detector = ModelDetectorAruco(model, intrinsic_matrix)
+    pose_detector = PoseDetector(model, intrinsic_matrix)
+    gesture_detector = GestureDetector()
+    motion_filter = MovementMedianFilter()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicy2D(model)
+    camio_player = CamIOPlayer2D(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+elif model["modelType"] == "3D":
+    model_detector = SIFTModelDetector(model, intrinsic_matrix)
+    pose_detector = PoseDetector(model, intrinsic_matrix)
+    gesture_detector = GestureDetector()
+    motion_filter = MovementMedianFilter()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicyOBJ(model, intrinsic_matrix)
+    camio_player = CamIOPlayerOBJ(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+elif model["modelType"] == "mediapipe":
+    model_detector = ModelDetectorAruco(model, intrinsic_matrix)
+    pose_detector = PoseDetectorMP(model, intrinsic_matrix)
+    motion_filter = MovementMedianFilter()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicy2D(model)
+    camio_player = CamIOPlayer2D(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+elif model["modelType"] == "mediapipe_3d":
+    model_detector = SIFTModelDetector(model, intrinsic_matrix)
+    pose_detector = PoseDetectorMP3D()
+    gesture_detector = GestureDetector()
+    motion_filter = MovementMedianFilter()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicyOBJ(model, intrinsic_matrix)
+    camio_player = CamIOPlayerOBJ(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+heartbeat_player.set_volume(.05)
 cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 1920)  # set camera image width
@@ -447,10 +350,10 @@ while cap.isOpened():
     prev_time = timer
     timer = time.time()
     elapsed_time = timer - prev_time
-    #print("current fps: " + str(1/elapsed_time))
+    print("current fps: " + str(1/elapsed_time))
     pyglet.clock.tick()
     pyglet.app.platform_event_loop.dispatch_posted_events()
-    img_scene_color = frame
+    img_scene_color = frame.copy()
     loop_has_run = True
 
     # load images grayscale
@@ -467,29 +370,50 @@ while cap.isOpened():
     crickets_player.pause_sound()
     # Annotate image with 3D points and axes
     if model["modelType"] == "2D":
-        img_scene_color = image_annotator.annotate_image(img_scene_color, model_detector.scene, rvec, tvec)
+        img_scene_color = image_annotator.annotate_image(img_scene_color, model_detector.obj, rvec, tvec)
     else:
         img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
 
-    # Detect aruco marker for pointer in image
-    point_of_interest = pose_detector.detect(img_scene_gray, rvec, tvec)
+    if model["modelType"] == "mediapipe":
+        gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame, rvec, tvec)
 
-    # If no pointer is detected, move on to the next frame
-    if point_of_interest is None:
-        heartbeat_player.pause_sound()
-        continue
+        if gesture_loc is None:
+            heartbeat_player.pause_sound()
+            continue
+
+        heartbeat_player.play_sound()
+    elif model["modelType"] == "mediapipe_3d":
+        interact.project_vertices(rvec, tvec)
+        gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame)
+        if gesture_loc is None:
+            heartbeat_player.pause_sound()
+            continue
+
+        heartbeat_player.play_sound()
+    else:
+        # Detect aruco marker for pointer in image
+        point_of_interest = pose_detector.detect(img_scene_gray, rvec, tvec)
+
+        # If no pointer is detected, move on to the next frame
+        if point_of_interest is None:
+            heartbeat_player.pause_sound()
+            continue
 
     heartbeat_player.play_sound()
     # Draw where the user was pointing
     img_scene_color = pose_detector.drawOrigin(img_scene_color)
 
-    # Determine if the user is trying to make a gesture
-    gesture_loc, gesture_status = gesture_detector.push_position(point_of_interest)
+        # Determine if the user is trying to make a gesture
+        gesture_loc, gesture_status = gesture_detector.push_position(point_of_interest)
+
+    if gesture_status != "moving":
+        if model['modelType'] != "mediapipe_3d":
+            img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture_loc, rvec, tvec)
+        else:
+            img_scene_color = image_annotator.draw_point_in_image(img_scene_color, gesture_loc)
 
     # Determine zone from point of interest
-    if gesture_status != "moving":
-        img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture_loc, rvec, tvec)
-
+    # Determine zone from point of interest
     zone_id = interact.push_gesture(gesture_loc)
 
     # If the zone id is valid, play the sound for the zone

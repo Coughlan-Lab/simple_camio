@@ -274,7 +274,7 @@ cam_port = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='SimpleMap.json')
+parser.add_argument('--input1', help='Path to input zone image.', default='MagicMap.json')
 args = parser.parse_args()
 
 # Load map and camera parameters

@@ -42,4 +42,13 @@ How to estimate calibration parameters using simple_calibration.py:
 3. Run simple_calibration.py.
 4. Place the target pattern in front of the camera, so all markers are visible by the camera. Hold the paper against a flat surface, if possible, and hold at an angle as shown in the template image overlay on the screen. Try to match the orientation of the template image.
 5. When all markers are visible and matching the template image, press the 'g' key.  The calibration info should then be printed to the console. It includes focal_length_x, focal_length_y, camera_center_x, and camera_center_y.
-6. Calibration info will be saved to file: camera_parameters.pkl.
+6. Calibration info will be saved to file: camera_parameters.json.
+
+
+--------------------------------------------------
+In case the code won't run from PyCharm, try running it through the Anaconda terminal:
+
+1. Open Anaconda, select Environments tab.
+2. From the camio environment, click the green circle and select Open Terminal.
+3. Navigate to where simple_camio was installed.
+4. Run "python simple_camio.py".

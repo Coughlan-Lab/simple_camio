@@ -399,9 +399,9 @@ while cap.isOpened():
             heartbeat_player.pause_sound()
             continue
 
-    heartbeat_player.play_sound()
-    # Draw where the user was pointing
-    img_scene_color = pose_detector.drawOrigin(img_scene_color)
+        heartbeat_player.play_sound()
+        # Draw where the user was pointing
+        img_scene_color = pose_detector.drawOrigin(img_scene_color)
 
         # Determine if the user is trying to make a gesture
         gesture_loc, gesture_status = gesture_detector.push_position(point_of_interest)

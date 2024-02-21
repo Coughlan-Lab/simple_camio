@@ -82,7 +82,7 @@ class InteractionPolicyOBJ:
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
         self.intrinsic_matrix = intrinsic_matrix
-        self.map_obj = OBJ(model["model_file"], model["excluded_regions"], swapyz=True)
+        self.map_obj = OBJ(model["model_file"], model.get("excluded_regions",[]), swapyz=True)
         R = np.array(model["model_rotation"], dtype=np.float32)
         T = np.array(model["model_translation"], dtype=np.float32)
         offset = np.array(model["model_offset"], dtype=np.float32)
@@ -102,7 +102,7 @@ class InteractionPolicyOBJ:
         min_idx, dist = find_closest_point(position, self.vertices)
         self.zone_filter[self.zone_filter_cnt] = self.map_obj.vertex_reg_id[min_idx]
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
-        zone_id = stats.mode(self.zone_filter).mode[0]
+        zone_id = stats.mode(self.zone_filter).mode
         if dist < self.D_THRESHOLD:
             self.D_THRESHOLD = 3.0 * self.D_SET_THRESHOLD
             return self.map_obj.Region_names[zone_id]

@@ -8,6 +8,7 @@ import cv2 as cv
 # The ModelDetector class is responsible for detecting the Aruco markers in
 # the image that make up the model, and determining the pose of the model in
 # the scene.
+
 class ModelDetectorAruco:
     def __init__(self, model, intrinsic_matrix):
         # Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
@@ -53,7 +54,7 @@ class InteractionPolicy2D:
         zone_color = self.get_zone(position, self.image_map_color, self.model['pixels_per_cm'])
         self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
-        zone = stats.mode(self.zone_filter).mode[0]
+        zone = stats.mode(self.zone_filter).mode
         if np.abs(position[2]) < self.Z_THRESHOLD:
             return zone
         else:

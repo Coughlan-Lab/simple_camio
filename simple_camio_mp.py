@@ -111,6 +111,8 @@ class InteractionPolicyMP:
         self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
         zone = stats.mode(self.zone_filter).mode
+        if isinstance(zone, np.ndarray):
+            zone = zone[0]
         if np.abs(position[2]) < self.Z_THRESHOLD:
             return zone
         else:

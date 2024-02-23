@@ -103,6 +103,8 @@ class InteractionPolicyOBJ:
         self.zone_filter[self.zone_filter_cnt] = self.map_obj.vertex_reg_id[min_idx]
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
         zone_id = stats.mode(self.zone_filter).mode
+        if isinstance(zone, np.ndarray):
+            zone = zone[0]
         if dist < self.D_THRESHOLD:
             self.D_THRESHOLD = 3.0 * self.D_SET_THRESHOLD
             return self.map_obj.Region_names[zone_id]

@@ -55,6 +55,8 @@ class InteractionPolicy2D:
         self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
         zone = stats.mode(self.zone_filter).mode
+        if isinstance(zone, np.ndarray):
+            zone = zone[0]
         if np.abs(position[2]) < self.Z_THRESHOLD:
             return zone
         else:
@@ -93,7 +95,7 @@ class CamIOPlayer2D:
         self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
         for hotspot in self.model['hotspots']:
             key = hotspot['color'][2] + hotspot['color'][1] * 256 + hotspot['color'][0] * 256 * 256
-            self.hotspots |= {key:hotspot}
+            self.hotspots.update({key:hotspot})
             if os.path.exists(hotspot['audioDescription']):
                 self.sound_files[key] = pyglet.media.load(hotspot['audioDescription'], streaming=False)
             else:

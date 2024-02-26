@@ -8,6 +8,7 @@
       "heartbeat": "MP3/white_noise.mp3",
       "crickets": "MP3/crickets.mp3",
       "pixels_per_cm": 28.47,
+      "stylus_file": "teardrop_stylus.json",
       "modelType": "2D",
       "positioningData":{
         "arucoType": "DICT_4X4_50",

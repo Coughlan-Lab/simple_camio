@@ -331,7 +331,7 @@ cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
 cap.set(cv.CAP_PROP_FRAME_WIDTH, 1920)  # set camera image width
 cap.set(cv.CAP_PROP_FOCUS, 0)
 loop_has_run = False
-timer = time.time()
+timer = time.time() - 1
 
 # Main loop
 while cap.isOpened():

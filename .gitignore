@@ -1,0 +1,7 @@
+camera_parameters.json
+__pycache__
+build
+dist
+output
+*.spec
+.DS_STORE

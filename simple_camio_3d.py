@@ -39,6 +39,8 @@ class SIFTModelDetector:
                 good_matches.append(m)
         print("There were {} good matches".format(len(good_matches)))
         # -- Localize the object
+        if len(good_matches) < 4:
+            return False, None, None
         obj = np.empty((len(good_matches), 2), dtype=np.float32)
         scene = np.empty((len(good_matches), 2), dtype=np.float32)
         for i in range(len(good_matches)):
@@ -60,7 +62,10 @@ class SIFTModelDetector:
                 cnt = cnt + 1
         # Check the area covered by the inliers to see if we have enough coverage to be considered good
         hull = cv.convexHull(scene_inliers.astype(np.int32))
-        hull_area = cv.contourArea(hull)
+        if hull is None:
+            hull_area = 0.0
+        else:
+            hull_area = cv.contourArea(hull)
         if hull_area < self.model["hull_area_thresh"] or len(scene_inliers) < self.model["inliers_thresh"] or len(obj_inliers) == 0:
             return False, None, None
 
@@ -103,8 +108,8 @@ class InteractionPolicyOBJ:
         self.zone_filter[self.zone_filter_cnt] = self.map_obj.vertex_reg_id[min_idx]
         self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
         zone_id = stats.mode(self.zone_filter).mode
-        if isinstance(zone, np.ndarray):
-            zone = zone[0]
+        if isinstance(zone_id, np.ndarray):
+            zone_id = zone_id[0]
         if dist < self.D_THRESHOLD:
             self.D_THRESHOLD = 3.0 * self.D_SET_THRESHOLD
             return self.map_obj.Region_names[zone_id]

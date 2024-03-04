@@ -2,19 +2,19 @@ Simple CamIO
 
 Requirements: To run Simple CamIO, one needs to set up several things. 
 
--Firstly, in 2D mode, we require a printed map with Aruco markers in the corners, as in map_with_aruco.pdf. The markers should be from the DICT_4X4_50 dictionary, with ids 0-3, placed in positions as specified by the position element of the arucoCodes list in positioningData as defined by the input json file.  
+- Firstly, in 2D mode, we require a printed map with Aruco markers in the corners, as in map_with_aruco.pdf. The markers should be from the DICT_4X4_50 dictionary, with ids 0-3, placed in positions as specified by the position element of the arucoCodes list in positioningData as defined by the input json file.  
 
--Secondly, in 2D mode, a digital version of the map that represents zones with a unique index, as in zone_map.png, and this filename should be specified in the element "filename" of the model dictionary of the input json file. The precise resolution of the map should be specified in the element pixels_per_cm (in units of pixels per cm) in the model dictionary, such that it matches the printed version. 
+- Secondly, in 2D mode, a digital version of the map that represents zones with a unique index, as in zone_map.png, and this filename should be specified in the element "filename" of the model dictionary of the input json file. The precise resolution of the map should be specified in the element pixels_per_cm (in units of pixels per cm) in the model dictionary, such that it matches the printed version. 
 
 - In 3D mode, we require a physical 3D map and the wavefront OBJ file that describes it, as well as a template image of the surrounding features to the physical 3D map, and the relation between them.
   
--The camera should be calibrated and the calibration parameters should be saved in the camera_parameters.json file created by using simple_calibration.py. Otherwise they are specified in simple_camio.py by the variables focal_length_x, focal_length_y, camera_center_x, camera_center_y. Calibration parameters can be estimated using simple_calibration.py (described below).  Distortion parameters are also settable via the variable distortion (although these can safely be left to zero, assuming little distortion). 
+- The camera should be calibrated and the calibration parameters should be saved in the camera_parameters.json file created by using simple_calibration.py. Otherwise they are specified in simple_camio.py by the variables focal_length_x, focal_length_y, camera_center_x, camera_center_y. Calibration parameters can be estimated using simple_calibration.py (described below).  Distortion parameters are also settable via the variable distortion (although these can safely be left to zero, assuming little distortion). 
 
--For regular 2D and 3D mode (non-mediapipe version), a pointer needs to be printed and cut out, using the pattern found in marker_pointer.pdf (printed at 300 dpi, such that the Aruco marker is exactly 3cm).
+- For regular 2D and 3D mode (non-mediapipe version), a pointer needs to be printed and cut out, using the pattern found in marker_pointer.pdf (printed at 300 dpi, such that the Aruco marker is exactly 3cm).
 
--Sound files, as named in the hotspots dictionary in the supplied json file, should be placed in the MP3 folder. The hotspots dictionary maps the zone index (from the zone map) to the sound file in the 2D case, and in the 3D case there is a mapping between the zone label from the wavefront OBJ file to the sound file in the CSV file specified by "soundfile_mapping" in the supplied json file.
+- Sound files, as named in the hotspots dictionary in the supplied json file, should be placed in the MP3 folder. The hotspots dictionary maps the zone index (from the zone map) to the sound file in the 2D case, and in the 3D case there is a mapping between the zone label from the wavefront OBJ file to the sound file in the CSV file specified by "soundfile_mapping" in the supplied json file.
 
--Python 3.8 installed with opencv, numpy, scipy, numba, mediapipe, and pyglet libraries (most of which can be installed through Anaconda, except mediapipe and pyglet which need to be installed via pip).
+- Python 3.8 installed with opencv, numpy, scipy, numba, mediapipe, and pyglet libraries (most of which can be installed through Anaconda, except mediapipe and pyglet which need to be installed via pip).
 
 For best performance, we recommend the camera sit above the map to get a fronto-parallel view as much as possible. The camera should have an unobstructed view of the 4 Aruco markers on the map, and the pointer should be held such that the camera can clearly view the marker.
 

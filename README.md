@@ -18,7 +18,7 @@ Requirements: To run Simple CamIO, one needs to set up several things.
 
 For best performance, we recommend the camera sit above the map to get a fronto-parallel view as much as possible. The camera should have an unobstructed view of the 4 Aruco markers on the map, and the pointer should be held such that the camera can clearly view the marker.
 
-To run, simply run the simple_camio.py script as "python simple_camio.py --input1 <json file>" where <json file> is the location of the json file containing the model parameters, such as models/UkraineMap/UkraineMap.json. 
+To run, simply run the simple_camio.py script as "python simple_camio.py --input1 \<json file\>" where \<json file\> is the location of the json file containing the model parameters, such as models/UkraineMap/UkraineMap.json. 
 
 __________________________________________________
 How to install Python via Anaconda.

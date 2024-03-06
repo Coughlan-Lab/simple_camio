@@ -14,7 +14,7 @@
       "stylus_file": "HalfCubeStylus.json",
       "model_file": "/Users/rcrabb/Dropbox (ski.org)/Mac/Downloads/sparse.obj",
       "excluded_regions": ["GROUND_SPARSE_023", "CURBS_SPARSE_051","MISC_SPARSE_034", "ZONE"],
-      "soundfile_mapping":"Name-Mapping4.csv",
+      "soundfile_mapping":"models/MagicMap/Name-Mapping4.csv",
       "model_rotation": [[0.1,0,0],[0,0.1,0],[0,0,-0.1]],
       "model_translation": [[0],[59.0],[0]],
       "model_offset": [[-20.1], [-5], [3.6]]

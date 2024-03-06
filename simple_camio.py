@@ -347,6 +347,8 @@ while cap.isOpened():
             cap.release()
             cv.destroyAllWindows()
             break
+        if waitkey == ord('r'):
+            model_detector.requires_pnp = True
     prev_time = timer
     timer = time.time()
     elapsed_time = timer - prev_time
@@ -376,7 +378,7 @@ while cap.isOpened():
 
     if model["modelType"] == "mediapipe":
         gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame, rvec, tvec)
-
+        img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
         if gesture_loc is None:
             heartbeat_player.pause_sound()
             continue
@@ -385,6 +387,7 @@ while cap.isOpened():
     elif model["modelType"] == "mediapipe_3d":
         interact.project_vertices(rvec, tvec)
         gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame)
+        img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
         if gesture_loc is None:
             heartbeat_player.pause_sound()
             continue

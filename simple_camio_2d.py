@@ -125,8 +125,10 @@ class CamIOPlayer2D:
             return
         zone_name = self.hotspots[zone]['textDescription']
         if self.prev_zone_name != zone_name:
-            if self.player.playing:
-                self.player.delete()
+        # if self.player.playing:
+        #     self.player.pause()
+            self.player.pause()
+            self.player.delete()
             sound = self.sound_files[zone]
             try:
                 self.player = sound.play()

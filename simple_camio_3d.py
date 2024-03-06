@@ -257,8 +257,8 @@ class CamIOPlayerOBJ:
             self.prev_zone = None
             return
         if self.prev_zone != zone:
-            if self.player.playing:
-                self.player.delete()
+            self.player.pause()
+            self.player.delete()
             sound = self.sound_files[zone]
             try:
                 self.player = sound.play()

@@ -14,7 +14,7 @@ Requirements: To run Simple CamIO, one needs to set up several things.
 
 - Sound files, as named in the hotspots dictionary in the supplied json file, should be placed in the MP3 folder. The hotspots dictionary maps the zone index (from the zone map) to the sound file in the 2D case, and in the 3D case there is a mapping between the zone label from the wavefront OBJ file to the sound file in the CSV file specified by "soundfile_mapping" in the supplied json file.
 
-- Python 3.8 installed with opencv, numpy, scipy, numba, mediapipe, and pyglet libraries (most of which can be installed through Anaconda, except mediapipe and pyglet which need to be installed via pip). The required library versions are specified in the requirements.txt file.
+- Python 3.8 installed with opencv, numpy, scipy, mediapipe, and pyglet libraries (most of which can be installed through Anaconda, except mediapipe and pyglet which need to be installed via pip). The required library versions are specified in the requirements.txt file.
 
 For best performance, we recommend the camera sit above the map to get a fronto-parallel view as much as possible. The camera should have an unobstructed view of the 4 Aruco markers on the map, and the pointer should be held such that the camera can clearly view the marker.
 
@@ -27,7 +27,7 @@ How to install Python via Anaconda.
 3. Call the new environment "camio" and select Package Python 3.8.17. Hit Create.
 4. From the pulldown menu select All.
 5. Search for 'opencv', select 'opencv' and 'py-opencv', version 4.6.0 and hit Apply.
-7. Do the same for 'scipy' (1.10.1), 'numpy' (1.24.3), and numba (0.59.0).
+7. Do the same for 'scipy' (1.10.1) and 'numpy' (1.24.3).
 8. Then hit Home on the Anaconda Navigator and Launch (or Install) PyCharm Community.
 9. In the Welcome to PyCharm window, select 'Get from VCS', make sure Git is selected for Version control and paste URL: https://github.com/rcrabb-ski/simple_camio.git. Proceed to check out the project.
 10. In the bottom right of the window, it should say the version of Python and the environment name which should be Python 3.8 (camio).  If it is not, click it and hit "Interpreter settings" and under Python Interpreter select Python 3.8 (camio)--if there is not an option for Python 3.8 (camio) select Show All... (if there is still not an option for Python 3.8 (camio) then go back to step 2).

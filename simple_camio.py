@@ -1,13 +1,10 @@
 import os
 import cv2 as cv
-import datetime
 import time
 import numpy as np
-import pickle
 import json
 import argparse
 import pyglet.media
-from scipy import stats
 from collections import deque
 from simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
 from simple_camio_2d import InteractionPolicy2D, CamIOPlayer2D, ModelDetectorAruco, parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
@@ -274,7 +271,7 @@ cam_port = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
+parser.add_argument('--input1', help='Path to input zone image.', default='models/four_shapes/four_shapes.json')
 args = parser.parse_args()
 
 # Load map and camera parameters
@@ -352,7 +349,7 @@ while cap.isOpened():
     prev_time = timer
     timer = time.time()
     elapsed_time = timer - prev_time
-    print("current fps: " + str(1/elapsed_time))
+    #print("current fps: " + str(1/elapsed_time))
     pyglet.clock.tick()
     pyglet.app.platform_event_loop.dispatch_posted_events()
     img_scene_color = frame.copy()

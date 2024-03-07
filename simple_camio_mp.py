@@ -53,9 +53,9 @@ class PoseDetectorMP:
                                                                            hand_landmarks.landmark[k].z
                 ratio_little = self.ratio(coors)
 
-                print(ratio_thumb, ratio_index, ratio_middle, ratio_ring, ratio_little)
-                overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
-                print('overall evidence for index pointing:', overall)
+                # print(ratio_thumb, ratio_index, ratio_middle, ratio_ring, ratio_little)
+                # overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
+                # print('overall evidence for index pointing:', overall)
 
                 self.mp_drawing.draw_landmarks(
                     image,
@@ -79,7 +79,7 @@ class PoseDetectorMP:
                 position = np.matmul(perspective_transform_matrix, np.array([hand_landmarks.landmark[8].x*image.shape[1],
                                                                              hand_landmarks.landmark[8].y*image.shape[0], 1]))
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
-                    print(hand_landmarks.landmark[8])
+                    #print(hand_landmarks.landmark[8])
                     return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "pointing", image
                 else:
                     return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "moving", image

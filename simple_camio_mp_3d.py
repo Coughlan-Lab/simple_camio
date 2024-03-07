@@ -48,10 +48,10 @@ class PoseDetectorMP3D:
                                                                            hand_landmarks.landmark[k].y, \
                                                                            hand_landmarks.landmark[k].z
                 ratio_little = self.ratio(coors)
-
-                print(ratio_thumb, ratio_index, ratio_middle, ratio_ring, ratio_little)
-                overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
-                print('overall evidence for index pointing:', overall)
+                #
+                # print(ratio_thumb, ratio_index, ratio_middle, ratio_ring, ratio_little)
+                # overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
+                # print('overall evidence for index pointing:', overall)
 
                 self.mp_drawing.draw_landmarks(
                     image,
@@ -64,7 +64,7 @@ class PoseDetectorMP3D:
                     [hand_landmarks.landmark[8].x * image.shape[1], hand_landmarks.landmark[8].y * image.shape[0]])
 
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
-                    print(hand_landmarks.landmark[8])
+                    #print(hand_landmarks.landmark[8])
                     return position, "pointing", image
                 else:
                     return position, "moving", image

@@ -4,7 +4,6 @@ import pyglet
 import os
 import csv
 import time
-from numba import jit
 from scipy import stats
 from collections import deque
 
@@ -277,14 +276,8 @@ def get_3d_points_from_pixels(obj_pts, pixels_per_cm):
     return pts_3d
 
 
-@jit(nopython=True)
 def find_closest_point(point, points):
     """Finds the closest point in a list of points to a given point"""
-    min_dist = np.linalg.norm(point.transpose() - points[0, :])
-    min_index = 0
-    for i in range(1, len(points)):
-        dist = np.linalg.norm(point.transpose() - points[i, :])
-        if dist < min_dist:
-            min_dist = dist
-            min_index = i
-    return min_index, min_dist
+    dists = np.linalg.norm(points-point.transpose(),axis=1)
+    min_index = np.argmin(dists)
+    return min_index, dists[min_index]

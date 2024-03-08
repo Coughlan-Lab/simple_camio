@@ -35,7 +35,7 @@
         {"color":[104,145,52], "colorComment":"olive green", "textDescription":"Malopidvalna St.", "audioDescription":"models/UkraineMap/Audio/Malopidvalna.mp3"},
         {"color":[93,249,152], "colorComment":"mint green", "textDescription":"Volodymyrs'kyi Passage", "audioDescription":"models/UkraineMap/Audio/Volodymirskiy Passage.mp3"},
         {"color":[92,133,146], "colorComment":"grey-blue", "textDescription":"Independence Square", "audioDescription":"models/UkraineMap/Audio/Maidan.mp3"},
-        {"color":[130,49,49], "colorComment":"maroon", "textDescription":"St. Michael's Golden-Domed Monastery", "audioDescription":"MP3/StMichael's Monastery.mp3"},
+        {"color":[130,49,49], "colorComment":"maroon", "textDescription":"St. Michael's Golden-Domed Monastery", "audioDescription":"models/UkraineMap/Audio/StMichael_s Monastery.mp3"},
         {"color":[203,192,99], "colorComment":"mustard", "textDescription":"Velyka Zhytomyrska St.", "audioDescription":"models/UkraineMap/Audio/Velika Zhytomirska St.mp3"},
         {"color":[49,189,187], "colorComment":"teal", "textDescription":"Volodymyrs'kyi descent", "audioDescription":"models/UkraineMap/Audio/Volodymirskiy Descent.mp3"}
       ]

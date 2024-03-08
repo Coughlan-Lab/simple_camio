@@ -129,11 +129,12 @@ class CamIOPlayer2D:
         #     self.player.pause()
             self.player.pause()
             self.player.delete()
-            sound = self.sound_files[zone]
-            try:
-                self.player = sound.play()
-            except(BaseException):
-                print("Exception raised. Cannot play sound. Please restart the application.")
+            if zone in self.sound_files:
+                sound = self.sound_files[zone]
+                try:
+                    self.player = sound.play()
+                except(BaseException):
+                    print("Exception raised. Cannot play sound. Please restart the application.")
             self.prev_zone_name = zone_name
 
 

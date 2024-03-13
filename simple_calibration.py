@@ -158,7 +158,7 @@ use_external_cam = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for calibration.')
-parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
+parser.add_argument('--input1', help='Path to input zone image.', default='models/UkraineMap/UkraineMap.json')
 args = parser.parse_args()
 
 intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],

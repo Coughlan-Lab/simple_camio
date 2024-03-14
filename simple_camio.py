@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2 as cv
 import time
 import numpy as np
@@ -261,23 +262,27 @@ def load_map_parameters(filename):
             map_params = json.load(f)
             print("loaded map parameters from file.")
     else:
-        print("No map parameters file found.")
+        print("No map parameters file found at " + filename)
+        print("Usage: simple_camio.exe --input1 <filename>")
+        print(" ")
+        print("Press any key to exit.")
+        _ = sys.stdin.read(1)
         exit(0)
     return map_params['model']
 
 
-# ========================================
-cam_port = select_cam_port()
-# ========================================
-
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='models/UkraineMap/UkraineMap.json')
+parser.add_argument('--input1', help='Path to parameter json file.', default='models/UkraineMap/UkraineMap.json')
 args = parser.parse_args()
 
 # Load map and camera parameters
 model = load_map_parameters(args.input1)
 if model["modelType"] != "mediapipe":
     intrinsic_matrix = load_camera_parameters('camera_parameters.json')
+
+# ========================================
+cam_port = select_cam_port()
+# ========================================
 
 # Initialize objects
 if model["modelType"] == "2D":

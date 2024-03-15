@@ -18,3 +18,5 @@ simple_calibration
 
 *.spec
 .DS_STORE
+
+# pyright config

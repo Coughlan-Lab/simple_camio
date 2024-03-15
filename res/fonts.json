@@ -1,0 +1,14 @@
+{
+    "title": {
+        "family": "Noto Sans",
+        "size": 30
+    },
+    "subtitle": {
+        "family": "Noto Sans",
+        "size": 20
+    },
+    "button": {
+        "family": "Noto Sans",
+        "size": 16
+    }
+}

@@ -91,6 +91,12 @@ class CamIOPlayer2D:
         self.hotspots = {}
         self.player = pyglet.media.Player()
         self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
+        self.enable_blips = False
+        if "map_description" in self.model:
+            self.map_description = pyglet.media.load(self.model['map_description'], streaming=False)
+            self.have_played_description = False
+        else:
+            self.have_played_description = True
         self.welcome_message = pyglet.media.load(self.model['welcome_message'], streaming=False)
         self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
         for hotspot in self.model['hotspots']:
@@ -101,6 +107,11 @@ class CamIOPlayer2D:
             else:
                 print("warning. file not found:" + hotspot['audioDescription'])
 
+    def play_description(self):
+        if not self.have_played_description:
+            self.player = self.map_description.play()
+            self.have_played_description = True
+
     def play_welcome(self):
         self.welcome_message.play()
 
@@ -109,7 +120,7 @@ class CamIOPlayer2D:
 
     def convey(self, zone, status):
         if status == "moving":
-            if self.curr_zone_moving != zone and self.prev_zone_moving == zone:
+            if self.curr_zone_moving != zone and self.prev_zone_moving == zone and self.enable_blips:
                 if self.player.playing:
                     self.player.delete()
                 try:

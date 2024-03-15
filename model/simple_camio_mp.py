@@ -2,18 +2,42 @@ import numpy as np
 import cv2 as cv
 import mediapipe as mp
 from scipy import stats
+from simple_camio_2d import parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
+
+
+class ModelDetectorArucoMP:
+    def __init__(self, model):
+        # Parse the Aruco markers placement positions from the parameter file into a numpy array, and get the associated ids
+        self.obj, self.list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
+        # Define aruco marker dictionary and parameters object to include subpixel resolution
+        self.aruco_dict_scene = cv.aruco.Dictionary_get(
+            get_aruco_dict_id_from_string(model['positioningData']['arucoType']))
+        self.arucoParams = cv.aruco.DetectorParameters_create()
+        self.arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
+
+    def detect(self, frame):
+        # Detect the markers in the frame
+        (corners, ids, rejected) = cv.aruco.detectMarkers(frame, self.aruco_dict_scene, parameters=self.arucoParams)
+        scene, use_index = sort_corners_by_id(corners, ids, self.list_of_ids)
+        if ids is None or not any(use_index):
+            print("No markers found.")
+            return False, None, None
+
+        # Run solvePnP using the markers that have been observed to determine the pose
+        H, mask_out = cv.findHomography(scene[use_index, :], self.obj[use_index, :2], cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995)
+        return True, H, None
+
 
 class PoseDetectorMP:
-    def __init__(self, model, intrinsic_matrix):
+    def __init__(self, model):
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5)
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
-        self.intrinsic_matrix = intrinsic_matrix
         self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
         self.pixels_per_cm = model['pixels_per_cm']
 
-    def detect(self, image, rvec_model, tvec_model):
+    def detect(self, image, H, _):
         image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
         results = self.hands.process(image)
@@ -64,20 +88,8 @@ class PoseDetectorMP:
                     self.mp_drawing_styles.get_default_hand_landmarks_style(),
                     self.mp_drawing_styles.get_default_hand_connections_style())
 
-                corners, _ = cv.projectPoints(np.array([[0,0,0],[self.image_map_color.shape[1]/self.pixels_per_cm, 0, 0],
-                                            [self.image_map_color.shape[1]/self.pixels_per_cm,
-                                            self.image_map_color.shape[0]/self.pixels_per_cm, 0],
-                                            [0, self.image_map_color.shape[0]/self.pixels_per_cm, 0]], dtype=np.float32),
-                                            rvec_model, tvec_model, self.intrinsic_matrix, None)
-
-                perspective_transform_matrix = cv.getPerspectiveTransform(np.squeeze(corners),
-                                                                          np.array([[0,0],[self.image_map_color.shape[1]/self.pixels_per_cm,0],
-                                                                          [self.image_map_color.shape[1]/self.pixels_per_cm,
-                                                                          self.image_map_color.shape[0]/self.pixels_per_cm],
-                                                                          [0, self.image_map_color.shape[0]/self.pixels_per_cm]], dtype=np.float32), cv.DECOMP_LU)
-
-                position = np.matmul(perspective_transform_matrix, np.array([hand_landmarks.landmark[8].x*image.shape[1],
-                                                                             hand_landmarks.landmark[8].y*image.shape[0], 1]))
+                position = np.matmul(H, np.array([hand_landmarks.landmark[8].x*image.shape[1],
+                                                  hand_landmarks.landmark[8].y*image.shape[0], 1]))
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
                     #print(hand_landmarks.landmark[8])
                     return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "pointing", image
@@ -95,9 +107,8 @@ class PoseDetectorMP:
         return d / (a + b + c)
 
 class InteractionPolicyMP:
-    def __init__(self, model, intrinsic_matrix):
+    def __init__(self, model):
         self.model = model
-        self.intrinsic_matrix = intrinsic_matrix
         self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
         self.ZONE_FILTER_SIZE = 10
         self.Z_THRESHOLD = 2.0

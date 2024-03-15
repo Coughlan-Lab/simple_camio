@@ -216,6 +216,12 @@ class CamIOPlayerOBJ:
         self.sound_files = {}
         self.player = pyglet.media.Player()
         self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
+        self.enable_blips = False
+        if "map_description" in self.model:
+            self.map_description = pyglet.media.load(self.model['map_description'], streaming=False)
+            self.have_played_description = False
+        else:
+            self.have_played_description = True
         self.welcome_message = pyglet.media.load(self.model['welcome_message'], streaming=False)
         self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
         zone_dict = self.generate_zone_dict(self.model['soundfile_mapping'])
@@ -224,6 +230,11 @@ class CamIOPlayerOBJ:
                 self.sound_files[key] = pyglet.media.load(zone_dict[key], streaming=False)
             else:
                 print("warning. file not found:" + zone_dict[key])
+
+    def play_description(self):
+        if not self.have_played_description:
+            self.player = self.map_description.play()
+            self.have_played_description = True
 
     # Function to generate a dictionary for names of zones based on a csv file
     def generate_zone_dict(self, csv_file):
@@ -242,7 +253,7 @@ class CamIOPlayerOBJ:
 
     def convey(self, zone, status):
         if status == "moving":
-            if self.prev_zone_moving != zone:
+            if self.prev_zone_moving != zone and self.enable_blips:
                 if self.player.playing:
                     self.player.delete()
                 try:

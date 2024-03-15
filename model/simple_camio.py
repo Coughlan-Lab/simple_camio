@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2 as cv
 import time
 import numpy as np
@@ -8,7 +9,7 @@ import pyglet.media
 from collections import deque
 from simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
 from simple_camio_2d import InteractionPolicy2D, CamIOPlayer2D, ModelDetectorAruco, parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
-from simple_camio_mp import PoseDetectorMP
+from simple_camio_mp import ModelDetectorArucoMP, PoseDetectorMP
 from simple_camio_mp_3d import PoseDetectorMP3D
 
 
@@ -261,22 +262,27 @@ def load_map_parameters(filename):
             map_params = json.load(f)
             print("loaded map parameters from file.")
     else:
-        print("No map parameters file found.")
+        print("No map parameters file found at " + filename)
+        print("Usage: simple_camio.exe --input1 <filename>")
+        print(" ")
+        print("Press any key to exit.")
+        _ = sys.stdin.read(1)
         exit(0)
     return map_params['model']
 
 
-# ========================================
-cam_port = select_cam_port()
-# ========================================
-
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to input zone image.', default='models/four_shapes/four_shapes.json')
+parser.add_argument('--input1', help='Path to parameter json file.', default='models/UkraineMap/UkraineMap.json')
 args = parser.parse_args()
 
 # Load map and camera parameters
 model = load_map_parameters(args.input1)
-intrinsic_matrix = load_camera_parameters('camera_parameters.json')
+if model["modelType"] != "mediapipe":
+    intrinsic_matrix = load_camera_parameters('camera_parameters.json')
+
+# ========================================
+cam_port = select_cam_port()
+# ========================================
 
 # Initialize objects
 if model["modelType"] == "2D":
@@ -302,10 +308,9 @@ elif model["modelType"] == "3D":
     crickets_player = AmbientSoundPlayer(model['crickets'])
     heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
 elif model["modelType"] == "mediapipe":
-    model_detector = ModelDetectorAruco(model, intrinsic_matrix)
-    pose_detector = PoseDetectorMP(model, intrinsic_matrix)
+    model_detector = ModelDetectorArucoMP(model)
+    pose_detector = PoseDetectorMP(model)
     motion_filter = MovementMedianFilter()
-    image_annotator = ImageAnnotator(intrinsic_matrix)
     interact = InteractionPolicy2D(model)
     camio_player = CamIOPlayer2D(model)
     camio_player.play_welcome()
@@ -346,6 +351,12 @@ while cap.isOpened():
             break
         if waitkey == ord('r'):
             model_detector.requires_pnp = True
+        if waitkey == ord('b'):
+            camio_player.enable_blips = not camio_player.enable_blips
+            if camio_player.enable_blips:
+                print("Blips have been enabled.")
+            else:
+                print("Blips have been disabled.")
     prev_time = timer
     timer = time.time()
     elapsed_time = timer - prev_time
@@ -366,16 +377,16 @@ while cap.isOpened():
         crickets_player.play_sound()
         continue
 
+    camio_player.play_description()
     crickets_player.pause_sound()
     # Annotate image with 3D points and axes
     if model["modelType"] == "2D":
         img_scene_color = image_annotator.annotate_image(img_scene_color, model_detector.obj, rvec, tvec)
-    else:
+    elif model["modelType"] != "mediapipe":
         img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
 
     if model["modelType"] == "mediapipe":
         gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame, rvec, tvec)
-        img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
         if gesture_loc is None:
             heartbeat_player.pause_sound()
             continue
@@ -407,10 +418,10 @@ while cap.isOpened():
         gesture_loc, gesture_status = gesture_detector.push_position(point_of_interest)
 
     if gesture_status != "moving":
-        if model['modelType'] != "mediapipe_3d":
-            img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture_loc, rvec, tvec)
-        else:
+        if model['modelType'] == "mediapipe_3d":
             img_scene_color = image_annotator.draw_point_in_image(img_scene_color, gesture_loc)
+        elif model['modelType'] != "mediapipe":
+            img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture_loc, rvec, tvec)
 
     # Determine zone from point of interest
     # Determine zone from point of interest

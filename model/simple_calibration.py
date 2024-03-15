@@ -1,4 +1,5 @@
 import os
+import sys
 import cv2 as cv
 import datetime
 import numpy as np
@@ -101,7 +102,11 @@ def load_map_parameters(filename):
             map_params = json.load(f)
             print("loaded map parameters from file.")
     else:
-        print("No map parameters file found.")
+        print("No map parameters file found at " + filename)
+        print("Usage: simple_calibration.exe --input1 <filename>")
+        print(" ")
+        print("Press any key to exit.")
+        _ = sys.stdin.read(1)
         exit(0)
     return map_params['model']
 
@@ -154,11 +159,10 @@ focal_length_y = 950.4602909088135
 camera_center_x = 640.0
 camera_center_y = 360.0
 distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
-use_external_cam = select_cam_port()
 # ========================================
 
 parser = argparse.ArgumentParser(description='Code for calibration.')
-parser.add_argument('--input1', help='Path to input zone image.', default='UkraineMap.json')
+parser.add_argument('--input1', help='Path to input zone image.', default='models/UkraineMap/UkraineMap.json')
 args = parser.parse_args()
 
 intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
@@ -175,7 +179,7 @@ obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
 scene = np.empty((16, 2), dtype=np.float32)
 obj_list = []
 scene_list = []
-
+use_external_cam = select_cam_port()
 cap = cv.VideoCapture(use_external_cam)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT,1080) #set camera image height
 cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width

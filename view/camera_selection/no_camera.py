@@ -4,6 +4,7 @@ from view.screen import Screen
 import gui
 
 from res import Fonts
+from typing import Union
 
 
 class NoCamera(Screen):
@@ -11,7 +12,7 @@ class NoCamera(Screen):
     def back_screen(self):
         return gui.ScreenName.HomePage
 
-    def __init__(self, parent: tk.CTkFrame | tk.CTk) -> None:
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, parent, show_back=True)
 
         self.title = tk.CTkLabel(self, text="No camera found", height=44)

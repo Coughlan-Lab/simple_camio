@@ -5,6 +5,7 @@ from tkinter import BOTH, TOP
 from view import *
 from view.screen import Screen
 from model import State
+from typing import Union
 
 
 class ScreenName(Enum):
@@ -73,7 +74,7 @@ class GUI(tk.CTk):
         return super().destroy()
 
 
-gui: GUI | None = None
+gui: Union[GUI, None] = None
 
 
 def create_gui():

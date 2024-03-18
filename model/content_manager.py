@@ -1,6 +1,7 @@
 from enum import Enum
 import os
 import json
+from typing import Union
 
 
 class ContentManager:
@@ -77,12 +78,16 @@ class Content:
         return name[:12] + ("..." if len(name) >= 13 else "")
 
     @property
+    def full_name(self) -> str:
+        return self.__content["name"]
+
+    @property
     def description(self) -> str:
         description = self.__content.get("description", "")
         return description[:65] + ("..." if len(description) >= 64 else "")
 
     @property
-    def preview(self) -> str | None:
+    def preview(self) -> Union[str, None]:
         if "preview" not in self.__content:
             return None
 

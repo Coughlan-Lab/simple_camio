@@ -11,6 +11,7 @@ from model import ContentManager
 from tkinter import Label
 import cv2
 from PIL import Image, ImageTk
+from typing import Union
 
 
 class CalibrationVideoTutorial(Screen):
@@ -20,7 +21,7 @@ class CalibrationVideoTutorial(Screen):
     def back_screen(self):
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, parent: tk.CTkFrame | tk.CTk):
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, parent, show_back=True)
 
         self.title = tk.CTkLabel(

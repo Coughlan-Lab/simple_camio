@@ -7,10 +7,11 @@ import gui
 import cv2
 from PIL import Image, ImageTk
 from res import Fonts
+from typing import Union
 
 
 class CameraPreview:
-    def __init__(self, parent: tk.CTkFrame | tk.CTk, camera_info):
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk], camera_info):
         self.camera_name = camera_info.name
         self.camera_index = camera_info.index
 

@@ -4,12 +4,13 @@ from PIL import Image
 import gui
 from res import Colors
 from res.imgs.imgs_manager import ImgsManager
+from typing import Union
 
 
 class Screen(tk.CTkFrame):
     back_screen = None
 
-    def __init__(self, parent: tk.CTkFrame | tk.CTk, show_back=False) -> None:
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk], show_back=False) -> None:
         tk.CTkFrame.__init__(self, parent)
         self.configure(fg_color=Colors.background)
 

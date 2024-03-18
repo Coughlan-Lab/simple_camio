@@ -8,6 +8,7 @@ from cv2_enumerate_cameras import enumerate_cameras  # type: ignore
 from .camera_preview import CameraPreview
 from view.screen import Screen
 from res import Fonts
+from typing import Union
 
 
 class CameraSelector(Screen):
@@ -17,7 +18,7 @@ class CameraSelector(Screen):
     def back_screen(self):
         return gui.ScreenName.HomePage
 
-    def __init__(self, parent: tk.CTkFrame | tk.CTk):
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, parent, show_back=True)
 
         self.title = tk.CTkLabel(self, text="Select a camera:", height=44)

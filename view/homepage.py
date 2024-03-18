@@ -4,10 +4,11 @@ from tkinter.constants import CENTER
 import gui
 from view.screen import Screen
 from res import Fonts
+from typing import Union
 
 
 class HomePage(Screen):
-    def __init__(self, parent: tk.CTkFrame | tk.CTk):
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, parent)
 
         title = tk.CTkLabel(self, text="CamIO", height=44)

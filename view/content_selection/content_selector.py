@@ -2,6 +2,7 @@ from tkinter import E, HORIZONTAL, LEFT, TOP, W, X
 import customtkinter as tk
 from tkinter.constants import CENTER, S
 import tkinter.ttk as ttk
+from model.content_manager import Content
 from res.colors import Colors
 
 from view.screen import Screen
@@ -9,6 +10,7 @@ import gui
 
 from res import Fonts
 from model import ContentManager
+from typing import Union
 
 
 class ContentSelector(Screen):
@@ -16,7 +18,7 @@ class ContentSelector(Screen):
     def back_screen(self):
         return gui.ScreenName.HomePage
 
-    def __init__(self, parent: tk.CTkFrame | tk.CTk) -> None:
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, parent, show_back=True)
 
         title = tk.CTkLabel(self, text="Select a content:", height=44)
@@ -37,7 +39,7 @@ class ContentSelector(Screen):
         self.show_content()
         ContentHeader(self.__container)
 
-        self.content = list()
+        self.content: list[ContentRow] = list()
 
     def focus(self) -> None:
         ContentManager.reload()
@@ -140,8 +142,8 @@ class ContentRow(tk.CTkFrame):
         self.bind("<Leave>", self.on_leave)
 
     @property
-    def content_name(self):
-        return self.content.name
+    def content_name(self) -> str:
+        return self.content.full_name
 
     def bind(self, event, callback):
         self.name.bind(event, callback)

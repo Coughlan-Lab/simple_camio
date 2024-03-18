@@ -6,6 +6,7 @@ from view.screen import Screen
 from PIL import ImageTk, Image
 import gui
 import os
+from typing import Union
 
 
 class ContentDescription(Screen):
@@ -13,7 +14,7 @@ class ContentDescription(Screen):
     def back_screen(self):
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, parent: tk.CTkFrame | tk.CTk) -> None:
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, parent, show_back=True)
 
         self.name = tk.CTkLabel(self, text="")

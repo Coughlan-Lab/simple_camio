@@ -2,6 +2,7 @@
     "model":{
       "name":"UkraineMap Example",
       "filename":"models/UkraineMap/UkraineMap.png",
+      "map_description":"models/UkraineMap/Audio/Kyiv Description.mp3",
       "blipsound":"MP3/quick_blip.wav",
       "welcome_message":"MP3/welcome.mp3",
       "goodbye_message":"MP3/goodbye.mp3",

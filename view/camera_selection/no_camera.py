@@ -1,4 +1,4 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER
 from view.screen import Screen
 import gui
@@ -9,7 +9,7 @@ from typing import Union
 
 class NoCamera(Screen):
     @property
-    def back_screen(self):
+    def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.HomePage
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:

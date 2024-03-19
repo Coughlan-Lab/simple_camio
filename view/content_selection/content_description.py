@@ -1,4 +1,4 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter import Label, CENTER, SE, SW
 from model import Content
 from res import Colors, Fonts, ImgsManager
@@ -11,7 +11,7 @@ from typing import Union
 
 class ContentDescription(Screen):
     @property
-    def back_screen(self):
+    def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
@@ -22,16 +22,13 @@ class ContentDescription(Screen):
         self.name.configure(font=Fonts.title)
 
         self.description = tk.CTkLabel(self, justify=CENTER)
-        self.description.place(
-            relx=0.5, rely=0.19, relwidth=0.75, anchor=CENTER
-        )
+        self.description.place(relx=0.5, rely=0.19, relwidth=0.75, anchor=CENTER)
         self.description.configure(font=Fonts.subtitle)
 
         instructions = tk.CTkLabel(
-            self, text="Print a copy of the content and proceed", justify=CENTER)
-        instructions.place(
-            relx=0.5, rely=0.26, relwidth=0.6, anchor=CENTER
+            self, text="Print a copy of the content and proceed", justify=CENTER
         )
+        instructions.place(relx=0.5, rely=0.26, relwidth=0.6, anchor=CENTER)
         instructions.configure(font=Fonts.subtitle)
 
         self.proceed = tk.CTkButton(self, text="Proceed", height=50, width=120)
@@ -39,9 +36,7 @@ class ContentDescription(Screen):
         self.proceed.configure(font=Fonts.button)
         self.proceed.configure(command=self.on_proceed)
 
-        icon = tk.CTkImage(
-            light_image=Image.open(ImgsManager.printer), size=(25, 25)
-        )
+        icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
         self.print = tk.CTkButton(
             self,
             text="Content",
@@ -55,8 +50,7 @@ class ContentDescription(Screen):
 
         self.image_size = (250, 250)
         self.preview = Label(
-            self, text=None,
-            width=self.image_size[0], height=self.image_size[1]
+            self, text="", width=self.image_size[0], height=self.image_size[1]
         )
         self.preview.place(relx=0.5, rely=0.55, anchor=CENTER)
 
@@ -65,8 +59,10 @@ class ContentDescription(Screen):
             text="No preview found",
             font=Fonts.subtitle,
             background=Colors.background,
-            borderwidth=2, relief="solid",
-            width=20, height=10
+            borderwidth=2,
+            relief="solid",
+            width=20,
+            height=10,
         )
 
     def focus(self) -> None:
@@ -86,36 +82,31 @@ class ContentDescription(Screen):
         img = Image.open(preview)
         self.reshape_preview(img.size[0], img.size[1])
 
-        img = img.resize(
-            (self.image_size[0], self.image_size[1]), Image.LANCZOS
-        )
+        img = img.resize((self.image_size[0], self.image_size[1]), Image.LANCZOS)
         self.imgtk = ImageTk.PhotoImage(image=img)
 
         self.preview.configure(image=self.imgtk)
         self.preview.place(relx=0.5, rely=0.55, anchor=CENTER)
         self.preview_error.place_forget()
 
-    def reshape_preview(self, w, h):
+    def reshape_preview(self, w: int, h: int) -> None:
         if w > h:
-            self.image_size = (self.image_size[0], int(
-                h * self.image_size[0] / w))
+            self.image_size = (self.image_size[0], int(h * self.image_size[0] / w))
         else:  # h > w
-            self.image_size = (
-                int(w * self.image_size[1] / h), self.image_size[1])
+            self.image_size = (int(w * self.image_size[1] / h), self.image_size[1])
 
         self.preview.configure(
-            background="black",
-            width=self.image_size[0], height=self.image_size[1]
+            background="black", width=self.image_size[0], height=self.image_size[1]
         )
 
     @property
     def content(self) -> Content:
         return gui.get_gui().current_state.content
 
-    def print_content(self):
+    def print_content(self) -> None:
         os.startfile(self.content.to_print)
 
-    def on_proceed(self):
+    def on_proceed(self) -> None:
         gui_instance: gui.GUI = gui.get_gui()
 
         if gui_instance.current_state.content_tutorial_watched:

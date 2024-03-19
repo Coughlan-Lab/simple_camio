@@ -1,7 +1,7 @@
 from model import State
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter import CENTER, SE, SW
-from model.content_manager import ContentManager
+from model import ContentManager
 from res import Fonts, ImgsManager
 from view.screen import Screen
 from PIL import Image
@@ -12,7 +12,7 @@ from typing import Union
 
 class PointerSelector(Screen):
     @property
-    def back_screen(self) -> gui.ScreenName:
+    def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):

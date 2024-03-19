@@ -1,4 +1,4 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER
 
 import gui
@@ -29,7 +29,5 @@ class HomePage(Screen):
         start.place(relx=0.5, rely=0.6, anchor=CENTER)
         start.configure(font=Fonts.button)
         start.configure(
-            command=lambda: gui.get_gui().show_screen(
-                gui.ScreenName.ContentSelector
-            )
+            command=lambda: gui.get_gui().show_screen(gui.ScreenName.ContentSelector)
         )

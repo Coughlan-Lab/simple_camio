@@ -4,7 +4,7 @@ import json
 class Colors:
     COLORS_FILE = "res/colors.json"
 
-    def __init__(self):
+    def __init__(self) -> None:
         with open(Colors.COLORS_FILE, "r") as file:
             colors = json.load(file)
         self.background = colors["background"]
@@ -12,4 +12,4 @@ class Colors:
         self.transparent = "transparent"
 
 
-Colors = Colors()
+singleton: Colors = Colors()

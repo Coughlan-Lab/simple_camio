@@ -1,14 +1,15 @@
 import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER
 from PIL import Image
+from res import Colors, ImgsManager
+from typing import Optional, Union
 import gui
-from res import Colors
-from res.imgs.imgs_manager import ImgsManager
-from typing import Union
 
 
 class Screen(tk.CTkFrame):
-    back_screen: Union[gui.ScreenName, None] = None
+    @property
+    def back_screen(self) -> Optional["gui.ScreenName"]:
+        return None
 
     def __init__(
         self, parent: Union[tk.CTkFrame, tk.CTk], show_back: bool = False
@@ -18,7 +19,7 @@ class Screen(tk.CTkFrame):
 
         self.back_button = tk.CTkButton(
             self,
-            text=None,
+            text="",
             image=tk.CTkImage(
                 light_image=Image.open(ImgsManager.back_arrow), size=(25, 25)
             ),

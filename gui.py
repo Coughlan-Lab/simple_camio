@@ -1,11 +1,10 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from enum import Enum
 from tkinter import BOTH, TOP
 
 from view import *
-from view.screen import Screen
 from model import State
-from typing import Union
+from typing import Optional, Union
 
 
 class ScreenName(Enum):
@@ -22,8 +21,8 @@ class ScreenName(Enum):
 class GUI(tk.CTk):
     CONFIG_FILEPATH = "config.json"
 
-    def __init__(self, *args, **kwargs):
-        tk.CTk.__init__(self, *args, **kwargs)
+    def __init__(self) -> None:
+        tk.CTk.__init__(self)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         self.__state = State(GUI.CONFIG_FILEPATH)
 
@@ -41,21 +40,21 @@ class GUI(tk.CTk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
+        self.frames: dict[str, Screen] = dict()
 
         for page in ScreenName:
             frame = page.value(container)
             self.frames[page.name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.current_frame = None
+        self.current_frame: Optional[Screen] = None
         self.show_screen(ScreenName.HomePage)
 
     @property
     def current_state(self) -> State:
         return self.__state
 
-    def show_screen(self, screen: ScreenName):
+    def show_screen(self, screen: ScreenName) -> None:
         if screen.name not in self.frames:
             raise Exception(f"Unknown screen {screen}")
         if self.current_frame is not None:
@@ -64,7 +63,7 @@ class GUI(tk.CTk):
         self.current_frame.tkraise()
         self.current_frame.focus()
 
-    def start(self, screen) -> None:
+    def start(self, screen: Union[ScreenName, None]) -> None:
         if screen is not None:
             self.show_screen(screen)
         self.mainloop()
@@ -73,13 +72,13 @@ class GUI(tk.CTk):
         self.current_frame.unfocus()
         for frame in self.frames.values():
             frame.destroy()
-        return super().destroy()
+        super().destroy()
 
 
 gui: Union[GUI, None] = None
 
 
-def create_gui():
+def create_gui() -> GUI:
     global gui
     if gui is not None:
         raise Exception("Gui already started")
@@ -89,7 +88,7 @@ def create_gui():
 
 def get_gui() -> GUI:
     if gui is None:
-        create_gui()
+        return create_gui()
     return gui
 
 

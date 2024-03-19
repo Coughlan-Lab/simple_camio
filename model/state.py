@@ -21,25 +21,21 @@ class State:
         self.content: Content
         self.pointer: State.Pointer
 
-    def set_content_tutorial_watched(self):
+    def set_content_tutorial_watched(self) -> None:
         if not self.__content_tutorial_watched:
             self.__content_tutorial_watched = True
             self.__save_config()
 
-    def set_camera_tutorial_watched(self):
+    def set_camera_tutorial_watched(self) -> None:
         if not self.__camera_tutorial_watched:
             self.__camera_tutorial_watched = True
             self.__save_config()
 
-    content_tutorial_watched = property(
-        lambda self: self.__content_tutorial_watched
-    )
+    content_tutorial_watched = property(lambda self: self.__content_tutorial_watched)
 
-    camera_tutorial_watched = property(
-        lambda self: self.__camera_tutorial_watched
-    )
+    camera_tutorial_watched = property(lambda self: self.__camera_tutorial_watched)
 
-    def __read_config(self):
+    def __read_config(self) -> None:
         with open(self.config_filepath, "r") as f:
             config = json.load(f)
 
@@ -47,15 +43,14 @@ class State:
             return
         config = config["config"]
 
-        self.__content_tutorial_watched = config.get(
-            "content_tutorial_watched")
+        self.__content_tutorial_watched = config.get("content_tutorial_watched")
         self.__camera_tutorial_watched = config.get("camera_tutorial_watched")
 
-    def __save_config(self):
+    def __save_config(self) -> None:
         config = {
             "config": {
                 "content_tutorial_watched": self.__content_tutorial_watched,
-                "camera_tutorial_watched": self.__camera_tutorial_watched
+                "camera_tutorial_watched": self.__camera_tutorial_watched,
             }
         }
 

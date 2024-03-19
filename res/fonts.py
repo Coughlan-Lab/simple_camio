@@ -1,32 +1,38 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 import json
+from typing import TypedDict
+
+
+class FontJson(TypedDict):
+    family: str
+    size: int
 
 
 class Fonts:
     FONTS_FILE = "res/fonts.json"
 
-    def __init__(self):
+    def __init__(self) -> None:
         with open(Fonts.FONTS_FILE, "r") as file:
-            fonts = json.load(file)
+            fonts: dict[str, FontJson] = json.load(file)
 
         self.title_params = fonts["title"]
         self.subtitle_params = fonts["subtitle"]
         self.button_params = fonts["button"]
 
     @property
-    def title(self):
+    def title(self) -> tk.CTkFont:
         return self.__get_font(self.title_params)
 
     @property
-    def subtitle(self):
+    def subtitle(self) -> tk.CTkFont:
         return self.__get_font(self.subtitle_params)
 
     @property
-    def button(self):
+    def button(self) -> tk.CTkFont:
         return self.__get_font(self.button_params)
 
-    def __get_font(self, params):
+    def __get_font(self, params: FontJson) -> tk.CTkFont:
         return tk.CTkFont(family=params["family"], size=params["size"])
 
 
-Fonts = Fonts()
+singleton: Fonts = Fonts()

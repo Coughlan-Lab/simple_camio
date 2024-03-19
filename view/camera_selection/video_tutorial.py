@@ -2,7 +2,7 @@ from res import ImgsManager
 from res import VideosManager
 from view.screen import Screen
 import gui
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from res import Fonts
 from tkinter.constants import CENTER, SW, SE
 from PIL import Image
@@ -18,7 +18,7 @@ class CalibrationVideoTutorial(Screen):
     VIDEO_RES = (640, 360)
 
     @property
-    def back_screen(self):
+    def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
@@ -36,12 +36,11 @@ class CalibrationVideoTutorial(Screen):
         self.proceed.configure(font=Fonts.button)
         self.proceed.configure(
             command=lambda: gui.get_gui().show_screen(
-                gui.ScreenName.CalibrationVideoTutorial)
+                gui.ScreenName.CalibrationVideoTutorial
+            )
         )
 
-        icon = tk.CTkImage(
-            light_image=Image.open(ImgsManager.printer), size=(25, 25)
-        )
+        icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
         self.print = tk.CTkButton(
             self,
             text="Calibration map",
@@ -61,15 +60,15 @@ class CalibrationVideoTutorial(Screen):
         self.video.place(relx=0.5, rely=0.5, anchor=CENTER)
         self.video.configure(background="black")
 
-    def print_calibration_map(self):
+    def print_calibration_map(self) -> None:
         os.startfile(ContentManager.calibration_map)
 
-    def focus(self):
+    def focus(self) -> None:
         self.capture = cv2.VideoCapture(VideosManager.calibration_tutorial)
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
         # self.video_loop()
 
-    def video_loop(self):
+    def video_loop(self) -> None:
         ret, image = self.capture.read()
         print(ret, image)
         if not ret:
@@ -79,7 +78,7 @@ class CalibrationVideoTutorial(Screen):
             self.show_frame(image)
         self.video.after(33, self.video_loop)
 
-    def show_frame(self, frame):
+    def show_frame(self, frame: cv2.typing.MatLike) -> None:
         # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         img_resized = Image.fromarray(frame).resize(

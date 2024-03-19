@@ -1,4 +1,4 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER, S
 import gui
 
@@ -15,7 +15,7 @@ class CameraSelector(Screen):
     MAX_CAMERAS = 3
 
     @property
-    def back_screen(self):
+    def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.PointerSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
@@ -31,28 +31,28 @@ class CameraSelector(Screen):
             relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
         )
 
-        self.previews = list()
+        self.previews: list[CameraPreview] = list()
 
         for i in range(CameraSelector.MAX_CAMERAS):
             self.__container.grid_columnconfigure(i, weight=1)
         self.__container.grid_rowconfigure(0, weight=1)
         self.__container.grid_rowconfigure(1, weight=3)
 
-    def focus(self):
+    def focus(self) -> None:
         if len(self.previews) == 0:
             self.init_cameras()
 
         if len(self.previews) == 1:
-            self.previews[0].onClick()
+            self.previews[0].on_click()
 
         for preview in self.previews:
             preview.focus()
 
-    def unfocus(self):
+    def unfocus(self) -> None:
         for preview in self.previews:
             preview.unfocus()
 
-    def init_cameras(self):
+    def init_cameras(self) -> None:
         names = {preview.camera_name for preview in self.previews}
 
         for camera_info in enumerate_cameras(cv2.CAP_MSMF):
@@ -69,7 +69,7 @@ class CameraSelector(Screen):
         for i, preview in zip(self.__get_sorting(self.previews), self.previews):
             preview.grid(row=0, column=i, padx=5)
 
-    def __get_sorting(self, previews):
+    def __get_sorting(self, previews: list[CameraPreview]) -> tuple[int, ...]:
         previews.sort(key=lambda p: p.camera_name)
         if len(previews) == 0:
             return ()

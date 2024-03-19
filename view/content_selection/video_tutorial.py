@@ -1,20 +1,17 @@
 from tkinter import CENTER, S
 from view.screen import Screen
 import gui
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from res import Fonts, VideosManager
-from PIL import Image, ImageTk
-import cv2
-from tkinter import Label
-from tkVideoPlayer import TkinterVideo
-from typing import Union
+from tkVideoPlayer import TkinterVideo  # type: ignore
+from typing import Any, Union
 
 
 class ContentVideoTutorial(Screen):
     VIDEO_RES = (640, 360)
 
     @property
-    def back_screen(self):
+    def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
@@ -25,36 +22,31 @@ class ContentVideoTutorial(Screen):
             text="Watch the tutorial before proceeding",
             font=Fonts.subtitle,
             height=44,
-            compound="left"
+            compound="left",
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         proceed = tk.CTkButton(
-            self,
-            text="Proceed", font=Fonts.button,
-            height=50, width=120
+            self, text="Proceed", font=Fonts.button, height=50, width=120
         )
         proceed.place(relx=0.5, rely=0.9, anchor=S)
         proceed.configure(
-            command=lambda: gui.get_gui().show_screen(
-                gui.ScreenName.PointerSelector)
+            command=lambda: gui.get_gui().show_screen(gui.ScreenName.PointerSelector)
         )
 
         factor = 100
-        self.video = TkinterVideo(
-            self,
-            background="black"
-        )
+        self.video = TkinterVideo(self, background="black")
         self.video.set_size(ContentVideoTutorial.VIDEO_RES, keep_aspect=True)
         self.video.place(
-            relx=0.5, rely=0.5,
+            relx=0.5,
+            rely=0.5,
             width=ContentVideoTutorial.VIDEO_RES[0],
             height=ContentVideoTutorial.VIDEO_RES[1],
-            anchor=CENTER
+            anchor=CENTER,
         )
         self.video.bind("<<Ended>>", self.on_video_ended)
 
-    def focus(self):
+    def focus(self) -> None:
         self.video.load(VideosManager.content_tutorial)
         self.video.seek(0)
         self.video.play()
@@ -62,25 +54,5 @@ class ContentVideoTutorial(Screen):
     def unfocus(self) -> None:
         self.video.stop()
 
-    def on_video_ended(self, event):
+    def on_video_ended(self, event: Any) -> None:
         gui.get_gui().current_state.set_content_tutorial_watched()
-
-    def video_loop(self):
-        ret, image = self.capture.read()
-
-        if not ret:
-            print("No frame returned")
-            return
-        else:
-            self.show_frame(image)
-        self.video.after(33, self.video_loop)
-
-    def show_frame(self, frame):
-        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        img_resized = Image.fromarray(frame).resize(
-            ContentVideoTutorial.VIDEO_RES, Image.LANCZOS
-        )
-
-        self.imgtk = ImageTk.PhotoImage(image=img_resized)
-        self.video.configure(image=self.imgtk)

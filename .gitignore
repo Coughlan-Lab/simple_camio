@@ -1,5 +1,6 @@
 # Python cache
 __pycache__
+.mypy_cache
 
 # Build files
 build
@@ -18,3 +19,6 @@ simple_calibration
 
 *.spec
 .DS_STORE
+.vscode
+
+config.json

@@ -59,6 +59,10 @@ class ContentManager:
         return self.__calibration_map
 
     @property
+    def pointer_path(self) -> dict:
+        return self.__pointer
+
+    @property
     def pointer(self) -> dict:
         return self.load_json(self.__pointer)
 

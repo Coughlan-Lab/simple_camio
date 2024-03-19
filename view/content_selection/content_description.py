@@ -37,9 +37,7 @@ class ContentDescription(Screen):
         self.proceed = tk.CTkButton(self, text="Proceed", height=50, width=120)
         self.proceed.place(relx=0.7, rely=0.9, anchor=SE)
         self.proceed.configure(font=Fonts.button)
-        self.proceed.configure(
-            command=lambda: gui.get_gui().show_screen(gui.ScreenName.ContentVideoTutorial)
-        )
+        self.proceed.configure(command=self.on_proceed)
 
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.printer), size=(25, 25)
@@ -116,3 +114,12 @@ class ContentDescription(Screen):
 
     def print_content(self):
         os.startfile(self.content.to_print)
+
+    def on_proceed(self):
+        gui_instance: gui.GUI = gui.get_gui()
+
+        if gui_instance.current_state.content_tutorial_watched:
+            next_screen = gui.ScreenName.PointerSelector
+        else:
+            next_screen = gui.ScreenName.ContentVideoTutorial
+        gui_instance.show_screen(next_screen)

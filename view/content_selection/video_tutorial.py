@@ -37,7 +37,7 @@ class ContentVideoTutorial(Screen):
         proceed.place(relx=0.5, rely=0.9, anchor=S)
         proceed.configure(
             command=lambda: gui.get_gui().show_screen(
-                gui.ScreenName.ContentVideoTutorial)
+                gui.ScreenName.PointerSelector)
         )
 
         factor = 100
@@ -52,10 +52,18 @@ class ContentVideoTutorial(Screen):
             height=ContentVideoTutorial.VIDEO_RES[1],
             anchor=CENTER
         )
+        self.video.bind("<<Ended>>", self.on_video_ended)
 
     def focus(self):
         self.video.load(VideosManager.content_tutorial)
+        self.video.seek(0)
         self.video.play()
+
+    def unfocus(self) -> None:
+        self.video.stop()
+
+    def on_video_ended(self, event):
+        gui.get_gui().current_state.set_content_tutorial_watched()
 
     def video_loop(self):
         ret, image = self.capture.read()

@@ -26,7 +26,7 @@ class HomePage(Screen):
         description.configure(justify="center")
 
         start = tk.CTkButton(self, text="Start", height=50, width=120)
-        start.place(relx=0.5, rely=0.579, anchor=CENTER)
+        start.place(relx=0.5, rely=0.6, anchor=CENTER)
         start.configure(font=Fonts.button)
         start.configure(
             command=lambda: gui.get_gui().show_screen(

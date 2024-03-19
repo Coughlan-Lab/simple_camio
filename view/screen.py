@@ -1,4 +1,4 @@
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER
 from PIL import Image
 import gui
@@ -8,9 +8,11 @@ from typing import Union
 
 
 class Screen(tk.CTkFrame):
-    back_screen = None
+    back_screen: Union[gui.ScreenName, None] = None
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk], show_back=False) -> None:
+    def __init__(
+        self, parent: Union[tk.CTkFrame, tk.CTk], show_back: bool = False
+    ) -> None:
         tk.CTkFrame.__init__(self, parent)
         self.configure(fg_color=Colors.background)
 

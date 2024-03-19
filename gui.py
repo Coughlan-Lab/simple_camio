@@ -14,16 +14,18 @@ class ScreenName(Enum):
     ContentSelector = ContentSelector
     ContentDescription = ContentDescription
     ContentVideoTutorial = ContentVideoTutorial
+    PointerSelector = PointerSelector
     NoCamera = NoCamera
     CalibrationVideoTutorial = CalibrationVideoTutorial
 
 
 class GUI(tk.CTk):
+    CONFIG_FILEPATH = "config.json"
 
     def __init__(self, *args, **kwargs):
         tk.CTk.__init__(self, *args, **kwargs)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
-        self.__state = State()
+        self.__state = State(GUI.CONFIG_FILEPATH)
 
         self.title("CamIO")
         self.geometry("966x622+200+48")
@@ -50,7 +52,7 @@ class GUI(tk.CTk):
         self.show_screen(ScreenName.HomePage)
 
     @property
-    def current_state(self):
+    def current_state(self) -> State:
         return self.__state
 
     def show_screen(self, screen: ScreenName):
@@ -85,7 +87,7 @@ def create_gui():
     return gui
 
 
-def get_gui():
+def get_gui() -> GUI:
     if gui is None:
         create_gui()
     return gui

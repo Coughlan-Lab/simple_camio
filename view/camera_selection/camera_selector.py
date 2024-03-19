@@ -16,7 +16,7 @@ class CameraSelector(Screen):
 
     @property
     def back_screen(self):
-        return gui.ScreenName.HomePage
+        return gui.ScreenName.PointerSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, parent, show_back=True)

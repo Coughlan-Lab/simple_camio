@@ -90,12 +90,9 @@ class ContentManager:
             content_path = self.get_content_path(content_name)
             content_path = os.path.join(content_path, f"{content_name}.json")
             if os.path.exists(content_path):
-                model = self.load_json(content_path)["model"]
+                model = self.__load_json(content_path)["model"]
                 self.__content[model["name"]] = Content(content_name, model)
 
-        self.__calibration_map = os.path.join(
-            ContentManager.CONTENT_DIR, "calibration_map.jpg"
-        )
         self.__pointer = os.path.join(
             ContentManager.CONTENT_DIR, "teardrop_stylus.json"
         )
@@ -112,23 +109,11 @@ class ContentManager:
     def get_content_path(self, content: str) -> str:
         return os.path.join(ContentManager.CONTENT_DIR, content)
 
-    def load_json(self, path: str) -> Any:
+    def __load_json(self, path: str) -> Any:
         if os.path.exists(path) and path[-5:] == ".json":
             with open(path, "r") as file:
                 return json.load(file)
         return None
-
-    @property
-    def calibration_map(self) -> str:
-        return self.__calibration_map
-
-    @property
-    def pointer_path(self) -> str:
-        return self.__pointer
-
-    @property
-    def pointer(self) -> Any:
-        return self.load_json(self.__pointer)
 
 
 singleton: ContentManager = ContentManager()

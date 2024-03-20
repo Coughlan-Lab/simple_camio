@@ -1,8 +1,7 @@
 from model import State
 import customtkinter as tk  # type: ignore
 from tkinter import CENTER, SE, SW
-from model import ContentManager
-from res import Fonts, ImgsManager
+from res import Fonts, ImgsManager, DocsManager
 from view.screen import Screen
 from PIL import Image
 import gui
@@ -56,4 +55,4 @@ class PointerSelector(Screen):
         gui.get_gui().show_screen(gui.ScreenName.CameraSelector)
 
     def print_content(self) -> None:
-        os.startfile(ContentManager.pointer_path)
+        os.startfile(DocsManager.marker_pointer)

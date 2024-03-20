@@ -1,5 +1,4 @@
-from res import ImgsManager
-from res import VideosManager
+from res import ImgsManager, VideosManager, DocsManager
 from view.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
@@ -7,7 +6,6 @@ from res import Fonts
 from tkinter.constants import CENTER, SW, SE
 from PIL import Image
 import os
-from model import ContentManager
 from tkinter import Label
 import cv2
 from PIL import Image, ImageTk
@@ -61,7 +59,7 @@ class CalibrationVideoTutorial(Screen):
         self.video.configure(background="black")
 
     def print_calibration_map(self) -> None:
-        os.startfile(ContentManager.calibration_map)
+        os.startfile(DocsManager.calibration_map)
 
     def focus(self) -> None:
         self.capture = cv2.VideoCapture(VideosManager.calibration_tutorial)

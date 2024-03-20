@@ -1,5 +1,5 @@
 import customtkinter as tk  # type: ignore
-from tkinter import Label, CENTER, SE, SW
+from tkinter import DISABLED, NORMAL, Label, CENTER, SE, SW
 from model import Content
 from res import Colors, Fonts, ImgsManager
 from view.screen import Screen
@@ -77,6 +77,7 @@ class ContentDescription(Screen):
     def show_preview_error(self) -> None:
         self.preview_error.place(relx=0.5, rely=0.55, anchor=CENTER)
         self.preview.place_forget()
+        self.print.configure(state=DISABLED)
 
     def show_preview(self, preview: str) -> None:
         img = Image.open(preview)
@@ -88,6 +89,7 @@ class ContentDescription(Screen):
         self.preview.configure(image=self.imgtk)
         self.preview.place(relx=0.5, rely=0.55, anchor=CENTER)
         self.preview_error.place_forget()
+        self.print.configure(state=NORMAL)
 
     def reshape_preview(self, w: int, h: int) -> None:
         if w > h:

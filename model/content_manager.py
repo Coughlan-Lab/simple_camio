@@ -47,18 +47,16 @@ class Content:
             return Content.ModelType.THREE_D
         raise ValueError(f"Unknown model type {model_type}")
 
-    @property
     def is_2D(self) -> bool:
         return self.model_type == Content.ModelType.TWO_D
 
-    @property
     def is_3D(self) -> bool:
-        return not self.is_2D
+        return not self.is_2D()
 
     @property
     def to_print(self) -> str:
         path = os.path.join(singleton.get_content_path(self.__name), "toPrint.")
-        return path + ("pdf" if self.is_2D else "obj")
+        return path + ("pdf" if self.is_2D() else "obj")
 
     def get_path(self, file: str) -> str:
         return os.path.join(ContentManager.CONTENT_DIR, file)

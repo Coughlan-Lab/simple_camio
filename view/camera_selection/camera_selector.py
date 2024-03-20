@@ -42,7 +42,7 @@ class CameraSelector(Screen):
         if len(self.previews) == 0:
             self.init_cameras()
 
-        if len(self.previews) == 1:
+        if len(self.previews) == 1 and self.previews[0].running:
             self.previews[0].on_click()
 
         for preview in self.previews:

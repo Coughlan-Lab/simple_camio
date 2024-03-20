@@ -9,13 +9,13 @@ class State:
         FINGER = "finger"
         MARKER = "marker"
 
-    def __init__(self, config_filepath: str) -> None:
-        self.config_filepath = config_filepath
+    def __init__(self, config_folder: str) -> None:
+        self.config_folder = config_folder
 
         self.__content_tutorial_watched = False
-        self.__camera_tutorial_watched = False
+        self.__calibration_tutorial_watched = False
 
-        if os.path.exists(self.config_filepath):
+        if os.path.exists(self.config_file):
             self.__read_config()
 
         self.content: Content
@@ -26,17 +26,23 @@ class State:
             self.__content_tutorial_watched = True
             self.__save_config()
 
-    def set_camera_tutorial_watched(self) -> None:
-        if not self.__camera_tutorial_watched:
-            self.__camera_tutorial_watched = True
+    def set_calibration_tutorial_watched(self) -> None:
+        if not self.__calibration_tutorial_watched:
+            self.__calibration_tutorial_watched = True
             self.__save_config()
+
+    @property
+    def config_file(self) -> str:
+        return os.path.join(self.config_folder, "config.json")
 
     content_tutorial_watched = property(lambda self: self.__content_tutorial_watched)
 
-    camera_tutorial_watched = property(lambda self: self.__camera_tutorial_watched)
+    calibration_tutorial_watched = property(
+        lambda self: self.__calibration_tutorial_watched
+    )
 
     def __read_config(self) -> None:
-        with open(self.config_filepath, "r") as f:
+        with open(self.config_file, "r") as f:
             config = json.load(f)
 
         if "config" not in config:
@@ -44,15 +50,20 @@ class State:
         config = config["config"]
 
         self.__content_tutorial_watched = config.get("content_tutorial_watched")
-        self.__camera_tutorial_watched = config.get("camera_tutorial_watched")
+        self.__calibration_tutorial_watched = config.get("calibration_tutorial_watched")
 
     def __save_config(self) -> None:
         config = {
             "config": {
                 "content_tutorial_watched": self.__content_tutorial_watched,
-                "camera_tutorial_watched": self.__camera_tutorial_watched,
+                "calibration_tutorial_watched": self.__calibration_tutorial_watched,
             }
         }
 
-        with open(self.config_filepath, "w") as f:
+        with open(self.config_folder, "w") as f:
             json.dump(config, f)
+
+    def is_calibrated(self, camera: str) -> bool:
+        return os.path.exists(
+            os.path.join(self.config_folder, f"{camera}_calibration.json")
+        )

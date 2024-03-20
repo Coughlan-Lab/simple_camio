@@ -27,7 +27,7 @@ class PointerSelector(Screen):
             font=Fonts.subtitle,
             justify=CENTER,
         )
-        description.place(relx=0.5, rely=0.19, relwidth=0.75, anchor=CENTER)
+        description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
 
         finger_frame = tk.CTkFrame(self, fg_color="#3B8ED0", corner_radius=6)
         finger = tk.CTkButton(

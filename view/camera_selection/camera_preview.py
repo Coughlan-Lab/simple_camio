@@ -64,6 +64,7 @@ class CameraPreview:
             relief="solid",
         )
         self.button.configure(state=DISABLED)
+        self.__release_camera()
 
     def show_image(self, img: cv2.typing.MatLike) -> None:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -91,8 +92,23 @@ class CameraPreview:
     def unfocus(self) -> None:
         if not self.running:
             return
+        self.__release_camera()
+
+    def __release_camera(self) -> None:
         self.capture.release()
         self.capture = None
 
     def on_click(self) -> None:
-        gui.get_gui().show_screen(gui.ScreenName.ContentSelector)
+        g = gui.get_gui()
+        state = g.current_state
+
+        if state.pointer == state.Pointer.FINGER and state.content.is_2D():
+            next_screen = gui.ScreenName.CamIO
+        elif state.is_calibrated(self.camera_name):
+            next_screen = gui.ScreenName.CamIO
+        elif state.calibration_tutorial_watched:
+            next_screen = gui.ScreenName.Calibration
+        else:
+            next_screen = gui.ScreenName.CalibrationVideoTutorial
+
+        g.show_screen(next_screen)

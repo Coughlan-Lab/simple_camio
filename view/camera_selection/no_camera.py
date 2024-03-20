@@ -10,28 +10,32 @@ from typing import Union
 class NoCamera(Screen):
     @property
     def back_screen(self) -> "gui.ScreenName":
-        return gui.ScreenName.HomePage
+        return gui.ScreenName.CameraSelector
 
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, parent, show_back=True)
 
-        self.title = tk.CTkLabel(self, text="No camera found", height=44)
-        self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        self.title.configure(compound="left")
-        self.title.configure(font=Fonts.title)
+        title = tk.CTkLabel(
+            self, text="No camera found", height=44, font=Fonts.title, compound="left"
+        )
+        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
-        self.description = tk.CTkLabel(self, text="Connect one via USB")
-        self.description.place(
+        description = tk.CTkLabel(
+            self,
+            text="Connect one via USB",
+            font=Fonts.subtitle,
+            justify=CENTER,
+            padx=1,
+            pady=1,
+        )
+        description.place(
             relx=0.5, rely=0.289, relheight=0.16, relwidth=0.6, anchor=CENTER
         )
-        self.description.configure(font=Fonts.subtitle)
-        self.description.configure(justify="center")
-        self.description.configure(padx="1")
-        self.description.configure(pady="1")
 
-        self.retry = tk.CTkButton(self, text="Retry", height=50, width=120)
-        self.retry.place(relx=0.5, rely=0.579, anchor=CENTER)
-        self.retry.configure(font=Fonts.button)
-        self.retry.configure(
+        retry = tk.CTkButton(
+            self, text="Retry", height=50, width=120, font=Fonts.button
+        )
+        retry.place(relx=0.5, rely=0.579, anchor=CENTER)
+        retry.configure(
             command=lambda: gui.get_gui().show_screen(gui.ScreenName.CameraSelector)
         )

@@ -16,15 +16,17 @@ class ScreenName(Enum):
     PointerSelector = PointerSelector
     NoCamera = NoCamera
     CalibrationVideoTutorial = CalibrationVideoTutorial
+    Calibration = Calibration
+    CamIO = CamIO
 
 
 class GUI(tk.CTk):
-    CONFIG_FILEPATH = "config.json"
+    CONFIG_FOLDER = "config"
 
     def __init__(self) -> None:
         tk.CTk.__init__(self)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
-        self.__state = State(GUI.CONFIG_FILEPATH)
+        self.__state = State(GUI.CONFIG_FOLDER)
 
         self.title("CamIO")
         self.geometry("966x622+200+48")

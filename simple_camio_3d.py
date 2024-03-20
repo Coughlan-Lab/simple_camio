@@ -86,7 +86,7 @@ class InteractionPolicyOBJ:
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
         self.intrinsic_matrix = intrinsic_matrix
-        self.map_obj = OBJ(model["model_file"], model.get("excluded_regions",[]), swapyz=True)
+        self.map_obj = OBJ(model["model_file"], model.get("excluded_regions",[]), swapyz=model.get("swapyz",True))
         R = np.array(model["model_rotation"], dtype=np.float32)
         T = np.array(model["model_translation"], dtype=np.float32)
         offset = np.array(model["model_offset"], dtype=np.float32)

@@ -307,6 +307,17 @@ elif model["modelType"] == "3D":
     camio_player.play_welcome()
     crickets_player = AmbientSoundPlayer(model['crickets'])
     heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+elif model["modelType"] == "aruco_3d":
+    model_detector = ModelDetectorAruco(model, intrinsic_matrix)
+    pose_detector = PoseDetector(model, intrinsic_matrix)
+    gesture_detector = GestureDetector()
+    motion_filter = MovementMedianFilter()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicyOBJ(model, intrinsic_matrix)
+    camio_player = CamIOPlayerOBJ(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
 elif model["modelType"] == "mediapipe":
     model_detector = ModelDetectorArucoMP(model)
     pose_detector = PoseDetectorMP(model)

@@ -9,6 +9,7 @@ class Colors:
             colors = json.load(file)
         self.background = colors["background"]
         self.hover = colors["hover"]
+        self.button = colors["button"]
         self.transparent = "transparent"
 
 

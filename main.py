@@ -10,7 +10,7 @@ if __name__ == "__main__":
     try:
         gui.start(screen)
     except KeyboardInterrupt as e:
-        pass
+        sys.exit(0)
     except Exception as e:
         print(e)
         gui.destroy()

@@ -1,4 +1,5 @@
 {
     "background": "white",
-    "hover": "#f8f4f4"
+    "hover": "#f8f4f4",
+    "button": "#3B8ED0"
 }

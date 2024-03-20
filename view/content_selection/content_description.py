@@ -18,11 +18,11 @@ class ContentDescription(Screen):
         Screen.__init__(self, parent, show_back=True)
 
         self.name = tk.CTkLabel(self, text="")
-        self.name.place(relx=0.5, rely=0.12, relwidth=1, anchor=CENTER)
+        self.name.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
         self.name.configure(font=Fonts.title)
 
         self.description = tk.CTkLabel(self, justify=CENTER)
-        self.description.place(relx=0.5, rely=0.19, relwidth=0.75, anchor=CENTER)
+        self.description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
         self.description.configure(font=Fonts.subtitle)
 
         instructions = tk.CTkLabel(

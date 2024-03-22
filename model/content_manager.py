@@ -67,7 +67,6 @@ class ContentManager:
 
     def __init__(self) -> None:
         self.__content: dict[str, Content] = dict()
-        self.__calibration_map: str
         self.__pointer: str
 
         self.reload()

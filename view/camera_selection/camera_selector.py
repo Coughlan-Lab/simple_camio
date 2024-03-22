@@ -8,7 +8,7 @@ from cv2_enumerate_cameras import enumerate_cameras  # type: ignore
 from .camera_preview import CameraPreview
 from view.screen import Screen
 from res import Fonts
-from typing import Union
+from typing import List, Tuple, Union
 
 
 class CameraSelector(Screen):
@@ -69,7 +69,7 @@ class CameraSelector(Screen):
         for i, preview in zip(self.__get_sorting(self.previews), self.previews):
             preview.grid(row=0, column=i, padx=5)
 
-    def __get_sorting(self, previews: list[CameraPreview]) -> tuple[int, ...]:
+    def __get_sorting(self, previews: List[CameraPreview]) -> Tuple[int, ...]:
         previews.sort(key=lambda p: p.camera_name)
         if len(previews) == 0:
             return ()

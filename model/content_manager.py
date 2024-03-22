@@ -1,7 +1,7 @@
 from enum import Enum
 import os
 import json
-from typing import Any, Union
+from typing import Any, Dict, List, Union
 
 
 class Content:
@@ -9,7 +9,7 @@ class Content:
         TWO_D = "2D"
         THREE_D = "3D"
 
-    def __init__(self, name: str, content: dict[str, Any]) -> None:
+    def __init__(self, name: str, content: Dict[str, Any]) -> None:
         self.__name = name
         self.__content = content
 
@@ -96,7 +96,7 @@ class ContentManager:
         )
 
     @property
-    def content(self) -> list[str]:
+    def content(self) -> List[str]:
         return sorted(self.__content.keys())
 
     def get_content_data(self, content: str) -> Content:

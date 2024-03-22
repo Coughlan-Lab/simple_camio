@@ -22,6 +22,7 @@ class State:
 
         self.content: Content
         self.pointer: State.Pointer
+        self.camera_index: int
 
     def set_content_tutorial_watched(self) -> None:
         if not self.__content_tutorial_watched:

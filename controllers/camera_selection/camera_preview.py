@@ -28,6 +28,10 @@ class CameraPreview:
         self.button.grid(row=row, column=column, **kwargs)
         self.preview.grid(row=row + 1, column=column, pady=5, **kwargs)
 
+    @property
+    def running(self) -> bool:
+        return self.camera.running
+
     def focus(self) -> None:
         self.camera.start(self.camera_index)
 

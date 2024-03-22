@@ -62,7 +62,7 @@ class State:
             }
         }
 
-        with open(self.config_folder, "w") as f:
+        with open(self.config_file, "w") as f:
             json.dump(config, f)
 
     def is_calibrated(self, camera: str) -> bool:

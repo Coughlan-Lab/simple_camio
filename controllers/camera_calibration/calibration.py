@@ -51,7 +51,7 @@ class Calibration(Screen):
         self.preview = Webcam(self, (500, 320))
         self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
         self.preview.set_on_error_listener(self.on_error)
-        self.preview.set_frame_handler(self.on_image)
+        self.preview.set_frame_handler(self.on_frame)
 
         self.template = cv2.imread(ImgsManager.template, cv2.IMREAD_COLOR)
 
@@ -68,5 +68,5 @@ class Calibration(Screen):
     def print_calibration_map(self) -> None:
         os.startfile(DocsManager.calibration_map)
 
-    def on_image(self, img: np.ndarray) -> np.ndarray:
+    def on_frame(self, img: np.ndarray) -> np.ndarray:
         return img

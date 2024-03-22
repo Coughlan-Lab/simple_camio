@@ -53,7 +53,7 @@ class Webcam(Label):
         if not ret:
             self.__on_error()
         else:
-            self.__on_image(image)
+            self.__on_frame(image)
             self.after(33, self.__camera_loop)
 
     def __on_error(self) -> None:
@@ -69,7 +69,7 @@ class Webcam(Label):
         if self.on_error_listener is not None:
             self.on_error_listener()
 
-    def __on_image(self, img: np.ndarray) -> None:
+    def __on_frame(self, img: np.ndarray) -> None:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         if self.frame_handler is not None:
             img = self.frame_handler(img)

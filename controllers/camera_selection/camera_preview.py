@@ -2,13 +2,12 @@ import customtkinter as tk  # type: ignore
 from tkinter import DISABLED
 
 from cv2_enumerate_cameras import CameraInfo  # type: ignore
-from res import Colors
 import gui
 
 from res import Fonts
 from typing import Any, Union
 
-from ..components import Webcam
+from ..components import Camera, FrameViewer
 
 
 class CameraPreview:
@@ -20,21 +19,24 @@ class CameraPreview:
         self.button.configure(font=Fonts.button)
         self.button.configure(command=self.on_click)
 
-        self.preview = Webcam(parent, (250, 250))
-        self.preview.set_on_error_listener(self.show_error)
+        self.camera = Camera(parent)
+        self.camera.set_on_error_listener(self.show_error)
+        self.preview = FrameViewer(parent, (250, 250))
+        self.camera.set_frame_listener(self.preview.show_frame)
 
     def grid(self, row: int, column: int, **kwargs: Any) -> None:
         self.button.grid(row=row, column=column, **kwargs)
         self.preview.grid(row=row + 1, column=column, pady=5, **kwargs)
 
     def focus(self) -> None:
-        self.preview.start(self.camera_index)
+        self.camera.start(self.camera_index)
 
     def show_error(self) -> None:
         self.button.configure(state=DISABLED)
+        self.preview.show_error()
 
     def unfocus(self) -> None:
-        self.preview.stop()
+        self.camera.stop()
 
     def on_click(self) -> None:
         g = gui.get_gui()

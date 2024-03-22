@@ -1,5 +1,5 @@
 from tkinter import CENTER, DISABLED, SE, SW
-from controllers.components.webcam import Webcam
+from ..components import Camera, FrameViewer
 from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
@@ -48,25 +48,28 @@ class Calibration(Screen):
         print.place(relx=0.3, rely=0.9, anchor=SW)
         print.configure(command=self.print_calibration_map)
 
-        self.preview = Webcam(self, (500, 320))
+        self.camera = Camera(self)
+        self.camera.set_on_error_listener(self.on_error)
+        self.camera.set_frame_listener(self.on_frame)
+
+        self.preview = FrameViewer(self, (500, 320))
         self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
-        self.preview.set_on_error_listener(self.on_error)
-        self.preview.set_frame_handler(self.on_frame)
 
         self.template = cv2.imread(ImgsManager.template, cv2.IMREAD_COLOR)
 
     def focus(self) -> None:
-        camera = gui.get_gui().current_state.camera_index
-        self.preview.start(camera)
+        camera_index = gui.get_gui().current_state.camera_index
+        self.camera.start(camera_index)
 
     def on_error(self) -> None:
         self.confirm.configure(state=DISABLED)
+        self.preview.show_error()
 
     def unfocus(self) -> None:
-        self.preview.stop()
+        self.camera.stop()
 
     def print_calibration_map(self) -> None:
         os.startfile(DocsManager.calibration_map)
 
-    def on_frame(self, img: np.ndarray) -> np.ndarray:
-        return img
+    def on_frame(self, img: np.ndarray) -> None:
+        self.preview.show_frame(img)

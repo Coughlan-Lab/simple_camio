@@ -6,9 +6,10 @@
       "goodbye_message":"MP3/goodbye.mp3",
       "heartbeat": "MP3/white_noise.mp3",
       "crickets": "MP3/crickets.mp3",
+      "map_description": "models/house_3d/Audio/Map_Description.mp3",
       "pixels_per_cm": 118.49,
       "stylus_file": "teardrop_stylus.json",
-      "modelType": "aruco_3d",
+      "modelType": "mediapipe_3d_object",
       "positioningData":{
         "arucoType": "DICT_4X4_50",
         "arucoCodes":[

@@ -10,7 +10,7 @@ from collections import deque
 from simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
 from simple_camio_2d import InteractionPolicy2D, CamIOPlayer2D, ModelDetectorAruco, parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
 from simple_camio_mp import ModelDetectorArucoMP, PoseDetectorMP
-from simple_camio_mp_3d import PoseDetectorMP3D
+from simple_camio_mp_3d import PoseDetectorMP3D, InteractionPolicyOBJObject
 
 
 # The PoseDetector class determines the pose of the pointer, and returns the
@@ -338,6 +338,17 @@ elif model["modelType"] == "mediapipe_3d":
     camio_player.play_welcome()
     crickets_player = AmbientSoundPlayer(model['crickets'])
     heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
+elif model["modelType"] == "mediapipe_3d_object":
+    model_detector = ModelDetectorAruco(model, intrinsic_matrix)
+    pose_detector = PoseDetectorMP3D()
+    gesture_detector = GestureDetector()
+    motion_filter = MovementMedianFilter()
+    image_annotator = ImageAnnotator(intrinsic_matrix)
+    interact = InteractionPolicyOBJObject(model, intrinsic_matrix)
+    camio_player = CamIOPlayerOBJ(model)
+    camio_player.play_welcome()
+    crickets_player = AmbientSoundPlayer(model['crickets'])
+    heartbeat_player = AmbientSoundPlayer(model['heartbeat'])
 heartbeat_player.set_volume(.05)
 cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
@@ -403,7 +414,7 @@ while cap.isOpened():
             continue
 
         heartbeat_player.play_sound()
-    elif model["modelType"] == "mediapipe_3d":
+    elif model["modelType"] == "mediapipe_3d" or model['modelType'] == "mediapipe_3d_object":
         interact.project_vertices(rvec, tvec)
         gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame)
         img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
@@ -429,12 +440,11 @@ while cap.isOpened():
         gesture_loc, gesture_status = gesture_detector.push_position(point_of_interest)
 
     if gesture_status != "moving":
-        if model['modelType'] == "mediapipe_3d":
+        if model['modelType'] == "mediapipe_3d" or model['modelType'] == "mediapipe_3d_object":
             img_scene_color = image_annotator.draw_point_in_image(img_scene_color, gesture_loc)
         elif model['modelType'] != "mediapipe":
             img_scene_color = image_annotator.draw_points_in_image(img_scene_color, gesture_loc, rvec, tvec)
 
-    # Determine zone from point of interest
     # Determine zone from point of interest
     zone_id = interact.push_gesture(gesture_loc)
 

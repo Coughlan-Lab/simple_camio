@@ -1,6 +1,8 @@
 import numpy as np
 import cv2 as cv
 import mediapipe as mp
+from scipy import stats
+from simple_camio_3d import OBJ, find_closest_point
 
 class PoseDetectorMP3D:
     def __init__(self):
@@ -78,3 +80,47 @@ class PoseDetectorMP3D:
         c = np.linalg.norm(coors[2, :] - coors[3, :])
 
         return d / (a + b + c)
+
+class InteractionPolicyOBJObject:
+    def __init__(self, model, intrinsic_matrix):
+        self.model = model
+        self.ZONE_FILTER_SIZE = 5
+        self.D_SET_THRESHOLD = 1
+        self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
+        self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
+        self.zone_filter_cnt = 0
+        self.intrinsic_matrix = intrinsic_matrix
+        self.map_obj = OBJ(model["model_file"], model.get("excluded_regions",[]), swapyz=model.get("swapyz",True))
+        R = np.array(model["model_rotation"], dtype=np.float32)
+        T = np.array(model["model_translation"], dtype=np.float32)
+        offset = np.array(model["model_offset"], dtype=np.float32)
+        vertices = np.array(self.map_obj.vertices, dtype=np.float32).transpose()
+        vertsmult = np.matmul(R, vertices) + T - offset
+        self.vertices_3d = vertsmult.transpose()
+        self.mid_point = np.mean(self.vertices_3d, axis=0)
+
+    def project_vertices(self, R, T):
+        vertices, _ = cv.projectPoints(self.vertices_3d, R, T, self.intrinsic_matrix, None)
+        self.vertices = np.squeeze(vertices)
+        self.D_SET_THRESHOLD = 10
+        self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
+        R_mat, _ = cv.Rodrigues(R)
+        R_inv = np.linalg.inv(R_mat)
+        self.T = np.matmul(R_inv,-T).transpose()
+
+    def push_gesture(self, position):
+        # First determine which points are on the right side of the object
+        is_visible = np.linalg.norm(self.mid_point-self.T) > np.linalg.norm(self.vertices_3d-self.T,axis=1)
+        idx = np.linspace(0,len(is_visible),len(is_visible),endpoint=False,dtype=int)[is_visible]
+        min_idx, dist = find_closest_point(position, self.vertices[is_visible,:])
+        self.zone_filter[self.zone_filter_cnt] = self.map_obj.vertex_reg_id[idx[min_idx]]
+        self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
+        zone = stats.mode(self.zone_filter).mode
+        if isinstance(zone, np.ndarray):
+            zone = zone[0]
+        if dist < self.D_THRESHOLD:
+            self.D_THRESHOLD = 3.0 * self.D_SET_THRESHOLD
+            return self.map_obj.Region_names[zone]
+        else:
+            self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
+            return -1

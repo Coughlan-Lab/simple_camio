@@ -1,6 +1,6 @@
 import customtkinter as tk
 from tkinter import Label
-from view.screen import Screen
+from controllers.screen import Screen
 from PIL import Image, ImageTk
 from typing import Callable, Optional, Tuple, Union
 import cv2

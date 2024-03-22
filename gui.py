@@ -2,7 +2,7 @@ import customtkinter as tk  # type: ignore
 from enum import Enum
 from tkinter import BOTH, TOP
 
-from view import *
+from controllers import *
 from model import State
 from typing import Optional, Union
 

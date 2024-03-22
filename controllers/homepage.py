@@ -2,7 +2,7 @@ import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER
 
 import gui
-from view.screen import Screen
+from controllers.screen import Screen
 from res import Fonts
 from typing import Union
 

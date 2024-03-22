@@ -4,7 +4,7 @@ from tkinter.constants import CENTER, S
 import tkinter.ttk as ttk
 from res import Colors
 
-from view.screen import Screen
+from controllers.screen import Screen
 import gui
 
 from res import Fonts

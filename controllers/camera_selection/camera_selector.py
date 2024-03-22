@@ -6,7 +6,7 @@ import cv2
 from cv2_enumerate_cameras import enumerate_cameras  # type: ignore
 
 from .camera_preview import CameraPreview
-from view.screen import Screen
+from controllers.screen import Screen
 from res import Fonts
 from typing import List, Tuple, Union
 

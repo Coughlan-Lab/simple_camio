@@ -1,4 +1,4 @@
-from view.screen import Screen
+from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
 from typing import Union

@@ -2,7 +2,7 @@ import customtkinter as tk  # type: ignore
 from tkinter import DISABLED, NORMAL, Label, CENTER, SE, SW
 from model import Content
 from res import Colors, Fonts, ImgsManager
-from view.screen import Screen
+from controllers.screen import Screen
 from PIL import ImageTk, Image
 import gui
 import os

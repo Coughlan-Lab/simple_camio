@@ -3,7 +3,7 @@ from model import State
 import customtkinter as tk  # type: ignore
 from tkinter import CENTER, LEFT, RIGHT, SE, SW, Y
 from res import Fonts, Colors, ImgsManager, DocsManager
-from view.screen import Screen
+from controllers.screen import Screen
 from PIL import Image
 import gui
 import os

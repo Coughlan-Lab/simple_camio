@@ -1,6 +1,6 @@
 import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER
-from view.screen import Screen
+from controllers.screen import Screen
 import gui
 
 from res import Fonts

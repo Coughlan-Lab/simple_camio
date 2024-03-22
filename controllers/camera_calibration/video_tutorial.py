@@ -1,5 +1,5 @@
 from tkinter import CENTER, S, SE, SW
-from view.screen import Screen
+from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
 from res import *

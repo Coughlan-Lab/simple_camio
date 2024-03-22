@@ -1,6 +1,6 @@
 from tkinter import CENTER, DISABLED, SE, SW
-from view.components.webcam import Webcam
-from view.screen import Screen
+from controllers.components.webcam import Webcam
+from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
 from typing import Union

@@ -1,5 +1,6 @@
 import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER, S
+from ..components import LoadingSpinner
 import gui
 
 import cv2
@@ -10,6 +11,8 @@ from controllers.screen import Screen
 from res import Fonts
 from typing import List, Tuple, Union
 
+import threading
+
 
 class CameraSelector(Screen):
     MAX_CAMERAS = 3
@@ -19,10 +22,9 @@ class CameraSelector(Screen):
 
         self.title = tk.CTkLabel(self, text="Select a camera:", height=44)
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        self.title.configure(compound="left")
         self.title.configure(font=Fonts.title)
 
-        self.__container = Screen(self, self)
+        self.__container = Screen(self.gui, self)
         self.__container.place(
             relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
         )
@@ -34,19 +36,40 @@ class CameraSelector(Screen):
         self.__container.grid_rowconfigure(0, weight=1)
         self.__container.grid_rowconfigure(1, weight=3)
 
+        self.loading = LoadingSpinner(self)
+
     def focus(self) -> None:
+        self.show_loading()
+        threading.Thread(target=self.__load_cameras).start()
+
+    def show_loading(self) -> None:
+        self.loading.show()
+        self.loading.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+    def hide_loading(self) -> None:
+        self.loading.hide()
+        self.loading.place_forget()
+
+    def __load_cameras(self) -> None:
         if len(self.previews) == 0:
             self.init_cameras()
 
         if len(self.previews) == 1 and self.previews[0].running:
             self.previews[0].on_click()
-
+        
         for preview in self.previews:
-            preview.focus()
+            preview.start()
+        
+        for i, preview in zip(self.__get_sorting(self.previews), self.previews):
+            preview.grid(row=0, column=i, padx=5)
+
+        self.hide_loading()
 
     def unfocus(self) -> None:
         for preview in self.previews:
-            preview.unfocus()
+            preview.stop()
+            preview.grid_forget()
+        self.loading.hide()
 
     def init_cameras(self) -> None:
         names = {preview.camera_name for preview in self.previews}
@@ -61,9 +84,6 @@ class CameraSelector(Screen):
 
         if len(self.previews) == 0:
             self.gui.show_screen(gui.ScreenName.NoCamera)
-
-        for i, preview in zip(self.__get_sorting(self.previews), self.previews):
-            preview.grid(row=0, column=i, padx=5)
 
     def __get_sorting(self, previews: List[CameraPreview]) -> Tuple[int, ...]:
         previews.sort(key=lambda p: p.camera_name)

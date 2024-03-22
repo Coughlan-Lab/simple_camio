@@ -26,26 +26,30 @@ class CameraPreview:
         self.button.configure(command=self.on_click)
 
         self.camera = Camera(parent)
-        self.camera.set_on_error_listener(self.show_error)
         self.preview = FrameViewer(parent, (250, 250))
+        self.camera.set_on_error_listener(self.show_error)
         self.camera.set_frame_listener(self.preview.show_frame)
 
     def grid(self, row: int, column: int, **kwargs: Any) -> None:
         self.button.grid(row=row, column=column, **kwargs)
         self.preview.grid(row=row + 1, column=column, pady=5, **kwargs)
+    
+    def grid_forget(self) -> None:
+        self.button.grid_forget()
+        self.preview.grid_forget()
 
     @property
     def running(self) -> bool:
         return self.camera.running
 
-    def focus(self) -> None:
+    def start(self) -> None:
         self.camera.start(self.camera_index)
 
     def show_error(self) -> None:
         self.button.configure(state=DISABLED)
         self.preview.show_error()
 
-    def unfocus(self) -> None:
+    def stop(self) -> None:
         self.camera.stop()
 
     def on_click(self) -> None:

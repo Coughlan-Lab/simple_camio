@@ -17,9 +17,7 @@ class FrameViewer(Label):
         self.frame_size = frame_size
 
         self.configure(
-            width=self.frame_size[0],
-            height=self.frame_size[1],
-            background="black",
+            width=self.frame_size[0], height=self.frame_size[1], background="black"
         )
 
         self.imgtk: Optional[ImageTk.PhotoImage] = None

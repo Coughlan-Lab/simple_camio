@@ -37,7 +37,7 @@ class GUI(tk.CTk):
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
-        container = Screen(self)
+        container = Screen(self, self)
         container.pack(side=TOP, fill=BOTH, expand=True)
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
@@ -45,7 +45,7 @@ class GUI(tk.CTk):
         self.frames: dict[str, Screen] = dict()
 
         for page in ScreenName:
-            frame = page.value(container)
+            frame = page.value(self, container)
             self.frames[page.name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 

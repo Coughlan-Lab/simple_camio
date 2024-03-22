@@ -15,8 +15,8 @@ class PointerSelector(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+        Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(self, text="Choose a pointer:", font=Fonts.title)
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
@@ -57,14 +57,13 @@ class PointerSelector(Screen):
         print_marker = tk.CTkButton(
             marker_frame, text="", image=icon, anchor=CENTER, width=15, height=42
         )
-        # print_marker.pack(after=marker, side=RIGHT, padx=(0, 0))
         print_marker.configure(command=self.print_marker)
         print_marker.pack(side=LEFT, padx=4, pady=4)
         marker_frame.place(relx=0.7, rely=0.6, anchor=SE)
 
     def on_select(self, pointer: State.Pointer) -> None:
-        gui.get_gui().current_state.pointer = pointer
-        gui.get_gui().show_screen(gui.ScreenName.CameraSelector)
+        self.gui.current_state.pointer = pointer
+        self.gui.show_screen(gui.ScreenName.CameraSelector)
 
     def print_marker(self) -> None:
         os.startfile(DocsManager.marker_pointer)

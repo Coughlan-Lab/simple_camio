@@ -18,15 +18,15 @@ class CameraSelector(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.PointerSelector
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+        Screen.__init__(self, gui, parent, show_back=True)
 
         self.title = tk.CTkLabel(self, text="Select a camera:", height=44)
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
         self.title.configure(compound="left")
         self.title.configure(font=Fonts.title)
 
-        self.__container = Screen(self)
+        self.__container = Screen(self, self)
         self.__container.place(
             relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
         )
@@ -60,11 +60,11 @@ class CameraSelector(Screen):
                 break
             if camera_info.name in names:
                 continue
-            preview = CameraPreview(self.__container, camera_info)
+            preview = CameraPreview(self.gui, self.__container, camera_info)
             self.previews.append(preview)
 
         if len(self.previews) == 0:
-            gui.get_gui().show_screen(gui.ScreenName.NoCamera)
+            self.gui.show_screen(gui.ScreenName.NoCamera)
 
         for i, preview in zip(self.__get_sorting(self.previews), self.previews):
             preview.grid(row=0, column=i, padx=5)

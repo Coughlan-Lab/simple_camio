@@ -14,8 +14,8 @@ class ContentDescription(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
+        Screen.__init__(self, gui, parent, show_back=True)
 
         self.name = tk.CTkLabel(self, text="")
         self.name.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
@@ -103,16 +103,14 @@ class ContentDescription(Screen):
 
     @property
     def content(self) -> Content:
-        return gui.get_gui().current_state.content
+        return self.gui.current_state.content
 
     def print_content(self) -> None:
         os.startfile(self.content.to_print)
 
     def on_proceed(self) -> None:
-        gui_instance: gui.GUI = gui.get_gui()
-
-        if gui_instance.current_state.content_tutorial_watched:
+        if self.gui.current_state.content_tutorial_watched:
             next_screen = gui.ScreenName.PointerSelector
         else:
             next_screen = gui.ScreenName.ContentVideoTutorial
-        gui_instance.show_screen(next_screen)
+        self.gui.show_screen(next_screen)

@@ -17,8 +17,8 @@ class ContentSelector(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.HomePage
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
+        Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(self, text="Select a content:", height=44)
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
@@ -56,7 +56,7 @@ class ContentSelector(Screen):
         for content in ContentManager.content:
             if content in names:
                 continue
-            row = ContentRow(self.__container, content)
+            row = ContentRow(self.gui, self.__container, content)
             self.content.append(row)
 
         if len(self.content) == 0:
@@ -112,10 +112,13 @@ class ContentHeader(tk.CTkFrame):
 class ContentRow(tk.CTkFrame):
     HEIGHT = 48
 
-    def __init__(self, parent: tk.CTkScrollableFrame, content_name: str) -> None:
+    def __init__(
+        self, gui: "gui.GUI", parent: tk.CTkScrollableFrame, content_name: str
+    ) -> None:
         tk.CTkFrame.__init__(
             self, parent, height=ContentRow.HEIGHT, fg_color=Colors.transparent
         )
+        self.gui = gui
         self.content = ContentManager.get_content_data(content_name)
         self.grid(column=0, sticky=W + E)
 
@@ -160,8 +163,8 @@ class ContentRow(tk.CTkFrame):
         self.description.bind(event, callback)
 
     def on_click(self, event: Any) -> None:
-        gui.get_gui().current_state.content = self.content
-        gui.get_gui().show_screen(gui.ScreenName.ContentDescription)
+        self.gui.current_state.content = self.content
+        self.gui.show_screen(gui.ScreenName.ContentDescription)
 
     def on_enter(self, event: Any) -> None:
         self.name.configure(bg_color=Colors.hover)

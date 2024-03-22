@@ -16,8 +16,8 @@ class CalibrationVideoTutorial(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+        Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(
             self,
@@ -32,9 +32,7 @@ class CalibrationVideoTutorial(Screen):
             self, text="Proceed", font=Fonts.button, height=50, width=120
         )
         proceed.place(relx=0.7, rely=0.9, anchor=SE)
-        proceed.configure(
-            command=lambda: gui.get_gui().show_screen(gui.ScreenName.Calibration)
-        )
+        proceed.configure(command=self.show_calibration)
 
         icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
         print = tk.CTkButton(
@@ -68,7 +66,10 @@ class CalibrationVideoTutorial(Screen):
         self.video.stop()
 
     def on_video_ended(self, event: Any) -> None:
-        gui.get_gui().current_state.set_calibration_tutorial_watched()
+        self.gui.current_state.set_calibration_tutorial_watched()
 
     def print_calibration_map(self) -> None:
         os.startfile(DocsManager.calibration_map)
+
+    def show_calibration(self) -> None:
+        self.gui.show_screen(gui.ScreenName.Calibration)

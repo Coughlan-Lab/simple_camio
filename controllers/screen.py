@@ -12,9 +12,14 @@ class Screen(tk.CTkFrame):
         return None
 
     def __init__(
-        self, parent: Union[tk.CTkFrame, tk.CTk], show_back: bool = False
+        self,
+        gui: "gui.GUI",
+        parent: Union[tk.CTkFrame, tk.CTk],
+        show_back: bool = False,
     ) -> None:
         tk.CTkFrame.__init__(self, parent)
+        self.gui = gui
+
         self.configure(fg_color=Colors.background)
 
         self.back_button = tk.CTkButton(
@@ -49,4 +54,4 @@ class Screen(tk.CTkFrame):
     def back(self) -> None:
         if not self.back_screen:
             return
-        gui.get_gui().show_screen(self.back_screen)
+        self.gui.show_screen(self.back_screen)

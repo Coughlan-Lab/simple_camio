@@ -8,8 +8,8 @@ from typing import Union
 
 
 class HomePage(Screen):
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, parent)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+        Screen.__init__(self, gui, parent)
 
         title = tk.CTkLabel(self, text="CamIO", height=44)
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
@@ -28,6 +28,7 @@ class HomePage(Screen):
         start = tk.CTkButton(self, text="Start", height=50, width=120)
         start.place(relx=0.5, rely=0.6, anchor=CENTER)
         start.configure(font=Fonts.button)
-        start.configure(
-            command=lambda: gui.get_gui().show_screen(gui.ScreenName.ContentSelector)
-        )
+        start.configure(command=self.show_content_selector)
+
+    def show_content_selector(self) -> None:
+        self.gui.show_screen(gui.ScreenName.ContentSelector)

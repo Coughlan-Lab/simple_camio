@@ -14,8 +14,8 @@ class ContentVideoTutorial(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+        Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(
             self,
@@ -30,9 +30,7 @@ class ContentVideoTutorial(Screen):
             self, text="Proceed", font=Fonts.button, height=50, width=120
         )
         proceed.place(relx=0.5, rely=0.9, anchor=S)
-        proceed.configure(
-            command=lambda: gui.get_gui().show_screen(gui.ScreenName.PointerSelector)
-        )
+        proceed.configure(command=self.show_pointer_selector)
 
         self.video = TkinterVideo(self, background=Colors.background)
         self.video.set_size(ContentVideoTutorial.VIDEO_RES, keep_aspect=True)
@@ -54,4 +52,7 @@ class ContentVideoTutorial(Screen):
         self.video.stop()
 
     def on_video_ended(self, event: Any) -> None:
-        gui.get_gui().current_state.set_content_tutorial_watched()
+        self.gui.current_state.set_content_tutorial_watched()
+
+    def show_pointer_selector(self) -> None:
+        self.gui.show_screen(gui.ScreenName.PointerSelector)

@@ -11,7 +11,13 @@ from ..components import Camera, FrameViewer
 
 
 class CameraPreview:
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk], camera_info: CameraInfo):
+    def __init__(
+        self,
+        gui: "gui.GUI",
+        parent: Union[tk.CTkFrame, tk.CTk],
+        camera_info: CameraInfo,
+    ):
+        self.gui = gui
         self.camera_name = camera_info.name
         self.camera_index = camera_info.index
 
@@ -43,7 +49,7 @@ class CameraPreview:
         self.camera.stop()
 
     def on_click(self) -> None:
-        g = gui.get_gui()
+        g = self.gui
         state = g.current_state
         state.camera_index = self.camera_index
 

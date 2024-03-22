@@ -12,8 +12,8 @@ class NoCamera(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
-        Screen.__init__(self, parent, show_back=True)
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
+        Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(
             self, text="No camera found", height=44, font=Fonts.title, compound="left"
@@ -36,6 +36,7 @@ class NoCamera(Screen):
             self, text="Retry", height=50, width=120, font=Fonts.button
         )
         retry.place(relx=0.5, rely=0.579, anchor=CENTER)
-        retry.configure(
-            command=lambda: gui.get_gui().show_screen(gui.ScreenName.CameraSelector)
-        )
+        retry.configure(command=self.on_retry)
+
+    def on_retry(self) -> None:
+        self.gui.show_screen(gui.ScreenName.CameraSelector)

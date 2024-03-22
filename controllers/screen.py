@@ -8,6 +8,10 @@ import gui
 
 class Screen(tk.CTkFrame):
     @property
+    def name(self) -> str:
+        return self.__class__.__qualname__
+
+    @property
     def back_screen(self) -> Optional["gui.ScreenName"]:
         return None
 
@@ -36,7 +40,7 @@ class Screen(tk.CTkFrame):
         )
         self.back_button.configure(command=self.back)
 
-        if show_back and self.back_screen is not None:
+        if show_back:
             self.show_back()
 
     def focus(self) -> None:
@@ -52,6 +56,4 @@ class Screen(tk.CTkFrame):
         self.back_button.place_forget()
 
     def back(self) -> None:
-        if not self.back_screen:
-            return
-        self.gui.show_screen(self.back_screen)
+        self.gui.back(self.back_screen)

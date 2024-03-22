@@ -10,7 +10,7 @@ from typing import Union
 class NoCamera(Screen):
     @property
     def back_screen(self) -> "gui.ScreenName":
-        return gui.ScreenName.CameraSelector
+        return gui.ScreenName.ContentSelector
 
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
@@ -39,4 +39,4 @@ class NoCamera(Screen):
         retry.configure(command=self.on_retry)
 
     def on_retry(self) -> None:
-        self.gui.show_screen(gui.ScreenName.CameraSelector)
+        self.gui.back()

@@ -1,10 +1,10 @@
 import customtkinter as tk  # type: ignore
 from enum import Enum
-from tkinter import BOTH, TOP
+from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
 from model import State
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 
 class ScreenName(Enum):
@@ -37,17 +37,18 @@ class GUI(tk.CTk):
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
-        container = Screen(self, self)
-        container.pack(side=TOP, fill=BOTH, expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        self.container = Screen(self, self)
+        self.container.pack(side=TOP, fill=BOTH, expand=True)
+        self.container.grid_rowconfigure(0, weight=1)
+        self.container.grid_columnconfigure(0, weight=1)
 
+        self.stack: List[str] = []
         self.frames: dict[str, Screen] = dict()
 
         for page in ScreenName:
-            frame = page.value(self, container)
+            frame = page.value(self, self.container)
             self.frames[page.name] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
+            frame.grid(row=0, column=0, sticky=N + S + E + W)
 
         self.current_frame: Optional[Screen] = None
         self.show_screen(ScreenName.HomePage)
@@ -56,28 +57,54 @@ class GUI(tk.CTk):
     def current_state(self) -> State:
         return self.__state
 
-    def show_screen(self, screen: ScreenName) -> None:
+    @property
+    def last_screen(self) -> ScreenName:
+        if len(self.stack) == 0:
+            return ScreenName.HomePage
+        return ScreenName[self.stack[-1]]
+
+    def show_screen(self, screen: ScreenName, stack: bool = True) -> None:
         if screen.name not in self.frames:
             raise Exception(f"Unknown screen {screen}")
+
         if self.current_frame is not None:
             self.current_frame.unfocus()
+            if stack:
+                self.stack.append(self.current_frame.name)
+
         self.current_frame = self.frames[screen.name]
         self.current_frame.tkraise()
         self.current_frame.focus()
 
-    def start(self, screen: Union[ScreenName, None]) -> None:
+    def start(self, screen: Optional[ScreenName]) -> None:
         if screen is not None:
             self.show_screen(screen)
         self.mainloop()
 
     def destroy(self) -> None:
-        self.current_frame.unfocus()
+        if self.current_frame is not None:
+            self.current_frame.unfocus()
+
         for frame in self.frames.values():
             frame.destroy()
+
+        self.container.destroy()
         super().destroy()
 
+    def back(self, to: Optional[ScreenName] = None) -> None:
+        if len(self.stack) == 0:
+            return
 
-gui: Union[GUI, None] = None
+        if to is not None and to.name in self.stack:
+            i = self.stack.index(to.name)
+            self.stack = self.stack[:i]
+        else:
+            to = ScreenName[self.stack.pop()]
+
+        self.show_screen(to, stack=False)
+
+
+gui: Optional[GUI] = None
 
 
 def create_gui() -> GUI:

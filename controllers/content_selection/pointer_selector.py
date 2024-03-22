@@ -1,7 +1,7 @@
 from numpy import pad
 from model import State
 import customtkinter as tk  # type: ignore
-from tkinter import CENTER, LEFT, RIGHT, SE, SW, Y
+from tkinter import CENTER, LEFT, N, RIGHT, SE, SW, Y
 from res import Fonts, Colors, ImgsManager, DocsManager
 from controllers.screen import Screen
 from PIL import Image
@@ -61,9 +61,21 @@ class PointerSelector(Screen):
         print_marker.pack(side=LEFT, padx=4, pady=4)
         marker_frame.place(relx=0.7, rely=0.6, anchor=SE)
 
+        icon = tk.CTkImage(
+            light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
+        )
+        self.tutorial = tk.CTkButton(
+            self, text="", image=icon, anchor=CENTER, width=10, height=30
+        )
+        self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
+        self.tutorial.configure(command=self.show_tutorial)
+
     def on_select(self, pointer: State.Pointer) -> None:
         self.gui.current_state.pointer = pointer
         self.gui.show_screen(gui.ScreenName.CameraSelector)
 
     def print_marker(self) -> None:
         os.startfile(DocsManager.marker_pointer)
+
+    def show_tutorial(self) -> None:
+        self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)

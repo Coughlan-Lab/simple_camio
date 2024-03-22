@@ -10,16 +10,12 @@ from typing import Union
 
 
 class ContentDescription(Screen):
-    @property
-    def back_screen(self) -> "gui.ScreenName":
-        return gui.ScreenName.ContentSelector
-
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
-        self.name = tk.CTkLabel(self, text="")
-        self.name.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        self.name.configure(font=Fonts.title)
+        self.title = tk.CTkLabel(self, text="")
+        self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        self.title.configure(font=Fonts.title)
 
         self.description = tk.CTkLabel(self, justify=CENTER)
         self.description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
@@ -66,7 +62,7 @@ class ContentDescription(Screen):
         )
 
     def focus(self) -> None:
-        self.name.configure(text=self.content.name)
+        self.title.configure(text=self.content.name)
         self.description.configure(text=self.content.description)
         preview = self.content.preview
         if preview is None:

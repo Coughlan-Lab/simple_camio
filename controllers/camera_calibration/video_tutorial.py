@@ -14,7 +14,7 @@ class CalibrationVideoTutorial(Screen):
 
     @property
     def back_screen(self) -> "gui.ScreenName":
-        return gui.ScreenName.CameraSelector
+        return self.gui.last_screen
 
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, gui, parent, show_back=True)

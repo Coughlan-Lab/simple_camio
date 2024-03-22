@@ -13,9 +13,6 @@ from typing import Any, Callable, Union
 
 
 class ContentSelector(Screen):
-    @property
-    def back_screen(self) -> "gui.ScreenName":
-        return gui.ScreenName.HomePage
 
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)

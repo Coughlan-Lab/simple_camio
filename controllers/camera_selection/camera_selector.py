@@ -14,10 +14,6 @@ from typing import List, Tuple, Union
 class CameraSelector(Screen):
     MAX_CAMERAS = 3
 
-    @property
-    def back_screen(self) -> "gui.ScreenName":
-        return gui.ScreenName.PointerSelector
-
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, gui, parent, show_back=True)
 

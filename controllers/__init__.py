@@ -8,7 +8,7 @@ from .content_selection.pointer_selector import PointerSelector
 from .camera_selection.no_camera import NoCamera
 from .camera_calibration.video_tutorial import CalibrationVideoTutorial
 from .camera_calibration.calibration import Calibration
-from .camio.camio import CamIO
+from .camio.content_usage import ContentUsage
 from .screen import Screen
 
 
@@ -22,6 +22,6 @@ __all__ = [
     "PointerSelector",
     "NoCamera",
     "CalibrationVideoTutorial",
-    "CamIO",
+    "ContentUsage",
     "Calibration",
 ]

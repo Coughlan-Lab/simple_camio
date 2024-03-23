@@ -34,7 +34,7 @@ class CameraPreview:
     def grid(self, row: int, column: int, **kwargs: Any) -> None:
         self.button.grid(row=row, column=column, **kwargs)
         self.preview.grid(row=row + 1, column=column, pady=5, **kwargs)
-    
+
     def grid_forget(self) -> None:
         self.button.grid_forget()
         self.preview.grid_forget()
@@ -59,9 +59,9 @@ class CameraPreview:
         state.camera_index = self.camera_index
 
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
-            next_screen = gui.ScreenName.CamIO
+            next_screen = gui.ScreenName.ContentUsage
         elif state.is_calibrated(self.camera_name):
-            next_screen = gui.ScreenName.CamIO
+            next_screen = gui.ScreenName.ContentUsage
         elif state.calibration_tutorial_watched:
             next_screen = gui.ScreenName.Calibration
         else:

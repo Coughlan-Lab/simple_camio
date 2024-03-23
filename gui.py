@@ -4,7 +4,7 @@ from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
 from model import State
-from typing import List, Optional, Union
+from typing import List, Optional
 
 
 class ScreenName(Enum):
@@ -17,7 +17,7 @@ class ScreenName(Enum):
     NoCamera = NoCamera
     CalibrationVideoTutorial = CalibrationVideoTutorial
     Calibration = Calibration
-    CamIO = CamIO
+    ContentUsage = ContentUsage
 
 
 class GUI(tk.CTk):
@@ -119,6 +119,3 @@ def get_gui() -> GUI:
     if gui is None:
         return create_gui()
     return gui
-
-
-__all__ = ["create_gui", "get_gui", "ScreenName"]

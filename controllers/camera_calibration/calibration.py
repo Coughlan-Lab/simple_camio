@@ -87,4 +87,4 @@ class Calibration(Screen):
         self.gui.show_screen(gui.ScreenName.CalibrationVideoTutorial)
 
     def show_camio(self) -> None:
-        self.gui.show_screen(gui.ScreenName.CamIO)
+        self.gui.show_screen(gui.ScreenName.ContentUsage)

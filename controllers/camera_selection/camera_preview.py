@@ -7,7 +7,8 @@ import gui
 from res import Fonts
 from typing import Any, Union
 
-from ..components import Camera, FrameViewer
+from ..components import Camera
+from view import FrameViewer
 
 
 class CameraPreview:

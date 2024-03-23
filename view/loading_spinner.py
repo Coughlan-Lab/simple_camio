@@ -1,6 +1,5 @@
-from turtle import back
 from typing import Union
-import customtkinter as tk
+import customtkinter as tk  # type: ignore
 from tkinter import Label
 from PIL import Image, ImageTk
 from itertools import count, cycle

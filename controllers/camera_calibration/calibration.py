@@ -1,6 +1,7 @@
 from tkinter import CENTER, DISABLED, N, RIGHT, SE, SW
 
-from ..components import Camera, FrameViewer
+from ..components import Camera
+from view import FrameViewer
 from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore

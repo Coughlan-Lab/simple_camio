@@ -1,6 +1,6 @@
 import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER, S
-from ..components import LoadingSpinner
+from view import LoadingSpinner
 import gui
 
 import cv2

@@ -68,13 +68,13 @@ class GUI(tk.CTk):
             raise Exception(f"Unknown screen {screen}")
 
         if self.current_frame is not None:
-            self.current_frame.unfocus()
+            self.current_frame.on_unfocus()
             if stack:
                 self.stack.append(self.current_frame.name)
 
         self.current_frame = self.frames[screen.name]
         self.current_frame.tkraise()
-        self.current_frame.focus()
+        self.current_frame.on_focus()
 
     def start(self, screen: Optional[ScreenName]) -> None:
         if screen is not None:
@@ -83,7 +83,7 @@ class GUI(tk.CTk):
 
     def destroy(self) -> None:
         if self.current_frame is not None:
-            self.current_frame.unfocus()
+            self.current_frame.on_unfocus()
 
         for frame in self.frames.values():
             frame.destroy()

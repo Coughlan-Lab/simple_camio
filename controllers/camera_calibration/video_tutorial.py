@@ -62,7 +62,7 @@ class CalibrationVideoTutorial(Screen):
         self.video.seek(0)
         self.video.play()
 
-    def unfocus(self) -> None:
+    def on_unfocus(self) -> None:
         self.video.stop()
 
     def on_video_ended(self, event: Any) -> None:

@@ -7,11 +7,7 @@ import numpy as np
 
 
 class FrameViewer(Label):
-    def __init__(
-        self,
-        parent: Union[tk.CTkFrame, tk.CTk],
-        frame_size: Tuple[int, int],
-    ):
+    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk], frame_size: Tuple[int, int]):
         Label.__init__(self, parent)
 
         self.frame_size = frame_size

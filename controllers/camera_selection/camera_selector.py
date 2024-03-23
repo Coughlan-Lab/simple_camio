@@ -56,16 +56,16 @@ class CameraSelector(Screen):
 
         if len(self.previews) == 1 and self.previews[0].running:
             self.previews[0].on_click()
-        
+
         for preview in self.previews:
             preview.start()
-        
+
         for i, preview in zip(self.__get_sorting(self.previews), self.previews):
             preview.grid(row=0, column=i, padx=5)
 
         self.hide_loading()
 
-    def unfocus(self) -> None:
+    def on_unfocus(self) -> None:
         for preview in self.previews:
             preview.stop()
             preview.grid_forget()

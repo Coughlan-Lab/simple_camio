@@ -73,7 +73,7 @@ class Calibration(Screen):
         self.confirm.configure(state=DISABLED)
         self.preview.show_error()
 
-    def unfocus(self) -> None:
+    def on_unfocus(self) -> None:
         self.camera.stop()
 
     def print_calibration_map(self) -> None:

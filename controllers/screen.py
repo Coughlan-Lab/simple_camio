@@ -43,10 +43,10 @@ class Screen(tk.CTkFrame):
         if show_back:
             self.show_back()
 
-    def focus(self) -> None:
+    def on_focus(self) -> None:
         pass
 
-    def unfocus(self) -> None:
+    def on_unfocus(self) -> None:
         pass
 
     def show_back(self) -> None:

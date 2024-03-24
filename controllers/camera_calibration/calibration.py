@@ -66,6 +66,8 @@ class Calibration(Screen):
 
         self.template = cv2.imread(ImgsManager.template, cv2.IMREAD_COLOR)
 
+        self.processing = False
+
     def on_focus(self) -> None:
         camera_index = self.gui.current_state.camera_index
         self.camera.start(camera_index)
@@ -81,7 +83,13 @@ class Calibration(Screen):
         os.startfile(DocsManager.calibration_map)
 
     def on_frame(self, img: np.ndarray) -> None:
+        if self.processing:
+            return
+        self.processing = True
+
         self.preview.show_frame(img)
+
+        self.processing = False
 
     def show_tutorial(self) -> None:
         self.gui.show_screen(gui.ScreenName.CalibrationVideoTutorial)

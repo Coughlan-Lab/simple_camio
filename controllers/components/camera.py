@@ -10,6 +10,8 @@ class Camera(tk.CTkFrame):
         tk.CTkFrame.__init__(self, parent)
 
         self.capture: Optional[cv2.VideoCapture] = None
+        self.fps: float
+
         self.on_error_listener: Optional[Callable[[], None]] = None
         self.frame_listener: Optional[Callable[[np.ndarray], None]] = None
 
@@ -28,6 +30,7 @@ class Camera(tk.CTkFrame):
             return
         self.capture = cv2.VideoCapture(camera_index)
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
+        self.fps = self.capture.get(cv2.CAP_PROP_FPS)
         self.__camera_loop()
 
     def __camera_loop(self) -> None:
@@ -38,7 +41,7 @@ class Camera(tk.CTkFrame):
             self.__on_error()
         else:
             self.__on_frame(image)
-            self.after(33, self.__camera_loop)
+            self.after(int(1000 / self.fps), self.__camera_loop)
 
     def __on_error(self) -> None:
         self.__release_camera()

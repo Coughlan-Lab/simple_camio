@@ -102,7 +102,7 @@ def load_map_parameters(filename):
             map_params = json.load(f)
             print("loaded map parameters from file.")
     else:
-        print("No map parameters file found at " + filename)
+        print("No parameters file found at " + filename)
         print("Usage: simple_calibration.exe --input1 <filename>")
         print(" ")
         print("Press any key to exit.")

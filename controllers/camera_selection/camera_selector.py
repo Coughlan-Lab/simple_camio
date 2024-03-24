@@ -38,7 +38,7 @@ class CameraSelector(Screen):
 
         self.loading = LoadingSpinner(self)
 
-    def focus(self) -> None:
+    def on_focus(self) -> None:
         self.show_loading()
         threading.Thread(target=self.__load_cameras).start()
 

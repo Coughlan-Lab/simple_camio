@@ -61,7 +61,7 @@ class ContentDescription(Screen):
             height=10,
         )
 
-    def focus(self) -> None:
+    def on_focus(self) -> None:
         self.title.configure(text=self.content.name)
         self.description.configure(text=self.content.description)
         preview = self.content.preview

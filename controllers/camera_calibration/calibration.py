@@ -66,7 +66,7 @@ class Calibration(Screen):
 
         self.template = cv2.imread(ImgsManager.template, cv2.IMREAD_COLOR)
 
-    def focus(self) -> None:
+    def on_focus(self) -> None:
         camera_index = self.gui.current_state.camera_index
         self.camera.start(camera_index)
 

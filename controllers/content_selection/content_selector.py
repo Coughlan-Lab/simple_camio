@@ -43,7 +43,7 @@ class ContentSelector(Screen):
 
         self.content: list[ContentRow] = list()
 
-    def focus(self) -> None:
+    def on_focus(self) -> None:
         ContentManager.reload()
         self.init_content()
 

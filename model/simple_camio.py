@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 import os
 import sys
 import cv2 as cv

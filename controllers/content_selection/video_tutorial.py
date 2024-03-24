@@ -43,7 +43,7 @@ class ContentVideoTutorial(Screen):
         )
         self.video.bind("<<Ended>>", self.on_video_ended)
 
-    def focus(self) -> None:
+    def on_focus(self) -> None:
         self.video.load(VideosManager.content_tutorial)
         self.video.seek(0)
         self.video.play()

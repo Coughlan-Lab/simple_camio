@@ -11,15 +11,22 @@ from scipy import optimize
 
 class Calibration:
     def __init__(self, model):
-        self.template_img = cv.imread('../content/template.png', cv.IMREAD_COLOR)
-        self.obj, self.list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
-        focal_length_x = 950.4602909088135
-        focal_length_y = 950.4602909088135
-        camera_center_x = 640.0
-        camera_center_y = 360.0
-        self.intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
-                                 [0.00000000e+00, focal_length_y, camera_center_y],
-                                 [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
+        self.template_img = cv.imread("res/imgs/template.png", cv.IMREAD_COLOR)
+        self.obj, self.list_of_ids = parse_aruco_codes(
+            model["positioningData"]["arucoCodes"]
+        )
+        self.focal_length_x = 950.4602909088135
+        self.focal_length_y = 950.4602909088135
+        self.camera_center_x = 640.0
+        self.camera_center_y = 360.0
+        self.intrinsic_matrix = np.array(
+            [
+                [self.focal_length_x, 0.00000000e00, self.camera_center_x],
+                [0.00000000e00, self.focal_length_y, self.camera_center_y],
+                [0.00000000e00, 0.00000000e00, 1.00000000e00],
+            ],
+            dtype=np.float32,
+        )
 
     def calibrate(self, frame):
         img_scene_color = frame
@@ -28,38 +35,60 @@ class Calibration:
         img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
 
         # overlay template image on video stream
-        if img_scene_color.shape[1] != self.template_img.shape[1] or img_scene_color.shape[0] != self.template_img.shape[0]:
-            template_img = resize_with_pad(self.template_img, (img_scene_color.shape[1], img_scene_color.shape[0]), (0,0,0))
-        img_scene_color = (img_scene_color /2 + template_img /2) /255
+        if (
+            img_scene_color.shape[1] != self.template_img.shape[1]
+            or img_scene_color.shape[0] != self.template_img.shape[0]
+        ):
+            self.template_img = resize_with_pad(
+                self.template_img,
+                (img_scene_color.shape[1], img_scene_color.shape[0]),
+                (0, 0, 0),
+            )
+        img_scene_color = (img_scene_color / 2 + self.template_img / 2) / 255
 
         # Define aruco marker dictionary and parameters object to include subpixel resolution
         aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
         arucoParams = cv.aruco.DetectorParameters_create()
         arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
         # Detect aruco markers in image
-        (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
-        scene, use_index = sort_corners_by_id(corners, ids, list_of_ids)
+        (corners, ids, rejected) = cv.aruco.detectMarkers(
+            img_scene, aruco_dict, parameters=arucoParams
+        )
+        scene, use_index = sort_corners_by_id(corners, ids, self.list_of_ids)
 
         if ids is None or not any(use_index):
             return img_scene_color, None, None, None
 
             # Run solvePnP using the markers that have been observed
-        retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], self.intrinsic_matrix, None)
+        retval, rvec, tvec = cv.solvePnP(
+            self.obj[use_index, :], scene[use_index, :], self.intrinsic_matrix, None
+        )
 
         # Draw axes on the image
         axis = np.float32([[6, 0, 0], [0, 6, 0], [0, 0, -6], [0, 0, 0]]).reshape(-1, 3)
-        axis_pts, other = cv.projectPoints(axis, rvec, tvec, self.intrinsic_matrix, None)
+        axis_pts, other = cv.projectPoints(
+            axis, rvec, tvec, self.intrinsic_matrix, None
+        )
         img_scene_color = drawAxes(img_scene_color, axis_pts)
 
         # Draw circles on detected corner points
         for pts in scene[use_index, :]:
-            cv.circle(img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2)
+            cv.circle(
+                img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2
+            )
 
-        res = optimize.fmin(solvePnP_from_focal_length, 1800, args=(obj[use_index, :], scene[use_index, :],
-                                                                    camera_center_x, camera_center_y))
-        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
-                 f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
-        return img_scene_color, res[0], frame.shape[1]/2, frame.shape[0]/2
+        res = optimize.fmin(
+            solvePnP_from_focal_length,
+            1800,
+            args=(
+                self.obj[use_index, :],
+                scene[use_index, :],
+                self.camera_center_x,
+                self.camera_center_y,
+            ),
+        )
+
+        return img_scene_color, res[0], frame.shape[1] / 2, frame.shape[0] / 2
 
 
 def solvePnP_lists_from_focal_length(fl, obj_list, scene_list, cx, cy):

@@ -49,7 +49,6 @@ class Camera(tk.CTkFrame):
             self.on_error_listener()
 
     def __on_frame(self, img: np.ndarray) -> None:
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         if self.frame_listener is not None:
             self.frame_listener(img)
 

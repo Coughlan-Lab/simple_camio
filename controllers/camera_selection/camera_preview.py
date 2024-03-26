@@ -9,6 +9,8 @@ from typing import Any, Union
 
 from ..components import Camera
 from view import FrameViewer
+import cv2
+import numpy as np
 
 
 class CameraPreview:
@@ -29,7 +31,7 @@ class CameraPreview:
         self.camera = Camera(parent)
         self.preview = FrameViewer(parent, (250, 250))
         self.camera.set_on_error_listener(self.show_error)
-        self.camera.set_frame_listener(self.preview.show_frame)
+        self.camera.set_frame_listener(self.show_frame)
 
     def grid(self, row: int, column: int, **kwargs: Any) -> None:
         self.button.grid(row=row, column=column, **kwargs)
@@ -50,6 +52,9 @@ class CameraPreview:
         self.button.configure(state=DISABLED)
         self.preview.show_error()
 
+    def show_frame(self, img: np.ndarray) -> None:
+        self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+
     def stop(self) -> None:
         self.camera.stop()
 
@@ -57,6 +62,7 @@ class CameraPreview:
         g = self.gui
         state = g.current_state
         state.camera_index = self.camera_index
+        state.camera_name = self.camera_name
 
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage

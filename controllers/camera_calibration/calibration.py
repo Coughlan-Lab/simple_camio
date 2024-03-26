@@ -1,17 +1,18 @@
-from tkinter import CENTER, DISABLED, N, RIGHT, SE, SW
+from tkinter import CENTER, DISABLED, N, NORMAL, RIGHT, SE, SW
 
 from ..components import Camera
 from view import FrameViewer
 from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
-from typing import Union
+from typing import Any, Dict, Literal, Union
 from res import Fonts, ImgsManager, DocsManager
 from PIL import Image
-import cv2
+from model.simple_calibration import Calibration as Calibrator
 import os
 import numpy as np
 import threading
+import cv2
 
 
 class Calibration(Screen):
@@ -44,7 +45,7 @@ class Calibration(Screen):
             self, text="Confirm", font=Fonts.button, height=50, width=120
         )
         self.confirm.place(relx=0.7, rely=0.9, anchor=SE)
-        self.confirm.configure(command=self.show_camio)
+        self.confirm.configure(command=self.on_confirm)
 
         icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
         print = tk.CTkButton(
@@ -65,12 +66,11 @@ class Calibration(Screen):
         self.preview = FrameViewer(self, (500, 320))
         self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.template = cv2.imread(ImgsManager.template, cv2.IMREAD_COLOR)
-
         self.semaphore = threading.Semaphore()
 
     def on_focus(self) -> None:
         camera_index = self.gui.current_state.camera_index
+        self.calibrator = Calibrator(get_calibration_map_dict())
         self.camera.start(camera_index)
 
     def on_error(self) -> None:
@@ -87,12 +87,60 @@ class Calibration(Screen):
         if self.semaphore.acquire(blocking=False):
             return
 
-        self.preview.show_frame(img)
+        img, focal, center_x, center_y = self.calibrator.calibrate(img)
+        self.data = {
+            "focal_length_x": focal,
+            "focal_length_y": focal,
+            "camera_center_x": center_x,
+            "camera_center_y": center_y,
+        }
+        
+        confirm_state: Literal["disabled", "normal"]
+        if focal is None or center_x is None or center_y is None:
+            confirm_state = DISABLED
+        else:
+            confirm_state = NORMAL
+        self.confirm.configure(state=confirm_state)
+
+        self.preview.show_frame(
+            cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_BGR2RGB)
+        )
 
         self.semaphore.release()
 
     def show_tutorial(self) -> None:
         self.gui.show_screen(gui.ScreenName.CalibrationVideoTutorial)
 
-    def show_camio(self) -> None:
+    def on_confirm(self) -> None:
+        self.gui.current_state.save_calibration(self.data)
         self.gui.show_screen(gui.ScreenName.ContentUsage)
+
+
+def get_calibration_map_dict() -> Dict[str, Any]:
+    return {
+        "positioningData": {
+            "arucoType": "DICT_4X4_50",
+            "arucoCodes": [
+                {"position": [[0, 0, 0], [2, 0, 0], [2, 2, 0], [0, 2, 0]], "id": 0},
+                {
+                    "position": [
+                        [17.2, 0, 0],
+                        [19.2, 0, 0],
+                        [19.2, 2, 0],
+                        [17.2, 2, 0],
+                    ],
+                    "id": 1,
+                },
+                {"position": [[0, 24, 0], [2, 24, 0], [2, 26, 0], [0, 26, 0]], "id": 2},
+                {
+                    "position": [
+                        [17.2, 24, 0],
+                        [19.2, 24, 0],
+                        [19.2, 26, 0],
+                        [17.2, 26, 0],
+                    ],
+                    "id": 3,
+                },
+            ],
+        }
+    }

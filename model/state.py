@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any, Dict
 
 from model.content_manager import Content
 import os
@@ -23,6 +24,7 @@ class State:
         self.content: Content
         self.pointer: State.Pointer
         self.camera_index: int
+        self.camera_name: str
 
     def set_content_tutorial_watched(self) -> None:
         if not self.__content_tutorial_watched:
@@ -70,3 +72,10 @@ class State:
         return os.path.exists(
             os.path.join(self.config_folder, f"{camera}_calibration.json")
         )
+
+    def save_calibration(self, calibration_data: Dict[str, Any]) -> None:
+        with open(
+            os.path.join(self.config_folder, f"{self.camera_name}_calibration.json"),
+            "w",
+        ) as f:
+            json.dump(calibration_data, f)

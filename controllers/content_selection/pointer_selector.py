@@ -18,7 +18,7 @@ class PointerSelector(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, gui, parent, show_back=True)
 
-        title = tk.CTkLabel(self, text="Choose a pointer:", font=Fonts.title)
+        title = tk.CTkLabel(self, text="Choose pointing option:", font=Fonts.title)
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         description = tk.CTkLabel(
@@ -43,15 +43,15 @@ class PointerSelector(Screen):
 
         marker_frame = tk.CTkFrame(self, fg_color=Colors.button, corner_radius=6)
 
-        marker = tk.CTkButton(
+        stylus = tk.CTkButton(
             marker_frame,
-            text="Drop marker",
+            text="Stylus",
             font=Fonts.button,
             height=42,
             width=120,
         )
-        marker.pack(side=LEFT, padx=(4, 0), pady=4)
-        marker.configure(command=lambda: self.on_select(State.Pointer.MARKER))
+        stylus.pack(side=LEFT, padx=(4, 0), pady=4)
+        stylus.configure(command=lambda: self.on_select(State.Pointer.MARKER))
 
         icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
         print_marker = tk.CTkButton(

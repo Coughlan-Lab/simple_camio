@@ -45,6 +45,10 @@ class Content:
             return Content.ModelType.TWO_D
         elif model_type == "3D":
             return Content.ModelType.THREE_D
+        elif model_type == "mediapipe":
+            return Content.ModelType.TWO_D
+        elif model_type == "mediapipe_3d":
+            return Content.ModelType.THREE_D
         raise ValueError(f"Unknown model type {model_type}")
 
     def is_2D(self) -> bool:

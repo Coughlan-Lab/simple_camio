@@ -34,7 +34,6 @@ class PoseDetectorMP:
         self.hands = self.mp_hands.Hands(model_complexity=0, min_detection_confidence=0.5, min_tracking_confidence=0.5)
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
-        self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
         self.pixels_per_cm = model['pixels_per_cm']
 
     def detect(self, image, H, _):
@@ -109,7 +108,7 @@ class PoseDetectorMP:
 class InteractionPolicyMP:
     def __init__(self, model):
         self.model = model
-        self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
+        self.image_map_color = cv.imread("../content/"+model['preview'], cv.IMREAD_COLOR)
         self.ZONE_FILTER_SIZE = 10
         self.Z_THRESHOLD = 2.0
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)

@@ -9,6 +9,59 @@ from typing import Tuple
 from scipy import optimize
 
 
+class Calibration:
+    def __init__(self, model):
+        self.template_img = cv.imread('../content/template.png', cv.IMREAD_COLOR)
+        self.obj, self.list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
+        focal_length_x = 950.4602909088135
+        focal_length_y = 950.4602909088135
+        camera_center_x = 640.0
+        camera_center_y = 360.0
+        self.intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
+                                 [0.00000000e+00, focal_length_y, camera_center_y],
+                                 [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
+
+    def calibrate(self, frame):
+        img_scene_color = frame
+
+        # load images grayscale
+        img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
+
+        # overlay template image on video stream
+        if img_scene_color.shape[1] != self.template_img.shape[1] or img_scene_color.shape[0] != self.template_img.shape[0]:
+            template_img = resize_with_pad(self.template_img, (img_scene_color.shape[1], img_scene_color.shape[0]), (0,0,0))
+        img_scene_color = (img_scene_color /2 + template_img /2) /255
+
+        # Define aruco marker dictionary and parameters object to include subpixel resolution
+        aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
+        arucoParams = cv.aruco.DetectorParameters_create()
+        arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
+        # Detect aruco markers in image
+        (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
+        scene, use_index = sort_corners_by_id(corners, ids, list_of_ids)
+
+        if ids is None or not any(use_index):
+            return img_scene_color, None, None, None
+
+            # Run solvePnP using the markers that have been observed
+        retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], self.intrinsic_matrix, None)
+
+        # Draw axes on the image
+        axis = np.float32([[6, 0, 0], [0, 6, 0], [0, 0, -6], [0, 0, 0]]).reshape(-1, 3)
+        axis_pts, other = cv.projectPoints(axis, rvec, tvec, self.intrinsic_matrix, None)
+        img_scene_color = drawAxes(img_scene_color, axis_pts)
+
+        # Draw circles on detected corner points
+        for pts in scene[use_index, :]:
+            cv.circle(img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2)
+
+        res = optimize.fmin(solvePnP_from_focal_length, 1800, args=(obj[use_index, :], scene[use_index, :],
+                                                                    camera_center_x, camera_center_y))
+        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
+                 f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
+        return img_scene_color, res[0], frame.shape[1]/2, frame.shape[0]/2
+
+
 def solvePnP_lists_from_focal_length(fl, obj_list, scene_list, cx, cy):
     sum_of_offsets = 0
     for scene, obj in zip(scene_list, obj_list):
@@ -152,120 +205,120 @@ def list_ports():
     return available_ports, working_ports, non_working_ports
 
 
-# ========================================
-pixels_per_cm_obj = 118.49  # text-with-aruco.png
-focal_length_x = 950.4602909088135
-focal_length_y = 950.4602909088135
-camera_center_x = 640.0
-camera_center_y = 360.0
-distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
-# ========================================
+if __name__ == "__main__":
+    # ========================================
+    pixels_per_cm_obj = 118.49  # text-with-aruco.png
+    focal_length_x = 950.4602909088135
+    focal_length_y = 950.4602909088135
+    camera_center_x = 640.0
+    camera_center_y = 360.0
+    distortion = np.array([0.09353041, -0.12232207, 0.00182885, -0.00131933, -0.30184632], dtype=np.float32) * 0
+    # ========================================
 
-parser = argparse.ArgumentParser(description='Code for calibration.')
-parser.add_argument('--input1', help='Path to input zone image.', default='models/UkraineMap/UkraineMap.json')
-args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='Code for calibration.')
+    parser.add_argument('--input1', help='Path to input zone image.', default='../content/UkraineMap/UkraineMap.json')
+    args = parser.parse_args()
+    intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
+                                 [0.00000000e+00, focal_length_y, camera_center_y],
+                                 [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
 
-intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
-                             [0.00000000e+00, focal_length_y, camera_center_y],
-                             [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
+    # Load color image
+    template_img = cv.imread('../content/template.png', cv.IMREAD_COLOR)
 
-# Load color image
-template_img = cv.imread('template.png', cv.IMREAD_COLOR)
+    # Load aruco marker positions
+    model = load_map_parameters(args.input1)
+    obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
 
-# Load aruco marker positions
-model = load_map_parameters(args.input1)
-obj, list_of_ids = parse_aruco_codes(model['positioningData']['arucoCodes'])
+    scene = np.empty((16, 2), dtype=np.float32)
+    obj_list = []
+    scene_list = []
+    use_external_cam = select_cam_port()
+    cap = cv.VideoCapture(use_external_cam)
+    cap.set(cv.CAP_PROP_FRAME_HEIGHT,1080) #set camera image height
+    cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width
+    cap.set(cv.CAP_PROP_FOCUS,0)
 
-scene = np.empty((16, 2), dtype=np.float32)
-obj_list = []
-scene_list = []
-use_external_cam = select_cam_port()
-cap = cv.VideoCapture(use_external_cam)
-cap.set(cv.CAP_PROP_FRAME_HEIGHT,1080) #set camera image height
-cap.set(cv.CAP_PROP_FRAME_WIDTH,1920) #set camera image width
-cap.set(cv.CAP_PROP_FOCUS,0)
+    # Main loop
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            print("No camera image returned.")
+            break
 
-# Main loop
-while cap.isOpened():
-    ret, frame = cap.read()
-    if not ret:
-        print("No camera image returned.")
-        break
+        img_scene_color = frame
 
-    img_scene_color = frame
+        # load images grayscale
+        img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
 
-    # load images grayscale
-    img_scene = cv.cvtColor(img_scene_color, cv.COLOR_BGR2GRAY)
+        # overlay template image on video stream
+        if img_scene_color.shape[1] != template_img.shape[1] or img_scene_color.shape[0] != template_img.shape[0]:
+            template_img = resize_with_pad(template_img, (img_scene_color.shape[1], img_scene_color.shape[0]), (0,0,0))
+        img_scene_color = (img_scene_color /2 + template_img /2) /255
 
-    # overlay template image on video stream
-    if img_scene_color.shape[1] != template_img.shape[1] or img_scene_color.shape[0] != template_img.shape[0]:
-        template_img = resize_with_pad(template_img, (img_scene_color.shape[1], img_scene_color.shape[0]), (0,0,0))
-    img_scene_color = (img_scene_color /2 + template_img /2) /255
+        # Define aruco marker dictionary and parameters object to include subpixel resolution
+        aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
+        arucoParams = cv.aruco.DetectorParameters_create()
+        arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
+        # Detect aruco markers in image
+        (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
+        scene, use_index = sort_corners_by_id(corners, ids, list_of_ids)
 
-    # Define aruco marker dictionary and parameters object to include subpixel resolution
-    aruco_dict = cv.aruco.Dictionary_get(cv.aruco.DICT_4X4_50)
-    arucoParams = cv.aruco.DetectorParameters_create()
-    arucoParams.cornerRefinementMethod = cv.aruco.CORNER_REFINE_SUBPIX
-    # Detect aruco markers in image
-    (corners, ids, rejected) = cv.aruco.detectMarkers(img_scene, aruco_dict, parameters=arucoParams)
-    scene, use_index = sort_corners_by_id(corners, ids, list_of_ids)
+        if ids is None or not any(use_index):
+            #print("No markers found.")
+            cv.imshow('image reprojection', img_scene_color)
+            waitkey = cv.waitKey(1)
+            if waitkey == 27:
+                print('Escape.')
+                cap.release()
+                cv.destroyAllWindows()
+                break
+            continue
 
-    if ids is None or not any(use_index):
-        #print("No markers found.")
+        # Run solvePnP using the markers that have been observed
+        retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], intrinsic_matrix, None)
+
+        # Draw axes on the image
+        axis = np.float32([[6, 0, 0], [0, 6, 0], [0, 0, -6], [0, 0, 0]]).reshape(-1, 3)
+        axis_pts, other = cv.projectPoints(axis, rvec, tvec, intrinsic_matrix, None)
+        img_scene_color = drawAxes(img_scene_color, axis_pts)
+
+        # Draw circles on detected corner points
+        for pts in scene[use_index, :]:
+            cv.circle(img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2)
+
+        now = datetime.datetime.now()
         cv.imshow('image reprojection', img_scene_color)
         waitkey = cv.waitKey(1)
-        if waitkey == 27:
+        if waitkey == 27 or waitkey == ord('q'):
             print('Escape.')
             cap.release()
             cv.destroyAllWindows()
             break
-        continue
-
-    # Run solvePnP using the markers that have been observed
-    retval, rvec, tvec = cv.solvePnP(obj[use_index, :], scene[use_index, :], intrinsic_matrix, None)
-
-    # Draw axes on the image
-    axis = np.float32([[6, 0, 0], [0, 6, 0], [0, 0, -6], [0, 0, 0]]).reshape(-1, 3)
-    axis_pts, other = cv.projectPoints(axis, rvec, tvec, intrinsic_matrix, None)
-    img_scene_color = drawAxes(img_scene_color, axis_pts)
-
-    # Draw circles on detected corner points
-    for pts in scene[use_index, :]:
-        cv.circle(img_scene_color, (int(pts[0]), int(pts[1])), 4, (255, 255, 255), 2)
-
-    now = datetime.datetime.now()
-    cv.imshow('image reprojection', img_scene_color)
-    waitkey = cv.waitKey(1)
-    if waitkey == 27 or waitkey == ord('q'):
-        print('Escape.')
-        cap.release()
-        cv.destroyAllWindows()
-        break
-    if waitkey == ord('a'):
-        obj_list.append(obj[use_index, :])
-        scene_list.append(scene[use_index, :])
-    if waitkey == ord('g'):
-        if len(obj_list) == 0:
+        if waitkey == ord('a'):
             obj_list.append(obj[use_index, :])
             scene_list.append(scene[use_index, :])
-        res = optimize.fmin(solvePnP_lists_from_focal_length, 1000,
-                            args=(obj_list, scene_list, frame.shape[1]/2, frame.shape[0]/2))
-        with open('camera_parameters.json', 'w') as f:
-            json.dump({'focal_length_x':res[0], 'focal_length_y':res[0], 'camera_center_x':frame.shape[1]/2, 'camera_center_y':frame.shape[0]/2}, f)
-        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
-              f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
-        # minsums = []
-        # for fl in np.linspace(300,2300, 201):
-        #     minsums.append(solvePnP_lists_from_focal_length([fl], obj_list, scene_list, camera_center_x, camera_center_y))
-        # plt.scatter(np.linspace(300,2300, 201), minsums)
-        # plt.xlabel('Focal Length')
-        # plt.ylabel('Sum of Average Reprojection Error')
-        # plt.show()
-        obj_list = []
-        scene_list = []
-    if waitkey == ord('c'):
-        res = optimize.fmin(solvePnP_from_focal_length, 1800,
-                            args=(obj[use_index, :], scene[use_index, :], camera_center_x, camera_center_y))
-        print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
-              f"camera_center_x = {frame.shape[1]/2}\ncamera_center_y = {frame.shape[0]/2}")
-        #cv.imwrite(f'{now.strftime("%Y.%m.%d.%H.%M.%S")}_backproject.jpg', img_scene_color)
+        if waitkey == ord('g'):
+            if len(obj_list) == 0:
+                obj_list.append(obj[use_index, :])
+                scene_list.append(scene[use_index, :])
+            res = optimize.fmin(solvePnP_lists_from_focal_length, 1000,
+                                args=(obj_list, scene_list, frame.shape[1]/2, frame.shape[0]/2))
+            with open('camera_parameters.json', 'w') as f:
+                json.dump({'focal_length_x':res[0], 'focal_length_y':res[0], 'camera_center_x':frame.shape[1]/2, 'camera_center_y':frame.shape[0]/2}, f)
+            print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
+                  f"camera_center_x = {frame.shape[1] / 2}\ncamera_center_y = {frame.shape[0] / 2}")
+            # minsums = []
+            # for fl in np.linspace(300,2300, 201):
+            #     minsums.append(solvePnP_lists_from_focal_length([fl], obj_list, scene_list, camera_center_x, camera_center_y))
+            # plt.scatter(np.linspace(300,2300, 201), minsums)
+            # plt.xlabel('Focal Length')
+            # plt.ylabel('Sum of Average Reprojection Error')
+            # plt.show()
+            obj_list = []
+            scene_list = []
+        if waitkey == ord('c'):
+            res = optimize.fmin(solvePnP_from_focal_length, 1800,
+                                args=(obj[use_index, :], scene[use_index, :], camera_center_x, camera_center_y))
+            print(f"focal_length_x = {res[0]}\nfocal_length_y = {res[0]}\n" +
+                  f"camera_center_x = {frame.shape[1]/2}\ncamera_center_y = {frame.shape[0]/2}")
+            #cv.imwrite(f'{now.strftime("%Y.%m.%d.%H.%M.%S")}_backproject.jpg', img_scene_color)

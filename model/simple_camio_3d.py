@@ -12,7 +12,7 @@ class SIFTModelDetector:
     def __init__(self, model, intrinsic_matrix):
         self.model = model
         # Load the template image
-        img_object = cv.imread(model["template_image"], cv.IMREAD_GRAYSCALE)
+        img_object = cv.imread("../content/"+model["template_image"], cv.IMREAD_GRAYSCALE)
 
         # Detect SIFT keypoints
         self.detector = cv.SIFT_create()
@@ -86,7 +86,7 @@ class InteractionPolicyOBJ:
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
         self.intrinsic_matrix = intrinsic_matrix
-        self.map_obj = OBJ(model["model_file"], model.get("excluded_regions",[]), swapyz=model.get("swapyz",True))
+        self.map_obj = OBJ("../content/"+model["model_file"], model.get("excluded_regions",[]), swapyz=model.get("swapyz",True))
         R = np.array(model["model_rotation"], dtype=np.float32)
         T = np.array(model["model_translation"], dtype=np.float32)
         offset = np.array(model["model_offset"], dtype=np.float32)
@@ -215,21 +215,21 @@ class CamIOPlayerOBJ:
         self.prev_zone_moving = -1
         self.sound_files = {}
         self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
+        self.blip_sound = pyglet.media.load("../content/"+self.model['blipsound'], streaming=False)
         self.enable_blips = False
         if "map_description" in self.model:
-            self.map_description = pyglet.media.load(self.model['map_description'], streaming=False)
+            self.map_description = pyglet.media.load("../content/"+self.model['map_description'], streaming=False)
             self.have_played_description = False
         else:
             self.have_played_description = True
-        self.welcome_message = pyglet.media.load(self.model['welcome_message'], streaming=False)
-        self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
-        zone_dict = self.generate_zone_dict(self.model['soundfile_mapping'])
+        self.welcome_message = pyglet.media.load("../content/"+self.model['welcome_message'], streaming=False)
+        self.goodbye_message = pyglet.media.load("../content/"+self.model['goodbye_message'], streaming=False)
+        zone_dict = self.generate_zone_dict("../content/"+self.model['soundfile_mapping'])
         for key in zone_dict.keys():
-            if os.path.exists(zone_dict[key]):
-                self.sound_files[key] = pyglet.media.load(zone_dict[key], streaming=False)
+            if os.path.exists("../content/"+zone_dict[key]):
+                self.sound_files[key] = pyglet.media.load("../content/"+zone_dict[key], streaming=False)
             else:
-                print("warning. file not found:" + zone_dict[key])
+                print("warning. file not found:" + "../content/"+ zone_dict[key])
 
     def play_description(self):
         if not self.have_played_description:

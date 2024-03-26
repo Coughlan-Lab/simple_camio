@@ -2,7 +2,12 @@
 
 Python graphical interface to CamIO.
 
-## Install
+## System requirements:
+
+The application has currently been tested only on Windows.
+Mac support will be added in the future
+
+## Install:
 
 Just run from the terminal:
 
@@ -10,7 +15,7 @@ Just run from the terminal:
 pip install -r requirements.txt
 ```
 
-Python >= 3.8 is required.
+Python 3.8 is required.
 
 ## Usage:
 

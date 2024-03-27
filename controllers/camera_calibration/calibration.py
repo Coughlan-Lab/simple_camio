@@ -9,10 +9,10 @@ from typing import Any, Dict, Literal, Union
 from res import Fonts, Colors, ImgsManager, DocsManager
 from PIL import Image
 from model.simple_calibration import Calibration as Calibrator
-import os
 import numpy as np
 import threading
 import cv2
+from model import open_file
 
 
 class Calibration(Screen):
@@ -82,7 +82,7 @@ class Calibration(Screen):
         self.camera.stop()
 
     def print_calibration_map(self) -> None:
-        os.startfile(DocsManager.calibration_map)
+        open_file(DocsManager.calibration_map)
 
     def on_frame(self, img: np.ndarray) -> None:
         if self.semaphore.acquire(blocking=False):

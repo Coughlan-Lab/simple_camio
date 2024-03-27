@@ -5,8 +5,8 @@ from res import Colors, Fonts, ImgsManager
 from controllers.screen import Screen
 from PIL import ImageTk, Image
 import gui
-import os
 from typing import Union
+from model import open_file
 
 
 class ContentDescription(Screen):
@@ -100,7 +100,7 @@ class ContentDescription(Screen):
         return self.gui.current_state.content
 
     def print_content(self) -> None:
-        os.startfile(self.content.to_print)
+        open_file(self.content.to_print)
 
     def on_proceed(self) -> None:
         if self.gui.current_state.content_tutorial_watched:

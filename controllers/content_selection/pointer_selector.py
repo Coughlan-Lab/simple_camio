@@ -6,8 +6,9 @@ from res import Fonts, Colors, ImgsManager, DocsManager
 from controllers.screen import Screen
 from PIL import Image
 import gui
-import os
 from typing import Union
+from model import open_file
+
 
 
 class PointerSelector(Screen):
@@ -78,7 +79,7 @@ class PointerSelector(Screen):
         self.gui.show_screen(gui.ScreenName.CameraSelector)
 
     def print_marker(self) -> None:
-        os.startfile(DocsManager.marker_pointer)
+        open_file(DocsManager.marker_pointer)
 
     def show_tutorial(self) -> None:
         self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)

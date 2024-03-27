@@ -6,7 +6,7 @@ from res import *
 from tkVideoPlayer import TkinterVideo  # type: ignore
 from typing import Any, Union
 from PIL import Image
-import os
+from model import open_file
 
 
 class CalibrationVideoTutorial(Screen):
@@ -70,7 +70,7 @@ class CalibrationVideoTutorial(Screen):
         self.gui.current_state.set_calibration_tutorial_watched()
 
     def print_calibration_map(self) -> None:
-        os.startfile(DocsManager.calibration_map)
+        open_file(DocsManager.calibration_map)
 
     def show_calibration(self) -> None:
         self.gui.show_screen(gui.ScreenName.Calibration)

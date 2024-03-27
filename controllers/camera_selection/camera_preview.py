@@ -24,7 +24,13 @@ class CameraPreview:
         self.camera_name = camera_info.name
         self.camera_index = camera_info.index
 
-        self.button = tk.CTkButton(parent, text=f"{camera_info.name}", font=Fonts.button, text_color=Colors.button_text, width=50)
+        self.button = tk.CTkButton(
+            parent,
+            text=f"{camera_info.name}",
+            font=Fonts.button,
+            text_color=Colors.button_text,
+            width=50,
+        )
         self.button.configure(command=self.on_click)
 
         self.camera = Camera(parent)

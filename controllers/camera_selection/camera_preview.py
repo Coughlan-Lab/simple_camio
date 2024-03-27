@@ -1,7 +1,5 @@
 import customtkinter as tk  # type: ignore
 from tkinter import DISABLED
-
-from cv2_enumerate_cameras import CameraInfo  # type: ignore
 import gui
 
 from res import Fonts, Colors
@@ -11,6 +9,8 @@ from ..components import Camera
 from view import FrameViewer
 import cv2
 import numpy as np
+from model.utils import CameraInfo
+from model import State
 
 
 class CameraPreview:
@@ -72,10 +72,12 @@ class CameraPreview:
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage
         elif state.is_calibrated(self.camera_name):
-            next_screen = gui.ScreenName.ContentUsage
+            if state.os == State.OS.MACOS:
+                next_screen = gui.ScreenName.CalibrationFound
+            else:
+                next_screen = gui.ScreenName.ContentUsage
         elif state.calibration_tutorial_watched:
             next_screen = gui.ScreenName.Calibration
         else:
             next_screen = gui.ScreenName.CalibrationVideoTutorial
-
         g.show_screen(next_screen)

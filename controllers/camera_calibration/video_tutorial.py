@@ -6,7 +6,7 @@ from res import *
 from tkVideoPlayer import TkinterVideo  # type: ignore
 from typing import Any, Union
 from PIL import Image
-from model import open_file
+from model.utils import open_file
 
 
 class CalibrationVideoTutorial(Screen):
@@ -24,12 +24,17 @@ class CalibrationVideoTutorial(Screen):
             text="New camera selected\nCalibrate it before proceeding",
             font=Fonts.subtitle,
             height=44,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         proceed = tk.CTkButton(
-            self, text="Proceed", font=Fonts.button, text_color=Colors.button_text, height=50, width=120
+            self,
+            text="Proceed",
+            font=Fonts.button,
+            text_color=Colors.button_text,
+            height=50,
+            width=120,
         )
         proceed.place(relx=0.7, rely=0.9, anchor=SE)
         proceed.configure(command=self.show_calibration)

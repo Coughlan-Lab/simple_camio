@@ -12,7 +12,7 @@ from model.simple_calibration import Calibration as Calibrator
 import numpy as np
 import threading
 import cv2
-from model import open_file
+from model.utils import open_file
 
 
 class Calibration(Screen):
@@ -28,7 +28,7 @@ class Calibration(Screen):
             text="Print the calibration map, frame it with you camera and\nmatch its corners with the on-screen preview",
             font=Fonts.subtitle,
             height=44,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
@@ -42,7 +42,12 @@ class Calibration(Screen):
         self.tutorial.configure(command=self.show_tutorial)
 
         self.confirm = tk.CTkButton(
-            self, text="Confirm", font=Fonts.button, text_color=Colors.button_text, height=50, width=120
+            self,
+            text="Confirm",
+            font=Fonts.button,
+            text_color=Colors.button_text,
+            height=50,
+            width=120,
         )
         self.confirm.place(relx=0.7, rely=0.9, anchor=SE)
         self.confirm.configure(command=self.on_confirm)
@@ -95,7 +100,7 @@ class Calibration(Screen):
             "camera_center_x": center_x,
             "camera_center_y": center_y,
         }
-        
+
         confirm_state: Literal["disabled", "normal"]
         if focal is None or center_x is None or center_y is None:
             confirm_state = DISABLED

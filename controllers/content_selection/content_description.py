@@ -6,25 +6,40 @@ from controllers.screen import Screen
 from PIL import ImageTk, Image
 import gui
 from typing import Union
-from model import open_file
+from model.utils import open_file
 
 
 class ContentDescription(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
-        self.title = tk.CTkLabel(self, text="", font=Fonts.title, text_color=Colors.text)
+        self.title = tk.CTkLabel(
+            self, text="", font=Fonts.title, text_color=Colors.text
+        )
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
-        self.description = tk.CTkLabel(self, justify=CENTER, font=Fonts.subtitle, text_color=Colors.text)
+        self.description = tk.CTkLabel(
+            self, justify=CENTER, font=Fonts.subtitle, text_color=Colors.text
+        )
         self.description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
 
         instructions = tk.CTkLabel(
-            self, text="Print a copy of the content and proceed", justify=CENTER, font=Fonts.subtitle, text_color=Colors.text
+            self,
+            text="Print a copy of the content and proceed",
+            justify=CENTER,
+            font=Fonts.subtitle,
+            text_color=Colors.text,
         )
         instructions.place(relx=0.5, rely=0.26, relwidth=0.6, anchor=CENTER)
 
-        self.proceed = tk.CTkButton(self, text="Proceed", font=Fonts.button, text_color=Colors.button_text, height=50, width=120)
+        self.proceed = tk.CTkButton(
+            self,
+            text="Proceed",
+            font=Fonts.button,
+            text_color=Colors.button_text,
+            height=50,
+            width=120,
+        )
         self.proceed.place(relx=0.7, rely=0.9, anchor=SE)
         self.proceed.configure(command=self.on_proceed)
 
@@ -36,7 +51,7 @@ class ContentDescription(Screen):
             height=50,
             width=120,
             font=Fonts.button,
-            text_color=Colors.button_text
+            text_color=Colors.button_text,
         )
         self.print.place(relx=0.3, rely=0.9, anchor=SW)
         self.print.configure(command=self.print_content)
@@ -56,7 +71,7 @@ class ContentDescription(Screen):
             relief="solid",
             width=20,
             height=10,
-            fg=Colors.text
+            fg=Colors.text,
         )
 
     def on_focus(self) -> None:

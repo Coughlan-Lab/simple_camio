@@ -7,8 +7,7 @@ from controllers.screen import Screen
 from PIL import Image
 import gui
 from typing import Union
-from model import open_file
-
+from model.utils import open_file
 
 
 class PointerSelector(Screen):
@@ -19,7 +18,12 @@ class PointerSelector(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, gui, parent, show_back=True)
 
-        title = tk.CTkLabel(self, text="Choose pointing option:", font=Fonts.title, text_color=Colors.text)
+        title = tk.CTkLabel(
+            self,
+            text="Choose pointing option:",
+            font=Fonts.title,
+            text_color=Colors.text,
+        )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         description = tk.CTkLabel(
@@ -27,7 +31,7 @@ class PointerSelector(Screen):
             text="If you want to use the drop marker, print it before proceeding",
             font=Fonts.subtitle,
             justify=CENTER,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
 
@@ -38,7 +42,7 @@ class PointerSelector(Screen):
             font=Fonts.button,
             height=42,
             width=120,
-            text_color=Colors.button_text
+            text_color=Colors.button_text,
         )
         finger.pack(padx=4, pady=4)
         finger.configure(command=lambda: self.on_select(State.Pointer.FINGER))
@@ -52,7 +56,7 @@ class PointerSelector(Screen):
             font=Fonts.button,
             height=42,
             width=120,
-            text_color=Colors.button_text
+            text_color=Colors.button_text,
         )
         stylus.pack(side=LEFT, padx=(4, 0), pady=4)
         stylus.configure(command=lambda: self.on_select(State.Pointer.MARKER))

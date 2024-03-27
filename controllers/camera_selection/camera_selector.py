@@ -4,7 +4,7 @@ from view import LoadingSpinner
 import gui
 
 import cv2
-from cv2_enumerate_cameras import enumerate_cameras  # type: ignore
+from model.utils import enumerate_cameras
 
 from .camera_preview import CameraPreview
 from controllers.screen import Screen
@@ -20,7 +20,9 @@ class CameraSelector(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
         Screen.__init__(self, gui, parent, show_back=True)
 
-        self.title = tk.CTkLabel(self, text="Select a camera:", height=44, text_color=Colors.text)
+        self.title = tk.CTkLabel(
+            self, text="Select a camera:", height=44, text_color=Colors.text
+        )
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
         self.title.configure(font=Fonts.title)
 

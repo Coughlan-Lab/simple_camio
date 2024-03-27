@@ -6,7 +6,7 @@ from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
 from typing import Any, Dict, Literal, Union
-from res import Fonts, ImgsManager, DocsManager
+from res import Fonts, Colors, ImgsManager, DocsManager
 from PIL import Image
 from model.simple_calibration import Calibration as Calibrator
 import os
@@ -28,7 +28,7 @@ class Calibration(Screen):
             text="Print the calibration map, frame it with you camera and\nmatch its corners with the on-screen preview",
             font=Fonts.subtitle,
             height=44,
-            compound="left",
+            text_color=Colors.text
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
@@ -42,7 +42,7 @@ class Calibration(Screen):
         self.tutorial.configure(command=self.show_tutorial)
 
         self.confirm = tk.CTkButton(
-            self, text="Confirm", font=Fonts.button, height=50, width=120
+            self, text="Confirm", font=Fonts.button, text_color=Colors.button_text, height=50, width=120
         )
         self.confirm.place(relx=0.7, rely=0.9, anchor=SE)
         self.confirm.configure(command=self.on_confirm)
@@ -52,6 +52,7 @@ class Calibration(Screen):
             self,
             text="Calibration map",
             font=Fonts.button,
+            text_color=Colors.button_text,
             image=icon,
             height=50,
             width=120,

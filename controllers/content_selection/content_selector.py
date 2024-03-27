@@ -17,7 +17,7 @@ class ContentSelector(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
-        title = tk.CTkLabel(self, text="Select a content:", height=44)
+        title = tk.CTkLabel(self, text="Select a content:", height=44, text_color=Colors.text)
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
         title.configure(compound="left")
         title.configure(font=Fonts.title)
@@ -28,6 +28,7 @@ class ContentSelector(Screen):
         error = tk.CTkLabel(
             self.__error_msg,
             text="No content found in the content directory",
+            text_color=Colors.text,
             height=44,
             justify=CENTER,
         )
@@ -82,28 +83,31 @@ class ContentHeader(tk.CTkFrame):
 
     def __init__(self, parent: tk.CTkScrollableFrame) -> None:
         tk.CTkFrame.__init__(self, parent, height=ContentRow.HEIGHT)
+        self.configure(bg_color=Colors.transparent)
         self.grid(row=0, column=0, sticky=W + E)
 
         self.name = tk.CTkLabel(
             self,
             text="Content",
+            font=Fonts.subtitle,
             justify=CENTER,
             height=ContentRow.HEIGHT,
             width=200,
-            bg_color=Colors.transparent,
+            bg_color=Colors.background,
+            text_color=Colors.text
         )
         self.name.pack(side=LEFT)
-        self.name.configure(font=Fonts.subtitle)
 
         self.description = tk.CTkLabel(
             self,
             text="Description",
+            font=Fonts.subtitle,
             justify=CENTER,
             height=ContentRow.HEIGHT,
-            bg_color=Colors.transparent,
+            bg_color=Colors.background,
+            text_color=Colors.text
         )
-        self.description.pack(fill="x")
-        self.description.configure(font=Fonts.subtitle)
+        self.description.pack(fill=X)
 
 
 class ContentRow(tk.CTkFrame):
@@ -129,23 +133,25 @@ class ContentRow(tk.CTkFrame):
         self.name = tk.CTkLabel(
             self,
             text=self.content.name,
+            font=Fonts.subtitle,
             justify=CENTER,
             height=ContentRow.HEIGHT,
             width=200,
+            text_color=Colors.text
         )
         self.name.pack(
             side=LEFT,
         )
-        self.name.configure(font=Fonts.subtitle)
 
         self.description = tk.CTkLabel(
             self,
             text=self.content.description,
+            font=Fonts.subtitle,
             justify=CENTER,
             height=ContentRow.HEIGHT,
+            text_color=Colors.text
         )
         self.description.pack(fill=X)
-        self.description.configure(font=Fonts.subtitle)
 
         self.bind("<Button-1>", self.on_click)
         self.bind("<Enter>", self.on_enter)

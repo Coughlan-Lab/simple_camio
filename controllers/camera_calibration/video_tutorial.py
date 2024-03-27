@@ -24,12 +24,12 @@ class CalibrationVideoTutorial(Screen):
             text="New camera selected\nCalibrate it before proceeding",
             font=Fonts.subtitle,
             height=44,
-            compound="left",
+            text_color=Colors.text
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         proceed = tk.CTkButton(
-            self, text="Proceed", font=Fonts.button, height=50, width=120
+            self, text="Proceed", font=Fonts.button, text_color=Colors.button_text, height=50, width=120
         )
         proceed.place(relx=0.7, rely=0.9, anchor=SE)
         proceed.configure(command=self.show_calibration)
@@ -39,6 +39,7 @@ class CalibrationVideoTutorial(Screen):
             self,
             text="Calibration map",
             font=Fonts.button,
+            text_color=Colors.button_text,
             image=icon,
             height=50,
             width=120,

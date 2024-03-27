@@ -10,7 +10,8 @@ class Colors:
         self.background = colors["background"]
         self.hover = colors["hover"]
         self.button = colors["button"]
+        self.text = colors["text"]
+        self.button_text = colors["button_text"]
         self.transparent = "transparent"
-
 
 singleton: Colors = Colors()

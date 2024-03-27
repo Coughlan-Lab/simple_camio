@@ -6,7 +6,6 @@ from controllers import *
 from model import State
 from typing import List, Optional
 
-
 class ScreenName(Enum):
     HomePage = HomePage
     CameraSelector = CameraSelector

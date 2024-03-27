@@ -13,23 +13,19 @@ class ContentDescription(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
-        self.title = tk.CTkLabel(self, text="")
+        self.title = tk.CTkLabel(self, text="", font=Fonts.title, text_color=Colors.text)
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        self.title.configure(font=Fonts.title)
 
-        self.description = tk.CTkLabel(self, justify=CENTER)
+        self.description = tk.CTkLabel(self, justify=CENTER, font=Fonts.subtitle, text_color=Colors.text)
         self.description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
-        self.description.configure(font=Fonts.subtitle)
 
         instructions = tk.CTkLabel(
-            self, text="Print a copy of the content and proceed", justify=CENTER
+            self, text="Print a copy of the content and proceed", justify=CENTER, font=Fonts.subtitle, text_color=Colors.text
         )
         instructions.place(relx=0.5, rely=0.26, relwidth=0.6, anchor=CENTER)
-        instructions.configure(font=Fonts.subtitle)
 
-        self.proceed = tk.CTkButton(self, text="Proceed", height=50, width=120)
+        self.proceed = tk.CTkButton(self, text="Proceed", font=Fonts.button, text_color=Colors.button_text, height=50, width=120)
         self.proceed.place(relx=0.7, rely=0.9, anchor=SE)
-        self.proceed.configure(font=Fonts.button)
         self.proceed.configure(command=self.on_proceed)
 
         icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
@@ -39,9 +35,10 @@ class ContentDescription(Screen):
             image=icon,
             height=50,
             width=120,
+            font=Fonts.button,
+            text_color=Colors.button_text
         )
         self.print.place(relx=0.3, rely=0.9, anchor=SW)
-        self.print.configure(font=Fonts.button)
         self.print.configure(command=self.print_content)
 
         self.image_size = (250, 250)
@@ -59,6 +56,7 @@ class ContentDescription(Screen):
             relief="solid",
             width=20,
             height=10,
+            fg=Colors.text
         )
 
     def on_focus(self) -> None:

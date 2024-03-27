@@ -4,7 +4,7 @@ from tkinter import DISABLED
 from cv2_enumerate_cameras import CameraInfo  # type: ignore
 import gui
 
-from res import Fonts
+from res import Fonts, Colors
 from typing import Any, Union
 
 from ..components import Camera
@@ -24,8 +24,7 @@ class CameraPreview:
         self.camera_name = camera_info.name
         self.camera_index = camera_info.index
 
-        self.button = tk.CTkButton(parent, text=f"{camera_info.name}", width=50)
-        self.button.configure(font=Fonts.button)
+        self.button = tk.CTkButton(parent, text=f"{camera_info.name}", font=Fonts.button, text_color=Colors.button_text, width=50)
         self.button.configure(command=self.on_click)
 
         self.camera = Camera(parent)

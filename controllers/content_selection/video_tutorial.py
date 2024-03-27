@@ -23,11 +23,12 @@ class ContentVideoTutorial(Screen):
             font=Fonts.subtitle,
             height=44,
             compound="left",
+            text_color=Colors.text
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         proceed = tk.CTkButton(
-            self, text="Proceed", font=Fonts.button, height=50, width=120
+            self, text="Proceed", font=Fonts.button, height=50, width=120, text_color=Colors.button_text
         )
         proceed.place(relx=0.5, rely=0.9, anchor=S)
         proceed.configure(command=self.show_pointer_selector)

@@ -59,7 +59,7 @@ class PointerSelector(Screen):
             text_color=Colors.button_text,
         )
         stylus.pack(side=LEFT, padx=(4, 0), pady=4)
-        stylus.configure(command=lambda: self.on_select(State.Pointer.MARKER))
+        stylus.configure(command=lambda: self.on_select(State.Pointer.STYLUS))
 
         icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
         print_marker = tk.CTkButton(

@@ -10,7 +10,7 @@ import platform
 class State:
     class Pointer(Enum):
         FINGER = "finger"
-        MARKER = "marker"
+        STYLUS = "stylus"
 
     class OS(Enum):
         MACOS = "Darwin"

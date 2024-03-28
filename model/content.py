@@ -3,6 +3,7 @@ import os
 import json
 from typing import Any, Dict, List, Union
 from res import AudioManager
+from .utils import getcwd
 
 
 class Content:
@@ -80,10 +81,10 @@ class Content:
 
 
 class ContentManager:
-    CONTENT_DIR = os.path.join(os.getcwd(), "content")
+    CONTENT_DIR = os.path.join(getcwd(), "content")
 
     def __init__(self) -> None:
-        self.__content: dict[str, Content] = dict()
+        self.__content: Dict[str, Content] = dict()
 
         self.reload()
 

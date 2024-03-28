@@ -1,9 +1,10 @@
+import os
 import customtkinter as tk  # type: ignore
 from enum import Enum
 from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
-from model import State
+from model import State, utils
 from typing import List, Optional
 
 
@@ -22,7 +23,7 @@ class ScreenName(Enum):
 
 
 class GUI(tk.CTk):
-    CONFIG_FOLDER = "config"
+    CONFIG_FOLDER = os.path.join(utils.getcwd(), "config")
 
     def __init__(self) -> None:
         tk.CTk.__init__(self)

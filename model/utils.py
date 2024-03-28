@@ -1,9 +1,17 @@
 import os
+import sys
 import platform
 import subprocess
 from typing import Any, List, Generator
 import cv2
 from enum import Enum
+
+
+def getcwd() -> str:
+    if getattr(sys, "frozen", False):
+        return os.path.dirname(sys.executable)
+    else:
+        return os.getcwd()
 
 
 class OS(Enum):

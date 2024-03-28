@@ -1,6 +1,7 @@
 import customtkinter as tk  # type: ignore
 import json
 from typing import TypedDict
+import os
 
 
 class FontJson(TypedDict):
@@ -9,7 +10,9 @@ class FontJson(TypedDict):
 
 
 class Fonts:
-    FONTS_FILE = "res/fonts.json"
+    FONTS_FILE = os.path.join(
+        os.sep.join(os.path.abspath(__file__).split(os.sep)[:-1]), "fonts.json"
+    )
 
     def __init__(self) -> None:
         with open(Fonts.FONTS_FILE, "r") as file:

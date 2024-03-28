@@ -295,9 +295,7 @@ def select_cam_port():
 
 
 def list_ports():
-    """
-    Test the ports and returns a tuple with the available ports and the ones that are working.
-    """
+    """ Test the ports and returns a tuple with the available ports and the ones that are working. """
     non_working_ports = []
     dev_port = 0
     working_ports = []

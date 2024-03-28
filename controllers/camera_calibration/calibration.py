@@ -108,9 +108,7 @@ class Calibration(Screen):
             confirm_state = NORMAL
         self.confirm.configure(state=confirm_state)
 
-        self.preview.show_frame(
-            cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_BGR2RGB)
-        )
+        self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
         self.semaphore.release()
 

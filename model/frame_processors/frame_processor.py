@@ -61,4 +61,5 @@ class FrameProcessor:
         return img
 
     def destroy(self) -> None:
-        pass
+        self.crickets_player.pause_sound()
+        self.heartbeat_player.pause_sound()

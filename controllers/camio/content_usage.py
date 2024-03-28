@@ -69,6 +69,7 @@ class ContentUsage(Screen):
     def on_unfocus(self) -> None:
         self.camera.stop()
         self.frame_processor.destroy()
+        del self.frame_processor
 
     def on_frame(self, img: np.ndarray) -> None:
         if self.semaphore.acquire(blocking=False):

@@ -32,3 +32,11 @@ python main.py
 -   Each content folder must contain a toPrint file that the user should print before using the model. For 2D contents it's a pdf, for 3Ds an obj file.
 -   A calibration map is used only for calibration, to avoid doing the calibration with a 2D content even if the user has selected a 3D content.
 -   The revised branch main code is stored in the model folder.
+
+## How to build:
+
+For Windows:
+
+```console
+pyinstaller --noconfirm --onefile --windowed --add-data "C:/Users/<USER NAME>/AppData/Local/Programs/Python/Python38/Lib/site-packages/mediapipe/modules/hand_landmark;mediapipe/modules/hand_landmark/" --add-data "C:/Users/<USER NAME>/AppData/Local/Programs/Python/Python38/Lib/site-packages/mediapipe/modules/palm_detection;mediapipe/modules/palm_detection/" --add-data "res;res/" main.py
+```console

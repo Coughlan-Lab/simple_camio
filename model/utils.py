@@ -5,18 +5,18 @@ from typing import Any, List, Generator
 import cv2
 from enum import Enum
 
-SYSTEM = platform.system()
 
 class OS(Enum):
     MACOS = "Darwin"
     WINDOWS = "Windows"
     LINUX = "Linux"
 
+
 if platform.system() == "Darwin":
     SYSTEM = OS.MACOS
 elif platform.system() == "Windows":
     SYSTEM = OS.WINDOWS
-elif platform.system().os == "Linux":
+elif platform.system() == "Linux":
     SYSTEM = OS.LINUX
 else:
     raise NotImplementedError(f"Unknown os: {platform.system()}")

@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from model import Content, utils
 import os
@@ -21,10 +21,9 @@ class State:
         if os.path.exists(self.config_file):
             self.__read_config()
 
-        self.content: Content
-        self.pointer: State.Pointer
-        self.camera_index: int
-        self.camera_name: str
+        self.content: Optional[Content]
+        self.pointer: Optional[State.Pointer]
+        self.camera: Optional[utils.CameraInfo]
 
     def set_content_tutorial_watched(self) -> None:
         if not self.__content_tutorial_watched:
@@ -77,7 +76,7 @@ class State:
         )
 
     def save_calibration(self, calibration_data: Dict[str, Any]) -> None:
-        camera_name = self.camera_name
+        camera_name = self.camera.name
         if utils.SYSTEM == utils.OS.MACOS:
             camera_name = "last"
 
@@ -86,3 +85,14 @@ class State:
             "w",
         ) as f:
             json.dump(calibration_data, f)
+
+    def clear(self) -> None:
+        self.content = None
+        self.clearPointer()
+        self.clearCamera()
+
+    def clearPointer(self) -> None:
+        self.pointer = None
+
+    def clearCamera(self) -> None:
+        self.camera = None

@@ -20,8 +20,7 @@ class CameraPreview:
         camera_info: utils.CameraInfo,
     ):
         self.gui = gui
-        self.camera_name = camera_info.name
-        self.camera_index = camera_info.index
+        self.camera = camera_info
 
         self.button = tk.CTkButton(
             parent,
@@ -32,10 +31,18 @@ class CameraPreview:
         )
         self.button.configure(command=self.on_click)
 
-        self.camera = Camera(parent)
+        self.frame_producer = Camera(parent)
         self.preview = FrameViewer(parent, (250, 250))
-        self.camera.set_on_error_listener(self.show_error)
-        self.camera.set_frame_listener(self.show_frame)
+        self.frame_producer.set_on_error_listener(self.show_error)
+        self.frame_producer.set_frame_listener(self.show_frame)
+
+    @property
+    def camera_index(self) -> int:
+        return self.camera.index
+
+    @property
+    def camera_name(self) -> str:
+        return self.camera.name
 
     def grid(self, row: int, column: int, **kwargs: Any) -> None:
         self.button.grid(row=row, column=column, **kwargs)
@@ -47,10 +54,10 @@ class CameraPreview:
 
     @property
     def running(self) -> bool:
-        return self.camera.running
+        return self.frame_producer.running
 
     def start(self) -> None:
-        self.camera.start(self.camera_index)
+        self.frame_producer.start(self.camera_index)
 
     def show_error(self) -> None:
         self.button.configure(state=DISABLED)
@@ -60,13 +67,12 @@ class CameraPreview:
         self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
     def stop(self) -> None:
-        self.camera.stop()
+        self.frame_producer.stop()
 
     def on_click(self) -> None:
         g = self.gui
         state = g.current_state
-        state.camera_index = self.camera_index
-        state.camera_name = self.camera_name
+        state.camera = self.camera
 
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage

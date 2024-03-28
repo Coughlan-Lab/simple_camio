@@ -17,7 +17,9 @@ class ContentSelector(Screen):
     def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
-        title = tk.CTkLabel(self, text="Select a content:", height=44, text_color=Colors.text)
+        title = tk.CTkLabel(
+            self, text="Select a content:", height=44, text_color=Colors.text
+        )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
         title.configure(compound="left")
         title.configure(font=Fonts.title)
@@ -45,6 +47,8 @@ class ContentSelector(Screen):
         self.content: list[ContentRow] = list()
 
     def on_focus(self) -> None:
+        state = self.gui.current_state
+        state.clear()
         ContentManager.reload()
         self.init_content()
 
@@ -94,7 +98,7 @@ class ContentHeader(tk.CTkFrame):
             height=ContentRow.HEIGHT,
             width=200,
             bg_color=Colors.background,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         self.name.pack(side=LEFT)
 
@@ -105,7 +109,7 @@ class ContentHeader(tk.CTkFrame):
             justify=CENTER,
             height=ContentRow.HEIGHT,
             bg_color=Colors.background,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         self.description.pack(fill=X)
 
@@ -137,7 +141,7 @@ class ContentRow(tk.CTkFrame):
             justify=CENTER,
             height=ContentRow.HEIGHT,
             width=200,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         self.name.pack(
             side=LEFT,
@@ -149,7 +153,7 @@ class ContentRow(tk.CTkFrame):
             font=Fonts.subtitle,
             justify=CENTER,
             height=ContentRow.HEIGHT,
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         self.description.pack(fill=X)
 

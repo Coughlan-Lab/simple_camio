@@ -42,6 +42,8 @@ class CameraSelector(Screen):
 
     def on_focus(self) -> None:
         self.show_loading()
+        state = self.gui.current_state
+        state.clearCamera()        
         threading.Thread(target=self.__load_cameras).start()
 
     def show_loading(self) -> None:

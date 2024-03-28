@@ -23,15 +23,20 @@ class ContentVideoTutorial(Screen):
             font=Fonts.subtitle,
             height=44,
             compound="left",
-            text_color=Colors.text
+            text_color=Colors.text,
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
         proceed = tk.CTkButton(
-            self, text="Proceed", font=Fonts.button, height=50, width=120, text_color=Colors.button_text
+            self,
+            text="Proceed",
+            font=Fonts.button,
+            height=50,
+            width=120,
+            text_color=Colors.button_text,
         )
         proceed.place(relx=0.5, rely=0.9, anchor=S)
-        proceed.configure(command=self.show_pointer_selector)
+        proceed.configure(command=self.show_next_screen)
 
         self.video = TkinterVideo(self, background=Colors.background)
         self.video.set_size(ContentVideoTutorial.VIDEO_RES, keep_aspect=True)
@@ -55,5 +60,11 @@ class ContentVideoTutorial(Screen):
     def on_video_ended(self, event: Any) -> None:
         self.gui.current_state.set_content_tutorial_watched()
 
-    def show_pointer_selector(self) -> None:
-        self.gui.show_screen(gui.ScreenName.PointerSelector)
+    def show_next_screen(self) -> None:
+        state = self.gui.current_state
+        if state.pointer is None:
+            self.gui.show_screen(gui.ScreenName.PointerSelector)
+        elif state.camera is None:
+            self.gui.show_screen(gui.ScreenName.CameraCalibration)
+        else:
+            self.gui.show_screen(gui.ScreenName.ContentUsage)

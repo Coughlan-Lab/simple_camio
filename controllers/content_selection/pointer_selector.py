@@ -78,6 +78,10 @@ class PointerSelector(Screen):
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
 
+    def on_focus(self) -> None:
+        state = self.gui.current_state
+        state.clearPointer()
+
     def on_select(self, pointer: State.Pointer) -> None:
         self.gui.current_state.pointer = pointer
         self.gui.show_screen(gui.ScreenName.CameraSelector)

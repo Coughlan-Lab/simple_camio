@@ -1,6 +1,6 @@
 {
   "model":{
-      "name": "UkraineMap Example",
+      "name": "UkraineMap",
       "description": "A map of an ukranian city",
       "filename": "content/UkraineMap/segmentation.png",
       "preview": "content/UkraineMap/UkraineMap.png",

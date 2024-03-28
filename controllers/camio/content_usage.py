@@ -51,7 +51,9 @@ class ContentUsage(Screen):
         self.set_title()
 
         state = self.gui.current_state
-        self.frame_processor = get_frame_processor(state.content, state.pointer)
+        self.frame_processor = get_frame_processor(
+            state.content, state.pointer, state.get_calibration_filename()
+        )
         self.camera.start(state.camera.index)
 
     def set_title(self) -> None:

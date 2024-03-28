@@ -7,17 +7,20 @@ from ..content import Content
 from ..state import State
 
 
-def get_frame_processor(content: Content, pointer: State.Pointer) -> FrameProcessor:
+def get_frame_processor(
+    content: Content, pointer: State.Pointer, calibration_file: str
+) -> FrameProcessor:
+
     if content.is_2D():
         if pointer == State.Pointer.FINGER:
             return Finger2DFrameProcessor(content)
         else:
-            return Stylus2DFrameProcessor(content)
-    elif content.is_3D():
+            return Stylus2DFrameProcessor(content, calibration_file)
+    else:
         if pointer == State.Pointer.FINGER:
-            return Finger3DFrameProcessor(content)
+            return Finger3DFrameProcessor(content, calibration_file)
         else:
-            return Stylus3DFrameProcessor(content)
+            return Stylus3DFrameProcessor(content, calibration_file)
 
 
 __all__ = ["get_frame_processor"]

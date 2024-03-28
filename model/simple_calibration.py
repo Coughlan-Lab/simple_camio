@@ -245,14 +245,14 @@ if __name__ == "__main__":
     # ========================================
 
     parser = argparse.ArgumentParser(description='Code for calibration.')
-    parser.add_argument('--input1', help='Path to input zone image.', default='../content/UkraineMap/UkraineMap.json')
+    parser.add_argument('--input1', help='Path to input zone image.', default='content/UkraineMap/UkraineMap.json')
     args = parser.parse_args()
     intrinsic_matrix = np.array([[focal_length_x, 0.00000000e+00, camera_center_x],
                                  [0.00000000e+00, focal_length_y, camera_center_y],
                                  [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]], dtype=np.float32)
 
     # Load color image
-    template_img = cv.imread('../content/template.png', cv.IMREAD_COLOR)
+    template_img = cv.imread('content/template.png', cv.IMREAD_COLOR)
 
     # Load aruco marker positions
     model = load_map_parameters(args.input1)

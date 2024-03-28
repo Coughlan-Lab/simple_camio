@@ -33,7 +33,7 @@ class Content:
         if "preview" not in self.__content:
             return None
 
-        path = self.__get_fullpath(self.__content["preview"])
+        path: str = self.__content["preview"]
 
         if not os.path.exists(path):
             return None
@@ -63,23 +63,20 @@ class Content:
         path = os.path.join(singleton.get_content_path(self.__name), "toPrint.")
         return path + ("pdf" if self.is_2D() else "obj")
 
-    def __get_fullpath(self, file: str) -> str:
-        return os.path.join(ContentManager.CONTENT_DIR, file)
-
     def as_dict(self) -> Dict[str, Any]:
         return self.__content
 
     def crickets(self) -> str:
-        path = self.__content.get("crickets", "")
+        path: str = self.__content.get("crickets", "")
         if path == "":
             return AudioManager.crickets
-        return self.__get_fullpath(path)
+        return path
 
     def heartbeat(self) -> str:
-        path = self.__content.get("heartbeat", "")
+        path: str = self.__content.get("heartbeat", "")
         if path == "":
             return AudioManager.heartbeat
-        return self.__get_fullpath(path)
+        return path
 
 
 class ContentManager:

@@ -50,7 +50,7 @@ class ModelDetectorAruco:
 class InteractionPolicy2D:
     def __init__(self, model):
         self.model = model
-        self.image_map_color = cv.imread("content/"+model["filename"], cv.IMREAD_COLOR)
+        self.image_map_color = cv.imread(model["filename"], cv.IMREAD_COLOR)
         self.ZONE_FILTER_SIZE = 10
         self.Z_THRESHOLD = 2.0
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
@@ -103,20 +103,20 @@ class CamIOPlayer2D:
         self.sound_files = {}
         self.hotspots = {}
         self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load("content/"+self.model["blipsound"], streaming=False)
+        self.blip_sound = pyglet.media.load(self.model["blipsound"], streaming=False)
         self.enable_blips = False
         if "map_description" in self.model:
             self.map_description = pyglet.media.load(
-                "content/"+self.model["map_description"], streaming=False
+                self.model["map_description"], streaming=False
             )
             self.have_played_description = False
         else:
             self.have_played_description = True
         self.welcome_message = pyglet.media.load(
-            "content/"+self.model["welcome_message"], streaming=False
+            self.model["welcome_message"], streaming=False
         )
         self.goodbye_message = pyglet.media.load(
-            "content/"+self.model["goodbye_message"], streaming=False
+            self.model["goodbye_message"], streaming=False
         )
         for hotspot in self.model["hotspots"]:
             key = (
@@ -125,12 +125,12 @@ class CamIOPlayer2D:
                 + hotspot["color"][0] * 256 * 256
             )
             self.hotspots.update({key: hotspot})
-            if os.path.exists("content/"+hotspot["audioDescription"]):
+            if os.path.exists(hotspot["audioDescription"]):
                 self.sound_files[key] = pyglet.media.load(
-                    "content/"+hotspot["audioDescription"], streaming=False
+                    hotspot["audioDescription"], streaming=False
                 )
             else:
-                print("warning. file not found:" + "content/"+ hotspot["audioDescription"])
+                print("warning. file not found:" + hotspot["audioDescription"])
 
     def play_description(self):
         if not self.have_played_description:

@@ -8,7 +8,7 @@ import cv2
 
 
 class Finger2DFrameProcessor(FrameProcessor):
-    def __init__(self, content: Content):
+    def __init__(self, content: Content) -> None:
         FrameProcessor.__init__(self, content)
 
         self.pose_detector = PoseDetectorMP(content.as_dict())

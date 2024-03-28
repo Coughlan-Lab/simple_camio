@@ -108,7 +108,7 @@ class PoseDetectorMP:
 class InteractionPolicyMP:
     def __init__(self, model):
         self.model = model
-        self.image_map_color = cv.imread("../content/"+model['preview'], cv.IMREAD_COLOR)
+        self.image_map_color = cv.imread(model['preview'], cv.IMREAD_COLOR)
         self.ZONE_FILTER_SIZE = 10
         self.Z_THRESHOLD = 2.0
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)

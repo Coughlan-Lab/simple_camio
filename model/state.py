@@ -68,23 +68,18 @@ class State:
             json.dump(config, f)
 
     def is_calibrated(self, camera: str) -> bool:
-        if utils.SYSTEM == utils.OS.MACOS:
-            camera = "last"
-
-        return os.path.exists(
-            os.path.join(self.config_folder, f"{camera}_calibration.json")
-        )
+        return os.path.exists(self.get_calibration_filename(camera))
 
     def save_calibration(self, calibration_data: Dict[str, Any]) -> None:
-        camera_name = self.camera.name
+        with open(self.get_calibration_filename(), "w") as f:
+            json.dump(calibration_data, f)
+
+    def get_calibration_filename(self, camera_name: Optional[str] = None) -> str:
+        if camera_name is None:
+            camera_name = self.camera.name
         if utils.SYSTEM == utils.OS.MACOS:
             camera_name = "last"
-
-        with open(
-            os.path.join(self.config_folder, f"{camera_name}_calibration.json"),
-            "w",
-        ) as f:
-            json.dump(calibration_data, f)
+        return os.path.join(self.config_folder, f"{camera_name}_calibration.json")
 
     def clear(self) -> None:
         self.content = None

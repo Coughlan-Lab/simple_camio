@@ -10,6 +10,7 @@ class FrameViewer(Label):
     def __init__(self, parent: Union[tk.CTkFrame, tk.CTk], frame_size: Tuple[int, int]):
         Label.__init__(self, parent)
 
+        self.default_frame_size = frame_size
         self.frame_size = frame_size
 
         self.configure(
@@ -41,9 +42,15 @@ class FrameViewer(Label):
 
     def __reshape_preview(self, w: int, h: int) -> None:
         if w > h:
-            self.frame_size = (self.frame_size[0], int(h * self.frame_size[0] / w))
+            self.frame_size = (
+                self.default_frame_size[0],
+                int(h * self.default_frame_size[0] / w),
+            )
         else:  # h > w
-            self.frame_size = (int(w * self.frame_size[1] / h), self.frame_size[1])
+            self.frame_size = (
+                int(w * self.default_frame_size[1] / h),
+                self.default_frame_size[1],
+            )
 
         self.configure(
             width=self.frame_size[0], height=self.frame_size[1], background="black"

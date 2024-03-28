@@ -8,11 +8,11 @@ import argparse
 import json
 from typing import Tuple
 from scipy import optimize
-
+from res import ImgsManager
 
 class Calibration:
     def __init__(self, model):
-        self.template_img = cv.imread("res/imgs/template.png", cv.IMREAD_COLOR)
+        self.template_img = cv.imread(ImgsManager.template, cv.IMREAD_COLOR)
         self.obj, self.list_of_ids = parse_aruco_codes(
             model["positioningData"]["arucoCodes"]
         )

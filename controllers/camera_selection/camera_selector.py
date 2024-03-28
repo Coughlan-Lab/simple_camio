@@ -43,7 +43,7 @@ class CameraSelector(Screen):
     def on_focus(self) -> None:
         self.show_loading()
         state = self.gui.current_state
-        state.clearCamera()        
+        state.clearCamera()
         threading.Thread(target=self.__load_cameras).start()
 
     def show_loading(self) -> None:
@@ -57,9 +57,6 @@ class CameraSelector(Screen):
     def __load_cameras(self) -> None:
         if len(self.previews) == 0:
             self.init_cameras()
-
-        if len(self.previews) == 1 and self.previews[0].running:
-            self.previews[0].on_click()
 
         for preview in self.previews:
             preview.start()

@@ -2,6 +2,7 @@
   "model":{
       "name": "UkraineMap Example",
       "description": "A map of an ukranian city",
+      "filename": "UkraineMap/segmentation.png",
       "preview": "UkraineMap/UkraineMap.png",
       "blipsound":"MP3/quick_blip.wav",
       "welcome_message":"MP3/welcome.mp3",

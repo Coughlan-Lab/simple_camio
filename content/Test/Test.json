@@ -2,6 +2,7 @@
     "model": {
         "name": "Test",
         "description": "A color map just for testing",
+        "filename": "Test/Test.png",
         "preview": "Test/Test.png",
         "blipsound": "MP3/quick_blip.wav",
         "welcome_message": "MP3/welcome.mp3",

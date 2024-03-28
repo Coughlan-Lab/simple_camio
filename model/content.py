@@ -2,6 +2,7 @@ from enum import Enum
 import os
 import json
 from typing import Any, Dict, List, Union
+from res import AudioManager
 
 
 class Content:
@@ -32,7 +33,7 @@ class Content:
         if "preview" not in self.__content:
             return None
 
-        path = self.get_path(self.__content["preview"])
+        path = self.__get_fullpath(self.__content["preview"])
 
         if not os.path.exists(path):
             return None
@@ -62,8 +63,23 @@ class Content:
         path = os.path.join(singleton.get_content_path(self.__name), "toPrint.")
         return path + ("pdf" if self.is_2D() else "obj")
 
-    def get_path(self, file: str) -> str:
+    def __get_fullpath(self, file: str) -> str:
         return os.path.join(ContentManager.CONTENT_DIR, file)
+
+    def as_dict(self) -> Dict[str, Any]:
+        return self.__content
+
+    def crickets(self) -> str:
+        path = self.__content.get("crickets", "")
+        if path == "":
+            return AudioManager.crickets
+        return self.__get_fullpath(path)
+
+    def heartbeat(self) -> str:
+        path = self.__content.get("heartbeat", "")
+        if path == "":
+            return AudioManager.heartbeat
+        return self.__get_fullpath(path)
 
 
 class ContentManager:
@@ -71,7 +87,6 @@ class ContentManager:
 
     def __init__(self) -> None:
         self.__content: dict[str, Content] = dict()
-        self.__pointer: str
 
         self.reload()
 
@@ -93,10 +108,6 @@ class ContentManager:
             if os.path.exists(content_path):
                 model = self.__load_json(content_path)["model"]
                 self.__content[model["name"]] = Content(content_name, model)
-
-        self.__pointer = os.path.join(
-            ContentManager.CONTENT_DIR, "teardrop_stylus.json"
-        )
 
     @property
     def content(self) -> List[str]:

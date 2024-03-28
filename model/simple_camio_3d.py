@@ -1,3 +1,4 @@
+# mypy: ignore-errors
 import cv2 as cv
 import numpy as np
 import pyglet
@@ -12,11 +13,15 @@ class SIFTModelDetector:
     def __init__(self, model, intrinsic_matrix):
         self.model = model
         # Load the template image
-        img_object = cv.imread("../content/"+model["template_image"], cv.IMREAD_GRAYSCALE)
+        img_object = cv.imread(
+            "../content/" + model["template_image"], cv.IMREAD_GRAYSCALE
+        )
 
         # Detect SIFT keypoints
         self.detector = cv.SIFT_create()
-        self.keypoints_obj, self.descriptors_obj = self.detector.detectAndCompute(img_object, mask=None)
+        self.keypoints_obj, self.descriptors_obj = self.detector.detectAndCompute(
+            img_object, mask=None
+        )
         self.rvec = None
         self.tvec = None
         self.requires_pnp = True
@@ -49,7 +54,9 @@ class SIFTModelDetector:
             scene[i, 0] = keypoints_scene[good_matches[i].trainIdx].pt[0]
             scene[i, 1] = keypoints_scene[good_matches[i].trainIdx].pt[1]
         # Compute homography and find inliers
-        H, mask_out = cv.findHomography(obj, scene, cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995)
+        H, mask_out = cv.findHomography(
+            obj, scene, cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995
+        )
 
         obj_inliers = np.empty((np.sum(mask_out), 2))
         scene_inliers = np.empty((np.sum(mask_out), 2))
@@ -65,14 +72,20 @@ class SIFTModelDetector:
             hull_area = 0.0
         else:
             hull_area = cv.contourArea(hull)
-        if hull_area < self.model["hull_area_thresh"] or len(scene_inliers) < self.model["inliers_thresh"] or len(obj_inliers) == 0:
+        if (
+            hull_area < self.model["hull_area_thresh"]
+            or len(scene_inliers) < self.model["inliers_thresh"]
+            or len(obj_inliers) == 0
+        ):
             return False, None, None
 
         # Convert obj points to 3d points
         obj_3d = get_3d_points_from_pixels(obj_inliers, self.model["pixels_per_cm"])
 
         # Run PnP to get rotation and translation vectors
-        retval, self.rvec, self.tvec = cv.solvePnP(obj_3d, scene_inliers, self.intrinsic_matrix, None)
+        retval, self.rvec, self.tvec = cv.solvePnP(
+            obj_3d, scene_inliers, self.intrinsic_matrix, None
+        )
         self.requires_pnp = not retval
         return retval, self.rvec, self.tvec
 
@@ -86,7 +99,11 @@ class InteractionPolicyOBJ:
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
         self.intrinsic_matrix = intrinsic_matrix
-        self.map_obj = OBJ("../content/"+model["model_file"], model.get("excluded_regions",[]), swapyz=model.get("swapyz",True))
+        self.map_obj = OBJ(
+            "../content/" + model["model_file"],
+            model.get("excluded_regions", []),
+            swapyz=model.get("swapyz", True),
+        )
         R = np.array(model["model_rotation"], dtype=np.float32)
         T = np.array(model["model_translation"], dtype=np.float32)
         offset = np.array(model["model_offset"], dtype=np.float32)
@@ -122,7 +139,7 @@ class GestureDetector:
         self.MAX_QUEUE_LENGTH = 30
         self.positions = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.times = deque(maxlen=self.MAX_QUEUE_LENGTH)
-        self.DWELL_TIME_THRESH = .75
+        self.DWELL_TIME_THRESH = 0.75
         self.X_MVMNT_THRESH = 0.5
         self.Y_MVMNT_THRESH = 0.5
         self.Z_MVMNT_THRESH = 4.0
@@ -131,11 +148,11 @@ class GestureDetector:
         self.positions.append(position)
         now = time.time()
         self.times.append(now)
-        i = len(self.times)-1
+        i = len(self.times) - 1
         Xs = []
         Ys = []
         Zs = []
-        while (i >= 0 and now - self.times[i] < self.DWELL_TIME_THRESH):
+        while i >= 0 and now - self.times[i] < self.DWELL_TIME_THRESH:
             Xs.append(self.positions[i][0])
             Ys.append(self.positions[i][1])
             Zs.append(self.positions[i][2])
@@ -143,17 +160,39 @@ class GestureDetector:
         Xdiff = max(Xs) - min(Xs)
         Ydiff = max(Ys) - min(Ys)
         Zdiff = max(Zs) - min(Zs)
-        print("(i: " + str(i) + ") X: " + str(Xdiff) + ", Y: " + str(Ydiff) + ", Z: " + str(Zdiff))
-        if Xdiff < self.X_MVMNT_THRESH and Ydiff < self.Y_MVMNT_THRESH and Zdiff < self.Z_MVMNT_THRESH:
-            return np.array([sum(Xs)/float(len(Xs)), sum(Ys)/float(len(Ys)), sum(Zs)/float(len(Zs))]), 'still'
+        print(
+            "(i: "
+            + str(i)
+            + ") X: "
+            + str(Xdiff)
+            + ", Y: "
+            + str(Ydiff)
+            + ", Z: "
+            + str(Zdiff)
+        )
+        if (
+            Xdiff < self.X_MVMNT_THRESH
+            and Ydiff < self.Y_MVMNT_THRESH
+            and Zdiff < self.Z_MVMNT_THRESH
+        ):
+            return (
+                np.array(
+                    [
+                        sum(Xs) / float(len(Xs)),
+                        sum(Ys) / float(len(Ys)),
+                        sum(Zs) / float(len(Zs)),
+                    ]
+                ),
+                "still",
+            )
         else:
-            return position, 'moving'
+            return position, "moving"
 
 
 # Class to load and represent an object file
 class OBJ:
     def __init__(self, filename, exclude_regions=[], swapyz=False):
-        """Loads a Wavefront OBJ file. """
+        """Loads a Wavefront OBJ file."""
         self.vertices = []
         self.normals = []
         self.texcoords = []
@@ -164,38 +203,44 @@ class OBJ:
         material = None
         current_reg_id = -1
         for line in open(filename, "r"):
-            if line.startswith('#'): continue
+            if line.startswith("#"):
+                continue
             values = line.split()
-            if not values: continue
-            if values[0] == 'o':
+            if not values:
+                continue
+            if values[0] == "o":
                 self.Region_names.append(values[1])
                 current_reg_id += 1
-            elif current_reg_id > -1 and \
-                    any([reg_name in self.Region_names[current_reg_id] for reg_name in exclude_regions]):
+            elif current_reg_id > -1 and any(
+                [
+                    reg_name in self.Region_names[current_reg_id]
+                    for reg_name in exclude_regions
+                ]
+            ):
                 continue
-            elif values[0] == 'v':
+            elif values[0] == "v":
                 v = list(map(float, values[1:4]))
                 if swapyz:
                     v = v[0], v[2], v[1]
                 self.vertices.append(v)
                 self.vertex_reg_id.append(current_reg_id)
-            elif values[0] == 'vn':
+            elif values[0] == "vn":
                 v = list(map(float, values[1:4]))
                 if swapyz:
                     v = v[0], v[2], v[1]
                 self.normals.append(v)
-            elif values[0] == 'vt':
+            elif values[0] == "vt":
                 self.texcoords.append(map(float, values[1:3]))
-            elif values[0] in ('usemtl', 'usemat'):
+            elif values[0] in ("usemtl", "usemat"):
                 material = values[1]
-            elif values[0] == 'mtllib':
-                self.mtl = (values[1])
-            elif values[0] == 'f':
+            elif values[0] == "mtllib":
+                self.mtl = values[1]
+            elif values[0] == "f":
                 face = []
                 texcoords = []
                 norms = []
                 for v in values[1:]:
-                    w = v.split('/')
+                    w = v.split("/")
                     face.append(int(w[0]))
                     if len(w) >= 2 and len(w[1]) > 0:
                         texcoords.append(int(w[1]))
@@ -215,21 +260,33 @@ class CamIOPlayerOBJ:
         self.prev_zone_moving = -1
         self.sound_files = {}
         self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load("../content/"+self.model['blipsound'], streaming=False)
+        self.blip_sound = pyglet.media.load(
+            "../content/" + self.model["blipsound"], streaming=False
+        )
         self.enable_blips = False
         if "map_description" in self.model:
-            self.map_description = pyglet.media.load("../content/"+self.model['map_description'], streaming=False)
+            self.map_description = pyglet.media.load(
+                "../content/" + self.model["map_description"], streaming=False
+            )
             self.have_played_description = False
         else:
             self.have_played_description = True
-        self.welcome_message = pyglet.media.load("../content/"+self.model['welcome_message'], streaming=False)
-        self.goodbye_message = pyglet.media.load("../content/"+self.model['goodbye_message'], streaming=False)
-        zone_dict = self.generate_zone_dict("../content/"+self.model['soundfile_mapping'])
+        self.welcome_message = pyglet.media.load(
+            "../content/" + self.model["welcome_message"], streaming=False
+        )
+        self.goodbye_message = pyglet.media.load(
+            "../content/" + self.model["goodbye_message"], streaming=False
+        )
+        zone_dict = self.generate_zone_dict(
+            "../content/" + self.model["soundfile_mapping"]
+        )
         for key in zone_dict.keys():
-            if os.path.exists("../content/"+zone_dict[key]):
-                self.sound_files[key] = pyglet.media.load("../content/"+zone_dict[key], streaming=False)
+            if os.path.exists("../content/" + zone_dict[key]):
+                self.sound_files[key] = pyglet.media.load(
+                    "../content/" + zone_dict[key], streaming=False
+                )
             else:
-                print("warning. file not found:" + "../content/"+ zone_dict[key])
+                print("warning. file not found:" + "../content/" + zone_dict[key])
 
     def play_description(self):
         if not self.have_played_description:
@@ -239,10 +296,10 @@ class CamIOPlayerOBJ:
     # Function to generate a dictionary for names of zones based on a csv file
     def generate_zone_dict(self, csv_file):
         zone_dict = {}
-        with open(csv_file, 'r', encoding='utf-8-sig') as f:
+        with open(csv_file, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                zone_dict[row['Object ID']] = row['Name']
+                zone_dict[row["Object ID"]] = row["Name"]
         return zone_dict
 
     def play_welcome(self):
@@ -258,10 +315,12 @@ class CamIOPlayerOBJ:
                     self.player.delete()
                 try:
                     self.player = self.blip_sound.play()
-                except(BaseException):
-                    print("Exception raised. Cannot play sound. Please restart the application.")
+                except BaseException:
+                    print(
+                        "Exception raised. Cannot play sound. Please restart the application."
+                    )
                 self.prev_zone_moving = zone
-            #self.prev_zone = None
+            # self.prev_zone = None
             return
         if zone not in self.sound_files:
             self.prev_zone = None
@@ -272,8 +331,10 @@ class CamIOPlayerOBJ:
             sound = self.sound_files[zone]
             try:
                 self.player = sound.play()
-            except(BaseException):
-                print("Exception raised. Cannot play sound. Please restart the application.")
+            except BaseException:
+                print(
+                    "Exception raised. Cannot play sound. Please restart the application."
+                )
             self.prev_zone = zone
 
 
@@ -289,6 +350,6 @@ def get_3d_points_from_pixels(obj_pts, pixels_per_cm):
 
 def find_closest_point(point, points):
     """Finds the closest point in a list of points to a given point"""
-    dists = np.linalg.norm(points-point.transpose(),axis=1)
+    dists = np.linalg.norm(points - point.transpose(), axis=1)
     min_index = np.argmin(dists)
     return min_index, dists[min_index]

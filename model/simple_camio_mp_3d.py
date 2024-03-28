@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 import mediapipe as mp
 from scipy import stats
-from simple_camio_3d import OBJ, find_closest_point
+from .simple_camio_3d import OBJ, find_closest_point
 
 class PoseDetectorMP3D:
     def __init__(self):

@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 import mediapipe as mp
 from scipy import stats
-from simple_camio_2d import parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
+from .simple_camio_2d import parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
 
 
 class ModelDetectorArucoMP:

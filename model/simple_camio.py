@@ -8,10 +8,10 @@ import json
 import argparse
 import pyglet.media
 from collections import deque
-from simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
-from simple_camio_2d import InteractionPolicy2D, CamIOPlayer2D, ModelDetectorAruco, parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
-from simple_camio_mp import ModelDetectorArucoMP, PoseDetectorMP
-from simple_camio_mp_3d import PoseDetectorMP3D, InteractionPolicyOBJObject
+from .simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
+from .simple_camio_2d import InteractionPolicy2D, CamIOPlayer2D, ModelDetectorAruco, parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
+from .simple_camio_mp import ModelDetectorArucoMP, PoseDetectorMP
+from .simple_camio_mp_3d import PoseDetectorMP3D, InteractionPolicyOBJObject
 
 
 # The PoseDetector class determines the pose of the pointer, and returns the

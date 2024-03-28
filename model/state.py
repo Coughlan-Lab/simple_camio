@@ -1,10 +1,9 @@
 from enum import Enum
 from typing import Any, Dict
 
-from model.content_manager import Content
+from model import Content, utils
 import os
 import json
-import platform
 
 
 class State:
@@ -12,14 +11,7 @@ class State:
         FINGER = "finger"
         STYLUS = "stylus"
 
-    class OS(Enum):
-        MACOS = "Darwin"
-        WINDOWS = "Windows"
-        LINUX = "Linux"
-
     def __init__(self, config_folder: str) -> None:
-        self.initOS()
-
         os.makedirs(config_folder, exist_ok=True)
         self.config_folder = config_folder
 
@@ -33,17 +25,6 @@ class State:
         self.pointer: State.Pointer
         self.camera_index: int
         self.camera_name: str
-
-    def initOS(self) -> None:
-        system = platform.system()
-        if system == "Darwin":
-            self.os = State.OS.MACOS
-        elif system == "Windows":
-            self.os == State.OS.WINDOWS
-        elif system.os == "Linux":
-            self.os = State.OS.LINUX
-        else:
-            raise NotImplementedError(f"Unknown os: {system}")
 
     def set_content_tutorial_watched(self) -> None:
         if not self.__content_tutorial_watched:
@@ -88,7 +69,7 @@ class State:
             json.dump(config, f)
 
     def is_calibrated(self, camera: str) -> bool:
-        if self.os == State.OS.MACOS:
+        if utils.SYSTEM == utils.OS.MACOS:
             camera = "last"
 
         return os.path.exists(
@@ -97,7 +78,7 @@ class State:
 
     def save_calibration(self, calibration_data: Dict[str, Any]) -> None:
         camera_name = self.camera_name
-        if self.os == State.OS.MACOS:
+        if utils.SYSTEM == utils.OS.MACOS:
             camera_name = "last"
 
         with open(

@@ -9,8 +9,7 @@ from ..components import Camera
 from view import FrameViewer
 import cv2
 import numpy as np
-from model.utils import CameraInfo
-from model import State
+from model import State, utils
 
 
 class CameraPreview:
@@ -18,7 +17,7 @@ class CameraPreview:
         self,
         gui: "gui.GUI",
         parent: Union[tk.CTkFrame, tk.CTk],
-        camera_info: CameraInfo,
+        camera_info: utils.CameraInfo,
     ):
         self.gui = gui
         self.camera_name = camera_info.name
@@ -72,7 +71,7 @@ class CameraPreview:
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage
         elif state.is_calibrated(self.camera_name):
-            if state.os == State.OS.MACOS:
+            if utils.SYSTEM == utils.OS.MACOS:
                 next_screen = gui.ScreenName.CalibrationFound
             else:
                 next_screen = gui.ScreenName.ContentUsage

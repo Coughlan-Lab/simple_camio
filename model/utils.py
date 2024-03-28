@@ -3,17 +3,32 @@ import platform
 import subprocess
 from typing import Any, List, Generator
 import cv2
+from enum import Enum
 
-system = platform.system()
+SYSTEM = platform.system()
 
-if system == "Darwin":
+class OS(Enum):
+    MACOS = "Darwin"
+    WINDOWS = "Windows"
+    LINUX = "Linux"
+
+if platform.system() == "Darwin":
+    SYSTEM = OS.MACOS
+elif platform.system() == "Windows":
+    SYSTEM = OS.WINDOWS
+elif platform.system().os == "Linux":
+    SYSTEM = OS.LINUX
+else:
+    raise NotImplementedError(f"Unknown os: {platform.system()}")
+
+if SYSTEM == OS.MACOS:
 
     def open_file(path: str) -> None:
         if not os.path.exists(path):
             return
         subprocess.call(["open", path])
 
-elif system == "Windows":
+elif SYSTEM == OS.WINDOWS:
 
     def open_file(path: str) -> None:
         os.startfile(path)
@@ -21,7 +36,7 @@ elif system == "Windows":
 else:
 
     def open_file(path: str) -> None:
-        raise NotImplementedError(f"Unknown os: {system}")
+        raise NotImplementedError(f"Unknown os: {SYSTEM}")
 
 
 class CameraInfo:
@@ -33,7 +48,7 @@ class CameraInfo:
     name: str
 
 
-if system == "Windows" or system == "Linux":
+if SYSTEM == OS.WINDOWS or SYSTEM == OS.LINUX:
     from cv2_enumerate_cameras import (
         enumerate_cameras as camera_enumerator,
     )  #  type: ignore

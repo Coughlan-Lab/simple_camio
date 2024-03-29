@@ -39,4 +39,4 @@ For Windows:
 
 ```console
 pyinstaller --noconfirm --onefile --windowed --add-data "C:/Users/<USER NAME>/AppData/Local/Programs/Python/Python38/Lib/site-packages/mediapipe/modules/hand_landmark;mediapipe/modules/hand_landmark/" --add-data "C:/Users/<USER NAME>/AppData/Local/Programs/Python/Python38/Lib/site-packages/mediapipe/modules/palm_detection;mediapipe/modules/palm_detection/" --add-data "res;res/" main.py
-```console
+```

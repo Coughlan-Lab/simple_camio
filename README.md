@@ -4,8 +4,7 @@ Python graphical interface to CamIO.
 
 ## System requirements:
 
-The application has currently been tested only on Windows.
-Mac support will be added in the future
+The application has currently been tested only on Windows; Mac support will be added in the future.
 
 ## Install:
 

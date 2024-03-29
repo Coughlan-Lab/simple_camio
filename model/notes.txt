@@ -1,0 +1,29 @@
+-   2D
+    2d
+    aruco
+    pointer detection
+
+-   mediapipe
+    2d
+    aruco
+    mediapipe
+
+-   3D
+    3d
+    sift
+    pointer detection
+
+-   mediapipe_3d
+    3d
+    sift
+    mediapipe
+
+-   aruco_3d
+    3d
+    aruco
+    pointer detection
+
+-   mediapipe_3d_object
+    3d
+    aruco
+    mediapipe

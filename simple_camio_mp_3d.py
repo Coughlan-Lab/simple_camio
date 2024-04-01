@@ -103,10 +103,16 @@ class InteractionPolicyOBJObject:
         vertices, _ = cv.projectPoints(self.vertices_3d, R, T, self.intrinsic_matrix, None)
         self.vertices = np.squeeze(vertices)
         self.D_SET_THRESHOLD = 10
-        self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
+        self.D_THRESHOLD = 5.0 * self.D_SET_THRESHOLD
         R_mat, _ = cv.Rodrigues(R)
         R_inv = np.linalg.inv(R_mat)
         self.T = np.matmul(R_inv,-T).transpose()
+
+    def draw_points(self, img):
+        is_visible = np.linalg.norm(self.mid_point - self.T) > np.linalg.norm(self.vertices_3d - self.T, axis=1)
+        for pt in self.vertices[is_visible,:]:
+            cv.circle(img, (int(pt[0]),int(pt[1])), 50, [255,255,255], 2)
+        return img
 
     def push_gesture(self, position):
         # First determine which points are on the right side of the object

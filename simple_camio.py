@@ -418,6 +418,8 @@ while cap.isOpened():
         interact.project_vertices(rvec, tvec)
         gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame)
         img_scene_color = image_annotator.annotate_image(img_scene_color, [], rvec, tvec)
+        if model['modelType'] == "mediapipe_3d_object":
+            img_scene_color = interact.draw_points(img_scene_color)
         if gesture_loc is None:
             heartbeat_player.pause_sound()
             continue

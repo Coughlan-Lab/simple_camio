@@ -14,7 +14,7 @@ Just run from the terminal:
 pip install -r requirements.txt
 ```
 
-Python 3.8 is required.
+Python 3.8.19 is required.
 
 ## Usage:
 

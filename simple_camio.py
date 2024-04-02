@@ -272,7 +272,7 @@ def load_map_parameters(filename):
 
 
 parser = argparse.ArgumentParser(description='Code for CamIO.')
-parser.add_argument('--input1', help='Path to parameter json file.', default='models/UkraineMap/UkraineMap.json')
+parser.add_argument('--input1', help='Path to parameter json file.', default='models/house_3d/house.json')
 args = parser.parse_args()
 
 # Load map and camera parameters

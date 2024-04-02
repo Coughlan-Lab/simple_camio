@@ -20,24 +20,19 @@ class FrameProcessor:
 
         if calibration_file is not None:
             self.intrinsic_matrix = load_camera_parameters(calibration_file)
-            print("matrix")
             self.annotator = ImageAnnotator(self.intrinsic_matrix)
-            print("annotator")
 
         self.model_detector = self.get_model_detector()
-        print("model")
         self.interaction = self.get_interaction_policy()
-        print("interaction")
         self.audio_player = self.get_audio_player()
-        print("player")
 
         self.motion_filter = MovementMedianFilter()
-        print("filter")
         self.gesture_detector = GestureDetector()
-        print("gesture")
         self.crickets_player = AmbientSoundPlayer(content.crickets())
         self.heartbeat_player = AmbientSoundPlayer(content.heartbeat())
         self.heartbeat_player.set_volume(0.05)
+
+        self.audio_player.play_description()
 
     def get_interaction_policy(self):
         raise NotImplementedError(

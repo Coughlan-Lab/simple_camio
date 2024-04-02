@@ -25,6 +25,7 @@ class FrameProcessor:
         self.model_detector = self.get_model_detector()
         self.interaction = self.get_interaction_policy()
         self.audio_player = self.get_audio_player()
+        self.pose_detector = self.get_pose_detector()
 
         self.motion_filter = MovementMedianFilter()
         self.gesture_detector = GestureDetector()
@@ -44,6 +45,9 @@ class FrameProcessor:
 
     def get_audio_player(self):
         raise NotImplementedError("get_audio_player must be implemented by subclass")
+
+    def get_pose_detector(self):
+        raise NotImplementedError("get_pose_detector must be implemented by subclass")
 
     def start(self) -> None:
         self.audio_player.play_welcome()

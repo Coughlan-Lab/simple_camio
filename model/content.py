@@ -7,9 +7,13 @@ from .utils import getcwd
 
 
 class Content:
-    class ModelType(Enum):
+    class ModelDimensions(Enum):
         TWO_D = "2D"
         THREE_D = "3D"
+    
+    class ModelDetectionType(Enum):
+        ARUCO = "aruco"
+        SIFT = "sift"
 
     def __init__(self, name: str, content: Dict[str, Any]) -> None:
         self.__name = name
@@ -41,28 +45,54 @@ class Content:
         return path
 
     @property
-    def model_type(self) -> ModelType:
+    def model_dimensions(self) -> ModelDimensions:
         model_type = self.__content["modelType"]
         if model_type == "2D":
-            return Content.ModelType.TWO_D
+            return Content.ModelDimensions.TWO_D
         elif model_type == "3D":
-            return Content.ModelType.THREE_D
+            return Content.ModelDimensions.THREE_D
         elif model_type == "mediapipe":
-            return Content.ModelType.TWO_D
+            return Content.ModelDimensions.TWO_D
         elif model_type == "mediapipe_3d":
-            return Content.ModelType.THREE_D
+            return Content.ModelDimensions.THREE_D
+        elif model_type == "aruco_3d":
+            return Content.ModelDimensions.THREE_D
+        elif model_type == "mediapipe_3d_object":
+            return Content.ModelDimensions.THREE_D
+        raise ValueError(f"Unknown model type {model_type}")
+
+    @property
+    def model_detection(self) -> ModelDetectionType:
+        model_type = self.__content["modelType"]
+        if model_type == "2D":
+            return Content.ModelDetectionType.ARUCO
+        elif model_type == "3D":
+            return Content.ModelDetectionType.SIFT
+        elif model_type == "mediapipe":
+            return Content.ModelDetectionType.ARUCO
+        elif model_type == "mediapipe_3d":
+            return Content.ModelDetectionType.SIFT
+        elif model_type == "aruco_3d":
+            return Content.ModelDetectionType.ARUCO
+        elif model_type == "mediapipe_3d_object":
+            return Content.ModelDetectionType.ARUCO
         raise ValueError(f"Unknown model type {model_type}")
 
     def is_2D(self) -> bool:
-        return self.model_type == Content.ModelType.TWO_D
+        return self.model_dimensions == Content.ModelDimensions.TWO_D
 
     def is_3D(self) -> bool:
         return not self.is_2D()
 
+    def use_aruco(self) -> bool:
+        return self.model_detection == Content.ModelDetectionType.ARUCO
+
+    def use_sift_features(self) -> bool:
+        return not self.use_aruco()
+
     @property
     def to_print(self) -> str:
-        path = os.path.join(singleton.get_content_path(self.__name), "toPrint.")
-        return path + ("pdf" if self.is_2D() else "obj")
+        return os.path.join(singleton.get_content_path(self.__name), "toPrint.pdf")
 
     def as_dict(self) -> Dict[str, Any]:
         return self.__content

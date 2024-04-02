@@ -1,18 +1,12 @@
 # mypy: ignore-errors
 import numpy as np
 from .frame_processor import FrameProcessor
-from ..content import Content
 from ..simple_camio import PoseDetector
 from ..simple_camio_2d import CamIOPlayer2D, InteractionPolicy2D, ModelDetectorAruco
 import cv2
 
 
-class Stylus2DFrameProcessor(FrameProcessor):
-    def __init__(self, content: Content, calibration_file: str) -> None:
-        FrameProcessor.__init__(self, content, calibration_file)
-
-        self.pose_detector = PoseDetector(content.as_dict(), self.intrinsic_matrix)
-
+class StylusAruco2DFP(FrameProcessor):
     def get_audio_player(self):
         return CamIOPlayer2D(self.content.as_dict())
 
@@ -21,6 +15,9 @@ class Stylus2DFrameProcessor(FrameProcessor):
 
     def get_interaction_policy(self):
         return InteractionPolicy2D(self.content.as_dict())
+
+    def get_pose_detector(self):
+        return PoseDetector(self.content.as_dict(), self.intrinsic_matrix)
 
     def process(self, img: np.ndarray) -> np.ndarray:
         img = super().process(img)

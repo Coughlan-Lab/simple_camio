@@ -1,18 +1,12 @@
 # mypy: ignore-errors
 import numpy as np
 from .frame_processor import FrameProcessor
-from ..content import Content
 from ..simple_camio_mp import ModelDetectorArucoMP, PoseDetectorMP
 from ..simple_camio_2d import CamIOPlayer2D, InteractionPolicy2D
 import cv2
 
 
-class Finger2DFrameProcessor(FrameProcessor):
-    def __init__(self, content: Content) -> None:
-        FrameProcessor.__init__(self, content)
-
-        self.pose_detector = PoseDetectorMP(content.as_dict())
-
+class FingerAruco2DFP(FrameProcessor):
     def get_audio_player(self):
         return CamIOPlayer2D(self.content.as_dict())
 
@@ -21,6 +15,9 @@ class Finger2DFrameProcessor(FrameProcessor):
 
     def get_interaction_policy(self):
         return InteractionPolicy2D(self.content.as_dict())
+
+    def get_pose_detector(self):
+        return PoseDetectorMP(self.content.as_dict())
 
     def process(self, img: np.ndarray) -> np.ndarray:
         img = super().process(img)

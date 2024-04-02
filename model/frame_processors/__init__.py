@@ -1,7 +1,9 @@
-from .finger_2d import Finger2DFrameProcessor
-from .finger_3d import Finger3DFrameProcessor
-from .stylus_2d import Stylus2DFrameProcessor
-from .stylus_3d import Stylus3DFrameProcessor
+from .finger_aruco_2d import FingerAruco2DFP
+from .finger_aruco_3d import FingerAruco3DFP
+from .finger_sift_3d import FingerSift3DFP
+from .stylus_aruco_2d import StylusAruco2DFP
+from .stylus_aruco_3d import StylusArucop3DFP
+from .stylus_sift_3d import StylusSift3DFP
 from .frame_processor import FrameProcessor
 from ..content import Content
 from ..state import State
@@ -13,14 +15,20 @@ def get_frame_processor(
 
     if content.is_2D():
         if pointer == State.Pointer.FINGER:
-            return Finger2DFrameProcessor(content)
+            return FingerAruco2DFP(content)
         else:
-            return Stylus2DFrameProcessor(content, calibration_file)
+            return StylusAruco2DFP(content, calibration_file)
     else:
-        if pointer == State.Pointer.FINGER:
-            return Finger3DFrameProcessor(content, calibration_file)
+        if content.use_aruco():
+            if pointer == State.Pointer.FINGER:
+                return FingerAruco3DFP(content, calibration_file)
+            else:
+                return StylusArucop3DFP(content, calibration_file)
         else:
-            return Stylus3DFrameProcessor(content, calibration_file)
+            if pointer == State.Pointer.FINGER:
+                return FingerSift3DFP(content, calibration_file)
+            else:
+                return StylusSift3DFP(content, calibration_file)
 
 
 __all__ = ["get_frame_processor"]

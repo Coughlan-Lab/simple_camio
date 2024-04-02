@@ -3,6 +3,6 @@ from ..content import Content
 from .frame_processor import FrameProcessor
 
 
-class Finger3DFrameProcessor(FrameProcessor):
+class StylusSift3DFP(FrameProcessor):
     def __init__(self, content: Content, calibration_file: str) -> None:
         FrameProcessor.__init__(self, content, calibration_file)

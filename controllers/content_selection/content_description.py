@@ -1,3 +1,4 @@
+import os
 import customtkinter as tk  # type: ignore
 from tkinter import DISABLED, NORMAL, Label, CENTER, SE, SW
 from model import Content
@@ -77,11 +78,17 @@ class ContentDescription(Screen):
     def on_focus(self) -> None:
         self.title.configure(text=self.content.name)
         self.description.configure(text=self.content.description)
+
         preview = self.content.preview
         if preview is None:
             self.show_preview_error()
         else:
             self.show_preview(preview)
+
+        if os.path.exists(self.content.to_print):
+            self.print.configure(state=NORMAL)
+        else:
+            self.print.configure(state=DISABLED)
 
     def show_preview_error(self) -> None:
         self.preview_error.place(relx=0.5, rely=0.55, anchor=CENTER)

@@ -46,11 +46,21 @@ class FrameViewer(Label):
                 self.default_frame_size[0],
                 int(h * self.default_frame_size[0] / w),
             )
+            if self.frame_size[1] > self.default_frame_size[1]:
+                self.frame_size = (
+                    int(w * self.default_frame_size[1] / h),
+                    self.default_frame_size[1],
+                )
         else:  # h > w
             self.frame_size = (
                 int(w * self.default_frame_size[1] / h),
                 self.default_frame_size[1],
             )
+            if self.frame_size[0] > self.default_frame_size[0]:
+                self.frame_size = (
+                    self.default_frame_size[0],
+                    int(h * self.default_frame_size[0] / w),
+                )
 
         self.configure(
             width=self.frame_size[0], height=self.frame_size[1], background="black"

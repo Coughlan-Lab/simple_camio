@@ -38,7 +38,7 @@ class ContentUsage(Screen):
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
 
-        self.preview = FrameViewer(self, (500, 320))
+        self.preview = FrameViewer(self, (600, 350))
         self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
 
         self.camera = Camera(self)

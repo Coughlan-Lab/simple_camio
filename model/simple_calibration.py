@@ -96,8 +96,8 @@ class Calibration:
             args=(
                 self.obj[use_index, :],
                 scene[use_index, :],
-                self.camera_center_x,
-                self.camera_center_y,
+                frame.shape[1] / 2,
+                frame.shape[0] / 2,
             ),
         )
 

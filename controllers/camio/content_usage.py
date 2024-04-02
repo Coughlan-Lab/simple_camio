@@ -63,7 +63,7 @@ class ContentUsage(Screen):
         else:
             title_pointer = "the drop marker"
         self.title.configure(
-            text=f"Frame the content with you camera and\nuse {title_pointer} to select an object"
+            text=f"Frame the content with your camera and\nuse {title_pointer} to select an object"
         )
 
     def on_unfocus(self) -> None:

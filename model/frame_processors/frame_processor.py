@@ -58,3 +58,4 @@ class FrameProcessor:
     def destroy(self) -> None:
         self.crickets_player.pause_sound()
         self.heartbeat_player.pause_sound()
+        self.audio_player.pause()

@@ -292,6 +292,9 @@ class CamIOPlayerOBJ:
         if not self.have_played_description:
             self.player = self.map_description.play()
             self.have_played_description = True
+    
+    def pause(self):
+        self.player.delete()
 
     # Function to generate a dictionary for names of zones based on a csv file
     def generate_zone_dict(self, csv_file):

@@ -137,6 +137,9 @@ class CamIOPlayer2D:
             self.player = self.map_description.play()
             self.have_played_description = True
 
+    def pause(self):
+        self.player.delete()
+
     def play_welcome(self):
         self.welcome_message.play()
 

@@ -31,4 +31,4 @@ def get_frame_processor(
                 return StylusSift3DFP(content, calibration_file)
 
 
-__all__ = ["get_frame_processor"]
+__all__ = ["get_frame_processor", "FrameProcessor"]

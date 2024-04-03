@@ -1,12 +1,13 @@
 from tkinter import CENTER, N, RIGHT
 from controllers.screen import Screen
 import gui
-import customtkinter as tk  # type: ignore
+import customtkinter as tk
+
 from ..components import Camera
-from typing import Union
+from typing import Optional, Union
 from res import Fonts, Colors, ImgsManager
 from PIL import Image
-from model import State, get_frame_processor
+from model import State, get_frame_processor, FrameProcessor
 from view import FrameViewer
 import cv2
 import numpy as np
@@ -46,6 +47,7 @@ class ContentUsage(Screen):
         self.camera.set_frame_listener(self.on_frame)
 
         self.semaphore = threading.Semaphore()
+        self.frame_processor: Optional[FrameProcessor] = None
 
     def on_focus(self) -> None:
         self.set_title()
@@ -68,11 +70,12 @@ class ContentUsage(Screen):
 
     def on_unfocus(self) -> None:
         self.camera.stop()
-        self.frame_processor.destroy()
+        if self.frame_processor is not None:
+            self.frame_processor.destroy()
         del self.frame_processor
 
     def on_frame(self, img: np.ndarray) -> None:
-        if self.semaphore.acquire(blocking=False):
+        if self.frame_processor is None or self.semaphore.acquire(blocking=False):
             return
 
         img = self.frame_processor.process(img)

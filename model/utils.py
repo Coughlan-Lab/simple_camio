@@ -55,6 +55,9 @@ class CameraInfo:
     index: int
     name: str
 
+    def __str__(self) -> str:
+        return self.name
+
 
 if SYSTEM == OS.WINDOWS or SYSTEM == OS.LINUX:
     from cv2_enumerate_cameras import (

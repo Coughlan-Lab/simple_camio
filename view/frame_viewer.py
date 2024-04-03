@@ -2,7 +2,7 @@ import customtkinter as tk
 from tkinter import Label
 from PIL import Image, ImageTk
 from typing import Optional, Tuple, Union
-from res import Fonts
+from res import Fonts, Colors
 import numpy as np
 
 
@@ -22,11 +22,14 @@ class FrameViewer(Label):
     def show_error(self) -> None:
         self.configure(
             text="Error getting image",
+            image="",
             font=Fonts.button,
             width=20,
             height=9,
             borderwidth=2,
             relief="solid",
+            fg=Colors.text,
+            bg=Colors.background,
         )
 
     def show_frame(self, img: np.ndarray) -> None:

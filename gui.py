@@ -18,7 +18,7 @@ class ScreenName(Enum):
     NoCamera = NoCamera
     CalibrationVideoTutorial = CalibrationVideoTutorial
     Calibration = Calibration
-    CalibrationFound = NoCamera
+    CalibrationFound = CalibrationFound
     ContentUsage = ContentUsage
 
 

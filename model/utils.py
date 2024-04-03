@@ -85,4 +85,4 @@ else:
 
 
 def enumerate_cameras(prefs: Any = None) -> List[CameraInfo]:
-    return list(camera_enumerator(prefs))
+    return [*camera_enumerator(prefs)]

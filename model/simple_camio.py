@@ -6,7 +6,7 @@ import time
 import numpy as np
 import json
 import argparse
-import pyglet.media
+import pyglet
 from collections import deque
 from .simple_camio_3d import SIFTModelDetector, InteractionPolicyOBJ, CamIOPlayerOBJ
 from .simple_camio_2d import (
@@ -295,7 +295,7 @@ def select_cam_port():
 
 
 def list_ports():
-    """ Test the ports and returns a tuple with the available ports and the ones that are working. """
+    """Test the ports and returns a tuple with the available ports and the ones that are working."""
     non_working_ports = []
     dev_port = 0
     working_ports = []

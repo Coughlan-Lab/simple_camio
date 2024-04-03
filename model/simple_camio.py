@@ -379,7 +379,7 @@ if __name__ == "__main__":
 
     # Load map and camera parameters
     model = load_map_parameters(args.input1)
-    if model["modelType"] != "mediapipe":
+    if model["modelType"] != "2d_aruco_mediapipe":
         intrinsic_matrix = load_camera_parameters("camera_parameters.json")
 
     # ========================================
@@ -387,7 +387,7 @@ if __name__ == "__main__":
     # ========================================
 
     # Initialize objects
-    if model["modelType"] == "2D":
+    if model["modelType"] == "2D_aruco_stylus":
         model_detector = ModelDetectorAruco(model, intrinsic_matrix)
         pose_detector = PoseDetector(model, intrinsic_matrix)
         gesture_detector = GestureDetector()
@@ -398,7 +398,7 @@ if __name__ == "__main__":
         camio_player.play_welcome()
         crickets_player = AmbientSoundPlayer(model["crickets"])
         heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-    elif model["modelType"] == "3D":
+    elif model["modelType"] == "3D_sift_stylus":
         model_detector = SIFTModelDetector(model, intrinsic_matrix)
         pose_detector = PoseDetector(model, intrinsic_matrix)
         gesture_detector = GestureDetector()
@@ -409,7 +409,7 @@ if __name__ == "__main__":
         camio_player.play_welcome()
         crickets_player = AmbientSoundPlayer(model["crickets"])
         heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-    elif model["modelType"] == "aruco_3d":
+    elif model["modelType"] == "3d_aruco_stylus":
         model_detector = ModelDetectorAruco(model, intrinsic_matrix)
         pose_detector = PoseDetector(model, intrinsic_matrix)
         gesture_detector = GestureDetector()
@@ -420,7 +420,7 @@ if __name__ == "__main__":
         camio_player.play_welcome()
         crickets_player = AmbientSoundPlayer(model["crickets"])
         heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-    elif model["modelType"] == "mediapipe":
+    elif model["modelType"] == "2d_aruco_mediapipe":
         model_detector = ModelDetectorArucoMP(model)
         pose_detector = PoseDetectorMP(model)
         motion_filter = MovementMedianFilter()
@@ -429,7 +429,7 @@ if __name__ == "__main__":
         camio_player.play_welcome()
         crickets_player = AmbientSoundPlayer(model["crickets"])
         heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-    elif model["modelType"] == "mediapipe_3d":
+    elif model["modelType"] == "3d_sift_mediapipe":
         model_detector = SIFTModelDetector(model, intrinsic_matrix)
         pose_detector = PoseDetectorMP3D()
         gesture_detector = GestureDetector()
@@ -440,7 +440,7 @@ if __name__ == "__main__":
         camio_player.play_welcome()
         crickets_player = AmbientSoundPlayer(model["crickets"])
         heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-    elif model["modelType"] == "mediapipe_3d_object":
+    elif model["modelType"] == "3d_aruco_mediapipe_object":
         model_detector = ModelDetectorAruco(model, intrinsic_matrix)
         pose_detector = PoseDetectorMP3D()
         gesture_detector = GestureDetector()
@@ -504,16 +504,16 @@ if __name__ == "__main__":
         camio_player.play_description()
         crickets_player.pause_sound()
         # Annotate image with 3D points and axes
-        if model["modelType"] == "2D":
+        if model["modelType"] == "2D_aruco_stylus":
             img_scene_color = image_annotator.annotate_image(
                 img_scene_color, model_detector.obj, rvec, tvec
             )
-        elif model["modelType"] != "mediapipe":
+        elif model["modelType"] != "2d_aruco_mediapipe":
             img_scene_color = image_annotator.annotate_image(
                 img_scene_color, [], rvec, tvec
             )
 
-        if model["modelType"] == "mediapipe":
+        if model["modelType"] == "2d_aruco_mediapipe":
             gesture_loc, gesture_status, img_scene_color = pose_detector.detect(
                 frame, rvec, tvec
             )
@@ -523,8 +523,8 @@ if __name__ == "__main__":
 
             heartbeat_player.play_sound()
         elif (
-            model["modelType"] == "mediapipe_3d"
-            or model["modelType"] == "mediapipe_3d_object"
+            model["modelType"] == "3d_sift_mediapipe"
+            or model["modelType"] == "3d_aruco_mediapipe_object"
         ):
             interact.project_vertices(rvec, tvec)
             gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame)
@@ -556,13 +556,13 @@ if __name__ == "__main__":
 
         if gesture_status != "moving":
             if (
-                model["modelType"] == "mediapipe_3d"
-                or model["modelType"] == "mediapipe_3d_object"
+                model["modelType"] == "3d_sift_mediapipe"
+                or model["modelType"] == "3d_aruco_mediapipe_object"
             ):
                 img_scene_color = image_annotator.draw_point_in_image(
                     img_scene_color, gesture_loc
                 )
-            elif model["modelType"] != "mediapipe":
+            elif model["modelType"] != "2d_aruco_mediapipe":
                 img_scene_color = image_annotator.draw_points_in_image(
                     img_scene_color, gesture_loc, rvec, tvec
                 )

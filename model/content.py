@@ -47,34 +47,34 @@ class Content:
     @property
     def model_dimensions(self) -> ModelDimensions:
         model_type = self.__content["modelType"]
-        if model_type == "2D":
+        if model_type == "2D_aruco_stylus":
             return Content.ModelDimensions.TWO_D
-        elif model_type == "3D":
+        elif model_type == "3D_sift_stylus":
             return Content.ModelDimensions.THREE_D
-        elif model_type == "mediapipe":
+        elif model_type == "2d_aruco_mediapipe":
             return Content.ModelDimensions.TWO_D
-        elif model_type == "mediapipe_3d":
+        elif model_type == "3d_sift_mediapipe":
             return Content.ModelDimensions.THREE_D
-        elif model_type == "aruco_3d":
+        elif model_type == "3d_aruco_stylus":
             return Content.ModelDimensions.THREE_D
-        elif model_type == "mediapipe_3d_object":
+        elif model_type == "3d_aruco_mediapipe_object":
             return Content.ModelDimensions.THREE_D
         raise ValueError(f"Unknown model type {model_type}")
 
     @property
     def model_detection(self) -> ModelDetectionType:
         model_type = self.__content["modelType"]
-        if model_type == "2D":
+        if model_type == "2D_aruco_stylus":
             return Content.ModelDetectionType.ARUCO
-        elif model_type == "3D":
+        elif model_type == "3D_sift_stylus":
             return Content.ModelDetectionType.SIFT
-        elif model_type == "mediapipe":
+        elif model_type == "2d_aruco_mediapipe":
             return Content.ModelDetectionType.ARUCO
-        elif model_type == "mediapipe_3d":
+        elif model_type == "3d_sift_mediapipe":
             return Content.ModelDetectionType.SIFT
-        elif model_type == "aruco_3d":
+        elif model_type == "3d_aruco_stylus":
             return Content.ModelDetectionType.ARUCO
-        elif model_type == "mediapipe_3d_object":
+        elif model_type == "3d_aruco_mediapipe_object":
             return Content.ModelDetectionType.ARUCO
         raise ValueError(f"Unknown model type {model_type}")
 

@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 
-class StylusArucop3DFP(FrameProcessor):
+class StylusAruco3DFP(FrameProcessor):
     def get_audio_player(self):
         return CamIOPlayerOBJ(self.content.as_dict())
 

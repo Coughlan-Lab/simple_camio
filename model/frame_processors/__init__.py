@@ -2,7 +2,7 @@ from .finger_aruco_2d import FingerAruco2DFP
 from .finger_aruco_3d import FingerAruco3DFP
 from .finger_sift_3d import FingerSift3DFP
 from .stylus_aruco_2d import StylusAruco2DFP
-from .stylus_aruco_3d import StylusArucop3DFP
+from .stylus_aruco_3d import StylusAruco3DFP
 from .stylus_sift_3d import StylusSift3DFP
 from .frame_processor import FrameProcessor
 from ..content import Content
@@ -23,7 +23,7 @@ def get_frame_processor(
             if pointer == State.Pointer.FINGER:
                 return FingerAruco3DFP(content, calibration_file)
             else:
-                return StylusArucop3DFP(content, calibration_file)
+                return StylusAruco3DFP(content, calibration_file)
         else:
             if pointer == State.Pointer.FINGER:
                 return FingerSift3DFP(content, calibration_file)

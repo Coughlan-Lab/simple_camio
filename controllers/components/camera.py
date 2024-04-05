@@ -34,7 +34,7 @@ class Camera(tk.CTkFrame):
         self.__camera_loop()
 
     def __camera_loop(self) -> None:
-        if not self.running:
+        if self.capture is None or not self.capture.isOpened():
             return
         ret, image = self.capture.read()
         if not ret:
@@ -56,7 +56,8 @@ class Camera(tk.CTkFrame):
         self.__release_camera()
 
     def __release_camera(self) -> None:
-        if not self.running:
+        if self.capture is None:
             return
-        self.capture.release()
+        if self.capture.isOpened():
+            self.capture.release()
         self.capture = None

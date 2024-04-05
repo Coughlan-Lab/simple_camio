@@ -1,6 +1,6 @@
 import customtkinter as tk  # type: ignore
 import json
-from typing import TypedDict
+from typing import Dict, TypedDict
 import os
 
 
@@ -16,7 +16,7 @@ class Fonts:
 
     def __init__(self) -> None:
         with open(Fonts.FONTS_FILE, "r") as file:
-            fonts: dict[str, FontJson] = json.load(file)
+            fonts: Dict[str, FontJson] = json.load(file)
 
         self.title_params = fonts["title"]
         self.subtitle_params = fonts["subtitle"]

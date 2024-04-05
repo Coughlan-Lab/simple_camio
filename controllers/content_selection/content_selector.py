@@ -9,7 +9,7 @@ import gui
 
 from res import Fonts
 from model import ContentManager
-from typing import Any, Callable, Union
+from typing import Any, Callable, Union, List
 
 
 class ContentSelector(Screen):
@@ -44,7 +44,7 @@ class ContentSelector(Screen):
         self.show_content()
         ContentHeader(self.__container)
 
-        self.content: list[ContentRow] = list()
+        self.content: List[ContentRow] = list()
 
     def on_focus(self) -> None:
         state = self.gui.current_state

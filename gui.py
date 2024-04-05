@@ -5,7 +5,7 @@ from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
 from model import State, utils
-from typing import List, Optional
+from typing import List, Dict, Optional
 
 
 class ScreenName(Enum):
@@ -45,7 +45,7 @@ class GUI(tk.CTk):
         self.container.grid_columnconfigure(0, weight=1)
 
         self.stack: List[str] = []
-        self.frames: dict[str, Screen] = dict()
+        self.frames: Dict[str, Screen] = dict()
 
         for page in ScreenName:
             frame = page.value(self, self.container)

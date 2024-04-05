@@ -65,6 +65,6 @@ class ContentVideoTutorial(Screen):
         if state.pointer is None:
             self.gui.show_screen(gui.ScreenName.PointerSelector)
         elif state.camera is None:
-            self.gui.show_screen(gui.ScreenName.CameraCalibration)
+            self.gui.show_screen(gui.ScreenName.Calibration)
         else:
             self.gui.show_screen(gui.ScreenName.ContentUsage)

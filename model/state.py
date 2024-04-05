@@ -75,10 +75,14 @@ class State:
             json.dump(calibration_data, f)
 
     def get_calibration_filename(self, camera_name: Optional[str] = None) -> str:
+        if self.camera is None:
+            return ""
+
         if camera_name is None:
             camera_name = self.camera.name
         if utils.SYSTEM == utils.OS.MACOS:
             camera_name = "last"
+
         return os.path.join(self.config_folder, f"{camera_name}_calibration.json")
 
     def clear(self) -> None:

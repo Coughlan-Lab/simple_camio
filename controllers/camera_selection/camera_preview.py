@@ -1,5 +1,5 @@
 import customtkinter as tk  # type: ignore
-from tkinter import DISABLED
+from tkinter import DISABLED, NORMAL
 import gui
 
 from res import Fonts, Colors
@@ -64,6 +64,7 @@ class CameraPreview:
         self.preview.show_error()
 
     def show_frame(self, img: np.ndarray) -> None:
+        self.button.configure(state=NORMAL)
         self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
     def stop(self) -> None:

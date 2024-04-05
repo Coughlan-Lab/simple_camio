@@ -31,6 +31,7 @@ class FrameViewer(Label):
             fg=Colors.text,
             bg=Colors.background,
         )
+        self.imgtk = None
 
     def show_frame(self, img: np.ndarray) -> None:
         if self.imgtk is None:

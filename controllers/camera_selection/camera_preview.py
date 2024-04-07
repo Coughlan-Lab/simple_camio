@@ -57,7 +57,7 @@ class CameraPreview:
         return self.frame_producer.running
 
     def start(self) -> None:
-        self.frame_producer.start(self.camera_index)
+        self.frame_producer.start_by_index(self.camera_index)
 
     def show_error(self) -> None:
         self.button.configure(state=DISABLED)
@@ -73,7 +73,7 @@ class CameraPreview:
     def on_click(self) -> None:
         g = self.gui
         state = g.current_state
-        state.camera = self.camera
+        state.set_camera(self.camera, self.frame_producer.acquire_capture())
 
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage

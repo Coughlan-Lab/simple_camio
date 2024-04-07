@@ -4,6 +4,16 @@ from typing import Any, Dict, Optional
 from model import Content, utils
 import os
 import json
+import cv2
+
+
+class Camera:
+    def __init__(self, info: utils.CameraInfo, capture: cv2.VideoCapture):
+        self.info = info
+        self.capture = capture
+
+    def __str__(self) -> str:
+        return str(self.info)
 
 
 class State:
@@ -21,9 +31,14 @@ class State:
         if os.path.exists(self.config_file):
             self.__read_config()
 
-        self.content: Optional[Content]
-        self.pointer: Optional[State.Pointer]
-        self.camera: Optional[utils.CameraInfo]
+        self.content: Optional[Content] = None
+        self.pointer: Optional[State.Pointer] = None
+        self.camera: Optional[Camera] = None
+
+    def set_camera(
+        self, camera_info: utils.CameraInfo, capture: cv2.VideoCapture
+    ) -> None:
+        self.camera = Camera(camera_info, capture)
 
     def set_content_tutorial_watched(self) -> None:
         if not self.__content_tutorial_watched:
@@ -79,7 +94,7 @@ class State:
             return ""
 
         if camera_name is None:
-            camera_name = self.camera.name
+            camera_name = self.camera.info.name
         if utils.SYSTEM == utils.OS.MACOS:
             camera_name = "last"
 
@@ -94,4 +109,8 @@ class State:
         self.pointer = None
 
     def clearCamera(self) -> None:
+        if self.camera is None:
+            return
+        if self.camera.capture.isOpened():
+            self.camera.capture.release()
         self.camera = None

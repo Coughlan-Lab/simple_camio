@@ -56,7 +56,7 @@ class ContentUsage(Screen):
         self.frame_processor = get_frame_processor(
             state.content, state.pointer, state.get_calibration_filename()
         )
-        self.camera.start(state.camera.index)
+        self.camera.start_by_capture(state.camera.capture)
 
     def set_title(self) -> None:
         title_pointer: str

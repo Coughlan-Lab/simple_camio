@@ -31,7 +31,7 @@ class CameraSelector(Screen):
             relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
         )
 
-        self.previews: list[CameraPreview] = list()
+        self.previews: List[CameraPreview] = list()
 
         for i in range(CameraSelector.MAX_CAMERAS):
             self.__container.grid_columnconfigure(i, weight=1)

@@ -25,10 +25,18 @@ class Camera(tk.CTkFrame):
     def running(self) -> bool:
         return self.capture is not None and self.capture.isOpened()
 
-    def start(self, camera_index: int) -> None:
+    def start_by_index(self, camera_index: int) -> None:
         if self.running:
             return
         self.capture = cv2.VideoCapture(camera_index)
+        self.capture.set(cv2.CAP_PROP_FOCUS, 0)
+        self.fps = self.capture.get(cv2.CAP_PROP_FPS)
+        self.__camera_loop()
+    
+    def start_by_capture(self, capture: cv2.VideoCapture) -> None:
+        if self.running:
+            return
+        self.capture = capture
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
         self.__camera_loop()
@@ -54,6 +62,12 @@ class Camera(tk.CTkFrame):
 
     def stop(self) -> None:
         self.__release_camera()
+
+    def acquire_capture(self) -> cv2.VideoCapture:
+        """Release ownership of the camera capture object."""
+        capture = self.capture
+        self.capture = None
+        return capture
 
     def __release_camera(self) -> None:
         if self.capture is None:

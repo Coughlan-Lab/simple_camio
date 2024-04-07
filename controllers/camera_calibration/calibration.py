@@ -75,9 +75,9 @@ class Calibration(Screen):
         self.semaphore = threading.Semaphore()
 
     def on_focus(self) -> None:
-        camera_index = self.gui.current_state.camera.index
+        camera_index = self.gui.current_state.camera.info.index
         self.calibrator = Calibrator(get_calibration_map_dict())
-        self.camera.start(camera_index)
+        self.camera.start_by_index(camera_index)
 
     def on_error(self) -> None:
         self.confirm.configure(state=DISABLED)

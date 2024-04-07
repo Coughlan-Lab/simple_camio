@@ -27,11 +27,16 @@ class LoadingSpinner(Label):
             self.delay = img.info["duration"]
         except:
             self.delay = 1000 // 60
+        
+        self.running = False
 
     def show(self) -> None:
+        self.running = True
         self.__next_frame()
 
     def hide(self) -> None:
+        self.running = False
+        
         self.configure(
             image=ImageTk.PhotoImage(
                 Image.fromarray(np.zeros((1, 1, 3), dtype=np.uint8))
@@ -39,5 +44,6 @@ class LoadingSpinner(Label):
         )
 
     def __next_frame(self) -> None:
-        self.configure(image=next(self.frames))
-        self.after(self.delay, self.__next_frame)
+        if self.running:
+            self.configure(image=next(self.frames))
+            self.after(self.delay, self.__next_frame)

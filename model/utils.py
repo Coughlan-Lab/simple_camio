@@ -3,15 +3,12 @@ import sys
 import platform
 import subprocess
 from typing import Any, List, Generator
-import cv2
 from enum import Enum
+import cv2
 
 
-def getcwd() -> str:
-    if getattr(sys, "frozen", False):
-        return os.path.dirname(sys.executable)
-    else:
-        return os.getcwd()
+def is_executable() -> bool:
+    return getattr(sys, "frozen", False)
 
 
 class OS(Enum):
@@ -28,6 +25,24 @@ elif platform.system() == "Linux":
     SYSTEM = OS.LINUX
 else:
     raise NotImplementedError(f"Unknown os: {platform.system()}")
+
+
+if SYSTEM == OS.MACOS:
+
+    def getcwd() -> str:
+        if is_executable():
+            return os.path.join(os.path.dirname(sys.executable), "../../..")
+        else:
+            return os.getcwd()
+
+else:
+
+    def getcwd() -> str:
+        if is_executable():
+            return os.path.dirname(sys.executable)
+        else:
+            return os.getcwd()
+
 
 if SYSTEM == OS.MACOS:
 

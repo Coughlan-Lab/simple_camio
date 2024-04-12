@@ -3,14 +3,14 @@ import os
 import json
 from typing import Any, Dict, List, Union
 from res import AudioManager
-from .utils import getcwd
+from . import utils
 
 
 class Content:
     class ModelDimensions(Enum):
         TWO_D = "2D"
         THREE_D = "3D"
-    
+
     class ModelDetectionType(Enum):
         ARUCO = "aruco"
         SIFT = "sift"
@@ -111,7 +111,8 @@ class Content:
 
 
 class ContentManager:
-    CONTENT_DIR = os.path.join(getcwd(), "content")
+    def CONTENT_DIR() -> str:
+        return os.path.join(utils.getcwd(), "content")
 
     def __init__(self) -> None:
         self.__content: Dict[str, Content] = dict()
@@ -119,13 +120,13 @@ class ContentManager:
         self.reload()
 
     def reload(self) -> None:
-        if not os.path.exists(ContentManager.CONTENT_DIR):
+        if not os.path.exists(ContentManager.CONTENT_DIR()):
             return
 
-        content = os.listdir(ContentManager.CONTENT_DIR)
+        content = os.listdir(ContentManager.CONTENT_DIR())
         contentDirs = list(
             filter(
-                lambda c: os.path.isdir(os.path.join(ContentManager.CONTENT_DIR, c)),
+                lambda c: os.path.isdir(os.path.join(ContentManager.CONTENT_DIR(), c)),
                 content,
             )
         )
@@ -147,7 +148,7 @@ class ContentManager:
         return self.__content[content]
 
     def get_content_path(self, content: str) -> str:
-        return os.path.join(ContentManager.CONTENT_DIR, content)
+        return os.path.join(ContentManager.CONTENT_DIR(), content)
 
     def __load_json(self, path: str) -> Any:
         if os.path.exists(path) and path[-5:] == ".json":

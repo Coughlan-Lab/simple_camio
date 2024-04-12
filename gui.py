@@ -23,12 +23,11 @@ class ScreenName(Enum):
 
 
 class GUI(tk.CTk):
-    CONFIG_FOLDER = os.path.join(utils.getcwd(), "config")
 
     def __init__(self) -> None:
         tk.CTk.__init__(self)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
-        self.__state = State(GUI.CONFIG_FOLDER)
+        self.__state = State(os.path.join(utils.getcwd(), "config"))
 
         self.title("CamIO")
         self.geometry("966x622+200+48")

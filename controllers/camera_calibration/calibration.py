@@ -31,7 +31,7 @@ class Calibration(Screen):
             text_color=Colors.text,
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        """
+
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
         )
@@ -40,7 +40,6 @@ class Calibration(Screen):
         )
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
-        """
 
         self.confirm = tk.CTkButton(
             self,

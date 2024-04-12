@@ -18,6 +18,7 @@ camera_parameters.json
 simple_camio
 simple_calibration
 
+*.spec
 .DS_STORE
 .vscode
 

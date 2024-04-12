@@ -20,7 +20,7 @@ class Calibration(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(

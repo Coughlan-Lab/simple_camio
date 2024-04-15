@@ -18,6 +18,16 @@ class Content:
 
     def __init__(self, name: str, content: Dict[str, Any]) -> None:
         self.__name = name
+
+        if "welcome_message" not in content or not os.path.exists(content["welcome_message"]):
+            content["welcome_message"] = AudioManager.welcome
+        if "goodbye_message" not in content or not os.path.exists(content["goodbye_message"]):
+            content["goodbye_message"] = AudioManager.goodbye
+        if "blipsound" not in content or not os.path.exists(content["blipsound"]):
+            content["blipsound"] = AudioManager.blip
+        if "map_description" in content and not os.path.exists(content["map_description"]):
+            del content["map_description"]
+
         self.__content = content
 
     @property
@@ -100,13 +110,13 @@ class Content:
 
     def crickets(self) -> str:
         path: str = self.__content.get("crickets", "")
-        if path == "":
+        if path == "" or not os.path.exists(path):
             return AudioManager.crickets
         return path
 
     def heartbeat(self) -> str:
         path: str = self.__content.get("heartbeat", "")
-        if path == "":
+        if path == "" or not os.path.exists(path):
             return AudioManager.heartbeat
         return path
 
@@ -131,19 +141,30 @@ class ContentManager:
     def load_content(self) -> None:
         self.__content.clear()
         
-        content = os.listdir(".")
         contentDirs = list(
             filter(
                 lambda c: os.path.isdir(c),
-                content,
+                os.listdir("."),
             )
         )
 
         for content_name in contentDirs:
             content_path = os.path.join(content_name, f"{content_name}.json")
             if os.path.exists(content_path):
-                model = self.__load_json(content_path)["model"]
-                self.__content[model["name"]] = Content(content_name, model)
+                model = self.__load_json(content_path).get("model", None)
+                if model is None:
+                    continue
+
+                content = Content(content_name, model)
+                try:
+                    # Check if model type is valid
+                    content.model_dimensions
+                    content.model_detection
+                    print(f'Loaded content {model["name"]}')
+                except ValueError as e:
+                    continue
+
+                self.__content[model["name"]] = content
 
     @property
     def content(self) -> List[str]:

@@ -33,9 +33,6 @@ elif platform.system() == "Linux":
 else:
     raise NotImplementedError(f"Unknown os: {platform.system()}")
 
-def is_macos_executable() -> bool:
-    return SYSTEM == OS.MACOS and is_executable()
-
 if SYSTEM == OS.MACOS:
 
     def open_file(path: str) -> None:

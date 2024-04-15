@@ -15,6 +15,7 @@ class ScreenName(Enum):
     ContentDescription = ContentDescription
     ContentVideoTutorial = ContentVideoTutorial
     PointerSelector = PointerSelector
+    NoContent = NoContent
     NoCamera = NoCamera
     CalibrationVideoTutorial = CalibrationVideoTutorial
     Calibration = Calibration

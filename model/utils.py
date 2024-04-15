@@ -11,6 +11,13 @@ def is_executable() -> bool:
     return getattr(sys, "frozen", False)
 
 
+def getcwd() -> str:
+    if is_executable():
+        return os.path.dirname(sys.executable)
+    else:
+        return os.getcwd()
+
+
 class OS(Enum):
     MACOS = "Darwin"
     WINDOWS = "Windows"
@@ -26,23 +33,8 @@ elif platform.system() == "Linux":
 else:
     raise NotImplementedError(f"Unknown os: {platform.system()}")
 
-
-if SYSTEM == OS.MACOS:
-
-    def getcwd() -> str:
-        if is_executable():
-            return os.path.join(os.path.dirname(sys.executable), "../../..")
-        else:
-            return os.getcwd()
-
-else:
-
-    def getcwd() -> str:
-        if is_executable():
-            return os.path.dirname(sys.executable)
-        else:
-            return os.getcwd()
-
+def is_macos_executable() -> bool:
+    return SYSTEM == OS.MACOS and is_executable()
 
 if SYSTEM == OS.MACOS:
 

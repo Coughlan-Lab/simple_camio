@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Any, Dict, Optional
 
-from model import Content, utils
+from model import ContentManager, Content, utils
 import os
 import json
 import cv2
@@ -60,6 +60,14 @@ class State:
         lambda self: self.__calibration_tutorial_watched
     )
 
+    def set_content_dir(self, path: Optional[str]) -> None:
+        self.__content_dir = path
+        if path is not None and os.path.exists(path):
+            ContentManager.set_content_dir(path)
+            self.__save_config()
+
+    content_dir = property(lambda self: self.__content_dir, set_content_dir)
+
     def __read_config(self) -> None:
         with open(self.config_file, "r") as f:
             config = json.load(f)
@@ -70,12 +78,14 @@ class State:
 
         self.__content_tutorial_watched = config.get("content_tutorial_watched")
         self.__calibration_tutorial_watched = config.get("calibration_tutorial_watched")
+        self.content_dir = config.get("content_dir")
 
     def __save_config(self) -> None:
         config = {
             "config": {
                 "content_tutorial_watched": self.__content_tutorial_watched,
                 "calibration_tutorial_watched": self.__calibration_tutorial_watched,
+                "content_dir": self.__content_dir
             }
         }
 
@@ -102,13 +112,13 @@ class State:
 
     def clear(self) -> None:
         self.content = None
-        self.clearPointer()
-        self.clearCamera()
+        self.clear_pointer()
+        self.clear_camera()
 
-    def clearPointer(self) -> None:
+    def clear_pointer(self) -> None:
         self.pointer = None
 
-    def clearCamera(self) -> None:
+    def clear_camera(self) -> None:
         if self.camera is None:
             return
         if self.camera.capture.isOpened():

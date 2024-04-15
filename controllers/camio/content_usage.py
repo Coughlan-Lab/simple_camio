@@ -30,6 +30,7 @@ class ContentUsage(Screen):
         )
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
+        """
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
         )
@@ -38,6 +39,7 @@ class ContentUsage(Screen):
         )
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
+        """
 
         self.preview = FrameViewer(self, (600, 350))
         self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)

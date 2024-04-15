@@ -68,7 +68,7 @@ class PointerSelector(Screen):
         print_marker.configure(command=self.print_marker)
         print_marker.pack(side=LEFT, padx=4, pady=4)
         marker_frame.place(relx=0.7, rely=0.6, anchor=SE)
-
+        """
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
         )
@@ -77,10 +77,11 @@ class PointerSelector(Screen):
         )
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
+        """
 
     def on_focus(self) -> None:
         state = self.gui.current_state
-        state.clearPointer()
+        state.clear_pointer()
 
     def on_select(self, pointer: State.Pointer) -> None:
         self.gui.current_state.pointer = pointer

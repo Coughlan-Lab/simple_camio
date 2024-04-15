@@ -112,7 +112,7 @@ class Content:
 
 class ContentManager:
     def CONTENT_DIR() -> str:
-        return os.path.join(utils.getcwd(), "content")
+        return os.path.join(utils.getcwd(), "CamIO Content")
 
     def __init__(self) -> None:
         self.__content: Dict[str, Content] = dict()

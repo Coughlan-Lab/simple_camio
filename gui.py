@@ -28,7 +28,7 @@ class GUI(tk.CTk):
     def __init__(self) -> None:
         tk.CTk.__init__(self)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
-        self.__state = State(os.path.join(utils.getcwd(), "config"))
+        self.__state = State(os.path.expanduser("~/Documents/CamIO Config"))
 
         self.title("CamIO")
         self.geometry("966x622+200+48")

@@ -28,7 +28,9 @@ class NoContent(Screen):
             justify=CENTER,
             text_color=Colors.text,
         )
-        description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
+        description.place(
+            relx=0.5, rely=0.289, relheight=0.16, relwidth=0.6, anchor=CENTER
+        )
 
         select = tk.CTkButton(
             self,

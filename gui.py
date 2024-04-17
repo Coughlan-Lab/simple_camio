@@ -4,7 +4,7 @@ from enum import Enum
 from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
-from model import State, utils
+from model import State
 from typing import List, Dict, Optional
 
 

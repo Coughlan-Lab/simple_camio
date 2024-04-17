@@ -55,10 +55,14 @@ class ContentUsage(Screen):
         self.set_title()
 
         state = self.gui.current_state
-        self.frame_processor = get_frame_processor(
-            state.content, state.pointer, state.get_calibration_filename()
-        )
-        self.camera.start_by_capture(state.camera.capture)
+
+        try:
+            self.frame_processor = get_frame_processor(
+                state.content, state.pointer, state.get_calibration_filename()
+            )
+            self.camera.start_by_capture(state.camera.capture)
+        except:
+            self.preview.show_error("Error reading content\nconfiguration file")
 
     def set_title(self) -> None:
         title_pointer: str
@@ -80,8 +84,11 @@ class ContentUsage(Screen):
         if self.frame_processor is None or self.semaphore.acquire(blocking=False):
             return
 
-        img = self.frame_processor.process(img)
-        self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        try:
+            img = self.frame_processor.process(img)
+            self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        except:
+            self.preview.show_error("Error reading content configuration file")
 
         self.semaphore.release()
 

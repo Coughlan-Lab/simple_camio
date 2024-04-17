@@ -5,7 +5,7 @@ from view import FrameViewer
 from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
-from typing import Any, Dict, Literal, Union
+from typing import Any, Dict, Literal, Union, Optional
 from res import Fonts, Colors, ImgsManager, DocsManager
 from PIL import Image
 from model.simple_calibration import Calibration as Calibrator
@@ -94,7 +94,16 @@ class Calibration(Screen):
         if self.semaphore.acquire(blocking=False):
             return
 
-        img, focal, center_x, center_y = self.calibrator.calibrate(img)
+        focal: Optional[float] = None
+        center_x: Optional[float] = None
+        center_y: Optional[float] = None
+
+        try:
+            img, focal, center_x, center_y = self.calibrator.calibrate(img)
+        except:
+            self.preview.show_error("Error during calibration")
+            return
+        
         self.data = {
             "focal_length_x": focal,
             "focal_length_y": focal,

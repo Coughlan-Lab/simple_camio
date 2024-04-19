@@ -23,7 +23,7 @@ class NoContent(Screen):
 
         description = tk.CTkLabel(
             self,
-            text="Please, tell us its location",
+            text="Please, select its location",
             font=Fonts.subtitle,
             justify=CENTER,
             text_color=Colors.text,

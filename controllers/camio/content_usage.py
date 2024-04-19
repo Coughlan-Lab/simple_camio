@@ -1,13 +1,12 @@
-from tkinter import CENTER, N, RIGHT
+from tkinter import CENTER
 from controllers.screen import Screen
 import gui
 import customtkinter as tk
 
 from ..components import Camera
 from typing import Optional, Union
-from res import Fonts, Colors, ImgsManager
-from PIL import Image
-from model import State, get_frame_processor, FrameProcessor
+from res import Fonts, Colors
+from model import utils, State, get_frame_processor, FrameProcessor
 from view import FrameViewer
 import cv2
 import numpy as np
@@ -74,11 +73,15 @@ class ContentUsage(Screen):
             text=f"Frame the content with your camera and\nuse {title_pointer} to select an object"
         )
 
+        utils.prevent_sleep()
+
     def on_unfocus(self) -> None:
         self.camera.stop()
         if self.frame_processor is not None:
             self.frame_processor.destroy()
         del self.frame_processor
+
+        utils.allow_sleep()
 
     def on_frame(self, img: np.ndarray) -> None:
         if self.frame_processor is None or self.semaphore.acquire(blocking=False):

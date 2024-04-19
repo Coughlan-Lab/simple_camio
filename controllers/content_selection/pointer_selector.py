@@ -28,7 +28,7 @@ class PointerSelector(Screen):
 
         description = tk.CTkLabel(
             self,
-            text="If you want to use the drop marker, print it before proceeding",
+            text="If you want to use the stylus, print it before proceeding",
             font=Fonts.subtitle,
             justify=CENTER,
             text_color=Colors.text,

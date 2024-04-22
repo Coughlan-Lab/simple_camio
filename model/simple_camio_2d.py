@@ -125,10 +125,13 @@ class CamIOPlayer2D:
                 + hotspot["color"][0] * 256 * 256
             )
             self.hotspots.update({key: hotspot})
-            if os.path.exists(hotspot["audioDescription"]):
-                self.sound_files[key] = pyglet.media.load(
-                    hotspot["audioDescription"], streaming=False
-                )
+            self.sound_files[key] = list()
+            for audio_description in hotspot["audioDescription"]:
+                if os.path.exists(audio_description):
+                    self.sound_files[key].append(pyglet.media.load(
+                        audio_description, streaming=False
+                    )
+                    )
             else:
                 print("warning. file not found:" + hotspot["audioDescription"])
 
@@ -146,7 +149,7 @@ class CamIOPlayer2D:
     def play_goodbye(self):
         self.goodbye_message.play()
 
-    def convey(self, zone, status):
+    def convey(self, zone, status, layer=0):
         if status == "moving":
             if (
                 self.curr_zone_moving != zone
@@ -175,7 +178,7 @@ class CamIOPlayer2D:
             self.player.pause()
             self.player.delete()
             if zone in self.sound_files:
-                sound = self.sound_files[zone]
+                sound = self.sound_files[zone][min(layer, len(self.sound_files[zone])-1)]
                 try:
                     self.player = sound.play()
                 except BaseException:

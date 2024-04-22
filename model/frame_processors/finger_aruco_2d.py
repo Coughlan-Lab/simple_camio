@@ -31,6 +31,8 @@ class FingerAruco2DFP(FrameProcessor):
             return img
         self.crickets_player.pause_sound()
 
+        self.layered_audio.detect(img)
+
         gesture_loc, gesture_status, img = self.pose_detector.detect(
             img, rotation, translation
         )
@@ -41,5 +43,5 @@ class FingerAruco2DFP(FrameProcessor):
         self.heartbeat_player.play_sound()
 
         zone_id = self.interaction.push_gesture(gesture_loc)
-        self.audio_player.convey(zone_id, gesture_status)
+        self.audio_player.convey(zone_id, gesture_status, self.layered_audio.current_layer)
         return img

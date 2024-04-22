@@ -4,6 +4,7 @@ import sys
 import cv2 as cv
 import time
 import numpy as np
+import mediapipe as mp
 import json
 import argparse
 import pyglet
@@ -93,6 +94,58 @@ class PoseDetector:
         R_inv = np.linalg.inv(R_mat)
         T = np.matrix(tvec)
         return np.array(R_inv * (poi - T))
+
+
+class LayeredAudio:
+    def __init__(self, audio_player):
+        self.current_layer = 0
+        self.MAX_LEVELS = 5
+        self.audio_player = audio_player
+        BaseOptions = mp.tasks.BaseOptions
+        GestureRecognizer = mp.tasks.vision.GestureRecognizer
+        GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
+        VisionRunningMode = mp.tasks.vision.RunningMode
+        self.MAX_QUEUE_LENGTH = 10
+        self.MIN_FIST_COUNT = 8
+        self.is_currently_fist = False
+        self.is_fist = deque(maxlen=self.MAX_QUEUE_LENGTH)
+
+        # Create a gesture recognizer instance with the video mode:
+        options = GestureRecognizerOptions(
+            base_options=BaseOptions(
+                model_asset_path='/Users/rcrabb/ski.org Dropbox/Ryan Crabb/Mac/Downloads/gesture_recognizer.task'),
+                running_mode=VisionRunningMode.VIDEO,
+                num_hands=2)
+        self.recognizer = GestureRecognizer.create_from_options(options)
+        self.current_category = None
+        self.selected_category = None
+
+    def detect(self, img):
+        image = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
+        recognition_result = self.recognizer.recognize_for_video(mp_image, int(time.time() * 1000))
+        if recognition_result.gestures:
+            top_gesture = recognition_result.gestures[0][0]
+            category = top_gesture.category_name
+        else:
+            category = None
+        self.is_fist.append(category == "Closed_Fist")
+        if not self.is_currently_fist:
+            cnt = 0
+            for is_fist in self.is_fist:
+                cnt += int(is_fist)
+            if cnt >= self.MIN_FIST_COUNT:
+                self.is_currently_fist = True
+        else:
+            cnt = 0
+            for is_fist in self.is_fist:
+                cnt += int(not is_fist)
+            if cnt >= self.MIN_FIST_COUNT:
+                self.is_currently_fist = False
+                if self.audio_player.player.playing:
+                    self.audio_player.player.delete()
+                self.audio_player.player = self.audio_player.blip_sound.play()
+                self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
 
 
 class MovementFilter:

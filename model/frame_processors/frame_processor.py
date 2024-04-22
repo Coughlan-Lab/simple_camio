@@ -7,6 +7,7 @@ from ..simple_camio import (
     ImageAnnotator,
     GestureDetector,
     load_camera_parameters,
+    LayeredAudio
 )
 import numpy as np
 import pyglet
@@ -26,7 +27,7 @@ class FrameProcessor:
         self.interaction = self.get_interaction_policy()
         self.audio_player = self.get_audio_player()
         self.pose_detector = self.get_pose_detector()
-
+        self.layered_audio = self.get_layered_audio(self.audio_player)
         self.motion_filter = MovementMedianFilter()
         self.gesture_detector = GestureDetector()
         self.crickets_player = AmbientSoundPlayer(content.crickets())
@@ -48,6 +49,9 @@ class FrameProcessor:
 
     def get_pose_detector(self):
         raise NotImplementedError("get_pose_detector must be implemented by subclass")
+
+    def get_layered_audio(self, audio_player):
+        return LayeredAudio(audio_player)
 
     def start(self) -> None:
         self.audio_player.play_welcome()

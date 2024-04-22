@@ -35,7 +35,7 @@ class CalibrationFound(Screen):
             self,
             text="Calibrate",
             font=Fonts.button,
-            height=42,
+            height=50,
             width=120,
             text_color=Colors.button_text,
         )
@@ -46,7 +46,7 @@ class CalibrationFound(Screen):
             self,
             text="Proceed",
             font=Fonts.button,
-            height=42,
+            height=50,
             width=120,
             text_color=Colors.button_text,
         )

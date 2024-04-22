@@ -19,9 +19,9 @@ class FrameViewer(Label):
 
         self.imgtk: Optional[ImageTk.PhotoImage] = None
 
-    def show_error(self) -> None:
+    def show_error(self, msg: str = "Error getting image") -> None:
         self.configure(
-            text="Error getting image",
+            text=msg,
             image="",
             font=Fonts.button,
             width=20,

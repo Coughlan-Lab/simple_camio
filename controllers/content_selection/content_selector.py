@@ -1,7 +1,9 @@
-from tkinter import E, HORIZONTAL, LEFT, TOP, W, X
+from tkinter import filedialog, E, HORIZONTAL, LEFT, RIGHT, TOP, W, X
 import customtkinter as tk  # type: ignore
 from tkinter.constants import CENTER, S
 import tkinter.ttk as ttk
+import os
+
 from res import Colors
 
 from controllers.screen import Screen
@@ -44,20 +46,31 @@ class ContentSelector(Screen):
         self.show_content()
         ContentHeader(self.__container)
 
+        change_content_dir = tk.CTkButton(
+            self,
+            text="Change directory",
+            font=Fonts.button,
+            height=50,
+            width=150,
+            text_color=Colors.button_text,
+        )
+        change_content_dir.pack(side=RIGHT, padx=(0, 40), pady=(0, 30), anchor=S)
+        change_content_dir.configure(command=self.change_content_dir)
+
         self.content: List[ContentRow] = list()
 
     def on_focus(self) -> None:
         state = self.gui.current_state
         state.clear()
-        ContentManager.reload()
+        ContentManager.load_content()
         self.init_content()
 
     def init_content(self) -> None:
-        names = {c.content_name for c in self.content}
+        for content in self.content:
+            content.destroy()
+        self.content.clear()
 
         for content in ContentManager.content:
-            if content in names:
-                continue
             row = ContentRow(self.gui, self.__container, content)
             self.content.append(row)
 
@@ -80,6 +93,15 @@ class ContentSelector(Screen):
         self.__error_msg.place(
             relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
         )
+
+    def change_content_dir(self) -> None:
+        content_dir = filedialog.askdirectory(initialdir=os.path.expanduser("~"))
+
+        if content_dir is None or content_dir == "":
+            return
+        
+        self.gui.current_state.set_content_dir(content_dir)
+        self.on_focus()
 
 
 class ContentHeader(tk.CTkFrame):

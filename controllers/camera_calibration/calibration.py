@@ -5,7 +5,7 @@ from view import FrameViewer
 from controllers.screen import Screen
 import gui
 import customtkinter as tk  # type: ignore
-from typing import Any, Dict, Literal, Union
+from typing import Any, Dict, Literal, Union, Optional
 from res import Fonts, Colors, ImgsManager, DocsManager
 from PIL import Image
 from model.simple_calibration import Calibration as Calibrator
@@ -20,7 +20,7 @@ class Calibration(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
         Screen.__init__(self, gui, parent, show_back=True)
 
         title = tk.CTkLabel(
@@ -31,7 +31,7 @@ class Calibration(Screen):
             text_color=Colors.text,
         )
         title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-
+        """
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
         )
@@ -40,6 +40,7 @@ class Calibration(Screen):
         )
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
+        """
 
         self.confirm = tk.CTkButton(
             self,
@@ -75,9 +76,9 @@ class Calibration(Screen):
         self.semaphore = threading.Semaphore()
 
     def on_focus(self) -> None:
-        camera_index = self.gui.current_state.camera.info.index
+        capture = self.gui.current_state.camera.capture
         self.calibrator = Calibrator(get_calibration_map_dict())
-        self.camera.start_by_index(camera_index)
+        self.camera.start_by_capture(capture)
 
     def on_error(self) -> None:
         self.confirm.configure(state=DISABLED)
@@ -93,7 +94,16 @@ class Calibration(Screen):
         if self.semaphore.acquire(blocking=False):
             return
 
-        img, focal, center_x, center_y = self.calibrator.calibrate(img)
+        focal: Optional[float] = None
+        center_x: Optional[float] = None
+        center_y: Optional[float] = None
+
+        try:
+            img, focal, center_x, center_y = self.calibrator.calibrate(img)
+        except:
+            self.preview.show_error("Error during calibration")
+            return
+        
         self.data = {
             "focal_length_x": focal,
             "focal_length_y": focal,
@@ -116,6 +126,7 @@ class Calibration(Screen):
         self.gui.show_screen(gui.ScreenName.CalibrationVideoTutorial)
 
     def on_confirm(self) -> None:
+        self.camera.acquire_capture()
         self.gui.current_state.save_calibration(self.data)
         self.gui.show_screen(gui.ScreenName.ContentUsage)
 

@@ -1,22 +1,33 @@
 from enum import Enum
 import os
+import shutil
 import json
 from typing import Any, Dict, List, Union
 from res import AudioManager
-from .utils import getcwd
+from . import utils
 
 
 class Content:
     class ModelDimensions(Enum):
         TWO_D = "2D"
         THREE_D = "3D"
-    
+
     class ModelDetectionType(Enum):
         ARUCO = "aruco"
         SIFT = "sift"
 
     def __init__(self, name: str, content: Dict[str, Any]) -> None:
         self.__name = name
+
+        if "welcome_message" not in content or not os.path.exists(content["welcome_message"]):
+            content["welcome_message"] = AudioManager.welcome
+        if "goodbye_message" not in content or not os.path.exists(content["goodbye_message"]):
+            content["goodbye_message"] = AudioManager.goodbye
+        if "blipsound" not in content or not os.path.exists(content["blipsound"]):
+            content["blipsound"] = AudioManager.blip
+        if "map_description" in content and not os.path.exists(content["map_description"]):
+            del content["map_description"]
+
         self.__content = content
 
     @property
@@ -92,50 +103,68 @@ class Content:
 
     @property
     def to_print(self) -> str:
-        return os.path.join(singleton.get_content_path(self.__name), "toPrint.pdf")
+        return os.path.join(self.__name, "toPrint.pdf")
 
     def as_dict(self) -> Dict[str, Any]:
         return self.__content
 
     def crickets(self) -> str:
         path: str = self.__content.get("crickets", "")
-        if path == "":
+        if path == "" or not os.path.exists(path):
             return AudioManager.crickets
         return path
 
     def heartbeat(self) -> str:
         path: str = self.__content.get("heartbeat", "")
-        if path == "":
+        if path == "" or not os.path.exists(path):
             return AudioManager.heartbeat
         return path
 
 
 class ContentManager:
-    CONTENT_DIR = os.path.join(getcwd(), "content")
+    DEFAULT_CONTENT_FOLDER_PATH = "CamIO Content"
+    
+    def set_content_dir(self, path: str) -> None:
+        if not os.path.exists(path):
+            return
+        self.__has_content_dir = True
+        os.chdir(path)
+    
+    def has_content_dir(self) -> bool:
+        return self.__has_content_dir
 
     def __init__(self) -> None:
         self.__content: Dict[str, Content] = dict()
+        self.__has_content_dir = False
+        self.set_content_dir(ContentManager.DEFAULT_CONTENT_FOLDER_PATH)
 
-        self.reload()
-
-    def reload(self) -> None:
-        if not os.path.exists(ContentManager.CONTENT_DIR):
-            return
-
-        content = os.listdir(ContentManager.CONTENT_DIR)
+    def load_content(self) -> None:
+        self.__content.clear()
+        
         contentDirs = list(
             filter(
-                lambda c: os.path.isdir(os.path.join(ContentManager.CONTENT_DIR, c)),
-                content,
+                lambda c: os.path.isdir(c),
+                os.listdir("."),
             )
         )
 
         for content_name in contentDirs:
-            content_path = self.get_content_path(content_name)
-            content_path = os.path.join(content_path, f"{content_name}.json")
+            content_path = os.path.join(content_name, f"{content_name}.json")
             if os.path.exists(content_path):
-                model = self.__load_json(content_path)["model"]
-                self.__content[model["name"]] = Content(content_name, model)
+                model = self.__load_json(content_path).get("model", None)
+                if model is None:
+                    continue
+
+                content = Content(content_name, model)
+                try:
+                    # Check if model type is valid
+                    content.model_dimensions
+                    content.model_detection
+                    print(f'Loaded content {model["name"]}')
+                except ValueError as e:
+                    continue
+
+                self.__content[model["name"]] = content
 
     @property
     def content(self) -> List[str]:
@@ -145,9 +174,6 @@ class ContentManager:
         if content not in self.__content.keys():
             raise ValueError(f"Content {content} not found")
         return self.__content[content]
-
-    def get_content_path(self, content: str) -> str:
-        return os.path.join(ContentManager.CONTENT_DIR, content)
 
     def __load_json(self, path: str) -> Any:
         if os.path.exists(path) and path[-5:] == ".json":

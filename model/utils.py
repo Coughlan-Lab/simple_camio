@@ -2,13 +2,17 @@ import os
 import sys
 import platform
 import subprocess
-from typing import Any, List, Generator
-import cv2
+from typing import Any, List, Generator, Optional
 from enum import Enum
+import cv2
+
+
+def is_executable() -> bool:
+    return getattr(sys, "frozen", False)
 
 
 def getcwd() -> str:
-    if getattr(sys, "frozen", False):
+    if is_executable():
         return os.path.dirname(sys.executable)
     else:
         return os.getcwd()
@@ -89,3 +93,41 @@ else:
 
 def enumerate_cameras(prefs: Any = None) -> List[CameraInfo]:
     return [*camera_enumerator(prefs)]
+
+
+if SYSTEM == OS.MACOS:
+    import subprocess
+
+    preventing_sleep_process: Optional[subprocess.Popen] = None
+
+    def prevent_sleep() -> None:
+        global preventing_sleep_process
+
+        if preventing_sleep_process is not None:
+            return
+
+        preventing_sleep_process = subprocess.Popen(["caffeinate", "-d", "-i", "-m"])
+        print(preventing_sleep_process)
+
+    def allow_sleep() -> None:
+        if preventing_sleep_process is None:
+            return
+
+        preventing_sleep_process.kill()
+
+elif SYSTEM == OS.WINDOWS:
+    import ctypes
+
+    def prevent_sleep() -> None:
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000002 | 0x80000000)
+
+    def allow_sleep() -> None:
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000000)
+
+else:
+
+    def prevent_sleep() -> None:
+        raise NotImplementedError(f"Unknown os: {SYSTEM}")
+
+    def allow_sleep() -> None:
+        raise NotImplementedError(f"Unknown os: {SYSTEM}")

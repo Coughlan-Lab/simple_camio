@@ -5,6 +5,7 @@ import gui
 from controllers.screen import Screen
 from res import Fonts, Colors
 from typing import Union
+from model import ContentManager
 
 
 class HomePage(Screen):
@@ -39,4 +40,8 @@ class HomePage(Screen):
         start.configure(command=self.show_content_selector)
 
     def show_content_selector(self) -> None:
-        self.gui.show_screen(gui.ScreenName.ContentSelector)
+        if not ContentManager.has_content_dir():
+            next_screen = gui.ScreenName.NoContent
+        else:
+            next_screen = gui.ScreenName.ContentSelector
+        self.gui.show_screen(next_screen)

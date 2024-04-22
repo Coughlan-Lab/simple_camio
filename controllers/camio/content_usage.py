@@ -1,13 +1,12 @@
-from tkinter import CENTER, N, RIGHT
+from tkinter import CENTER
 from controllers.screen import Screen
 import gui
 import customtkinter as tk
 
 from ..components import Camera
 from typing import Optional, Union
-from res import Fonts, Colors, ImgsManager
-from PIL import Image
-from model import State, get_frame_processor, FrameProcessor
+from res import Fonts, Colors
+from model import utils, State, get_frame_processor, FrameProcessor
 from view import FrameViewer
 import cv2
 import numpy as np
@@ -30,6 +29,7 @@ class ContentUsage(Screen):
         )
         self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
+        """
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
         )
@@ -38,6 +38,7 @@ class ContentUsage(Screen):
         )
         self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
         self.tutorial.configure(command=self.show_tutorial)
+        """
 
         self.preview = FrameViewer(self, (600, 350))
         self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
@@ -53,10 +54,14 @@ class ContentUsage(Screen):
         self.set_title()
 
         state = self.gui.current_state
-        self.frame_processor = get_frame_processor(
-            state.content, state.pointer, state.get_calibration_filename()
-        )
-        self.camera.start_by_capture(state.camera.capture)
+
+        try:
+            self.frame_processor = get_frame_processor(
+                state.content, state.pointer, state.get_calibration_filename()
+            )
+            self.camera.start_by_capture(state.camera.capture)
+        except:
+            self.preview.show_error("Error reading content\nconfiguration file")
 
     def set_title(self) -> None:
         title_pointer: str
@@ -68,18 +73,25 @@ class ContentUsage(Screen):
             text=f"Frame the content with your camera and\nuse {title_pointer} to select an object"
         )
 
+        utils.prevent_sleep()
+
     def on_unfocus(self) -> None:
         self.camera.stop()
         if self.frame_processor is not None:
             self.frame_processor.destroy()
         del self.frame_processor
 
+        utils.allow_sleep()
+
     def on_frame(self, img: np.ndarray) -> None:
         if self.frame_processor is None or self.semaphore.acquire(blocking=False):
             return
 
-        img = self.frame_processor.process(img)
-        self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        try:
+            img = self.frame_processor.process(img)
+            self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        except:
+            self.preview.show_error("Error reading content configuration file")
 
         self.semaphore.release()
 

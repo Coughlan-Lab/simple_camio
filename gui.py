@@ -4,7 +4,7 @@ from enum import Enum
 from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
-from model import State, utils
+from model import State
 from typing import List, Dict, Optional
 
 
@@ -15,6 +15,7 @@ class ScreenName(Enum):
     ContentDescription = ContentDescription
     ContentVideoTutorial = ContentVideoTutorial
     PointerSelector = PointerSelector
+    NoContent = NoContent
     NoCamera = NoCamera
     CalibrationVideoTutorial = CalibrationVideoTutorial
     Calibration = Calibration
@@ -23,12 +24,11 @@ class ScreenName(Enum):
 
 
 class GUI(tk.CTk):
-    CONFIG_FOLDER = os.path.join(utils.getcwd(), "config")
 
     def __init__(self) -> None:
         tk.CTk.__init__(self)
         self.protocol("WM_DELETE_WINDOW", self.destroy)
-        self.__state = State(GUI.CONFIG_FOLDER)
+        self.__state = State(os.path.expanduser("~/Documents/CamIO Config"))
 
         self.title("CamIO")
         self.geometry("966x622+200+48")

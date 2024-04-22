@@ -85,5 +85,6 @@ class CameraPreview:
         elif state.calibration_tutorial_watched:
             next_screen = gui.ScreenName.Calibration
         else:
-            next_screen = gui.ScreenName.CalibrationVideoTutorial
+            # next_screen = gui.ScreenName.CalibrationVideoTutorial
+            next_screen = gui.ScreenName.Calibration
         g.show_screen(next_screen)

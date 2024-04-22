@@ -5,6 +5,7 @@
       "filename": "UkraineMap/segmentation.png",
       "preview": "UkraineMap/UkraineMap.png",
       "blipsound":"MP3/quick_blip.wav",
+      "map_description":"UkraineMap/Audio/Kiev Description.mp3",
       "welcome_message":"MP3/welcome.mp3",
       "goodbye_message":"MP3/goodbye.mp3",
       "heartbeat": "MP3/white_noise.mp3",

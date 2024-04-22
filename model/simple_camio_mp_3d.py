@@ -102,7 +102,7 @@ class InteractionPolicyOBJObject:
     def project_vertices(self, R, T):
         vertices, _ = cv.projectPoints(self.vertices_3d, R, T, self.intrinsic_matrix, None)
         self.vertices = np.squeeze(vertices)
-        self.D_SET_THRESHOLD = 10
+        self.D_SET_THRESHOLD = 30
         self.D_THRESHOLD = 2.0 * self.D_SET_THRESHOLD
         R_mat, _ = cv.Rodrigues(R)
         R_inv = np.linalg.inv(R_mat)

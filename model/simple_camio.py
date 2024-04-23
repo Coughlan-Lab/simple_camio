@@ -20,7 +20,7 @@ from .simple_camio_2d import (
 )
 from .simple_camio_mp import ModelDetectorArucoMP, PoseDetectorMP
 from .simple_camio_mp_3d import PoseDetectorMP3D, InteractionPolicyOBJObject
-
+from google.protobuf.json_format import MessageToDict
 
 # The PoseDetector class determines the pose of the pointer, and returns the
 # position of the tip in the coordinate system of the model.
@@ -101,52 +101,99 @@ class LayeredAudio:
         self.current_layer = 0
         self.MAX_LEVELS = 5
         self.audio_player = audio_player
-        BaseOptions = mp.tasks.BaseOptions
-        GestureRecognizer = mp.tasks.vision.GestureRecognizer
-        GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
-        VisionRunningMode = mp.tasks.vision.RunningMode
+        # BaseOptions = mp.tasks.BaseOptions
+        # GestureRecognizer = mp.tasks.vision.GestureRecognizer
+        # GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
+        # VisionRunningMode = mp.tasks.vision.RunningMode
         self.MAX_QUEUE_LENGTH = 10
         self.MIN_FIST_COUNT = 8
-        self.is_currently_fist = False
-        self.is_fist = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.is_currently_fist = dict()
+        self.is_currently_fist['Left'] = False
+        self.is_currently_fist['Right'] = False
+        self.is_fist = dict()
+        self.is_fist['Left'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.is_fist['Right'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
 
-        # Create a gesture recognizer instance with the video mode:
-        options = GestureRecognizerOptions(
-            base_options=BaseOptions(
-                model_asset_path='/Users/rcrabb/ski.org Dropbox/Ryan Crabb/Mac/Downloads/gesture_recognizer.task'),
-                running_mode=VisionRunningMode.VIDEO,
-                num_hands=2)
-        self.recognizer = GestureRecognizer.create_from_options(options)
+        # # Create a gesture recognizer instance with the video mode:
+        # options = GestureRecognizerOptions(
+        #     base_options=BaseOptions(
+        #         model_asset_path='/Users/rcrabb/ski.org Dropbox/Ryan Crabb/Mac/Downloads/gesture_recognizer.task'),
+        #         running_mode=VisionRunningMode.VIDEO,
+        #         num_hands=2)
+        # self.recognizer = GestureRecognizer.create_from_options(options)
         self.current_category = None
         self.selected_category = None
 
-    def detect(self, img):
-        image = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
-        recognition_result = self.recognizer.recognize_for_video(mp_image, int(time.time() * 1000))
-        if recognition_result.gestures:
-            top_gesture = recognition_result.gestures[0][0]
-            category = top_gesture.category_name
-        else:
-            category = None
-        self.is_fist.append(category == "Closed_Fist")
-        if not self.is_currently_fist:
-            cnt = 0
-            for is_fist in self.is_fist:
-                cnt += int(is_fist)
-            if cnt >= self.MIN_FIST_COUNT:
-                self.is_currently_fist = True
-        else:
-            cnt = 0
-            for is_fist in self.is_fist:
-                cnt += int(not is_fist)
-            if cnt >= self.MIN_FIST_COUNT:
-                self.is_currently_fist = False
-                if self.audio_player.player.playing:
-                    self.audio_player.player.delete()
-                self.audio_player.player = self.audio_player.blip_sound.play()
-                self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+    def detect(self, results):
+        # image = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        # mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
+        # recognition_result = self.recognizer.recognize_for_video(mp_image, int(time.time() * 1000))
+        # if recognition_result.gestures:
+        #     top_gesture = recognition_result.gestures[0][0]
+        #     category = top_gesture.category_name
+        # else:
+        #     category = None
+        # self.is_fist.append(category == "Closed_Fist")
+        coors = np.zeros((4, 3), dtype=float)
+        if results.multi_hand_landmarks:
+            for h, hand_landmarks in enumerate(results.multi_hand_landmarks):
+                handedness = MessageToDict(results.multi_handedness[h])['classification'][0]['label']
+                for k in [1, 2, 3, 4]:  # joints in thumb
+                    coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = hand_landmarks.landmark[k].x, \
+                                                                        hand_landmarks.landmark[k].y, \
+                                                                        hand_landmarks.landmark[k].z
+                ratio_thumb = self.ratio(coors)
 
+                for k in [5, 6, 7, 8]:  # joints in index finger
+                    coors[k - 5, 0], coors[k - 5, 1], coors[k - 5, 2] = hand_landmarks.landmark[k].x, \
+                                                                        hand_landmarks.landmark[k].y, \
+                                                                        hand_landmarks.landmark[k].z
+                ratio_index = self.ratio(coors)
+
+                for k in [9, 10, 11, 12]:  # joints in middle finger
+                    coors[k - 9, 0], coors[k - 9, 1], coors[k - 9, 2] = hand_landmarks.landmark[k].x, \
+                                                                        hand_landmarks.landmark[k].y, \
+                                                                        hand_landmarks.landmark[k].z
+                ratio_middle = self.ratio(coors)
+
+                for k in [13, 14, 15, 16]:  # joints in ring finger
+                    coors[k - 13, 0], coors[k - 13, 1], coors[k - 13, 2] = hand_landmarks.landmark[k].x, \
+                                                                           hand_landmarks.landmark[k].y, \
+                                                                           hand_landmarks.landmark[k].z
+                ratio_ring = self.ratio(coors)
+
+                for k in [17, 18, 19, 20]:  # joints in little finger
+                    coors[k - 17, 0], coors[k - 17, 1], coors[k - 17, 2] = hand_landmarks.landmark[k].x, \
+                                                                           hand_landmarks.landmark[k].y, \
+                                                                           hand_landmarks.landmark[k].z
+                ratio_little = self.ratio(coors)
+                self.is_fist[handedness].append((ratio_index < 0.9) and (ratio_middle < 0.9) and (ratio_ring < 0.9) and
+                    (ratio_little < 0.9))
+                if not self.is_currently_fist[handedness]:
+                    cnt = 0
+                    for is_fist in self.is_fist[handedness]:
+                        cnt += int(is_fist)
+                    if cnt >= self.MIN_FIST_COUNT:
+                        self.is_currently_fist[handedness] = True
+                else:
+                    cnt = 0
+                    for is_fist in self.is_fist[handedness]:
+                        cnt += int(not is_fist)
+                    if cnt >= self.MIN_FIST_COUNT:
+                        self.is_currently_fist[handedness] = False
+                        if self.audio_player.player.playing:
+                            self.audio_player.player.delete()
+                        self.audio_player.player = self.audio_player.blip_sound.play()
+                        self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+
+
+    def ratio(self, coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
+        d = np.linalg.norm(coors[0, :] - coors[3, :])
+        a = np.linalg.norm(coors[0, :] - coors[1, :])
+        b = np.linalg.norm(coors[1, :] - coors[2, :])
+        c = np.linalg.norm(coors[2, :] - coors[3, :])
+
+        return d / (a + b + c)
 
 class MovementFilter:
     def __init__(self):

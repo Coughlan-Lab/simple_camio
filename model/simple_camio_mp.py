@@ -91,10 +91,10 @@ class PoseDetectorMP:
                                                   hand_landmarks.landmark[8].y*image.shape[0], 1]))
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
                     #print(hand_landmarks.landmark[8])
-                    return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "pointing", image
+                    return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "pointing", image, results
                 else:
-                    return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "moving", image
-        return None, None, image
+                    return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "moving", image, results
+        return None, None, image, results
 
 
     def ratio(self, coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)

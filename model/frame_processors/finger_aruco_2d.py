@@ -31,11 +31,11 @@ class FingerAruco2DFP(FrameProcessor):
             return img
         self.crickets_player.pause_sound()
 
-        self.layered_audio.detect(img)
-
-        gesture_loc, gesture_status, img = self.pose_detector.detect(
+        gesture_loc, gesture_status, img, hand_results = self.pose_detector.detect(
             img, rotation, translation
         )
+
+        self.layered_audio.detect(hand_results)
 
         if gesture_loc is None:
             self.heartbeat_player.pause_sound()

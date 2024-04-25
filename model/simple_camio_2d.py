@@ -118,6 +118,7 @@ class CamIOPlayer2D:
         self.goodbye_message = pyglet.media.load(
             self.model["goodbye_message"], streaming=False
         )
+        self.max_len_audiodescription = 1
         for hotspot in self.model["hotspots"]:
             key = (
                 hotspot["color"][2]
@@ -126,14 +127,15 @@ class CamIOPlayer2D:
             )
             self.hotspots.update({key: hotspot})
             self.sound_files[key] = list()
+            self.max_len_audiodescription = max(self.max_len_audiodescription, len(hotspot["audioDescription"]))
             for audio_description in hotspot["audioDescription"]:
                 if os.path.exists(audio_description):
                     self.sound_files[key].append(pyglet.media.load(
                         audio_description, streaming=False
                     )
                     )
-            else:
-                print("warning. file not found:" + hotspot["audioDescription"])
+                else:
+                    print("warning. file not found:" + hotspot["audioDescription"])
 
     def play_description(self):
         if not self.have_played_description:

@@ -99,20 +99,23 @@ class PoseDetector:
 class LayeredAudio:
     def __init__(self, audio_player):
         self.current_layer = 0
-        self.MAX_LEVELS = 5
+        self.MAX_LEVELS = audio_player.max_len_audiodescription
         self.audio_player = audio_player
         # BaseOptions = mp.tasks.BaseOptions
         # GestureRecognizer = mp.tasks.vision.GestureRecognizer
         # GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
         # VisionRunningMode = mp.tasks.vision.RunningMode
-        self.MAX_QUEUE_LENGTH = 10
-        self.MIN_FIST_COUNT = 8
+        self.MAX_QUEUE_LENGTH = 5
+        self.MIN_FIST_COUNT = 4
+        self.is_pointing = list()
         self.is_currently_fist = dict()
         self.is_currently_fist['Left'] = False
         self.is_currently_fist['Right'] = False
         self.is_fist = dict()
         self.is_fist['Left'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.is_fist['Right'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.is_index_touching = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.is_currently_touching = False
 
         # # Create a gesture recognizer instance with the video mode:
         # options = GestureRecognizerOptions(
@@ -121,8 +124,6 @@ class LayeredAudio:
         #         running_mode=VisionRunningMode.VIDEO,
         #         num_hands=2)
         # self.recognizer = GestureRecognizer.create_from_options(options)
-        self.current_category = None
-        self.selected_category = None
 
     def detect(self, results):
         # image = cv.cvtColor(img, cv.COLOR_BGR2RGB)
@@ -135,6 +136,8 @@ class LayeredAudio:
         #     category = None
         # self.is_fist.append(category == "Closed_Fist")
         coors = np.zeros((4, 3), dtype=float)
+        is_pointing = list()
+        index_pos = list()
         if results.multi_hand_landmarks:
             for h, hand_landmarks in enumerate(results.multi_hand_landmarks):
                 handedness = MessageToDict(results.multi_handedness[h])['classification'][0]['label']
@@ -167,26 +170,55 @@ class LayeredAudio:
                                                                            hand_landmarks.landmark[k].y, \
                                                                            hand_landmarks.landmark[k].z
                 ratio_little = self.ratio(coors)
-                self.is_fist[handedness].append((ratio_index < 0.9) and (ratio_middle < 0.9) and (ratio_ring < 0.9) and
-                    (ratio_little < 0.9))
+                is_fist = (ratio_index < 0.9) and (ratio_middle < 0.9) and (ratio_ring < 0.9) and (ratio_little < 0.9)
+                is_pointing.append(ratio_index > 0.7 and ratio_middle < 0.95 and ratio_ring < 0.95 and ratio_little < 0.95)
+                index_pos.append(hand_landmarks.landmark[8])
+                self.is_fist[handedness].append(is_fist)
                 if not self.is_currently_fist[handedness]:
                     cnt = 0
                     for is_fist in self.is_fist[handedness]:
                         cnt += int(is_fist)
                     if cnt >= self.MIN_FIST_COUNT:
                         self.is_currently_fist[handedness] = True
+                        if self.audio_player.player.playing:
+                            self.audio_player.player.delete()
+                        self.audio_player.player = self.audio_player.blip_sound.play()
+                        self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
                 else:
                     cnt = 0
                     for is_fist in self.is_fist[handedness]:
                         cnt += int(not is_fist)
                     if cnt >= self.MIN_FIST_COUNT:
                         self.is_currently_fist[handedness] = False
-                        if self.audio_player.player.playing:
-                            self.audio_player.player.delete()
-                        self.audio_player.player = self.audio_player.blip_sound.play()
-                        self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+        if results.multi_hand_landmarks:
+            if len(is_pointing) > 1:
+                if is_pointing[0] and is_pointing[1]:
+                    dist= np.linalg.norm(np.array([(index_pos[0].x-index_pos[1].x), index_pos[0].y-index_pos[1].y, index_pos[0].z-index_pos[1].z]))
+                    print(dist)
+                    self.is_index_touching.append(dist < 0.03)
 
-
+                else:
+                    self.is_index_touching.append(False)
+            else:
+                self.is_index_touching.append(False)
+        else:
+            self.is_index_touching.append(False)
+        if not self.is_currently_touching:
+            cnt = 0
+            for is_touching in self.is_index_touching:
+                cnt += int(is_touching)
+            if cnt >= self.MIN_FIST_COUNT:
+                self.is_currently_touching = True
+                if self.audio_player.player.playing:
+                    self.audio_player.player.delete()
+                self.audio_player.player = self.audio_player.blip_sound.play()
+                self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+        else:
+            cnt = 0
+            for is_touching in self.is_index_touching:
+                cnt += int(not is_touching)
+            if cnt >= self.MIN_FIST_COUNT:
+                self.is_currently_touching = False
     def ratio(self, coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
         d = np.linalg.norm(coors[0, :] - coors[3, :])
         a = np.linalg.norm(coors[0, :] - coors[1, :])

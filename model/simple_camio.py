@@ -190,13 +190,13 @@ class LayeredAudio:
                         cnt += int(not is_fist)
                     if cnt >= self.MIN_FIST_COUNT:
                         self.is_currently_fist[handedness] = False
+        dist = 0
         if results.multi_hand_landmarks:
             if len(is_pointing) > 1:
                 if is_pointing[0] and is_pointing[1]:
-                    dist= np.linalg.norm(np.array([(index_pos[0].x-index_pos[1].x), index_pos[0].y-index_pos[1].y, index_pos[0].z-index_pos[1].z]))
+                    dist= np.linalg.norm(np.array([index_pos[0].x-index_pos[1].x, index_pos[0].y-index_pos[1].y, index_pos[0].z-index_pos[1].z]))
                     print(dist)
                     self.is_index_touching.append(dist < 0.03)
-
                 else:
                     self.is_index_touching.append(False)
             else:
@@ -213,12 +213,15 @@ class LayeredAudio:
                     self.audio_player.player.delete()
                 self.audio_player.player = self.audio_player.blip_sound.play()
                 self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+                return True, dist
         else:
             cnt = 0
             for is_touching in self.is_index_touching:
                 cnt += int(not is_touching)
             if cnt >= self.MIN_FIST_COUNT:
                 self.is_currently_touching = False
+        return False, dist
+
     def ratio(self, coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
         d = np.linalg.norm(coors[0, :] - coors[3, :])
         a = np.linalg.norm(coors[0, :] - coors[1, :])

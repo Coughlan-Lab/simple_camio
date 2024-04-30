@@ -118,6 +118,7 @@ class CamIOPlayer2D:
         self.goodbye_message = pyglet.media.load(
             self.model["goodbye_message"], streaming=False
         )
+        self.audiolayer = 0
         self.max_len_audiodescription = 1
         for hotspot in self.model["hotspots"]:
             key = (
@@ -151,7 +152,7 @@ class CamIOPlayer2D:
     def play_goodbye(self):
         self.goodbye_message.play()
 
-    def convey(self, zone, status, layer=0):
+    def convey(self, zone, status, layer=False):
         if status == "moving":
             if (
                 self.curr_zone_moving != zone
@@ -174,13 +175,17 @@ class CamIOPlayer2D:
             self.prev_zone_name = None
             return
         zone_name = self.hotspots[zone]["textDescription"]
-        if self.prev_zone_name != zone_name:
+        if self.prev_zone_name != zone_name or layer:
+            if layer:
+                self.audiolayer += 1
+            else:
+                self.audiolayer = 0
             # if self.player.playing:
             #     self.player.pause()
             self.player.pause()
             self.player.delete()
             if zone in self.sound_files:
-                sound = self.sound_files[zone][min(layer, len(self.sound_files[zone])-1)]
+                sound = self.sound_files[zone][self.audiolayer % len(self.sound_files[zone])]
                 try:
                     self.player = sound.play()
                 except BaseException:

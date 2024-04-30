@@ -44,6 +44,8 @@ class PoseDetectorMP:
         # Draw the hand annotations on the image.
         image.flags.writeable = True
         image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
+        index_pos = None
+        movement_status = None
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
                 for k in [1, 2, 3, 4]:  # joints in thumb
@@ -89,13 +91,14 @@ class PoseDetectorMP:
 
                 position = np.matmul(H, np.array([hand_landmarks.landmark[8].x*image.shape[1],
                                                   hand_landmarks.landmark[8].y*image.shape[0], 1]))
+                if index_pos is None:
+                    index_pos = np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float)
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
-                    #print(hand_landmarks.landmark[8])
-                    return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "pointing", image, results
-                else:
-                    return np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float), "moving", image, results
-        return None, None, image, results
-
+                    index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
+                    movement_status = "pointing"
+                elif movement_status != "pointing":
+                    movement_status = "moving"
+        return index_pos, movement_status, image, results
 
     def ratio(self, coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
         d = np.linalg.norm(coors[0, :] - coors[3, :])

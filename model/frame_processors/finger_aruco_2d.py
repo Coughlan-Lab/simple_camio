@@ -35,7 +35,9 @@ class FingerAruco2DFP(FrameProcessor):
             img, rotation, translation
         )
 
-        self.layered_audio.detect(hand_results)
+        layer_change, dist = self.layered_audio.detect(hand_results)
+        if dist:
+            cv2.putText(img, str(dist), (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
 
         if gesture_loc is None:
             self.heartbeat_player.pause_sound()
@@ -43,5 +45,5 @@ class FingerAruco2DFP(FrameProcessor):
         self.heartbeat_player.play_sound()
 
         zone_id = self.interaction.push_gesture(gesture_loc)
-        self.audio_player.convey(zone_id, gesture_status, self.layered_audio.current_layer)
+        self.audio_player.convey(zone_id, gesture_status, layer_change)
         return img

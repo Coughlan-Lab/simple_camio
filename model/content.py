@@ -1,10 +1,8 @@
 from enum import Enum
 import os
-import shutil
 import json
 from typing import Any, Dict, List, Union
 from res import AudioManager
-from . import utils
 
 
 class Content:
@@ -19,13 +17,19 @@ class Content:
     def __init__(self, name: str, content: Dict[str, Any]) -> None:
         self.__name = name
 
-        if "welcome_message" not in content or not os.path.exists(content["welcome_message"]):
+        if "welcome_message" not in content or not os.path.exists(
+            content["welcome_message"]
+        ):
             content["welcome_message"] = AudioManager.welcome
-        if "goodbye_message" not in content or not os.path.exists(content["goodbye_message"]):
+        if "goodbye_message" not in content or not os.path.exists(
+            content["goodbye_message"]
+        ):
             content["goodbye_message"] = AudioManager.goodbye
         if "blipsound" not in content or not os.path.exists(content["blipsound"]):
             content["blipsound"] = AudioManager.blip
-        if "map_description" in content and not os.path.exists(content["map_description"]):
+        if "map_description" in content and not os.path.exists(
+            content["map_description"]
+        ):
             del content["map_description"]
 
         self.__content = content
@@ -123,13 +127,13 @@ class Content:
 
 class ContentManager:
     DEFAULT_CONTENT_FOLDER_PATH = "CamIO Content"
-    
+
     def set_content_dir(self, path: str) -> None:
         if not os.path.exists(path):
             return
         self.__has_content_dir = True
         os.chdir(path)
-    
+
     def has_content_dir(self) -> bool:
         return self.__has_content_dir
 
@@ -140,7 +144,7 @@ class ContentManager:
 
     def load_content(self) -> None:
         self.__content.clear()
-        
+
         contentDirs = list(
             filter(
                 lambda c: os.path.isdir(c),

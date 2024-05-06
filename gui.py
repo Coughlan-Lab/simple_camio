@@ -10,12 +10,12 @@ from res import Colors
 
 class ScreenName(Enum):
     HomePage = HomePage
+    NoContent = NoContent
     # CameraSelector = CameraSelector
     # ContentSelector = ContentSelector
     # ContentDescription = ContentDescription
     # ContentVideoTutorial = ContentVideoTutorial
     # PointerSelector = PointerSelector
-    # NoContent = NoContent
     # NoCamera = NoCamera
     # CalibrationVideoTutorial = CalibrationVideoTutorial
     # Calibration = Calibration
@@ -24,6 +24,8 @@ class ScreenName(Enum):
 
 
 class MainFrame(wx.Frame):
+    DEFAULT_SIZE = wx.Size(640, 480)
+
     def __init__(self) -> None:
         wx.Frame.__init__(
             self,
@@ -31,12 +33,12 @@ class MainFrame(wx.Frame):
             id=wx.ID_ANY,
             title="CamIO",
             pos=wx.DefaultPosition,
-            size=wx.Size(1351, 738),
+            size=MainFrame.DEFAULT_SIZE,
             style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
         )
 
-        # self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
-
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
+        self.Centre(wx.BOTH)
         self.SetBackgroundColour(Colors.background)
 
         self.__state = State(os.path.expanduser("~/Documents/CamIO Config"))
@@ -44,19 +46,30 @@ class MainFrame(wx.Frame):
         self.stack: List[str] = []
         self.frames: Dict[str, Screen] = dict()
 
+        self.sizer = wx.BoxSizer(wx.VERTICAL)
+        self.SetSizer(self.sizer)
+
         for page in ScreenName:
             frame = page.value(self, self)
             self.frames[page.name] = frame
             frame.Hide()
-
-        self.Centre(wx.BOTH)
 
         self.current_frame: Optional[Screen] = None
         self.show_screen(ScreenName.HomePage)
 
         self.Bind(wx.EVT_SIZE, self.on_resize)
 
-    def on_resize(self, event):
+    def on_resize(self, event) -> None:
+        if (
+            self.Size[0] < MainFrame.DEFAULT_SIZE[0]
+            and self.Size[1] < MainFrame.DEFAULT_SIZE[1]
+        ):
+            self.SetSize(MainFrame.DEFAULT_SIZE)
+        elif self.Size[0] < MainFrame.DEFAULT_SIZE[0]:
+            self.SetSize(wx.Size(MainFrame.DEFAULT_SIZE[0], self.Size[1]))
+        elif self.Size[1] < MainFrame.DEFAULT_SIZE[1]:
+            self.SetSize(wx.Size(self.Size[0], MainFrame.DEFAULT_SIZE[1]))
+
         self.Layout()
 
     @property
@@ -73,15 +86,22 @@ class MainFrame(wx.Frame):
         if screen.name not in self.frames:
             raise Exception(f"Unknown screen {screen}")
 
+        new_frame = self.frames[screen.name]
+
         if self.current_frame is not None:
             self.current_frame.Hide()
             self.current_frame.on_unfocus()
             if stack:
                 self.stack.append(self.current_frame.name)
+            self.sizer.Replace(self.current_frame, new_frame)
+        else:
+            self.sizer.Add(new_frame, 1, wx.EXPAND)
 
-        self.current_frame = self.frames[screen.name]
+        self.current_frame = new_frame
         self.current_frame.on_focus()
         self.current_frame.Show()
+
+        self.Layout()
 
     def destroy(self) -> None:
         if self.current_frame is not None:

@@ -1,54 +1,62 @@
-import customtkinter as tk  # type: ignore
-from tkinter.constants import CENTER
-from tkinter import filedialog
 import os
-
 import gui
 from controllers.screen import Screen
 from res import Fonts, Colors
-from typing import Union
+import wx
 
 
 class NoContent(Screen):
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent)
 
-        title = tk.CTkLabel(
-            self,
-            text="CamIO Content directory not found",
-            font=Fonts.title,
-            text_color=Colors.text,
+        title = wx.StaticText(
+            self, wx.ID_ANY, label="CamIO Content directory not found"
         )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        title.SetForegroundColour(Colors.text)
+        title.SetFont(Fonts.title)
 
-        description = tk.CTkLabel(
+        description = wx.StaticText(
             self,
-            text="Please, select its location",
-            font=Fonts.subtitle,
-            justify=CENTER,
-            text_color=Colors.text,
+            wx.ID_ANY,
+            label="Please, select its location",
+            style=wx.ALIGN_CENTRE_HORIZONTAL,
         )
-        description.place(
-            relx=0.5, rely=0.289, relheight=0.16, relwidth=0.6, anchor=CENTER
-        )
+        description.SetForegroundColour(Colors.text)
+        description.SetFont(Fonts.subtitle)
 
-        select = tk.CTkButton(
+        select = wx.Button(
+            self, wx.ID_ANY, "Select", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        select.SetBackgroundColour(Colors.button)
+        select.SetForegroundColour(Colors.button_text)
+        select.SetFont(Fonts.button)
+        select.Bind(wx.EVT_BUTTON, self.show_directory_dialog)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddStretchSpacer(1)
+        sizer.Add(title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
+        sizer.Add(select, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.AddStretchSpacer(2)
+
+        self.SetSizerAndFit(sizer)
+
+    def show_directory_dialog(self, event) -> None:
+        with wx.DirDialog(
             self,
-            text="Select",
-            font=Fonts.button,
-            height=50,
-            width=120,
-            text_color=Colors.button_text,
-        )
-        select.place(relx=0.5, rely=0.6, anchor=CENTER)
-        select.configure(command=self.show_directory_dialog)
+            "Select content directory",
+            defaultPath=os.path.expanduser("~"),
+            style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST,
+        ) as dialog:
+            if dialog.ShowModal() == wx.ID_CANCEL:
+                return
 
-    def show_directory_dialog(self) -> None:
-        content_dir = filedialog.askdirectory(initialdir=os.path.expanduser("~"))
+            content_dir = dialog.GetPath()
 
         if content_dir is None or content_dir == "":
             return
-        
+
         self.gui.current_state.set_content_dir(content_dir)
 
-        self.gui.show_screen(gui.ScreenName.ContentSelector)
+        # self.gui.show_screen(gui.ScreenName.ContentSelector)

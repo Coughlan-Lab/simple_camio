@@ -1,4 +1,5 @@
 from PIL import Image
+from matplotlib import style
 from res import Colors, ImgsManager
 from typing import Optional, Union
 import gui
@@ -22,30 +23,23 @@ class Screen(wx.Panel):
     ) -> None:
         wx.Panel.__init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition)
         self.gui = gui
-        """
-        self.m_button2 = wx.Button(
-            self, wx.ID_ANY, "BACK", wx.DefaultPosition, wx.DefaultSize, 0
-        )
-        bSizer5.Add(self.m_button2, 0, wx.ALL, 5)
-        self.SetSizer(bSizer5)
-        self.Layout()
-        self.m_button2.Bind(wx.EVT_BUTTON, self.back)
 
-        self.back_button = tk.CTkButton(
+        back_arrow = wx.Bitmap(ImgsManager.back_arrow, wx.BITMAP_TYPE_PNG)
+        wx.Bitmap.Rescale(back_arrow, (25, 25))
+        self.back_button = wx.BitmapButton(
             self,
-            text="",
-            image=tk.CTkImage(
-                light_image=Image.open(ImgsManager.back_arrow), size=(25, 25)
-            ),
-            anchor=CENTER,
-            width=10,
-            height=30,
-            corner_radius=50,
-            fg_color=Colors.transparent,
+            wx.ID_BACKWARD,
+            pos=(40, 30),
+            size=(40, 40),
+            bitmap=back_arrow,
         )
-        """
+
+        self.back_button.Bind(wx.EVT_BUTTON, self.back)
+
         if show_back:
             self.show_back()
+        else:
+            self.hide_back()
 
     def on_focus(self) -> None:
         pass
@@ -54,10 +48,10 @@ class Screen(wx.Panel):
         pass
 
     def show_back(self) -> None:
-        self.back_button.place(x=40, y=30, anchor=CENTER)
+        self.back_button.Show()
 
     def hide_back(self) -> None:
-        self.back_button.place_forget()
+        self.back_button.Hide()
 
     def back(self, event) -> None:
         self.gui.back(self.back_screen)

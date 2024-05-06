@@ -153,7 +153,7 @@ class CamIOPlayer2D:
         self.goodbye_message.play()
 
     def convey(self, zone, status, layer=False):
-        if status == "moving":
+        if status == "moving" and not layer:
             if (
                 self.curr_zone_moving != zone
                 and self.prev_zone_moving == zone

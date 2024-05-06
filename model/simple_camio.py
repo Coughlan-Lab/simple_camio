@@ -1,6 +1,8 @@
 # mypy: ignore-errors
 import os
 import sys
+
+import cv2
 import cv2 as cv
 import time
 import numpy as np
@@ -108,9 +110,15 @@ class LayeredAudio:
         self.MAX_QUEUE_LENGTH = 5
         self.MIN_FIST_COUNT = 4
         self.is_pointing = list()
+        # self.is_currently_two_fingers = dict()
+        # self.is_currently_two_fingers['Left'] = False
+        # self.is_currently_two_fingers['Right'] = False
         self.is_currently_fist = dict()
         self.is_currently_fist['Left'] = False
         self.is_currently_fist['Right'] = False
+        # self.is_two_fingers = dict()
+        # self.is_two_fingers['Left'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        # self.is_two_fingers['Right'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.is_fist = dict()
         self.is_fist['Left'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
         self.is_fist['Right'] = deque(maxlen=self.MAX_QUEUE_LENGTH)
@@ -125,7 +133,7 @@ class LayeredAudio:
         #         num_hands=2)
         # self.recognizer = GestureRecognizer.create_from_options(options)
 
-    def detect(self, results):
+    def detect(self, results, img):
         # image = cv.cvtColor(img, cv.COLOR_BGR2RGB)
         # mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
         # recognition_result = self.recognizer.recognize_for_video(mp_image, int(time.time() * 1000))
@@ -138,6 +146,10 @@ class LayeredAudio:
         coors = np.zeros((4, 3), dtype=float)
         is_pointing = list()
         index_pos = list()
+        has_pointed = False
+        has_two_fingers = False
+        dist = 0
+        info_string = str()
         if results.multi_hand_landmarks:
             for h, hand_landmarks in enumerate(results.multi_hand_landmarks):
                 handedness = MessageToDict(results.multi_handedness[h])['classification'][0]['label']
@@ -172,31 +184,62 @@ class LayeredAudio:
                 ratio_little = self.ratio(coors)
                 is_fist = (ratio_index < 0.9) and (ratio_middle < 0.9) and (ratio_ring < 0.9) and (ratio_little < 0.9)
                 is_pointing.append(ratio_index > 0.7 and ratio_middle < 0.95 and ratio_ring < 0.95 and ratio_little < 0.95)
+                if (ratio_index > 0.7 and ratio_middle < 0.95 and ratio_ring < 0.95 and ratio_little < 0.95):
+                    has_pointed = True
+                    info_string += handedness + ' is pointing. '
+                is_two_fingers = ratio_index > 0.7 and ratio_middle > 0.7 and ratio_ring < 0.95 and ratio_little < 0.95
+                distance = np.linalg.norm(np.array([hand_landmarks.landmark[8].x - hand_landmarks.landmark[12].x,
+                                                    hand_landmarks.landmark[8].y - hand_landmarks.landmark[12].y,
+                                                    hand_landmarks.landmark[8].z - hand_landmarks.landmark[12].z]))
+                if is_two_fingers and distance < 0.09:
+                    has_two_fingers = True
+                    info_string += handedness + ' is two fingers. '
+
+                # self.is_two_fingers[handedness].append(is_two_fingers and distance < 0.07)
+                # if not self.is_currently_two_fingers[handedness]:
+                #     cnt = 0
+                #     for is_two_fingers in self.is_two_fingers[handedness]:
+                #         cnt += int(is_two_fingers)
+                #     if cnt >= self.MIN_FIST_COUNT:
+                #         self.is_currently_two_fingers[handedness] = True
+                #         if self.audio_player.player.playing:
+                #             self.audio_player.player.delete()
+                #         self.audio_player.player = self.audio_player.blip_sound.play()
+                #         self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+                #         return True, distance
+                # else:
+                #     cnt = 0
+                #     for is_two_fingers in self.is_two_fingers[handedness]:
+                #         cnt += int(not is_two_fingers)
+                #     if cnt >= self.MIN_FIST_COUNT:
+                #         self.is_currently_two_fingers[handedness] = False
+
                 index_pos.append(hand_landmarks.landmark[8])
-                self.is_fist[handedness].append(is_fist)
-                if not self.is_currently_fist[handedness]:
-                    cnt = 0
-                    for is_fist in self.is_fist[handedness]:
-                        cnt += int(is_fist)
-                    if cnt >= self.MIN_FIST_COUNT:
-                        self.is_currently_fist[handedness] = True
-                        if self.audio_player.player.playing:
-                            self.audio_player.player.delete()
-                        self.audio_player.player = self.audio_player.blip_sound.play()
-                        self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
-                else:
-                    cnt = 0
-                    for is_fist in self.is_fist[handedness]:
-                        cnt += int(not is_fist)
-                    if cnt >= self.MIN_FIST_COUNT:
-                        self.is_currently_fist[handedness] = False
-        dist = 0
+                # self.is_fist[handedness].append(is_fist)
+                # if not self.is_currently_fist[handedness]:
+                #     cnt = 0
+                #     for is_fist in self.is_fist[handedness]:
+                #         cnt += int(is_fist)
+                #     if cnt >= self.MIN_FIST_COUNT:
+                #         self.is_currently_fist[handedness] = True
+                #         if self.audio_player.player.playing:
+                #             self.audio_player.player.delete()
+                #         self.audio_player.player = self.audio_player.blip_sound.play()
+                #         self.current_layer = (self.current_layer + 1) % self.MAX_LEVELS
+                # else:
+                #     cnt = 0
+                #     for is_fist in self.is_fist[handedness]:
+                #         cnt += int(not is_fist)
+                #     if cnt >= self.MIN_FIST_COUNT:
+                #         self.is_currently_fist[handedness] = False
+        cv2.putText(img, info_string,  (10, 160), cv2.FONT_HERSHEY_SIMPLEX, 2.0, (255, 255, 255), 2)
         if results.multi_hand_landmarks:
             if len(is_pointing) > 1:
-                if is_pointing[0] and is_pointing[1]:
-                    dist= np.linalg.norm(np.array([index_pos[0].x-index_pos[1].x, index_pos[0].y-index_pos[1].y, index_pos[0].z-index_pos[1].z]))
-                    print(dist)
-                    self.is_index_touching.append(dist < 0.03)
+                if  (has_pointed and has_two_fingers): # (is_pointing[0] and is_pointing[1]) or
+                    dist= np.linalg.norm(np.array([(index_pos[0].x-index_pos[1].x)*img.shape[1],
+                                                   (index_pos[0].y-index_pos[1].y)*img.shape[0]]))
+                    #print(dist)
+                    self.is_index_touching.append(dist < 60)
                 else:
                     self.is_index_touching.append(False)
             else:

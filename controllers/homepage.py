@@ -1,47 +1,44 @@
-import customtkinter as tk  # type: ignore
-from tkinter.constants import CENTER
-
 import gui
 from controllers.screen import Screen
 from res import Fonts, Colors
-from typing import Union
-from model import ContentManager
+import wx
 
 
 class HomePage(Screen):
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent)
+        self.SetBackgroundColour(Colors.button)
 
-        title = tk.CTkLabel(
-            self, text="CamIO", height=44, text_color=Colors.text, font=Fonts.title
-        )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        title = wx.StaticText(self, wx.ID_ANY, label="CamIO")
+        title.SetForegroundColour(Colors.text)
+        title.SetFont(Fonts.title)
 
-        description = tk.CTkLabel(
+        description = wx.StaticText(
             self,
-            text="CamIO is an accessibility tool for visually impaired people",
-            text_color=Colors.text,
-            justify=CENTER,
-            font=Fonts.subtitle,
+            wx.ID_ANY,
+            label="CamIO is an accessibility tool for visually impaired people",
         )
-        description.place(
-            relx=0.5, rely=0.289, relheight=0.16, relwidth=0.6, anchor=CENTER
-        )
+        description.SetForegroundColour(Colors.text)
+        description.SetFont(Fonts.subtitle)
 
-        start = tk.CTkButton(
-            self,
-            text="Start",
-            font=Fonts.button,
-            height=50,
-            width=120,
-            text_color=Colors.button_text,
+        start = wx.Button(
+            self, wx.ID_ANY, "Start", wx.DefaultPosition, wx.DefaultSize, 0
         )
-        start.place(relx=0.5, rely=0.6, anchor=CENTER)
-        start.configure(command=self.show_content_selector)
+        start.SetForegroundColour(Colors.button_text)
+        start.SetFont(Fonts.button)
+        start.Bind(wx.EVT_BUTTON, self.show_content_selector)
 
-    def show_content_selector(self) -> None:
-        if not ContentManager.has_content_dir():
-            next_screen = gui.ScreenName.NoContent
-        else:
-            next_screen = gui.ScreenName.ContentSelector
-        self.gui.show_screen(next_screen)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
+        sizer.Add(start, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+
+        self.SetSizer(sizer)
+
+    def show_content_selector(self, event) -> None:
+        print("CLICKED")
+        # if not ContentManager.has_content_dir():
+        #    next_screen = gui.ScreenName.NoContent
+        # else:
+        #    next_screen = gui.ScreenName.ContentSelector
+        # self.gui.show_screen(next_screen)

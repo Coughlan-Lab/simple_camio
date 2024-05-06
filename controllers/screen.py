@@ -1,12 +1,11 @@
-import customtkinter as tk  # type: ignore
-from tkinter.constants import CENTER
 from PIL import Image
 from res import Colors, ImgsManager
 from typing import Optional, Union
 import gui
+import wx
 
 
-class Screen(tk.CTkFrame):
+class Screen(wx.Panel):
     @property
     def name(self) -> str:
         return self.__class__.__qualname__
@@ -17,14 +16,20 @@ class Screen(tk.CTkFrame):
 
     def __init__(
         self,
-        gui: "gui.GUI",
-        parent: Union[tk.CTkFrame, tk.CTk],
+        gui: "gui.MainFrame",
+        parent: wx.Frame,
         show_back: bool = False,
     ) -> None:
-        tk.CTkFrame.__init__(self, parent)
+        wx.Panel.__init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition)
         self.gui = gui
-
-        self.configure(fg_color=Colors.background)
+        """
+        self.m_button2 = wx.Button(
+            self, wx.ID_ANY, "BACK", wx.DefaultPosition, wx.DefaultSize, 0
+        )
+        bSizer5.Add(self.m_button2, 0, wx.ALL, 5)
+        self.SetSizer(bSizer5)
+        self.Layout()
+        self.m_button2.Bind(wx.EVT_BUTTON, self.back)
 
         self.back_button = tk.CTkButton(
             self,
@@ -38,8 +43,7 @@ class Screen(tk.CTkFrame):
             corner_radius=50,
             fg_color=Colors.transparent,
         )
-        self.back_button.configure(command=self.back)
-
+        """
         if show_back:
             self.show_back()
 
@@ -55,5 +59,5 @@ class Screen(tk.CTkFrame):
     def hide_back(self) -> None:
         self.back_button.place_forget()
 
-    def back(self) -> None:
+    def back(self, event) -> None:
         self.gui.back(self.back_screen)

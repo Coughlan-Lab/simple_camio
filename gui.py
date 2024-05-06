@@ -1,59 +1,63 @@
 import os
-import customtkinter as tk  # type: ignore
+import wx
 from enum import Enum
-from tkinter import BOTH, E, N, S, TOP, W
 
 from controllers import *
 from model import State
 from typing import List, Dict, Optional
+from res import Colors
 
 
 class ScreenName(Enum):
     HomePage = HomePage
-    CameraSelector = CameraSelector
-    ContentSelector = ContentSelector
-    ContentDescription = ContentDescription
-    ContentVideoTutorial = ContentVideoTutorial
-    PointerSelector = PointerSelector
-    NoContent = NoContent
-    NoCamera = NoCamera
-    CalibrationVideoTutorial = CalibrationVideoTutorial
-    Calibration = Calibration
-    CalibrationFound = CalibrationFound
-    ContentUsage = ContentUsage
+    # CameraSelector = CameraSelector
+    # ContentSelector = ContentSelector
+    # ContentDescription = ContentDescription
+    # ContentVideoTutorial = ContentVideoTutorial
+    # PointerSelector = PointerSelector
+    # NoContent = NoContent
+    # NoCamera = NoCamera
+    # CalibrationVideoTutorial = CalibrationVideoTutorial
+    # Calibration = Calibration
+    # CalibrationFound = CalibrationFound
+    # ContentUsage = ContentUsage
 
 
-class GUI(tk.CTk):
-
+class MainFrame(wx.Frame):
     def __init__(self) -> None:
-        tk.CTk.__init__(self)
-        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        wx.Frame.__init__(
+            self,
+            None,
+            id=wx.ID_ANY,
+            title="CamIO",
+            pos=wx.DefaultPosition,
+            size=wx.Size(1351, 738),
+            style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
+        )
+
+        # self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+
+        self.SetBackgroundColour(Colors.background)
+
         self.__state = State(os.path.expanduser("~/Documents/CamIO Config"))
-
-        self.title("CamIO")
-        self.geometry("966x622+200+48")
-        self.minsize(1, 1)
-        self.maxsize(1351, 738)
-        self.resizable(False, False)
-
-        # the container is where we'll stack a bunch of frames
-        # on top of each other, then the one we want visible
-        # will be raised above the others
-        self.container = Screen(self, self)
-        self.container.pack(side=TOP, fill=BOTH, expand=True)
-        self.container.grid_rowconfigure(0, weight=1)
-        self.container.grid_columnconfigure(0, weight=1)
 
         self.stack: List[str] = []
         self.frames: Dict[str, Screen] = dict()
 
         for page in ScreenName:
-            frame = page.value(self, self.container)
+            frame = page.value(self, self)
             self.frames[page.name] = frame
-            frame.grid(row=0, column=0, sticky=N + S + E + W)
+            frame.Hide()
+
+        self.Centre(wx.BOTH)
 
         self.current_frame: Optional[Screen] = None
         self.show_screen(ScreenName.HomePage)
+
+        self.Bind(wx.EVT_SIZE, self.on_resize)
+
+    def on_resize(self, event):
+        self.Layout()
 
     @property
     def current_state(self) -> State:
@@ -70,28 +74,18 @@ class GUI(tk.CTk):
             raise Exception(f"Unknown screen {screen}")
 
         if self.current_frame is not None:
+            self.current_frame.Hide()
             self.current_frame.on_unfocus()
             if stack:
                 self.stack.append(self.current_frame.name)
 
         self.current_frame = self.frames[screen.name]
-        self.current_frame.tkraise()
         self.current_frame.on_focus()
-
-    def start(self, screen: Optional[ScreenName]) -> None:
-        if screen is not None:
-            self.show_screen(screen)
-        self.mainloop()
+        self.current_frame.Show()
 
     def destroy(self) -> None:
         if self.current_frame is not None:
             self.current_frame.on_unfocus()
-
-        for frame in self.frames.values():
-            frame.destroy()
-
-        self.container.destroy()
-        super().destroy()
 
     def back(self, to: Optional[ScreenName] = None) -> None:
         if len(self.stack) == 0:
@@ -104,6 +98,22 @@ class GUI(tk.CTk):
             to = ScreenName[self.stack.pop()]
 
         self.show_screen(to, stack=False)
+
+
+class GUI(wx.App):
+    def __init__(self) -> None:
+        wx.App.__init__(self)
+
+        self.frame = MainFrame()
+        self.frame.Show()
+
+    def start(self, screen: Optional[ScreenName]) -> None:
+        if screen is not None:
+            self.frame.show_screen(screen)
+        self.MainLoop()
+
+    def destroy(self) -> None:
+        self.frame.destroy()
 
 
 gui: Optional[GUI] = None

@@ -1,4 +1,4 @@
-import customtkinter as tk  # type: ignore
+import wx
 import json
 from typing import Dict, TypedDict
 import os
@@ -23,19 +23,19 @@ class Fonts:
         self.button_params = fonts["button"]
 
     @property
-    def title(self) -> tk.CTkFont:
+    def title(self) -> wx.Font:
         return self.__get_font(self.title_params)
 
     @property
-    def subtitle(self) -> tk.CTkFont:
+    def subtitle(self) -> wx.Font:
         return self.__get_font(self.subtitle_params)
 
     @property
-    def button(self) -> tk.CTkFont:
+    def button(self) -> wx.Font:
         return self.__get_font(self.button_params)
 
-    def __get_font(self, params: FontJson) -> tk.CTkFont:
-        return tk.CTkFont(family=params["family"], size=params["size"])
+    def __get_font(self, params: FontJson) -> wx.Font:
+        return wx.Font(wx.FontInfo(params["size"]))
 
 
 singleton: Fonts = Fonts()

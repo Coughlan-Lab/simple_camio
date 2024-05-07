@@ -5,33 +5,54 @@ from controllers.screen import Screen
 import gui
 from model.utils import open_file
 import wx
+from ..accessibility.accessible_text import AccessibleText
 
 
 class ContentDescription(Screen):
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
-        Screen.__init__(self, gui, parent, show_back=True)
+        Screen.__init__(
+            self, gui, parent, show_back=True, name="Content description screen"
+        )
 
-        self.title = wx.StaticText(self, wx.ID_ANY)
+        self.title = AccessibleText(self, wx.ID_ANY)
         self.title.SetForegroundColour(Colors.text)
         self.title.SetFont(Fonts.title)
 
-        self.description = wx.StaticText(self, wx.ID_ANY)
+        self.description = AccessibleText(self, wx.ID_ANY)
         self.description.SetForegroundColour(Colors.text)
         self.description.SetFont(Fonts.subtitle)
 
-        instructions = wx.StaticText(
+        instructions = AccessibleText(
             self,
             wx.ID_ANY,
             label="Print a copy of the content and proceed",
         )
         instructions.SetForegroundColour(Colors.text)
         instructions.SetFont(Fonts.subtitle)
+        instructions.SetCanFocus(True)
 
-        self.proceed = wx.Button(self, wx.ID_ANY, "Proceed")
-        self.proceed.SetBackgroundColour(Colors.button)
-        self.proceed.SetForegroundColour(Colors.button_text)
-        self.proceed.SetFont(Fonts.button)
-        self.proceed.Bind(wx.EVT_BUTTON, self.on_proceed)
+        self.image_size = (250, 250)
+
+        self.preview_box = wx.Panel(self, wx.ID_ANY, name="Content map preview")
+        self.preview_box.SetBackgroundColour("black")
+        self.preview = wx.StaticBitmap(self.preview_box, wx.ID_ANY)
+        preview_sizer = wx.BoxSizer()
+        preview_sizer.Add(self.preview, 0, wx.ALL | wx.EXPAND, 2)
+        self.preview_box.SetSizer(preview_sizer)
+        self.preview.CenterOnParent()
+
+        self.preview_error = wx.StaticBox(self, wx.ID_ANY, size=(600, 200))
+        preview_error_text = AccessibleText(
+            self.preview_error,
+            wx.ID_ANY,
+            label="No preview found",
+            style=wx.ALIGN_CENTER,
+            size=(self.preview_error.GetSize()[0] - 2, wx.DefaultSize[1]),
+        )
+        preview_error_text.CenterOnParent()
+        preview_error_text.SetForegroundColour(Colors.text)
+        preview_error_text.SetFont(Fonts.subtitle)
+        self.preview_error.Hide()
 
         printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(printer_icon, (25, 25))
@@ -43,28 +64,11 @@ class ContentDescription(Screen):
         self.print.SetBitmapPosition(wx.LEFT)
         self.print.Bind(wx.EVT_BUTTON, self.print_content)
 
-        self.image_size = (250, 250)
-
-        self.preview_box = wx.Panel(self, wx.ID_ANY)
-        self.preview_box.SetBackgroundColour("black")
-        self.preview = wx.StaticBitmap(self.preview_box, wx.ID_ANY)
-        preview_sizer = wx.BoxSizer()
-        preview_sizer.Add(self.preview, 0, wx.ALL | wx.EXPAND, 2)
-        self.preview_box.SetSizer(preview_sizer)
-        self.preview.CenterOnParent()
-
-        self.preview_error = wx.StaticBox(self, wx.ID_ANY, size=(600, 200))
-        preview_error_text = wx.StaticText(
-            self.preview_error,
-            wx.ID_ANY,
-            label="No preview found",
-            style=wx.ALIGN_CENTER,
-            size=(self.preview_error.GetSize()[0] - 2, wx.DefaultSize[1]),
-        )
-        preview_error_text.CenterOnParent()
-        preview_error_text.SetForegroundColour(Colors.text)
-        preview_error_text.SetFont(Fonts.subtitle)
-        self.preview_error.Hide()
+        self.proceed = wx.Button(self, wx.ID_ANY, "Proceed")
+        self.proceed.SetBackgroundColour(Colors.button)
+        self.proceed.SetForegroundColour(Colors.button_text)
+        self.proceed.SetFont(Fonts.button)
+        self.proceed.Bind(wx.EVT_BUTTON, self.on_proceed)
 
         buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
         buttons_sizer.Add(self.print, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
@@ -100,9 +104,11 @@ class ContentDescription(Screen):
         else:
             self.print.Disable()
 
+        self.title.SetFocus()
+
     def show_preview_error(self) -> None:
         self.preview_error.Show()
-        self.preview.Hide()
+        self.preview_box.Hide()
         self.print.Disable()
         self.Layout()
 
@@ -111,7 +117,7 @@ class ContentDescription(Screen):
         self.reshape_img(img)
         self.preview.SetBitmap(img)
 
-        self.preview.Show()
+        self.preview_box.Show()
         self.preview_error.Hide()
 
         self.print.Enable()

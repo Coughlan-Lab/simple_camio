@@ -3,17 +3,18 @@ from controllers.screen import Screen
 from model import ContentManager
 from res import Fonts, Colors
 import wx
+from .accessibility.accessible_text import AccessibleText
 
 
 class HomePage(Screen):
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent)
 
-        title = wx.StaticText(self, wx.ID_ANY, label="CamIO")
-        title.SetForegroundColour(Colors.text)
-        title.SetFont(Fonts.title)
+        self.title = AccessibleText(self, wx.ID_ANY, label="CamIO")
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
-        description = wx.StaticText(
+        description = AccessibleText(
             self,
             wx.ID_ANY,
             label="CamIO is an accessibility tool for visually impaired people",
@@ -31,12 +32,15 @@ class HomePage(Screen):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         sizer.AddStretchSpacer(1)
-        sizer.Add(title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
         sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
         sizer.Add(start, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
         sizer.AddStretchSpacer(2)
 
         self.SetSizerAndFit(sizer)
+
+    def on_focus(self) -> None:
+        self.title.SetFocus()
 
     def show_content_selector(self, event) -> None:
         if not ContentManager.has_content_dir():

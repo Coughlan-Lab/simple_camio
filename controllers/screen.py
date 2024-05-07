@@ -1,9 +1,8 @@
-from PIL import Image
-from matplotlib import style
-from res import Colors, ImgsManager
-from typing import Optional, Union
+from res import ImgsManager
+from typing import Optional
 import gui
 import wx
+from .accessibility import AccessibleDescription
 
 
 class Screen(wx.Panel):
@@ -19,9 +18,10 @@ class Screen(wx.Panel):
         self,
         gui: "gui.MainFrame",
         parent: wx.Frame,
+        name: str = "",
         show_back: bool = False,
     ) -> None:
-        wx.Panel.__init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition)
+        wx.Panel.__init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition, name=name)
         self.gui = gui
 
         back_arrow = wx.Bitmap(ImgsManager.back_arrow, wx.BITMAP_TYPE_ANY)
@@ -33,6 +33,7 @@ class Screen(wx.Panel):
             size=(40, 40),
             bitmap=back_arrow,
         )
+        self.back_button.SetAccessible(AccessibleDescription(name="Back"))
 
         self.back_button.Bind(wx.EVT_BUTTON, self.back)
 

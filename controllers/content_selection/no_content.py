@@ -3,19 +3,22 @@ import gui
 from controllers.screen import Screen
 from res import Fonts, Colors
 import wx
+from ..accessibility.accessible_text import AccessibleText
 
 
 class NoContent(Screen):
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
-        Screen.__init__(self, gui, parent, show_back=True)
+        Screen.__init__(
+            self, gui, parent, show_back=True, name="No content found screen"
+        )
 
-        title = wx.StaticText(
+        self.title = AccessibleText(
             self, wx.ID_ANY, label="CamIO Content directory not found"
         )
-        title.SetForegroundColour(Colors.text)
-        title.SetFont(Fonts.title)
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
-        description = wx.StaticText(
+        description = AccessibleText(
             self,
             wx.ID_ANY,
             label="Please, select its location",
@@ -33,12 +36,15 @@ class NoContent(Screen):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         sizer.AddStretchSpacer(1)
-        sizer.Add(title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
         sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
         sizer.Add(select, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
         sizer.AddStretchSpacer(2)
 
         self.SetSizerAndFit(sizer)
+    
+    def on_focus(self) -> None:
+        self.title.SetFocus()
 
     def show_directory_dialog(self, event) -> None:
         with wx.DirDialog(

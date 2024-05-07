@@ -1,5 +1,6 @@
 import os
 
+from controllers.accessibility.accessible_description import AccessibleDescription
 from res import Colors
 from controllers.screen import Screen
 import gui
@@ -7,17 +8,18 @@ from res import Fonts
 from model import ContentManager
 from typing import List
 import wx
+from ..accessibility.accessible_text import AccessibleText
 
 
 class ContentSelector(Screen):
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
-        Screen.__init__(self, gui, parent, show_back=True)
+        Screen.__init__(self, gui, parent, show_back=True, name="Content list screen")
 
         self.content: List[str] = list()
 
-        title = wx.StaticText(self, wx.ID_ANY, label="Select a content:")
-        title.SetForegroundColour(Colors.text)
-        title.SetFont(Fonts.title)
+        self.title = AccessibleText(self, wx.ID_ANY, label="Select a content:")
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
         header_style = wx.ItemAttr()
         header_style.SetFont(Fonts.row_item)
@@ -31,16 +33,17 @@ class ContentSelector(Screen):
             | wx.LC_SORT_ASCENDING,
             size=(600, 200),
         )
+        self.container.SetAccessible(AccessibleDescription(description="Content list"))
         self.container.AppendColumn("Content", format=wx.LIST_FORMAT_CENTRE, width=200)
         self.container.AppendColumn(
             "Description", format=wx.LIST_FORMAT_CENTRE, width=400
         )
         self.container.SetHeaderAttr(header_style)
-        self.container.SortItems(self.sortContent)
-        self.container.Bind(wx.EVT_LIST_ITEM_SELECTED, self.on_content_selected)
+        self.container.SortItems(self.sort_contents)
+        self.container.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.on_content_selected)
 
         self.no_content = wx.StaticBox(self, wx.ID_ANY, size=(600, 200))
-        no_content_text = wx.StaticText(
+        no_content_text = AccessibleText(
             self.no_content,
             wx.ID_ANY,
             label="No content found in the content directory",
@@ -65,7 +68,7 @@ class ContentSelector(Screen):
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        sizer.Add(title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
         sizer.AddStretchSpacer(2)
         sizer.Add(self.container, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
         sizer.Add(self.no_content, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
@@ -78,6 +81,7 @@ class ContentSelector(Screen):
         self.gui.current_state.clear()
         ContentManager.load_content()
         self.init_content()
+        self.title.SetFocus()
 
     def init_content(self) -> None:
         self.container.DeleteAllItems()
@@ -112,7 +116,7 @@ class ContentSelector(Screen):
         self.no_content.Show()
         self.Layout()
 
-    def sortContent(self, first, second):
+    def sort_contents(self, first, second):
         if first == second:
             return 0
         elif first < second:

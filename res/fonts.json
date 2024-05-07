@@ -7,6 +7,10 @@
         "family": "Noto Sans",
         "size": 20
     },
+    "row_item": {
+        "family": "Noto Sans",
+        "size": 12
+    },
     "button": {
         "family": "Noto Sans",
         "size": 16

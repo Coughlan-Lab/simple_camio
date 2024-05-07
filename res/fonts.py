@@ -21,6 +21,7 @@ class Fonts:
         self.title_params = fonts["title"]
         self.subtitle_params = fonts["subtitle"]
         self.button_params = fonts["button"]
+        self.row_item_params = fonts["row_item"]
 
     @property
     def title(self) -> wx.Font:
@@ -33,6 +34,10 @@ class Fonts:
     @property
     def button(self) -> wx.Font:
         return self.__get_font(self.button_params)
+
+    @property
+    def row_item(self) -> wx.Font:
+        return self.__get_font(self.row_item_params)
 
     def __get_font(self, params: FontJson) -> wx.Font:
         return wx.Font(wx.FontInfo(params["size"]))

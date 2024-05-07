@@ -3,9 +3,9 @@ from enum import Enum
 from .screen import Screen
 from .homepage import HomePage
 from .content_selection.no_content import NoContent
+from .content_selection.content_selector import ContentSelector
 
 # from .camera_selection.camera_selector import CameraSelector
-# from .content_selection.content_selector import ContentSelector
 # from .content_selection.content_description import ContentDescription
 # from .content_selection.video_tutorial import ContentVideoTutorial
 # from .content_selection.pointer_selector import PointerSelector
@@ -20,6 +20,7 @@ __all__ = [
     "Screen",
     "HomePage",
     "NoContent",
+    "ContentSelector",
 ]
 
 """

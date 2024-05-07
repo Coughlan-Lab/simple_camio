@@ -1,204 +1,145 @@
-from tkinter import filedialog, E, HORIZONTAL, LEFT, RIGHT, TOP, W, X
-import customtkinter as tk  # type: ignore
-from tkinter.constants import CENTER, S
-import tkinter.ttk as ttk
 import os
 
+from matplotlib import style
 from res import Colors
-
 from controllers.screen import Screen
 import gui
-
 from res import Fonts
 from model import ContentManager
 from typing import Any, Callable, Union, List
+import wx
 
 
 class ContentSelector(Screen):
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent, show_back=True)
 
-        title = tk.CTkLabel(
-            self, text="Select a content:", height=44, text_color=Colors.text
-        )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        title.configure(compound="left")
-        title.configure(font=Fonts.title)
+        self.content: List[str] = list()
 
-        self.__error_msg = tk.CTkFrame(
-            self, fg_color=Colors.transparent, border_color="black", border_width=2
-        )
-        error = tk.CTkLabel(
-            self.__error_msg,
-            text="No content found in the content directory",
-            text_color=Colors.text,
-            height=44,
-            justify=CENTER,
-        )
-        error.place(relx=0.5, rely=0.5, anchor=CENTER)
-        error.configure(font=Fonts.subtitle)
+        title = wx.StaticText(self, wx.ID_ANY, label="Select a content:")
+        title.SetForegroundColour(Colors.text)
+        title.SetFont(Fonts.title)
 
-        self.__container = tk.CTkScrollableFrame(
-            self, fg_color=Colors.transparent, border_color="black", border_width=2
-        )
-        self.__container.columnconfigure(0, weight=1)
-        self.show_content()
-        ContentHeader(self.__container)
+        header_style = wx.ItemAttr()
+        header_style.SetFont(Fonts.row_item)
 
-        change_content_dir = tk.CTkButton(
+        self.container = wx.ListCtrl(
             self,
-            text="Change directory",
-            font=Fonts.button,
-            height=50,
-            width=150,
-            text_color=Colors.button_text,
+            style=wx.LC_REPORT
+            | wx.LC_SINGLE_SEL
+            | wx.LC_HRULES
+            | wx.LC_VRULES
+            | wx.LC_SORT_ASCENDING,
+            size=(600, 200),
         )
-        change_content_dir.pack(side=RIGHT, padx=(0, 40), pady=(0, 30), anchor=S)
-        change_content_dir.configure(command=self.change_content_dir)
+        self.container.AppendColumn("Content", format=wx.LIST_FORMAT_CENTRE, width=200)
+        self.container.AppendColumn(
+            "Description", format=wx.LIST_FORMAT_CENTRE, width=400
+        )
+        self.container.SetHeaderAttr(header_style)
+        self.container.SortItems(self.sortContent)
+        self.container.Bind(wx.EVT_LIST_ITEM_SELECTED, self.on_content_selected)
 
-        self.content: List[ContentRow] = list()
+        self.error_msg = wx.StaticBox(self, wx.ID_ANY, size=(600, 200))
+        error = wx.StaticText(
+            self.error_msg,
+            wx.ID_ANY,
+            label="No content found in the content directory",
+            style=wx.ALIGN_CENTER,
+            size=(self.error_msg.GetSize()[0] - 2, wx.DefaultSize[1]),
+        )
+        error.CenterOnParent()
+        error.SetForegroundColour(Colors.text)
+        error.SetFont(Fonts.subtitle)
+        self.error_msg.Hide()
+
+        change_content_dir = wx.Button(
+            self,
+            wx.ID_ANY,
+            label="Change directory",
+            size=(200, 50),
+        )
+        change_content_dir.SetFont(Fonts.button)
+        change_content_dir.SetBackgroundColour(Colors.button)
+        change_content_dir.SetForegroundColour(Colors.button_text)
+        change_content_dir.Bind(wx.EVT_BUTTON, self.change_content_dir)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.Add(title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.AddStretchSpacer(2)
+        sizer.Add(self.container, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.error_msg, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(change_content_dir, 0, wx.ALL | wx.ALIGN_RIGHT, 50)
+
+        self.SetSizerAndFit(sizer)
 
     def on_focus(self) -> None:
-        state = self.gui.current_state
-        state.clear()
+        self.gui.current_state.clear()
         ContentManager.load_content()
         self.init_content()
 
     def init_content(self) -> None:
-        for content in self.content:
-            content.destroy()
+        self.container.DeleteAllItems()
         self.content.clear()
 
-        for content in ContentManager.content:
-            row = ContentRow(self.gui, self.__container, content)
-            self.content.append(row)
+        for i, content in enumerate(ContentManager.content):
+            data = ContentManager.get_content_data(content)
+
+            item = wx.ListItem()
+            item.SetId(i)
+            item.SetText(content)
+            item.SetFont(Fonts.row_item)
+            item.SetMask(wx.LIST_MASK_TEXT)
+
+            self.container.InsertItem(item)
+            self.container.SetItem(i, 1, f"{data.description}")
+
+            self.content.append(content)
 
         if len(self.content) == 0:
             self.show_no_content()
         else:
             self.show_content()
 
-        for i, row in enumerate(self.content):
-            row.grid(row=i + 1, pady=1)
-
     def show_content(self) -> None:
-        self.__container.place(
-            relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
-        )
-        self.__error_msg.place_forget()
+        self.container.Show()
+        self.error_msg.Hide()
+        self.Layout()
 
     def show_no_content(self) -> None:
-        self.__container.place_forget()
-        self.__error_msg.place(
-            relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
-        )
+        self.container.Hide()
+        self.error_msg.Show()
+        self.Layout()
 
-    def change_content_dir(self) -> None:
-        content_dir = filedialog.askdirectory(initialdir=os.path.expanduser("~"))
+    def sortContent(self, first, second):
+        if first == second:
+            return 0
+        elif first < second:
+            return -1
+        return 1
+
+    def on_content_selected(self, event):
+        content = self.content[event.GetIndex()]
+        self.gui.current_state.content = ContentManager.get_content_data(content)
+        # self.gui.show_screen(gui.ScreenName.ContentDescription)
+
+    def change_content_dir(self, event) -> None:
+        with wx.DirDialog(
+            self,
+            "Select content directory",
+            defaultPath=os.path.expanduser("~"),
+            style=wx.DD_DEFAULT_STYLE | wx.DD_DIR_MUST_EXIST,
+        ) as dialog:
+            if dialog.ShowModal() == wx.ID_CANCEL:
+                return
+
+            content_dir = dialog.GetPath()
 
         if content_dir is None or content_dir == "":
             return
-        
+
         self.gui.current_state.set_content_dir(content_dir)
         self.on_focus()
-
-
-class ContentHeader(tk.CTkFrame):
-    HEIGHT = 48
-
-    def __init__(self, parent: tk.CTkScrollableFrame) -> None:
-        tk.CTkFrame.__init__(self, parent, height=ContentRow.HEIGHT)
-        self.configure(bg_color=Colors.transparent)
-        self.grid(row=0, column=0, sticky=W + E)
-
-        self.name = tk.CTkLabel(
-            self,
-            text="Content",
-            font=Fonts.subtitle,
-            justify=CENTER,
-            height=ContentRow.HEIGHT,
-            width=200,
-            bg_color=Colors.background,
-            text_color=Colors.text,
-        )
-        self.name.pack(side=LEFT)
-
-        self.description = tk.CTkLabel(
-            self,
-            text="Description",
-            font=Fonts.subtitle,
-            justify=CENTER,
-            height=ContentRow.HEIGHT,
-            bg_color=Colors.background,
-            text_color=Colors.text,
-        )
-        self.description.pack(fill=X)
-
-
-class ContentRow(tk.CTkFrame):
-    HEIGHT = 48
-
-    def __init__(
-        self, gui: "gui.GUI", parent: tk.CTkScrollableFrame, content_name: str
-    ) -> None:
-        tk.CTkFrame.__init__(
-            self, parent, height=ContentRow.HEIGHT, fg_color=Colors.transparent
-        )
-        self.gui = gui
-        self.content = ContentManager.get_content_data(content_name)
-        self.grid(column=0, sticky=W + E)
-
-        styl = ttk.Style()
-        styl.configure("black.TSeparator", background="black")
-        self.separator = ttk.Separator(
-            self, orient=HORIZONTAL, style="black.TSeparator"
-        )
-        self.separator.pack(side=TOP, fill="x")
-
-        self.name = tk.CTkLabel(
-            self,
-            text=self.content.name,
-            font=Fonts.subtitle,
-            justify=CENTER,
-            height=ContentRow.HEIGHT,
-            width=200,
-            text_color=Colors.text,
-        )
-        self.name.pack(
-            side=LEFT,
-        )
-
-        self.description = tk.CTkLabel(
-            self,
-            text=self.content.description,
-            font=Fonts.subtitle,
-            justify=CENTER,
-            height=ContentRow.HEIGHT,
-            text_color=Colors.text,
-        )
-        self.description.pack(fill=X)
-
-        self.bind("<Button-1>", self.on_click)
-        self.bind("<Enter>", self.on_enter)
-        self.bind("<Leave>", self.on_leave)
-
-    @property
-    def content_name(self) -> str:
-        return self.content.full_name
-
-    def bind(self, event: str, callback: Callable[[Any], None]) -> None:
-        self.name.bind(event, callback)
-        self.description.bind(event, callback)
-
-    def on_click(self, event: Any) -> None:
-        self.gui.current_state.content = self.content
-        self.gui.show_screen(gui.ScreenName.ContentDescription)
-
-    def on_enter(self, event: Any) -> None:
-        self.name.configure(bg_color=Colors.hover)
-        self.description.configure(bg_color=Colors.hover)
-
-    def on_leave(self, event: Any) -> None:
-        self.name.configure(bg_color=Colors.transparent)
-        self.description.configure(bg_color=Colors.transparent)

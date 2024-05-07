@@ -44,6 +44,5 @@ class HomePage(Screen):
         if not ContentManager.has_content_dir():
             next_screen = gui.ScreenName.NoContent
         else:
-            next_screen = gui.ScreenName.NoContent
-        #    next_screen = gui.ScreenName.ContentSelector
+            next_screen = gui.ScreenName.ContentSelector
         self.gui.show_screen(next_screen)

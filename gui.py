@@ -11,8 +11,8 @@ from res import Colors
 class ScreenName(Enum):
     HomePage = HomePage
     NoContent = NoContent
+    ContentSelector = ContentSelector
     # CameraSelector = CameraSelector
-    # ContentSelector = ContentSelector
     # ContentDescription = ContentDescription
     # ContentVideoTutorial = ContentVideoTutorial
     # PointerSelector = PointerSelector
@@ -24,7 +24,7 @@ class ScreenName(Enum):
 
 
 class MainFrame(wx.Frame):
-    DEFAULT_SIZE = wx.Size(640, 480)
+    DEFAULT_SIZE = wx.Size(880, 660)
 
     def __init__(self) -> None:
         wx.Frame.__init__(

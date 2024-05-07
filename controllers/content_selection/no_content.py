@@ -7,7 +7,7 @@ import wx
 
 class NoContent(Screen):
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
-        Screen.__init__(self, gui, parent)
+        Screen.__init__(self, gui, parent, show_back=True)
 
         title = wx.StaticText(
             self, wx.ID_ANY, label="CamIO Content directory not found"
@@ -59,4 +59,4 @@ class NoContent(Screen):
 
         self.gui.current_state.set_content_dir(content_dir)
 
-        # self.gui.show_screen(gui.ScreenName.ContentSelector)
+        self.gui.show_screen(gui.ScreenName.ContentSelector)

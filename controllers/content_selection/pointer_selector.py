@@ -1,13 +1,10 @@
-from numpy import pad
 from model import State
-import customtkinter as tk  # type: ignore
-from tkinter import CENTER, LEFT, N, RIGHT, SE, SW, Y
 from res import Fonts, Colors, ImgsManager, DocsManager
 from controllers.screen import Screen
-from PIL import Image
 import gui
-from typing import Union
 from model.utils import open_file
+import wx
+from ..accessibility import AccessibleText, AccessibleDescription
 
 
 class PointerSelector(Screen):
@@ -15,59 +12,80 @@ class PointerSelector(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, gui, parent, show_back=True)
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(
+            self, gui, parent, show_back=True, name="Pointer selection screen"
+        )
 
-        title = tk.CTkLabel(
+        self.title = AccessibleText(self, wx.ID_ANY, label="Choose pointing option:")
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
+
+        description = AccessibleText(
             self,
-            text="Choose pointing option:",
-            font=Fonts.title,
-            text_color=Colors.text,
+            wx.ID_ANY,
+            label="If you want to use the stylus, print it before proceeding",
         )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        description.SetForegroundColour(Colors.text)
+        description.SetFont(Fonts.subtitle)
 
-        description = tk.CTkLabel(
-            self,
-            text="If you want to use the stylus, print it before proceeding",
-            font=Fonts.subtitle,
-            justify=CENTER,
-            text_color=Colors.text,
+        finger_box = wx.Panel(self, wx.ID_ANY)
+        finger_box.SetBackgroundColour("#6fabdc")
+        finger_box_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        finger_btn = wx.Button(finger_box, wx.ID_ANY, "Content")
+        finger_btn.SetBackgroundColour(Colors.button)
+        finger_btn.SetForegroundColour(Colors.button_text)
+        finger_btn.SetFont(Fonts.button)
+        finger_btn.Bind(wx.EVT_BUTTON, lambda _: self.on_select(State.Pointer.FINGER))
+        finger_box_sizer.Add(finger_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 1)
+
+        finger_box.SetSizerAndFit(finger_box_sizer)
+
+        stylus_box = wx.Panel(self, wx.ID_ANY)
+        stylus_box.SetBackgroundColour("#6fabdc")
+        stylus_box_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        stylus_btn = wx.Button(
+            stylus_box,
+            wx.ID_ANY,
+            label="Stylus",
         )
-        description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
+        stylus_btn.SetBackgroundColour(Colors.button)
+        stylus_btn.SetForegroundColour(Colors.button_text)
+        stylus_btn.SetFont(Fonts.button)
+        stylus_btn.Bind(wx.EVT_BUTTON, lambda _: self.on_select(State.Pointer.STYLUS))
+        stylus_box_sizer.Add(stylus_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 1)
 
-        finger_frame = tk.CTkFrame(self, fg_color="#3B8ED0", corner_radius=6)
-        finger = tk.CTkButton(
-            finger_frame,
-            text="Finger",
-            font=Fonts.button,
-            height=42,
-            width=120,
-            text_color=Colors.button_text,
+        printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(printer_icon, (25, 25))
+        self.print_stylus_btn = wx.BitmapButton(
+            stylus_box,
+            wx.ID_ANY,
+            bitmap=printer_icon,
         )
-        finger.pack(padx=4, pady=4)
-        finger.configure(command=lambda: self.on_select(State.Pointer.FINGER))
-        finger_frame.place(relx=0.3, rely=0.6, anchor=SW)
-
-        marker_frame = tk.CTkFrame(self, fg_color=Colors.button, corner_radius=6)
-
-        stylus = tk.CTkButton(
-            marker_frame,
-            text="Stylus",
-            font=Fonts.button,
-            height=42,
-            width=120,
-            text_color=Colors.button_text,
+        self.print_stylus_btn.SetBackgroundColour(Colors.button)
+        self.print_stylus_btn.SetAccessible(AccessibleDescription(name="Print stylus"))
+        self.print_stylus_btn.Bind(wx.EVT_BUTTON, self.print_marker)
+        stylus_box_sizer.Add(
+            self.print_stylus_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 1
         )
-        stylus.pack(side=LEFT, padx=(4, 0), pady=4)
-        stylus.configure(command=lambda: self.on_select(State.Pointer.STYLUS))
 
-        icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
-        print_marker = tk.CTkButton(
-            marker_frame, text="", image=icon, anchor=CENTER, width=15, height=42
-        )
-        print_marker.configure(command=self.print_marker)
-        print_marker.pack(side=LEFT, padx=4, pady=4)
-        marker_frame.place(relx=0.7, rely=0.6, anchor=SE)
+        stylus_box.SetSizerAndFit(stylus_box_sizer)
+
+        buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        buttons_sizer.Add(finger_box, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+        buttons_sizer.Add(stylus_box, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+
+        self.SetSizerAndFit(sizer)
+
         """
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
@@ -82,13 +100,15 @@ class PointerSelector(Screen):
     def on_focus(self) -> None:
         state = self.gui.current_state
         state.clear_pointer()
+        self.title.SetFocus()
 
     def on_select(self, pointer: State.Pointer) -> None:
         self.gui.current_state.pointer = pointer
-        self.gui.show_screen(gui.ScreenName.CameraSelector)
+        # self.gui.show_screen(gui.ScreenName.CameraSelector)
 
-    def print_marker(self) -> None:
+    def print_marker(self, event) -> None:
         open_file(DocsManager.marker_pointer)
 
-    def show_tutorial(self) -> None:
-        self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)
+    def show_tutorial(self, event) -> None:
+        pass
+        # self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)

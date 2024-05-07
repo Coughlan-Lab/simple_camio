@@ -68,7 +68,8 @@ class ContentSelector(Screen):
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
         sizer.AddStretchSpacer(2)
         sizer.Add(self.container, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
         sizer.Add(self.no_content, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)

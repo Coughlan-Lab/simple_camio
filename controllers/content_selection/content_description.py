@@ -140,12 +140,9 @@ class ContentDescription(Screen):
         open_file(self.content.to_print)
 
     def on_proceed(self, event) -> None:
-        """
         if self.gui.current_state.content_tutorial_watched:
             next_screen = gui.ScreenName.PointerSelector
         else:
             # next_screen = gui.ScreenName.ContentVideoTutorial
             next_screen = gui.ScreenName.PointerSelector
-        """
-        next_screen = gui.ScreenName.ContentDescription
         self.gui.show_screen(next_screen)

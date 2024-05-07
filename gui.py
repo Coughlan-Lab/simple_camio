@@ -12,8 +12,8 @@ class ScreenName(Enum):
     HomePage = HomePage
     NoContent = NoContent
     ContentSelector = ContentSelector
+    ContentDescription = ContentDescription
     # CameraSelector = CameraSelector
-    # ContentDescription = ContentDescription
     # ContentVideoTutorial = ContentVideoTutorial
     # PointerSelector = PointerSelector
     # NoCamera = NoCamera

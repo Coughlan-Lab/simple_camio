@@ -1,83 +1,93 @@
 import os
-import customtkinter as tk  # type: ignore
-from tkinter import DISABLED, NORMAL, Label, CENTER, SE, SW
 from model import Content
 from res import Colors, Fonts, ImgsManager
 from controllers.screen import Screen
-from PIL import ImageTk, Image
 import gui
-from typing import Union
 from model.utils import open_file
+import wx
 
 
 class ContentDescription(Screen):
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent, show_back=True)
 
-        self.title = tk.CTkLabel(
-            self, text="", font=Fonts.title, text_color=Colors.text
-        )
-        self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        self.title = wx.StaticText(self, wx.ID_ANY)
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
-        self.description = tk.CTkLabel(
-            self, justify=CENTER, font=Fonts.subtitle, text_color=Colors.text
-        )
-        self.description.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
+        self.description = wx.StaticText(self, wx.ID_ANY)
+        self.description.SetForegroundColour(Colors.text)
+        self.description.SetFont(Fonts.subtitle)
 
-        instructions = tk.CTkLabel(
+        instructions = wx.StaticText(
             self,
-            text="Print a copy of the content and proceed",
-            justify=CENTER,
-            font=Fonts.subtitle,
-            text_color=Colors.text,
+            wx.ID_ANY,
+            label="Print a copy of the content and proceed",
         )
-        instructions.place(relx=0.5, rely=0.26, relwidth=0.6, anchor=CENTER)
+        instructions.SetForegroundColour(Colors.text)
+        instructions.SetFont(Fonts.subtitle)
 
-        self.proceed = tk.CTkButton(
-            self,
-            text="Proceed",
-            font=Fonts.button,
-            text_color=Colors.button_text,
-            height=50,
-            width=120,
-        )
-        self.proceed.place(relx=0.7, rely=0.9, anchor=SE)
-        self.proceed.configure(command=self.on_proceed)
+        self.proceed = wx.Button(self, wx.ID_ANY, "Proceed")
+        self.proceed.SetBackgroundColour(Colors.button)
+        self.proceed.SetForegroundColour(Colors.button_text)
+        self.proceed.SetFont(Fonts.button)
+        self.proceed.Bind(wx.EVT_BUTTON, self.on_proceed)
 
-        icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
-        self.print = tk.CTkButton(
-            self,
-            text="Content",
-            image=icon,
-            height=50,
-            width=120,
-            font=Fonts.button,
-            text_color=Colors.button_text,
-        )
-        self.print.place(relx=0.3, rely=0.9, anchor=SW)
-        self.print.configure(command=self.print_content)
+        printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(printer_icon, (25, 25))
+        self.print = wx.Button(self, wx.ID_ANY, "Content")
+        self.print.SetBackgroundColour(Colors.button)
+        self.print.SetForegroundColour(Colors.button_text)
+        self.print.SetFont(Fonts.button)
+        self.print.SetBitmap(printer_icon)
+        self.print.SetBitmapPosition(wx.LEFT)
+        self.print.Bind(wx.EVT_BUTTON, self.print_content)
 
         self.image_size = (250, 250)
-        self.preview = Label(
-            self, text="", width=self.image_size[0], height=self.image_size[1]
-        )
-        self.preview.place(relx=0.5, rely=0.55, anchor=CENTER)
 
-        self.preview_error = Label(
-            self,
-            text="No preview found",
-            font=Fonts.subtitle,
-            background=Colors.background,
-            borderwidth=2,
-            relief="solid",
-            width=20,
-            height=10,
-            fg=Colors.text,
+        self.preview_box = wx.Panel(self, wx.ID_ANY)
+        self.preview_box.SetBackgroundColour("black")
+        self.preview = wx.StaticBitmap(self.preview_box, wx.ID_ANY)
+        preview_sizer = wx.BoxSizer()
+        preview_sizer.Add(self.preview, 0, wx.ALL | wx.EXPAND, 2)
+        self.preview_box.SetSizer(preview_sizer)
+        self.preview.CenterOnParent()
+
+        self.preview_error = wx.StaticBox(self, wx.ID_ANY, size=(600, 200))
+        preview_error_text = wx.StaticText(
+            self.preview_error,
+            wx.ID_ANY,
+            label="No preview found",
+            style=wx.ALIGN_CENTER,
+            size=(self.preview_error.GetSize()[0] - 2, wx.DefaultSize[1]),
         )
+        preview_error_text.CenterOnParent()
+        preview_error_text.SetForegroundColour(Colors.text)
+        preview_error_text.SetFont(Fonts.subtitle)
+        self.preview_error.Hide()
+
+        buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        buttons_sizer.Add(self.print, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+        buttons_sizer.Add(self.proceed, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(instructions, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(self.preview_box, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
+        sizer.Add(self.preview_error, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddSpacer(50)
+
+        self.SetSizerAndFit(sizer)
 
     def on_focus(self) -> None:
-        self.title.configure(text=self.content.name)
-        self.description.configure(text=self.content.description)
+        self.title.SetLabel(self.content.full_name)
+        self.description.SetLabel(self.content.description)
 
         preview = self.content.preview
         if preview is None:
@@ -86,48 +96,50 @@ class ContentDescription(Screen):
             self.show_preview(preview)
 
         if os.path.exists(self.content.to_print):
-            self.print.configure(state=NORMAL)
+            self.print.Enable()
         else:
-            self.print.configure(state=DISABLED)
+            self.print.Disable()
 
     def show_preview_error(self) -> None:
-        self.preview_error.place(relx=0.5, rely=0.55, anchor=CENTER)
-        self.preview.place_forget()
-        self.print.configure(state=DISABLED)
+        self.preview_error.Show()
+        self.preview.Hide()
+        self.print.Disable()
+        self.Layout()
 
     def show_preview(self, preview: str) -> None:
-        img = Image.open(preview)
-        self.reshape_preview(img.size[0], img.size[1])
+        img = wx.Bitmap(preview, wx.BITMAP_TYPE_ANY)
+        self.reshape_img(img)
+        self.preview.SetBitmap(img)
 
-        img = img.resize((self.image_size[0], self.image_size[1]), Image.LANCZOS)
-        self.imgtk = ImageTk.PhotoImage(image=img)
+        self.preview.Show()
+        self.preview_error.Hide()
 
-        self.preview.configure(image=self.imgtk)
-        self.preview.place(relx=0.5, rely=0.55, anchor=CENTER)
-        self.preview_error.place_forget()
-        self.print.configure(state=NORMAL)
+        self.print.Enable()
+        self.Layout()
 
-    def reshape_preview(self, w: int, h: int) -> None:
+    def reshape_img(self, img: wx.Bitmap) -> None:
+        w, h = img.GetSize()
         if w > h:
             self.image_size = (self.image_size[0], int(h * self.image_size[0] / w))
         else:  # h > w
             self.image_size = (int(w * self.image_size[1] / h), self.image_size[1])
 
-        self.preview.configure(
-            background="black", width=self.image_size[0], height=self.image_size[1]
-        )
+        wx.Bitmap.Rescale(img, self.image_size)
 
     @property
     def content(self) -> Content:
         return self.gui.current_state.content
 
-    def print_content(self) -> None:
+    def print_content(self, event) -> None:
         open_file(self.content.to_print)
 
-    def on_proceed(self) -> None:
+    def on_proceed(self, event) -> None:
+        """
         if self.gui.current_state.content_tutorial_watched:
             next_screen = gui.ScreenName.PointerSelector
         else:
             # next_screen = gui.ScreenName.ContentVideoTutorial
             next_screen = gui.ScreenName.PointerSelector
+        """
+        next_screen = gui.ScreenName.ContentDescription
         self.gui.show_screen(next_screen)

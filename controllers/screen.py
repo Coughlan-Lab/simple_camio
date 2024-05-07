@@ -24,7 +24,7 @@ class Screen(wx.Panel):
         wx.Panel.__init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition)
         self.gui = gui
 
-        back_arrow = wx.Bitmap(ImgsManager.back_arrow, wx.BITMAP_TYPE_PNG)
+        back_arrow = wx.Bitmap(ImgsManager.back_arrow, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(back_arrow, (25, 25))
         self.back_button = wx.BitmapButton(
             self,

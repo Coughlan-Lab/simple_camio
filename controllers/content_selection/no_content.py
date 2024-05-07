@@ -24,9 +24,7 @@ class NoContent(Screen):
         description.SetForegroundColour(Colors.text)
         description.SetFont(Fonts.subtitle)
 
-        select = wx.Button(
-            self, wx.ID_ANY, "Select", wx.DefaultPosition, wx.DefaultSize, 0
-        )
+        select = wx.Button(self, wx.ID_ANY, "Select")
         select.SetBackgroundColour(Colors.button)
         select.SetForegroundColour(Colors.button_text)
         select.SetFont(Fonts.button)

@@ -22,9 +22,7 @@ class HomePage(Screen):
         description.SetForegroundColour(Colors.text)
         description.SetFont(Fonts.subtitle)
 
-        start = wx.Button(
-            self, wx.ID_ANY, "Start", wx.DefaultPosition, wx.DefaultSize, 0
-        )
+        start = wx.Button(self, wx.ID_ANY, "Start")
         start.SetBackgroundColour(Colors.button)
         start.SetForegroundColour(Colors.button_text)
         start.SetFont(Fonts.button)

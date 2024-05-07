@@ -1,9 +1,9 @@
 import gui
-from controllers.screen import Screen
+from .screen import Screen
 from model import ContentManager
 from res import Fonts, Colors
 import wx
-from .accessibility.accessible_text import AccessibleText
+from view.accessibility import AccessibleText
 
 
 class HomePage(Screen):

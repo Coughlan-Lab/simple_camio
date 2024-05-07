@@ -1,11 +1,11 @@
 import os
 from model import Content
 from res import Colors, Fonts, ImgsManager
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
 from model.utils import open_file
 import wx
-from ..accessibility.accessible_text import AccessibleText
+from view.accessibility import AccessibleText
 
 
 class ContentDescription(Screen):

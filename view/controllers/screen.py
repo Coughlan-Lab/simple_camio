@@ -2,7 +2,7 @@ from res import ImgsManager
 from typing import Optional
 import gui
 import wx
-from .accessibility import AccessibleDescription
+from view.accessibility import AccessibleDescription
 
 
 class Screen(wx.Panel):

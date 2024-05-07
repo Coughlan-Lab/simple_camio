@@ -1,10 +1,10 @@
 from model import State
 from res import Fonts, Colors, ImgsManager, DocsManager
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
 from model.utils import open_file
 import wx
-from ..accessibility import AccessibleText, AccessibleDescription
+from view.accessibility import AccessibleText, AccessibleDescription
 
 
 class PointerSelector(Screen):

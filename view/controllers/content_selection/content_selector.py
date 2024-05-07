@@ -1,14 +1,12 @@
 import os
-
-from controllers.accessibility.accessible_description import AccessibleDescription
 from res import Colors
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
 from res import Fonts
 from model import ContentManager
 from typing import List
 import wx
-from ..accessibility.accessible_text import AccessibleText
+from view.accessibility import AccessibleText, AccessibleDescription
 
 
 class ContentSelector(Screen):

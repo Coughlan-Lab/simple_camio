@@ -2,7 +2,7 @@ import os
 import wx
 from enum import Enum
 
-from controllers import *
+from view.controllers import *
 from model import State
 from typing import List, Dict, Optional
 from res import Colors

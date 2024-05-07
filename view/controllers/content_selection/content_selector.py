@@ -10,6 +10,10 @@ from view.accessibility import AccessibleText, AccessibleDescription
 
 
 class ContentSelector(Screen):
+    @property
+    def back_screen(self) -> "gui.ScreenName":
+        return gui.ScreenName.HomePage
+
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent, show_back=True, name="Content list screen")
 

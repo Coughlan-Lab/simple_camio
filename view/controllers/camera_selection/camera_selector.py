@@ -1,5 +1,4 @@
 # from view.utils import LoadingSpinner
-from numpy import place
 import gui
 import cv2
 from model.utils import enumerate_cameras

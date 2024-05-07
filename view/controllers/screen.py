@@ -43,6 +43,7 @@ class Screen(wx.Panel):
             self.hide_back()
 
         self.Bind(wx.EVT_KILL_FOCUS, self.on_unfocus)
+        self.SetAutoLayout(True)
 
     def SetFocus(self, focus: bool) -> None:
         if focus:

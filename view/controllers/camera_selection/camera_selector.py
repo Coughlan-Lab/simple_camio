@@ -1,97 +1,103 @@
-import customtkinter as tk  # type: ignore
-from tkinter.constants import CENTER, S
-from view import LoadingSpinner
+# from view.utils import LoadingSpinner
+from numpy import place
 import gui
-
 import cv2
 from model.utils import enumerate_cameras
-
 from .camera_preview import CameraPreview
-from controllers.screen import Screen
+from ..screen import Screen
 from res import Fonts, Colors
-from typing import List, Tuple, Union
-
+from typing import List, Tuple
 import threading
+import wx
+from view.accessibility import AccessibleText
 
 
 class CameraSelector(Screen):
     MAX_CAMERAS = 3
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, gui, parent, show_back=True)
-
-        self.title = tk.CTkLabel(
-            self, text="Select a camera:", height=44, text_color=Colors.text
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(
+            self, gui, parent, show_back=True, name="Camera selection screen"
         )
-        self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
-        self.title.configure(font=Fonts.title)
 
-        self.__container = Screen(self.gui, self)
-        self.__container.place(
-            relx=0.5, rely=0.8, relheight=0.4, relwidth=0.95, anchor=S
-        )
+        self.title = AccessibleText(self, wx.ID_ANY, label="Select a camera:")
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
+
+        self.previewSizer = wx.GridSizer(cols=3, gap=(20, 5))
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(2)
+        sizer.Add(self.previewSizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(1)
+
+        self.SetSizerAndFit(sizer)
 
         self.previews: List[CameraPreview] = list()
 
-        for i in range(CameraSelector.MAX_CAMERAS):
-            self.__container.grid_columnconfigure(i, weight=1)
-        self.__container.grid_rowconfigure(0, weight=1)
-        self.__container.grid_rowconfigure(1, weight=3)
-
-        self.loading = LoadingSpinner(self)
+        # self.loading = LoadingSpinner(self)
 
     def on_focus(self) -> None:
         self.show_loading()
         state = self.gui.current_state
         state.clear_camera()
-        threading.Thread(target=self.__load_cameras).start()
-
-    def show_loading(self) -> None:
-        self.loading.show()
-        self.loading.place(relx=0.5, rely=0.5, anchor=CENTER)
-
-    def hide_loading(self) -> None:
-        self.loading.hide()
-        self.loading.place_forget()
+        # threading.Thread(target=self.__load_cameras).start()
+        self.__load_cameras()
 
     def __load_cameras(self) -> None:
-        if len(self.previews) == 0:
-            self.init_cameras()
+        self.init_cameras()
 
         for preview in self.previews:
             preview.start()
 
-        for i, preview in zip(self.__get_sorting(self.previews), self.previews):
-            preview.grid(row=0, column=i, padx=5)
-
-        self.hide_loading()
-
-    def on_unfocus(self) -> None:
-        for preview in self.previews:
-            preview.stop()
-            preview.grid_forget()
-        self.loading.hide()
+        wx.CallAfter(self.show_cameras)
 
     def init_cameras(self) -> None:
-        names = {preview.camera_name for preview in self.previews}
+        self.previews.clear()
 
         for camera_info in enumerate_cameras(cv2.CAP_MSMF):
             if len(self.previews) >= CameraSelector.MAX_CAMERAS:
                 break
-            if camera_info.name in names:
-                continue
-            preview = CameraPreview(self.gui, self.__container, camera_info)
+            preview = CameraPreview(self, camera_info)
             self.previews.append(preview)
 
         if len(self.previews) == 0:
-            self.gui.show_screen(gui.ScreenName.NoCamera)
+            self.gui.show_screen(gui.ScreenName.NoContent)
 
-    def __get_sorting(self, previews: List[CameraPreview]) -> Tuple[int, ...]:
+    def show_cameras(self) -> None:
+        for preview in self.sort_previews(self.previews):
+            self.previewSizer.Add(preview, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+
+        self.hide_loading()
+        self.title.SetFocus()
+
+    def show_loading(self) -> None:
+        # self.loading.Show()
+        self.Layout()
+
+    def hide_loading(self) -> None:
+        # self.loading.Hide()
+        self.Layout()
+
+    def on_unfocus(self) -> None:
+        for preview in self.previews:
+            preview.stop()
+            preview.Destroy()
+        self.previews.clear()
+
+    def sort_previews(
+        self, previews: List[CameraPreview]
+    ) -> Tuple[wx.Window, wx.Window, wx.Window]:
         previews.sort(key=lambda p: p.camera_name)
+        placeholder_panel = wx.Panel(self, wx.ID_ANY)
+        
         if len(previews) == 0:
-            return ()
+            return (placeholder_panel, placeholder_panel, placeholder_panel)
         if len(previews) == 1:
-            return (1,)
+            return (placeholder_panel, previews[0], placeholder_panel)
         if len(previews) == 2:
-            return (0, 2)
-        return (0, 1, 2)
+            return (previews[0], placeholder_panel, previews[1])
+        return (previews[0], previews[1], previews[2])

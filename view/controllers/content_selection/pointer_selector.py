@@ -105,7 +105,7 @@ class PointerSelector(Screen):
 
     def on_select(self, pointer: State.Pointer) -> None:
         self.gui.current_state.pointer = pointer
-        # self.gui.show_screen(gui.ScreenName.CameraSelector)
+        self.gui.show_screen(gui.ScreenName.CameraSelector)
 
     def print_marker(self, event) -> None:
         open_file(DocsManager.marker_pointer)

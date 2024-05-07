@@ -1,40 +1,54 @@
-import customtkinter as tk  # type: ignore
-from tkinter import DISABLED, NORMAL
 import gui
-
 from res import Fonts, Colors
-from typing import Any, Union
-
+from typing import Any
+from ..screen import Screen
 from ..components import Camera
-from view import FrameViewer
+from view.utils import FrameViewer
 import cv2
 import numpy as np
 from model import State, utils
+import wx
 
 
-class CameraPreview:
+class CameraPreview(wx.Panel):
     def __init__(
         self,
-        gui: "gui.GUI",
-        parent: Union[tk.CTkFrame, tk.CTk],
+        parent: Screen,
         camera_info: utils.CameraInfo,
     ):
-        self.gui = gui
+        wx.Panel.__init__(
+            self, parent, wx.ID_ANY, size=(100, 100), name=f"{camera_info.name} preview"
+        )
+
+        self.parent = parent
         self.camera = camera_info
 
-        self.button = tk.CTkButton(
-            parent,
-            text=f"{camera_info.name}",
-            font=Fonts.button,
-            text_color=Colors.button_text,
-            width=50,
-        )
-        self.button.configure(command=self.on_click)
+        self.button = wx.Button(self, wx.ID_ANY, label=f"{camera_info.name}")
+        self.button.SetBackgroundColour(Colors.button)
+        self.button.SetForegroundColour(Colors.button_text)
+        self.button.SetFont(Fonts.button)
+        self.button.Bind(wx.EVT_BUTTON, self.on_click)
 
-        self.frame_producer = Camera(parent)
-        self.preview = FrameViewer(parent, (250, 250))
+        self.preview = FrameViewer(
+            self, size=(250, 250), name=f"{camera_info.name} preview"
+        )
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.Add(self.button, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddSpacer(10)
+        sizer.Add(self.preview, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+
+        self.SetSizerAndFit(sizer)
+
+        self.frame_producer = Camera()
+
         self.frame_producer.set_on_error_listener(self.show_error)
         self.frame_producer.set_frame_listener(self.show_frame)
+
+    @property
+    def gui(self) -> "gui.MainFrame":
+        return self.parent.gui
 
     @property
     def camera_index(self) -> int:
@@ -44,14 +58,6 @@ class CameraPreview:
     def camera_name(self) -> str:
         return self.camera.name
 
-    def grid(self, row: int, column: int, **kwargs: Any) -> None:
-        self.button.grid(row=row, column=column, **kwargs)
-        self.preview.grid(row=row + 1, column=column, pady=5, **kwargs)
-
-    def grid_forget(self) -> None:
-        self.button.grid_forget()
-        self.preview.grid_forget()
-
     @property
     def running(self) -> bool:
         return self.frame_producer.running
@@ -60,11 +66,11 @@ class CameraPreview:
         self.frame_producer.start_by_index(self.camera_index)
 
     def show_error(self) -> None:
-        self.button.configure(state=DISABLED)
-        self.preview.show_error()
+        self.button.Disable()
+        self.preview.show_error(msg=f"Error getting frames\nfrom {self.camera_name}")
 
     def show_frame(self, img: np.ndarray) -> None:
-        self.button.configure(state=NORMAL)
+        self.button.Enable()
         self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
     def stop(self) -> None:
@@ -73,8 +79,10 @@ class CameraPreview:
     def on_click(self) -> None:
         g = self.gui
         state = g.current_state
-        state.set_camera(self.camera, self.frame_producer.acquire_capture())
 
+        state.set_camera(self.camera, self.frame_producer.acquire_capture())
+        print("clicked")
+        """
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage
         elif state.is_calibrated(self.camera_name):
@@ -88,3 +96,4 @@ class CameraPreview:
             # next_screen = gui.ScreenName.CalibrationVideoTutorial
             next_screen = gui.ScreenName.Calibration
         g.show_screen(next_screen)
+        """

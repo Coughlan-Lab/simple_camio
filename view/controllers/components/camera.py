@@ -1,19 +1,27 @@
-import customtkinter as tk
 from typing import Callable, Optional
 import cv2
 import numpy as np
-from typing import Union
+import wx
 
 
-class Camera(tk.CTkFrame):
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]):
-        tk.CTkFrame.__init__(self, parent)
+class Timer(wx.Timer):
+    def __init__(self, camera: "Camera") -> None:
+        wx.Timer.__init__(self)
+        self.camera = camera
 
+    def Notify(self) -> None:
+        self.camera.camera_loop()
+
+
+class Camera:
+    def __init__(self) -> None:
         self.capture: Optional[cv2.VideoCapture] = None
         self.fps: float
 
         self.on_error_listener: Optional[Callable[[], None]] = None
         self.frame_listener: Optional[Callable[[np.ndarray], None]] = None
+
+        self.timer = Timer(self)
 
     def set_on_error_listener(self, listener: Callable[[], None]) -> None:
         self.on_error_listener = listener
@@ -28,20 +36,25 @@ class Camera(tk.CTkFrame):
     def start_by_index(self, camera_index: int) -> None:
         if self.running:
             return
+
         self.capture = cv2.VideoCapture(camera_index)
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
-        self.__camera_loop()
-    
+
+        self.timer.Start(int(1000 / self.fps))
+
     def start_by_capture(self, capture: cv2.VideoCapture) -> None:
         if self.running:
             return
+
         self.capture = capture
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
-        self.__camera_loop()
 
-    def __camera_loop(self) -> None:
+        self.camera_loop()
+        self.timer.Start(int(1000 / self.fps))
+
+    def camera_loop(self) -> None:
         if self.capture is None or not self.capture.isOpened():
             return
         ret, image = self.capture.read()
@@ -49,7 +62,6 @@ class Camera(tk.CTkFrame):
             self.__on_error()
         else:
             self.__on_frame(image)
-            self.after(int(1000 / self.fps), self.__camera_loop)
 
     def __on_error(self) -> None:
         self.__release_camera()
@@ -70,6 +82,7 @@ class Camera(tk.CTkFrame):
         return capture
 
     def __release_camera(self) -> None:
+        self.timer.Stop()
         if self.capture is None:
             return
         if self.capture.isOpened():

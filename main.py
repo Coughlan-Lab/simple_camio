@@ -17,4 +17,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(e)
         if gui is not None:
-            gui.destroy()
+            gui.Destroy()

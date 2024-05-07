@@ -14,7 +14,7 @@ class ScreenName(Enum):
     ContentSelector = ContentSelector
     ContentDescription = ContentDescription
     PointerSelector = PointerSelector
-    # CameraSelector = CameraSelector
+    CameraSelector = CameraSelector
     # ContentVideoTutorial = ContentVideoTutorial
     # NoCamera = NoCamera
     # CalibrationVideoTutorial = CalibrationVideoTutorial
@@ -103,9 +103,14 @@ class MainFrame(wx.Frame):
 
         self.Layout()
 
-    def destroy(self) -> None:
+    def Destroy(self) -> None:
+        for frame in self.frames.values():
+            frame.Destroy()
+
         if self.current_frame is not None:
             self.current_frame.on_unfocus()
+
+        super().Destroy()
 
     def back(self, to: Optional[ScreenName] = None) -> None:
         if len(self.stack) == 0:
@@ -132,8 +137,8 @@ class GUI(wx.App):
             self.frame.show_screen(screen)
         self.MainLoop()
 
-    def destroy(self) -> None:
-        self.frame.destroy()
+    def Destroy(self) -> None:
+        self.frame.Destroy()
 
 
 gui: Optional[GUI] = None

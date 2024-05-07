@@ -36,13 +36,13 @@ class NoContent(Screen):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         sizer.AddStretchSpacer(1)
-        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
-        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
         sizer.Add(select, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
         sizer.AddStretchSpacer(2)
 
         self.SetSizerAndFit(sizer)
-    
+
     def on_focus(self) -> None:
         self.title.SetFocus()
 

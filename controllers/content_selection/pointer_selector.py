@@ -79,10 +79,11 @@ class PointerSelector(Screen):
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        sizer.AddSpacer(50)
-        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
-        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
-        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.AddStretchSpacer(2)
 
         self.SetSizerAndFit(sizer)
 

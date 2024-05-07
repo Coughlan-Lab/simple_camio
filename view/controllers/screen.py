@@ -42,6 +42,16 @@ class Screen(wx.Panel):
         else:
             self.hide_back()
 
+        self.Bind(wx.EVT_KILL_FOCUS, self.on_unfocus)
+
+    def SetFocus(self, focus: bool) -> None:
+        if focus:
+            self.on_focus()
+            self.Show()
+        else:
+            self.on_unfocus()
+            self.Hide()
+    
     def on_focus(self) -> None:
         pass
 

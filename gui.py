@@ -89,8 +89,7 @@ class MainFrame(wx.Frame):
         new_frame = self.frames[screen.name]
 
         if self.current_frame is not None:
-            self.current_frame.Hide()
-            self.current_frame.on_unfocus()
+            self.current_frame.SetFocus(False)
             if stack:
                 self.stack.append(self.current_frame.name)
             self.sizer.Replace(self.current_frame, new_frame)
@@ -98,17 +97,16 @@ class MainFrame(wx.Frame):
             self.sizer.Add(new_frame, 1, wx.EXPAND)
 
         self.current_frame = new_frame
-        self.current_frame.on_focus()
-        self.current_frame.Show()
+        self.current_frame.SetFocus(True)
 
         self.Layout()
 
     def Destroy(self) -> None:
-        for frame in self.frames.values():
-            frame.Destroy()
-
         if self.current_frame is not None:
             self.current_frame.on_unfocus()
+
+        for frame in self.frames.values():
+            frame.Destroy()
 
         super().Destroy()
 

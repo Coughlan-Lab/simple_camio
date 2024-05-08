@@ -24,7 +24,6 @@ class HomePage(Screen):
         description.SetFont(Fonts.subtitle)
 
         start = wx.Button(self, wx.ID_ANY, "Start")
-        start.SetBackgroundColour(Colors.button)
         start.SetForegroundColour(Colors.button_text)
         start.SetFont(Fonts.button)
         start.Bind(wx.EVT_BUTTON, self.show_content_selector)

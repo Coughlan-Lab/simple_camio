@@ -59,7 +59,6 @@ class ContentDescription(Screen):
         printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(printer_icon, (25, 25))
         self.print = wx.Button(self, wx.ID_ANY, "Content")
-        self.print.SetBackgroundColour(Colors.button)
         self.print.SetForegroundColour(Colors.button_text)
         self.print.SetFont(Fonts.button)
         self.print.SetBitmap(printer_icon)
@@ -67,7 +66,6 @@ class ContentDescription(Screen):
         self.print.Bind(wx.EVT_BUTTON, self.print_content)
 
         self.proceed = wx.Button(self, wx.ID_ANY, "Proceed")
-        self.proceed.SetBackgroundColour(Colors.button)
         self.proceed.SetForegroundColour(Colors.button_text)
         self.proceed.SetFont(Fonts.button)
         self.proceed.Bind(wx.EVT_BUTTON, self.on_proceed)

@@ -62,15 +62,9 @@ class ContentSelector(Screen):
         no_content_text.SetFont(Fonts.subtitle)
         self.no_content.Hide()
 
-        change_content_dir = wx.Button(
-            self,
-            wx.ID_ANY,
-            label="Change directory",
-            size=(200, 50),
-        )
-        change_content_dir.SetFont(Fonts.button)
-        change_content_dir.SetBackgroundColour(Colors.button)
+        change_content_dir = wx.Button(self, wx.ID_ANY, label="Change directory")
         change_content_dir.SetForegroundColour(Colors.button_text)
+        change_content_dir.SetFont(Fonts.button)
         change_content_dir.Bind(wx.EVT_BUTTON, self.change_content_dir)
 
         sizer = wx.BoxSizer(wx.VERTICAL)

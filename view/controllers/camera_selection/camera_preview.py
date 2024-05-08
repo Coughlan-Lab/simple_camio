@@ -24,7 +24,6 @@ class CameraPreview(wx.Panel):
         self.camera = camera_info
 
         self.button = wx.Button(self, wx.ID_ANY, label=f"{camera_info.name}")
-        self.button.SetBackgroundColour(Colors.button)
         self.button.SetForegroundColour(Colors.button_text)
         self.button.SetFont(Fonts.button)
         self.button.Bind(wx.EVT_BUTTON, self.on_click)

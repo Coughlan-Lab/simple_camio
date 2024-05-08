@@ -30,21 +30,12 @@ class PointerSelector(Screen):
         description.SetForegroundColour(Colors.text)
         description.SetFont(Fonts.subtitle)
 
-        finger_box = wx.Panel(self, wx.ID_ANY)
-        finger_box.SetBackgroundColour("#6fabdc")
-        finger_box_sizer = wx.BoxSizer(wx.HORIZONTAL)
-
-        finger_btn = wx.Button(finger_box, wx.ID_ANY, "Content")
-        finger_btn.SetBackgroundColour(Colors.button)
+        finger_btn = wx.Button(self, wx.ID_ANY, "Content")
         finger_btn.SetForegroundColour(Colors.button_text)
         finger_btn.SetFont(Fonts.button)
         finger_btn.Bind(wx.EVT_BUTTON, lambda _: self.on_select(State.Pointer.FINGER))
-        finger_box_sizer.Add(finger_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 1)
-
-        finger_box.SetSizerAndFit(finger_box_sizer)
 
         stylus_box = wx.Panel(self, wx.ID_ANY)
-        stylus_box.SetBackgroundColour("#6fabdc")
         stylus_box_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
         stylus_btn = wx.Button(
@@ -52,7 +43,6 @@ class PointerSelector(Screen):
             wx.ID_ANY,
             label="Stylus",
         )
-        stylus_btn.SetBackgroundColour(Colors.button)
         stylus_btn.SetForegroundColour(Colors.button_text)
         stylus_btn.SetFont(Fonts.button)
         stylus_btn.Bind(wx.EVT_BUTTON, lambda _: self.on_select(State.Pointer.STYLUS))
@@ -65,7 +55,6 @@ class PointerSelector(Screen):
             wx.ID_ANY,
             bitmap=printer_icon,
         )
-        self.print_stylus_btn.SetBackgroundColour(Colors.button)
         if utils.SYSTEM == utils.OS.WINDOWS:
             self.print_stylus_btn.SetAccessible(
                 AccessibleDescription(name="Print stylus")
@@ -78,7 +67,7 @@ class PointerSelector(Screen):
         stylus_box.SetSizerAndFit(stylus_box_sizer)
 
         buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        buttons_sizer.Add(finger_box, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+        buttons_sizer.Add(finger_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
         buttons_sizer.Add(stylus_box, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
 
         sizer = wx.BoxSizer(wx.VERTICAL)

@@ -59,16 +59,18 @@ class MainFrame(wx.Frame):
 
         self.Bind(wx.EVT_SIZE, self.on_resize)
 
-    def on_resize(self, event) -> None:
-        if (
-            self.Size[0] < MainFrame.DEFAULT_SIZE[0]
-            and self.Size[1] < MainFrame.DEFAULT_SIZE[1]
-        ):
+    def on_resize(self, event: wx.SizeEvent) -> None:
+        w, h = event.GetSize()
+
+        if w < MainFrame.DEFAULT_SIZE[0] and h < MainFrame.DEFAULT_SIZE[1]:
             self.SetSize(MainFrame.DEFAULT_SIZE)
         elif self.Size[0] < MainFrame.DEFAULT_SIZE[0]:
-            self.SetSize(wx.Size(MainFrame.DEFAULT_SIZE[0], self.Size[1]))
+            self.SetSize(wx.Size(MainFrame.DEFAULT_SIZE[0], h))
         elif self.Size[1] < MainFrame.DEFAULT_SIZE[1]:
-            self.SetSize(wx.Size(self.Size[0], MainFrame.DEFAULT_SIZE[1]))
+            self.SetSize(wx.Size(w, MainFrame.DEFAULT_SIZE[1]))
+
+        if self.current_frame is not None:
+            self.current_frame.SetSize(self.GetSize())
 
         self.Layout()
 

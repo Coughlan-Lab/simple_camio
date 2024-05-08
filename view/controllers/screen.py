@@ -22,7 +22,14 @@ class Screen(wx.Panel):
         name: str = "",
         show_back: bool = False,
     ) -> None:
-        wx.Panel.__init__(self, parent, id=wx.ID_ANY, pos=wx.DefaultPosition, name=name)
+        wx.Panel.__init__(
+            self,
+            parent,
+            id=wx.ID_ANY,
+            pos=wx.DefaultPosition,
+            name=name,
+            size=gui.GetSize(),
+        )
         self.gui = gui
 
         back_arrow = wx.Bitmap(ImgsManager.back_arrow, wx.BITMAP_TYPE_ANY)
@@ -45,7 +52,6 @@ class Screen(wx.Panel):
         else:
             self.hide_back()
 
-        self.Bind(wx.EVT_KILL_FOCUS, self.on_unfocus)
         self.SetAutoLayout(True)
 
     def SetFocus(self, focus: bool = True) -> None:
@@ -59,7 +65,7 @@ class Screen(wx.Panel):
     def on_focus(self) -> None:
         pass
 
-    def on_unfocus(self, event=None) -> None:
+    def on_unfocus(self) -> None:
         pass
 
     def show_back(self) -> None:

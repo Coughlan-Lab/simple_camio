@@ -1,4 +1,4 @@
-# from view.utils import LoadingSpinner
+from view.utils import LoadingSpinner
 import gui
 import cv2
 from model.utils import enumerate_cameras
@@ -24,6 +24,7 @@ class CameraSelector(Screen):
         self.title.SetFont(Fonts.title)
 
         self.previewSizer = wx.GridSizer(cols=3, gap=(20, 5))
+        self.loading = LoadingSpinner(self)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
@@ -31,28 +32,21 @@ class CameraSelector(Screen):
         sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
         sizer.AddStretchSpacer(2)
         sizer.Add(self.previewSizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.loading, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
         sizer.AddStretchSpacer(1)
 
         self.SetSizerAndFit(sizer)
 
         self.previews: List[CameraPreview] = list()
 
-        # self.loading = LoadingSpinner(self)
-
     def on_focus(self) -> None:
         self.show_loading()
+        self.loading.SetFocus()
+
         state = self.gui.current_state
         state.clear_camera()
-        # threading.Thread(target=self.__load_cameras).start()
-        self.__load_cameras()
 
-    def __load_cameras(self) -> None:
-        self.init_cameras()
-
-        for preview in self.previews:
-            preview.start()
-
-        wx.CallAfter(self.show_cameras)
+        threading.Thread(target=self.init_cameras).start()
 
     def init_cameras(self) -> None:
         self.previews.clear()
@@ -61,12 +55,18 @@ class CameraSelector(Screen):
             if len(self.previews) >= CameraSelector.MAX_CAMERAS:
                 break
             preview = CameraPreview(self, camera_info)
+            preview.Hide()
             self.previews.append(preview)
 
         if len(self.previews) == 0:
             self.gui.show_screen(gui.ScreenName.NoCamera)
+        else:
+            wx.CallAfter(self.show_cameras_ui)
 
-    def show_cameras(self) -> None:
+    def show_cameras_ui(self) -> None:
+        for preview in self.previews:
+            preview.start()
+
         for preview in self.sort_previews(self.previews):
             self.previewSizer.Add(preview, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
 
@@ -74,14 +74,18 @@ class CameraSelector(Screen):
         self.title.SetFocus()
 
     def show_loading(self) -> None:
-        # self.loading.Show()
+        self.loading.Show()
+        for i in range(self.previewSizer.GetItemCount()):
+            self.previewSizer.Hide(i)
         self.Layout()
 
     def hide_loading(self) -> None:
-        # self.loading.Hide()
+        self.loading.Hide()
+        for i in range(self.previewSizer.GetItemCount()):
+            self.previewSizer.Show(i)
         self.Layout()
 
-    def on_unfocus(self, event=None) -> None:
+    def on_unfocus(self) -> None:
         for preview in self.previews:
             preview.stop()
             preview.Destroy()

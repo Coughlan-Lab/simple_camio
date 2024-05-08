@@ -1,49 +1,35 @@
-from typing import Union
-import customtkinter as tk  # type: ignore
-from tkinter import Label
-from PIL import Image, ImageTk
-from itertools import count, cycle
-import numpy as np
+from typing import Optional
 from res import Colors, ImgsManager
+import wx
+from wx import adv
 
 
-class LoadingSpinner(Label):
-    def __init__(self, parent: Union[tk.CTkFrame, tk.CTk]) -> None:
-        Label.__init__(self, parent)
-        self.configure(background=Colors.background)
-
-        img = Image.open(ImgsManager.loading_spinner)
-
-        frames = []
-        try:
-            for i in count(1):
-                frames.append(ImageTk.PhotoImage(img.copy()))
-                img.seek(i)
-        except EOFError:
-            pass
-
-        self.frames = cycle(frames)
-        try:
-            self.delay = img.info["duration"]
-        except:
-            self.delay = 1000 // 60
-        
-        self.running = False
-
-    def show(self) -> None:
-        self.running = True
-        self.__next_frame()
-
-    def hide(self) -> None:
-        self.running = False
-        
-        self.configure(
-            image=ImageTk.PhotoImage(
-                Image.fromarray(np.zeros((1, 1, 3), dtype=np.uint8))
-            )
+class LoadingSpinner(wx.Panel):
+    def __init__(self, parent: wx.Panel) -> None:
+        wx.Panel.__init__(
+            self, parent, wx.ID_ANY, name="Loading in progress", size=parent.GetSize()
         )
 
-    def __next_frame(self) -> None:
-        if self.running:
-            self.configure(image=next(self.frames))
-            self.after(self.delay, self.__next_frame)
+        self.SetBackgroundColour(Colors.background)
+
+        animation = adv.Animation(ImgsManager.loading_spinner)
+        self.spinner = adv.AnimationCtrl(
+            self, -1, animation, name="Loading in progress"
+        )
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.spinner)
+        self.SetSizerAndFit(sizer)
+
+        self.bitmap: Optional[wx.Bitmap] = None
+
+    def Show(self, show=True) -> bool:
+        if show:
+            self.spinner.Play()
+            return super().Show()
+        else:
+            return self.Hide()
+
+    def Hide(self) -> bool:
+        self.spinner.Stop()
+        return super().Hide()

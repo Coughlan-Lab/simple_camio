@@ -75,13 +75,12 @@ class CameraPreview(wx.Panel):
     def stop(self) -> None:
         self.frame_producer.stop()
 
-    def on_click(self) -> None:
+    def on_click(self, event) -> None:
         g = self.gui
         state = g.current_state
 
         state.set_camera(self.camera, self.frame_producer.acquire_capture())
-        print("clicked")
-        """
+
         if state.pointer == state.Pointer.FINGER and state.content.is_2D():
             next_screen = gui.ScreenName.ContentUsage
         elif state.is_calibrated(self.camera_name):
@@ -95,4 +94,3 @@ class CameraPreview(wx.Panel):
             # next_screen = gui.ScreenName.CalibrationVideoTutorial
             next_screen = gui.ScreenName.Calibration
         g.show_screen(next_screen)
-        """

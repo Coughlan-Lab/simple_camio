@@ -1,9 +1,8 @@
-from tkinter import CENTER, SE, SW
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
-import customtkinter as tk  # type: ignore
-from typing import Union
 from res import Fonts, Colors
+import wx
+from view.accessibility import AccessibleText
 
 
 class CalibrationFound(Screen):
@@ -11,47 +10,50 @@ class CalibrationFound(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, gui, parent, show_back=True)
-
-        title = tk.CTkLabel(
-            self,
-            text="Calibration data found",
-            font=Fonts.title,
-            text_color=Colors.text,
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(
+            self, gui, parent, show_back=True, name="Calibration data found"
         )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
 
-        subtitle = tk.CTkLabel(
-            self,
-            text="Please, run calibration again if this is not the last camera you used",
-            font=Fonts.subtitle,
-            justify=CENTER,
-            text_color=Colors.text,
-        )
-        subtitle.place(relx=0.5, rely=0.21, relwidth=0.75, anchor=CENTER)
+        self.title = AccessibleText(self, wx.ID_ANY, label="Calibration data found")
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
-        calibrate = tk.CTkButton(
+        description = AccessibleText(
             self,
-            text="Calibrate",
-            font=Fonts.button,
-            height=50,
-            width=120,
-            text_color=Colors.button_text,
+            wx.ID_ANY,
+            label="Please, run calibration again if this is not the last camera you used",
+            style=wx.ALIGN_CENTRE_HORIZONTAL,
         )
-        calibrate.configure(command=self.on_calibrate)
-        calibrate.place(relx=0.3, rely=0.6, anchor=SW)
+        description.SetForegroundColour(Colors.text)
+        description.SetFont(Fonts.subtitle)
 
-        proceed = tk.CTkButton(
-            self,
-            text="Proceed",
-            font=Fonts.button,
-            height=50,
-            width=120,
-            text_color=Colors.button_text,
-        )
-        proceed.configure(command=self.on_proceed)
-        proceed.place(relx=0.7, rely=0.6, anchor=SE)
+        calibrate_btn = wx.Button(self, wx.ID_ANY, "Calibrate")
+        calibrate_btn.SetForegroundColour(Colors.button_text)
+        calibrate_btn.SetFont(Fonts.button)
+        calibrate_btn.Bind(wx.EVT_BUTTON, self.on_calibrate)
+
+        proceed_btn = wx.Button(self, wx.ID_ANY, "Proceed")
+        proceed_btn.SetForegroundColour(Colors.button_text)
+        proceed_btn.SetFont(Fonts.button)
+        proceed_btn.Bind(wx.EVT_BUTTON, self.on_proceed)
+
+        buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        buttons_sizer.Add(calibrate_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+        buttons_sizer.Add(proceed_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddStretchSpacer(1)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.AddStretchSpacer(2)
+
+        self.SetSizerAndFit(sizer)
+
+    def on_focus(self) -> None:
+        self.title.SetFocus()
 
     def on_calibrate(self) -> None:
         self.gui.show_screen(gui.ScreenName.Calibration)

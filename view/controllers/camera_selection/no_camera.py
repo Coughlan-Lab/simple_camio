@@ -1,10 +1,8 @@
-import customtkinter as tk  # type: ignore
-from tkinter.constants import CENTER
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
-
 from res import Fonts, Colors
-from typing import Union
+import wx
+from view.accessibility import AccessibleText
 
 
 class NoCamera(Screen):
@@ -12,32 +10,39 @@ class NoCamera(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
-        Screen.__init__(self, gui, parent, show_back=True)
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(self, gui, parent, show_back=True, name="No camera detected")
 
-        title = tk.CTkLabel(
-            self, text="No camera found", height=44, font=Fonts.title, text_color=Colors.text
-        )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        self.title = AccessibleText(self, wx.ID_ANY, label="No camera detected")
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
-        description = tk.CTkLabel(
+        description = AccessibleText(
             self,
-            text="Connect one via USB",
-            font=Fonts.subtitle,
-            justify=CENTER,
-            text_color=Colors.text,
-            padx=1,
-            pady=1,
+            wx.ID_ANY,
+            label="Please, connect one via USB",
+            style=wx.ALIGN_CENTRE_HORIZONTAL,
         )
-        description.place(
-            relx=0.5, rely=0.289, relheight=0.16, relwidth=0.6, anchor=CENTER
-        )
+        description.SetForegroundColour(Colors.text)
+        description.SetFont(Fonts.subtitle)
 
-        retry = tk.CTkButton(
-            self, text="Retry", height=50, width=120, font=Fonts.button, text_color=Colors.button_text
-        )
-        retry.place(relx=0.5, rely=0.579, anchor=CENTER)
-        retry.configure(command=self.on_retry)
+        retry = wx.Button(self, wx.ID_ANY, "Retry")
+        retry.SetForegroundColour(Colors.button_text)
+        retry.SetFont(Fonts.button)
+        retry.Bind(wx.EVT_BUTTON, self.on_retry)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddStretchSpacer(1)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.Add(retry, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 50)
+        sizer.AddStretchSpacer(2)
+
+        self.SetSizerAndFit(sizer)
+
+    def on_focus(self) -> None:
+        self.title.SetFocus()
 
     def on_retry(self) -> None:
         self.gui.back()

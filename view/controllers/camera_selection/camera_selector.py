@@ -64,7 +64,7 @@ class CameraSelector(Screen):
             self.previews.append(preview)
 
         if len(self.previews) == 0:
-            self.gui.show_screen(gui.ScreenName.NoContent)
+            self.gui.show_screen(gui.ScreenName.NoCamera)
 
     def show_cameras(self) -> None:
         for preview in self.sort_previews(self.previews):
@@ -81,7 +81,7 @@ class CameraSelector(Screen):
         # self.loading.Hide()
         self.Layout()
 
-    def on_unfocus(self) -> None:
+    def on_unfocus(self, event=None) -> None:
         for preview in self.previews:
             preview.stop()
             preview.Destroy()
@@ -92,7 +92,7 @@ class CameraSelector(Screen):
     ) -> Tuple[wx.Window, wx.Window, wx.Window]:
         previews.sort(key=lambda p: p.camera_name)
         placeholder_panel = wx.Panel(self, wx.ID_ANY)
-        
+
         if len(previews) == 0:
             return (placeholder_panel, placeholder_panel, placeholder_panel)
         if len(previews) == 1:

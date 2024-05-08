@@ -18,9 +18,9 @@ class ScreenName(Enum):
     CameraSelector = CameraSelector
     CalibrationFound = CalibrationFound
     Calibration = Calibration
+    ContentUsage = ContentUsage
     # ContentVideoTutorial = ContentVideoTutorial
     # CalibrationVideoTutorial = CalibrationVideoTutorial
-    # ContentUsage = ContentUsage
 
 
 class MainFrame(wx.Frame):

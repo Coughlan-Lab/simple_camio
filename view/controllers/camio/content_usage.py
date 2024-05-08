@@ -1,16 +1,14 @@
-from tkinter import CENTER
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
-import customtkinter as tk
-
-from ..components import Camera
-from typing import Optional, Union
+from view.utils import Camera, FrameViewer
+from typing import Optional
 from res import Fonts, Colors
 from model import utils, State, get_frame_processor, FrameProcessor
-from view import FrameViewer
 import cv2
 import numpy as np
 import threading
+import wx
+from view.accessibility import AccessibleText
 
 
 class ContentUsage(Screen):
@@ -18,16 +16,12 @@ class ContentUsage(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.ContentSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, gui, parent, show_back=True)
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(self, gui, parent, show_back=True, name="Content usage screen")
 
-        self.title = tk.CTkLabel(
-            self,
-            font=Fonts.subtitle,
-            height=44,
-            text_color=Colors.text,
-        )
-        self.title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        self.title = AccessibleText(self, wx.ID_ANY)
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
 
         """
         icon = tk.CTkImage(
@@ -41,9 +35,17 @@ class ContentUsage(Screen):
         """
 
         self.preview = FrameViewer(self, (600, 350))
-        self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-        self.camera = Camera(self)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(self.preview, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(1)
+        sizer.AddSpacer(50)
+
+        self.camera = Camera()
         self.camera.set_on_error_listener(self.preview.show_error)
         self.camera.set_frame_listener(self.on_frame)
 
@@ -63,20 +65,24 @@ class ContentUsage(Screen):
         except:
             self.preview.show_error("Error reading content\nconfiguration file")
 
+        self.title.SetFocus()
+
     def set_title(self) -> None:
         title_pointer: str
         if self.gui.current_state.pointer == State.Pointer.FINGER:
             title_pointer = "your finger"
         else:
             title_pointer = "the drop marker"
-        self.title.configure(
-            text=f"Frame the content with your camera and\nuse {title_pointer} to select an object"
+
+        self.title.SetLabel(
+            f"Frame the content with your camera and\nuse {title_pointer} to select an object"
         )
 
         utils.prevent_sleep()
 
     def on_unfocus(self) -> None:
         self.camera.stop()
+
         if self.frame_processor is not None:
             self.frame_processor.destroy()
         del self.frame_processor

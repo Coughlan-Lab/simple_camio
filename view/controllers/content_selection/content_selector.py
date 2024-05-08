@@ -7,6 +7,7 @@ from model import ContentManager
 from typing import List
 import wx
 from view.accessibility import AccessibleText, AccessibleDescription
+from model import utils
 
 
 class ContentSelector(Screen):
@@ -35,7 +36,11 @@ class ContentSelector(Screen):
             | wx.LC_SORT_ASCENDING,
             size=(600, 200),
         )
-        self.container.SetAccessible(AccessibleDescription(description="Content list"))
+
+        if utils.SYSTEM == utils.OS.WINDOWS:
+            self.container.SetAccessible(
+                AccessibleDescription(description="Content list")
+            )
         self.container.AppendColumn("Content", format=wx.LIST_FORMAT_CENTRE, width=200)
         self.container.AppendColumn(
             "Description", format=wx.LIST_FORMAT_CENTRE, width=400

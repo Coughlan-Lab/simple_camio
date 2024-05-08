@@ -101,14 +101,14 @@ class MainFrame(wx.Frame):
 
         self.Layout()
 
-    def Destroy(self) -> None:
+    def Destroy(self) -> bool:
         if self.current_frame is not None:
             self.current_frame.on_unfocus()
 
         for frame in self.frames.values():
             frame.Destroy()
 
-        super().Destroy()
+        return super().Destroy()
 
     def back(self, to: Optional[ScreenName] = None) -> None:
         if len(self.stack) == 0:

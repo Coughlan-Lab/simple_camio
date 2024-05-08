@@ -5,6 +5,7 @@ import gui
 from model.utils import open_file
 import wx
 from view.accessibility import AccessibleText, AccessibleDescription
+from model import utils
 
 
 class PointerSelector(Screen):
@@ -65,7 +66,10 @@ class PointerSelector(Screen):
             bitmap=printer_icon,
         )
         self.print_stylus_btn.SetBackgroundColour(Colors.button)
-        self.print_stylus_btn.SetAccessible(AccessibleDescription(name="Print stylus"))
+        if utils.SYSTEM == utils.OS.WINDOWS:
+            self.print_stylus_btn.SetAccessible(
+                AccessibleDescription(name="Print stylus")
+            )
         self.print_stylus_btn.Bind(wx.EVT_BUTTON, self.print_marker)
         stylus_box_sizer.Add(
             self.print_stylus_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 1

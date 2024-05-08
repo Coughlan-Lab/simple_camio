@@ -68,8 +68,8 @@ class FrameViewer(wx.Panel):
 
         self.__init_frame_size(img.shape[1], img.shape[0])
 
-        self.image = wx.EmptyImage(self.frame_size[0], self.frame_size[1])
-        self.bitmap = wx.BitmapFromImage(self.image)
+        self.image = wx.Image(self.frame_size[0], self.frame_size[1])
+        self.bitmap = wx.Bitmap(self.image)
 
     def __init_frame_size(self, w: int, h: int) -> None:
         if w > h:

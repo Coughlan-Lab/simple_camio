@@ -35,7 +35,9 @@ class ContentDescription(Screen):
 
         self.preview_box = wx.Panel(self, wx.ID_ANY, name="Content map preview")
         self.preview_box.SetBackgroundColour("black")
-        self.preview = wx.StaticBitmap(self.preview_box, wx.ID_ANY)
+        self.preview = wx.StaticBitmap(
+            self.preview_box, wx.ID_ANY, name="Content map preview"
+        )
         preview_sizer = wx.BoxSizer()
         preview_sizer.Add(self.preview, 0, wx.ALL | wx.EXPAND, 2)
         self.preview_box.SetSizer(preview_sizer)

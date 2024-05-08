@@ -3,6 +3,7 @@ from typing import Optional
 import gui
 import wx
 from view.accessibility import AccessibleDescription
+from model import utils
 
 
 class Screen(wx.Panel):
@@ -33,7 +34,9 @@ class Screen(wx.Panel):
             size=(40, 40),
             bitmap=back_arrow,
         )
-        self.back_button.SetAccessible(AccessibleDescription(name="Back"))
+
+        if utils.SYSTEM == utils.OS.WINDOWS:
+            self.back_button.SetAccessible(AccessibleDescription(name="Back"))
 
         self.back_button.Bind(wx.EVT_BUTTON, self.back)
 
@@ -45,18 +48,18 @@ class Screen(wx.Panel):
         self.Bind(wx.EVT_KILL_FOCUS, self.on_unfocus)
         self.SetAutoLayout(True)
 
-    def SetFocus(self, focus: bool) -> None:
+    def SetFocus(self, focus: bool = True) -> None:
         if focus:
             self.on_focus()
             self.Show()
         else:
             self.on_unfocus()
             self.Hide()
-    
+
     def on_focus(self) -> None:
         pass
 
-    def on_unfocus(self) -> None:
+    def on_unfocus(self, event=None) -> None:
         pass
 
     def show_back(self) -> None:

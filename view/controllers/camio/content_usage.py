@@ -19,7 +19,7 @@ class ContentUsage(Screen):
     def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
         Screen.__init__(self, gui, parent, show_back=True, name="Content usage screen")
 
-        self.title = AccessibleText(self, wx.ID_ANY)
+        self.title = AccessibleText(self, wx.ID_ANY, style=wx.ALIGN_CENTRE_HORIZONTAL)
         self.title.SetForegroundColour(Colors.text)
         self.title.SetFont(Fonts.title)
 
@@ -66,19 +66,20 @@ class ContentUsage(Screen):
             self.preview.show_error("Error reading content\nconfiguration file")
 
         self.title.SetFocus()
+        utils.prevent_sleep()
 
     def set_title(self) -> None:
-        title_pointer: str
+        pointer_text: str
         if self.gui.current_state.pointer == State.Pointer.FINGER:
-            title_pointer = "your finger"
+            pointer_text = "your finger"
         else:
-            title_pointer = "the drop marker"
+            pointer_text = "the drop stylus"
 
         self.title.SetLabel(
-            f"Frame the content with your camera and\nuse {title_pointer} to select an object"
+            f"Frame the content with your camera and\nuse {pointer_text} to select an object"
         )
 
-        utils.prevent_sleep()
+        self.Layout()
 
     def on_unfocus(self) -> None:
         self.camera.stop()

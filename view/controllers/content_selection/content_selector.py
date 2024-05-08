@@ -33,9 +33,12 @@ class ContentSelector(Screen):
             | wx.LC_SINGLE_SEL
             | wx.LC_HRULES
             | wx.LC_VRULES
-            | wx.LC_SORT_ASCENDING,
+            | wx.LC_SORT_ASCENDING
+            | wx.SIMPLE_BORDER,
             size=(600, 200),
         )
+        self.container.SetBackgroundColour(Colors.background)
+        self.container.SetTextColour(Colors.text)
 
         if utils.SYSTEM == utils.OS.WINDOWS:
             self.container.SetAccessible(

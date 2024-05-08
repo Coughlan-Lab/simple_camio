@@ -73,6 +73,7 @@ class MainFrame(wx.Frame):
             self.current_frame.SetSize(self.GetSize())
 
         self.Layout()
+        event.Skip()
 
     @property
     def current_state(self) -> State:

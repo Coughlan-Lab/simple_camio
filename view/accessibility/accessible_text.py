@@ -18,3 +18,9 @@ class AccessibleText(wx.StaticText):
 
     def AcceptsFocusRecursively(self) -> bool:
         return not self.isEmpty()
+
+    def SetLabel(self, label: str) -> None:
+        super().SetLabel(label)
+
+        self.SetCanFocus(not self.isEmpty())
+        self.EnableVisibleFocus(not self.isEmpty())

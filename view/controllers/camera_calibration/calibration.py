@@ -24,8 +24,11 @@ class Calibration(Screen):
             self,
             wx.ID_ANY,
             label="Print the calibration map, frame it with you camera and\nmatch its corners with the on-screen preview",
+            style=wx.ALIGN_CENTRE_HORIZONTAL,
         )
-        self.title.SetForegroundColour(Colors.text)
+        self.title.SetForegroundColour(
+            Colors.text,
+        )
         self.title.SetFont(Fonts.title)
 
         """
@@ -126,7 +129,7 @@ class Calibration(Screen):
     def show_tutorial(self, event) -> None:
         self.gui.show_screen(gui.ScreenName.CalibrationVideoTutorial)
 
-    def on_confirm(self) -> None:
+    def on_confirm(self, event) -> None:
         self.camera.acquire_capture()
         self.gui.current_state.save_calibration(self.data)
         self.gui.show_screen(gui.ScreenName.ContentUsage)

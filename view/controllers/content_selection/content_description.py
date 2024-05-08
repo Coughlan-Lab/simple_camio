@@ -18,7 +18,12 @@ class ContentDescription(Screen):
         self.title.SetForegroundColour(Colors.text)
         self.title.SetFont(Fonts.title)
 
-        self.description = AccessibleText(self, wx.ID_ANY)
+        self.description = AccessibleText(
+            self,
+            wx.ID_ANY,
+            style=wx.ALIGN_CENTRE_HORIZONTAL | wx.ST_ELLIPSIZE_END,
+            size=(self.GetSize()[0] * 3 / 4, wx.DefaultSize[1]),
+        )
         self.description.SetForegroundColour(Colors.text)
         self.description.SetFont(Fonts.subtitle)
 
@@ -91,7 +96,19 @@ class ContentDescription(Screen):
 
     def on_focus(self) -> None:
         self.title.SetLabel(self.content.full_name)
-        self.description.SetLabel(self.content.description)
+        self.description.SetLabel(
+            self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+            + self.content.description
+        )
 
         preview = self.content.preview
         if preview is None:

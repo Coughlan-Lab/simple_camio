@@ -30,7 +30,7 @@ class PointerSelector(Screen):
         description.SetForegroundColour(Colors.text)
         description.SetFont(Fonts.subtitle)
 
-        finger_btn = wx.Button(self, wx.ID_ANY, "Content")
+        finger_btn = wx.Button(self, wx.ID_ANY, "Finger")
         finger_btn.SetForegroundColour(Colors.button_text)
         finger_btn.SetFont(Fonts.button)
         finger_btn.Bind(wx.EVT_BUTTON, lambda _: self.on_select(State.Pointer.FINGER))

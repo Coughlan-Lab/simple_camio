@@ -55,8 +55,8 @@ class CalibrationFound(Screen):
     def on_focus(self) -> None:
         self.title.SetFocus()
 
-    def on_calibrate(self) -> None:
+    def on_calibrate(self, event) -> None:
         self.gui.show_screen(gui.ScreenName.Calibration)
 
-    def on_proceed(self) -> None:
+    def on_proceed(self, event) -> None:
         self.gui.show_screen(gui.ScreenName.ContentUsage)

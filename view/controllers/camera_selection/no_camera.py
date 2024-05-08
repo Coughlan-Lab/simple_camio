@@ -44,5 +44,5 @@ class NoCamera(Screen):
     def on_focus(self) -> None:
         self.title.SetFocus()
 
-    def on_retry(self) -> None:
+    def on_retry(self, event) -> None:
         self.gui.back()

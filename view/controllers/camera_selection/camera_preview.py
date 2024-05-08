@@ -1,12 +1,11 @@
 import gui
 from res import Fonts, Colors
-from typing import Any
 from ..screen import Screen
-from ..components import Camera
+from view.utils import Camera
 from view.utils import FrameViewer
 import cv2
 import numpy as np
-from model import State, utils
+from model import utils
 import wx
 
 

@@ -1,18 +1,15 @@
-from tkinter import CENTER, DISABLED, N, NORMAL, RIGHT, SE, SW
-
-from ..components import Camera
-from view import FrameViewer
-from controllers.screen import Screen
+from view.utils import Camera, FrameViewer
+from ..screen import Screen
 import gui
-import customtkinter as tk  # type: ignore
-from typing import Any, Dict, Literal, Union, Optional
+from typing import Any, Dict, Optional
 from res import Fonts, Colors, ImgsManager, DocsManager
-from PIL import Image
 from model.simple_calibration import Calibration as Calibrator
 import numpy as np
 import threading
 import cv2
 from model.utils import open_file
+import wx
+from view.accessibility import AccessibleText
 
 
 class Calibration(Screen):
@@ -20,17 +17,17 @@ class Calibration(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return gui.ScreenName.CameraSelector
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]) -> None:
-        Screen.__init__(self, gui, parent, show_back=True)
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(self, gui, parent, show_back=True, name="Calibration screen")
 
-        title = tk.CTkLabel(
+        self.title = AccessibleText(
             self,
-            text="Print the calibration map, frame it with you camera and\nmatch its corners with the on-screen preview",
-            font=Fonts.subtitle,
-            height=44,
-            text_color=Colors.text,
+            wx.ID_ANY,
+            label="Print the calibration map, frame it with you camera and\nmatch its corners with the on-screen preview",
         )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        self.title.SetForegroundColour(Colors.text)
+        self.title.SetFont(Fonts.title)
+
         """
         icon = tk.CTkImage(
             light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
@@ -42,36 +39,41 @@ class Calibration(Screen):
         self.tutorial.configure(command=self.show_tutorial)
         """
 
-        self.confirm = tk.CTkButton(
-            self,
-            text="Confirm",
-            font=Fonts.button,
-            text_color=Colors.button_text,
-            height=50,
-            width=120,
-        )
-        self.confirm.place(relx=0.7, rely=0.9, anchor=SE)
-        self.confirm.configure(command=self.on_confirm)
+        printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(printer_icon, (25, 25))
+        self.print = wx.Button(self, wx.ID_ANY, "Calibration map")
+        self.print.SetForegroundColour(Colors.button_text)
+        self.print.SetFont(Fonts.button)
+        self.print.SetBitmap(printer_icon)
+        self.print.SetBitmapPosition(wx.LEFT)
+        self.print.Bind(wx.EVT_BUTTON, self.print_calibration_map)
 
-        icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
-        print = tk.CTkButton(
-            self,
-            text="Calibration map",
-            font=Fonts.button,
-            text_color=Colors.button_text,
-            image=icon,
-            height=50,
-            width=120,
-        )
-        print.place(relx=0.3, rely=0.9, anchor=SW)
-        print.configure(command=self.print_calibration_map)
+        self.confirm = wx.Button(self, wx.ID_ANY, "Confirm")
+        self.confirm.SetForegroundColour(Colors.button_text)
+        self.confirm.SetFont(Fonts.button)
+        self.confirm.Bind(wx.EVT_BUTTON, self.on_confirm)
 
-        self.camera = Camera(self)
+        buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        buttons_sizer.Add(self.print, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+        buttons_sizer.Add(self.confirm, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
+
+        self.camera = Camera()
         self.camera.set_on_error_listener(self.on_error)
         self.camera.set_frame_listener(self.on_frame)
 
         self.preview = FrameViewer(self, (500, 320))
-        self.preview.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(self.preview, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        sizer.AddStretchSpacer(1)
+        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddSpacer(50)
+
+        self.SetSizerAndFit(sizer)
 
         self.semaphore = threading.Semaphore()
 
@@ -79,9 +81,10 @@ class Calibration(Screen):
         capture = self.gui.current_state.camera.capture
         self.calibrator = Calibrator(get_calibration_map_dict())
         self.camera.start_by_capture(capture)
+        self.title.SetFocus()
 
     def on_error(self) -> None:
-        self.confirm.configure(state=DISABLED)
+        self.confirm.Disable()
         self.preview.show_error()
 
     def on_unfocus(self) -> None:
@@ -103,7 +106,7 @@ class Calibration(Screen):
         except:
             self.preview.show_error("Error during calibration")
             return
-        
+
         self.data = {
             "focal_length_x": focal,
             "focal_length_y": focal,
@@ -111,18 +114,16 @@ class Calibration(Screen):
             "camera_center_y": center_y,
         }
 
-        confirm_state: Literal["disabled", "normal"]
         if focal is None or center_x is None or center_y is None:
-            confirm_state = DISABLED
+            self.confirm.Disable()
         else:
-            confirm_state = NORMAL
-        self.confirm.configure(state=confirm_state)
+            self.confirm.Enable()
 
         self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
         self.semaphore.release()
 
-    def show_tutorial(self) -> None:
+    def show_tutorial(self, event) -> None:
         self.gui.show_screen(gui.ScreenName.CalibrationVideoTutorial)
 
     def on_confirm(self) -> None:

@@ -89,6 +89,7 @@ class CameraSelector(Screen):
         for preview in self.previews:
             preview.stop()
             preview.Destroy()
+        self.previewSizer.Clear()
         self.previews.clear()
 
     def sort_previews(

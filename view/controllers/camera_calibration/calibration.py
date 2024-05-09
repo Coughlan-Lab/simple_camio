@@ -1,3 +1,4 @@
+from turtle import title
 from view.utils import Camera, FrameViewer
 from ..screen import Screen
 import gui
@@ -9,7 +10,8 @@ import threading
 import cv2
 from model.utils import open_file
 import wx
-from view.accessibility import AccessibleText
+from view.accessibility import AccessibleText, AccessibleDescription
+from model import utils
 
 
 class Calibration(Screen):
@@ -23,7 +25,7 @@ class Calibration(Screen):
         self.title = AccessibleText(
             self,
             wx.ID_ANY,
-            label="Print the calibration map, frame it with you camera and\nmatch its corners with the on-screen preview",
+            label="Frame the calibration map with you camera\nand match its corners with the on-screen preview",
             style=wx.ALIGN_CENTRE_HORIZONTAL,
         )
         self.title.SetForegroundColour(
@@ -31,16 +33,11 @@ class Calibration(Screen):
         )
         self.title.SetFont(Fonts.title)
 
-        """
-        icon = tk.CTkImage(
-            light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
-        )
-        self.tutorial = tk.CTkButton(
-            self, text="", image=icon, anchor=CENTER, width=10, height=30
-        )
-        self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
-        self.tutorial.configure(command=self.show_tutorial)
-        """
+        self.camera = Camera()
+        self.camera.set_on_error_listener(self.on_error)
+        self.camera.set_frame_listener(self.on_frame)
+
+        self.preview = FrameViewer(self, (500, 320))
 
         printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(printer_icon, (25, 25))
@@ -60,17 +57,38 @@ class Calibration(Screen):
         buttons_sizer.Add(self.print, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
         buttons_sizer.Add(self.confirm, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
 
-        self.camera = Camera()
-        self.camera.set_on_error_listener(self.on_error)
-        self.camera.set_frame_listener(self.on_frame)
+        icon = wx.Bitmap(ImgsManager.question_mark, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(icon, (25, 25))
+        tutorial = wx.BitmapButton(
+            self,
+            wx.ID_HELP,
+            size=(40, 40),
+            bitmap=icon,
+        )
+        if utils.SYSTEM == utils.OS.WINDOWS:
+            tutorial.SetAccessible(AccessibleDescription(name="Rewatch tutorial"))
 
-        self.preview = FrameViewer(self, (500, 320))
+        tutorial.Bind(wx.EVT_BUTTON, self.show_tutorial)
+
+        title_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        title_sizer.AddSpacer(80)
+        title_sizer.AddStretchSpacer(1)
+        title_sizer.Add(
+            self.title, 1, wx.TOP | wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL, 50
+        )
+        title_sizer.AddStretchSpacer(1)
+        title_sizer.Add(tutorial, 0, wx.TOP | wx.ALIGN_TOP, 30)
+        title_sizer.AddSpacer(40)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        sizer.AddSpacer(50)
-        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
-        sizer.Add(self.preview, 1, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL | wx.SHAPED)
+        sizer.Add(title_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(
+            self.preview,
+            1,
+            wx.TOP | wx.BOTTOM | wx.ALIGN_CENTER_HORIZONTAL | wx.SHAPED,
+            10,
+        )
         sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
 
         self.SetSizerAndFit(sizer)

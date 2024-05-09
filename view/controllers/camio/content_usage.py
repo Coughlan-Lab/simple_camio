@@ -2,13 +2,13 @@ from ..screen import Screen
 import gui
 from view.utils import Camera, FrameViewer
 from typing import Optional
-from res import Fonts, Colors
+from res import Fonts, Colors, ImgsManager
 from model import utils, State, get_frame_processor, FrameProcessor
 import cv2
 import numpy as np
 import threading
 import wx
-from view.accessibility import AccessibleText
+from view.accessibility import AccessibleText, AccessibleDescription
 
 
 class ContentUsage(Screen):
@@ -23,24 +23,40 @@ class ContentUsage(Screen):
         self.title.SetForegroundColour(Colors.text)
         self.title.SetFont(Fonts.title)
 
-        """
-        icon = tk.CTkImage(
-            light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
-        )
-        self.tutorial = tk.CTkButton(
-            self, text="", image=icon, anchor=CENTER, width=10, height=30
-        )
-        self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
-        self.tutorial.configure(command=self.show_tutorial)
-        """
-
         self.preview = FrameViewer(self, (600, 350))
+
+        icon = wx.Bitmap(ImgsManager.question_mark, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(icon, (25, 25))
+        tutorial = wx.BitmapButton(
+            self,
+            wx.ID_HELP,
+            size=(40, 40),
+            bitmap=icon,
+        )
+        if utils.SYSTEM == utils.OS.WINDOWS:
+            tutorial.SetAccessible(AccessibleDescription(name="Rewatch tutorial"))
+
+        tutorial.Bind(wx.EVT_BUTTON, self.show_tutorial)
+
+        title_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        title_sizer.AddSpacer(80)
+        title_sizer.AddStretchSpacer(1)
+        title_sizer.Add(
+            self.title, 1, wx.TOP | wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL, 50
+        )
+        title_sizer.AddStretchSpacer(1)
+        title_sizer.Add(tutorial, 0, wx.TOP | wx.ALIGN_TOP, 30)
+        title_sizer.AddSpacer(40)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        sizer.AddSpacer(50)
-        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 10)
-        sizer.Add(self.preview, 1, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL | wx.SHAPED)
+        sizer.Add(title_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(
+            self.preview,
+            1,
+            wx.TOP | wx.BOTTOM | wx.ALIGN_CENTER_HORIZONTAL | wx.SHAPED,
+            10,
+        )
         sizer.AddSpacer(50)
 
         self.SetSizerAndFit(sizer)

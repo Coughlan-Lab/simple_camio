@@ -66,12 +66,31 @@ class PointerSelector(Screen):
 
         stylus_box.SetSizerAndFit(stylus_box_sizer)
 
+        icon = wx.Bitmap(ImgsManager.question_mark, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(icon, (25, 25))
+        tutorial = wx.BitmapButton(
+            self,
+            wx.ID_HELP,
+            size=(40, 40),
+            bitmap=icon,
+        )
+        if utils.SYSTEM == utils.OS.WINDOWS:
+            tutorial.SetAccessible(AccessibleDescription(name="Rewatch tutorial"))
+
+        tutorial.Bind(wx.EVT_BUTTON, self.show_tutorial)
+
         buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
         buttons_sizer.Add(finger_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
         buttons_sizer.Add(stylus_box, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
 
+        tutorial_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        tutorial_sizer.Add(tutorial, 0, wx.RIGHT)
+        tutorial_sizer.AddSpacer(40)
+
+        sizer.AddSpacer(30)
+        sizer.Add(tutorial_sizer, 0, wx.ALL | wx.ALIGN_RIGHT)
         sizer.AddStretchSpacer(1)
         sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
         sizer.Add(description, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL, 5)
@@ -79,17 +98,6 @@ class PointerSelector(Screen):
         sizer.AddStretchSpacer(2)
 
         self.SetSizerAndFit(sizer)
-
-        """
-        icon = tk.CTkImage(
-            light_image=Image.open(ImgsManager.question_mark), size=(25, 25)
-        )
-        self.tutorial = tk.CTkButton(
-            self, text="", image=icon, anchor=CENTER, width=10, height=30
-        )
-        self.tutorial.pack(side=RIGHT, padx=(0, 40), pady=(30, 0), anchor=N)
-        self.tutorial.configure(command=self.show_tutorial)
-        """
 
     def on_focus(self) -> None:
         state = self.gui.current_state
@@ -104,5 +112,4 @@ class PointerSelector(Screen):
         open_file(DocsManager.marker_pointer)
 
     def show_tutorial(self, event) -> None:
-        pass
-        # self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)
+        self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)

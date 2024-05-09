@@ -44,14 +44,14 @@ class MainFrame(wx.Frame):
         self.__state = State(os.path.expanduser("~/Documents/CamIO Config"))
 
         self.stack: List[str] = []
-        self.frames: Dict[str, Screen] = dict()
+        self.panels: Dict[str, Screen] = dict()
 
         self.sizer = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(self.sizer)
 
         for page in ScreenName:
             frame = page.value(self, self)
-            self.frames[page.name] = frame
+            self.panels[page.name] = frame
             frame.Hide()
 
         self.current_frame: Optional[Screen] = None
@@ -86,10 +86,10 @@ class MainFrame(wx.Frame):
         return ScreenName[self.stack[-1]]
 
     def show_screen(self, screen: ScreenName, stack: bool = True) -> None:
-        if screen.name not in self.frames:
+        if screen.name not in self.panels:
             raise Exception(f"Unknown screen {screen}")
 
-        new_frame = self.frames[screen.name]
+        new_frame = self.panels[screen.name]
 
         if self.current_frame is not None:
             self.current_frame.SetFocus(False)
@@ -108,7 +108,7 @@ class MainFrame(wx.Frame):
         if self.current_frame is not None:
             self.current_frame.on_unfocus()
 
-        for frame in self.frames.values():
+        for frame in self.panels.values():
             frame.Destroy()
 
         return super().Destroy()

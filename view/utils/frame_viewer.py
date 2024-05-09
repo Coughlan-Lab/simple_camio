@@ -19,6 +19,8 @@ class FrameViewer(wx.Panel):
         self.frame_size = size
 
         self.bitmap: Optional[wx.Bitmap] = None
+        self.img_size: Optional[Tuple[int, int]] = None
+        self.erase_background: bool = True
 
         self.error_box = wx.StaticBox(self, wx.ID_ANY, size=size)
 
@@ -39,6 +41,17 @@ class FrameViewer(wx.Panel):
 
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.on_erase_background)
         self.Bind(wx.EVT_PAINT, self.on_paint)
+        self.Bind(wx.EVT_SIZE, self.on_size)
+
+    def on_size(self, event: wx.SizeEvent) -> None:
+        self.default_frame_size = event.GetSize()
+
+        if self.img_size is None:
+            return
+
+        self.__init_bitmap(self.img_size[0], self.img_size[1])
+        self.erase_background = True
+        event.Skip()
 
     def show_error(self, msg: str = "Error getting frames") -> None:
         self.bitmap = None
@@ -49,7 +62,8 @@ class FrameViewer(wx.Panel):
 
     def show_frame(self, img: np.ndarray) -> None:
         if self.bitmap is None:
-            self.__init_bitmap(img)
+            self.__init_bitmap(img.shape[1], img.shape[0])
+            self.error_box.Hide()
 
         img = cv2.resize(img, self.frame_size)
 
@@ -60,13 +74,16 @@ class FrameViewer(wx.Panel):
         if self.bitmap is not None:
             dc = wx.PaintDC(self)
             dc.DrawBitmap(
-                self.bitmap, 0, (self.GetSize()[1] - self.bitmap.GetHeight()) / 2, True
+                self.bitmap,
+                (self.GetSize()[0] - self.bitmap.GetWidth()) / 2,
+                (self.GetSize()[1] - self.bitmap.GetHeight()) / 2,
+                True,
             )
 
-    def __init_bitmap(self, img: np.ndarray) -> None:
-        self.error_box.Hide()
+    def __init_bitmap(self, w: int, h: int) -> None:
+        self.img_size = (w, h)
 
-        self.__init_frame_size(img.shape[1], img.shape[0])
+        self.__init_frame_size(w, h)
 
         self.image = wx.Image(self.frame_size[0], self.frame_size[1])
         self.bitmap = wx.Bitmap(self.image)
@@ -93,8 +110,8 @@ class FrameViewer(wx.Panel):
                     int(h * self.default_frame_size[0] / w),
                 )
 
-        # self.SetSize(self.frame_size)
-
     def on_erase_background(self, event):
         """Intentionally empty to reduce flickering."""
-        pass
+        if self.erase_background:
+            self.erase_background = False
+            event.Skip()

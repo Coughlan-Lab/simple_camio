@@ -16,11 +16,11 @@ class ScreenName(Enum):
     PointerSelector = PointerSelector
     NoCamera = NoCamera
     CameraSelector = CameraSelector
+    CalibrationVideoTutorial = CalibrationVideoTutorial
     CalibrationFound = CalibrationFound
     Calibration = Calibration
     ContentUsage = ContentUsage
-    # ContentVideoTutorial = ContentVideoTutorial
-    # CalibrationVideoTutorial = CalibrationVideoTutorial
+    ContentVideoTutorial = ContentVideoTutorial
 
 
 class MainFrame(wx.Frame):

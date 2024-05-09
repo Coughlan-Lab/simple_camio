@@ -8,13 +8,12 @@ from .content_selection.pointer_selector import PointerSelector
 
 from .camera_selection.no_camera import NoCamera
 from .camera_selection.camera_selector import CameraSelector
+from .camera_calibration.video_tutorial import CalibrationVideoTutorial
 from .camera_calibration.calibration_found import CalibrationFound
 from .camera_calibration.calibration import Calibration
 
+from .content_selection.video_tutorial import ContentVideoTutorial
 from .camio.content_usage import ContentUsage
-
-# from .content_selection.video_tutorial import ContentVideoTutorial
-# from .camera_calibration.video_tutorial import CalibrationVideoTutorial
 
 
 __all__ = [
@@ -26,12 +25,9 @@ __all__ = [
     "PointerSelector",
     "NoCamera",
     "CameraSelector",
+    "CalibrationVideoTutorial",
     "CalibrationFound",
     "Calibration",
+    "ContentVideoTutorial",
     "ContentUsage",
 ]
-
-"""
-    "ContentVideoTutorial",
-    "CalibrationVideoTutorial",
-"""

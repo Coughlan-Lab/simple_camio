@@ -1,12 +1,11 @@
-from tkinter import CENTER, S, SE, SW
-from controllers.screen import Screen
+from ..screen import Screen
 import gui
-import customtkinter as tk  # type: ignore
 from res import *
-from tkVideoPlayer import TkinterVideo  # type: ignore
-from typing import Any, Union
-from PIL import Image
+from typing import Any
 from model.utils import open_file
+import wx
+from wx import media
+from view.accessibility import AccessibleText
 
 
 class CalibrationVideoTutorial(Screen):
@@ -16,66 +15,90 @@ class CalibrationVideoTutorial(Screen):
     def back_screen(self) -> "gui.ScreenName":
         return self.gui.last_screen
 
-    def __init__(self, gui: "gui.GUI", parent: Union[tk.CTkFrame, tk.CTk]):
-        Screen.__init__(self, gui, parent, show_back=True)
+    def __init__(self, gui: "gui.MainFrame", parent: wx.Frame):
+        Screen.__init__(
+            self, gui, parent, show_back=True, name="Calibration tutorial screen"
+        )
 
-        title = tk.CTkLabel(
+        self.title = AccessibleText(
             self,
-            text="New camera selected\nCalibrate it before proceeding",
-            font=Fonts.subtitle,
-            height=44,
-            text_color=Colors.text,
+            wx.ID_ANY,
+            label="New camera selected\nCalibrate it before proceeding",
+            style=wx.ALIGN_CENTRE_HORIZONTAL,
         )
-        title.place(relx=0.5, rely=0.15, relwidth=1, anchor=CENTER)
+        self.title.SetForegroundColour(
+            Colors.text,
+        )
+        self.title.SetFont(Fonts.title)
 
-        proceed = tk.CTkButton(
+        self.video = media.MediaCtrl(
             self,
-            text="Proceed",
-            font=Fonts.button,
-            text_color=Colors.button_text,
-            height=50,
-            width=120,
+            wx.ID_ANY,
+            size=CalibrationVideoTutorial.VIDEO_RES,
+            name="Calibration video tutorial. Press space to start or pause",
         )
-        proceed.place(relx=0.7, rely=0.9, anchor=SE)
-        proceed.configure(command=self.show_calibration)
 
-        icon = tk.CTkImage(light_image=Image.open(ImgsManager.printer), size=(25, 25))
-        print = tk.CTkButton(
-            self,
-            text="Calibration map",
-            font=Fonts.button,
-            text_color=Colors.button_text,
-            image=icon,
-            height=50,
-            width=120,
-        )
-        print.place(relx=0.3, rely=0.9, anchor=SW)
-        print.configure(command=self.print_calibration_map)
+        printer_icon = wx.Bitmap(ImgsManager.printer, wx.BITMAP_TYPE_ANY)
+        wx.Bitmap.Rescale(printer_icon, (25, 25))
+        print = wx.Button(self, wx.ID_ANY, "Calibration map")
+        print.SetForegroundColour(Colors.button_text)
+        print.SetFont(Fonts.button)
+        print.SetBitmap(printer_icon)
+        print.SetBitmapPosition(wx.LEFT)
+        print.Bind(wx.EVT_BUTTON, self.print_calibration_map)
 
-        self.video = TkinterVideo(self, background=Colors.background)
-        self.video.set_size(CalibrationVideoTutorial.VIDEO_RES, keep_aspect=True)
-        self.video.place(
-            relx=0.5,
-            rely=0.5,
-            width=CalibrationVideoTutorial.VIDEO_RES[0],
-            height=CalibrationVideoTutorial.VIDEO_RES[1],
-            anchor=CENTER,
-        )
-        self.video.bind("<<Ended>>", self.on_video_ended)
+        proceed = wx.Button(self, wx.ID_ANY, "Proceed")
+        proceed.SetForegroundColour(Colors.button_text)
+        proceed.SetFont(Fonts.button)
+        proceed.Bind(wx.EVT_BUTTON, self.show_calibration)
+
+        buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        buttons_sizer.Add(print, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL)
+        buttons_sizer.AddSpacer(100)
+        buttons_sizer.Add(proceed, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.AddSpacer(50)
+        sizer.Add(self.title, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.Add(self.video, 1, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL | wx.SHAPED, 10)
+        sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        sizer.AddSpacer(50)
+
+        self.SetSizerAndFit(sizer)
+
+        self.video.Bind(media.EVT_MEDIA_FINISHED, self.on_video_ended)
+        self.video.Bind(media.EVT_MEDIA_LOADED, self.on_video_loaded)
+        self.video.Bind(wx.EVT_KEY_DOWN, self.on_interaction)
 
     def on_focus(self) -> None:
-        self.video.load(VideosManager.calibration_tutorial)
-        self.video.seek(0)
-        self.video.play()
+        self.video.Load(VideosManager.calibration_tutorial)
+        self.video.ShowPlayerControls()
+
+        self.title.SetFocus()
 
     def on_unfocus(self) -> None:
-        self.video.stop()
+        self.video.Stop()
 
-    def on_video_ended(self, event: Any) -> None:
+    def on_video_loaded(self, event) -> None:
+        print("video loaded")
+        self.video.Seek(0)
+        self.video.SetVolume(1)
+        self.video.Play()
+
+    def on_interaction(self, event: wx.KeyEvent) -> None:
+        if event.GetKeyCode() != wx.WXK_SPACE:
+            return
+
+        if self.video.GetState() == media.MEDIASTATE_PLAYING:
+            self.video.Pause()
+        else:
+            self.video.Play()
+
+    def on_video_ended(self, event) -> None:
         self.gui.current_state.set_calibration_tutorial_watched()
 
-    def print_calibration_map(self) -> None:
+    def print_calibration_map(self, event) -> None:
         open_file(DocsManager.calibration_map)
 
-    def show_calibration(self) -> None:
+    def show_calibration(self, event) -> None:
         self.gui.show_screen(gui.ScreenName.Calibration)

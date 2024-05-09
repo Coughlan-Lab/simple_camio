@@ -41,7 +41,7 @@ class Camera:
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
 
-        self.timer.Start(int(1000 / self.fps))
+        wx.CallAfter(lambda: self.timer.Start(int(1000 / self.fps)))
 
     def start_by_capture(self, capture: cv2.VideoCapture) -> None:
         if self.running:
@@ -51,8 +51,7 @@ class Camera:
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
 
-        self.camera_loop()
-        self.timer.Start(int(1000 / self.fps))
+        wx.CallAfter(lambda: self.timer.Start(int(1000 / self.fps)))
 
     def camera_loop(self) -> None:
         if self.capture is None or not self.capture.isOpened():
@@ -77,6 +76,7 @@ class Camera:
 
     def acquire_capture(self) -> cv2.VideoCapture:
         """Release ownership of the camera capture object."""
+        self.timer.Stop()
         capture = self.capture
         self.capture = None
         return capture

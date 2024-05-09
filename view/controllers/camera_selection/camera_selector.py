@@ -1,3 +1,5 @@
+from enum import Enum
+from token import STAR
 from view.utils import LoadingSpinner
 import gui
 import cv2
@@ -5,10 +7,32 @@ from model.utils import enumerate_cameras
 from .camera_preview import CameraPreview
 from ..screen import Screen
 from res import Fonts, Colors
-from typing import List, Tuple
+from typing import Any, List, Tuple
 import threading
 import wx
 from view.accessibility import AccessibleText
+from model import utils
+
+
+class CameraStatus(Enum):
+    LOADING = 0
+    LOADED = 1
+    STARTED = 2
+
+
+EVT_CAMERA_ID = wx.NewId()
+
+
+def EVT_CAMERA(win, func):
+    win.Connect(-1, -1, EVT_CAMERA_ID, func)
+
+
+class CameraEvent(wx.PyEvent):
+    def __init__(self, status: CameraStatus, data: Any = None):
+        wx.PyEvent.__init__(self)
+        self.SetEventType(EVT_CAMERA_ID)
+        self.status = status
+        self.data = data
 
 
 class CameraSelector(Screen):
@@ -39,50 +63,74 @@ class CameraSelector(Screen):
 
         self.previews: List[CameraPreview] = list()
 
+        EVT_CAMERA(self, self.on_camera_event)
+
     def on_focus(self) -> None:
         self.show_loading()
-        self.loading.SetFocus()
 
         state = self.gui.current_state
         state.clear_camera()
+        threading.Thread(target=self.load_cameras).start()
 
-        threading.Thread(target=self.init_cameras).start()
+    def on_camera_event(self, event: CameraEvent) -> None:
+        if event.status == CameraStatus.LOADING:
+            pass
+        elif event.status == CameraStatus.LOADED:
+            self.on_cameras_loaded(event.data)
+        else:
+            self.on_camera_started()
 
-    def init_cameras(self) -> None:
+    def load_cameras(self) -> None:
+        wx.PostEvent(self, CameraEvent(CameraStatus.LOADING))
+        cameras = enumerate_cameras(cv2.CAP_MSMF)
+        wx.PostEvent(self, CameraEvent(CameraStatus.LOADED, cameras))
+
+    def on_cameras_loaded(self, cameras: List[utils.CameraInfo]) -> None:
         self.previews.clear()
 
-        for camera_info in enumerate_cameras(cv2.CAP_MSMF):
+        for camera_info in cameras:
             if len(self.previews) >= CameraSelector.MAX_CAMERAS:
                 break
             preview = CameraPreview(self, camera_info)
             preview.Hide()
             self.previews.append(preview)
 
-        if len(self.previews) == 0:
-            self.gui.show_screen(gui.ScreenName.NoCamera)
-        else:
-            wx.CallAfter(self.show_cameras_ui)
+        threading.Thread(target=self.start_cameras).start()
 
-    def show_cameras_ui(self) -> None:
+    def start_cameras(self) -> None:
         for preview in self.previews:
             preview.start()
 
-        for preview in self.sort_previews(self.previews):
-            self.previewSizer.Add(preview, 0, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL)
+        if len(self.previews) > 0:
+            while not all(preview.running for preview in self.previews):
+                pass
 
-        self.hide_loading()
-        self.title.SetFocus()
+        wx.PostEvent(self, CameraEvent(CameraStatus.STARTED))
+
+    def on_camera_started(self) -> None:
+        for preview in self.sort_previews(self.previews):
+            self.previewSizer.Add(preview, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL)
+
+        if len(self.previews) == 0:
+            self.gui.show_screen(gui.ScreenName.NoCamera)
+        else:
+            self.hide_loading()
 
     def show_loading(self) -> None:
+        for preview in self.previews:
+            preview.Hide()
+
         self.loading.Show()
-        for i in range(self.previewSizer.GetItemCount()):
-            self.previewSizer.Hide(i)
+        self.loading.SetFocus()
+
         self.Layout()
 
     def hide_loading(self) -> None:
         self.loading.Hide()
-        for i in range(self.previewSizer.GetItemCount()):
-            self.previewSizer.Show(i)
+        for preview in self.previews:
+            preview.Show()
+
+        self.title.SetFocus()
         self.Layout()
 
     def on_unfocus(self) -> None:

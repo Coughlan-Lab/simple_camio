@@ -44,6 +44,8 @@ class CameraPreview(wx.Panel):
         self.frame_producer.set_on_error_listener(self.show_error)
         self.frame_producer.set_frame_listener(self.show_frame)
 
+        self.frame_received = False
+
     @property
     def gui(self) -> "gui.MainFrame":
         return self.parent.gui
@@ -58,7 +60,7 @@ class CameraPreview(wx.Panel):
 
     @property
     def running(self) -> bool:
-        return self.frame_producer.running
+        return self.frame_received and self.frame_producer.running
 
     def start(self) -> None:
         self.frame_producer.start_by_index(self.camera_index)
@@ -66,10 +68,12 @@ class CameraPreview(wx.Panel):
     def show_error(self) -> None:
         self.button.Disable()
         self.preview.show_error(msg=f"Error getting frames\nfrom {self.camera_name}")
+        self.frame_received = False
 
     def show_frame(self, img: np.ndarray) -> None:
         self.button.Enable()
         self.preview.show_frame(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+        self.frame_received = True
 
     def stop(self) -> None:
         self.frame_producer.stop()

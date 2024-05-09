@@ -59,8 +59,8 @@ class Screen(wx.Panel):
             self.on_focus()
             self.Show()
         else:
-            self.on_unfocus()
             self.Hide()
+            self.on_unfocus()
 
     def on_focus(self) -> None:
         pass

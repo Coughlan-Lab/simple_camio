@@ -67,6 +67,7 @@ class CameraSelector(Screen):
 
     def on_focus(self) -> None:
         self.show_loading()
+        self.on_unfocus()
 
         state = self.gui.current_state
         state.clear_camera()

@@ -64,7 +64,6 @@ class ContentVideoTutorial(Screen):
         self.video.Stop()
 
     def on_video_loaded(self, event) -> None:
-        print("video loaded")
         self.video.Seek(0)
         self.video.SetVolume(1)
         self.video.Play()
@@ -82,7 +81,10 @@ class ContentVideoTutorial(Screen):
         self.gui.current_state.set_content_tutorial_watched()
 
     def show_next_screen(self, event) -> None:
+        self.gui.current_state.set_content_tutorial_watched()
+
         state = self.gui.current_state
+
         if state.pointer is None:
             self.gui.show_screen(gui.ScreenName.PointerSelector)
         elif state.camera is None:

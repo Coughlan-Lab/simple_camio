@@ -101,4 +101,5 @@ class CalibrationVideoTutorial(Screen):
         open_file(DocsManager.calibration_map)
 
     def show_calibration(self, event) -> None:
+        self.gui.current_state.set_calibration_tutorial_watched()
         self.gui.show_screen(gui.ScreenName.Calibration)

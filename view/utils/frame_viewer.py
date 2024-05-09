@@ -15,7 +15,7 @@ class FrameViewer(wx.Panel):
     ):
         wx.Panel.__init__(self, parent, wx.ID_ANY, size=size, name=name)
 
-        self.default_frame_size = size
+        self.base_size = size
         self.frame_size = size
 
         self.bitmap: Optional[wx.Bitmap] = None
@@ -44,13 +44,14 @@ class FrameViewer(wx.Panel):
         self.Bind(wx.EVT_SIZE, self.on_size)
 
     def on_size(self, event: wx.SizeEvent) -> None:
-        self.default_frame_size = event.GetSize()
+        self.base_size = event.GetSize()
 
         if self.img_size is None:
             return
 
         self.__init_bitmap(self.img_size[0], self.img_size[1])
         self.erase_background = True
+
         event.Skip()
 
     def show_error(self, msg: str = "Error getting frames") -> None:
@@ -91,23 +92,23 @@ class FrameViewer(wx.Panel):
     def __init_frame_size(self, w: int, h: int) -> None:
         if w > h:
             self.frame_size = (
-                self.default_frame_size[0],
-                int(h * self.default_frame_size[0] / w),
+                self.base_size[0],
+                int(h * self.base_size[0] / w),
             )
-            if self.frame_size[1] > self.default_frame_size[1]:
+            if self.frame_size[1] > self.base_size[1]:
                 self.frame_size = (
-                    int(w * self.default_frame_size[1] / h),
-                    self.default_frame_size[1],
+                    int(w * self.base_size[1] / h),
+                    self.base_size[1],
                 )
         else:  # h > w
             self.frame_size = (
-                int(w * self.default_frame_size[1] / h),
-                self.default_frame_size[1],
+                int(w * self.base_size[1] / h),
+                self.base_size[1],
             )
-            if self.frame_size[0] > self.default_frame_size[0]:
+            if self.frame_size[0] > self.base_size[0]:
                 self.frame_size = (
-                    self.default_frame_size[0],
-                    int(h * self.default_frame_size[0] / w),
+                    self.base_size[0],
+                    int(h * self.base_size[0] / w),
                 )
 
     def on_erase_background(self, event):

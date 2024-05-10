@@ -36,7 +36,7 @@ class FingerAruco3DFP(FrameProcessor):
         gesture_loc, gesture_status, img = self.pose_detector.detect(img)
         img = self.annotator.annotate_image(img, [], rotation, translation)
 
-        img = self.interaction.draw_points(img)
+        # img = self.interaction.draw_points(img)
 
         if gesture_loc is None:
             self.heartbeat_player.pause_sound()

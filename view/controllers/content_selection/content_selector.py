@@ -35,7 +35,7 @@ class ContentSelector(Screen):
             | wx.LC_VRULES
             | wx.LC_SORT_ASCENDING
             | wx.SIMPLE_BORDER,
-            size=(600, 200),
+            size=(602, 200),
         )
         self.container.SetBackgroundColour(Colors.background)
         self.container.SetTextColour(Colors.text)

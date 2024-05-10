@@ -37,14 +37,15 @@ class FrameViewer(wx.Panel):
         self.error_text.SetFont(error_font)
         self.error_box.Hide()
 
-        self.CenterOnParent()
-
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.on_erase_background)
         self.Bind(wx.EVT_PAINT, self.on_paint)
         self.Bind(wx.EVT_SIZE, self.on_size)
 
     def on_size(self, event: wx.SizeEvent) -> None:
         self.base_size = event.GetSize()
+
+        if self.error_box.IsShown():
+            self.show_error(self.error_text.GetLabel())
 
         if self.img_size is None:
             return
@@ -56,15 +57,20 @@ class FrameViewer(wx.Panel):
 
     def show_error(self, msg: str = "Error getting frames") -> None:
         self.bitmap = None
+
+        self.error_box.SetSize(self.GetSize())
+        self.error_box.CenterOnParent()
+
         self.error_text.SetLabel(msg)
         self.error_text.Wrap(self.error_box.GetSize()[0] - 2)
         self.error_text.CenterOnParent()
+
         self.error_box.Show()
 
     def show_frame(self, img: np.ndarray) -> None:
         if self.bitmap is None:
             self.__init_bitmap(img.shape[1], img.shape[0])
-            self.error_box.Hide()
+        self.error_box.Hide()
 
         img = cv2.resize(img, self.frame_size)
 

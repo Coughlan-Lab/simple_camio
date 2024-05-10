@@ -295,7 +295,9 @@ def select_cam_port():
 
 
 def list_ports():
-    """Test the ports and returns a tuple with the available ports and the ones that are working."""
+    """
+    Test the ports and returns a tuple with the available ports and the ones that are working.
+    """
     non_working_ports = []
     dev_port = 0
     working_ports = []
@@ -373,7 +375,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input1",
         help="Path to parameter json file.",
-        default="content/UkraineMap/UkraineMap.json",
+        default="CamIO content/UkraineMap/UkraineMap.json",
     )
     args = parser.parse_args()
 
@@ -440,7 +442,7 @@ if __name__ == "__main__":
         camio_player.play_welcome()
         crickets_player = AmbientSoundPlayer(model["crickets"])
         heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-    elif model["modelType"] == "3d_aruco_mediapipe_object":
+    elif model["modelType"] == "3d_aruco_mediapipe":
         model_detector = ModelDetectorAruco(model, intrinsic_matrix)
         pose_detector = PoseDetectorMP3D()
         gesture_detector = GestureDetector()
@@ -524,13 +526,15 @@ if __name__ == "__main__":
             heartbeat_player.play_sound()
         elif (
             model["modelType"] == "3d_sift_mediapipe"
-            or model["modelType"] == "3d_aruco_mediapipe_object"
+            or model["modelType"] == "3d_aruco_mediapipe"
         ):
             interact.project_vertices(rvec, tvec)
             gesture_loc, gesture_status, img_scene_color = pose_detector.detect(frame)
             img_scene_color = image_annotator.annotate_image(
                 img_scene_color, [], rvec, tvec
             )
+            if model["modelType"] == "3d_aruco_mediapipe":
+                img_scene_color = interact.draw_points(img_scene_color)
             if gesture_loc is None:
                 heartbeat_player.pause_sound()
                 continue
@@ -557,7 +561,7 @@ if __name__ == "__main__":
         if gesture_status != "moving":
             if (
                 model["modelType"] == "3d_sift_mediapipe"
-                or model["modelType"] == "3d_aruco_mediapipe_object"
+                or model["modelType"] == "3d_aruco_mediapipe"
             ):
                 img_scene_color = image_annotator.draw_point_in_image(
                     img_scene_color, gesture_loc

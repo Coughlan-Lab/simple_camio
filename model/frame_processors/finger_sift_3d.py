@@ -32,10 +32,9 @@ class FingerSift3DFP(FrameProcessor):
             return img
         self.crickets_player.pause_sound()
 
-        img = self.annotator.annotate_image(img, [], rotation, translation)
-
         self.interaction.project_vertices(rotation, translation)
         gesture_loc, gesture_status, img = self.pose_detector.detect(img)
+        img = self.annotator.annotate_image(img, [], rotation, translation)
 
         if gesture_loc is None:
             self.heartbeat_player.pause_sound()

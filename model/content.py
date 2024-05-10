@@ -72,7 +72,7 @@ class Content:
             return Content.ModelDimensions.THREE_D
         elif model_type == "3d_aruco_stylus":
             return Content.ModelDimensions.THREE_D
-        elif model_type == "3d_aruco_mediapipe_object":
+        elif model_type == "3d_aruco_mediapipe":
             return Content.ModelDimensions.THREE_D
         raise ValueError(f"Unknown model type {model_type}")
 
@@ -89,7 +89,7 @@ class Content:
             return Content.ModelDetectionType.SIFT
         elif model_type == "3d_aruco_stylus":
             return Content.ModelDetectionType.ARUCO
-        elif model_type == "3d_aruco_mediapipe_object":
+        elif model_type == "3d_aruco_mediapipe":
             return Content.ModelDetectionType.ARUCO
         raise ValueError(f"Unknown model type {model_type}")
 

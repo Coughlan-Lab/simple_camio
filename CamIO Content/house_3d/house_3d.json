@@ -11,7 +11,7 @@
       "map_description": "house_3d/Audio/Map_Description.mp3",
       "pixels_per_cm": 118.49,
       "stylus_file": "teardrop_stylus.json",
-      "modelType": "3d_aruco_mediapipe_object",
+      "modelType": "3d_aruco_mediapipe",
       "positioningData":{
         "arucoType": "DICT_4X4_50",
         "arucoCodes":[

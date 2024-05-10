@@ -13,9 +13,7 @@ class SIFTModelDetector:
     def __init__(self, model, intrinsic_matrix):
         self.model = model
         # Load the template image
-        img_object = cv.imread(
-            model["template_image"], cv.IMREAD_GRAYSCALE
-        )
+        img_object = cv.imread(model["template_image"], cv.IMREAD_GRAYSCALE)
 
         # Detect SIFT keypoints
         self.detector = cv.SIFT_create()
@@ -260,9 +258,7 @@ class CamIOPlayerOBJ:
         self.prev_zone_moving = -1
         self.sound_files = {}
         self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load(
-            self.model["blipsound"], streaming=False
-        )
+        self.blip_sound = pyglet.media.load(self.model["blipsound"], streaming=False)
         self.enable_blips = False
         if "map_description" in self.model:
             self.map_description = pyglet.media.load(
@@ -277,9 +273,7 @@ class CamIOPlayerOBJ:
         self.goodbye_message = pyglet.media.load(
             self.model["goodbye_message"], streaming=False
         )
-        zone_dict = self.generate_zone_dict(
-            self.model["soundfile_mapping"]
-        )
+        zone_dict = self.generate_zone_dict(self.model["soundfile_mapping"])
         for key in zone_dict.keys():
             if os.path.exists(zone_dict[key]):
                 self.sound_files[key] = pyglet.media.load(
@@ -292,7 +286,7 @@ class CamIOPlayerOBJ:
         if not self.have_played_description:
             self.player = self.map_description.play()
             self.have_played_description = True
-    
+
     def pause(self):
         self.player.delete()
 

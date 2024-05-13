@@ -42,7 +42,7 @@ pyinstaller --noconfirm --onefile --windowed --add-data "C:/Users/<USER NAME>/Ap
 ### MacOS:
 
 ```console
-pyinstaller --noconfirm --onefile --windowed --add-data "/Users/students/Library/Python/3.8/lib/python/site-packages/mediapipe/modules/hand_landmark:mediapipe/modules/hand_landmark/" --add-data "/Users/students/Library/Python/3.8/lib/python/site-packages/mediapipe/modules/palm_detection:mediapipe/modules/palm_detection/" --add-data "res:res/" main.py
+pyinstaller --noconfirm --onefile --windowed --add-data "/Users/<USER NAME>/Library/Python/3.8/lib/python/site-packages/mediapipe/modules/hand_landmark:mediapipe/modules/hand_landmark/" --add-data "/Users/<USER NAME>/Library/Python/3.8/lib/python/site-packages/mediapipe/modules/palm_detection:mediapipe/modules/palm_detection/" --add-data "res:res/" main.py
 ```
 
 Edit the main.spec generated file:
@@ -60,7 +60,7 @@ app = BUNDLE(
 ```
 
 And then run:
+
 ```console
 pyinstaller --noconfirm main.spec
 ```
-

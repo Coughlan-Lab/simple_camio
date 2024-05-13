@@ -168,16 +168,16 @@ class SIFTModelDetectorMP:
         if len(good_matches) < 4:
             return False, None, None
         obj = np.empty((len(good_matches), 2), dtype=np.float32)
-        scene = np.empty((len(good_matches), 2), dtype=np.float32)
+        self.scene = np.empty((len(good_matches), 2), dtype=np.float32)
         for i in range(len(good_matches)):
             # -- Get the keypoints from the good matches
             obj[i, 0] = self.keypoints_obj[good_matches[i].queryIdx].pt[0]
             obj[i, 1] = self.keypoints_obj[good_matches[i].queryIdx].pt[1]
-            scene[i, 0] = keypoints_scene[good_matches[i].trainIdx].pt[0]
-            scene[i, 1] = keypoints_scene[good_matches[i].trainIdx].pt[1]
+            self.scene[i, 0] = keypoints_scene[good_matches[i].trainIdx].pt[0]
+            self.scene[i, 1] = keypoints_scene[good_matches[i].trainIdx].pt[1]
         # Compute homography and find inliers
-        H, mask_out = cv.findHomography(
-            scene, obj, cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995
+        H, self.mask_out = cv.findHomography(
+            self.scene, obj, cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995
         )
         self.H = H
         self.requires_homography = False

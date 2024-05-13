@@ -1,5 +1,6 @@
 # mypy: ignore-errors
 import numpy as np
+import time
 from .frame_processor import FrameProcessor
 from ..simple_camio_mp import PoseDetectorMP, SIFTModelDetectorMP
 from ..simple_camio_3d import SIFTModelDetector
@@ -22,13 +23,12 @@ class FingerSift2DFP(FrameProcessor):
 
     def process(self, img: np.ndarray) -> np.ndarray:
         img = super().process(img)
-
+        tic = time.time()
         if self.frame_count == 0:
             self.model_detector.requires_homography = True
         self.frame_count = (self.frame_count + 1) % 100
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         ok, rotation, translation = self.model_detector.detect(img_gray)
-
         if not ok:
             self.heartbeat_player.pause_sound()
             self.crickets_player.play_sound()
@@ -38,6 +38,10 @@ class FingerSift2DFP(FrameProcessor):
         gesture_loc, gesture_status, img, hand_results = self.pose_detector.detect(
             img, rotation, translation
         )
+
+        for i in range(len(self.model_detector.mask_out)):
+            if self.model_detector.mask_out[i]:
+                cv2.circle(img, (int(self.model_detector.scene[i, 0]), int(self.model_detector.scene[i, 1])), 2, (0, 255, 0), 2)
 
         layer_change, dist = self.layered_audio.detect(hand_results, img)
         if dist:
@@ -58,4 +62,8 @@ class FingerSift2DFP(FrameProcessor):
             col = (0,0,255)
         cv2.putText(img, text, (10, 560), cv2.FONT_HERSHEY_SIMPLEX, 2, col, 2, cv2.LINE_AA)
         self.audio_player.convey(zone_id, gesture_status, layer_change)
+        toc = time.time()
+        print(f'It took {toc - tic} seconds, with framerate of {1 / (toc - tic)}')
+        print(f'big loop was {toc - self.timer}')
+        self.timer = toc
         return img

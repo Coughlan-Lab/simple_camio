@@ -65,7 +65,7 @@ class PointerSelector(Screen):
         )
 
         stylus_box.SetSizerAndFit(stylus_box_sizer)
-
+        """
         icon = wx.Bitmap(ImgsManager.question_mark, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(icon, (25, 25))
         tutorial = wx.BitmapButton(
@@ -78,6 +78,7 @@ class PointerSelector(Screen):
             tutorial.SetAccessible(AccessibleDescription(name="Rewatch tutorial"))
 
         tutorial.Bind(wx.EVT_BUTTON, self.show_tutorial)
+        """
 
         buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
         buttons_sizer.Add(finger_btn, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
@@ -86,7 +87,7 @@ class PointerSelector(Screen):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         tutorial_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        tutorial_sizer.Add(tutorial, 0, wx.RIGHT)
+        # tutorial_sizer.Add(tutorial, 0, wx.RIGHT)
         tutorial_sizer.AddSpacer(40)
 
         sizer.AddSpacer(30)

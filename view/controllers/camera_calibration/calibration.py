@@ -56,7 +56,7 @@ class Calibration(Screen):
         buttons_sizer = wx.BoxSizer(wx.HORIZONTAL)
         buttons_sizer.Add(self.print, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
         buttons_sizer.Add(self.confirm, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL, 50)
-
+        """
         icon = wx.Bitmap(ImgsManager.question_mark, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(icon, (25, 25))
         tutorial = wx.BitmapButton(
@@ -69,7 +69,7 @@ class Calibration(Screen):
             tutorial.SetAccessible(AccessibleDescription(name="Rewatch tutorial"))
 
         tutorial.Bind(wx.EVT_BUTTON, self.show_tutorial)
-
+        """
         title_sizer = wx.BoxSizer(wx.HORIZONTAL)
         title_sizer.AddSpacer(80)
         title_sizer.AddStretchSpacer(1)
@@ -77,7 +77,7 @@ class Calibration(Screen):
             self.title, 1, wx.TOP | wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL, 50
         )
         title_sizer.AddStretchSpacer(1)
-        title_sizer.Add(tutorial, 0, wx.TOP | wx.ALIGN_TOP, 30)
+        # title_sizer.Add(tutorial, 0, wx.TOP | wx.ALIGN_TOP, 30)
         title_sizer.AddSpacer(40)
 
         sizer = wx.BoxSizer(wx.VERTICAL)

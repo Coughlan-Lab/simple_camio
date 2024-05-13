@@ -24,7 +24,7 @@ class ContentUsage(Screen):
         self.title.SetFont(Fonts.title)
 
         self.preview = FrameViewer(self, (600, 350))
-
+        """
         icon = wx.Bitmap(ImgsManager.question_mark, wx.BITMAP_TYPE_ANY)
         wx.Bitmap.Rescale(icon, (25, 25))
         tutorial = wx.BitmapButton(
@@ -37,6 +37,7 @@ class ContentUsage(Screen):
             tutorial.SetAccessible(AccessibleDescription(name="Rewatch tutorial"))
 
         tutorial.Bind(wx.EVT_BUTTON, self.show_tutorial)
+        """
 
         title_sizer = wx.BoxSizer(wx.HORIZONTAL)
         title_sizer.AddSpacer(80)
@@ -45,7 +46,7 @@ class ContentUsage(Screen):
             self.title, 1, wx.TOP | wx.LEFT | wx.RIGHT | wx.ALIGN_CENTER_VERTICAL, 50
         )
         title_sizer.AddStretchSpacer(1)
-        title_sizer.Add(tutorial, 0, wx.TOP | wx.ALIGN_TOP, 30)
+        #title_sizer.Add(tutorial, 0, wx.TOP | wx.ALIGN_TOP, 30)
         title_sizer.AddSpacer(40)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
@@ -118,5 +119,5 @@ class ContentUsage(Screen):
 
         self.semaphore.release()
 
-    def show_tutorial(self) -> None:
+    def show_tutorial(self, event) -> None:
         self.gui.show_screen(gui.ScreenName.ContentVideoTutorial)

@@ -33,7 +33,7 @@ class FrameProcessor:
         self.crickets_player = AmbientSoundPlayer(content.crickets())
         self.heartbeat_player = AmbientSoundPlayer(content.heartbeat())
         self.heartbeat_player.set_volume(0.05)
-
+        self.frame_count = 0
         self.audio_player.play_description()
 
     def get_interaction_policy(self):

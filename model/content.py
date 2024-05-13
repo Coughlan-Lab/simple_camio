@@ -62,6 +62,8 @@ class Content:
             return Content.ModelDimensions.TWO_D
         elif model_type == "3D_sift_stylus":
             return Content.ModelDimensions.THREE_D
+        elif model_type == "2D_sift_mediapipe":
+            return Content.ModelDimensions.TWO_D
         elif model_type == "2d_aruco_mediapipe":
             return Content.ModelDimensions.TWO_D
         elif model_type == "3d_sift_mediapipe":
@@ -77,6 +79,8 @@ class Content:
         model_type = self.__content["modelType"]
         if model_type == "2D_aruco_stylus":
             return Content.ModelDetectionType.ARUCO
+        elif model_type == "2D_sift_mediapipe":
+            return Content.ModelDetectionType.SIFT
         elif model_type == "3D_sift_stylus":
             return Content.ModelDetectionType.SIFT
         elif model_type == "2d_aruco_mediapipe":

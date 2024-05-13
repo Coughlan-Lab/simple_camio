@@ -64,10 +64,7 @@ class CameraInfo:
 
 
 if SYSTEM == OS.WINDOWS or SYSTEM == OS.LINUX:
-    from cv2_enumerate_cameras import (
-        enumerate_cameras as camera_enumerator,
-    )  #  type: ignore
-
+    from cv2_enumerate_cameras import enumerate_cameras as camera_enumerator
 else:
 
     def camera_enumerator(unused: Any = None) -> Generator[CameraInfo, Any, None]:

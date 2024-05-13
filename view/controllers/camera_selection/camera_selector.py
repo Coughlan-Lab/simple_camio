@@ -18,6 +18,7 @@ class CameraStatus(Enum):
     LOADING = 0
     LOADED = 1
     STARTED = 2
+    ERROR = 3
 
 
 EVT_CAMERA_ID = wx.NewId()
@@ -78,16 +79,25 @@ class CameraSelector(Screen):
             pass
         elif event.status == CameraStatus.LOADED:
             self.on_cameras_loaded(event.data)
-        else:
+        elif event.status == CameraStatus.STARTED:
             self.on_camera_started()
+        else:
+            self.on_camera_error()
 
     def load_cameras(self) -> None:
         wx.PostEvent(self, CameraEvent(CameraStatus.LOADING))
-        cameras = enumerate_cameras(cv2.CAP_MSMF)
-        wx.PostEvent(self, CameraEvent(CameraStatus.LOADED, cameras))
+        try:
+            cameras = enumerate_cameras(cv2.CAP_MSMF)
+            wx.PostEvent(self, CameraEvent(CameraStatus.LOADED, cameras))
+        except Exception as e:
+            wx.PostEvent(self, CameraEvent(CameraStatus.ERROR))
 
     def on_cameras_loaded(self, cameras: List[utils.CameraInfo]) -> None:
         self.previews.clear()
+
+        if len(cameras) == 0:
+            wx.PostEvent(self, CameraEvent(CameraStatus.ERROR))
+            return
 
         for camera_info in cameras:
             if len(self.previews) >= CameraSelector.MAX_CAMERAS:
@@ -102,10 +112,6 @@ class CameraSelector(Screen):
         for preview in self.previews:
             preview.start()
 
-        if len(self.previews) > 0:
-            while not all(preview.running for preview in self.previews):
-                pass
-
         wx.PostEvent(self, CameraEvent(CameraStatus.STARTED))
 
     def on_camera_started(self) -> None:
@@ -116,6 +122,9 @@ class CameraSelector(Screen):
             self.gui.show_screen(gui.ScreenName.NoCamera)
         else:
             self.hide_loading()
+
+    def on_camera_error(self) -> None:
+        self.gui.show_screen(gui.ScreenName.NoCamera)
 
     def show_loading(self) -> None:
         for preview in self.previews:

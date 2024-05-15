@@ -39,6 +39,9 @@ class Camera:
 
         self.capture = cv2.VideoCapture(camera_index)
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
 
         wx.CallAfter(lambda: self.timer.Start(int(1000 / self.fps)))
@@ -49,6 +52,9 @@ class Camera:
 
         self.capture = capture
         self.capture.set(cv2.CAP_PROP_FOCUS, 0)
+        self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        
         self.fps = self.capture.get(cv2.CAP_PROP_FPS)
 
         wx.CallAfter(lambda: self.timer.Start(int(1000 / self.fps)))

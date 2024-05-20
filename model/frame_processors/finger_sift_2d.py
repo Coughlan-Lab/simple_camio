@@ -55,7 +55,7 @@ class FingerSift2DFP(FrameProcessor):
         gesture_loc = gesture_loc / self.interaction.model['pixels_per_cm']
         zone_id = self.interaction.push_gesture(gesture_loc)
         if zone_id in self.audio_player.hotspots:
-            text = self.audio_player.hotspots[zone_id]['textDescription']
+            text = self.audio_player.hotspots[zone_id]['textDescription'][self.audio_player.audiolayer%len(self.audio_player.hotspots[zone_id]['textDescription'])]
             col = (0, 255, 0)
         else:
             text = str(zone_id)

@@ -136,7 +136,7 @@ class CamIOPlayer2D:
                     )
                     )
                 else:
-                    print("warning. file not found:" + hotspot["audioDescription"])
+                    print("warning. file not found:" + audio_description)
 
     def play_description(self):
         if not self.have_played_description:

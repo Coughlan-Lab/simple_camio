@@ -3,6 +3,7 @@ import os.path
 import pyglet
 import numpy as np
 from scipy import stats
+from gtts import gTTS
 import cv2 as cv
 
 
@@ -118,6 +119,7 @@ class CamIOPlayer2D:
         self.goodbye_message = pyglet.media.load(
             self.model["goodbye_message"], streaming=False
         )
+        self.loaded_text_descriptions = {}
         self.audiolayer = 0
         self.max_len_audiodescription = 1
         for hotspot in self.model["hotspots"]:
@@ -129,14 +131,14 @@ class CamIOPlayer2D:
             self.hotspots.update({key: hotspot})
             self.sound_files[key] = list()
             self.max_len_audiodescription = max(self.max_len_audiodescription, len(hotspot["audioDescription"]))
-            for audio_description in hotspot["audioDescription"]:
-                if os.path.exists(audio_description):
-                    self.sound_files[key].append(pyglet.media.load(
-                        audio_description, streaming=False
-                    )
-                    )
+            for text_description in hotspot["textDescription"]:
+                if text_description in self.loaded_text_descriptions:
+                    self.sound_files[key].append(self.loaded_text_descriptions[text_description])
                 else:
-                    print("warning. file not found:" + audio_description)
+                    tts = gTTS(text_description)
+                    tts.save('hello.mp3')
+                    self.loaded_text_descriptions[text_description] = pyglet.media.load('hello.mp3', streaming=False)
+                    self.sound_files[key].append(self.loaded_text_descriptions[text_description])
 
     def play_description(self):
         if not self.have_played_description:

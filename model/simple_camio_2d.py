@@ -1,5 +1,6 @@
 # mypy: ignore-errors
 import os.path
+import os
 import pyglet
 import numpy as np
 from scipy import stats
@@ -136,8 +137,10 @@ class CamIOPlayer2D:
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
                 else:
                     tts = gTTS(text_description)
-                    tts.save('hello.mp3')
+                    with open("hello.mp3", 'wb') as fp:
+                        tts.write_to_fp(fp)
                     self.loaded_text_descriptions[text_description] = pyglet.media.load('hello.mp3', streaming=False)
+                    os.remove("hello.mp3")
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
 
     def play_description(self):

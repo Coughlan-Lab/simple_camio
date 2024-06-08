@@ -154,12 +154,18 @@ class CameraSelector(Screen):
         self, previews: List[CameraPreview]
     ) -> Tuple[wx.Window, wx.Window, wx.Window]:
         previews.sort(key=lambda p: p.camera_name)
-        placeholder_panel = wx.Panel(self, wx.ID_ANY)
 
         if len(previews) == 0:
-            return (placeholder_panel, placeholder_panel, placeholder_panel)
+            return (
+                self.getPlaceholderView(),
+                self.getPlaceholderView(),
+                self.getPlaceholderView(),
+            )
         if len(previews) == 1:
-            return (placeholder_panel, previews[0], placeholder_panel)
+            return (self.getPlaceholderView(), previews[0], self.getPlaceholderView())
         if len(previews) == 2:
-            return (previews[0], placeholder_panel, previews[1])
+            return (previews[0], self.getPlaceholderView(), previews[1])
         return (previews[0], previews[1], previews[2])
+
+    def getPlaceholderView(self):
+        return wx.Panel(self, wx.ID_ANY)

@@ -43,6 +43,10 @@ class FingerSift2DFP(FrameProcessor):
             if self.model_detector.mask_out[i]:
                 cv2.circle(img, (int(self.model_detector.scene[i, 0]), int(self.model_detector.scene[i, 1])), 2, (0, 255, 0), 2)
 
+        new_hotspot, _ = self.hotspot_constructor.detect(hand_results, img)
+        if new_hotspot:
+            self.hotspot_constructor.add_hotspot(gesture_loc, self.content)
+
         layer_change, dist = self.layered_audio.detect(hand_results, img)
         if dist:
             cv2.putText(img, str(dist), (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)

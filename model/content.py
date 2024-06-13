@@ -124,6 +124,13 @@ class Content:
             return AudioManager.heartbeat
         return path
 
+    def write_to_json(self) -> None:
+        content_name = self.__name
+        content_path = os.path.join(content_name, f"{content_name}.json")
+        os.remove(content_path)
+        new_content = {"model": self.__content}
+        with open(content_path, 'w') as fp:
+            json.dump(new_content, fp)
 
 class ContentManager:
     DEFAULT_CONTENT_FOLDER_PATH = "CamIO Content"

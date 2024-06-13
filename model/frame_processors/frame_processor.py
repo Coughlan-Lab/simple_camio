@@ -9,6 +9,7 @@ from ..simple_camio import (
     load_camera_parameters,
     LayeredAudio
 )
+from ..simple_camio_mp import HotspotConstructor
 import numpy as np
 import pyglet
 
@@ -28,6 +29,7 @@ class FrameProcessor:
         self.audio_player = self.get_audio_player()
         self.pose_detector = self.get_pose_detector()
         self.layered_audio = self.get_layered_audio(self.audio_player)
+        self.hotspot_constructor = self.get_hotspot_creator(self.audio_player, self.interaction)
         self.motion_filter = MovementMedianFilter()
         self.gesture_detector = GestureDetector()
         self.crickets_player = AmbientSoundPlayer(content.crickets())
@@ -53,6 +55,9 @@ class FrameProcessor:
 
     def get_layered_audio(self, audio_player):
         return LayeredAudio(audio_player)
+
+    def get_hotspot_creator(self, audio_player, interaction_policy):
+        return HotspotConstructor(audio_player, interaction_policy)
 
     def start(self) -> None:
         self.audio_player.play_welcome()

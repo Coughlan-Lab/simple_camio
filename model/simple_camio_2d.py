@@ -2,6 +2,8 @@
 import os.path
 import os
 import pyglet
+import time
+import random
 import numpy as np
 from scipy import stats
 from gtts import gTTS
@@ -90,6 +92,11 @@ class InteractionPolicy2D:
         else:
             return [0, 0, 0]  # , map_copy
 
+    # Paints an area of the map with the given color
+    def make_new_hotspot(self, position, color):
+        self.image_map_color = cv.circle(self.image_map_color, (int(position[0]), int(position[1])), 60, color, thickness=-1)
+        cv.imwrite(self.model['filename'], self.image_map_color)
+
     # Returns the key of the dictionary in the dictionary of dictionaries that matches the color given
     def get_dict_idx_from_color(self, color):
         color_idx = 256 * 256 * color[2] + 256 * color[1] + color[0]
@@ -107,6 +114,7 @@ class CamIOPlayer2D:
         self.player = pyglet.media.Player()
         self.blip_sound = pyglet.media.load(self.model["blipsound"], streaming=False)
         self.enable_blips = False
+        self.time_of_last_warning = 0
         if "map_description" in self.model:
             self.map_description = pyglet.media.load(
                 self.model["map_description"], streaming=False
@@ -114,6 +122,11 @@ class CamIOPlayer2D:
             self.have_played_description = False
         else:
             self.have_played_description = True
+        tts_warning = gTTS("Please use only one hand to point with.")
+        with open("warning.mp3", 'wb') as fp:
+            tts_warning.write_to_fp(fp)
+        self.warning = pyglet.media.load("warning.mp3", streaming=False)
+        os.remove("warning.mp3")
         self.welcome_message = pyglet.media.load(
             self.model["welcome_message"], streaming=False
         )
@@ -131,7 +144,7 @@ class CamIOPlayer2D:
             )
             self.hotspots.update({key: hotspot})
             self.sound_files[key] = list()
-            self.max_len_audiodescription = max(self.max_len_audiodescription, len(hotspot["audioDescription"]))
+            self.max_len_audiodescription = max(self.max_len_audiodescription, len(hotspot["textDescription"]))
             for text_description in hotspot["textDescription"]:
                 if text_description in self.loaded_text_descriptions:
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
@@ -142,6 +155,33 @@ class CamIOPlayer2D:
                     self.loaded_text_descriptions[text_description] = pyglet.media.load('hello.mp3', streaming=False)
                     os.remove("hello.mp3")
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
+
+    def get_new_key(self):
+        new_color = [random.randint(1,254),random.randint(1,254),random.randint(1,254)]
+        new_key = new_color[2] *256*256 + new_color[1] * 256 + new_color[0]
+        while new_key in self.sound_files:
+            new_color = [random.randint(1,254),random.randint(1,254),random.randint(1,254)]
+            new_key = new_color[2] *256*256 + new_color[1] * 256 + new_color[0]
+        return new_color, new_key
+
+    def add_new_hotspot(self, text_description):
+        new_color, new_key = self.get_new_key()
+        new_hotspot = dict()
+        new_hotspot['color'] = [new_color[2], new_color[1], new_color[0]]
+        new_hotspot['textDescription'] = [text_description]
+        self.model['hotspots'].append(new_hotspot)
+        self.sound_files[new_key] = list()
+        self.hotspots[new_key] = new_hotspot
+        if text_description in self.loaded_text_descriptions:
+            self.sound_files[new_key].append(self.loaded_text_descriptions[text_description])
+        else:
+            tts = gTTS(text_description)
+            with open("hello.mp3", 'wb') as fp:
+                tts.write_to_fp(fp)
+            self.loaded_text_descriptions[text_description] = pyglet.media.load('hello.mp3', streaming=False)
+            os.remove("hello.mp3")
+            self.sound_files[new_key].append(self.loaded_text_descriptions[text_description])
+        return new_color
 
     def play_description(self):
         if not self.have_played_description:
@@ -157,7 +197,18 @@ class CamIOPlayer2D:
     def play_goodbye(self):
         self.goodbye_message.play()
 
+    def play_warning(self):
+        if time.time() - self.time_of_last_warning < 2:
+            return
+        self.time_of_last_warning = time.time()
+        self.player.pause()
+        self.player.delete()
+        self.player = self.warning.play()
+
     def convey(self, zone, status, layer=False):
+        if status =="too_many":
+            self.play_warning()
+            return
         if status == "moving" and not layer:
             if (
                 self.curr_zone_moving != zone
@@ -194,9 +245,7 @@ class CamIOPlayer2D:
                 try:
                     self.player = sound.play()
                 except BaseException:
-                    print(
-                        "Exception raised. Cannot play sound. Please restart the application."
-                    )
+                    print("Exception raised. Cannot play sound. Please restart the application.")
             self.prev_zone_name = zone_name
 
 

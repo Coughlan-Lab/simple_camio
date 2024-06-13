@@ -2,6 +2,8 @@ import numpy as np
 import cv2 as cv
 import mediapipe as mp
 from scipy import stats
+from tkinter import simpledialog
+from collections import deque
 from .simple_camio_2d import parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
 
 
@@ -28,6 +30,15 @@ class ModelDetectorArucoMP:
         return True, H, None
 
 
+def ratio(coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
+    d = np.linalg.norm(coors[0, :] - coors[3, :])
+    a = np.linalg.norm(coors[0, :] - coors[1, :])
+    b = np.linalg.norm(coors[1, :] - coors[2, :])
+    c = np.linalg.norm(coors[2, :] - coors[3, :])
+
+    return d / (a + b + c)
+
+
 class PoseDetectorMP:
     def __init__(self, model):
         self.mp_hands = mp.solutions.hands
@@ -52,31 +63,31 @@ class PoseDetectorMP:
                     coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = hand_landmarks.landmark[k].x, \
                                                                         hand_landmarks.landmark[k].y, \
                                                                         hand_landmarks.landmark[k].z
-                ratio_thumb = self.ratio(coors)
+                ratio_thumb = ratio(coors)
 
                 for k in [5, 6, 7, 8]:  # joints in index finger
                     coors[k - 5, 0], coors[k - 5, 1], coors[k - 5, 2] = hand_landmarks.landmark[k].x, \
                                                                         hand_landmarks.landmark[k].y, \
                                                                         hand_landmarks.landmark[k].z
-                ratio_index = self.ratio(coors)
+                ratio_index = ratio(coors)
 
                 for k in [9, 10, 11, 12]:  # joints in middle finger
                     coors[k - 9, 0], coors[k - 9, 1], coors[k - 9, 2] = hand_landmarks.landmark[k].x, \
                                                                         hand_landmarks.landmark[k].y, \
                                                                         hand_landmarks.landmark[k].z
-                ratio_middle = self.ratio(coors)
+                ratio_middle = ratio(coors)
 
                 for k in [13, 14, 15, 16]:  # joints in ring finger
                     coors[k - 13, 0], coors[k - 13, 1], coors[k - 13, 2] = hand_landmarks.landmark[k].x, \
                                                                            hand_landmarks.landmark[k].y, \
                                                                            hand_landmarks.landmark[k].z
-                ratio_ring = self.ratio(coors)
+                ratio_ring = ratio(coors)
 
                 for k in [17, 18, 19, 20]:  # joints in little finger
                     coors[k - 17, 0], coors[k - 17, 1], coors[k - 17, 2] = hand_landmarks.landmark[k].x, \
                                                                            hand_landmarks.landmark[k].y, \
                                                                            hand_landmarks.landmark[k].z
-                ratio_little = self.ratio(coors)
+                ratio_little = ratio(coors)
 
                 # print(ratio_thumb, ratio_index, ratio_middle, ratio_ring, ratio_little)
                 # overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
@@ -94,19 +105,15 @@ class PoseDetectorMP:
                 if index_pos is None:
                     index_pos = np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float)
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
-                    index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
-                    movement_status = "pointing"
+                    if movement_status != "pointing":
+                        index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
+                        movement_status = "pointing"
+                    else:
+                        movement_status = "too_many"
                 elif movement_status != "pointing":
                     movement_status = "moving"
         return index_pos, movement_status, image, results
 
-    def ratio(self, coors):  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
-        d = np.linalg.norm(coors[0, :] - coors[3, :])
-        a = np.linalg.norm(coors[0, :] - coors[1, :])
-        b = np.linalg.norm(coors[1, :] - coors[2, :])
-        c = np.linalg.norm(coors[2, :] - coors[3, :])
-
-        return d / (a + b + c)
 
 class InteractionPolicyMP:
     def __init__(self, model):
@@ -117,9 +124,6 @@ class InteractionPolicyMP:
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
 
-    # Sergio: we are currently returning the zone id also when the ring buffer is not full. Is this the desired behavior?
-    # the impact is clearly minor, but conceptually I am not convinced that this is the right behavior.
-    # Sergio (2): I have a concern about this function, I will discuss it in an email.
     def push_gesture(self, position):
         zone_color = self.get_zone(position, self.image_map_color, self.model['pixels_per_cm'])
         self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
@@ -131,6 +135,107 @@ class InteractionPolicyMP:
             return zone
         else:
             return -1
+
+
+class HotspotConstructor:
+    def __init__(self, camio_player, interaction_policy):
+        self.MAX_QUEUE_LENGTH = 5
+        self.MIN_TOUCH_COUNT = 4
+        self.is_pointing = list()
+        self.is_index_touching = deque(maxlen=self.MAX_QUEUE_LENGTH)
+        self.is_currently_touching = False
+        self.camio_player = camio_player
+        self.interaction_policy = interaction_policy
+
+    def detect(self, results, img):
+        coors = np.zeros((4, 3), dtype=float)
+        is_pointing = list()
+        index_pos = list()
+        has_pointed = False
+        has_three_fingers = False
+        dist = 0
+        info_string = str()
+        if results.multi_hand_landmarks:
+            for h, hand_landmarks in enumerate(results.multi_hand_landmarks):
+                for k in [1, 2, 3, 4]:  # joints in thumb
+                    coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = hand_landmarks.landmark[k].x, \
+                                                                        hand_landmarks.landmark[k].y, \
+                                                                        hand_landmarks.landmark[k].z
+                ratio_thumb = ratio(coors)
+
+                for k in [5, 6, 7, 8]:  # joints in index finger
+                    coors[k - 5, 0], coors[k - 5, 1], coors[k - 5, 2] = hand_landmarks.landmark[k].x, \
+                                                                        hand_landmarks.landmark[k].y, \
+                                                                        hand_landmarks.landmark[k].z
+                ratio_index = ratio(coors)
+
+                for k in [9, 10, 11, 12]:  # joints in middle finger
+                    coors[k - 9, 0], coors[k - 9, 1], coors[k - 9, 2] = hand_landmarks.landmark[k].x, \
+                                                                        hand_landmarks.landmark[k].y, \
+                                                                        hand_landmarks.landmark[k].z
+                ratio_middle = ratio(coors)
+
+                for k in [13, 14, 15, 16]:  # joints in ring finger
+                    coors[k - 13, 0], coors[k - 13, 1], coors[k - 13, 2] = hand_landmarks.landmark[k].x, \
+                                                                           hand_landmarks.landmark[k].y, \
+                                                                           hand_landmarks.landmark[k].z
+                ratio_ring = ratio(coors)
+
+                for k in [17, 18, 19, 20]:  # joints in little finger
+                    coors[k - 17, 0], coors[k - 17, 1], coors[k - 17, 2] = hand_landmarks.landmark[k].x, \
+                                                                           hand_landmarks.landmark[k].y, \
+                                                                           hand_landmarks.landmark[k].z
+                ratio_little = ratio(coors)
+                is_pointing.append(
+                    ratio_index > 0.7 and ratio_middle < 0.95 and ratio_ring < 0.95 and ratio_little < 0.95)
+                if (ratio_index > 0.7 and ratio_middle < 0.95 and ratio_ring < 0.95 and ratio_little < 0.95):
+                    has_pointed = True
+                is_three_fingers = ratio_index > 0.7 and ratio_middle > 0.7 and ratio_ring > 0.7 and ratio_little < 0.95
+                distance = max(np.linalg.norm(np.array([hand_landmarks.landmark[8].x - hand_landmarks.landmark[12].x,
+                                                    hand_landmarks.landmark[8].y - hand_landmarks.landmark[12].y,
+                                                    hand_landmarks.landmark[8].z - hand_landmarks.landmark[12].z])),
+                                np.linalg.norm(np.array([hand_landmarks.landmark[16].x - hand_landmarks.landmark[12].x,
+                                                    hand_landmarks.landmark[16].y - hand_landmarks.landmark[12].y,
+                                                    hand_landmarks.landmark[16].z - hand_landmarks.landmark[12].z])))
+                if is_three_fingers and distance < 0.09:
+                    has_three_fingers = True
+
+                index_pos.append(hand_landmarks.landmark[8])
+            if len(is_pointing) > 1:
+                if (has_pointed and has_three_fingers):  # (is_pointing[0] and is_pointing[1]) or
+                    dist = np.linalg.norm(np.array([(index_pos[0].x - index_pos[1].x) * img.shape[1],
+                                                    (index_pos[0].y - index_pos[1].y) * img.shape[0]]))
+                    # print(dist)
+                    self.is_index_touching.append(dist < 60)
+                else:
+                    self.is_index_touching.append(False)
+            else:
+                self.is_index_touching.append(False)
+        else:
+            self.is_index_touching.append(False)
+        if not self.is_currently_touching:
+            cnt = 0
+            for is_touching in self.is_index_touching:
+                cnt += int(is_touching)
+            if cnt >= self.MIN_TOUCH_COUNT:
+                self.is_currently_touching = True
+                return True, dist
+        else:
+            cnt = 0
+            for is_touching in self.is_index_touching:
+                cnt += int(not is_touching)
+            if cnt >= self.MIN_TOUCH_COUNT:
+                self.is_currently_touching = False
+        return False, dist
+
+    def add_hotspot(self, point, content):
+        label = simpledialog.askstring("Label","Please type the label for this point:")
+        if label is None:
+            return
+        color = self.camio_player.add_new_hotspot(label)
+        self.interaction_policy.make_new_hotspot(point, color)
+        content.write_to_json()
+
 
 
 class SIFTModelDetectorMP:

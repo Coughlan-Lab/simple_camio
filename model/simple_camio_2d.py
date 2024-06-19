@@ -54,11 +54,13 @@ class ModelDetectorAruco:
 class InteractionPolicy2D:
     def __init__(self, model):
         self.model = model
+        self.audio_level_up_key = model["audio_level_up_color"][0]*256*256+model["audio_level_up_color"][1]*256+model["audio_level_up_color"][2]
         self.image_map_color = cv.imread(model["filename"], cv.IMREAD_COLOR)
         self.ZONE_FILTER_SIZE = 10
         self.Z_THRESHOLD = 2.0
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
+        self.on_key = False
 
     # Sergio: we are currently returning the zone id also when the ring buffer is not full. Is this the desired behavior?
     # the impact is clearly minor, but conceptually I am not convinced that this is the right behavior.
@@ -74,10 +76,15 @@ class InteractionPolicy2D:
         zone = stats.mode(self.zone_filter).mode
         if isinstance(zone, np.ndarray):
             zone = zone[0]
-        if np.abs(position[2]) < self.Z_THRESHOLD:
-            return zone
+        if np.abs(position[2]) >= self.Z_THRESHOLD:
+            zone = -1
+        if zone == self.audio_level_up_key:
+            if not self.on_key:
+                self.on_key = True
+                return zone, 1
         else:
-            return -1
+            self.on_key = False
+        return zone, 0
 
     # Retrieves the zone of the point of interest on the map
     def get_zone(self, point_of_interest, img_map, pixels_per_cm):
@@ -109,10 +116,12 @@ class CamIOPlayer2D:
         self.prev_zone_name = ""
         self.prev_zone_moving = -1
         self.curr_zone_moving = -1
+        self.current_zone = -1
         self.sound_files = {}
         self.hotspots = {}
         self.player = pyglet.media.Player()
         self.blip_sound = pyglet.media.load(self.model["blipsound"], streaming=False)
+        self.sparkle_sound = pyglet.media.load(self.model["sparkle"], streaming=False)
         self.enable_blips = False
         self.time_of_last_warning = 0
         if "map_description" in self.model:
@@ -197,6 +206,9 @@ class CamIOPlayer2D:
     def play_goodbye(self):
         self.goodbye_message.play()
 
+    def play_sparkle(self):
+        self.sparkle_sound.play()
+
     def play_warning(self):
         if time.time() - self.time_of_last_warning < 2:
             return
@@ -205,7 +217,13 @@ class CamIOPlayer2D:
         self.player.delete()
         self.player = self.warning.play()
 
-    def convey(self, zone, status, layer=False):
+    def convey(self, zone, status, layer=0):
+        if layer:
+            zone = self.current_zone
+            self.audiolayer += layer
+            #self.player.pause()
+            #self.player.delete()
+            #self.player = self.blip_sound.play()
         if status =="too_many":
             self.play_warning()
             return
@@ -232,15 +250,12 @@ class CamIOPlayer2D:
             return
         zone_name = self.hotspots[zone]["textDescription"]
         if self.prev_zone_name != zone_name or layer:
-            if layer:
-                self.audiolayer += 1
-            else:
+            if not layer:
                 self.audiolayer = 0
-            # if self.player.playing:
-            #     self.player.pause()
             self.player.pause()
             self.player.delete()
             if zone in self.sound_files:
+                self.current_zone = zone
                 sound = self.sound_files[zone][self.audiolayer % len(self.sound_files[zone])]
                 try:
                     self.player = sound.play()

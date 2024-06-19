@@ -5,6 +5,7 @@ from scipy import stats
 from tkinter import simpledialog
 from collections import deque
 from .simple_camio_2d import parse_aruco_codes, get_aruco_dict_id_from_string, sort_corners_by_id
+from google.protobuf.json_format import MessageToDict
 
 
 class ModelDetectorArucoMP:
@@ -49,7 +50,7 @@ class PoseDetectorMP:
 
     def detect(self, image, H, _):
         image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-
+        handedness = list()
         results = self.hands.process(image)
         coors = np.zeros((4,3), dtype=float)
         # Draw the hand annotations on the image.
@@ -58,7 +59,8 @@ class PoseDetectorMP:
         index_pos = None
         movement_status = None
         if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
+            for h, hand_landmarks in enumerate(results.multi_hand_landmarks):
+                handedness.append(MessageToDict(results.multi_handedness[h])['classification'][0]['label'])
                 for k in [1, 2, 3, 4]:  # joints in thumb
                     coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = hand_landmarks.landmark[k].x, \
                                                                         hand_landmarks.landmark[k].y, \
@@ -105,10 +107,11 @@ class PoseDetectorMP:
                 if index_pos is None:
                     index_pos = np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float)
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
-                    if movement_status != "pointing":
+                    if movement_status != "pointing" or len(handedness) > 1 and handedness[1] == handedness[0]:
                         index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
                         movement_status = "pointing"
                     else:
+                        index_pos.append(np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float))
                         movement_status = "too_many"
                 elif movement_status != "pointing":
                     movement_status = "moving"
@@ -229,6 +232,7 @@ class HotspotConstructor:
         return False, dist
 
     def add_hotspot(self, point, content):
+        self.camio_player.play_sparkle()
         label = simpledialog.askstring("Label","Please type the label for this point:")
         if label is None:
             return

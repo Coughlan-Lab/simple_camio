@@ -47,9 +47,9 @@ class FingerSift2DFP(FrameProcessor):
         if new_hotspot:
             self.hotspot_constructor.add_hotspot(gesture_loc, self.content)
 
-        layer_change, dist = self.layered_audio.detect(hand_results, img)
-        if dist:
-            cv2.putText(img, str(dist), (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
+        # layer_change, dist = self.layered_audio.detect(hand_results, img)
+        # if dist:
+        #     cv2.putText(img, str(dist), (10, 80), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
 
         if gesture_loc is None:
             self.heartbeat_player.pause_sound()
@@ -57,7 +57,7 @@ class FingerSift2DFP(FrameProcessor):
         self.heartbeat_player.play_sound()
 
         gesture_loc = gesture_loc / self.interaction.model['pixels_per_cm']
-        zone_id = self.interaction.push_gesture(gesture_loc)
+        zone_id, layer_change = self.interaction.push_gesture(gesture_loc)
         if zone_id in self.audio_player.hotspots:
             text = self.audio_player.hotspots[zone_id]['textDescription'][self.audio_player.audiolayer%len(self.audio_player.hotspots[zone_id]['textDescription'])]
             col = (0, 255, 0)

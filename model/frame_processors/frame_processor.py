@@ -25,11 +25,12 @@ class FrameProcessor:
             self.annotator = ImageAnnotator(self.intrinsic_matrix)
 
         self.model_detector = self.get_model_detector()
-        self.interaction = self.get_interaction_policy()
+        self.interaction = [self.get_interaction_policy()]
+        self.interaction.append(self.get_interaction_policy())
         self.audio_player = self.get_audio_player()
         self.pose_detector = self.get_pose_detector()
         self.layered_audio = self.get_layered_audio(self.audio_player)
-        self.hotspot_constructor = self.get_hotspot_creator(self.audio_player, self.interaction)
+        self.hotspot_constructor = self.get_hotspot_creator(self.audio_player, self.interaction[0])
         self.motion_filter = MovementMedianFilter()
         self.gesture_detector = GestureDetector()
         self.crickets_player = AmbientSoundPlayer(content.crickets())

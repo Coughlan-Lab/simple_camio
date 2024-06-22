@@ -9,6 +9,7 @@ import cv2
 
 
 class FingerSift2DFP(FrameProcessor):
+
     def get_audio_player(self):
         return CamIOPlayer2D(self.content.as_dict())
 
@@ -56,8 +57,23 @@ class FingerSift2DFP(FrameProcessor):
             return img
         self.heartbeat_player.play_sound()
 
-        gesture_loc = gesture_loc / self.interaction.model['pixels_per_cm']
-        zone_id, layer_change = self.interaction.push_gesture(gesture_loc)
+        gesture_loc = gesture_loc / self.interaction[0].model['pixels_per_cm']
+        if gesture_status == "too_many":
+            zone_id, layer_change = self.interaction[0].push_gesture(gesture_loc)
+            zone_id_1, layer_change_1 = self.interaction[1].push_gesture(gesture_loc[3:])
+            if layer_change:
+                zone_id = zone_id_1
+                gesture_status = "pointing"
+            if layer_change_1:
+                layer_change = layer_change_1
+                gesture_status = "pointing"
+            self.finger_count = 2
+        else:
+            if self.finger_count == 2:
+                if self.interaction[0].get_distance(gesture_loc) > self.interaction[1].get_distance(gesture_loc):
+                    self.interaction[0] = self.interaction[1]
+            zone_id, layer_change = self.interaction[0].push_gesture(gesture_loc)
+            self.finger_count = 1
         if zone_id in self.audio_player.hotspots:
             text = self.audio_player.hotspots[zone_id]['textDescription'][self.audio_player.audiolayer%len(self.audio_player.hotspots[zone_id]['textDescription'])]
             col = (0, 255, 0)

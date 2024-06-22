@@ -53,6 +53,7 @@ class ModelDetectorAruco:
 # then the zone ID number is returned.
 class InteractionPolicy2D:
     def __init__(self, model):
+        self.prev_position = None
         self.model = model
         self.audio_level_up_key = model["audio_level_up_color"][0]*256*256+model["audio_level_up_color"][1]*256+model["audio_level_up_color"][2]
         self.image_map_color = cv.imread(model["filename"], cv.IMREAD_COLOR)
@@ -66,6 +67,7 @@ class InteractionPolicy2D:
     # the impact is clearly minor, but conceptually I am not convinced that this is the right behavior.
     # Sergio (2): I have a concern about this function, I will discuss it in an email.
     def push_gesture(self, position):
+        self.prev_position = position
         zone_color = self.get_zone(
             position, self.image_map_color, self.model["pixels_per_cm"]
         )
@@ -85,6 +87,10 @@ class InteractionPolicy2D:
         else:
             self.on_key = False
         return zone, 0
+
+    #Returns the distance from a position to the previous position
+    def get_distance(self, position):
+        return np.linalg.norm(self.prev_position[:3]-position)
 
     # Retrieves the zone of the point of interest on the map
     def get_zone(self, point_of_interest, img_map, pixels_per_cm):
@@ -219,13 +225,13 @@ class CamIOPlayer2D:
 
     def convey(self, zone, status, layer=0):
         if layer:
-            zone = self.current_zone
+            #zone = self.current_zone
             self.audiolayer += layer
             #self.player.pause()
             #self.player.delete()
             #self.player = self.blip_sound.play()
         if status =="too_many":
-            self.play_warning()
+            #self.play_warning()
             return
         if status == "moving" and not layer:
             if (

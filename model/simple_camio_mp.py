@@ -111,7 +111,7 @@ class PoseDetectorMP:
                         index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
                         movement_status = "pointing"
                     else:
-                        index_pos.append(np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float))
+                        index_pos =np.append(index_pos, np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float))
                         movement_status = "too_many"
                 elif movement_status != "pointing":
                     movement_status = "moving"

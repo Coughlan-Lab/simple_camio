@@ -1,44 +1,12 @@
 {
-    "model":{
-      "name":"UkraineMap Example",
-      "filename":"models/UkraineMap/UkraineMap.png",
-      "map_description":"models/UkraineMap/Audio/Kyiv Description.mp3",
-      "blipsound":"MP3/quick_blip.wav",
-      "welcome_message":"MP3/welcome.mp3",
-      "goodbye_message":"MP3/goodbye.mp3",
-      "heartbeat": "MP3/white_noise.mp3",
-      "crickets": "MP3/crickets.mp3",
-      "pixels_per_cm": 118.49,
-      "stylus_file": "teardrop_stylus.json",
-      "modelType": "mediapipe",
-      "positioningData":{
-        "arucoType": "DICT_4X4_50",
-        "arucoCodes":[
-          {"position": [[0,0,0], [2,0,0], [2,2,0],[0,2,0]], "id":0},
-          {"position": [[17,0,0], [19,0,0], [19,2,0],[17,2,0]], "id":1},
-          {"position": [[0,24,0], [2,24,0], [2,26,0],[0,26,0]], "id":2},
-          {"position": [[17,24,0], [19,24,0], [19,26,0],[17,26,0]], "id":3}
-        ]
-      },
-      "hotspots":[
-        {"color":[255,0,0], "colorComment":"red", "textDescription":"Khreschatyk St.", "audioDescription":"models/UkraineMap/Audio/Khreschyatik.mp3"},
-        {"color":[253,167,0], "colorComment":"orange", "textDescription":"Mykhailivs'ka St.", "audioDescription":"models/UkraineMap/Audio/Mikhaylivska St.mp3"},
-        {"color":[253,244,0], "colorComment":"bright yellow", "textDescription":"Mala Zhytomyrska St.", "audioDescription":"models/UkraineMap/Audio/Mala Zhytomirska.mp3"},
-        {"color":[174,255,0], "colorComment":"lime green", "textDescription":"Sofiivs'ka St.", "audioDescription":"models/UkraineMap/Audio/Sofiivska.mp3"},
-        {"color":[0,255,0], "colorComment":"green", "textDescription":"Tarasa Shevchenka Ln.", "audioDescription":"models/UkraineMap/Audio/Taras Shevchenko.mp3"},
-        {"color":[0,255,255], "colorComment":"cyan", "textDescription":"Borysa Hrinchenka St.", "audioDescription":"models/UkraineMap/Audio/Boris Hrinchenka.mp3"},
-        {"color":[0,0,255], "colorComment":"blue", "textDescription":"Kostolna St.", "audioDescription":"models/UkraineMap/Audio/Kostolna.mp3"},
-        {"color":[162,0,255], "colorComment":"purple", "textDescription":"Heroyiv Nebesnoyi Sotni Alley", "audioDescription":"models/UkraineMap/Audio/Heroiv Nebesnoi Sotni.mp3"},
-        {"color":[255,0,255], "colorComment":"magenta", "textDescription":"Arkhitektora Horodetskoho St.", "audioDescription":"models/UkraineMap/Audio/Arkhitektora Horodestoho.mp3"},
-        {"color":[131,96,163], "colorComment":"grape", "textDescription":"Tryokhsvyatitelska St.", "audioDescription":"models/UkraineMap/Audio/Tryokhsvyatitelska St.mp3"},
-        {"color":[255,173,123], "colorComment":"peach", "textDescription":"Mykhailivs'kyi Ln.", "audioDescription":"models/UkraineMap/Audio/Mikhaylivskiy Ln.mp3"},
-        {"color":[127,105,38], "colorComment":"brown", "textDescription":"Prorizna St.", "audioDescription":"models/UkraineMap/Audio/Prorizna.mp3"},
-        {"color":[104,145,52], "colorComment":"olive green", "textDescription":"Malopidvalna St.", "audioDescription":"models/UkraineMap/Audio/Malopidvalna.mp3"},
-        {"color":[93,249,152], "colorComment":"mint green", "textDescription":"Volodymyrs'kyi Passage", "audioDescription":"models/UkraineMap/Audio/Volodymirskiy Passage.mp3"},
-        {"color":[92,133,146], "colorComment":"grey-blue", "textDescription":"Independence Square", "audioDescription":"models/UkraineMap/Audio/Maidan.mp3"},
-        {"color":[130,49,49], "colorComment":"maroon", "textDescription":"St. Michael's Golden-Domed Monastery", "audioDescription":"models/UkraineMap/Audio/StMichael_s Monastery.mp3"},
-        {"color":[203,192,99], "colorComment":"mustard", "textDescription":"Velyka Zhytomyrska St.", "audioDescription":"models/UkraineMap/Audio/Velika Zhytomirska St.mp3"},
-        {"color":[49,189,187], "colorComment":"teal", "textDescription":"Volodymyrs'kyi descent", "audioDescription":"models/UkraineMap/Audio/Volodymirskiy Descent.mp3"}
-      ]
+    "model": {
+        "name": "UkraineMap Example",
+        "template_image": "models/UkraineMap/template.png",
+        "map_description": "models/UkraineMap/Audio/Kyiv Description.mp3",
+        "blipsound": "models/MP3/quick_blip.wav",
+        "welcome_message": "models/MP3/welcome.mp3",
+        "goodbye_message": "models/MP3/goodbye.mp3",
+        "heartbeat": "models/MP3/white_noise.mp3",
+        "crickets": "models/MP3/crickets.mp3"
     }
-  }
+}

@@ -1,7 +1,7 @@
 import argparse
 import time
 
-import cv2 as cv
+import cv2
 import pyglet.media
 
 from src.audio import AmbientSoundPlayer, CamIOPlayer
@@ -28,10 +28,10 @@ crickets_player = AmbientSoundPlayer(model["crickets"])
 heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
 heartbeat_player.set_volume(0.05)
 
-cap = cv.VideoCapture(cam_port)
-cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height
-cap.set(cv.CAP_PROP_FRAME_WIDTH, 1920)  # set camera image width
-cap.set(cv.CAP_PROP_FOCUS, 0)
+cap = cv2.VideoCapture(cam_port)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+cap.set(cv2.CAP_PROP_FOCUS, 0)
 ok, frame = cap.read()
 if not ok:
     print("No camera image returned.")
@@ -40,12 +40,12 @@ if not ok:
 timer = time.time() - 1
 
 camio_player.play_description()
-shape = cv.imread(model["template_image"], cv.IMREAD_COLOR).shape
+shape = cv2.imread(model["template_image"], cv2.IMREAD_COLOR).shape
 
 # Main loop
 while cap.isOpened():
 
-    cv.imshow("image reprojection", frame)
+    cv2.imshow("image reprojection", frame)
 
     ret, frame = cap.read()
     if not ret:
@@ -53,7 +53,7 @@ while cap.isOpened():
         break
     frame = frame.copy()
 
-    waitkey = cv.waitKey(1)
+    waitkey = cv2.waitKey(1)
     if waitkey == 27 or waitkey == ord("q"):
         break
 
@@ -65,7 +65,7 @@ while cap.isOpened():
     pyglet.clock.tick()
     pyglet.app.platform_event_loop.dispatch_posted_events()
 
-    frame_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+    frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     ok, rotation = model_detector.detect(frame_gray)
 
     if not ok or rotation is None:
@@ -80,20 +80,18 @@ while cap.isOpened():
         continue
 
     if gesture_status == "pointing":
-        print(gesture_loc)
         x = int(gesture_loc[0])
         y = int(gesture_loc[1])
 
         if 0 <= x < shape[1] and 0 <= y < shape[0]:
-            print(f"Gesture detected at ({x}, {y})")
-        else:
-            print("Gesture detected outside of frame")
+            print("Gesture detected at x: " + str(x) + " y: " + str(y))
+            pass
 
     heartbeat_player.play_sound()
 
 
 cap.release()
-cv.destroyAllWindows()
+cv2.destroyAllWindows()
 heartbeat_player.pause_sound()
 crickets_player.pause_sound()
 camio_player.play_goodbye()

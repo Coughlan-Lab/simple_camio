@@ -1,8 +1,5 @@
 from typing import Any, Dict
 
-import cv2 as cv
-import numpy as np
-import numpy.typing as npt
 import pyglet
 import pyglet.media
 

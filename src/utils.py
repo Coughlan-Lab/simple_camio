@@ -3,9 +3,7 @@ import os
 import sys
 from typing import Any, Dict, List, Tuple
 
-import cv2 as cv
-import numpy as np
-import numpy.typing as npt
+import cv2
 
 
 def select_cam_port() -> int:
@@ -35,7 +33,7 @@ def list_ports() -> Tuple[List[int], List[Tuple[int, int, int]], List[int]]:
     while (
         len(non_working_ports) < 3
     ):  # if there are more than 2 non working ports stop the testing.
-        camera = cv.VideoCapture(dev_port)
+        camera = cv2.VideoCapture(dev_port)
         if not camera.isOpened():
             non_working_ports.append(dev_port)
             print("Port %s is not working." % dev_port)
@@ -71,19 +69,3 @@ def load_map_parameters(filename: str) -> Dict[str, Any]:
         _ = sys.stdin.read(1)
         exit(0)
     return dict(map_params["model"])
-
-
-# Function to sort corners by id based on the order specified in the id_list,
-# such that the scene array matches the obj array in terms of aruco marker ids
-# and the appropriate corners.
-def sort_corners_by_id(corners, ids, id_list):
-    use_index = np.zeros(len(id_list) * 4, dtype=bool)
-    scene = np.empty((len(id_list) * 4, 2), dtype=np.float32)
-    for i in range(len(corners)):
-        id = ids[i, 0]
-        if id in id_list:
-            corner_num = id_list.index(id)
-            for j in range(4):
-                use_index[4 * corner_num + j] = True
-                scene[4 * corner_num + j, :] = corners[i][0][j]
-    return scene, use_index

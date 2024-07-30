@@ -8,11 +8,11 @@ from src.audio import AmbientSoundPlayer, CamIOPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
 from src.utils import *
 
-parser = argparse.ArgumentParser(description="CamIO, powered by OpenAI")
+parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
 parser.add_argument(
-    "--input1",
-    help="Path to parameter json file.",
-    default="models/house_3d/house.json",
+    "--model",
+    help="Path to model json file.",
+    default="models/UkraineMap/UkraineMap.json",
 )
 args = parser.parse_args()
 

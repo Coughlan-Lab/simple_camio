@@ -82,4 +82,6 @@ class Buffer:
         self.buffer.append(value)
 
     def mode(self) -> Any:
+        if len(self.buffer) == 0:
+            return None
         return max(set(self.buffer), key=self.buffer.count)

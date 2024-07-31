@@ -153,6 +153,12 @@ if __name__ == "__main__":
         default="out/last_chat.txt",
     )
     args = parser.parse_args()
+
+    out_dir = os.path.dirname(args.out)
+    if not os.path.exists(out_dir):
+        print(f"Directory {out_dir} does not exist.")
+        sys.exit(0)
+
     model = load_map_parameters(args.model)
 
     camio = CamIO(model)

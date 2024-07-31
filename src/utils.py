@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from typing import Any, Dict, List, Tuple
 
 import cv2
@@ -76,16 +77,31 @@ class Buffer:
     def __init__(self, max_size: int) -> None:
         self.max_size = max_size
         self.buffer = list()
+        self.time_last_update = time.time()
+
+    @property
+    def time_from_last_update(self) -> float:
+        return time.time() - self.time_last_update
 
     def add(self, value: Any) -> None:
         if len(self.buffer) == self.max_size:
             self.buffer.pop(0)
         self.buffer.append(value)
+        self.time_last_update = time.time()
+
+    def clear(self) -> None:
+        self.buffer.clear()
 
     def mode(self) -> Any:
         if len(self.buffer) == 0:
             return None
         return max(set(self.buffer), key=self.buffer.count)
+
+    def average(self, start: Any = 0) -> Any:
+        if len(self.buffer) == 0:
+            return None
+
+        return sum(self.buffer, start=start) / len(self.buffer)
 
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")

@@ -1,10 +1,19 @@
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 
 class Coords:
     def __init__(self, x: float, y: float) -> None:
         self.x = x
         self.y = y
+
+    def distance_from(self, other: "Coords") -> float:
+        return ((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5
+
+    def __add__(self, other: "Coords") -> "Coords":
+        return Coords(self.x + other.x, self.y + other.y)
+
+    def __truediv__(self, other: float) -> "Coords":
+        return Coords(self.x / other, self.y / other)
 
     def __getitem__(self, index: int) -> float:
         return self.x if index == 0 else self.y
@@ -21,6 +30,11 @@ class Node:
     @property
     def id(self) -> str:
         return f"n{self.index}"
+
+    def distance_from(self, other: Union["Node", Coords]) -> float:
+        if isinstance(other, Node):
+            return self.coords.distance_from(other.coords)
+        return self.coords.distance_from(other)
 
     def __getitem__(self, index: int) -> float:
         return self.coords[index]
@@ -103,12 +117,14 @@ class Graph:
         self.nodes: List[Node] = []
         self.edges: List[Edge] = []
         self.streets: List[Street] = []
+
         self.reference_system = {
             "north": Coords(*graph_dict["reference_system"]["north"]),
             "south": Coords(*graph_dict["reference_system"]["south"]),
             "west": Coords(*graph_dict["reference_system"]["west"]),
             "east": Coords(*graph_dict["reference_system"]["east"]),
         }
+        self.pois = graph_dict["points_of_interest"]
 
         for node in graph_dict["nodes"]:
             self.nodes.append(Node(len(self.nodes), Coords(node[0], node[1])))
@@ -163,10 +179,5 @@ class Graph:
     def streets_prompt(self) -> str:
         return "\n".join([f"{street}: {street.name}" for street in self.streets])
 
-    def reference_system_prompt(self) -> str:
-        return (
-            f"""North is indicated by the vector {self.reference_system['north']}, """
-            f"""South by {self.reference_system['south']}, """
-            f""" West by {self.reference_system['west']}, and """
-            f"""East by {self.reference_system['east']}"""
-        )
+    def poi_prompt(self) -> str:
+        return self.pois

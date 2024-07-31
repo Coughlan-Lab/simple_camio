@@ -1,4 +1,5 @@
 import time
+from typing import Any, Dict, Optional
 
 import cv2
 import keyboard
@@ -30,15 +31,15 @@ class CamIO:
         self.heartbeat_player.set_volume(0.05)
 
         # LLM
-        self.llm = LLM()
+        self.llm = LLM(self.graph)
 
         self.running = False
 
     def main_loop(self) -> None:
         min_corner, max_corner = self.graph.bounds
+        self.buffer.clear()
 
         self.camio_player.play_welcome()
-        self.camio_player.play_description()
 
         cam_port = select_cam_port()
         cap = cv2.VideoCapture(cam_port)
@@ -53,6 +54,8 @@ class CamIO:
         keyboard.add_hotkey("space", self.handle_user_input)
 
         timer = time.time() - 1
+
+        self.camio_player.play_description()
 
         self.running = True
         while self.running and cap.isOpened():
@@ -104,9 +107,10 @@ class CamIO:
                 min_corner[0] <= x < max_corner[0]
                 and min_corner[1] <= y < max_corner[1]
             ):
-                print("Gesture detected at x: " + str(x) + " y: " + str(y))
-                nearest_edge = self.graph.get_nearest_edge(Coords(x, y))
-                self.buffer.add(nearest_edge)
+                self.buffer.add(Coords(x, y))
+                # nearest_edge = self.graph.get_nearest_edge(Coords(x, y))
+                # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
+                # print(f"Nearest edge: {self.graph.get_nearest_edge(self.buffer.average(start=Coords(0, 0)))}")
 
         cap.release()
         cv2.destroyAllWindows()
@@ -130,7 +134,11 @@ class CamIO:
 
         print(f"Question: {question}")
 
-        asnwer = self.llm.ask(question, self.buffer.mode())
+        position: Optional[Coords] = None
+        if self.buffer.time_from_last_update < 1:
+            position = self.buffer.average(start=Coords(0, 0))
+
+        asnwer = self.llm.ask(question, position)
         print(f"Answer: {asnwer}")
 
 

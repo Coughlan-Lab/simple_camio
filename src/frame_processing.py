@@ -32,7 +32,10 @@ class SIFTModelDetector:
 
         keypoints_scene, descriptors_scene = self.detector.detectAndCompute(frame, None)
         matcher = cv2.DescriptorMatcher_create(cv2.DescriptorMatcher_FLANNBASED)
-        knn_matches = matcher.knnMatch(self.descriptors_obj, descriptors_scene, 2)
+        try:
+            knn_matches = matcher.knnMatch(self.descriptors_obj, descriptors_scene, 2)
+        except:
+            return False, None
 
         RATIO_THRESH = 0.75
         good_matches = list()

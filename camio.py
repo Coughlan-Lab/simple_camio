@@ -150,7 +150,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--out",
         help="Path to chat save file.",
-        default="last_chat.txt",
+        default="out/last_chat.txt",
     )
     args = parser.parse_args()
     model = load_map_parameters(args.model)

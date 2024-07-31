@@ -38,7 +38,7 @@ def list_ports() -> Tuple[List[int], List[Tuple[int, int, int]], List[int]]:
             non_working_ports.append(dev_port)
             print("Port %s is not working." % dev_port)
         else:
-            is_reading, img = camera.read()
+            is_reading, _ = camera.read()
             w = camera.get(3)
             h = camera.get(4)
             if is_reading:
@@ -69,3 +69,17 @@ def load_map_parameters(filename: str) -> Dict[str, Any]:
         _ = sys.stdin.read(1)
         exit(0)
     return dict(map_params["model"])
+
+
+class Buffer:
+    def __init__(self, max_size: int) -> None:
+        self.max_size = max_size
+        self.buffer = list()
+
+    def add(self, value: Any) -> None:
+        if len(self.buffer) == self.max_size:
+            self.buffer.pop(0)
+        self.buffer.append(value)
+
+    def mode(self) -> Any:
+        return max(set(self.buffer), key=self.buffer.count)

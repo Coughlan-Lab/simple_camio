@@ -4,6 +4,9 @@ __pycache__
 # Build files
 build
 
+# Environment variables
+.env
+
 # pyinstaller folders
 dist
 output

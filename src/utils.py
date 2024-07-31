@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import sys
@@ -85,3 +86,16 @@ class Buffer:
         if len(self.buffer) == 0:
             return None
         return max(set(self.buffer), key=self.buffer.count)
+
+
+camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
+camio_parser.add_argument(
+    "--model",
+    help="Path to model json file.",
+    default="models/UkraineMap/UkraineMap.json",
+)
+camio_parser.add_argument(
+    "--out",
+    help="Path to chat save file.",
+    default="out/last_chat.txt",
+)

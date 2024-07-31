@@ -135,24 +135,11 @@ class CamIO:
 
 
 if __name__ == "__main__":
-    import argparse
-
     from dotenv import load_dotenv
 
     load_dotenv()
 
-    parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
-    parser.add_argument(
-        "--model",
-        help="Path to model json file.",
-        default="models/UkraineMap/UkraineMap.json",
-    )
-    parser.add_argument(
-        "--out",
-        help="Path to chat save file.",
-        default="out/last_chat.txt",
-    )
-    args = parser.parse_args()
+    args = camio_parser.parse_args()
 
     out_dir = os.path.dirname(args.out)
     if not os.path.exists(out_dir):

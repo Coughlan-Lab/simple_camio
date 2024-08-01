@@ -3,8 +3,10 @@ from typing import Any, Dict, Optional
 
 import cv2
 import keyboard
+import pyaudio
 import pyglet.media
 import pyttsx3
+import vosk
 
 from src.audio import AmbientSoundPlayer, CamIOPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
@@ -30,8 +32,13 @@ class CamIO:
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
         self.heartbeat_player.set_volume(0.05)
+        # TTS
         self.tts = pyttsx3.init(debug=True)
         self.tts.setProperty("rate", 200)
+
+        # STT
+        stt_model = vosk.Model(lang="en-us")
+        self.stt = vosk.KaldiRecognizer(stt_model, 16000)
 
         # LLM
         self.llm = LLM(self.graph)
@@ -131,13 +138,16 @@ class CamIO:
     def stop(self) -> None:
         self.running = False
 
+    def stop_tts(self) -> None:
+        self.tts.stop()
+
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
 
     def handle_user_input(self) -> None:
         self.stop_tts()
 
-        question = input("Enter a question: ").strip()
+        question = self.get_user_input()
         if question == "reset":
             self.llm.reset()
             print("LLM history reset")
@@ -154,8 +164,30 @@ class CamIO:
         self.tts.say(answer)
         self.tts.iterate()
 
-    def stop_tts(self) -> None:
-        self.tts.stop()
+    def get_user_input(self) -> str:
+
+        mic = pyaudio.PyAudio()
+        stream = mic.open(
+            format=pyaudio.paInt16,
+            channels=1,
+            rate=16000,
+            input=True,
+            frames_per_buffer=8192,
+        )
+        stream.start_stream()
+
+        user_input = ""
+        while True:
+            data = stream.read(8192)
+            if len(data) == 0:
+                break
+
+            if self.stt.AcceptWaveform(data):
+                result = self.stt.Result()
+                user_input += result
+                print(result)
+
+        return user_input
 
 
 if __name__ == "__main__":

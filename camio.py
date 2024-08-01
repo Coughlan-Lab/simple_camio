@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 import cv2
 import keyboard
 import pyglet.media
+import pyttsx3
 
 from src.audio import AmbientSoundPlayer, CamIOPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
@@ -29,6 +30,8 @@ class CamIO:
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
         self.heartbeat_player.set_volume(0.05)
+        self.tts = pyttsx3.init(debug=True)
+        self.tts.setProperty("rate", 200)
 
         # LLM
         self.llm = LLM(self.graph)
@@ -41,6 +44,7 @@ class CamIO:
 
         self.camio_player.play_welcome()
 
+        self.tts.startLoop(False)
         cam_port = select_cam_port()
         cap = cv2.VideoCapture(cam_port)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
@@ -52,6 +56,7 @@ class CamIO:
             return
 
         keyboard.add_hotkey("space", self.handle_user_input)
+        keyboard.add_hotkey("enter", self.stop_tts)
 
         timer = time.time() - 1
 
@@ -108,15 +113,19 @@ class CamIO:
                 and min_corner[1] <= y < max_corner[1]
             ):
                 self.buffer.add(Coords(x, y))
-                # nearest_edge = self.graph.get_nearest_edge(Coords(x, y))
                 # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
                 # print(f"Nearest edge: {self.graph.get_nearest_edge(self.buffer.average(start=Coords(0, 0)))}")
 
         cap.release()
         cv2.destroyAllWindows()
+
+        self.stop_tts()
+        self.tts.endLoop()
+
         self.heartbeat_player.pause_sound()
         self.crickets_player.pause_sound()
         self.camio_player.play_goodbye()
+
         time.sleep(1)
 
     def stop(self) -> None:
@@ -126,6 +135,8 @@ class CamIO:
         self.llm.save_chat(filename)
 
     def handle_user_input(self) -> None:
+        self.stop_tts()
+
         question = input("Enter a question: ").strip()
         if question == "reset":
             self.llm.reset()
@@ -138,8 +149,13 @@ class CamIO:
         if self.buffer.time_from_last_update < 1:
             position = self.buffer.average(start=Coords(0, 0))
 
-        asnwer = self.llm.ask(question, position)
-        print(f"Answer: {asnwer}")
+        answer = self.llm.ask(question, position)
+        print(f"Answer: {answer}")
+        self.tts.say(answer)
+        self.tts.iterate()
+
+    def stop_tts(self) -> None:
+        self.tts.stop()
 
 
 if __name__ == "__main__":

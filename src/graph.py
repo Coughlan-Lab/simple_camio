@@ -54,6 +54,7 @@ class Edge:
         self.node2 = node2
         self.length = length
         self.street = street_name
+        self.between_streets: List[str] = list()
 
     @property
     def id(self) -> str:
@@ -80,6 +81,14 @@ class Edge:
             or self.node2[0] <= coords[0] <= self.node1[0]
             or self.node1[1] <= coords[1] <= self.node2[1]
             or self.node2[1] <= coords[1] <= self.node1[1]
+        )
+
+    def is_adjacent(self, other: "Edge") -> bool:
+        return (
+            self.node1 == other.node1
+            or self.node1 == other.node2
+            or self.node2 == other.node1
+            or self.node2 == other.node2
         )
 
     def __getitem__(self, index: int) -> Node:
@@ -146,6 +155,17 @@ class Graph:
 
             self.edges.extend(street_edges)
             self.streets.append(Street(len(self.streets), street_name, street_edges))
+
+        for i, e1 in enumerate(self.edges):
+            for j in range(i + 1, len(self.edges)):
+                e2 = self.edges[j]
+
+                if e1.street == e2.street:
+                    continue
+
+                if e1.is_adjacent(e2):
+                    e1.between_streets.append(e2.street)
+                    e2.between_streets.append(e1.street)
 
     def get_nearest_edge(self, coords: Coords) -> Edge:
         return min(

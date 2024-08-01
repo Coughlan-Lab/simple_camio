@@ -1,3 +1,4 @@
+import math
 from typing import List, Optional
 
 from openai import OpenAI, OpenAIError
@@ -80,14 +81,19 @@ class PromptFormatter:
             distance_pixels_node2 = edge[1].distance_from(position)
 
             distance_m_node1 = distance_pixels_node1 * edge.length / edge_pixels
+            distance_m_node1 = math.floor(distance_m_node1)
             distance_m_node2 = distance_pixels_node2 * edge.length / edge_pixels
+            distance_m_node2 = math.floor(distance_m_node2)
+
+            between_streets = ", ".join(edge.between_streets)
 
             instructions = (
                 f"""My coordinates are {position}, """
                 f"""the closest point of the road network is edge {edge.id}, """
-                f"""which is part of {edge.street}. """
-                f"""I'm at a distance of {distance_m_node1} m from node {edge.node1} and {distance_m_node2} m from node {edge.node2}. """
-                """Continue answering my questions."""
+                f"""which is part of {edge.street}, between {between_streets}.\n"""
+                f"""I'm at a distance of {distance_m_node1} m from node {edge.node1.id} and {distance_m_node2} m from node {edge.node2.id}.\n"""
+                """Continue answering my questions with the updated position\n"""
+                """Remembet to not mention the underlying graph or the cartesian plane in your answers."""
             )
 
             question = f"{instructions}\n\n{question}"

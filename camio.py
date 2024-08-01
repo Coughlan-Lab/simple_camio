@@ -17,7 +17,6 @@ from src.utils import *
 
 class CamIO:
     def __init__(self, model: Dict[str, Any]) -> None:
-        self.model = model
 
         # Model graph
         self.graph = Graph(model["graph"])
@@ -32,9 +31,17 @@ class CamIO:
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
         self.heartbeat_player.set_volume(0.05)
+
         # TTS
-        self.tts = pyttsx3.init(debug=True)
+        self.tts = pyttsx3.init()
         self.tts.setProperty("rate", 200)
+        voices = self.tts.getProperty("voices")
+        for voice in voices:
+            print(voice.name, voice.id)
+            if "English" in voice.name and not "Zira" in voice.name:
+                print("Selected voice:", voice.name)
+                self.tts.setProperty("voice", voice.id)
+                break
 
         # STT
         stt_model = vosk.Model(lang="en-us")
@@ -44,6 +51,7 @@ class CamIO:
         self.llm = LLM(self.graph)
 
         self.running = False
+        self.listening = False
 
     def main_loop(self) -> None:
         min_corner, max_corner = self.graph.bounds
@@ -52,7 +60,7 @@ class CamIO:
         self.camio_player.play_welcome()
 
         self.tts.startLoop(False)
-        cam_port = select_cam_port()
+        cam_port = 0  # select_cam_port()
         cap = cv2.VideoCapture(cam_port)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
@@ -63,7 +71,7 @@ class CamIO:
             return
 
         keyboard.add_hotkey("space", self.handle_user_input)
-        keyboard.add_hotkey("enter", self.stop_tts)
+        keyboard.add_hotkey("enter", self.stop_interaction)
 
         timer = time.time() - 1
 
@@ -126,7 +134,7 @@ class CamIO:
         cap.release()
         cv2.destroyAllWindows()
 
-        self.stop_tts()
+        self.stop_interaction()
         self.tts.endLoop()
 
         self.heartbeat_player.pause_sound()
@@ -137,22 +145,28 @@ class CamIO:
 
     def stop(self) -> None:
         self.running = False
+        self.listening = False
 
-    def stop_tts(self) -> None:
-        self.tts.stop()
+    def stop_interaction(self) -> None:
+        if self.listening or self.tts.isBusy():
+            self.tts.stop()
+            self.listening = False
 
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
 
     def handle_user_input(self) -> None:
-        self.stop_tts()
-
-        question = self.get_user_input()
-        if question == "reset":
-            self.llm.reset()
-            print("LLM history reset")
+        if self.listening:
             return
+        self.stop_interaction()
 
+        self.listening = True
+        question = self.get_user_input()
+        self.listening = False
+
+        if question is None:
+            print("No question detected.")
+            return
         print(f"Question: {question}")
 
         position: Optional[Coords] = None
@@ -160,12 +174,12 @@ class CamIO:
             position = self.buffer.average(start=Coords(0, 0))
 
         answer = self.llm.ask(question, position)
-        print(f"Answer: {answer}")
-        self.tts.say(answer)
-        self.tts.iterate()
+        if not self.listening:
+            print(f"Answer: {answer}")
+            self.tts.say(answer)
+            self.tts.iterate()
 
-    def get_user_input(self) -> str:
-
+    def get_user_input(self) -> Optional[str]:
         mic = pyaudio.PyAudio()
         stream = mic.open(
             format=pyaudio.paInt16,
@@ -176,17 +190,23 @@ class CamIO:
         )
         stream.start_stream()
 
-        user_input = ""
-        while True:
+        print("Listening...")
+
+        user_input = None
+        while self.listening and user_input is None:
             data = stream.read(8192)
             if len(data) == 0:
-                break
+                continue
 
             if self.stt.AcceptWaveform(data):
                 result = self.stt.Result()
-                user_input += result
-                print(result)
+                user_input = result[14:-3]
 
+        stream.stop_stream()
+        mic.terminate()
+
+        if not self.listening:
+            return None
         return user_input
 
 

@@ -2,39 +2,38 @@ from typing import Any, Dict
 
 import pyglet
 import pyglet.media
+import pyttsx3
 
 
-class CamIOPlayer:
-    def __init__(self, model: Dict[str, Any]) -> None:
-        self.model = model
-        self.player = pyglet.media.Player()
+class TTS:
+    def __init__(self, model: Dict[str, Any], rate: int) -> None:
+        self.engine = pyttsx3.init()
+        self.engine.setProperty("rate", rate)
 
-        self.blip_sound = pyglet.media.load(self.model["blipsound"], streaming=False)
-        self.enable_blips = False
+        self.map_description = model.get("map_description", None)
 
-        if "map_description" in self.model:
-            self.map_description = pyglet.media.load(
-                self.model["map_description"], streaming=False
-            )
-        else:
-            self.map_description = None
+    def start(self) -> None:
+        self.engine.startLoop(False)
 
-        self.welcome_message = pyglet.media.load(
-            self.model["welcome_message"], streaming=False
-        )
-        self.goodbye_message = pyglet.media.load(
-            self.model["goodbye_message"], streaming=False
-        )
+    def stop(self) -> None:
+        self.engine.endLoop()
 
-    def play_description(self) -> None:
-        if self.map_description is not None:
-            self.player = self.map_description.play()
+    def stop_speaking(self) -> None:
+        self.engine.stop()
 
-    def play_welcome(self) -> None:
-        self.welcome_message.play()
+    def say(self, text: str) -> None:
+        self.engine.say(text)
+        self.engine.iterate()
 
-    def play_goodbye(self) -> None:
-        self.goodbye_message.play()
+    def welcome(self) -> None:
+        self.say("Welcome to CamIO!")
+
+    def description(self) -> None:
+        if self.description is not None:
+            self.say(self.map_description)
+
+    def goodbye(self) -> None:
+        self.say("Goodbye!")
 
 
 class AmbientSoundPlayer:

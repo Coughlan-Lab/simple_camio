@@ -22,5 +22,8 @@ out
 simple_camio
 simple_calibration
 
+# Models
+model
+
 *.spec
 .DS_STORE

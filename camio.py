@@ -1,14 +1,14 @@
+import os
+import sys
 import time
 from typing import Any, Dict, Optional
 
 import cv2
 import keyboard
-import pyaudio
 import pyglet.media
-import pyttsx3
-import vosk
+import speech_recognition as sr
 
-from src.audio import AmbientSoundPlayer, CamIOPlayer
+from src.audio import TTS, AmbientSoundPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph
 from src.llm import LLM
@@ -27,25 +27,12 @@ class CamIO:
         self.pose_detector = PoseDetector()
 
         # Audio players
-        self.camio_player = CamIOPlayer(model)
+        self.tts = TTS(model, rate=200)
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
         self.heartbeat_player.set_volume(0.05)
 
-        # TTS
-        self.tts = pyttsx3.init()
-        self.tts.setProperty("rate", 200)
-        voices = self.tts.getProperty("voices")
-        for voice in voices:
-            print(voice.name, voice.id)
-            if "English" in voice.name and not "Zira" in voice.name:
-                print("Selected voice:", voice.name)
-                self.tts.setProperty("voice", voice.id)
-                break
-
-        # STT
-        stt_model = vosk.Model(lang="en-us")
-        self.stt = vosk.KaldiRecognizer(stt_model, 16000)
+        self.stt = sr.Recognizer()
 
         # LLM
         self.llm = LLM(self.graph)
@@ -57,10 +44,7 @@ class CamIO:
         min_corner, max_corner = self.graph.bounds
         self.buffer.clear()
 
-        self.camio_player.play_welcome()
-
-        self.tts.startLoop(False)
-        cam_port = 0  # select_cam_port()
+        cam_port = 1  # select_cam_port()
         cap = cv2.VideoCapture(cam_port)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
@@ -70,12 +54,18 @@ class CamIO:
             print("No camera image returned.")
             return
 
+        with sr.Microphone() as source:
+            self.stt.adjust_for_ambient_noise(source)
+            self.stt.recognize_vosk(sr.AudioData(b"", 16000, 2))
+        self.tts.startLoop(False)
+
         keyboard.add_hotkey("space", self.handle_user_input)
         keyboard.add_hotkey("enter", self.stop_interaction)
 
         timer = time.time() - 1
 
-        self.camio_player.play_description()
+        self.tts.welcome()
+        self.tts.description()
 
         self.running = True
         while self.running and cap.isOpened():
@@ -135,22 +125,20 @@ class CamIO:
         cv2.destroyAllWindows()
 
         self.stop_interaction()
-        self.tts.endLoop()
+        self.tts.goodbye()
+        time.sleep(1)
 
         self.heartbeat_player.pause_sound()
         self.crickets_player.pause_sound()
-        self.camio_player.play_goodbye()
-
-        time.sleep(1)
+        self.tts.stop()
 
     def stop(self) -> None:
         self.running = False
         self.listening = False
 
     def stop_interaction(self) -> None:
-        if self.listening or self.tts.isBusy():
-            self.tts.stop()
-            self.listening = False
+        self.tts.stop_speaking()
+        self.listening = False
 
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
@@ -174,40 +162,21 @@ class CamIO:
             position = self.buffer.average(start=Coords(0, 0))
 
         answer = self.llm.ask(question, position)
-        if not self.listening:
+        if not self.listening and answer is not None:
             print(f"Answer: {answer}")
             self.tts.say(answer)
-            self.tts.iterate()
 
     def get_user_input(self) -> Optional[str]:
-        mic = pyaudio.PyAudio()
-        stream = mic.open(
-            format=pyaudio.paInt16,
-            channels=1,
-            rate=16000,
-            input=True,
-            frames_per_buffer=8192,
-        )
-        stream.start_stream()
-
         print("Listening...")
 
-        user_input = None
-        while self.listening and user_input is None:
-            data = stream.read(8192)
-            if len(data) == 0:
-                continue
+        with sr.Microphone() as source:
+            audio = self.stt.listen(source, timeout=5, phrase_time_limit=7)
 
-            if self.stt.AcceptWaveform(data):
-                result = self.stt.Result()
-                user_input = result[14:-3]
-
-        stream.stop_stream()
-        mic.terminate()
-
-        if not self.listening:
+        try:
+            result = self.stt.recognize_vosk(audio)
+            return str(result)[14:-3]
+        except Exception:
             return None
-        return user_input
 
 
 if __name__ == "__main__":

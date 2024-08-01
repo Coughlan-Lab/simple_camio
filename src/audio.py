@@ -1,8 +1,9 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import pyglet
 import pyglet.media
 import pyttsx3
+import speech_recognition as sr
 
 
 class TTS:
@@ -34,6 +35,39 @@ class TTS:
 
     def goodbye(self) -> None:
         self.say("Goodbye!")
+
+
+class STT:
+    TIMEOUT = 5
+    PHRASE_TIME_LIMIT = 7
+
+    def __init__(
+        self, timeout: int = TIMEOUT, phrase_time_limit: int = PHRASE_TIME_LIMIT
+    ) -> None:
+        self.recognizer = sr.Recognizer()
+        self.timeout = timeout
+        self.phrase_time_limit = phrase_time_limit
+
+    def calibrate(self) -> None:
+        with sr.Microphone() as source:
+            self.recognizer.adjust_for_ambient_noise(source)
+            # Vosk model preload
+            self.get_from_audio(sr.AudioData(b"", 16000, 2))
+
+    def get_input(self) -> Optional[str]:
+        with sr.Microphone() as source:
+            audio = self.recognizer.listen(
+                source, timeout=self.timeout, phrase_time_limit=self.phrase_time_limit
+            )
+
+        return self.get_from_audio(audio)
+
+    def get_from_audio(self, audio: sr.AudioData) -> Optional[str]:
+        try:
+            result = self.recognizer.recognize_vosk(audio)
+            return str(result)[14:-3]
+        except Exception:
+            return None
 
 
 class AmbientSoundPlayer:

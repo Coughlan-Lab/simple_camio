@@ -8,7 +8,7 @@ import keyboard
 import pyglet.media
 import speech_recognition as sr
 
-from src.audio import TTS, AmbientSoundPlayer
+from src.audio import STT, TTS, AmbientSoundPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph
 from src.llm import LLM
@@ -32,7 +32,7 @@ class CamIO:
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
         self.heartbeat_player.set_volume(0.05)
 
-        self.stt = sr.Recognizer()
+        self.stt = STT()
 
         # LLM
         self.llm = LLM(self.graph)
@@ -54,10 +54,8 @@ class CamIO:
             print("No camera image returned.")
             return
 
-        with sr.Microphone() as source:
-            self.stt.adjust_for_ambient_noise(source)
-            self.stt.recognize_vosk(sr.AudioData(b"", 16000, 2))
-        self.tts.startLoop(False)
+        self.stt.calibrate()
+        self.tts.start()
 
         keyboard.add_hotkey("space", self.handle_user_input)
         keyboard.add_hotkey("enter", self.stop_interaction)
@@ -149,7 +147,7 @@ class CamIO:
         self.stop_interaction()
 
         self.listening = True
-        question = self.get_user_input()
+        question = self.stt.get_input()
         self.listening = False
 
         if question is None:
@@ -165,18 +163,6 @@ class CamIO:
         if not self.listening and answer is not None:
             print(f"Answer: {answer}")
             self.tts.say(answer)
-
-    def get_user_input(self) -> Optional[str]:
-        print("Listening...")
-
-        with sr.Microphone() as source:
-            audio = self.stt.listen(source, timeout=5, phrase_time_limit=7)
-
-        try:
-            result = self.stt.recognize_vosk(audio)
-            return str(result)[14:-3]
-        except Exception:
-            return None
 
 
 if __name__ == "__main__":

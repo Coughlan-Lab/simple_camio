@@ -1,9 +1,8 @@
 import argparse
 import json
 import os
-import sys
 import time
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import cv2
 
@@ -58,25 +57,20 @@ def list_ports() -> Tuple[List[int], List[Tuple[int, int, int]], List[int]]:
     return available_ports, working_ports, non_working_ports
 
 
-def load_map_parameters(filename: str) -> Dict[str, Any]:
+def load_map_parameters(filename: str) -> Optional[Dict[str, Any]]:
     if os.path.isfile(filename):
         with open(filename, "r") as f:
             map_params = json.load(f)
             print("loaded map parameters from file.")
     else:
-        print("No map parameters file found at " + filename)
-        print("Usage: simple_camio.exe --input1 <filename>")
-        print(" ")
-        print("Press any key to exit.")
-        _ = sys.stdin.read(1)
-        exit(0)
-    return dict(map_params["model"])
+        return None
+    return dict(map_params)
 
 
 class Buffer:
     def __init__(self, max_size: int) -> None:
         self.max_size = max_size
-        self.buffer = list()
+        self.buffer: List[Any] = list()
         self.time_last_update = time.time()
 
     @property
@@ -114,7 +108,7 @@ camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration"
 camio_parser.add_argument(
     "--model",
     help="Path to model json file.",
-    default="models/UkraineMap/UkraineMap.json",
+    default="models/new_york/new_york.json",
 )
 camio_parser.add_argument(
     "--out",

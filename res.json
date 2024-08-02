@@ -1,0 +1,7 @@
+{
+    "welcome": "Welcome to CamIO!",
+    "error": "An error occurred in obtaining a response. Please try again.",
+    "no_description": "No description available.",
+    "goodbye": "Goodbye!",
+    "instructions": "Use your index finger to explore the map and ask the system questions by pressing the space bar. After pressing the space bar, ask your questions aloud. You can stop the response at any time by pressing Enter. Press \"d\" to listen to a description of the map. Exit by pressing the Escape key."
+}

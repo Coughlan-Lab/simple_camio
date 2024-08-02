@@ -1,4 +1,6 @@
-from typing import Any, Dict, Optional
+import json
+import os
+from typing import Optional
 
 import pyglet
 import pyglet.media
@@ -7,11 +9,15 @@ import speech_recognition as sr
 
 
 class TTS:
-    def __init__(self, model: Dict[str, Any], rate: int) -> None:
+    def __init__(self, res_file: str, rate: int) -> None:
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
 
-        self.map_description = model.get("map_description", None)
+        if not os.path.exists(res_file):
+            raise FileNotFoundError("Resource file not found.")
+
+        with open(res_file, "r") as f:
+            self.res = json.load(f)
 
     def start(self) -> None:
         self.engine.startLoop(False)
@@ -30,17 +36,19 @@ class TTS:
         self.engine.iterate()
 
     def welcome(self) -> None:
-        self.say("Welcome to CamIO!")
+        self.say(self.res["welcome"])
 
-    def description(self) -> None:
-        if self.description is not None:
-            self.say(self.map_description)
+    def instructions(self) -> None:
+        self.say(self.res["instructions"])
 
     def goodbye(self) -> None:
-        self.say("Goodbye!")
+        self.say(self.res["goodbye"])
 
     def error(self) -> None:
-        self.say("An error occurred in obtaining a response. Please try again.")
+        self.say(self.res["error"])
+
+    def no_description(self) -> None:
+        self.say(self.res["no_description"])
 
 
 class STT:

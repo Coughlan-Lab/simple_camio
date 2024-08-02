@@ -16,7 +16,10 @@ from src.utils import *
 
 
 class CamIO:
+    RES_FILE = "res.json"
+
     def __init__(self, model: Dict[str, Any]) -> None:
+        self.description = model["context"].get("description", None)
 
         # Model graph
         self.graph = Graph(model["graph"])
@@ -27,7 +30,7 @@ class CamIO:
         self.pose_detector = PoseDetector()
 
         # Audio players
-        self.tts = TTS(model, rate=200)
+        self.tts = TTS(CamIO.RES_FILE, rate=200)
         self.stt = STT()
 
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
@@ -54,7 +57,9 @@ class CamIO:
         self.init_shortcuts()
 
         self.tts.welcome()
-        self.tts.description()
+        self.tts.instructions()
+        if self.description is not None:
+            self.tts.say(f"Map description:\n {self.description}")
 
         self.running = True
         last_edge: Optional[Edge] = None
@@ -116,7 +121,7 @@ class CamIO:
                     last_edge = edge
                     self.tts.say(edge.street)
 
-        keyboard.remove_all_hotkeys()
+        keyboard.unhook_all()
         cap.release()
         cv2.destroyAllWindows()
         self.finger_buffer.clear()
@@ -139,6 +144,13 @@ class CamIO:
         keyboard.add_hotkey("space", self.handle_user_input)
         keyboard.add_hotkey("enter", self.tts.stop_speaking)
         keyboard.add_hotkey("esc", self.stop)
+        keyboard.on_press_key(ord("d"), self.say_map_description)
+
+    def say_map_description(self) -> None:
+        if self.description is not None:
+            self.tts.say(self.description)
+        else:
+            self.tts.no_description()
 
     def get_capture(self) -> cv2.VideoCapture:
         cam_port = 1  # select_cam_port()
@@ -155,6 +167,7 @@ class CamIO:
             return
         self.tts.stop_speaking()
 
+        print("Listening...")
         question = self.stt.get_input()
 
         if question is None:
@@ -189,6 +202,9 @@ if __name__ == "__main__":
         sys.exit(0)
 
     model = load_map_parameters(args.model)
+    if model is None:
+        print(f"Model file {args.model} not found.")
+        sys.exit(0)
 
     camio = CamIO(model)
 

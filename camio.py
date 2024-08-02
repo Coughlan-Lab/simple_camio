@@ -6,7 +6,6 @@ from typing import Any, Dict, Optional
 import cv2
 import keyboard
 import pyglet.media
-import speech_recognition as sr
 
 from src.audio import STT, TTS, AmbientSoundPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
@@ -17,6 +16,7 @@ from src.utils import *
 
 class CamIO:
     RES_FILE = "res.json"
+    EDGE_DISTANCE_THRESHOLD = 40
 
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
@@ -38,7 +38,7 @@ class CamIO:
         self.heartbeat_player.set_volume(0.05)
 
         # LLM
-        self.llm = LLM(self.graph)
+        self.llm = LLM(self.graph, model["context"])
 
         self.running = False
 
@@ -115,8 +115,8 @@ class CamIO:
 
                 if (
                     edge != last_edge
-                    and not self.tts.is_speaking()
-                    and edge.distance_from(pos) < 40
+                    and not self.is_busy()
+                    and edge.distance_from(pos) < CamIO.EDGE_DISTANCE_THRESHOLD
                 ):
                     last_edge = edge
                     self.tts.say(edge.street)
@@ -142,11 +142,16 @@ class CamIO:
 
     def init_shortcuts(self) -> None:
         keyboard.add_hotkey("space", self.handle_user_input)
-        keyboard.add_hotkey("enter", self.tts.stop_speaking)
+        keyboard.add_hotkey("enter", self.stop_interaction)
         keyboard.add_hotkey("esc", self.stop)
         keyboard.on_press_key(ord("d"), self.say_map_description)
 
+    def stop_interaction(self) -> None:
+        self.tts.stop_speaking()
+        self.stt.stop_listening()
+
     def say_map_description(self) -> None:
+        self.stop_interaction()
         if self.description is not None:
             self.tts.say(self.description)
         else:
@@ -161,6 +166,13 @@ class CamIO:
         cap.set(cv2.CAP_PROP_FOCUS, 0)
 
         return cap
+
+    def is_busy(self) -> bool:
+        return (
+            self.tts.is_speaking()
+            or self.stt.is_listening()
+            or self.llm.is_waiting_for_response()
+        )
 
     def handle_user_input(self) -> None:
         if self.stt.is_listening():

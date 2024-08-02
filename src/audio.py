@@ -67,6 +67,9 @@ class STT:
     def is_listening(self) -> bool:
         return self.listening
 
+    def stop_listening(self) -> None:
+        self.listening = False
+
     def calibrate(self) -> None:
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source)
@@ -84,11 +87,16 @@ class STT:
                     phrase_time_limit=self.phrase_time_limit,
                 )
         except Exception:
+            self.listening = False
             return None
 
         input = self.get_from_audio(audio)
 
+        if not self.listening:
+            return None
+
         self.listening = False
+
         return input
 
     def get_from_audio(self, audio: sr.AudioData) -> Optional[str]:

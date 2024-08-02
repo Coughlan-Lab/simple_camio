@@ -131,7 +131,7 @@ class Street:
         return self.id
 
     def __eq__(self, other: Any) -> bool:
-        return self.index == other.index
+        return bool(self.index == other.index)
 
 
 class Graph:

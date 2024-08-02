@@ -95,7 +95,7 @@ class PromptFormatter:
             distance_m_node2 = distance_pixels_node2 * edge.length / edge_pixels
             distance_m_node2 = math.floor(distance_m_node2)
 
-            between_streets = ", ".join(edge.between_streets)
+            between_streets = ", ".join(set(edge.between_streets))
 
             instructions = (
                 f"""My coordinates are {position}, """
@@ -103,7 +103,7 @@ class PromptFormatter:
                 f"""which is part of {edge.street}, between {between_streets}.\n"""
                 f"""I'm at a distance of {distance_m_node1} m from node {edge.node1.id} and {distance_m_node2} m from node {edge.node2.id}.\n"""
                 """Continue answering my questions with the updated position\n"""
-                """Remembet to not mention the underlying graph or the cartesian plane in your answers."""
+                """Remembet to not mention the underlying graph, its nodes and streets and the cartesian plane in your answer."""
             )
 
             question = f"{instructions}\n\n{question}"
@@ -161,8 +161,8 @@ class PromptFormatter:
         prompt += (
             """I will now ask questions about the points of interest or the road network.\n"""
             """Answer without mentioning in your response the underlying graph and the cartesian plane; only use the provided information.\n"""
-            """Give me a direct and precise answer and keep it as short as possible. Be objective.\n"""
-            """Consider that I'm blind and I can't see the environment around me."""
+            """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
+            """Consider that I'm blind and I can't see the road network."""
         )
 
         return ChatCompletionSystemMessageParam(

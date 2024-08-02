@@ -61,8 +61,8 @@ class CamIO:
         edge_buffer = Buffer(5)
         while self.running and cap.isOpened():
 
-            cv2.imshow("CamIO", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            cv2.waitKey(1)  # Necessary for window to show
+            cv2.imshow("CamIO", frame)
+            cv2.waitKey(1)  # Necessary for the window to show
 
             ret, frame = cap.read()
             if not ret:
@@ -102,6 +102,7 @@ class CamIO:
             ):
                 self.finger_buffer.add(Coords(x, y))
                 pos = self.finger_buffer.average(Coords(0, 0))
+                # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
 
                 edge = self.graph.get_nearest_edge(pos)
                 edge_buffer.add(edge)
@@ -114,9 +115,6 @@ class CamIO:
                 ):
                     last_edge = edge
                     self.tts.say(edge.street)
-
-                # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
-                # print(f"Nearest edge: {self.graph.get_nearest_edge(self.buffer.average(start=Coords(0, 0)))}")
 
         keyboard.remove_all_hotkeys()
         cap.release()

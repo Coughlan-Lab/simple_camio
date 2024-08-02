@@ -81,14 +81,15 @@ class PoseDetector:
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
     ) -> Tuple[Optional[npt.NDArray[np.float32]], Optional[str], npt.NDArray[np.uint8]]:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        img.flags.writeable = False
+        results = self.hands.process(img)
         img.flags.writeable = True
 
-        results = self.hands.process(img)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
         if not results.multi_hand_landmarks or len(results.multi_hand_landmarks) == 0:
             return None, None, img
-
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
         ratios = [self.pointing_ratio(hand) for hand in results.multi_hand_landmarks]
         pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])

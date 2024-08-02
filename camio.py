@@ -144,13 +144,13 @@ class CamIO:
         keyboard.add_hotkey("space", self.handle_user_input)
         keyboard.add_hotkey("enter", self.stop_interaction)
         keyboard.add_hotkey("esc", self.stop)
-        keyboard.on_press_key(ord("d"), self.say_map_description)
+        keyboard.on_press_key("cmd", self.say_map_description)
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
         self.stt.stop_listening()
 
-    def say_map_description(self) -> None:
+    def say_map_description(self, _: Any) -> None:
         self.stop_interaction()
         if self.description is not None:
             self.tts.say(self.description)

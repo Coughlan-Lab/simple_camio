@@ -28,11 +28,11 @@ class CamIO:
 
         # Audio players
         self.tts = TTS(model, rate=200)
+        self.stt = STT()
+
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
         self.heartbeat_player.set_volume(0.05)
-
-        self.stt = STT()
 
         # LLM
         self.llm = LLM(self.graph)
@@ -42,13 +42,8 @@ class CamIO:
 
     def main_loop(self) -> None:
         min_corner, max_corner = self.graph.bounds
-        self.buffer.clear()
 
-        cam_port = 1  # select_cam_port()
-        cap = cv2.VideoCapture(cam_port)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        cap.set(cv2.CAP_PROP_FOCUS, 0)
+        cap = self.get_capture()
         ok, frame = cap.read()
         if not ok:
             print("No camera image returned.")
@@ -57,10 +52,7 @@ class CamIO:
         self.stt.calibrate()
         self.tts.start()
 
-        keyboard.add_hotkey("space", self.handle_user_input)
-        keyboard.add_hotkey("enter", self.stop_interaction)
-
-        timer = time.time() - 1
+        self.init_shortcuts()
 
         self.tts.welcome()
         self.tts.description()
@@ -69,21 +61,13 @@ class CamIO:
         while self.running and cap.isOpened():
 
             cv2.imshow("CamIO", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            waitkey = cv2.waitKey(1)
 
             ret, frame = cap.read()
             if not ret:
                 print("No camera image returned.")
                 break
             frame = frame.copy()
-
-            waitkey = cv2.waitKey(1)
-            if waitkey == 27 or waitkey == ord("q"):
-                break
-
-            # prev_time = timer
-            # timer = time.time()
-            # elapsed_time = timer - prev_time
-            # print("current fps: " + str(1/elapsed_time))
 
             pyglet.clock.tick()
             pyglet.app.platform_event_loop.dispatch_posted_events()
@@ -119,8 +103,10 @@ class CamIO:
                 # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
                 # print(f"Nearest edge: {self.graph.get_nearest_edge(self.buffer.average(start=Coords(0, 0)))}")
 
+        keyboard.remove_all_hotkeys()
         cap.release()
         cv2.destroyAllWindows()
+        self.buffer.clear()
 
         self.stop_interaction()
         self.tts.goodbye()
@@ -132,7 +118,6 @@ class CamIO:
 
     def stop(self) -> None:
         self.running = False
-        self.listening = False
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
@@ -141,14 +126,27 @@ class CamIO:
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
 
+    def init_shortcuts(self) -> None:
+        keyboard.add_hotkey("space", self.handle_user_input)
+        keyboard.add_hotkey("enter", self.stop_interaction)
+        keyboard.add_hotkey("esc", self.stop)
+
+    def get_capture(self) -> cv2.VideoCapture:
+        cam_port = 1  # select_cam_port()
+
+        cap = cv2.VideoCapture(cam_port)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        cap.set(cv2.CAP_PROP_FOCUS, 0)
+
+        return cap
+
     def handle_user_input(self) -> None:
-        if self.listening:
+        if self.stt.is_listening():
             return
         self.stop_interaction()
 
-        self.listening = True
         question = self.stt.get_input()
-        self.listening = False
 
         if question is None:
             print("No question detected.")
@@ -160,9 +158,13 @@ class CamIO:
             position = self.buffer.average(start=Coords(0, 0))
 
         answer = self.llm.ask(question, position)
-        if not self.listening and answer is not None:
-            print(f"Answer: {answer}")
-            self.tts.say(answer)
+        if not self.stt.listening:
+            if answer is None:
+                print("No answer received.")
+                self.tts.error()
+            else:
+                print(f"Answer: {answer}")
+                self.tts.say(answer)
 
 
 if __name__ == "__main__":

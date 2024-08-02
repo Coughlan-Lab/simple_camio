@@ -36,6 +36,9 @@ class TTS:
     def goodbye(self) -> None:
         self.say("Goodbye!")
 
+    def error(self) -> None:
+        self.say("An error occurred in obtaining a response. Please try again.")
+
 
 class STT:
     TIMEOUT = 5
@@ -48,6 +51,11 @@ class STT:
         self.timeout = timeout
         self.phrase_time_limit = phrase_time_limit
 
+        self.listening = False
+
+    def is_listening(self) -> bool:
+        return self.listening
+
     def calibrate(self) -> None:
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source)
@@ -55,12 +63,17 @@ class STT:
             self.get_from_audio(sr.AudioData(b"", 16000, 2))
 
     def get_input(self) -> Optional[str]:
+        self.listening = True
+
         with sr.Microphone() as source:
             audio = self.recognizer.listen(
                 source, timeout=self.timeout, phrase_time_limit=self.phrase_time_limit
             )
 
-        return self.get_from_audio(audio)
+        input = self.get_from_audio(audio)
+
+        self.listening = False
+        return input
 
     def get_from_audio(self, audio: sr.AudioData) -> Optional[str]:
         try:

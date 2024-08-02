@@ -1,5 +1,5 @@
 import math
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from openai import OpenAI, OpenAIError
 from openai.types.chat import (ChatCompletionAssistantMessageParam,
@@ -17,6 +17,7 @@ class LLM:
     def __init__(
         self,
         graph: Graph,
+        context: Dict[str, str],
         max_tokens: int = MAX_TOKENS,
         temperature: float = TEMPERATURE,
     ) -> None:
@@ -27,7 +28,12 @@ class LLM:
         self.prompt_formatter = PromptFormatter(graph)
 
         self.history: List[ChatCompletionMessageParam] = list()
-        self.history.append(self.prompt_formatter.get_main_prompt())
+        self.history.append(self.prompt_formatter.get_main_prompt(context))
+
+        self.waiting_for_response = False
+
+    def is_waiting_for_response(self) -> bool:
+        return self.waiting_for_response
 
     def reset(self) -> None:
         self.history.clear()
@@ -37,6 +43,7 @@ class LLM:
         self.history.append(new_message)
 
         try:
+            self.waiting_for_response = True
             response = self.client.chat.completions.create(
                 model="gpt-4o-2024-05-13",
                 max_tokens=self.max_tokens,
@@ -45,6 +52,7 @@ class LLM:
             )
         except OpenAIError as e:
             print(f"An error occurred: {e}")
+            self.waiting_for_response = False
             return None
 
         response_message = response.choices[0].message
@@ -53,6 +61,8 @@ class LLM:
                 content=response_message.content, role="assistant"
             )
         )
+
+        self.waiting_for_response = False
 
         return response_message.content
 
@@ -100,7 +110,9 @@ class PromptFormatter:
 
         return ChatCompletionUserMessageParam(content=question, role="user")
 
-    def get_main_prompt(self) -> ChatCompletionSystemMessageParam:
+    def get_main_prompt(
+        self, context: Dict[str, str]
+    ) -> ChatCompletionSystemMessageParam:
         prompt = ""
 
         prompt += "Consider the following points on a cartesian plane at the associated coordinates:\n"
@@ -117,7 +129,7 @@ class PromptFormatter:
         prompt += (
             f"""North is indicated by the vector {self.graph.reference_system['north']}, """
             f"""South by {self.graph.reference_system['south']}, """
-            f""" West by {self.graph.reference_system['west']}, and """
+            f"""West by {self.graph.reference_system['west']}, and """
             f"""East by {self.graph.reference_system['east']}\n\n"""
         )
 
@@ -142,6 +154,11 @@ class PromptFormatter:
         prompt += self.graph.poi_prompt() + "\n\n"
 
         prompt += (
+            """These are addictional information about the context of the road network:\n"""
+            f"""{self.get_pretty_dict(context)}\n\n"""
+        )
+
+        prompt += (
             """I will now ask questions about the points of interest or the road network.\n"""
             """Answer without mentioning in your response the underlying graph and the cartesian plane; only use the provided information.\n"""
             """Give me a direct and precise answer and keep it as short as possible. Be objective.\n"""
@@ -152,3 +169,22 @@ class PromptFormatter:
             content=prompt,
             role="system",
         )
+
+    def get_pretty_dict(self, d: Dict[Any, Any], indent: int = 4) -> str:
+        res = ""
+
+        for key, value in d.items():
+            res += " " * indent + str(key) + ": "
+            if isinstance(value, dict):
+                res += "\n" + self.get_pretty_dict(value, indent + 4)
+            elif isinstance(value, list):
+                res += "[\n"
+                for item in value:
+                    res += " " * (indent + 4) + str(item) + ",\n"
+                if len(value) > 0:
+                    res = res[:-2] + "\n"
+                res += " " * indent + "]\n"
+            else:
+                res += str(value) + "\n"
+
+        return res

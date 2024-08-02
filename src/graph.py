@@ -21,6 +21,9 @@ class Coords:
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"
 
+    def __repr__(self) -> str:
+        return str(self)
+
 
 class Node:
     def __init__(self, index: int, coords: Coords) -> None:
@@ -42,7 +45,12 @@ class Node:
     def __str__(self) -> str:
         return f"{self.id}: {self.coords}"
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Node):
+            return False
         return self.index == other.index
 
 
@@ -97,7 +105,12 @@ class Edge:
     def __str__(self) -> str:
         return f"{self.id} ({self.length} m)"
 
+    def __repr__(self) -> str:
+        return str(self)
+
     def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Edge):
+            return False
         return self.node1 == other.node1 and self.node2 == other.node2
 
     def __hash__(self) -> int:

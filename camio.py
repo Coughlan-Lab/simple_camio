@@ -10,7 +10,7 @@ import speech_recognition as sr
 
 from src.audio import STT, TTS, AmbientSoundPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
-from src.graph import Coords, Graph
+from src.graph import Coords, Edge, Graph
 from src.llm import LLM
 from src.utils import *
 
@@ -20,7 +20,7 @@ class CamIO:
 
         # Model graph
         self.graph = Graph(model["graph"])
-        self.buffer = Buffer(5)
+        self.finger_buffer = Buffer(5)
 
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
@@ -38,7 +38,6 @@ class CamIO:
         self.llm = LLM(self.graph)
 
         self.running = False
-        self.listening = False
 
     def main_loop(self) -> None:
         min_corner, max_corner = self.graph.bounds
@@ -58,10 +57,12 @@ class CamIO:
         self.tts.description()
 
         self.running = True
+        last_edge: Optional[Edge] = None
+        edge_buffer = Buffer(5)
         while self.running and cap.isOpened():
 
             cv2.imshow("CamIO", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            waitkey = cv2.waitKey(1)
+            cv2.waitKey(1)  # Necessary for window to show
 
             ret, frame = cap.read()
             if not ret:
@@ -99,16 +100,30 @@ class CamIO:
                 min_corner[0] <= x < max_corner[0]
                 and min_corner[1] <= y < max_corner[1]
             ):
-                self.buffer.add(Coords(x, y))
+                self.finger_buffer.add(Coords(x, y))
+                pos = self.finger_buffer.average(Coords(0, 0))
+
+                edge = self.graph.get_nearest_edge(pos)
+                edge_buffer.add(edge)
+                edge = edge_buffer.mode()
+
+                if (
+                    edge != last_edge
+                    and not self.tts.is_speaking()
+                    and edge.distance_from(pos) < 40
+                ):
+                    last_edge = edge
+                    self.tts.say(edge.street)
+
                 # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
                 # print(f"Nearest edge: {self.graph.get_nearest_edge(self.buffer.average(start=Coords(0, 0)))}")
 
         keyboard.remove_all_hotkeys()
         cap.release()
         cv2.destroyAllWindows()
-        self.buffer.clear()
+        self.finger_buffer.clear()
 
-        self.stop_interaction()
+        self.tts.stop_speaking()
         self.tts.goodbye()
         time.sleep(1)
 
@@ -119,16 +134,12 @@ class CamIO:
     def stop(self) -> None:
         self.running = False
 
-    def stop_interaction(self) -> None:
-        self.tts.stop_speaking()
-        self.listening = False
-
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
 
     def init_shortcuts(self) -> None:
         keyboard.add_hotkey("space", self.handle_user_input)
-        keyboard.add_hotkey("enter", self.stop_interaction)
+        keyboard.add_hotkey("enter", self.tts.stop_speaking)
         keyboard.add_hotkey("esc", self.stop)
 
     def get_capture(self) -> cv2.VideoCapture:
@@ -144,7 +155,7 @@ class CamIO:
     def handle_user_input(self) -> None:
         if self.stt.is_listening():
             return
-        self.stop_interaction()
+        self.tts.stop_speaking()
 
         question = self.stt.get_input()
 
@@ -154,8 +165,8 @@ class CamIO:
         print(f"Question: {question}")
 
         position: Optional[Coords] = None
-        if self.buffer.time_from_last_update < 1:
-            position = self.buffer.average(start=Coords(0, 0))
+        if self.finger_buffer.time_from_last_update < 1:
+            position = self.finger_buffer.average(start=Coords(0, 0))
 
         answer = self.llm.ask(question, position)
         if not self.stt.listening:

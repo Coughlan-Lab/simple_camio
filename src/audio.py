@@ -22,6 +22,9 @@ class TTS:
     def stop_speaking(self) -> None:
         self.engine.stop()
 
+    def is_speaking(self) -> bool:
+        return bool(self.engine.isBusy())
+
     def say(self, text: str) -> None:
         self.engine.say(text)
         self.engine.iterate()
@@ -65,10 +68,15 @@ class STT:
     def get_input(self) -> Optional[str]:
         self.listening = True
 
-        with sr.Microphone() as source:
-            audio = self.recognizer.listen(
-                source, timeout=self.timeout, phrase_time_limit=self.phrase_time_limit
-            )
+        try:
+            with sr.Microphone() as source:
+                audio = self.recognizer.listen(
+                    source,
+                    timeout=self.timeout,
+                    phrase_time_limit=self.phrase_time_limit,
+                )
+        except Exception:
+            return None
 
         input = self.get_from_audio(audio)
 

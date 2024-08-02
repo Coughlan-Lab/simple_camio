@@ -103,6 +103,12 @@ class Buffer:
 
         return sum(self.buffer, start=start) / len(self.buffer)
 
+    def __str__(self) -> str:
+        return str(self.buffer)
+
+    def __repr__(self) -> str:
+        return str(self)
+
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
 camio_parser.add_argument(

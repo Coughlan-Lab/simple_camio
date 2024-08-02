@@ -85,91 +85,93 @@ class PoseDetector:
 
         results = self.hands.process(img)
 
-        if not results.multi_hand_landmarks:
+        if not results.multi_hand_landmarks or len(results.multi_hand_landmarks) == 0:
             return None, None, img
 
-        # Draw the hand annotations on the image.
         coors = np.zeros((4, 3), dtype=float)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        for hand_landmarks in results.multi_hand_landmarks:
-            for k in [1, 2, 3, 4]:  # joints in thumb
-                coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = (
-                    hand_landmarks.landmark[k].x,
-                    hand_landmarks.landmark[k].y,
-                    hand_landmarks.landmark[k].z,
-                )
 
-            for k in [5, 6, 7, 8]:  # joints in index finger
-                coors[k - 5, 0], coors[k - 5, 1], coors[k - 5, 2] = (
-                    hand_landmarks.landmark[k].x,
-                    hand_landmarks.landmark[k].y,
-                    hand_landmarks.landmark[k].z,
-                )
-            ratio_index = self.ratio(coors)
+        hand_landmarks = results.multi_hand_landmarks[0]
 
-            for k in [9, 10, 11, 12]:  # joints in middle finger
-                coors[k - 9, 0], coors[k - 9, 1], coors[k - 9, 2] = (
-                    hand_landmarks.landmark[k].x,
-                    hand_landmarks.landmark[k].y,
-                    hand_landmarks.landmark[k].z,
-                )
-            ratio_middle = self.ratio(coors)
-
-            for k in [13, 14, 15, 16]:  # joints in ring finger
-                coors[k - 13, 0], coors[k - 13, 1], coors[k - 13, 2] = (
-                    hand_landmarks.landmark[k].x,
-                    hand_landmarks.landmark[k].y,
-                    hand_landmarks.landmark[k].z,
-                )
-            ratio_ring = self.ratio(coors)
-
-            for k in [17, 18, 19, 20]:  # joints in little finger
-                coors[k - 17, 0], coors[k - 17, 1], coors[k - 17, 2] = (
-                    hand_landmarks.landmark[k].x,
-                    hand_landmarks.landmark[k].y,
-                    hand_landmarks.landmark[k].z,
-                )
-            ratio_little = self.ratio(coors)
-
-            # overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
-            # print("overall evidence for index pointing:", overall)
-
-            self.mp_drawing.draw_landmarks(
-                img,
-                hand_landmarks,
-                self.mp_hands.HAND_CONNECTIONS,
-                self.mp_drawing_styles.get_default_hand_landmarks_style(),
-                self.mp_drawing_styles.get_default_hand_connections_style(),
+        for k in [1, 2, 3, 4]:  # joints in thumb
+            coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = (
+                hand_landmarks.landmark[k].x,
+                hand_landmarks.landmark[k].y,
+                hand_landmarks.landmark[k].z,
             )
 
-            position = np.array(
-                [
-                    [
-                        hand_landmarks.landmark[8].x * img.shape[1],
-                        hand_landmarks.landmark[8].y * img.shape[0],
-                    ]
-                ],
-                dtype=np.float32,
-            ).reshape(-1, 1, 2)
-            position = cv2.perspectiveTransform(position, H)[0][0]
+        for k in [5, 6, 7, 8]:  # joints in index finger
+            coors[k - 5, 0], coors[k - 5, 1], coors[k - 5, 2] = (
+                hand_landmarks.landmark[k].x,
+                hand_landmarks.landmark[k].y,
+                hand_landmarks.landmark[k].z,
+            )
+        ratio_index = self.ratio(coors)
 
-            if (
-                (ratio_index > 0.7)
-                and (ratio_middle < 0.95)
-                and (ratio_ring < 0.95)
-                and (ratio_little < 0.95)
-            ):
-                return (
-                    np.array([position[0], position[1], 0]),
-                    "pointing",
-                    img,
-                )
-            else:
-                return (
-                    np.array([position[0], position[1], 0]),
-                    "moving",
-                    img,
-                )
+        for k in [9, 10, 11, 12]:  # joints in middle finger
+            coors[k - 9, 0], coors[k - 9, 1], coors[k - 9, 2] = (
+                hand_landmarks.landmark[k].x,
+                hand_landmarks.landmark[k].y,
+                hand_landmarks.landmark[k].z,
+            )
+        ratio_middle = self.ratio(coors)
+
+        for k in [13, 14, 15, 16]:  # joints in ring finger
+            coors[k - 13, 0], coors[k - 13, 1], coors[k - 13, 2] = (
+                hand_landmarks.landmark[k].x,
+                hand_landmarks.landmark[k].y,
+                hand_landmarks.landmark[k].z,
+            )
+        ratio_ring = self.ratio(coors)
+
+        for k in [17, 18, 19, 20]:  # joints in little finger
+            coors[k - 17, 0], coors[k - 17, 1], coors[k - 17, 2] = (
+                hand_landmarks.landmark[k].x,
+                hand_landmarks.landmark[k].y,
+                hand_landmarks.landmark[k].z,
+            )
+        ratio_little = self.ratio(coors)
+
+        # overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
+        # print("overall evidence for index pointing:", overall)
+
+        self.mp_drawing.draw_landmarks(
+            img,
+            hand_landmarks,
+            self.mp_hands.HAND_CONNECTIONS,
+            self.mp_drawing_styles.get_default_hand_landmarks_style(),
+            self.mp_drawing_styles.get_default_hand_connections_style(),
+        )
+
+        position = np.array(
+            [
+                [
+                    hand_landmarks.landmark[8].x * img.shape[1],
+                    hand_landmarks.landmark[8].y * img.shape[0],
+                ]
+            ],
+            dtype=np.float32,
+        ).reshape(-1, 1, 2)
+        position = cv2.perspectiveTransform(position, H)[0][0]
+
+        if (
+            (ratio_index > 0.7)
+            and (ratio_middle < 0.95)
+            and (ratio_ring < 0.95)
+            and (ratio_little < 0.95)
+        ):
+            print(hand_landmarks.landmark[8].z)
+            return (
+                np.array([position[0], position[1], 0]),
+                "pointing",
+                img,
+            )
+        else:
+            return (
+                np.array([position[0], position[1], 0]),
+                "moving",
+                img,
+            )
 
     def ratio(
         self, coors: npt.NDArray[np.float32]

@@ -73,7 +73,6 @@ class CamIO:
             if not ret:
                 print("No camera image returned.")
                 break
-            frame = frame.copy()
 
             pyglet.clock.tick()
             pyglet.app.platform_event_loop.dispatch_posted_events()

@@ -88,17 +88,52 @@ class PoseDetector:
         if not results.multi_hand_landmarks or len(results.multi_hand_landmarks) == 0:
             return None, None, img
 
-        coors = np.zeros((4, 3), dtype=float)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-        hand_landmarks = results.multi_hand_landmarks[0]
+        ratios = [self.pointing_ratio(hand) for hand in results.multi_hand_landmarks]
+        pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
+        pointing_hand = results.multi_hand_landmarks[pointing_hand_index]
 
-        for k in [1, 2, 3, 4]:  # joints in thumb
-            coors[k - 1, 0], coors[k - 1, 1], coors[k - 1, 2] = (
-                hand_landmarks.landmark[k].x,
-                hand_landmarks.landmark[k].y,
-                hand_landmarks.landmark[k].z,
+        self.mp_drawing.draw_landmarks(
+            img,
+            pointing_hand,
+            self.mp_hands.HAND_CONNECTIONS,
+            self.mp_drawing_styles.get_default_hand_landmarks_style(),
+            self.mp_drawing_styles.get_default_hand_connections_style(),
+        )
+
+        position = np.array(
+            [
+                [
+                    pointing_hand.landmark[8].x * img.shape[1],
+                    pointing_hand.landmark[8].y * img.shape[0],
+                ]
+            ],
+            dtype=np.float32,
+        ).reshape(-1, 1, 2)
+        position = cv2.perspectiveTransform(position, H)[0][0]
+
+        if ratios[pointing_hand_index] > 0:
+            return (
+                np.array([position[0], position[1], 0]),
+                "pointing",
+                img,
             )
+        else:
+            return (
+                np.array([position[0], position[1], 0]),
+                "moving",
+                img,
+            )
+
+    def pointing_ratio(self, hand_landmarks) -> float:
+        """
+        This function calculates the pointing ratio of a hand.
+        The pointing ratio is a floating point number between -1 and 1.
+        If the pointing ratio is positive, the hand is pointing.
+        """
+
+        coors = np.zeros((4, 3), dtype=float)
 
         for k in [5, 6, 7, 8]:  # joints in index finger
             coors[k - 5, 0], coors[k - 5, 1], coors[k - 5, 2] = (
@@ -132,46 +167,10 @@ class PoseDetector:
             )
         ratio_little = self.ratio(coors)
 
-        # overall = ratio_index / ((ratio_middle + ratio_ring + ratio_little) / 3)
+        overall = ratio_index - ((ratio_middle + ratio_ring + ratio_little) / 3)
         # print("overall evidence for index pointing:", overall)
 
-        self.mp_drawing.draw_landmarks(
-            img,
-            hand_landmarks,
-            self.mp_hands.HAND_CONNECTIONS,
-            self.mp_drawing_styles.get_default_hand_landmarks_style(),
-            self.mp_drawing_styles.get_default_hand_connections_style(),
-        )
-
-        position = np.array(
-            [
-                [
-                    hand_landmarks.landmark[8].x * img.shape[1],
-                    hand_landmarks.landmark[8].y * img.shape[0],
-                ]
-            ],
-            dtype=np.float32,
-        ).reshape(-1, 1, 2)
-        position = cv2.perspectiveTransform(position, H)[0][0]
-
-        if (
-            (ratio_index > 0.7)
-            and (ratio_middle < 0.95)
-            and (ratio_ring < 0.95)
-            and (ratio_little < 0.95)
-        ):
-            print(hand_landmarks.landmark[8].z)
-            return (
-                np.array([position[0], position[1], 0]),
-                "pointing",
-                img,
-            )
-        else:
-            return (
-                np.array([position[0], position[1], 0]),
-                "moving",
-                img,
-            )
+        return float(overall)
 
     def ratio(
         self, coors: npt.NDArray[np.float32]

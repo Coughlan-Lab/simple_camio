@@ -34,7 +34,9 @@ class CamIO:
 
         # Audio players
         self.tts = TTS(CamIO.RES_FILE, rate=200)
-        self.stt = STT()
+        self.stt = STT(
+            start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
+        )
 
         self.crickets_player = AmbientSoundPlayer(model["crickets"])
         self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
@@ -49,7 +51,7 @@ class CamIO:
     def main_loop(self) -> None:
         min_corner, max_corner = self.graph.bounds
 
-        cap = self.get_capture()
+        cap = self.__get_capture()
         ok, frame = cap.read()
         if not ok:
             print("No camera image returned.")
@@ -154,7 +156,7 @@ class CamIO:
         else:
             self.tts.no_description()
 
-    def get_capture(self) -> cv2.VideoCapture:
+    def __get_capture(self) -> cv2.VideoCapture:
         cam_port = 1  # select_cam_port()
 
         cap = cv2.VideoCapture(cam_port)

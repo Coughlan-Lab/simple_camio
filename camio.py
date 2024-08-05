@@ -26,7 +26,7 @@ class CamIO:
         # Model graph
         self.graph = Graph(model["graph"])
         self.finger_buffer = Buffer(5)
-        self.edge_buffer = Buffer(5)
+        self.edge_buffer = Buffer(10)
 
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
@@ -110,7 +110,7 @@ class CamIO:
                 self.finger_buffer.add(Coords(x, y))
                 pos = self.finger_buffer.average(Coords(0, 0))
                 # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
-                self.announce_position(pos)
+                self.__announce_position(pos)
 
         cap.release()
         self.__reset()
@@ -118,6 +118,28 @@ class CamIO:
         self.tts.goodbye()
         time.sleep(1)
         self.tts.stop()
+
+    def stop(self) -> None:
+        self.running = False
+
+    def save_chat(self, filename: str) -> None:
+        self.llm.save_chat(filename)
+
+    def __init_shortcuts(self) -> None:
+        keyboard.add_hotkey("space", self.__on_spacebar_pressed)
+        keyboard.add_hotkey("enter", self.stop_interaction)
+        keyboard.add_hotkey("esc", self.stop)
+        keyboard.on_press_key("cmd", self.__on_cmd_pressed)
+
+    def __get_capture(self) -> cv2.VideoCapture:
+        cam_port = 1  # select_cam_port()
+
+        cap = cv2.VideoCapture(cam_port)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        cap.set(cv2.CAP_PROP_FOCUS, 0)
+
+        return cap
 
     def __reset(self) -> None:
         keyboard.unhook_all()
@@ -133,21 +155,20 @@ class CamIO:
 
         self.last_announced = None
 
-    def stop(self) -> None:
-        self.running = False
-
-    def save_chat(self, filename: str) -> None:
-        self.llm.save_chat(filename)
-
-    def __init_shortcuts(self) -> None:
-        keyboard.add_hotkey("space", self.on_spacebar_pressed)
-        keyboard.add_hotkey("enter", self.stop_interaction)
-        keyboard.add_hotkey("esc", self.stop)
-        keyboard.on_press_key("cmd", self.on_cmd_pressed)
+    def is_busy(self) -> bool:
+        return (
+            self.tts.is_speaking()
+            or self.stt.is_processing()
+            or self.llm.is_waiting_for_response()
+        )
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
         self.stt.stop_processing()
+
+    def __on_cmd_pressed(self, _: Any = None) -> None:
+        threading = th.Thread(target=self.say_map_description)
+        threading.start()
 
     def say_map_description(self) -> None:
         self.stop_interaction()
@@ -156,35 +177,14 @@ class CamIO:
         else:
             self.tts.no_description()
 
-    def __get_capture(self) -> cv2.VideoCapture:
-        cam_port = 1  # select_cam_port()
-
-        cap = cv2.VideoCapture(cam_port)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        cap.set(cv2.CAP_PROP_FOCUS, 0)
-
-        return cap
-
-    def is_busy(self) -> bool:
-        return (
-            self.tts.is_speaking()
-            or self.stt.is_processing()
-            or self.llm.is_waiting_for_response()
-        )
-
-    def on_cmd_pressed(self, _: Any) -> None:
-        threading = th.Thread(target=self.say_map_description)
-        threading.start()
-
-    def on_spacebar_pressed(self) -> None:
+    def __on_spacebar_pressed(self) -> None:
         if self.stt.is_processing():
             self.stt.on_question_ended()
         else:
-            threading = th.Thread(target=self.handle_user_input)
+            threading = th.Thread(target=self.__handle_user_input)
             threading.start()
 
-    def handle_user_input(self) -> None:
+    def __handle_user_input(self) -> None:
         self.tts.stop_speaking()
 
         print("Listening...")
@@ -208,7 +208,7 @@ class CamIO:
                 print(f"Answer: {answer}")
                 self.tts.say(answer)
 
-    def announce_position(self, pos: Coords) -> None:
+    def __announce_position(self, pos: Coords) -> None:
         to_announce: Optional[str] = None
 
         nearest_node, distance = self.graph.get_nearest_node(pos)

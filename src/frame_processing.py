@@ -12,7 +12,6 @@ class SIFTModelDetector:
     def __init__(self, template_filename: str) -> None:
         # Load the template image
         img_template = cv2.imread(template_filename, cv2.IMREAD_GRAYSCALE)
-        self.shape = img_template.shape
 
         # Detect SIFT keypoints
         self.detector = cv2.SIFT_create()
@@ -20,16 +19,9 @@ class SIFTModelDetector:
             img_template, mask=None
         )
 
-        self.rotation: Optional[npt.NDArray[np.float32]] = None
-
-        self.requires_pnp = True
-
     def detect(
         self, frame: npt.NDArray[np.uint8]
     ) -> Tuple[bool, Optional[npt.NDArray[np.float32]]]:
-        if not self.requires_pnp:
-            return True, self.rotation
-
         keypoints_scene, descriptors_scene = self.detector.detectAndCompute(frame, None)
         matcher = cv2.DescriptorMatcher_create(cv2.DescriptorMatcher_FLANNBASED)
         try:

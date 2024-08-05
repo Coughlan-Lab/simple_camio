@@ -155,7 +155,7 @@ class PromptFormatter:
         prompt += (
             """Nodes are named after the edges intersecting at their coordinates. """
             """For example a node at the intersection between the Webster Street edge and the Washington Street edge """
-            """will be named "Intersection of Webster Street and Fillmore Street". """
+            """will be named "Intersection of Webster Street and Washington Street". """
             """Streets without nodes in common can't intersect.\n"""
             """If the edges intersecting at a node belong to the same street, the node will be named after that street.\n"""
             """If a node is connected to only one edge the node's name will be that of the edge's street.\n\n"""
@@ -165,7 +165,8 @@ class PromptFormatter:
             """These are points of interest along the road network. Each point has three important parameters:\n"""
             """- edge: the edge the point is located on\n"""
             """- distance: the distance of the point from the first node of the edge\n"""
-            """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n\n"""
+            """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""
+            """Consider two points on the cartesian plane to be close if their distance is less than 40 meters.\n\n"""
         )
         prompt += self.graph.poi_prompt() + "\n\n"
 
@@ -178,7 +179,8 @@ class PromptFormatter:
             """I will now ask questions about the points of interest or the road network.\n"""
             """Answer without mentioning in your response the underlying graph and the cartesian plane; only use the provided information.\n"""
             """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
-            """Do not make up things: if you can't answer a question, just say that you don't know and suggest how I can get a response.\n"""
+            """Do not make anythings up: if you don't have enough information to answer a question, """
+            """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
             """Consider that I'm blind and I can't see the road network."""
         )
 

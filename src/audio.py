@@ -54,7 +54,7 @@ class TTS:
 class STT:
     TIMEOUT = 5
     PHRASE_TIME_LIMIT = 7
-    FINAL_SILENCE_DURATION = 0.2
+    FINAL_SILENCE_DURATION = 0.4
 
     def __init__(
         self,
@@ -64,8 +64,8 @@ class STT:
         end_filename: Optional[str] = None,
     ) -> None:
         self.recognizer = sr.Recognizer()
-        # self.recognizer.pause_threshold = STT.FINAL_SILENCE_DURATION
-        # self.recognizer.non_speaking_duration = STT.FINAL_SILENCE_DURATION
+        self.recognizer.pause_threshold = STT.FINAL_SILENCE_DURATION
+        self.recognizer.non_speaking_duration = STT.FINAL_SILENCE_DURATION
 
         self.timeout = timeout
         self.phrase_time_limit = phrase_time_limit

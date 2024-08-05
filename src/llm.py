@@ -1,5 +1,5 @@
 import math
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from openai import OpenAI, OpenAIError
 from openai.types.chat import (ChatCompletionAssistantMessageParam,
@@ -8,6 +8,7 @@ from openai.types.chat import (ChatCompletionAssistantMessageParam,
                                ChatCompletionUserMessageParam)
 
 from .graph import Coords, Graph
+from .utils import str_dict
 
 
 class LLM:
@@ -83,8 +84,10 @@ class PromptFormatter:
     def get_user_message(
         self, question: str, position: Optional[Coords]
     ) -> ChatCompletionUserMessageParam:
+        instructions = ""
+
         if position is not None:
-            edge = self.graph.get_nearest_edge(position)
+            edge, _ = self.graph.get_nearest_edge(position)
 
             edge_pixels = edge[0].distance_from(edge[1])
             distance_pixels_node1 = edge[0].distance_from(position)
@@ -95,18 +98,31 @@ class PromptFormatter:
             distance_m_node2 = distance_pixels_node2 * edge.length / edge_pixels
             distance_m_node2 = math.floor(distance_m_node2)
 
-            between_streets = ", ".join(set(edge.between_streets))
+            if len(edge.between_streets) == 0:
+                street = f"at the end of {edge.street}"
+            elif len(edge.between_streets) == 1:
+                street = f"part of {edge.street}, at the intersection with {next(iter(edge.between_streets))}"
+            else:
+                street = (
+                    f"part of {edge.street}, between {', '.join(edge.between_streets)}"
+                )
 
             instructions = (
                 f"""My coordinates are {position}, """
                 f"""the closest point of the road network is edge {edge.id}, """
-                f"""which is part of {edge.street}, between {between_streets}.\n"""
-                f"""I'm at a distance of {distance_m_node1} m from node {edge.node1.id} and {distance_m_node2} m from node {edge.node2.id}.\n"""
-                """Continue answering my questions with the updated position\n"""
-                """Remembet to not mention the underlying graph, its nodes and streets and the cartesian plane in your answer."""
+                f"""which is {street}\n"""
+                f"""I'm at a distance of {distance_m_node1} m from the {edge.node1.description} """
+                f"""and {distance_m_node2} m from the {edge.node2.description}.\n"""
+                """Continue answering my questions with the updated position.\n"""
             )
 
-            question = f"{instructions}\n\n{question}"
+        instructions += (
+            """Remembet to not mention the underlying graph, its nodes and streets and the cartesian plane in your answer.\n"""
+            """Do not make up things, be objective and precise."""
+            """If you can't answer the question, just say that you don't know and suggest how I can get a response.\n"""
+        )
+
+        question = f"{instructions}\n\n{question}"
 
         return ChatCompletionUserMessageParam(content=question, role="user")
 
@@ -139,29 +155,32 @@ class PromptFormatter:
         prompt += (
             """Nodes are named after the edges intersecting at their coordinates. """
             """For example a node at the intersection between the Webster Street edge and the Washington Street edge """
-            """will be named "Intersection of Webster Street and Fillmore Street". """
+            """will be named "Intersection of Webster Street and Washington Street". """
             """Streets without nodes in common can't intersect.\n"""
             """If the edges intersecting at a node belong to the same street, the node will be named after that street.\n"""
             """If a node is connected to only one edge the node's name will be that of the edge's street.\n\n"""
         )
 
         prompt += (
-            """These are points of interest along the road network. Each point has three import parameters:\n"""
+            """These are points of interest along the road network. Each point has three important parameters:\n"""
             """- edge: the edge the point is located on\n"""
             """- distance: the distance of the point from the first node of the edge\n"""
-            """- street: the identifier of the street the edge belong to. Replace street ids with their respective names.\n\n"""
+            """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""
+            """Consider two points on the cartesian plane to be close if their distance is less than 40 meters.\n\n"""
         )
         prompt += self.graph.poi_prompt() + "\n\n"
 
         prompt += (
             """These are addictional information about the context of the road network:\n"""
-            f"""{self.get_pretty_dict(context)}\n\n"""
+            f"""{str_dict(context)}\n\n"""
         )
 
         prompt += (
             """I will now ask questions about the points of interest or the road network.\n"""
             """Answer without mentioning in your response the underlying graph and the cartesian plane; only use the provided information.\n"""
             """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
+            """Do not make anythings up: if you don't have enough information to answer a question, """
+            """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
             """Consider that I'm blind and I can't see the road network."""
         )
 
@@ -169,22 +188,3 @@ class PromptFormatter:
             content=prompt,
             role="system",
         )
-
-    def get_pretty_dict(self, d: Dict[Any, Any], indent: int = 4) -> str:
-        res = ""
-
-        for key, value in d.items():
-            res += " " * indent + str(key) + ": "
-            if isinstance(value, dict):
-                res += "\n" + self.get_pretty_dict(value, indent + 4)
-            elif isinstance(value, list):
-                res += "[\n"
-                for item in value:
-                    res += " " * (indent + 4) + str(item) + ",\n"
-                if len(value) > 0:
-                    res = res[:-2] + "\n"
-                res += " " * indent + "]\n"
-            else:
-                res += str(value) + "\n"
-
-        return res

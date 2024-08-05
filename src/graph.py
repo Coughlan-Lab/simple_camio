@@ -1,4 +1,6 @@
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Set, Tuple, Union
+
+from .utils import str_dict
 
 
 class Coords:
@@ -7,7 +9,7 @@ class Coords:
         self.y = y
 
     def distance_from(self, other: "Coords") -> float:
-        return ((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5
+        return float(((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5)
 
     def __add__(self, other: "Coords") -> "Coords":
         return Coords(self.x + other.x, self.y + other.y)
@@ -29,10 +31,21 @@ class Node:
     def __init__(self, index: int, coords: Coords) -> None:
         self.coords = coords
         self.index = index
+        self.adjacents_street: Set[str] = set()
 
     @property
     def id(self) -> str:
         return f"n{self.index}"
+
+    @property
+    def description(self) -> str:
+        if len(self.adjacents_street) == 1:
+            return f"end of {next(iter(self.adjacents_street))}"
+
+        streets = list(self.adjacents_street)
+        streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
+
+        return f"intersection between {streets_str}"
 
     def distance_from(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):
@@ -62,7 +75,7 @@ class Edge:
         self.node2 = node2
         self.length = length
         self.street = street_name
-        self.between_streets: List[str] = list()
+        self.between_streets: Set[str] = set()
 
     @property
     def id(self) -> str:
@@ -81,7 +94,7 @@ class Edge:
     def distance_from(self, coords: Coords) -> float:
         num = abs(self.m * coords.x + self.q - coords.y)
         den = (self.m**2 + 1) ** 0.5
-        return num / den
+        return float(num / den)
 
     def contains(self, coords: Coords) -> bool:
         return (
@@ -146,7 +159,6 @@ class Graph:
             "west": Coords(*graph_dict["reference_system"]["west"]),
             "east": Coords(*graph_dict["reference_system"]["east"]),
         }
-        self.pois = graph_dict["points_of_interest"]
 
         for node in graph_dict["nodes"]:
             self.nodes.append(Node(len(self.nodes), Coords(node[0], node[1])))
@@ -157,9 +169,15 @@ class Graph:
 
             for edge_index in edges_indexes:
                 edge_data = edges_data[edge_index]
+
+                node1 = self.nodes[edge_data[0]]
+                node1.adjacents_street.add(street_name)
+                node2 = self.nodes[edge_data[1]]
+                node2.adjacents_street.add(street_name)
+
                 edge = Edge(
-                    self.nodes[edge_data[0]],
-                    self.nodes[edge_data[1]],
+                    node1,
+                    node2,
                     edge_data[2],
                     street_name,
                 )
@@ -169,6 +187,10 @@ class Graph:
             self.edges.extend(street_edges)
             self.streets.append(Street(len(self.streets), street_name, street_edges))
 
+        self.pois = graph_dict["points_of_interest"]
+        for poi in self.pois:
+            poi["edge"] = self.edges[poi["edge"]].id
+
         for i, e1 in enumerate(self.edges):
             for j in range(i + 1, len(self.edges)):
                 e2 = self.edges[j]
@@ -177,14 +199,22 @@ class Graph:
                     continue
 
                 if e1.is_adjacent(e2):
-                    e1.between_streets.append(e2.street)
-                    e2.between_streets.append(e1.street)
+                    e1.between_streets.add(e2.street)
+                    e2.between_streets.add(e1.street)
 
-    def get_nearest_edge(self, coords: Coords) -> Edge:
-        return min(
+    def get_nearest_node(self, coords: Coords) -> Tuple[Node, float]:
+        node = min(
+            self.nodes,
+            key=lambda node: node.distance_from(coords),
+        )
+        return node, node.distance_from(coords)
+
+    def get_nearest_edge(self, coords: Coords) -> Tuple[Edge, float]:
+        edge = min(
             filter(lambda edge: edge.contains(coords), self.edges),
             key=lambda edge: edge.distance_from(coords),
         )
+        return edge, edge.distance_from(coords)
 
     @property
     def bounds(self) -> Tuple[Coords, Coords]:
@@ -213,4 +243,4 @@ class Graph:
         return "\n".join([f"{street}: {street.name}" for street in self.streets])
 
     def poi_prompt(self) -> str:
-        return self.pois
+        return "\n\n\n".join([str_dict(poi) for poi in self.pois])

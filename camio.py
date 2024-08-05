@@ -1,5 +1,6 @@
 import os
 import sys
+import threading as th
 import time
 from typing import Any, Dict, Optional
 
@@ -9,13 +10,14 @@ import pyglet.media
 
 from src.audio import STT, TTS, AmbientSoundPlayer
 from src.frame_processing import PoseDetector, SIFTModelDetector
-from src.graph import Coords, Edge, Graph
+from src.graph import Coords, Graph
 from src.llm import LLM
 from src.utils import *
 
 
 class CamIO:
-    RES_FILE = "res.json"
+    RES_FILE = "res/strings.json"
+    NODE_DISTANCE_THRESHOLD = 20
     EDGE_DISTANCE_THRESHOLD = 40
 
     def __init__(self, model: Dict[str, Any]) -> None:
@@ -24,6 +26,7 @@ class CamIO:
         # Model graph
         self.graph = Graph(model["graph"])
         self.finger_buffer = Buffer(5)
+        self.edge_buffer = Buffer(5)
 
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
@@ -31,21 +34,24 @@ class CamIO:
 
         # Audio players
         self.tts = TTS(CamIO.RES_FILE, rate=200)
-        self.stt = STT()
+        self.stt = STT(
+            start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
+        )
 
-        self.crickets_player = AmbientSoundPlayer(model["crickets"])
-        self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-        self.heartbeat_player.set_volume(0.05)
+        self.crickets_player = AmbientSoundPlayer("res/crickets.mp3")
+        self.white_noise_player = AmbientSoundPlayer("res/white_noise.mp3")
+        self.white_noise_player.set_volume(0.05)
 
         # LLM
         self.llm = LLM(self.graph, model["context"])
 
         self.running = False
+        self.last_announced: Optional[str] = None
 
     def main_loop(self) -> None:
         min_corner, max_corner = self.graph.bounds
 
-        cap = self.get_capture()
+        cap = self.__get_capture()
         ok, frame = cap.read()
         if not ok:
             print("No camera image returned.")
@@ -54,7 +60,7 @@ class CamIO:
         self.stt.calibrate()
         self.tts.start()
 
-        self.init_shortcuts()
+        self.__init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()
@@ -62,10 +68,7 @@ class CamIO:
             self.tts.say(f"Map description:\n {self.description}")
 
         self.running = True
-        last_edge: Optional[Edge] = None
-        edge_buffer = Buffer(5)
         while self.running and cap.isOpened():
-
             cv2.imshow("CamIO", frame)
             cv2.waitKey(1)  # Necessary for the window to show
 
@@ -81,7 +84,7 @@ class CamIO:
             ok, rotation = self.model_detector.detect(frame_gray)
 
             if not ok or rotation is None:
-                self.heartbeat_player.pause_sound()
+                self.white_noise_player.pause_sound()
                 self.crickets_player.play_sound()
                 continue
             self.crickets_player.pause_sound()
@@ -90,9 +93,9 @@ class CamIO:
                 frame, rotation
             )
             if gesture_position is None:
-                self.heartbeat_player.pause_sound()
+                self.white_noise_player.pause_sound()
                 continue
-            self.heartbeat_player.play_sound()
+            self.white_noise_player.play_sound()
 
             if gesture_status != "pointing":
                 continue
@@ -107,31 +110,28 @@ class CamIO:
                 self.finger_buffer.add(Coords(x, y))
                 pos = self.finger_buffer.average(Coords(0, 0))
                 # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
+                self.announce_position(pos)
 
-                edge = self.graph.get_nearest_edge(pos)
-                edge_buffer.add(edge)
-                edge = edge_buffer.mode()
-
-                if (
-                    edge != last_edge
-                    and not self.is_busy()
-                    and edge.distance_from(pos) < CamIO.EDGE_DISTANCE_THRESHOLD
-                ):
-                    last_edge = edge
-                    self.tts.say(edge.street)
-
-        keyboard.unhook_all()
         cap.release()
-        cv2.destroyAllWindows()
-        self.finger_buffer.clear()
+        self.__reset()
 
-        self.tts.stop_speaking()
         self.tts.goodbye()
         time.sleep(1)
-
-        self.heartbeat_player.pause_sound()
-        self.crickets_player.pause_sound()
         self.tts.stop()
+
+    def __reset(self) -> None:
+        keyboard.unhook_all()
+        cv2.destroyAllWindows()
+
+        self.stop_interaction()
+
+        self.finger_buffer.clear()
+        self.edge_buffer.clear()
+
+        self.white_noise_player.pause_sound()
+        self.crickets_player.pause_sound()
+
+        self.last_announced = None
 
     def stop(self) -> None:
         self.running = False
@@ -139,15 +139,15 @@ class CamIO:
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
 
-    def init_shortcuts(self) -> None:
-        keyboard.add_hotkey("space", self.handle_user_input)
+    def __init_shortcuts(self) -> None:
+        keyboard.add_hotkey("space", self.on_spacebar_pressed)
         keyboard.add_hotkey("enter", self.stop_interaction)
         keyboard.add_hotkey("esc", self.stop)
         keyboard.on_press_key("cmd", self.say_map_description)
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
-        self.stt.stop_listening()
+        self.stt.stop_processing()
 
     def say_map_description(self, _: Any) -> None:
         self.stop_interaction()
@@ -156,7 +156,7 @@ class CamIO:
         else:
             self.tts.no_description()
 
-    def get_capture(self) -> cv2.VideoCapture:
+    def __get_capture(self) -> cv2.VideoCapture:
         cam_port = 1  # select_cam_port()
 
         cap = cv2.VideoCapture(cam_port)
@@ -169,17 +169,22 @@ class CamIO:
     def is_busy(self) -> bool:
         return (
             self.tts.is_speaking()
-            or self.stt.is_listening()
+            or self.stt.is_processing()
             or self.llm.is_waiting_for_response()
         )
 
+    def on_spacebar_pressed(self) -> None:
+        if self.stt.is_processing():
+            self.stt.on_question_ended()
+        else:
+            threading = th.Thread(target=self.handle_user_input)
+            threading.start()
+
     def handle_user_input(self) -> None:
-        if self.stt.is_listening():
-            return
         self.tts.stop_speaking()
 
         print("Listening...")
-        question = self.stt.get_input()
+        question = self.stt.process_input()
 
         if question is None:
             print("No question detected.")
@@ -191,13 +196,37 @@ class CamIO:
             position = self.finger_buffer.average(start=Coords(0, 0))
 
         answer = self.llm.ask(question, position)
-        if not self.stt.listening:
+        if not self.stt.processing_input:
             if answer is None:
                 print("No answer received.")
                 self.tts.error()
             else:
                 print(f"Answer: {answer}")
                 self.tts.say(answer)
+
+    def announce_position(self, pos: Coords) -> None:
+        to_announce: Optional[str] = None
+
+        nearest_node, distance = self.graph.get_nearest_node(pos)
+        to_announce = nearest_node.description
+
+        if distance > CamIO.NODE_DISTANCE_THRESHOLD:
+            edge, _ = self.graph.get_nearest_edge(pos)
+            self.edge_buffer.add(edge)
+            nearest_edge = self.edge_buffer.mode()
+
+            if nearest_edge.distance_from(pos) <= CamIO.EDGE_DISTANCE_THRESHOLD:
+                to_announce = nearest_edge.street
+            else:
+                to_announce = None
+
+        if (
+            to_announce is not None
+            and to_announce != self.last_announced
+            and not self.is_busy()
+        ):
+            self.last_announced = to_announce
+            self.tts.say(to_announce)
 
 
 if __name__ == "__main__":

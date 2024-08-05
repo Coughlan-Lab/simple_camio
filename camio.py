@@ -1,5 +1,6 @@
 import os
 import sys
+import threading as th
 import time
 from typing import Any, Dict, Optional
 
@@ -137,14 +138,14 @@ class CamIO:
         self.llm.save_chat(filename)
 
     def __init_shortcuts(self) -> None:
-        keyboard.add_hotkey("space", self.handle_user_input)
+        keyboard.add_hotkey("space", self.on_spacebar_pressed)
         keyboard.add_hotkey("enter", self.stop_interaction)
         keyboard.add_hotkey("esc", self.stop)
         keyboard.on_press_key("cmd", self.say_map_description)
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
-        self.stt.stop_listening()
+        self.stt.stop_processing()
 
     def say_map_description(self, _: Any) -> None:
         self.stop_interaction()
@@ -166,17 +167,22 @@ class CamIO:
     def is_busy(self) -> bool:
         return (
             self.tts.is_speaking()
-            or self.stt.is_listening()
+            or self.stt.is_processing()
             or self.llm.is_waiting_for_response()
         )
 
+    def on_spacebar_pressed(self) -> None:
+        if self.stt.is_processing():
+            self.stt.on_question_ended()
+        else:
+            threading = th.Thread(target=self.handle_user_input)
+            threading.start()
+
     def handle_user_input(self) -> None:
-        if self.stt.is_listening():
-            return
         self.tts.stop_speaking()
 
         print("Listening...")
-        question = self.stt.get_input()
+        question = self.stt.process_input()
 
         if question is None:
             print("No question detected.")
@@ -188,7 +194,7 @@ class CamIO:
             position = self.finger_buffer.average(start=Coords(0, 0))
 
         answer = self.llm.ask(question, position)
-        if not self.stt.listening:
+        if not self.stt.processing_input:
             if answer is None:
                 print("No answer received.")
                 self.tts.error()

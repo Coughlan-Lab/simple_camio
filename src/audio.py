@@ -54,21 +54,30 @@ class TTS:
 class STT:
     TIMEOUT = 5
     PHRASE_TIME_LIMIT = 7
+    FINAL_SILENCE_DURATION = 0.2
 
     def __init__(
         self, timeout: int = TIMEOUT, phrase_time_limit: int = PHRASE_TIME_LIMIT
     ) -> None:
         self.recognizer = sr.Recognizer()
+        # self.recognizer.pause_threshold = STT.FINAL_SILENCE_DURATION
+        # self.recognizer.non_speaking_duration = STT.FINAL_SILENCE_DURATION
+
         self.timeout = timeout
         self.phrase_time_limit = phrase_time_limit
 
-        self.listening = False
+        self.processing_input = False
+        self.stream: Optional[sr.Microphone.MicrophoneStream] = None
 
-    def is_listening(self) -> bool:
-        return self.listening
+    def is_processing(self) -> bool:
+        return self.processing_input
 
-    def stop_listening(self) -> None:
-        self.listening = False
+    def stop_processing(self) -> None:
+        self.processing_input = False
+        self.recognizer.listening = False
+
+    def on_question_ended(self) -> None:
+        self.recognizer.listening = False
 
     def calibrate(self) -> None:
         with sr.Microphone() as source:
@@ -76,8 +85,8 @@ class STT:
             # Vosk model preload
             self.get_from_audio(sr.AudioData(b"", 16000, 2))
 
-    def get_input(self) -> Optional[str]:
-        self.listening = True
+    def process_input(self) -> Optional[str]:
+        self.processing_input = True
 
         try:
             with sr.Microphone() as source:
@@ -87,17 +96,20 @@ class STT:
                     phrase_time_limit=self.phrase_time_limit,
                 )
         except Exception:
-            self.listening = False
+            self.processing_input = False
             return None
 
-        input = self.get_from_audio(audio)
-
-        if not self.listening or input == "":
+        if not self.processing_input:
             return None
 
-        self.listening = False
+        text = self.get_from_audio(audio)
 
-        return input
+        if not self.processing_input or text == "":
+            return None
+
+        self.processing_input = False
+
+        return text
 
     def get_from_audio(self, audio: sr.AudioData) -> Optional[str]:
         try:

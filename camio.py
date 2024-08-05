@@ -16,7 +16,7 @@ from src.utils import *
 
 
 class CamIO:
-    RES_FILE = "res.json"
+    RES_FILE = "res/strings.json"
     NODE_DISTANCE_THRESHOLD = 20
     EDGE_DISTANCE_THRESHOLD = 40
 

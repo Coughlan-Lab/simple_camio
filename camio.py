@@ -107,10 +107,7 @@ class CamIO:
                 min_corner[0] <= x < max_corner[0]
                 and min_corner[1] <= y < max_corner[1]
             ):
-                self.finger_buffer.add(Coords(x, y))
-                pos = self.finger_buffer.average(Coords(0, 0))
-                # print(f"Gesture detected at {self.buffer.average(start=Coords(0, 0))}")
-                self.__announce_position(pos)
+                self.__process_position(Coords(x, y))
 
         cap.release()
         self.__reset()
@@ -208,10 +205,14 @@ class CamIO:
                 print(f"Answer: {answer}")
                 self.tts.say(answer)
 
-    def __announce_position(self, pos: Coords) -> None:
+    def __process_position(self, pos: Coords) -> None:
+        self.finger_buffer.add(pos)
+        avg_pos = self.finger_buffer.average(start=Coords(0, 0))
+        # print(f"Gesture detected at {avg_pos}")
+
         to_announce: Optional[str] = None
 
-        nearest_node, distance = self.graph.get_nearest_node(pos)
+        nearest_node, distance = self.graph.get_nearest_node(avg_pos)
         to_announce = nearest_node.description
 
         if distance > CamIO.NODE_DISTANCE_THRESHOLD:

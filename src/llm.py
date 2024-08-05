@@ -137,7 +137,8 @@ class PromptFormatter:
         prompt += (
             """Each point is a node of a road network graph and represents the intersection of two or more streets. """
             """Each edge connects two nodes and is specified with this notation: nX - nY. """
-            """For example the edge "n3 - n5" would connect node n3 with node n5. """
+            """For example the edge "n3 - n5" would connect node n3 with node n5.\n"""
+            """Edge lengths are provided in meters and are indicated in parentheses.\n"""
             """Each street is a sequence of connected edges on the graph. These are the streets of the road network graph:\n"""
         )
         prompt += self.graph.edges_prompt() + "\n\n"

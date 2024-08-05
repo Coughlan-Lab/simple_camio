@@ -1,11 +1,6 @@
 {
     "name": "New York",
     "template_image": "models/new_york/template.png",
-    "blipsound": "models/MP3/quick_blip.wav",
-    "welcome_message": "models/MP3/welcome.mp3",
-    "goodbye_message": "models/MP3/goodbye.mp3",
-    "heartbeat": "models/MP3/white_noise.mp3",
-    "crickets": "models/MP3/crickets.mp3",
     "graph": {
         "nodes": [
             [

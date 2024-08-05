@@ -38,9 +38,9 @@ class CamIO:
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )
 
-        self.crickets_player = AmbientSoundPlayer(model["crickets"])
-        self.heartbeat_player = AmbientSoundPlayer(model["heartbeat"])
-        self.heartbeat_player.set_volume(0.05)
+        self.crickets_player = AmbientSoundPlayer("res/crickets.wav")
+        self.white_noise_player = AmbientSoundPlayer("res/white_noise.wav")
+        self.white_noise_player.set_volume(0.05)
 
         # LLM
         self.llm = LLM(self.graph, model["context"])
@@ -84,7 +84,7 @@ class CamIO:
             ok, rotation = self.model_detector.detect(frame_gray)
 
             if not ok or rotation is None:
-                self.heartbeat_player.pause_sound()
+                self.white_noise_player.pause_sound()
                 self.crickets_player.play_sound()
                 continue
             self.crickets_player.pause_sound()
@@ -93,9 +93,9 @@ class CamIO:
                 frame, rotation
             )
             if gesture_position is None:
-                self.heartbeat_player.pause_sound()
+                self.white_noise_player.pause_sound()
                 continue
-            self.heartbeat_player.play_sound()
+            self.white_noise_player.play_sound()
 
             if gesture_status != "pointing":
                 continue
@@ -128,7 +128,7 @@ class CamIO:
         self.finger_buffer.clear()
         self.edge_buffer.clear()
 
-        self.heartbeat_player.pause_sound()
+        self.white_noise_player.pause_sound()
         self.crickets_player.pause_sound()
 
         self.last_announced = None

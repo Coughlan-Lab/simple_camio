@@ -57,10 +57,10 @@ class CamIO:
             print("No camera image returned.")
             return
 
+        self.__init_shortcuts()
+
         self.stt.calibrate()
         self.tts.start()
-
-        self.__init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()

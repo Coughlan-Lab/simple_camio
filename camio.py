@@ -38,8 +38,8 @@ class CamIO:
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )
 
-        self.crickets_player = AmbientSoundPlayer("res/crickets.wav")
-        self.white_noise_player = AmbientSoundPlayer("res/white_noise.wav")
+        self.crickets_player = AmbientSoundPlayer("res/crickets.mp3")
+        self.white_noise_player = AmbientSoundPlayer("res/white_noise.mp3")
         self.white_noise_player.set_volume(0.05)
 
         # LLM

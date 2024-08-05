@@ -143,13 +143,13 @@ class CamIO:
         keyboard.add_hotkey("space", self.on_spacebar_pressed)
         keyboard.add_hotkey("enter", self.stop_interaction)
         keyboard.add_hotkey("esc", self.stop)
-        keyboard.on_press_key("cmd", self.say_map_description)
+        keyboard.on_press_key("cmd", self.on_cmd_pressed)
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
         self.stt.stop_processing()
 
-    def say_map_description(self, _: Any) -> None:
+    def say_map_description(self) -> None:
         self.stop_interaction()
         if self.description is not None:
             self.tts.say(self.description)
@@ -172,6 +172,10 @@ class CamIO:
             or self.stt.is_processing()
             or self.llm.is_waiting_for_response()
         )
+
+    def on_cmd_pressed(self, _: Any) -> None:
+        threading = th.Thread(target=self.say_map_description)
+        threading.start()
 
     def on_spacebar_pressed(self) -> None:
         if self.stt.is_processing():

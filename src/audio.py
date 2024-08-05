@@ -92,7 +92,7 @@ class STT:
 
         input = self.get_from_audio(audio)
 
-        if not self.listening:
+        if not self.listening or input == "":
             return None
 
         self.listening = False

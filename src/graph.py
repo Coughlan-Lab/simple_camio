@@ -68,14 +68,15 @@ class Node:
 
 
 class Edge:
-    def __init__(
-        self, node1: Node, node2: Node, length: float, street_name: str
-    ) -> None:
+    def __init__(self, node1: Node, node2: Node, street_name: str) -> None:
         self.node1 = node1
         self.node2 = node2
-        self.length = length
         self.street = street_name
         self.between_streets: Set[str] = set()
+
+    @property
+    def length(self) -> float:
+        return self.node1.distance_from(self.node2)
 
     @property
     def id(self) -> str:
@@ -116,7 +117,7 @@ class Edge:
         return self.node1 if index == 0 else self.node2
 
     def __str__(self) -> str:
-        return f"{self.id} ({self.length} m)"
+        return self.id
 
     def __repr__(self) -> str:
         return str(self)
@@ -163,7 +164,7 @@ class Graph:
         for node in graph_dict["nodes"]:
             self.nodes.append(Node(len(self.nodes), Coords(node[0], node[1])))
 
-        edges_data: List[Tuple[int, int, float]] = graph_dict["edges"]
+        edges_data: List[Tuple[int, int]] = graph_dict["edges"]
         for street_name, edges_indexes in graph_dict["streets"].items():
             street_edges: List[Edge] = list()
 
@@ -178,7 +179,6 @@ class Graph:
                 edge = Edge(
                     node1,
                     node2,
-                    edge_data[2],
                     street_name,
                 )
 

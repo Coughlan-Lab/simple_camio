@@ -21,6 +21,7 @@ class CamIO:
 
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
+        self.meters_per_pixel = model["meters_per_pixel"]
 
         # Model graph
         self.graph = Graph(model["graph"])
@@ -56,10 +57,10 @@ class CamIO:
             print("No camera image returned.")
             return
 
-        self.__init_shortcuts()
-
         self.stt.calibrate()
         self.tts.start()
+
+        self.__init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()
@@ -99,8 +100,8 @@ class CamIO:
             if gesture_status != "pointing":
                 continue
 
-            x = int(gesture_position[0])
-            y = int(gesture_position[1])
+            x = int(gesture_position[0] * self.meters_per_pixel)
+            y = int(gesture_position[1] * self.meters_per_pixel)
 
             if (
                 min_corner[0] <= x < max_corner[0]

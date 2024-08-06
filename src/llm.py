@@ -1,13 +1,21 @@
+import json
 import math
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from openai import OpenAI, OpenAIError
 from openai.types.chat import (ChatCompletionAssistantMessageParam,
                                ChatCompletionMessageParam,
+                               ChatCompletionMessageToolCall,
+                               ChatCompletionMessageToolCallParam,
                                ChatCompletionSystemMessageParam,
+                               ChatCompletionToolMessageParam,
+                               ChatCompletionToolParam,
                                ChatCompletionUserMessageParam)
+from openai.types.chat.chat_completion_message_tool_call_param import \
+    Function as FunctionParam
+from openai.types.shared_params import FunctionDefinition
 
-from .graph import Coords, Graph
+from .graph import Coords, Graph, GraphEncoder
 from .utils import str_dict
 
 
@@ -42,35 +50,73 @@ class LLM:
     def ask(self, question: str, position: Optional[Coords]) -> Optional[str]:
         new_message = self.prompt_formatter.get_user_message(question, position)
         self.history.append(new_message)
+        self.waiting_for_response = True
+
+        output = ""
 
         try:
-            self.waiting_for_response = True
-            response = self.client.chat.completions.create(
-                model="gpt-4o-2024-05-13",
-                max_tokens=self.max_tokens,
-                temperature=self.temperature,
-                messages=self.history,
-            )
+            while True:
+                response = self.client.chat.completions.create(
+                    model="gpt-4o-2024-05-13",
+                    max_tokens=self.max_tokens,
+                    temperature=self.temperature,
+                    messages=self.history,
+                    tools=self.prompt_formatter.get_tool_calls(),
+                )
+
+                response_message = response.choices[0].message
+                if (
+                    response_message.content is not None
+                    and response_message.content != ""
+                ):
+                    output += response_message.content + "\n"
+
+                self.history.append(
+                    ChatCompletionAssistantMessageParam(
+                        role="assistant",
+                        content=response_message.content,
+                        tool_calls=self.convert_tool_calls(response_message.tool_calls),
+                    )
+                )
+
+                if response_message.tool_calls is None:
+                    break
+
+                for tool_call in response_message.tool_calls:
+                    self.history.append(
+                        self.prompt_formatter.handle_tool_call(tool_call)
+                    )
+
         except OpenAIError as e:
             print(f"An error occurred: {e}")
             self.waiting_for_response = False
             return None
 
-        response_message = response.choices[0].message
-        self.history.append(
-            ChatCompletionAssistantMessageParam(
-                content=response_message.content, role="assistant"
-            )
-        )
-
         self.waiting_for_response = False
 
-        return response_message.content
+        return output[:-1]
+
+    def convert_tool_calls(
+        self, tool_calls: Optional[List[ChatCompletionMessageToolCall]]
+    ) -> Optional[List[ChatCompletionMessageToolCallParam]]:
+        if tool_calls is None:
+            return None
+
+        return [
+            ChatCompletionMessageToolCallParam(
+                id=tool_call.id,
+                function=FunctionParam(
+                    arguments=tool_call.function.arguments, name=tool_call.function.name
+                ),
+                type=tool_call.type,
+            )
+            for tool_call in tool_calls
+        ]
 
     def save_chat(self, filename: str) -> None:
         msgs: List[str] = list()
         for msg in self.history:
-            if "content" in msg:
+            if "content" in msg and msg["content"] is not None and msg["content"] != "":
                 msgs.append(f"{msg['role']}:\n{msg['content']}")
 
         with open(filename, "w") as f:
@@ -80,6 +126,152 @@ class LLM:
 class PromptFormatter:
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
+
+    def get_tool_calls(self) -> List[ChatCompletionToolParam]:
+        return [
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_distance",
+                    description="Get the distance between two points on the road network graph",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x1": {
+                                "type": "number",
+                                "description": "The x coordinate of the first point",
+                            },
+                            "y1": {
+                                "type": "number",
+                                "description": "The y coordinate of the first point",
+                            },
+                            "x2": {
+                                "type": "number",
+                                "description": "The x coordinate of the second point",
+                            },
+                            "y2": {
+                                "type": "number",
+                                "description": "The y coordinate of the second point",
+                            },
+                        },
+                        "required": ["x1", "y1", "x2", "y2"],
+                    },
+                ),
+            ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_distance_from_poi",
+                    description="Get the distance between a point and a point of interest",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number",
+                                "description": "The x coordinate of the point",
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "The y coordinate of the point",
+                            },
+                            "poi_index": {
+                                "type": "number",
+                                "description": "The index of the point of interest",
+                            },
+                        },
+                        "required": ["x", "y", "poi_index"],
+                    },
+                ),
+            ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="am_i_at",
+                    description="Check if a point is at a point of interest",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number",
+                                "description": "The x coordinate of the point",
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "The y coordinate of the point",
+                            },
+                            "poi_index": {
+                                "type": "number",
+                                "description": "The index of the point of interest",
+                            },
+                        },
+                        "required": ["x", "y", "poi_index"],
+                    },
+                ),
+            ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_nearby_pois",
+                    description="Get the points of interest within a certain maximum distance from a point",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number",
+                                "description": "The x coordinate of the point",
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "The y coordinate of the point",
+                            },
+                            "distance": {
+                                "type": "number",
+                                "description": "The maximum distance from the point",
+                            },
+                        },
+                        "required": ["x", "y", "distance"],
+                    },
+                ),
+            ),
+        ]
+
+    def handle_tool_call(
+        self, tool_call: ChatCompletionMessageToolCall
+    ) -> ChatCompletionToolMessageParam:
+        params = json.loads(tool_call.function.arguments)
+
+        result: Any = None
+
+        try:
+            if tool_call.function.name == "get_distance":
+                result = self.graph.get_distance(
+                    Coords(params["x1"], params["y1"]),
+                    Coords(params["x2"], params["y2"]),
+                )
+            elif tool_call.function.name == "get_distance_from_poi":
+                result = self.graph.get_distance_from_poi(
+                    Coords(params["x"], params["y"]),
+                    params["poi_index"],
+                )
+            elif tool_call.function.name == "get_nearby_pois":
+                result = self.graph.get_nearby_pois(
+                    Coords(params["x"], params["y"]), params["distance"]
+                )
+            elif tool_call.function.name == "am_i_at":
+                result = self.graph.am_i_at(
+                    Coords(params["x"], params["y"]), params["poi_index"]
+                )
+            else:
+                result = "Unknown function call."
+        except Exception as e:
+            print(f"An error occurred during a function call: {e}")
+            result = "An error occurred while processing the function call."
+
+        return ChatCompletionToolMessageParam(
+            role="tool",
+            tool_call_id=tool_call.id,
+            content=json.dumps(result, cls=GraphEncoder),
+        )
 
     def get_user_message(
         self, question: str, position: Optional[Coords]
@@ -163,6 +355,7 @@ class PromptFormatter:
 
         prompt += (
             """These are points of interest along the road network. Each point has three important parameters:\n"""
+            """- index: the index of the point in the list of points of interest\n"""
             """- edge: the edge the point is located on\n"""
             """- distance: the distance of the point from the first node of the edge\n"""
             """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""

@@ -99,18 +99,17 @@ class PromptFormatter:
             distance_m_node2 = math.floor(distance_m_node2)
 
             if len(edge.between_streets) == 0:
-                street = f"at the end of {edge.street}"
+                street_str = f"at the end of {edge.street}."
             elif len(edge.between_streets) == 1:
-                street = f"part of {edge.street}, at the intersection with {next(iter(edge.between_streets))}"
+                street_str = f"part of {edge.street}, at the intersection with {next(iter(edge.between_streets))}."
             else:
-                street = (
-                    f"part of {edge.street}, between {', '.join(edge.between_streets)}"
-                )
+                streets = list(edge.between_streets)
+                street_str = f"part of {edge.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
 
             instructions = (
                 f"""My coordinates are {position}, """
                 f"""the closest point of the road network is edge {edge.id}, """
-                f"""which is {street}\n"""
+                f"""which is {street_str}\n"""
                 f"""I'm at a distance of {distance_m_node1} m from the {edge.node1.description} """
                 f"""and {distance_m_node2} m from the {edge.node2.description}.\n"""
                 """Continue answering my questions with the updated position.\n"""

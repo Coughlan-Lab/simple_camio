@@ -243,4 +243,4 @@ class Graph:
         return "\n".join([f"{street}: {street.name}" for street in self.streets])
 
     def poi_prompt(self) -> str:
-        return "\n\n\n".join([str_dict(poi) for poi in self.pois])
+        return "\n\n".join([str_dict(poi) for poi in self.pois])

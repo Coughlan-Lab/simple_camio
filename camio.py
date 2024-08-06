@@ -16,7 +16,6 @@ from src.utils import *
 
 
 class CamIO:
-    RES_FILE = "res/strings.json"
     NODE_DISTANCE_THRESHOLD = 20
     EDGE_DISTANCE_THRESHOLD = 40
 
@@ -33,7 +32,7 @@ class CamIO:
         self.pose_detector = PoseDetector()
 
         # Audio players
-        self.tts = TTS(CamIO.RES_FILE, rate=200)
+        self.tts = TTS("res/strings.json", rate=200)
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )

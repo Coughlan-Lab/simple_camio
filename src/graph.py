@@ -256,21 +256,23 @@ class Graph:
             filter(lambda edge: edge.contains(coords), self.edges),
             key=lambda edge: edge.distance_from(coords),
         )
+        # TODO: fix distance
         return edge, edge.distance_from(coords)
 
     def get_distance(self, p1: Coords, p2: Coords) -> float:
         print(f"Getting distance from {p1} to {p2}")
-        e1, _ = self.get_nearest_edge(p1)
-        e2, _ = self.get_nearest_edge(p2)
+        e1, dist_e1 = self.get_nearest_edge(p1)
+        e2, dist_e2 = self.get_nearest_edge(p2)
 
-        return self.__get_edge_distance(e1, e2)
+        return self.__get_edge_distance(e1, e2, dist_e1, dist_e2)
 
     def get_distance_from_poi(self, p1: Coords, poi: int) -> float:
         print(f"Getting distance from {p1} to {poi}")
-        e1, _ = self.get_nearest_edge(p1)
+        e1, dist_e1 = self.get_nearest_edge(p1)
         e2 = self.pois[poi]["edge"]
+        dist_e2 = self.pois[poi]["distance"]
 
-        return self.__get_edge_distance(e1, e2)
+        return self.__get_edge_distance(e1, e2, dist_e1, dist_e2)
 
     def am_i_at(self, p1: Coords, poi: int) -> bool:
         print(f"Checking if {p1} is at {poi}")
@@ -279,9 +281,22 @@ class Graph:
 
         return p1.distance_from(p2) < Graph.AM_I_THRESHOLD
 
-    def __get_edge_distance(self, e1: Edge, e2: Edge) -> float:
+    def __get_edge_distance(
+        self,
+        e1: Edge,
+        e2: Edge,
+        distance_to_e1_n1: float = 0.0,
+        distance_from_e2_n1: float = 0.0,
+    ) -> float:
+        to_distances = [distance_to_e1_n1, e1.length - distance_to_e1_n1]
+        from_distances = [distance_from_e2_n1, e2.length - distance_from_e2_n1]
+
         d = min(
-            [self.distances[e1[i].id][e2[j].id] for i in range(2) for j in range(2)]
+            [
+                self.distances[e1[i].id][e2[j].id] + to_distances[i] + from_distances[j]
+                for i in range(2)
+                for j in range(2)
+            ]
         )
 
         if d >= Graph.INF:
@@ -297,12 +312,12 @@ class Graph:
             return [poi["name"] for poi in self.pois]
 
         res = []
-        e1, _ = self.get_nearest_edge(coords)
+        e1, dist_e1 = self.get_nearest_edge(coords)
 
         for poi in self.pois:
             e2 = poi["edge"]
             try:
-                d = self.__get_edge_distance(e1, e2)
+                d = self.__get_edge_distance(e1, e2, dist_e1, poi["distance"])
             except ValueError:
                 continue
 

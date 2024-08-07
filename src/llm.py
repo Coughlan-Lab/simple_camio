@@ -56,6 +56,7 @@ class LLM:
 
         try:
             while True:
+                print("Sending API request...")
                 response = self.client.chat.completions.create(
                     model="gpt-4o-2024-05-13",
                     max_tokens=self.max_tokens,
@@ -63,6 +64,7 @@ class LLM:
                     messages=self.history,
                     tools=self.prompt_formatter.get_tool_calls(),
                 )
+                print("Got API response")
 
                 response_message = response.choices[0].message
                 if (
@@ -212,7 +214,7 @@ class PromptFormatter:
                 type="function",
                 function=FunctionDefinition(
                     name="get_nearby_pois",
-                    description="Get the points of interest within a certain maximum distance from a point",
+                    description="Get the points of interest within a certain maximum distance from a point. If you call this function always include in your response the distance you used",
                     parameters={
                         "type": "object",
                         "properties": {
@@ -226,10 +228,10 @@ class PromptFormatter:
                             },
                             "distance": {
                                 "type": "number",
-                                "description": "The maximum distance from the point",
+                                "description": f"The maximum distance from the point. If I don't ask for points of interest at a specific maximum distance don't set it; in this case a default distance of {Graph.NEARBY_THRESHOLD} meters will be used.",
                             },
                         },
-                        "required": ["x", "y", "distance"],
+                        "required": ["x", "y"],
                     },
                 ),
             ),
@@ -255,7 +257,7 @@ class PromptFormatter:
                 )
             elif tool_call.function.name == "get_nearby_pois":
                 result = self.graph.get_nearby_pois(
-                    Coords(params["x"], params["y"]), params["distance"]
+                    Coords(params["x"], params["y"]), params.get("distance", None)
                 )
             elif tool_call.function.name == "am_i_at":
                 result = self.graph.am_i_at(
@@ -356,10 +358,10 @@ class PromptFormatter:
         prompt += (
             """These are points of interest along the road network. Each point has three important parameters:\n"""
             """- index: the index of the point in the list of points of interest\n"""
+            """- coords: the coordinates of the point\n"""
             """- edge: the edge the point is located on\n"""
             """- distance: the distance of the point from the first node of the edge\n"""
             """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""
-            """Consider two points on the cartesian plane to be close if their distance is less than 40 meters.\n\n"""
         )
         prompt += self.graph.poi_prompt() + "\n\n"
 

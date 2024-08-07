@@ -1,5 +1,5 @@
 from json import JSONEncoder
-from typing import Any, Dict, List, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 from .utils import str_dict
 
@@ -155,7 +155,8 @@ class Street:
 
 
 class Graph:
-    NEARBY_THRESHOLD = 50.0  # meters
+    AM_I_THRESHOLD = 50.0  # meters
+    NEARBY_THRESHOLD = 250.0  # meters
     INF = 999999
 
     def __init__(self, graph_dict: Dict[str, Any]) -> None:
@@ -220,6 +221,7 @@ class Graph:
         for i, poi in enumerate(self.pois):
             poi["index"] = i
             poi["edge"] = self.edges[poi["edge"]]
+            poi["coords"] = Coords(*poi["coords"])
 
     def __precompute_distances(self) -> Dict[str, Dict[str, float]]:
         dist = {
@@ -275,7 +277,7 @@ class Graph:
 
         p2 = self.pois[poi]["coords"]
 
-        return p1.distance_from(p2) < Graph.NEARBY_THRESHOLD
+        return p1.distance_from(p2) < Graph.AM_I_THRESHOLD
 
     def __get_edge_distance(self, e1: Edge, e2: Edge) -> float:
         d = min(
@@ -286,8 +288,13 @@ class Graph:
             raise ValueError("Points are not connected")
         return d
 
-    def get_nearby_pois(self, coords: Coords, threshold: float) -> List[str]:
+    def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
+        if threshold is None:
+            threshold = Graph.NEARBY_THRESHOLD
         print(f"Getting nearby POIs from {coords} at {threshold} meters")
+
+        if threshold < 0:
+            return [poi["name"] for poi in self.pois]
 
         res = []
         e1, _ = self.get_nearest_edge(coords)

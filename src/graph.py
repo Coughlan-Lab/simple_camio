@@ -9,11 +9,23 @@ class Coords:
         self.x = x
         self.y = y
 
-    def distance_from(self, other: "Coords") -> float:
+    def distance_to(self, other: "Coords") -> float:
         return float(((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5)
 
-    def manhattan_distance_from(self, other: "Coords") -> float:
+    def manhattan_distance_to(self, other: "Coords") -> float:
         return abs(self.x - other.x) + abs(self.y - other.y)
+
+    def distance_to_edge(self, edge: "Edge") -> float:
+        num = abs(edge.m * self.x + edge.q - self.y)
+        den = (edge.m**2 + 1) ** 0.5
+
+        return float(num / den)
+
+    def project_on(self, edge: "Edge") -> "Coords":
+        p_x = (self.x + edge.m * self.y - edge.m * edge.q) / (edge.m**2 + 1)
+        p_y = (edge.m * self.x + edge.m**2 * self.y + edge.q) / (edge.m**2 + 1)
+
+        return Coords(p_x, p_y)
 
     def __add__(self, other: Union["Coords", float]) -> "Coords":
         if isinstance(other, Coords):
@@ -63,13 +75,13 @@ class Node:
 
     def distance_from(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):
-            return self.coords.distance_from(other.coords)
-        return self.coords.distance_from(other)
+            return self.coords.distance_to(other.coords)
+        return self.coords.distance_to(other)
 
     def manhattan_distance_from(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):
-            return self.coords.manhattan_distance_from(other.coords)
-        return self.coords.manhattan_distance_from(other)
+            return self.coords.manhattan_distance_to(other.coords)
+        return self.coords.manhattan_distance_to(other)
 
     def __getitem__(self, index: int) -> float:
         return self.coords[index]
@@ -107,11 +119,6 @@ class Edge:
         return (self.node1[0] * self.node2[1] - self.node2[0] * self.node1[1]) / (
             self.node1[0] - self.node2[0]
         )
-
-    def distance_from(self, coords: Coords) -> float:
-        num = abs(self.m * coords.x + self.q - coords.y)
-        den = (self.m**2 + 1) ** 0.5
-        return float(num / den)
 
     def contains(self, coords: Coords) -> bool:
         return (
@@ -264,32 +271,42 @@ class Graph:
     def get_nearest_edge(self, coords: Coords) -> Tuple[Edge, float]:
         edge = min(
             filter(lambda edge: edge.contains(coords), self.edges),
-            key=lambda edge: edge.distance_from(coords),
+            key=lambda edge: coords.distance_to_edge(edge),
         )
-        # TODO: fix distance
-        return edge, edge.distance_from(coords)
+        return edge, coords.distance_to_edge(edge)
 
     def get_distance(self, p1: Coords, p2: Coords) -> float:
         print(f"Getting distance from {p1} to {p2}")
-        e1, dist_e1 = self.get_nearest_edge(p1)
-        e2, dist_e2 = self.get_nearest_edge(p2)
 
-        return self.__get_edge_distance(e1, e2, dist_e1, dist_e2)
+        e1, dist_to_e1 = self.get_nearest_edge(p1)
+        e2, dist_to_e2 = self.get_nearest_edge(p2)
+
+        return self.__get_edge_distance(
+            e1,
+            e2,
+            dist_to_e1 + p1.project_on(e1).distance_to(e1[0].coords),
+            dist_to_e2 + p2.project_on(e2).distance_to(e2[0].coords),
+        )
 
     def get_distance_from_poi(self, p1: Coords, poi: int) -> float:
         print(f"Getting distance from {p1} to {poi}")
-        e1, dist_e1 = self.get_nearest_edge(p1)
-        e2 = self.pois[poi]["edge"]
-        dist_e2 = self.pois[poi]["distance"]
 
-        return self.__get_edge_distance(e1, e2, dist_e1, dist_e2)
+        e1, dist_to_e1 = self.get_nearest_edge(p1)
+        e2, dist_to_e2_n1 = self.pois[poi]["edge"], self.pois[poi]["distance"]
+
+        return self.__get_edge_distance(
+            e1,
+            e2,
+            dist_to_e1 + p1.project_on(e1).distance_to(e1[0].coords),
+            dist_to_e2_n1,
+        )
 
     def am_i_at(self, p1: Coords, poi: int) -> bool:
         print(f"Checking if {p1} is at {poi}")
 
         p2 = self.pois[poi]["coords"]
 
-        return p1.distance_from(p2) < Graph.AM_I_THRESHOLD
+        return p1.distance_to(p2) < Graph.AM_I_THRESHOLD
 
     def __get_edge_distance(
         self,
@@ -316,18 +333,20 @@ class Graph:
     def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
         if threshold is None:
             threshold = Graph.NEARBY_THRESHOLD
+
         print(f"Getting nearby POIs from {coords} at {threshold} meters")
 
         if threshold < 0:
             return [poi["name"] for poi in self.pois]
 
         res = []
-        e1, dist_e1 = self.get_nearest_edge(coords)
+        e1, dist_to_e1 = self.get_nearest_edge(coords)
+        dist_to_e1_n1 = dist_to_e1 + coords.project_on(e1).distance_to(e1[0].coords)
 
         for poi in self.pois:
             e2 = poi["edge"]
             try:
-                d = self.__get_edge_distance(e1, e2, dist_e1, poi["distance"])
+                d = self.__get_edge_distance(e1, e2, dist_to_e1_n1, poi["distance"])
             except ValueError:
                 continue
 
@@ -428,7 +447,7 @@ class PositionHandler:
 
             if (
                 nearest_edge is not None
-                and nearest_edge.distance_from(last_pos)
+                and last_pos.distance_to_edge(nearest_edge)
                 <= PositionHandler.EDGE_DISTANCE_THRESHOLD
             ):
                 to_announce = nearest_edge.street

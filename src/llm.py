@@ -336,7 +336,7 @@ class PromptFormatter:
         prompt += self.graph.edges_prompt() + "\n\n"
 
         prompt += (
-            """All units are in meters."""
+            """All units are in meters. """
             f"""North is indicated by the vector {self.graph.reference_system['north']}, """
             f"""South by {self.graph.reference_system['south']}, """
             f"""West by {self.graph.reference_system['west']}, and """
@@ -356,7 +356,7 @@ class PromptFormatter:
         )
 
         prompt += (
-            """These are points of interest along the road network. Each point has three important parameters:\n"""
+            """These are points of interest along the road network. Each point has four important parameters:\n"""
             """- index: the index of the point in the list of points of interest\n"""
             """- coords: the coordinates of the point\n"""
             """- edge: the edge the point is located on\n"""

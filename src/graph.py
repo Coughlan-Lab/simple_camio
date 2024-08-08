@@ -15,11 +15,15 @@ class Coords:
     def manhattan_distance_from(self, other: "Coords") -> float:
         return abs(self.x - other.x) + abs(self.y - other.y)
 
-    def __add__(self, other: "Coords") -> "Coords":
-        return Coords(self.x + other.x, self.y + other.y)
+    def __add__(self, other: Union["Coords", float]) -> "Coords":
+        if isinstance(other, Coords):
+            return Coords(self.x + other.x, self.y + other.y)
+        return Coords(self.x + other, self.y + other)
 
-    def __sub__(self, other: "Coords") -> "Coords":
-        return Coords(self.x - other.x, self.y - other.y)
+    def __sub__(self, other: Union["Coords", float]) -> "Coords":
+        if isinstance(other, Coords):
+            return Coords(self.x - other.x, self.y - other.y)
+        return Coords(self.x - other, self.y - other)
 
     def __mul__(self, other: float) -> "Coords":
         return Coords(self.x * other, self.y * other)
@@ -363,9 +367,15 @@ class Graph:
 
 
 class PositionHandler:
+    MARGIN = 50
+    NODE_DISTANCE_THRESHOLD = 25
+    EDGE_DISTANCE_THRESHOLD = 15
+
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
         self.graph = graph
         self.min_corner, self.max_corner = self.graph.bounds
+        self.min_corner -= PositionHandler.MARGIN
+        self.max_corner += PositionHandler.MARGIN
 
         self.meters_per_pixel = meters_per_pixel
 
@@ -382,6 +392,8 @@ class PositionHandler:
 
     def process_position(self, pos: Coords) -> None:
         pos *= self.meters_per_pixel
+
+        # print(f"Position detected: {pos}")
 
         if (
             self.min_corner[0] <= pos.x < self.max_corner[0]
@@ -408,7 +420,7 @@ class PositionHandler:
 
         # print(f"N: {nearest_node}, D: {distance}")
 
-        if distance > CamIO.NODE_DISTANCE_THRESHOLD:
+        if distance > PositionHandler.NODE_DISTANCE_THRESHOLD:
             edge, distance = self.graph.get_nearest_edge(last_pos)
             self.edge_buffer.add(edge)
             nearest_edge = self.edge_buffer.mode()
@@ -417,7 +429,7 @@ class PositionHandler:
             if (
                 nearest_edge is not None
                 and nearest_edge.distance_from(last_pos)
-                <= CamIO.EDGE_DISTANCE_THRESHOLD
+                <= PositionHandler.EDGE_DISTANCE_THRESHOLD
             ):
                 to_announce = nearest_edge.street
             else:

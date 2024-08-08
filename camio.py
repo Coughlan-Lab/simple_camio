@@ -16,8 +16,6 @@ from src.utils import *
 
 
 class CamIO:
-    NODE_DISTANCE_THRESHOLD = 25
-    EDGE_DISTANCE_THRESHOLD = 15
 
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)

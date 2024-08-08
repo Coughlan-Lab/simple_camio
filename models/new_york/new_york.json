@@ -1,2312 +1,3809 @@
 {
-    "name": "New York",
-    "template_image": "models/new_york/template.png",
-    "meters_per_pixel": 0.5948219649480725,
-    "graph": {
-        "nodes": [
-            [
-                172.63455275849492,
-                922.7019199160936
-            ],
-            [
-                226.21079326975197,
-                952.466497977903
-            ],
-            [
-                160.72872153377114,
-                833.4081857306652
-            ],
-            [
-                211.32850423884724,
-                857.2198481801128
-            ],
-            [
-                354.1984789355327,
-                934.6077511408174
-            ],
-            [
-                163.70517933995208,
-                744.1144515452368
-            ],
-            [
-                247.04599791301862,
-                791.7377764441319
-            ],
-            [
-                363.12785235407557,
-                854.2433903739318
-            ],
-            [
-                505.99782705076103,
-                934.6077511408174
-            ],
-            [
-                104.17602321633315,
-                657.7971751659893
-            ],
-            [
-                282.76349158719,
-                723.2792469019702
-            ],
-            [
-                375.03368357879936,
-                773.8790296070463
-            ],
-            [
-                544.6917785311133,
-                869.1256794048365
-            ],
-            [
-                672.6794641968941,
-                943.5371245593602
-            ],
-            [
-                163.70517933995208,
-                571.4798987867418
-            ],
-            [
-                324.43390087372325,
-                657.7971751659893
-            ],
-            [
-                389.91597260970406,
-                693.5146688401607
-            ],
-            [
-                580.4092722052847,
-                804.2388992300919
-            ],
-            [
-                708.3969578710654,
-                878.0550528233794
-            ],
-            [
-                839.3611013430271,
-                949.4900401717222
-            ],
-            [
-                163.70517933995208,
-                488.13908021367536
-            ],
-            [
-                360.1513945478946,
-                592.3151034300084
-            ],
-            [
-                401.82180383442784,
-                616.126765879456
-            ],
-            [
-                616.126765879456,
-                735.185078126694
-            ],
-            [
-                744.1144515452368,
-                809.5965232812176
-            ],
-            [
-                875.0785950171985,
-                884.0079684357413
-            ],
-            [
-                988.1839916520745,
-                946.5135823655412
-            ],
-            [
-                160.72872153377114,
-                401.82180383442784
-            ],
-            [
-                395.86888822206595,
-                526.8330316940277
-            ],
-            [
-                651.8442595536275,
-                672.6794641968941
-            ],
-            [
-                779.8319452194081,
-                744.1144515452368
-            ],
-            [
-                910.7960886913698,
-                818.5258966997604
-            ],
-            [
-                991.1604494582554,
-                863.1727637924747
-            ],
-            [
-                163.70517933995208,
-                303.5986962304566
-            ],
-            [
-                202.3991308203044,
-                327.41035867990416
-            ],
-            [
-                437.53929750859925,
-                455.3980443456849
-            ],
-            [
-                690.5382110339797,
-                604.2209346547322
-            ],
-            [
-                821.5023545059414,
-                675.655922003075
-            ],
-            [
-                949.4900401717222,
-                747.0909093514177
-            ],
-            [
-                991.1604494582554,
-                770.9025718008653
-            ],
-            [
-                163.70517933995208,
-                214.3049620450282
-            ],
-            [
-                241.0930823006567,
-                255.97537133156146
-            ],
-            [
-                431.58638189623736,
-                363.12785235407557
-            ],
-            [
-                476.2332489889515,
-                386.93951480352314
-            ],
-            [
-                732.208620320513,
-                532.7859473063895
-            ],
-            [
-                860.1963059862937,
-                604.2209346547322
-            ],
-            [
-                985.2075338458935,
-                675.655922003075
-            ],
-            [
-                398.8453460282469,
-                190.49329959558062
-            ],
-            [
-                443.49221312096114,
-                282.76349158719
-            ],
-            [
-                511.9507426631229,
-                321.4574430675423
-            ],
-            [
-                767.9261139946843,
-                467.3038755704087
-            ],
-            [
-                895.9137996604651,
-                538.7388629187515
-            ],
-            [
-                991.1604494582554,
-                592.3151034300084
-            ],
-            [
-                428.6099240900564,
-                190.49329959558062
-            ],
-            [
-                455.3980443456849,
-                205.37558862648535
-            ],
-            [
-                544.6917785311133,
-                255.97537133156146
-            ],
-            [
-                803.6436076688557,
-                401.82180383442784
-            ],
-            [
-                931.6312933346364,
-                476.2332489889515
-            ],
-            [
-                991.1604494582554,
-                508.97428485694195
-            ],
-            [
-                583.3857300114656,
-                190.49329959558062
-            ],
-            [
-                842.337559149208,
-                339.31618990462795
-            ],
-            [
-                970.3252448149888,
-                410.7511772529707
-            ],
-            [
-                994.1369072644363,
-                422.6570084776945
-            ],
-            [
-                735.185078126694,
-                193.46975740176157
-            ],
-            [
-                878.0550528233794,
-                273.83411816864714
-            ],
-            [
-                994.1369072644363,
-                336.33973209844703
-            ],
-            [
-                914.3678380587869,
-                205.37558862648535
-            ],
-            [
-                994.1369072644363,
-                252.99891352538052
-            ],
-            [
-                994.1369072644363,
-                366.1043101602565
-            ]
-        ],
-        "edges": [
-            [
-                0,
-                1
-            ],
-            [
-                2,
-                3
-            ],
-            [
-                3,
-                4
-            ],
-            [
-                5,
-                6
-            ],
-            [
-                6,
-                7
-            ],
-            [
-                7,
-                8
-            ],
-            [
-                9,
-                10
-            ],
-            [
-                10,
-                11
-            ],
-            [
-                11,
-                12
-            ],
-            [
-                14,
-                15
-            ],
-            [
-                15,
-                16
-            ],
-            [
-                16,
-                17
-            ],
-            [
-                20,
-                21
-            ],
-            [
-                21,
-                22
-            ],
-            [
-                22,
-                23
-            ],
-            [
-                27,
-                28
-            ],
-            [
-                28,
-                29
-            ],
-            [
-                33,
-                34
-            ],
-            [
-                34,
-                35
-            ],
-            [
-                35,
-                36
-            ],
-            [
-                40,
-                41
-            ],
-            [
-                41,
-                42
-            ],
-            [
-                42,
-                43
-            ],
-            [
-                43,
-                44
-            ],
-            [
-                47,
-                48
-            ],
-            [
-                48,
-                49
-            ],
-            [
-                49,
-                50
-            ],
-            [
-                53,
-                54
-            ],
-            [
-                54,
-                55
-            ],
-            [
-                55,
-                56
-            ],
-            [
-                59,
-                60
-            ],
-            [
-                63,
-                64
-            ],
-            [
-                27,
-                34
-            ],
-            [
-                34,
-                41
-            ],
-            [
-                41,
-                47
-            ],
-            [
-                0,
-                3
-            ],
-            [
-                3,
-                6
-            ],
-            [
-                6,
-                10
-            ],
-            [
-                10,
-                15
-            ],
-            [
-                15,
-                21
-            ],
-            [
-                21,
-                28
-            ],
-            [
-                28,
-                35
-            ],
-            [
-                35,
-                43
-            ],
-            [
-                43,
-                49
-            ],
-            [
-                49,
-                55
-            ],
-            [
-                55,
-                59
-            ],
-            [
-                8,
-                12
-            ],
-            [
-                12,
-                17
-            ],
-            [
-                17,
-                23
-            ],
-            [
-                23,
-                29
-            ],
-            [
-                29,
-                36
-            ],
-            [
-                36,
-                44
-            ],
-            [
-                44,
-                50
-            ],
-            [
-                50,
-                56
-            ],
-            [
-                56,
-                60
-            ],
-            [
-                60,
-                64
-            ],
-            [
-                64,
-                66
-            ],
-            [
-                13,
-                18
-            ],
-            [
-                18,
-                24
-            ],
-            [
-                24,
-                30
-            ],
-            [
-                30,
-                37
-            ],
-            [
-                37,
-                45
-            ],
-            [
-                45,
-                51
-            ],
-            [
-                51,
-                57
-            ],
-            [
-                57,
-                61
-            ],
-            [
-                19,
-                25
-            ],
-            [
-                25,
-                31
-            ],
-            [
-                31,
-                38
-            ],
-            [
-                38,
-                46
-            ],
-            [
-                4,
-                7
-            ],
-            [
-                7,
-                11
-            ],
-            [
-                11,
-                16
-            ],
-            [
-                16,
-                22
-            ],
-            [
-                42,
-                48
-            ],
-            [
-                48,
-                54
-            ],
-            [
-                12,
-                13
-            ],
-            [
-                17,
-                18
-            ],
-            [
-                18,
-                19
-            ],
-            [
-                23,
-                24
-            ],
-            [
-                24,
-                25
-            ],
-            [
-                25,
-                26
-            ],
-            [
-                29,
-                30
-            ],
-            [
-                30,
-                31
-            ],
-            [
-                31,
-                32
-            ],
-            [
-                36,
-                37
-            ],
-            [
-                37,
-                38
-            ],
-            [
-                38,
-                39
-            ],
-            [
-                44,
-                45
-            ],
-            [
-                45,
-                46
-            ],
-            [
-                50,
-                51
-            ],
-            [
-                51,
-                52
-            ],
-            [
-                56,
-                57
-            ],
-            [
-                57,
-                58
-            ],
-            [
-                60,
-                61
-            ],
-            [
-                61,
-                62
-            ],
-            [
-                64,
-                65
-            ],
-            [
-                66,
-                67
-            ]
-        ],
-        "streets": {
-            "West 27th Street": [
-                0
-            ],
-            "West 28th Street": [
-                1,
-                2
-            ],
-            "West 29th Street": [
-                3,
-                4,
-                5
-            ],
-            "West 30th Street": [
-                6,
-                7,
-                8
-            ],
-            "West 31st Street": [
-                9,
-                10,
-                11
-            ],
-            "West 32nd Street": [
-                12,
-                13,
-                14
-            ],
-            "West 33rd Street": [
-                15,
-                16
-            ],
-            "West 34th Street": [
-                17,
-                18,
-                19
-            ],
-            "West 35th Street": [
-                20,
-                21,
-                22,
-                23
-            ],
-            "West 36th Street": [
-                24,
-                25,
-                26
-            ],
-            "West 37th Street": [
-                27,
-                28,
-                29
-            ],
-            "West 38th Street": [
-                30
-            ],
-            "West 39th Street": [
-                31
-            ],
-            "7th Avenue": [
-                32,
-                33,
-                34
-            ],
-            "6th Avenue": [
-                35,
-                36,
-                37,
-                38,
-                39,
-                40,
-                41,
-                42,
-                43,
-                44,
-                45
-            ],
-            "5th Avenue": [
-                46,
-                47,
-                48,
-                49,
-                50,
-                51,
-                52,
-                53,
-                54,
-                55,
-                56
-            ],
-            "Madison Avenue": [
-                57,
-                58,
-                59,
-                60,
-                61,
-                62,
-                63,
-                64
-            ],
-            "Park Avenue South": [
-                65
-            ],
-            "Park Avenue": [
-                66,
-                67,
-                68
-            ],
-            "Broadway": [
-                69,
-                70,
-                71,
-                72,
-                73,
-                74
-            ],
-            "East 30th Street": [
-                75
-            ],
-            "East 31st Street": [
-                76,
-                77
-            ],
-            "East 32nd Street": [
-                78,
-                79,
-                80
-            ],
-            "East 33rd Street": [
-                81,
-                82,
-                83
-            ],
-            "East 34th Street": [
-                84,
-                85,
-                86
-            ],
-            "East 35th Street": [
-                87,
-                88
-            ],
-            "East 36th Street": [
-                89,
-                90
-            ],
-            "East 37th Street": [
-                91,
-                92
-            ],
-            "East 38th Street": [
-                93,
-                94
-            ],
-            "East 39th Street": [
-                95
-            ],
-            "East 40th Street": [
-                96
-            ]
-        },
-        "reference_system": {
-            "north": [
-                0,
-                1
-            ],
-            "south": [
-                0,
-                -1
-            ],
-            "east": [
-                1,
-                0
-            ],
-            "west": [
-                -1,
-                0
-            ]
-        },
-        "points_of_interest": [
-            {
-                "name": "Cooper Electric",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 38th Street",
-                "housenumber": "29",
-                "categories": [
-                    "commercial",
-                    "commercial.trade"
-                ],
-                "opening_hours": "Mo-Fr 07:00-15:00",
-                "brand": "Cooper Electric",
-                "branch": "Manhattan",
-                "contact": {
-                    "phone": "+1 212-299-0570",
-                    "email": "CMATSalesTeam@cooper-electric.com",
-                    "fax": "+1 212-354-1786"
-                },
-                "commercial": {
-                    "type": "trade",
-                    "trade": "building_supplies",
-                    "level": 0
-                },
-                "distance": 147.81733965154703,
-                "edge": 30,
-                "coords": [
-                    734.2281930605163,
-                    224.6802794849018
-                ]
-            },
-            {
-                "name": "Chick-fil-A",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "6th Avenue",
-                "housenumber": "1000",
-                "categories": [
-                    "catering",
-                    "catering.fast_food",
-                    "internet_access"
-                ],
-                "opening_hours": "Mo-Sa 06:30-22:00",
-                "brand": "Chick-fil-A",
-                "branch": "37th & 6th",
-                "contact": {
-                    "phone": "+1 212-704-9920"
-                },
-                "facilities": {
-                    "internet_access": true,
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "chicken"
-                },
-                "distance": 44.2367213364512,
-                "edge": 45,
-                "coords": [
-                    583.1647657468293,
-                    227.32671873875495
-                ]
-            },
-            {
-                "name": "Stavros Niarchos Foundation Library",
-                "old_name": "Mid-Manhattan Library",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "5th Avenue",
-                "housenumber": "455",
-                "categories": [
-                    "building",
-                    "building.public_and_civil",
-                    "education",
-                    "education.library",
-                    "internet_access",
-                    "internet_access.free",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
-                "operator": "New York Public Library",
-                "name_other": {
-                    "old_name": "Mid-Manhattan Library",
-                    "short_name": "SNFL",
-                    "loc_name": "SNFL"
-                },
-                "contact": {
-                    "phone": "+1 212-340-0863"
-                },
-                "facilities": {
-                    "internet_access": true,
-                    "wheelchair": true,
-                    "toilets": true,
-                    "air_conditioning": true
-                },
-                "building": {
-                    "height": 31
-                },
-                "distance": 84.04982222815624,
-                "edge": 56,
-                "coords": [
-                    974.3971323489449,
-                    229.795246110971
-                ]
-            },
-            {
-                "name": "Andrews NYC Diner",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "7th Avenue",
-                "housenumber": "463",
-                "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.american",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Th 06:00-22:00; Fr 06:00-23:00; Sa, Su 07:00-23:00",
-                "contact": {
-                    "phone": "+1-212-695-1962"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "american;diner",
-                    "reservation": "required"
-                },
-                "distance": 33.6549893482313,
-                "edge": 34,
-                "coords": [
-                    267.9297974247279,
-                    232.84198709992256
-                ]
-            },
-            {
-                "name": "The Australian NYC",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 38th Street",
-                "housenumber": "20",
-                "categories": [
-                    "catering",
-                    "catering.restaurant"
-                ],
-                "opening_hours": "Mo, Su 11:30-00:00; Tu, We 11:30-23:00; Th 11:30-02:00; Fr, Sa 11:30-04:00",
-                "contact": {
-                    "phone": "+1 212-869-9601",
-                    "email": "info@theaustraliannyc.com"
-                },
-                "facilities": {
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "catering": {
-                    "cuisine": "australian",
-                    "reservation": "required"
-                },
-                "distance": 206.8269445924324,
-                "edge": 30,
-                "coords": [
-                    773.5188368716542,
-                    274.7402354603104
-                ]
-            },
-            {
-                "name": "Rituals",
-                "city": "New York",
-                "district": "Garment District",
-                "suburb": "Manhattan",
-                "street": "Broadway",
-                "housenumber": "1333",
-                "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.cosmetics"
-                ],
-                "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
-                "brand": "Rituals",
-                "branch": "Herald Square",
-                "contact": {
-                    "phone": "+1 917-675-7699",
-                    "email": "newyork.heraldsq@rituals.com"
-                },
-                "commercial": {
-                    "type": "cosmetics"
-                },
-                "distance": 78.81183047826477,
-                "edge": 73,
-                "coords": [
-                    432.87636824748773,
-                    283.64694908410763
-                ]
-            },
-            {
-                "name": "Blaggards Pub",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 38th Street",
-                "housenumber": "8",
-                "categories": [
-                    "catering",
-                    "catering.pub"
-                ],
-                "opening_hours": "Mo-Sa 11:00-04:00; Su 12:00-04:00",
-                "contact": {
-                    "phone": "+1 212-382-2611",
-                    "email": "blaggards@verizon.net"
-                },
-                "facilities": {
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "distance": 230.96341783936242,
-                "edge": 30,
-                "coords": [
-                    794.9669456060839,
-                    285.8597281241714
-                ]
-            },
-            {
-                "name": "Pok\u00e9 Bar",
-                "city": "New York",
-                "district": "Garment District",
-                "suburb": "Manhattan",
-                "street": "Broadway",
-                "housenumber": "1333",
-                "categories": [
-                    "catering",
-                    "catering.fast_food",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Fr 11:00-21:00; Sa 11:00-20:00; Su 11:30-20:00",
-                "contact": {
-                    "phone": "+1 212-244-4320"
-                },
-                "facilities": {
-                    "wheelchair": true
-                },
-                "distance": 61.28817284149036,
-                "edge": 73,
-                "coords": [
-                    430.16376376364747,
-                    300.95999916265237
-                ]
-            },
-            {
-                "name": "Urban Outfitters",
-                "city": "New York",
-                "district": "Garment District",
-                "suburb": "Manhattan",
-                "street": "Broadway",
-                "housenumber": "1333",
-                "categories": [
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes",
-                    "internet_access",
-                    "wheelchair",
-                    "wheelchair.limited"
-                ],
-                "opening_hours": "Mo-Sa 10:00-22:00; Su 10:00-21:00",
-                "brand": "Urban Outfitters",
-                "branch": "Herald Square",
-                "contact": {
-                    "phone": "+1 212-239-1673"
-                },
-                "facilities": {
-                    "internet_access": true,
-                    "wheelchair": true,
-                    "wheelchair_details": {
-                        "condition": "limited"
-                    }
-                },
-                "commercial": {
-                    "type": "clothes",
-                    "level": "-1;0;1"
-                },
-                "distance": 48.971881636294874,
-                "edge": 73,
-                "coords": [
-                    423.9551007054537,
-                    312.49091305545187
-                ]
-            },
-            {
-                "name": "Macy's",
-                "city": "New York",
-                "district": "Garment District",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "151",
-                "categories": [
-                    "building",
-                    "building.commercial",
-                    "commercial",
-                    "commercial.department_store",
-                    "wheelchair",
-                    "wheelchair.limited"
-                ],
-                "opening_hours": "Mo-Sa 10:00-22:00; Su 11:00-21:00",
-                "brand": "Macy's",
-                "contact": {
-                    "phone": "+1-212-695-4400"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "wheelchair_details": {
-                        "condition": "limited"
-                    }
-                },
-                "building": {
-                    "start_date": 1901,
-                    "height": 50.8
-                },
-                "commercial": {
-                    "type": "department_store"
-                },
-                "distance": 99.06952191139368,
-                "edge": 18,
-                "coords": [
-                    319.1773602205427,
-                    320.09108629166803
-                ]
-            },
-            {
-                "name": "Mad Dog & Beans Mexican Cantina",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "East 38th Street",
-                "housenumber": "5",
-                "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.mexican"
-                ],
-                "opening_hours": "Su-Th 12:00-22:00; We 12:00-23:00; Th-Sa 12:00-00:00",
-                "contact": {
-                    "phone": "+1-646-998-5722",
-                    "email": "info@mdb38.com"
-                },
-                "payment_options": {
-                    "debit_cards": true,
-                    "credit_cards": true,
-                    "nfc_mobile_payments": true
-                },
-                "catering": {
-                    "cuisine": "mexican"
-                },
-                "distance": 76.74657037044382,
-                "edge": 93,
-                "coords": [
-                    932.5094716180449,
-                    335.2302755550529
-                ]
-            },
-            {
-                "name": "Wafels & Dinges",
-                "city": "New York",
-                "district": "Herald Square",
-                "suburb": "Manhattan",
-                "street": "West 35th Street",
-                "housenumber": "102",
-                "categories": [
-                    "building",
-                    "building.catering",
-                    "catering",
-                    "catering.restaurant",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "09:00-22:00",
-                "branch": "Herald Square",
-                "contact": {
-                    "phone": "+1 646-257-2592"
-                },
-                "facilities": {
-                    "wheelchair": true
-                },
-                "catering": {
-                    "cuisine": "dessert"
-                },
-                "distance": 23.309329861923736,
-                "edge": 22,
-                "coords": [
-                    457.8843583268957,
-                    363.351472503179
-                ]
-            },
-            {
-                "name": "Crocs",
-                "city": "New York",
-                "district": "Chelsea District",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "152",
-                "categories": [
-                    "building",
-                    "building.commercial",
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.shoes"
-                ],
-                "opening_hours": "Mo-Sa 09:00-21:00; Su 10:00-21:00",
-                "brand": "Crocs",
-                "contact": {
-                    "phone": "+1 212-695-4090"
-                },
-                "building": {
-                    "levels": 3,
-                    "type": "retail",
-                    "height": 12.1
-                },
-                "commercial": {
-                    "type": "shoes"
-                },
-                "distance": 54.73609845103714,
-                "edge": 18,
-                "coords": [
-                    243.95997691201822,
-                    365.54757230460456
-                ]
-            },
-            {
-                "name": "Old Navy",
-                "city": "New York",
-                "district": "Chelsea District",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "144-150",
-                "categories": [
-                    "building",
-                    "building.commercial",
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Sa 08:00-22:00; Su 09:00-22:00",
-                "brand": "Old Navy",
-                "operator": "Gap",
-                "branch": "Herald Square",
-                "contact": {
-                    "phone": "+1 212-594-0049"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "toilets": true
-                },
-                "targeted_for": {
-                    "man": true,
-                    "woman": true,
-                    "child": true
-                },
-                "building": {
-                    "levels": 3,
-                    "type": "retail",
-                    "height": 19.9
-                },
-                "commercial": {
-                    "type": "clothes",
-                    "clothes": "women;denim;children;men;oversize;babies"
-                },
-                "distance": 64.37221565406706,
-                "edge": 18,
-                "coords": [
-                    243.9913727918181,
-                    385.6460552951505
-                ]
-            },
-            {
-                "name": "Sunglass Hut",
-                "city": "New York",
-                "district": "Herald Square",
-                "suburb": "Manhattan",
-                "street": "West 35th Street",
-                "housenumber": "160",
-                "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.optician"
-                ],
-                "brand": "Sunglass Hut",
-                "contact": {
-                    "phone": "+1-212-947-7789"
-                },
-                "commercial": {
-                    "type": "optician",
-                    "level": 0
-                },
-                "distance": 225.53326187877826,
-                "edge": 21,
-                "coords": [
-                    416.54177167968777,
-                    404.09329362514455
-                ]
-            },
-            {
-                "name": "Serafina Italian Restaurant",
-                "city": "New York",
-                "district": "Manhattan Community Board 6",
-                "suburb": "Manhattan",
-                "street": "Madison Avenue",
-                "housenumber": "241",
-                "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.italian"
-                ],
-                "opening_hours": "Mo-Su 07:00-22:00",
-                "branch": "Madison 38th",
-                "contact": {
-                    "phone": "+1-646-779-7667"
-                },
-                "payment_options": {
-                    "contactless": true,
-                    "debit_cards": true,
-                    "credit_cards": true
-                },
-                "catering": {
-                    "cuisine": "italian"
-                },
-                "distance": 86.4818281120679,
-                "edge": 64,
-                "coords": [
-                    1001.8240979229888,
-                    417.258772940565
-                ]
-            },
-            {
-                "name": "Tannen\u2019s Magic",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "45",
-                "categories": [
-                    "commercial"
-                ],
-                "opening_hours": "Mo-Fr 11:00-18:00; Sa 10:00-16:00",
-                "contact": {
-                    "phone": "+1-212-929-4500"
-                },
-                "commercial": {
-                    "type": "magic"
-                },
-                "distance": 337.06834185678963,
-                "edge": 18,
-                "coords": [
-                    521.8194680720492,
-                    445.6245987270032
-                ]
-            },
-            {
-                "name": "Consulate General of Poland",
-                "city": "New York",
-                "district": "Manhattan Community Board 6",
-                "suburb": "Manhattan",
-                "street": "Madison Avenue",
-                "housenumber": "233",
-                "categories": [
-                    "building",
-                    "building.office",
-                    "office",
-                    "office.diplomatic"
-                ],
-                "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
-                "contact": {
-                    "phone": "+1 646 2372100",
-                    "email": "nowyjork.kg.sekretariat@msz.gov.pl"
-                },
-                "distance": 52.06944670219263,
-                "edge": 64,
-                "coords": [
-                    991.8750734139121,
-                    451.3511374492064
-                ]
-            },
-            {
-                "name": "Costas",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 35th Street",
-                "housenumber": "30",
-                "categories": [
-                    "catering",
-                    "catering.fast_food"
-                ],
-                "opening_hours": "Mo-Fr 11:00-20:00",
-                "contact": {
-                    "phone": "+1-646-564-3545"
-                },
-                "facilities": {
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "latin_american"
-                },
-                "distance": 158.7469613212777,
-                "edge": 23,
-                "coords": [
-                    619.4142598246368,
-                    456.31043117778216
-                ]
-            },
-            {
-                "name": "Levi's",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "45",
-                "categories": [
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes",
-                    "commercial.clothing.men",
-                    "commercial.clothing.women",
-                    "wheelchair",
-                    "wheelchair.limited"
-                ],
-                "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
-                "brand": "Levi's",
-                "contact": {
-                    "phone": "+1-212-643-4358"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "wheelchair_details": {
-                        "condition": "limited"
-                    }
-                },
-                "targeted_for": {
-                    "man": true,
-                    "woman": true,
-                    "child": true
-                },
-                "commercial": {
-                    "type": "clothes",
-                    "clothes": "denim;men;women"
-                },
-                "distance": 69.17604925332233,
-                "edge": 19,
-                "coords": [
-                    514.6757146486691,
-                    460.7026307806332
-                ]
-            },
-            {
-                "name": "Peter Dillon's",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "East 36th Street",
-                "housenumber": "2",
-                "categories": [
-                    "catering",
-                    "catering.pub"
-                ],
-                "opening_hours": "Mo-Su 12:00-04:00",
-                "branch": "36th Street",
-                "contact": {
-                    "phone": "+1-212-300-4091",
-                    "email": "peterdillons36@gmail.com"
-                },
-                "facilities": {
-                    "outdoor_seating": true
-                },
-                "distance": 53.92767278421474,
-                "edge": 89,
-                "coords": [
-                    822.6574143433289,
-                    479.89487511940376
-                ]
-            },
-            {
-                "name": "The Morgan Library & Museum",
-                "city": "New York",
-                "district": "Manhattan Community Board 6",
-                "suburb": "Manhattan",
-                "street": "Madison Avenue",
-                "housenumber": "225",
-                "categories": [
-                    "entertainment",
-                    "entertainment.museum"
-                ],
-                "opening_hours": "Tu-Su 10:00-17:30",
-                "contact": {
-                    "phone": "+1-212-685-0008"
-                },
-                "distance": 64.6887963416372,
-                "edge": 63,
-                "coords": [
-                    974.2262958131109,
-                    508.98346792976747
-                ]
-            },
-            {
-                "name": "Timberland",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "28",
-                "categories": [
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Th 10:00-19:00; Fr-Sa 10:00-20:00; Su 11:00-19:00",
-                "brand": "Timberland",
-                "contact": {
-                    "phone": "+1-212-564-5921"
-                },
-                "facilities": {
-                    "wheelchair": true
-                },
-                "commercial": {
-                    "type": "clothes",
-                    "level": 0
-                },
-                "distance": 137.07155709597203,
-                "edge": 19,
-                "coords": [
-                    556.5104782101387,
-                    523.4944058562583
-                ]
-            },
-            {
-                "name": "Build-A-Bear Workshop",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "22",
-                "categories": [
-                    "commercial",
-                    "commercial.toy_and_game"
-                ],
-                "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-19:00",
-                "brand": "Build-A-Bear Workshop",
-                "contact": {
-                    "phone": "+1-212-863-4070"
-                },
-                "commercial": {
-                    "type": "toys"
-                },
-                "distance": 159.49814697143196,
-                "edge": 19,
-                "coords": [
-                    576.1389516491145,
-                    534.358150190089
-                ]
-            },
-            {
-                "name": "LensCrafters",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "West 34th Street",
-                "housenumber": "7",
-                "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.optician"
-                ],
-                "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-18:00",
-                "brand": "LensCrafters",
-                "contact": {
-                    "phone": "+1-212-967-4166"
-                },
-                "commercial": {
-                    "type": "optician"
-                },
-                "distance": 227.95532875393346,
-                "edge": 19,
-                "coords": [
-                    653.9199367320944,
-                    537.1491428483029
-                ]
-            },
-            {
-                "name": "Cafe R",
-                "city": "New York",
-                "district": "Chelsea District",
-                "suburb": "Manhattan",
-                "street": "West 31st Street",
-                "categories": [
-                    "catering",
-                    "catering.food_court",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "24/7",
-                "contact": {
-                    "phone": "+1-212-695-9550"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "catering": {
-                    "cuisine": "international"
-                },
-                "distance": 94.80471230625692,
-                "edge": 9,
-                "coords": [
-                    268.7152161647317,
-                    576.323115505737
-                ]
-            },
-            {
-                "name": "Nuchas",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 32nd Street",
-                "housenumber": "97",
-                "categories": [
-                    "building",
-                    "building.catering",
-                    "catering",
-                    "catering.fast_food",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Fr 07:30-20:00; Sa 09:00-19:00; Su 10:00-19:00",
-                "contact": {
-                    "phone": "+1 212-912-0035"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "catering": {
-                    "cuisine": "mexican"
-                },
-                "building": {
-                    "height": 6.9
-                },
-                "distance": 252.19140695694728,
-                "edge": 12,
-                "coords": [
-                    396.1219734238057,
-                    588.1598154466035
-                ]
-            },
-            {
-                "name": "Empire State Building",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "5th Avenue",
-                "housenumber": "350",
-                "categories": [
-                    "building",
-                    "building.historic",
-                    "building.office",
-                    "building.tourism",
-                    "heritage",
-                    "office",
-                    "tourism",
-                    "tourism.attraction",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Su 08:00-02:00",
-                "ele": 15,
-                "contact": {
-                    "phone": "+1-212-736-3100"
-                },
-                "facilities": {
-                    "wheelchair": true
-                },
-                "heritage": {
-                    "level": 2,
-                    "operator": "nrhp"
-                },
-                "building": {
-                    "levels": 102,
-                    "type": "office",
-                    "use": "office",
-                    "color": "beige",
-                    "start_date": 1931,
-                    "architecture": "art_deco",
-                    "height": 443.2
-                },
-                "distance": 24.112658403735995,
-                "edge": 51,
-                "coords": [
-                    622.1267288878482,
-                    592.229549762042
-                ]
-            },
-            {
-                "name": "Starbucks",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "5th Avenue",
-                "housenumber": "350",
-                "categories": [
-                    "catering",
-                    "catering.cafe",
-                    "catering.cafe.coffee",
-                    "catering.cafe.coffee_shop",
-                    "internet_access",
-                    "internet_access.free",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "Mo-Fr 06:30-18:00",
-                "brand": "Starbucks",
-                "name_other": {
-                    "official_name": "Starbucks Coffee"
-                },
-                "contact": {
-                    "phone": "+1-212-564-9141"
-                },
-                "facilities": {
-                    "internet_access": true,
-                    "wheelchair": true,
-                    "toilets": true,
-                    "outdoor_seating": false,
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "coffee_shop"
-                },
-                "distance": 29.327523759178387,
-                "edge": 50,
-                "coords": [
-                    619.7596535633023,
-                    620.8566836261379
-                ]
-            },
-            {
-                "name": "Chase",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "5th Avenue",
-                "housenumber": "349",
-                "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
-                ],
-                "opening_hours": "09:00-17:00",
-                "brand": "Chase",
-                "contact": {
-                    "phone": "+1-212-696-3252"
-                },
-                "facilities": {
-                    "air_conditioning": true
-                },
-                "distance": 72.74951994038064,
-                "edge": 50,
-                "coords": [
-                    715.7959613551626,
-                    625.2600027214145
-                ]
-            },
-            {
-                "name": "Science, Industry and Business Library",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "Madison Avenue",
-                "housenumber": "188",
-                "categories": [
-                    "education",
-                    "education.library",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "operator": "New York Public Library",
-                "name_other": {
-                    "short_name": "SIBL"
-                },
-                "contact": {
-                    "phone": "(917) 275-6975"
-                },
-                "facilities": {
-                    "wheelchair": true
-                },
-                "distance": 54.59202748642764,
-                "edge": 61,
-                "coords": [
-                    854.5600018398984,
-                    631.4757991209492
-                ]
-            },
-            {
-                "name": "Legends",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 33rd Street",
-                "housenumber": "6",
-                "categories": [
-                    "catering",
-                    "catering.pub"
-                ],
-                "opening_hours": "Mo-Su 11:00-23:00",
-                "contact": {
-                    "phone": "+1-212-967-7792"
-                },
-                "distance": 236.81719467415505,
-                "edge": 16,
-                "coords": [
-                    603.3071176737293,
-                    641.127518753523
-                ]
-            },
-            {
-                "name": "Solle Spa",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "West 33rd Street",
-                "housenumber": "4",
-                "categories": [
-                    "commercial",
-                    "service",
-                    "service.beauty",
-                    "service.beauty.massage"
-                ],
-                "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
-                "contact": {
-                    "phone": "+1-212-564-2100"
-                },
-                "commercial": {
-                    "type": "massage"
-                },
-                "distance": 260.6144064823574,
-                "edge": 16,
-                "coords": [
-                    623.9296511393063,
-                    653.0031369200005
-                ]
-            },
-            {
-                "name": "H Mart",
-                "city": "New York",
-                "suburb": "Manhattan",
-                "commercial": {
-                    "type": "supermarket",
-                    "level": 0
-                },
-                "street": "West 32nd Street",
-                "housenumber": "38",
-                "categories": [
-                    "commercial",
-                    "commercial.supermarket",
-                    "no_dogs",
-                    "wheelchair",
-                    "wheelchair.yes"
-                ],
-                "opening_hours": "08:00-23:00",
-                "brand": "H Mart",
-                "operator": "Hanahreum Group",
-                "contact": {
-                    "phone": "+1 212-695-3283"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "dogs": false
-                },
-                "payment_options": {
-                    "jcb": true,
-                    "cash": true,
-                    "visa": true,
-                    "mastercard": true,
-                    "discover_card": true,
-                    "american_express": true
-                },
-                "distance": 82.55911272111625,
-                "edge": 14,
-                "coords": [
-                    472.1838605556038,
-                    659.4746816502729
-                ]
-            },
-            {
-                "name": "Flynn's Office Solutions",
-                "city": "New York",
-                "district": "Chelsea District",
-                "suburb": "Manhattan",
-                "street": "West 30th Street",
-                "housenumber": "115",
-                "categories": [
-                    "commercial",
-                    "commercial.stationery"
-                ],
-                "opening_hours": "Mo-Fr 09:00-17:00; Sa off; Su off",
-                "contact": {
-                    "phone": "+1-212-339-8700"
-                },
-                "commercial": {
-                    "type": "stationery"
-                },
-                "distance": 113.54251091975803,
-                "edge": 6,
-                "coords": [
-                    220.07170401828665,
-                    671.5393311915205
-                ]
-            },
-            {
-                "name": "Kosher in Midtown",
-                "city": "New York",
-                "district": "Manhattan Community Board 6",
-                "suburb": "Manhattan",
-                "street": "East 34th Street",
-                "housenumber": "43",
-                "categories": [
-                    "catering",
-                    "catering.food_court",
-                    "kosher",
-                    "kosher.only"
-                ],
-                "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
-                "contact": {
-                    "phone": "+1-212-725-8100"
-                },
-                "catering": {
-                    "cuisine": "international",
-                    "diet": {
-                        "kosher": true
-                    }
-                },
-                "distance": 215.44574951807957,
-                "edge": 84,
-                "coords": [
-                    898.7030064506613,
-                    672.5067270530508
-                ]
-            },
-            {
-                "name": "O'Reilly's Pub",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "West 31st Street",
-                "housenumber": "54",
-                "categories": [
-                    "catering",
-                    "catering.bar",
-                    "wheelchair",
-                    "wheelchair.limited"
-                ],
-                "opening_hours": "11:00-02:00",
-                "contact": {
-                    "phone": "+1 212-684-4244",
-                    "email": "info@oreillyspubnyc.com",
-                    "fax": "+1 212-689-5788"
-                },
-                "facilities": {
-                    "wheelchair": true,
-                    "wheelchair_details": {
-                        "condition": "limited"
-                    },
-                    "toilets": true,
-                    "outdoor_seating": true
-                },
-                "catering": {
-                    "cuisine": "pub"
-                },
-                "distance": 39.16922921138437,
-                "edge": 10,
-                "coords": [
-                    352.09368703848526,
-                    688.8857397473419
-                ]
-            },
-            {
-                "name": "BCD Tofu House",
-                "city": "New York",
-                "suburb": "Manhattan",
-                "commercial": "Korea Town",
-                "street": "West 32nd Street",
-                "housenumber": "5",
-                "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.korean"
-                ],
-                "opening_hours": "Su-Th 10:30-24:00; Fr, Sa 10:30-03:00",
-                "branch": "Manhattan, NY",
-                "contact": {
-                    "phone": "+1 212-967-1900"
-                },
-                "facilities": {
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "catering": {
-                    "cuisine": "korean"
-                },
-                "distance": 201.77439457128594,
-                "edge": 14,
-                "coords": [
-                    588.2867021624877,
-                    695.9688565744555
-                ]
-            },
-            {
-                "name": "Beadkraft",
-                "city": "New York",
-                "district": "Midtown South",
-                "suburb": "Manhattan",
-                "street": "Broadway",
-                "housenumber": "1231",
-                "categories": [
-                    "commercial",
-                    "commercial.hobby",
-                    "commercial.hobby.art"
-                ],
-                "opening_hours": "Mo-Fr 09:00-18:00; Sa 09:00-16:00",
-                "contact": {
-                    "phone": "+1-212-532-6820",
-                    "fax": "+1-212-213-6409"
-                },
-                "commercial": {
-                    "type": "craft"
-                },
-                "distance": 18.61611428347668,
-                "edge": 71,
-                "coords": [
-                    376.47609799095886,
-                    755.2135134913717
-                ]
-            },
-            {
-                "name": "Wolfgang\u2019s Steakhouse",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "Park Avenue",
-                "housenumber": "4",
-                "categories": [
-                    "catering",
-                    "catering.restaurant"
-                ],
-                "opening_hours": "Mo-Su 12:00-22:30",
-                "contact": {
-                    "phone": "+12128893369"
-                },
-                "distance": 30.76987267101306,
-                "edge": 67,
-                "coords": [
-                    930.0158973132822,
-                    793.9427064411764
-                ]
-            },
-            {
-                "name": "Bank of America",
-                "city": "New York",
-                "district": "Flower District",
-                "suburb": "Manhattan",
-                "street": "6th Avenue",
-                "housenumber": "812",
-                "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
-                ],
-                "opening_hours": "Mo-Fr 09:00-17:00; Sa 09:00-14:00",
-                "brand": "Bank of America",
-                "contact": {
-                    "phone": "+1-212-684-1541"
-                },
-                "distance": 24.967584095454164,
-                "edge": 36,
-                "coords": [
-                    220.99837014700157,
-                    834.0540539451276
-                ]
-            },
-            {
-                "name": "Milk Bar",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "Broadway",
-                "housenumber": "1196",
-                "categories": [
-                    "commercial",
-                    "commercial.food_and_drink",
-                    "commercial.food_and_drink.bakery"
-                ],
-                "opening_hours": "Mo-Th, Su 10:00-23:00; Th-Sa 10:00-01:00",
-                "branch": "Nomad",
-                "contact": {
-                    "phone": "+1-347-974-4975"
-                },
-                "facilities": {
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "commercial": {
-                    "type": "pastry"
-                },
-                "distance": 29.01445491683702,
-                "edge": 70,
-                "coords": [
-                    386.1808196238856,
-                    828.3275152229245
-                ]
-            },
-            {
-                "name": "Blank Slate Coffee + Kitchen",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "Madison Avenue",
-                "housenumber": "121",
-                "categories": [
-                    "catering",
-                    "catering.cafe",
-                    "vegetarian"
-                ],
-                "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
-                "branch": "Nomad",
-                "craft": "caterer",
-                "contact": {
-                    "phone": "+1-212-683-7800"
-                },
-                "facilities": {
-                    "wheelchair": false,
-                    "toilets": true,
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "payment_options": {
-                    "cash": true,
-                    "debit_cards": true,
-                    "credit_cards": true
-                },
-                "catering": {
-                    "cuisine": "coffee_shop;breakfast;sandwich;salad",
-                    "diet": {
-                        "vegetarian": true
-                    }
-                },
-                "production": {
-                    "industry": "caterer"
-                },
-                "distance": 36.144453142046764,
-                "edge": 58,
-                "coords": [
-                    667.8452013620029,
-                    816.129431770449
-                ]
-            },
-            {
-                "name": "Valley Bank",
-                "street": "5th Avenue",
-                "housenumber": 279,
-                "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
-                ],
-                "opening_hours": "Mo-Fr 09:00-17:00",
-                "contact": {
-                    "phone": "+1-212-481-6109"
-                },
-                "distance": 58.35574214265197,
-                "edge": 47,
-                "coords": [
-                    563.7721709602054,
-                    813.0160141613363
-                ]
-            },
-            {
-                "name": "American Academy of Dramatic Arts",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "Madison Avenue",
-                "housenumber": "120",
-                "categories": [
-                    "education",
-                    "education.college"
-                ],
-                "name_other": {
-                    "short_name": "AADA"
-                },
-                "contact": {
-                    "phone": "+1-800-463-8990"
-                },
-                "distance": 11.555329295178723,
-                "edge": 59,
-                "coords": [
-                    696.529730135882,
-                    796.8037535190359
-                ]
-            },
-            {
-                "name": "Dig",
-                "city": "New York",
-                "district": "Manhattan Community Board 5",
-                "suburb": "Manhattan",
-                "street": "Broadway",
-                "housenumber": "1178",
-                "categories": [
-                    "catering",
-                    "catering.fast_food"
-                ],
-                "opening_hours": "Mo-Fr 11:00-21:00",
-                "brand": "Dig",
-                "name_other": {
-                    "alt_name": "Dig Inn"
-                },
-                "contact": {
-                    "phone": "+1-212-335-2010"
-                },
-                "facilities": {
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "regional"
-                },
-                "distance": 77.16536687232201,
-                "edge": 70,
-                "coords": [
-                    377.21743089367016,
-                    778.323156711058
-                ]
-            }
-        ]
+  "name": "New York",
+  "template_image": "models/new_york/template.png",
+  "meters_per_pixel": 0.6183017793539175,
+  "graph": {
+    "nodes": [
+      [179.30751601263609, 958.3677579985721],
+      [234.95467615448865, 989.282846966268],
+      [166.94148042555773, 863.1492839780689],
+      [219.49713167064073, 890.3545622696412],
+      [367.8895587155809, 970.7337935856505],
+      [170.03298932232732, 773.4955259717508],
+      [256.59523843187577, 822.3413665407103],
+      [377.1640854058897, 887.2630533728716],
+      [525.5565124508299, 970.7337935856505],
+      [170.03298932232732, 685.0783715241406],
+      [296.7848540898804, 753.7098690324254],
+      [389.530120992968, 803.7923131600927],
+      [565.7461281088346, 902.7205978567196],
+      [698.6810106699268, 980.0083202759592],
+      [170.03298932232732, 593.5697081797608],
+      [336.97446974788505, 683.2234661860789],
+      [404.98766547681595, 720.3215729473139],
+      [602.8442348700696, 835.3257039071425],
+      [735.7791174311618, 911.9951245470284],
+      [871.8055088890237, 986.1913380694984],
+      [170.03298932232732, 507.00745907021235],
+      [374.0725765091201, 615.2102704571479],
+      [417.35370106389433, 639.9423416313047],
+      [639.9423416313047, 763.6026975020881],
+      [772.8772241923969, 840.8904199213277],
+      [908.9036156502588, 918.1781423405675],
+      [1026.380953727503, 983.0998291727288],
+      [166.94148042555773, 417.35370106389433],
+      [411.17068327035514, 547.197074728217],
+      [677.0404483925397, 698.6810106699268],
+      [809.9753309536319, 772.8772241923969],
+      [946.0017224114938, 850.1649466116365],
+      [1029.4724626242726, 896.5375800631804],
+      [170.03298932232732, 315.33390747049793],
+      [210.22260498033194, 340.06597864465465],
+      [454.4518078251294, 473.0008612057469],
+      [717.2300640505443, 627.5763060442263],
+      [853.2564555084061, 701.7725195666964],
+      [986.1913380694984, 775.9687330891664],
+      [1029.4724626242726, 800.7008042633232],
+      [170.03298932232732, 222.5886405674103],
+      [250.41222063833658, 265.8697651221845],
+      [448.2687900315902, 377.1640854058897],
+      [494.641423483134, 401.89615658004635],
+      [760.5111886053186, 553.3800925217562],
+      [893.4460711664108, 627.5763060442263],
+      [1023.2894448307335, 701.7725195666964],
+      [290.6018362963412, 197.8565693932536],
+      [460.6348256186685, 293.6933451931108],
+      [531.739530244369, 333.88296085111546],
+      [797.6092953665536, 485.36689679282523],
+      [930.5441779276458, 559.5631103152954],
+      [1029.4724626242726, 615.2102704571479],
+      [445.1772811348206, 197.8565693932536],
+      [473.0008612057469, 213.31411387710153],
+      [569.455938784958, 267.7246704602463],
+      [834.7074021277887, 417.35370106389433],
+      [967.6422846888809, 494.641423483134],
+      [1029.4724626242726, 528.6480213475994],
+      [605.9357437668391, 199.71147473131535],
+      [874.8970177857933, 352.432014231733],
+      [1007.8319003468855, 426.62822775420307],
+      [1032.5639715210423, 438.99426334128145],
+      [763.6026975020881, 200.94807829002318],
+      [911.9951245470284, 284.418818502802],
+      [1032.5639715210423, 349.3405053349634],
+      [949.7115330876172, 213.31411387710153],
+      [1032.5639715210423, 262.77825622541496],
+      [1032.5639715210423, 380.2555943026593]
+    ],
+    "edges": [
+      [0, 1],
+      [2, 3],
+      [3, 4],
+      [5, 6],
+      [6, 7],
+      [7, 8],
+      [9, 10],
+      [10, 11],
+      [11, 12],
+      [14, 15],
+      [15, 16],
+      [16, 17],
+      [20, 21],
+      [21, 22],
+      [22, 23],
+      [27, 28],
+      [28, 29],
+      [33, 34],
+      [34, 35],
+      [35, 36],
+      [40, 41],
+      [41, 42],
+      [42, 43],
+      [43, 44],
+      [47, 48],
+      [48, 49],
+      [49, 50],
+      [53, 54],
+      [54, 55],
+      [55, 56],
+      [59, 60],
+      [63, 64],
+      [27, 34],
+      [34, 41],
+      [41, 47],
+      [0, 3],
+      [3, 6],
+      [6, 10],
+      [10, 15],
+      [15, 21],
+      [21, 28],
+      [28, 35],
+      [35, 43],
+      [43, 49],
+      [49, 55],
+      [55, 59],
+      [8, 12],
+      [12, 17],
+      [17, 23],
+      [23, 29],
+      [29, 36],
+      [36, 44],
+      [44, 50],
+      [50, 56],
+      [56, 60],
+      [60, 64],
+      [64, 66],
+      [13, 18],
+      [18, 24],
+      [24, 30],
+      [30, 37],
+      [37, 45],
+      [45, 51],
+      [51, 57],
+      [57, 61],
+      [19, 25],
+      [25, 31],
+      [31, 38],
+      [38, 46],
+      [4, 7],
+      [7, 11],
+      [11, 16],
+      [16, 22],
+      [42, 48],
+      [48, 54],
+      [12, 13],
+      [17, 18],
+      [18, 19],
+      [23, 24],
+      [24, 25],
+      [25, 26],
+      [29, 30],
+      [30, 31],
+      [31, 32],
+      [36, 37],
+      [37, 38],
+      [38, 39],
+      [44, 45],
+      [45, 46],
+      [50, 51],
+      [51, 52],
+      [56, 57],
+      [57, 58],
+      [60, 61],
+      [61, 62],
+      [64, 65],
+      [66, 67]
+    ],
+    "streets": {
+      "West 27th Street": [0],
+      "West 28th Street": [1, 2],
+      "West 29th Street": [3, 4, 5],
+      "West 30th Street": [6, 7, 8],
+      "West 31st Street": [9, 10, 11],
+      "West 32nd Street": [12, 13, 14],
+      "West 33rd Street": [15, 16],
+      "West 34th Street": [17, 18, 19],
+      "West 35th Street": [20, 21, 22, 23],
+      "West 36th Street": [24, 25, 26],
+      "West 37th Street": [27, 28, 29],
+      "West 38th Street": [30],
+      "West 39th Street": [31],
+      "7th Avenue": [32, 33, 34],
+      "6th Avenue": [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+      "5th Avenue": [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56],
+      "Madison Avenue": [57, 58, 59, 60, 61, 62, 63, 64],
+      "Park Avenue South": [65],
+      "Park Avenue": [66, 67, 68],
+      "Broadway": [69, 70, 71, 72, 73, 74],
+      "East 30th Street": [75],
+      "East 31st Street": [76, 77],
+      "East 32nd Street": [78, 79, 80],
+      "East 33rd Street": [81, 82, 83],
+      "East 34th Street": [84, 85, 86],
+      "East 35th Street": [87, 88],
+      "East 36th Street": [89, 90],
+      "East 37th Street": [91, 92],
+      "East 38th Street": [93, 94],
+      "East 39th Street": [95],
+      "East 40th Street": [96]
     },
-    "context": {
-        "name": "New York City, Empire State Building neighborhood",
-        "description": "The Empire State Building neighborhood is a bustling area in Midtown Manhattan, known for its iconic skyscraper and vibrant atmosphere. It is home to a mix of commercial, residential, and cultural attractions, making it a popular destination for tourists and locals alike. The neighborhood offers a variety of dining, shopping, and entertainment options, as well as easy access to public transportation.",
-        "scale": "150 m: 5 cm",
-        "north": "Midtown North - Bryant Park and the New York Public Library. A green oasis with cultural events and the stunning Beaux-Arts library building.",
-        "south": "Flatiron District - Flatiron Building and Madison Square Park. Known for its iconic flatiron-shaped building, trendy shops, and eateries.",
-        "west": "Hudson Yards - The Vessel and modern skyscrapers. A newly developed area with luxury shopping, dining, and innovative public spaces.",
-        "east": "Midtown East - Chrysler Building and Grand Central Terminal. Features the iconic Art Deco skyscraper and a major transportation hub with shops and restaurants."
-    }
+    "reference_system": {
+      "north": [0, 1],
+      "south": [0, -1],
+      "east": [1, 0],
+      "west": [-1, 0]
+    },
+    "points_of_interest": [
+      {
+        "name": "Szechuan Gourmet",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 39th Street",
+        "housenumber": "21",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 11:30-22:00; Sa, Su 12:00-22:00",
+        "contact": {
+          "phone": "+1-212-921-0233"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "chinese;tea",
+          "reservation": "required"
+        },
+        "coords": [808.0553277517313, 190.17511969660643],
+        "edge": 31,
+        "distance": 33.46226105191309
+      },
+      {
+        "name": "Windfall Lounge",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 39th Street",
+        "housenumber": "23",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo 15:00-23:00; Tu, We 15:00-00:00; Th, Fr 15:00-02:00",
+        "contact": {
+          "phone": "+1-212-869-4606",
+          "fax": "+1-212-869-3885"
+        },
+        "facilities": {
+          "wheelchair": false,
+          "toilets": true
+        },
+        "payment_options": {
+          "cash": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "reservation": "required"
+        },
+        "coords": [797.6935155980248, 192.4879741699143],
+        "edge": 31,
+        "distance": 25.5650619596362
+      },
+      {
+        "name": "Calle Dao",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 39th Street",
+        "housenumber": "38",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-We 11:00-23:00; Th-Sa 11:00-24:00; Su 11:00-22:00",
+        "contact": {
+          "phone": "+1-212-221-9002"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "toilets": true
+        },
+        "catering": {
+          "cuisine": "cuban;chinese"
+        },
+        "coords": [756.1788730805949, 203.95217110745352],
+        "edge": 31,
+        "distance": 4.997633489036548
+      },
+      {
+        "name": "Shindo",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "West 36th Street",
+        "housenumber": "162",
+        "categories": [
+          "commercial",
+          "commercial.hobby",
+          "commercial.hobby.sewing_and_knitting"
+        ],
+        "opening_hours": "Mo-Fr 09:30-17:00",
+        "contact": {
+          "phone": "+1-212-868-9311"
+        },
+        "commercial": {
+          "type": "fabric"
+        },
+        "coords": [312.8112520102792, 226.54698020198646],
+        "edge": 24,
+        "distance": 33.43514806484423
+      },
+      {
+        "name": "Stick To My Pot Potstickers",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 35th Street",
+        "housenumber": "224",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.dumpling"
+        ],
+        "opening_hours": "Mo-Fr 11:00-20:00; Sa, Su 11:00-19:00",
+        "contact": {
+          "phone": "+1 646-882-2003"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "dumpling"
+        },
+        "coords": [280.55716406241794, 228.42617446221232],
+        "edge": 20,
+        "distance": 100.08091548788484
+      },
+      {
+        "name": "Cutlets",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 35th Street",
+        "housenumber": "213",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.sandwich"
+        ],
+        "opening_hours": "Mo-Fr 09:00-21:00",
+        "branch": "Midtown West",
+        "contact": {
+          "phone": "+1 212-518-6091",
+          "email": "info@cutlets.co"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "sandwich"
+        },
+        "coords": [229.02610309268948, 229.61596017720365],
+        "edge": 20,
+        "distance": 55.27338275263834
+      },
+      {
+        "name": "Macaron Caf\u00e9",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "West 36th Street",
+        "housenumber": "152",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "vegetarian",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 07:00-19:30; Sa 09:00-19:00",
+        "contact": {
+          "phone": "+1-212-564-3525",
+          "email": "info@macaroncafe.com"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "contactless": true,
+          "debit_cards": true
+        },
+        "catering": {
+          "cuisine": "french;sandwich;salad",
+          "diet": {
+            "vegetarian": true
+          }
+        },
+        "coords": [345.1687483611288, 245.02757700996438],
+        "edge": 24,
+        "distance": 70.69766694676962
+      },
+      {
+        "name": "Cooper Electric",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 38th Street",
+        "housenumber": "29",
+        "categories": ["commercial", "commercial.trade"],
+        "opening_hours": "Mo-Fr 07:00-15:00",
+        "brand": "Cooper Electric",
+        "branch": "Manhattan",
+        "contact": {
+          "phone": "+1 212-299-0570",
+          "email": "CMATSalesTeam@cooper-electric.com",
+          "fax": "+1 212-354-1786"
+        },
+        "commercial": {
+          "type": "trade",
+          "trade": "building_supplies",
+          "level": 0
+        },
+        "coords": [742.3968204923099, 257.8149935744302],
+        "edge": 30,
+        "distance": 147.35532889536432
+      },
+      {
+        "name": "Chick-fil-A",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "1000",
+        "categories": ["catering", "catering.fast_food", "internet_access"],
+        "opening_hours": "Mo-Sa 06:30-22:00",
+        "brand": "Chick-fil-A",
+        "branch": "37th & 6th",
+        "contact": {
+          "phone": "+1 212-704-9920"
+        },
+        "facilities": {
+          "internet_access": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "chicken"
+        },
+        "coords": [591.3333931786227, 260.46143282828336],
+        "edge": 45,
+        "distance": 16.7413960936509
+      },
+      {
+        "name": "Andrews NYC Diner",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "7th Avenue",
+        "housenumber": "463",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.american",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Th 06:00-22:00; Fr 06:00-23:00; Sa, Su 07:00-23:00",
+        "contact": {
+          "phone": "+1-212-695-1962"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "american;diner",
+          "reservation": "required"
+        },
+        "coords": [276.0984248565214, 265.976701189451],
+        "edge": 34,
+        "distance": 12.975260905928948
+      },
+      {
+        "name": "99\u00a2 Delicious Pizza",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "7th Avenue",
+        "housenumber": "460",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.pizza"
+        ],
+        "opening_hours": "Mo-Su 09:00-04:00",
+        "contact": {
+          "phone": "+1 917-261-4052"
+        },
+        "catering": {
+          "cuisine": "pizza"
+        },
+        "coords": [232.75572276648623, 268.3229141421573],
+        "edge": 33,
+        "distance": 73.81524455740477
+      },
+      {
+        "name": "Chopstick House",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "West 36th Street",
+        "housenumber": "130",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo-Fr 10:30-23:30; Sa, Su 11:30-23:00",
+        "contact": {
+          "phone": "+1-212-868-8090"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "coords": [400.5918070656196, 274.5498300348248],
+        "edge": 24,
+        "distance": 133.47539887331988
+      },
+      {
+        "name": "Cafe China",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 37th Street",
+        "housenumber": "59",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.chinese"
+        ],
+        "opening_hours": "Su-We 11:30-22:30; Th-Sa 11:30-23:00",
+        "contact": {
+          "phone": "+12122132810"
+        },
+        "facilities": {
+          "smoking": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "chinese"
+        },
+        "coords": [617.2126508611623, 276.50686074344367],
+        "edge": 29,
+        "distance": 45.90994406237503
+      },
+      {
+        "name": "DSW",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "213",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.shoes"
+        ],
+        "opening_hours": "Mo-Th, Sa 10:00-20:00; Su 11:00-19:00; Fr 10:00-21:00",
+        "brand": "DSW",
+        "operator": "DSW Inc.",
+        "contact": {
+          "phone": "+1-212-967-9703"
+        },
+        "commercial": {
+          "type": "shoes"
+        },
+        "coords": [274.6686220292883, 293.241697203131],
+        "edge": 18,
+        "distance": 34.218809744139705
+      },
+      {
+        "name": "Shake Shack",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1333",
+        "categories": [
+          "catering",
+          "catering.fast_food",
+          "catering.fast_food.burger",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "10:30-24:00",
+        "brand": "Shake Shack",
+        "branch": "Herald Square",
+        "contact": {
+          "phone": "+1 646-230-0696"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "burger",
+          "capacity": 135
+        },
+        "coords": [443.7828728762288, 299.32405969073056],
+        "edge": 74,
+        "distance": 76.34221779427328
+      },
+      {
+        "name": "The Australian NYC",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 38th Street",
+        "housenumber": "20",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo, Su 11:30-00:00; Tu, We 11:30-23:00; Th 11:30-02:00; Fr, Sa 11:30-04:00",
+        "contact": {
+          "phone": "+1 212-869-9601",
+          "email": "info@theaustraliannyc.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "australian",
+          "reservation": "required"
+        },
+        "coords": [781.6874643034478, 307.8749495498388],
+        "edge": 30,
+        "distance": 206.2402555628156
+      },
+      {
+        "name": "MedMen",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "433",
+        "categories": [
+          "commercial",
+          "commercial.smoking",
+          "service",
+          "service.financial",
+          "service.financial.atm"
+        ],
+        "opening_hours": "Mo-Sa 10:00-19:00; Su 11:00-17:00",
+        "contact": {
+          "phone": "+1 646-846-5551",
+          "email": "info.manhattan@medmen.com"
+        },
+        "payment_options": {
+          "cash": true,
+          "cheque": false,
+          "debit_cards": true,
+          "credit_cards": false
+        },
+        "commercial": {
+          "type": "cannabis"
+        },
+        "coords": [914.0743569620245, 316.281286003879],
+        "edge": 56,
+        "distance": 27.173432653826673
+      },
+      {
+        "name": "Rituals",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1333",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.cosmetics"
+        ],
+        "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
+        "brand": "Rituals",
+        "branch": "Herald Square",
+        "contact": {
+          "phone": "+1 917-675-7699",
+          "email": "newyork.heraldsq@rituals.com"
+        },
+        "commercial": {
+          "type": "cosmetics"
+        },
+        "coords": [441.0449956792812, 316.78166317363605],
+        "edge": 74,
+        "distance": 58.67186374714217
+      },
+      {
+        "name": "Blaggards Pub",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 38th Street",
+        "housenumber": "8",
+        "categories": ["catering", "catering.pub"],
+        "opening_hours": "Mo-Sa 11:00-04:00; Su 12:00-04:00",
+        "contact": {
+          "phone": "+1 212-382-2611",
+          "email": "blaggards@verizon.net"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "coords": [803.1355730378773, 318.9944422136998],
+        "edge": 30,
+        "distance": 230.3818439169239
+      },
+      {
+        "name": "Silver Mirror Facial Bar",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "431",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "service",
+          "service.beauty",
+          "service.beauty.spa"
+        ],
+        "opening_hours": "Mo-Fr 08:00-22:00; Sa 09:00-19:00; Su 10:00-18:00",
+        "contact": {
+          "phone": "+1-212-970-7009"
+        },
+        "commercial": {
+          "type": "beauty"
+        },
+        "coords": [910.1486622771886, 322.7305917493003],
+        "edge": 55,
+        "distance": 42.95507238128617
+      },
+      {
+        "name": "\u00e9lev\u00e9e",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 38th Street",
+        "housenumber": "8",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes"
+        ],
+        "opening_hours": "Mo-Fr 11:00-18:00",
+        "contact": {
+          "phone": "+1 401-297-7428",
+          "email": "shaun@elevee.com"
+        },
+        "targeted_for": {
+          "man": true
+        },
+        "commercial": {
+          "type": "clothes",
+          "clothes": "men;suits"
+        },
+        "coords": [814.5167179312314, 324.6765029654937],
+        "edge": 30,
+        "distance": 243.08443456354095
+      },
+      {
+        "name": "Hairroin Salon",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1333",
+        "categories": [
+          "commercial",
+          "service",
+          "service.beauty",
+          "service.beauty.hairdresser"
+        ],
+        "opening_hours": "Su,Mo 11:00-19:00; Tu-Fr 10:00-22:00; Sa 09:00-20:00",
+        "contact": {
+          "phone": "+1 212-794-5951",
+          "email": "information@hairroonsalon.com"
+        },
+        "restrictions": {
+          "access_details": {
+            "unisex": true
+          }
+        },
+        "commercial": {
+          "type": "hairdresser",
+          "level": 0
+        },
+        "coords": [394.28205315689456, 332.86044956678006],
+        "edge": 74,
+        "distance": 35.9136259613366
+      },
+      {
+        "name": "Scotts Flowers NYC",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 37th Street",
+        "housenumber": "15",
+        "categories": ["commercial", "commercial.florist"],
+        "opening_hours": "Mo-Fr 08:30-17:00; Sa 09:00-15:00",
+        "contact": {
+          "phone": "+1-212-727-2800"
+        },
+        "commercial": {
+          "type": "florist"
+        },
+        "coords": [746.6257877286962, 333.5276191264561],
+        "edge": 29,
+        "distance": 186.64150640556494
+      },
+      {
+        "name": "Pok\u00e9 Bar",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1333",
+        "categories": [
+          "catering",
+          "catering.fast_food",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 11:00-21:00; Sa 11:00-20:00; Su 11:30-20:00",
+        "contact": {
+          "phone": "+1 212-244-4320"
+        },
+        "facilities": {
+          "wheelchair": true
+        },
+        "coords": [438.332391195441, 334.0947132521808],
+        "edge": 74,
+        "distance": 41.148206110367695
+      },
+      {
+        "name": "Urban Outfitters",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1333",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes",
+          "internet_access",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "Mo-Sa 10:00-22:00; Su 10:00-21:00",
+        "brand": "Urban Outfitters",
+        "branch": "Herald Square",
+        "contact": {
+          "phone": "+1 212-239-1673"
+        },
+        "facilities": {
+          "internet_access": true,
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          }
+        },
+        "commercial": {
+          "type": "clothes",
+          "level": "-1;0;1"
+        },
+        "coords": [432.1237281372471, 345.6256271449803],
+        "edge": 74,
+        "distance": 28.83191490517222
+      },
+      {
+        "name": "Macy's",
+        "city": "New York",
+        "district": "Garment District",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "151",
+        "categories": [
+          "building",
+          "building.commercial",
+          "commercial",
+          "commercial.department_store",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "Mo-Sa 10:00-22:00; Su 11:00-21:00",
+        "brand": "Macy's",
+        "contact": {
+          "phone": "+1-212-695-4400"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          }
+        },
+        "building": {
+          "start_date": 1901,
+          "height": 50.8
+        },
+        "commercial": {
+          "type": "department_store"
+        },
+        "coords": [327.3459876523362, 353.22580038119645],
+        "edge": 18,
+        "distance": 109.16317844152337
+      },
+      {
+        "name": "Reichenbach Hall",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 37th Street",
+        "housenumber": "5",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.german",
+          "internet_access",
+          "internet_access.free"
+        ],
+        "opening_hours": "Th-Sa 11:30-02:00; We 11:30-01:00; Mo, Tu, Su 11:30-24:00",
+        "contact": {
+          "phone": "+1-212-302-7744"
+        },
+        "facilities": {
+          "internet_access": true
+        },
+        "catering": {
+          "cuisine": "german",
+          "reservation": "required"
+        },
+        "coords": [769.7840166831431, 362.08247628907895],
+        "edge": 29,
+        "distance": 220.84143148976005
+      },
+      {
+        "name": "McDonald's",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "972",
+        "categories": [
+          "catering",
+          "catering.fast_food",
+          "catering.fast_food.burger",
+          "internet_access",
+          "internet_access.free",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "24/7",
+        "brand": "McDonald's",
+        "contact": {
+          "phone": "+1 212-279-2022"
+        },
+        "facilities": {
+          "internet_access": true,
+          "wheelchair": true,
+          "toilets": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "burger"
+        },
+        "coords": [533.484154077777, 366.41907842838793],
+        "edge": 43,
+        "distance": 49.745094155974854
+      },
+      {
+        "name": "Mad Dog & Beans Mexican Cantina",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 38th Street",
+        "housenumber": "5",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.mexican"
+        ],
+        "opening_hours": "Su-Th 12:00-22:00; We 12:00-23:00; Th-Sa 12:00-00:00",
+        "contact": {
+          "phone": "+1-646-998-5722",
+          "email": "info@mdb38.com"
+        },
+        "payment_options": {
+          "debit_cards": true,
+          "credit_cards": true,
+          "nfc_mobile_payments": true
+        },
+        "catering": {
+          "cuisine": "mexican"
+        },
+        "coords": [940.6780990498385, 368.3649896445813],
+        "edge": 94,
+        "distance": 65.20508202843024
+      },
+      {
+        "name": "Astro Gallery of Gems",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "417",
+        "categories": ["commercial", "commercial.gift_and_souvenir"],
+        "opening_hours": "Mo-We 10:00-19:00; Th-Sa 10:00-20:00; Su 11:00-19:00",
+        "branch": "New York City",
+        "contact": {
+          "phone": "+1-212-889-9000",
+          "email": "customerservice@astrogallery.com"
+        },
+        "facilities": {
+          "air_conditioning": true
+        },
+        "commercial": {
+          "type": "gift"
+        },
+        "coords": [877.4457722217155, 384.7884803092816],
+        "edge": 55,
+        "distance": 27.185121832411504
+      },
+      {
+        "name": "Wafels & Dinges",
+        "city": "New York",
+        "district": "Herald Square",
+        "suburb": "Manhattan",
+        "street": "West 35th Street",
+        "housenumber": "102",
+        "categories": [
+          "building",
+          "building.catering",
+          "catering",
+          "catering.restaurant",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "09:00-22:00",
+        "branch": "Herald Square",
+        "contact": {
+          "phone": "+1 646-257-2592"
+        },
+        "facilities": {
+          "wheelchair": true
+        },
+        "catering": {
+          "cuisine": "dessert"
+        },
+        "coords": [466.05298575868926, 396.48618659270744],
+        "edge": 22,
+        "distance": 24.78469090594284
+      },
+      {
+        "name": "Crocs",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "152",
+        "categories": [
+          "building",
+          "building.commercial",
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.shoes"
+        ],
+        "opening_hours": "Mo-Sa 09:00-21:00; Su 10:00-21:00",
+        "brand": "Crocs",
+        "contact": {
+          "phone": "+1 212-695-4090"
+        },
+        "building": {
+          "levels": 3,
+          "type": "retail",
+          "height": 12.1
+        },
+        "commercial": {
+          "type": "shoes"
+        },
+        "coords": [252.1286043438117, 398.682286394133],
+        "edge": 18,
+        "distance": 64.82975498116676
+      },
+      {
+        "name": "Old Navy",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "144-150",
+        "categories": [
+          "building",
+          "building.commercial",
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Sa 08:00-22:00; Su 09:00-22:00",
+        "brand": "Old Navy",
+        "operator": "Gap",
+        "branch": "Herald Square",
+        "contact": {
+          "phone": "+1 212-594-0049"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "toilets": true
+        },
+        "targeted_for": {
+          "man": true,
+          "woman": true,
+          "child": true
+        },
+        "building": {
+          "levels": 3,
+          "type": "retail",
+          "height": 19.9
+        },
+        "commercial": {
+          "type": "clothes",
+          "clothes": "women;denim;children;men;oversize;babies"
+        },
+        "coords": [252.16000022361158, 418.78076938467893],
+        "edge": 18,
+        "distance": 74.46587218419673
+      },
+      {
+        "name": "Vintage Home",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 36th Street",
+        "housenumber": "28",
+        "categories": ["commercial"],
+        "opening_hours": "Mo-Fr 09:00-18:00",
+        "description": "Vintage Home is an e-commerce site which specializes in faux and artificial plants and trees; luxury fake plants, trees, grasses, and shrubs.",
+        "contact": {
+          "phone": "+1 212-273-3700"
+        },
+        "commercial": {
+          "type": "outpost"
+        },
+        "coords": [673.8066785623387, 431.73497833906373],
+        "edge": 26,
+        "distance": 171.87875014737278
+      },
+      {
+        "name": "Target",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "112",
+        "categories": [
+          "commercial",
+          "commercial.department_store",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "09:00-20:00 open \"Store\" || Mo-Fr 10:00-13:30; 14:00-19:00 open \"Pharmacy\"",
+        "brand": "Target",
+        "branch": "Manhattan Herald Square",
+        "contact": {
+          "phone": "+1-646-968-4739"
+        },
+        "facilities": {
+          "wheelchair": true
+        },
+        "commercial": {
+          "type": "department_store"
+        },
+        "coords": [352.37989568563233, 441.7647607218848],
+        "edge": 18,
+        "distance": 173.47904773731065
+      },
+      {
+        "name": "Clinton Hall 36",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 36th Street",
+        "housenumber": "16",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo-We 12:00-01:00; Th-Sa 12:00-02:00; Su 12:00-12:00",
+        "brand": "Clinton Hall",
+        "branch": "36th Street",
+        "name_other": {
+          "alt_name": "CH 36"
+        },
+        "contact": {
+          "phone": "+1-212-695-0036",
+          "email": "info@clintonhallny.com"
+        },
+        "facilities": {
+          "toilets": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "new_american",
+          "capacity": 273,
+          "reservation": "required"
+        },
+        "coords": [708.3460524159024, 446.7796519140026],
+        "edge": 26,
+        "distance": 209.33664872340287
+      },
+      {
+        "name": "CHILI \u7f8e\u9e97",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 37th Street",
+        "housenumber": "13",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.chinese"
+        ],
+        "opening_hours": "11:00-21:45; Th-Sa 11:00-22:15",
+        "contact": {
+          "phone": "+1-646-882-0666"
+        },
+        "catering": {
+          "cuisine": "chinese"
+        },
+        "coords": [927.1740463063304, 451.2052099948375],
+        "edge": 92,
+        "distance": 96.95253932260817
+      },
+      {
+        "name": "Rico Bagel",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "238",
+        "categories": [
+          "commercial",
+          "commercial.food_and_drink",
+          "commercial.food_and_drink.bakery"
+        ],
+        "opening_hours": "Mo-Fr 07:00-15:00, 08:00-14:00",
+        "contact": {
+          "phone": "+16466492115"
+        },
+        "commercial": {
+          "type": "bakery"
+        },
+        "coords": [961.2669355484686, 457.89914457857094],
+        "edge": 63,
+        "distance": 103.51179740147636
+      },
+      {
+        "name": "Stout NYC",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "133",
+        "categories": ["catering", "catering.pub"],
+        "opening_hours": "Th-Su 11:30-01:45; Mo-We 11:30-23:45",
+        "branch": "Flagship",
+        "contact": {
+          "phone": "+1-212-629-6191"
+        },
+        "facilities": {
+          "toilets": true,
+          "outdoor_seating": true
+        },
+        "catering": {
+          "reservation": "required"
+        },
+        "coords": [273.2341840958377, 460.01184818468334],
+        "edge": 15,
+        "distance": 113.87828292712835
+      },
+      {
+        "name": "Yoon Haeundae Galbi",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 36th Street",
+        "housenumber": "8",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.barbecue",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Mo-Su 11:34-14:30,17:00-23:00",
+        "contact": {
+          "phone": "+1-212-244-5345"
+        },
+        "facilities": {
+          "toilets": true
+        },
+        "catering": {
+          "cuisine": "korean;barbecue",
+          "reservation": "recommended"
+        },
+        "coords": [731.0240998331516, 462.26910519586374],
+        "edge": 26,
+        "distance": 236.70885396551972
+      },
+      {
+        "name": "Famous Footwear",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "108",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.shoes"
+        ],
+        "opening_hours": "Mo-Sa 09:00-21:00; Su 10:00-19:00",
+        "brand": "Famous Footwear",
+        "contact": {
+          "phone": "+1-212-823-8952"
+        },
+        "commercial": {
+          "type": "shoes"
+        },
+        "coords": [393.12793261555885, 463.63680279319965],
+        "edge": 18,
+        "distance": 219.72530058468908
+      },
+      {
+        "name": "Verizon",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1293",
+        "categories": ["commercial", "commercial.elektronics"],
+        "opening_hours": "Mo-Sa 11:00-16:00",
+        "brand": "Verizon",
+        "name_other": {
+          "alt_name": "Verizon Wireless"
+        },
+        "contact": {
+          "phone": "+1-917-351-8000"
+        },
+        "commercial": {
+          "type": "mobile_phone",
+          "level": 0
+        },
+        "coords": [402.2850788090103, 468.15131681485315],
+        "edge": 72,
+        "distance": 332.3522926737087
+      },
+      {
+        "name": "Tannen\u2019s Magic",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "45",
+        "categories": ["commercial"],
+        "opening_hours": "Mo-Fr 11:00-18:00; Sa 10:00-16:00",
+        "contact": {
+          "phone": "+1-212-929-4500"
+        },
+        "commercial": {
+          "type": "magic"
+        },
+        "coords": [529.9880955038426, 478.75931281653163],
+        "edge": 19,
+        "distance": 68.0269617007923
+      },
+      {
+        "name": "Ulta Beauty",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "51",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.cosmetics"
+        ],
+        "opening_hours": "Mo-Sa 09:00-21:00; Su 11:00-20:00",
+        "brand": "Ulta Beauty",
+        "branch": "2 Herald Square",
+        "contact": {
+          "phone": "+1-332-205-8802"
+        },
+        "commercial": {
+          "type": "cosmetics"
+        },
+        "coords": [498.85211360064443, 480.6385070767574],
+        "edge": 19,
+        "distance": 42.142582887549615
+      },
+      {
+        "name": "Barn Joo 35",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 35th Street",
+        "housenumber": "34",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Mo-We 12:00-21:00; Th-Sa 12:00-22:00; Su 12:00-21:00",
+        "contact": {
+          "phone": "+1-212-564-4430"
+        },
+        "facilities": {
+          "outdoor_seating": true
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [621.0793758853072, 485.51996435694],
+        "edge": 23,
+        "distance": 151.25541883349493
+      },
+      {
+        "name": "Costas",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 35th Street",
+        "housenumber": "30",
+        "categories": ["catering", "catering.fast_food"],
+        "opening_hours": "Mo-Fr 11:00-20:00",
+        "contact": {
+          "phone": "+1-646-564-3545"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "latin_american"
+        },
+        "coords": [627.5828872564302, 489.4451452673106],
+        "edge": 23,
+        "distance": 158.8492498325631
+      },
+      {
+        "name": "Levi's",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "45",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes",
+          "commercial.clothing.men",
+          "commercial.clothing.women",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
+        "brand": "Levi's",
+        "contact": {
+          "phone": "+1-212-643-4358"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          }
+        },
+        "targeted_for": {
+          "man": true,
+          "woman": true,
+          "child": true
+        },
+        "commercial": {
+          "type": "clothes",
+          "clothes": "denim;men;women"
+        },
+        "coords": [522.8443420804626, 493.83734487016164],
+        "edge": 19,
+        "distance": 69.51438192068916
+      },
+      {
+        "name": "The Vitamin Shoppe",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "385",
+        "categories": ["commercial", "commercial.health_and_beauty"],
+        "opening_hours": "Mo-Fr 08:00-20:00; Sa 10:00-19:00; Su 12:00-17:00",
+        "brand": "The Vitamin Shoppe",
+        "branch": "36th St and 5th Ave",
+        "contact": {
+          "phone": "+1-212-532-4534"
+        },
+        "commercial": {
+          "type": "nutrition_supplements"
+        },
+        "coords": [811.2565380091912, 502.96644834742],
+        "edge": 52,
+        "distance": 68.55743371930542
+      },
+      {
+        "name": "Peter Dillon's",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 36th Street",
+        "housenumber": "2",
+        "categories": ["catering", "catering.pub"],
+        "opening_hours": "Mo-Su 12:00-04:00",
+        "branch": "36th Street",
+        "contact": {
+          "phone": "+1-212-300-4091",
+          "email": "peterdillons36@gmail.com"
+        },
+        "facilities": {
+          "outdoor_seating": true
+        },
+        "coords": [830.8260417751223, 513.0295892089322],
+        "edge": 90,
+        "distance": 42.48664679011753
+      },
+      {
+        "name": "Bank of America",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1293",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 10:00-16:00; Sa 10:00-14:00",
+        "brand": "Bank of America",
+        "contact": {
+          "phone": "+1-212-290-1988"
+        },
+        "coords": [400.47386774060385, 523.5041512986754],
+        "edge": 72,
+        "distance": 277.5950445174028
+      },
+      {
+        "name": "Toledo",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 36th Street",
+        "housenumber": "6",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.spanish"
+        ],
+        "opening_hours": "Tu-Sa 12:00-22:30",
+        "contact": {
+          "phone": "+1-212-696-5036"
+        },
+        "catering": {
+          "cuisine": "spanish"
+        },
+        "coords": [851.0442118280996, 525.2610311393914],
+        "edge": 90,
+        "distance": 66.10229729523431
+      },
+      {
+        "name": "Superdry",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "21",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "Mo-Su 10:00-21:00",
+        "brand": "Superdry",
+        "branch": "34th Street",
+        "contact": {
+          "phone": "+1-646-329-9801"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          }
+        },
+        "commercial": {
+          "type": "clothes"
+        },
+        "coords": [588.4354554683616, 530.1202494340158],
+        "edge": 19,
+        "distance": 144.44576962406504
+      },
+      {
+        "name": "Swift Copy Printing",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 36th Street",
+        "housenumber": "10",
+        "categories": ["commercial"],
+        "opening_hours": "Mo-Fr 09:00-17:00||Sa-Su \"by appointment\"",
+        "contact": {
+          "phone": "+1-212-683-4900",
+          "fax": "+1-212-683-0065"
+        },
+        "commercial": {
+          "type": "copyshop"
+        },
+        "coords": [867.8421414467682, 532.1551165910278],
+        "edge": 90,
+        "distance": 84.13015478506668
+      },
+      {
+        "name": "Pandora",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1284",
+        "categories": ["commercial", "commercial.jewelry"],
+        "opening_hours": "Mo-Th 09:00-21:00; Fr,Sa 09:00-22:00; Su 10:00-20:00",
+        "brand": "Pandora",
+        "contact": {
+          "phone": "+1-212-643-9760"
+        },
+        "commercial": {
+          "type": "jewelry"
+        },
+        "coords": [448.49202165431745, 536.4250017743691],
+        "edge": 74,
+        "distance": 157.5087355939266
+      },
+      {
+        "name": "The Morgan Library & Museum",
+        "city": "New York",
+        "district": "Manhattan Community Board 6",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "225",
+        "categories": ["entertainment", "entertainment.museum"],
+        "opening_hours": "Tu-Su 10:00-17:30",
+        "contact": {
+          "phone": "+1-212-685-0008"
+        },
+        "coords": [982.3949232449045, 542.1181820192959],
+        "edge": 63,
+        "distance": 40.87161309256971
+      },
+      {
+        "name": "Foot Locker",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "11",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.shoes",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
+        "brand": "Foot Locker",
+        "contact": {
+          "phone": "+1-212-971-9449"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          }
+        },
+        "commercial": {
+          "type": "shoes"
+        },
+        "coords": [635.3500342560683, 555.8396359666008],
+        "edge": 19,
+        "distance": 197.92329688578823
+      },
+      {
+        "name": "Timberland",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "28",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Th 10:00-19:00; Fr-Sa 10:00-20:00; Su 11:00-19:00",
+        "brand": "Timberland",
+        "contact": {
+          "phone": "+1-212-564-5921"
+        },
+        "facilities": {
+          "wheelchair": true
+        },
+        "commercial": {
+          "type": "clothes",
+          "level": 0
+        },
+        "coords": [564.6791056419321, 556.6291199457867],
+        "edge": 19,
+        "distance": 137.40988976333864
+      },
+      {
+        "name": "Build-A-Bear Workshop",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "22",
+        "categories": ["commercial", "commercial.toy_and_game"],
+        "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-19:00",
+        "brand": "Build-A-Bear Workshop",
+        "contact": {
+          "phone": "+1-212-863-4070"
+        },
+        "commercial": {
+          "type": "toys"
+        },
+        "coords": [584.307579080908, 567.4928642796174],
+        "edge": 19,
+        "distance": 159.83647963879872
+      },
+      {
+        "name": "LensCrafters",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "7",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.optician"
+        ],
+        "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-18:00",
+        "brand": "LensCrafters",
+        "contact": {
+          "phone": "+1-212-967-4166"
+        },
+        "commercial": {
+          "type": "optician"
+        },
+        "coords": [662.0885641638878, 570.2838569378313],
+        "edge": 19,
+        "distance": 228.2936614213002
+      },
+      {
+        "name": "LEGACY Sneaker Boutique",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 34th Street",
+        "housenumber": "1",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.shoes"
+        ],
+        "opening_hours": "Mo-Sa 10:00-19:00; Su 11:00-18:00",
+        "contact": {
+          "phone": "+1-848-228-2696",
+          "email": "Hello@Legacy-NY.com"
+        },
+        "commercial": {
+          "type": "shoes"
+        },
+        "coords": [684.0926725808612, 584.249939724863],
+        "edge": 19,
+        "distance": 254.3408404022063
+      },
+      {
+        "name": "Inhale Cannabis Club",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "43",
+        "categories": ["commercial", "commercial.smoking"],
+        "opening_hours": "Mo-Su 11:30-22:00",
+        "contact": {
+          "phone": "+1-646-330-1022"
+        },
+        "commercial": {
+          "type": "cannabis"
+        },
+        "coords": [502.7862325253503, 587.6747434654765],
+        "edge": 16,
+        "distance": 99.63996098971687
+      },
+      {
+        "name": "Bank of America",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "358",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 09:00-17:00; Sa 09:00-14:00",
+        "brand": "Bank of America",
+        "contact": {
+          "phone": "+1-212-220-0417"
+        },
+        "facilities": {
+          "wheelchair": true
+        },
+        "coords": [704.3613880664084, 594.4242755120447],
+        "edge": 50,
+        "distance": 104.20550594025207
+      },
+      {
+        "name": "Jacks",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 32nd Street",
+        "housenumber": "110",
+        "categories": ["commercial", "commercial.discount_store"],
+        "opening_hours": "Mo-Fr 07:30-19:45; Sa 10:30-19:45; Su 11:00-18:45",
+        "description": "large discount store featuring food, clothing, housewares, etc",
+        "name_other": {
+          "alt_name": "Jack's 99\u00a2 World"
+        },
+        "contact": {
+          "phone": "+1-212-268-9962"
+        },
+        "commercial": {
+          "type": "variety_store",
+          "level": "0;1"
+        },
+        "coords": [306.5941647141918, 596.1922748458935],
+        "edge": 12,
+        "distance": 162.4299438093182
+      },
+      {
+        "name": "Nonstop Style",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "35",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "service",
+          "service.beauty",
+          "service.beauty.spa"
+        ],
+        "opening_hours": "Tu-Su 10:00-20:00",
+        "contact": {
+          "phone": "+1-347-588-0588"
+        },
+        "commercial": {
+          "type": "beauty"
+        },
+        "coords": [519.1629502805566, 596.3701867289453],
+        "edge": 16,
+        "distance": 118.17378832125215
+      },
+      {
+        "name": "Roche Bobois",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "200",
+        "categories": ["commercial", "commercial.furniture_and_interior"],
+        "opening_hours": "Mo-Sa 10:00-19:00; Su 12:00-17:00",
+        "brand": "Roche Bobois",
+        "contact": {
+          "phone": "+1-212-889-0700"
+        },
+        "commercial": {
+          "type": "furniture"
+        },
+        "coords": [898.3463055114421, 598.3494564231225],
+        "edge": 62,
+        "distance": 28.004609549553784
+      },
+      {
+        "name": "CVS Pharmacy",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "358",
+        "categories": [
+          "commercial",
+          "commercial.chemist",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.pharmacy",
+          "healthcare",
+          "healthcare.pharmacy"
+        ],
+        "opening_hours": "Mo-Su 07:00-23:00 \"shop\"||Mo-Fr 09:00-13:30,14:00-19:00; Sa 10:00-13:30,14:00-18:00,Su 11:00-13:30,14:00-17:00 \"pharmacy\"",
+        "brand": "CVS Pharmacy",
+        "name_other": {
+          "short_name": "CVS"
+        },
+        "contact": {
+          "phone": "+1-212-824-5050"
+        },
+        "commercial": {
+          "type": "chemist"
+        },
+        "coords": [715.203381761809, 600.4843990147933],
+        "edge": 50,
+        "distance": 104.26466929527412
+      },
+      {
+        "name": "Ess-a-Bagel",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 32nd Street",
+        "housenumber": "108",
+        "categories": ["catering", "catering.fast_food"],
+        "opening_hours": "Mo-Fr 06:00-21:00; Sa-Su 06:00-17:00",
+        "contact": {
+          "phone": "+1-917-781-4040"
+        },
+        "facilities": {
+          "toilets": true,
+          "outdoor_seating": true
+        },
+        "catering": {
+          "cuisine": "bagel;sandwich"
+        },
+        "coords": [319.4158542329533, 604.2761460139359],
+        "edge": 12,
+        "distance": 177.54473548550862
+      },
+      {
+        "name": "Dim Sum Palace",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "33",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.chinese"
+        ],
+        "opening_hours": "Mo-Fr 11:00-22:30; Sa-Su 10:30-22:30",
+        "contact": {
+          "phone": "+1-646-649-3607",
+          "fax": "+1-646-649-3516"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "chinese"
+        },
+        "coords": [537.6541516533633, 607.6564717834328],
+        "edge": 16,
+        "distance": 139.82741233461599
+      },
+      {
+        "name": "Cafe R",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 31st Street",
+        "categories": [
+          "catering",
+          "catering.food_court",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "24/7",
+        "contact": {
+          "phone": "+1-212-695-9550"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "international"
+        },
+        "coords": [276.8838435965252, 609.4578295952654],
+        "edge": 9,
+        "distance": 101.65210085016349
+      },
+      {
+        "name": "Nuchas",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 32nd Street",
+        "housenumber": "97",
+        "categories": [
+          "building",
+          "building.catering",
+          "catering",
+          "catering.fast_food",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 07:30-20:00; Sa 09:00-19:00; Su 10:00-19:00",
+        "contact": {
+          "phone": "+1 212-912-0035"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "mexican"
+        },
+        "building": {
+          "height": 6.9
+        },
+        "coords": [404.29060085559917, 621.2945295361319],
+        "edge": 13,
+        "distance": 29.255230247515417
+      },
+      {
+        "name": "Jason Office Products",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 31st Street",
+        "categories": ["commercial", "commercial.stationery"],
+        "opening_hours": "Mo-Fr 07:00-18:00",
+        "contact": {
+          "phone": "212-279-7455"
+        },
+        "commercial": {
+          "type": "stationery"
+        },
+        "coords": [246.169426465867, 621.3445672534613],
+        "edge": 9,
+        "distance": 80.21680268338795
+      },
+      {
+        "name": "TD Bank",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "885",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 07:30-18:30; Sa 09:00-14:00; Su 11:00-15:00",
+        "brand": "TD Bank",
+        "contact": {
+          "phone": "+1-212-967-0055"
+        },
+        "coords": [348.7574735486877, 621.544718121364],
+        "edge": 39,
+        "distance": 59.78981634474656
+      },
+      {
+        "name": "Ichiran",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 31st Street",
+        "housenumber": "132",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.ramen"
+        ],
+        "opening_hours": "Mo-Th 12:00-21:00; Fr 12:00-22:00; Sa-Su 11:30-22:00",
+        "branch": "Midtown",
+        "description": "Classic Tonkotsu Ramen Shop",
+        "description_international": {
+          "en": "Classic Tonkotsu Ramen Shop",
+          "ja": "\u5929\u7136\u3068\u3093\u3053\u3064\u30e9\u30fc\u30e1\u30f3\u5c02\u9580\u5e97"
+        },
+        "contact": {
+          "phone": "+1-212-465-0701"
+        },
+        "facilities": {
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "ramen"
+        },
+        "coords": [227.3979076969952, 640.0920318853096],
+        "edge": 9,
+        "distance": 72.54912413001297
+      },
+      {
+        "name": "The Harold",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1271",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.american",
+          "gluten_free",
+          "vegetarian"
+        ],
+        "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
+        "contact": {
+          "phone": "+1-212-686-1888"
+        },
+        "catering": {
+          "cuisine": "american;breakfast",
+          "diet": {
+            "vegetarian": true,
+            "gluten_free": true
+          }
+        },
+        "coords": [391.29987307137105, 641.593163395288],
+        "edge": 73,
+        "distance": 75.73160463044458
+      },
+      {
+        "name": "Nan Xiang Xiao Long Bao",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "24",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.dumpling"
+        ],
+        "opening_hours": "Mo-Su 11:00-22:00",
+        "contact": {
+          "phone": "+1-212-970-3888"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "chinese;dumpling"
+        },
+        "coords": [561.3346833436117, 646.596935094273],
+        "edge": 16,
+        "distance": 179.68007510282573
+      },
+      {
+        "name": "Starbucks",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "350",
+        "categories": [
+          "catering",
+          "catering.cafe",
+          "catering.cafe.coffee",
+          "catering.cafe.coffee_shop",
+          "internet_access",
+          "internet_access.free",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 06:30-18:00",
+        "brand": "Starbucks",
+        "name_other": {
+          "official_name": "Starbucks Coffee"
+        },
+        "contact": {
+          "phone": "+1-212-564-9141"
+        },
+        "facilities": {
+          "internet_access": true,
+          "wheelchair": true,
+          "toilets": true,
+          "outdoor_seating": false,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "coffee_shop"
+        },
+        "coords": [627.9282809950957, 653.9913977156663],
+        "edge": 48,
+        "distance": 172.58851575663587
+      },
+      {
+        "name": "Chase",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "349",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "09:00-17:00",
+        "brand": "Chase",
+        "contact": {
+          "phone": "+1-212-696-3252"
+        },
+        "facilities": {
+          "air_conditioning": true
+        },
+        "coords": [723.964588786956, 658.3947168109429],
+        "edge": 50,
+        "distance": 58.16111413736648
+      },
+      {
+        "name": "Urban Barley",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "875",
+        "categories": [
+          "commercial",
+          "commercial.food_and_drink",
+          "commercial.food_and_drink.drinks"
+        ],
+        "opening_hours": "Mo-Th 10:00-23:00; Fr, Sa 10:00-23:30; Su 12:00-21:00",
+        "contact": {
+          "phone": "+1 212-564-2337"
+        },
+        "facilities": {
+          "delivery": true
+        },
+        "commercial": {
+          "type": "alcohol"
+        },
+        "coords": [328.4297883897742, 659.5511440479505],
+        "edge": 39,
+        "distance": 16.690187931348103
+      },
+      {
+        "name": "Legends",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "6",
+        "categories": ["catering", "catering.pub"],
+        "opening_hours": "Mo-Su 11:00-23:00",
+        "contact": {
+          "phone": "+1-212-967-7792"
+        },
+        "coords": [611.4757451055227, 674.2622328430514],
+        "edge": 16,
+        "distance": 236.94156820492262
+      },
+      {
+        "name": "Kosette Beauty Market",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": {
+          "type": "cosmetics",
+          "level": 0
+        },
+        "street": "West 32nd Street",
+        "housenumber": "35",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.cosmetics"
+        ],
+        "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-19:00",
+        "contact": {
+          "phone": "+1 212-564-4004",
+          "email": "hello@kosette.us"
+        },
+        "coords": [501.2445970586755, 676.3082194931961],
+        "edge": 14,
+        "distance": 90.99466865392621
+      },
+      {
+        "name": "Tous les Jours",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": {
+          "type": "bakery",
+          "level": 0
+        },
+        "street": "West 32nd Street",
+        "housenumber": "31",
+        "categories": [
+          "commercial",
+          "commercial.food_and_drink",
+          "commercial.food_and_drink.bakery"
+        ],
+        "opening_hours": "Su-Th 08:00-23:00; Fr, Sa 08:00-24:00",
+        "brand": "Tous les Jours",
+        "contact": {
+          "phone": "+1 212-967-9661"
+        },
+        "coords": [517.3938603991174, 685.0592602209144],
+        "edge": 14,
+        "distance": 109.36154577684908
+      },
+      {
+        "name": "Solle Spa",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 33rd Street",
+        "housenumber": "4",
+        "categories": [
+          "commercial",
+          "service",
+          "service.beauty",
+          "service.beauty.massage"
+        ],
+        "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
+        "contact": {
+          "phone": "+1-212-564-2100"
+        },
+        "commercial": {
+          "type": "massage"
+        },
+        "coords": [632.0982785710997, 686.137851009529],
+        "edge": 16,
+        "distance": 260.73878001312494
+      },
+      {
+        "name": "Nordstrom Rack",
+        "ref": 509,
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "865",
+        "categories": [
+          "commercial",
+          "commercial.clothing",
+          "commercial.clothing.clothes",
+          "internet_access"
+        ],
+        "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-20:00",
+        "brand": "Nordstrom Rack",
+        "branch": "31st & 6th",
+        "contact": {
+          "phone": "+1 646-861-5440"
+        },
+        "facilities": {
+          "internet_access": true,
+          "toilets": true
+        },
+        "payment_options": {
+          "cash": true,
+          "contactless": true,
+          "debit_cards": true,
+          "credit_cards": true
+        },
+        "targeted_for": {
+          "man": true,
+          "woman": true,
+          "child": true
+        },
+        "commercial": {
+          "type": "clothes",
+          "clothes": "women;men;shirts;denim",
+          "level": "-1;0;1"
+        },
+        "coords": [307.6471944052617, 690.1297488758671],
+        "edge": 38,
+        "distance": 60.61310737263573
+      },
+      {
+        "name": "Juvenex Spa",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": {
+          "type": "beauty",
+          "level": "3;4"
+        },
+        "street": "West 32nd Street",
+        "housenumber": "25",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "service",
+          "service.beauty",
+          "service.beauty.spa"
+        ],
+        "opening_hours": "24/7",
+        "contact": {
+          "phone": "+1 646-733-1330",
+          "email": "info@juvenexspanyc.com"
+        },
+        "coords": [526.4330672673912, 690.6968430008844],
+        "edge": 14,
+        "distance": 120.00108645714514
+      },
+      {
+        "name": "H Mart",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": {
+          "type": "supermarket",
+          "level": 0
+        },
+        "street": "West 32nd Street",
+        "housenumber": "38",
+        "categories": [
+          "commercial",
+          "commercial.supermarket",
+          "no_dogs",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "08:00-23:00",
+        "brand": "H Mart",
+        "operator": "Hanahreum Group",
+        "contact": {
+          "phone": "+1 212-695-3283"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "dogs": false
+        },
+        "payment_options": {
+          "jcb": true,
+          "cash": true,
+          "visa": true,
+          "mastercard": true,
+          "discover_card": true,
+          "american_express": true
+        },
+        "coords": [480.3524879873973, 692.6093957398014],
+        "edge": 14,
+        "distance": 80.6482305098044
+      },
+      {
+        "name": "BB.Q Olive Chicken",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "25",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo-Th 11:00-23:00; Fr, Sa 11:00-24:00",
+        "contact": {
+          "phone": "+1 212-967-8093",
+          "email": "gm@bbqktown.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "visa": true,
+          "mastercard": true,
+          "discover_card": true,
+          "american_express": true
+        },
+        "catering": {
+          "cuisine": "korean;chimaek"
+        },
+        "coords": [530.2071256791462, 692.8651440705389],
+        "edge": 14,
+        "distance": 124.35322716543328
+      },
+      {
+        "name": "Tumi",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "180",
+        "categories": ["commercial", "commercial.bag"],
+        "opening_hours": "Mo-Fr 10:00-17:00",
+        "brand": "Tumi",
+        "contact": {
+          "phone": "+1-212-877-1121"
+        },
+        "commercial": {
+          "type": "bag"
+        },
+        "coords": [817.0861103751415, 697.6242869312118],
+        "edge": 60,
+        "distance": 67.9781783645112
+      },
+      {
+        "name": "New Wonjo",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "23",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "24/7",
+        "contact": {
+          "phone": "+1 212-695-5815",
+          "email": "newwonjo@gmail.com",
+          "fax": "+1 212-695-2084"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          },
+          "toilets": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "korean",
+          "reservation": "required"
+        },
+        "coords": [539.5074839103622, 698.0357081601503],
+        "edge": 14,
+        "distance": 134.99425088411346
+      },
+      {
+        "name": "5 Bar Karaoke Lounge",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "38",
+        "categories": ["catering", "catering.bar"],
+        "opening_hours": "Su-Th 14:00-03:00; Fr,Sa 14:00-04:00",
+        "contact": {
+          "phone": "+1 212-594-6644"
+        },
+        "coords": [481.6750932798663, 698.235859028053],
+        "edge": 14,
+        "distance": 84.53684767312855
+      },
+      {
+        "name": "The Kunjip",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "32",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Su 00:00-03:00,06:30-03:00; Mo,Tu 06:30-03:00; We 06:30-24:00; Th-Sa 00:00-24:00",
+        "contact": {
+          "phone": "+1 212-564-8238"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "toilets": true
+        },
+        "payment_options": {
+          "cash": true,
+          "visa": true,
+          "mastercard": true,
+          "american_express": true
+        },
+        "catering": {
+          "cuisine": "korean",
+          "capacity": 140,
+          "reservation": "required"
+        },
+        "coords": [502.9462930392323, 702.7948510201159],
+        "edge": 14,
+        "distance": 105.3452639488584
+      },
+      {
+        "name": "Flynn's Office Solutions",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 30th Street",
+        "housenumber": "115",
+        "categories": ["commercial", "commercial.stationery"],
+        "opening_hours": "Mo-Fr 09:00-17:00; Sa off; Su off",
+        "contact": {
+          "phone": "+1-212-339-8700"
+        },
+        "commercial": {
+          "type": "stationery"
+        },
+        "coords": [228.24033145008013, 704.674045281049],
+        "edge": 6,
+        "distance": 60.51598581630877
+      },
+      {
+        "name": "Kosher in Midtown",
+        "city": "New York",
+        "district": "Manhattan Community Board 6",
+        "suburb": "Manhattan",
+        "street": "East 34th Street",
+        "housenumber": "43",
+        "categories": [
+          "catering",
+          "catering.food_court",
+          "kosher",
+          "kosher.only"
+        ],
+        "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
+        "contact": {
+          "phone": "+1-212-725-8100"
+        },
+        "catering": {
+          "cuisine": "international",
+          "diet": {
+            "kosher": true
+          }
+        },
+        "coords": [906.8716338824547, 705.6414411425792],
+        "edge": 86,
+        "distance": 48.70223199827091
+      },
+      {
+        "name": "Food Gallery 32",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "11",
+        "categories": ["catering", "catering.food_court"],
+        "website_other": ["https://foodgallery32nyc.com/"],
+        "opening_hours": "Mo-Su 11:00-23:00",
+        "contact": {
+          "phone": "+1 212-967-1678"
+        },
+        "coords": [581.7971562971086, 707.2760065637856],
+        "edge": 14,
+        "distance": 176.4495613074905
+      },
+      {
+        "name": "Wells Fargo",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "180",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "brand": "Wells Fargo",
+        "contact": {
+          "phone": "+1-212-213-0936"
+        },
+        "coords": [837.1526441546123, 708.9772889416668],
+        "edge": 60,
+        "distance": 68.7139934187089
+      },
+      {
+        "name": "Grace Street",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "17",
+        "categories": ["catering", "catering.cafe"],
+        "opening_hours": "Su-Th 11:00-23:00; Fr, Sa 11:00-23:30",
+        "contact": {
+          "phone": "+1 917-745-2125",
+          "email": "hello@bygracestreet.com"
+        },
+        "facilities": {
+          "outdoor_seating": false,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [560.5680777279406, 709.2997542290793],
+        "edge": 14,
+        "distance": 158.87482655903568
+      },
+      {
+        "name": "Itaewon Pocha",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "28",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Tu-Th 17:00-02:00; Fr, Sa 17:00-04:00; Su 14:00-02:00",
+        "contact": {
+          "phone": "+1 212-967-2228"
+        },
+        "catering": {
+          "cuisine": "korean;gastropub",
+          "reservation": "required"
+        },
+        "coords": [513.4934384238754, 712.8357528967771],
+        "edge": 14,
+        "distance": 119.44142084821462
+      },
+      {
+        "name": "Galaxy Army & Navy",
+        "city": "New York",
+        "district": "Chelsea District",
+        "suburb": "Manhattan",
+        "street": "West 30th Street",
+        "housenumber": "124",
+        "categories": ["commercial", "commercial.weapons"],
+        "opening_hours": "Mo-Th 09:30-18:30; Fr 09:30-18:00; Su 10:00-18:00",
+        "contact": {
+          "phone": "+1 212-736-1166",
+          "email": "info@armynavy.com"
+        },
+        "commercial": {
+          "type": "military_surplus"
+        },
+        "coords": [235.84973549192568, 716.271676129816],
+        "edge": 6,
+        "distance": 72.72959656827683
+      },
+      {
+        "name": "Gammeeok",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "9",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "24/7",
+        "opening_hours_covid19": "09:00-22:00",
+        "branch": "NY",
+        "contact": {
+          "phone": "+1 212-868-1180",
+          "email": "contact@gammeeok.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [589.9602424612157, 716.4162295341768],
+        "edge": 14,
+        "distance": 188.0242671484188
+      },
+      {
+        "name": "Five Senses",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "9",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Mo-Th 11:00-21:00; Fr-Su 11:00-22:00",
+        "contact": {
+          "phone": "+1 212-441-0005"
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [587.2223652648097, 721.2420893508172],
+        "edge": 14,
+        "distance": 187.97457658286376
+      },
+      {
+        "name": "O'Reilly's Pub",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "West 31st Street",
+        "housenumber": "54",
+        "categories": [
+          "catering",
+          "catering.bar",
+          "wheelchair",
+          "wheelchair.limited"
+        ],
+        "opening_hours": "11:00-02:00",
+        "contact": {
+          "phone": "+1 212-684-4244",
+          "email": "info@oreillyspubnyc.com",
+          "fax": "+1 212-689-5788"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "wheelchair_details": {
+            "condition": "limited"
+          },
+          "toilets": true,
+          "outdoor_seating": true
+        },
+        "catering": {
+          "cuisine": "pub"
+        },
+        "coords": [360.26231447027874, 722.0204538368703],
+        "edge": 10,
+        "distance": 39.02231598507638
+      },
+      {
+        "name": "Admore Hardware & Lock Co.",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 33rd Street",
+        "housenumber": "11",
+        "categories": [
+          "commercial",
+          "commercial.houseware_and_hardware",
+          "commercial.houseware_and_hardware.hardware_and_tools"
+        ],
+        "opening_hours": "Mo-Fr 08:00-17:00",
+        "brand": "True Value",
+        "contact": {
+          "phone": "+1 212-889-4473"
+        },
+        "commercial": {
+          "type": "hardware"
+        },
+        "coords": [749.3805133988931, 724.2999498329016],
+        "edge": 82,
+        "distance": 75.65298251143774
+      },
+      {
+        "name": "Pinkberry",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "7",
+        "categories": ["catering", "catering.ice_cream", "vegetarian"],
+        "opening_hours": "Su-Th 12:00-23:00; Fr, Sa 12:00-00:00",
+        "brand": "Pinkberry",
+        "contact": {
+          "phone": "+1 212-695-9631"
+        },
+        "facilities": {
+          "toilets": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "visa": true,
+          "mastercard": true,
+          "discover_card": true,
+          "american_express": true
+        },
+        "catering": {
+          "cuisine": "frozen_yogurt",
+          "diet": {
+            "vegetarian": true
+          }
+        },
+        "coords": [591.6872111546564, 726.8018356823941],
+        "edge": 14,
+        "distance": 194.5776056093112
+      },
+      {
+        "name": "L'ovue Beauty & Mask",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "324",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.cosmetics"
+        ],
+        "opening_hours": "Mo-Th, Su 09:00-22:00; Fr, Sa 09:00-23:00",
+        "contact": {
+          "phone": "+1 212-389-1156",
+          "email": "lovue32@gmail.com"
+        },
+        "commercial": {
+          "type": "cosmetics"
+        },
+        "coords": [645.7539676003626, 728.88118081123],
+        "edge": 49,
+        "distance": 33.03009268941276
+      },
+      {
+        "name": "BCD Tofu House",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "5",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Su-Th 10:30-24:00; Fr, Sa 10:30-03:00",
+        "branch": "Manhattan, NY",
+        "contact": {
+          "phone": "+1 212-967-1900"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [596.4553295942812, 729.1035706639839],
+        "edge": 14,
+        "distance": 199.86351235997424
+      },
+      {
+        "name": "Bank of Hope",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "16",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 08:30-17:00",
+        "operator": "Hope Bancorp Inc.",
+        "branch": "Manhattan",
+        "contact": {
+          "phone": "+1 212-279-2790"
+        },
+        "coords": [546.0109952823682, 729.8930546438769],
+        "edge": 14,
+        "distance": 156.15063779622182
+      },
+      {
+        "name": "Gong Cha",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "12",
+        "categories": [
+          "catering",
+          "catering.cafe",
+          "catering.cafe.bubble_tea",
+          "catering.cafe.tea"
+        ],
+        "opening_hours": "10:30-21:30",
+        "brand": "Gong Cha",
+        "branch": "Koreatown",
+        "contact": {
+          "phone": "+1 646-998-4362"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "bubble_tea"
+        },
+        "coords": [557.729109682175, 734.9301848208457],
+        "edge": 14,
+        "distance": 168.8403594251091
+      },
+      {
+        "name": "Woorijip",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "12",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Mo-We 09:30-21:00; Fr-Su 09:30-22:00",
+        "contact": {
+          "phone": "+1 212-244-1115",
+          "email": "info@woorijip32.com",
+          "fax": "+1 212-244-4726"
+        },
+        "facilities": {
+          "smoking": false,
+          "takeaway": true,
+          "delivery": false
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [563.4154700131834, 736.7982595879387],
+        "edge": 14,
+        "distance": 174.7183499886608
+      },
+      {
+        "name": "Tina's Cuban Cuisine",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "179",
+        "categories": ["catering", "catering.fast_food"],
+        "opening_hours": "Mo-Fr 08:00-20:00",
+        "contact": {
+          "phone": "+1-212-679-3500"
+        },
+        "catering": {
+          "cuisine": "cuban"
+        },
+        "coords": [855.593300090796, 738.3994665318685],
+        "edge": 61,
+        "distance": 31.0927805298934
+      },
+      {
+        "name": "MUI",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "10",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Su-We 15:00-02:00; Th-Sa 17:00-04:00",
+        "contact": {
+          "phone": "+1 212-244-1900",
+          "email": "info@muinyny.com"
+        },
+        "facilities": {
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "korean",
+          "reservation": "required"
+        },
+        "coords": [564.4853481797506, 748.6849972468418],
+        "edge": 14,
+        "distance": 181.42630189135033
+      },
+      {
+        "name": "Kushi Kushi Yaki",
+        "city": "New York",
+        "suburb": "Manhattan",
+        "commercial": "Korea Town",
+        "street": "West 32nd Street",
+        "housenumber": "2",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.japanese",
+          "catering.restaurant.ramen"
+        ],
+        "opening_hours": "Su-Th 12:00-21:30; Th-Sa 12:00-23:00",
+        "contact": {
+          "phone": "+1 212-279-3075",
+          "email": "kushikushiyaki@gmail.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "japanese;ramen",
+          "reservation": "required"
+        },
+        "coords": [596.3121175572571, 754.7117622708993],
+        "edge": 14,
+        "distance": 212.17475974994787
+      },
+      {
+        "name": "Nelly Spillanes",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 33rd Street",
+        "categories": ["catering", "catering.pub"],
+        "opening_hours": "Mo-Su 11:00-16:00",
+        "contact": {
+          "phone": "+12127929673"
+        },
+        "catering": {
+          "cuisine": "irish"
+        },
+        "coords": [760.0877192924461, 761.616967214961],
+        "edge": 82,
+        "distance": 103.18954152937611
+      },
+      {
+        "name": "Gopchang Story BBQ",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "312",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Mo-Th 16:00-01:00; Fr,Sa 12:00-15:00,17:00-03:00; Su 12:00-15:00,17:00-01:00",
+        "branch": "Manhattan",
+        "contact": {
+          "phone": "+1-646-371-9469"
+        },
+        "catering": {
+          "cuisine": "korean",
+          "reservation": "required"
+        },
+        "coords": [608.1060500943559, 781.198393797819],
+        "edge": 48,
+        "distance": 50.49423032459056
+      },
+      {
+        "name": "Joomak Banjum",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "312",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Tu-Th 17:00-21:00; Fr, Sa 17:00-21:30",
+        "contact": {
+          "phone": "+1 212-268-7888",
+          "email": "plumpyduck@joomakbanjum.com"
+        },
+        "catering": {
+          "cuisine": "korean;chinese",
+          "reservation": "required"
+        },
+        "coords": [614.9549552043062, 784.4341661629552],
+        "edge": 48,
+        "distance": 50.76670419734297
+      },
+      {
+        "name": "Sybille Gallery",
+        "city": "New York",
+        "district": "Flatiron District",
+        "suburb": "Manhattan",
+        "street": "West 31st Street",
+        "housenumber": "5",
+        "categories": [
+          "commercial",
+          "commercial.hobby",
+          "commercial.hobby.art"
+        ],
+        "opening_hours": "08:00-20:00",
+        "contact": {
+          "phone": "+1-212-279-4543"
+        },
+        "payment_options": {
+          "cash": true,
+          "cheque": true,
+          "credit_cards": true
+        },
+        "commercial": {
+          "type": "frame"
+        },
+        "coords": [560.5765019663586, 785.056857752222],
+        "edge": 11,
+        "distance": 167.04736064659613
+      },
+      {
+        "name": "Beadkraft",
+        "city": "New York",
+        "district": "Midtown South",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1231",
+        "categories": [
+          "commercial",
+          "commercial.hobby",
+          "commercial.hobby.art"
+        ],
+        "opening_hours": "Mo-Fr 09:00-18:00; Sa 09:00-16:00",
+        "contact": {
+          "phone": "+1-212-532-6820",
+          "fax": "+1-212-213-6409"
+        },
+        "commercial": {
+          "type": "craft"
+        },
+        "coords": [384.64472542275234, 788.3482275809001],
+        "edge": 71,
+        "distance": 98.94316593011153
+      },
+      {
+        "name": "Oogie Art",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "308",
+        "categories": [
+          "commercial",
+          "commercial.hobby",
+          "commercial.hobby.art"
+        ],
+        "opening_hours": "Mo-Fr 12:00-20:00; Sa-Su 10:00-18:00",
+        "contact": {
+          "phone": "+1-212-714-1011"
+        },
+        "commercial": {
+          "type": "craft"
+        },
+        "coords": [597.0197535093184, 790.4498116945871],
+        "edge": 48,
+        "distance": 37.18365898787414
+      },
+      {
+        "name": "Besfren Beauty",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "315",
+        "categories": [
+          "commercial",
+          "commercial.health_and_beauty",
+          "commercial.health_and_beauty.cosmetics"
+        ],
+        "opening_hours": "Mo-Sa 10:00-23:00; Su 10:00-22:00",
+        "branch": "5th Ave",
+        "contact": {
+          "phone": "+1 646-858-1339"
+        },
+        "commercial": {
+          "type": "cosmetics"
+        },
+        "coords": [666.4691676764487, 792.4068424032059],
+        "edge": 48,
+        "distance": 67.3520423550172
+      },
+      {
+        "name": "Bangia",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 32nd Street",
+        "housenumber": "11",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Su-Th 18:00-01:00; Fr-Sa 18:00-03:30",
+        "contact": {
+          "phone": "+1-212-679-6790"
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "coords": [721.5131356674013, 799.5010787234523],
+        "edge": 79,
+        "distance": 88.56179845622914
+      },
+      {
+        "name": "Osamil",
+        "city": "New York",
+        "district": "Flatiron District",
+        "suburb": "Manhattan",
+        "street": "West 31st Street",
+        "housenumber": "5",
+        "categories": ["catering", "catering.pub"],
+        "opening_hours": "Mo-Th 16:00-02:00; Fr 16:00-03:00; Sa 11:00-02:00; Su 11:00-23:00",
+        "opening_hours_covid19": "Tu-Th 17:00-23:00; Fr, Sa 17:00-24:00",
+        "contact": {
+          "phone": "+1 212-300-4713",
+          "email": "info@osamil.com"
+        },
+        "facilities": {
+          "takeaway_covid19": true
+        },
+        "catering": {
+          "cuisine": "korean;gastropub",
+          "reservation": "required"
+        },
+        "coords": [561.9075314960278, 800.1682482831284],
+        "edge": 11,
+        "distance": 175.79199266903709
+      },
+      {
+        "name": "IchiUmi",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 32nd Street",
+        "housenumber": "6",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.japanese"
+        ],
+        "opening_hours": "Mo-Su 11:45-15:30,16:00-22:00",
+        "contact": {
+          "phone": "+1 212-725-1333",
+          "email": "info@ichiumi.com",
+          "fax": "+1 212-725-1925"
+        },
+        "payment_options": {
+          "visa": true,
+          "mastercard": true,
+          "discover_card": true,
+          "american_express": true
+        },
+        "catering": {
+          "cuisine": "japanese",
+          "reservation": "required"
+        },
+        "coords": [700.7473901685978, 811.8770740589797],
+        "edge": 79,
+        "distance": 76.83009067166634
+      },
+      {
+        "name": "Wolfgang\u2019s Steakhouse",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Park Avenue",
+        "housenumber": "4",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo-Su 12:00-22:30",
+        "contact": {
+          "phone": "+12128893369"
+        },
+        "coords": [938.1845247450756, 827.0774205307048],
+        "edge": 68,
+        "distance": 16.577476692844385
+      },
+      {
+        "name": "Le Pain Quotidien",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Park Avenue",
+        "housenumber": "3",
+        "categories": [
+          "catering",
+          "catering.cafe",
+          "catering.cafe.coffee",
+          "catering.cafe.coffee_shop"
+        ],
+        "opening_hours": "Mo-Fr 07:00-20:00; Sa-Su 08:00-18:00",
+        "brand": "Le Pain Quotidien",
+        "contact": {
+          "phone": "+1-212-779-2905"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "coffee_shop"
+        },
+        "coords": [987.8538291574096, 834.8499459030527],
+        "edge": 69,
+        "distance": 51.921469162881245
+      },
+      {
+        "name": "Lazzoni",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "145",
+        "categories": ["commercial", "commercial.furniture_and_interior"],
+        "opening_hours": "Mo-Fr 10:00-19:00; Sa 11:00-19:00; Su 12:00-18:00",
+        "contact": {
+          "phone": "+1-212-447-0583"
+        },
+        "commercial": {
+          "type": "furniture"
+        },
+        "coords": [774.6616502085669, 881.7519659617183],
+        "edge": 58,
+        "distance": 44.79886401894711
+      },
+      {
+        "name": "McDonald's",
+        "city": "New York",
+        "district": "Flower District",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "809",
+        "categories": [
+          "building",
+          "building.catering",
+          "building.commercial",
+          "catering",
+          "catering.fast_food",
+          "catering.fast_food.burger",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Su 07:00-23:00",
+        "brand": "McDonald's",
+        "branch": "809 Ave Of The Americas",
+        "contact": {
+          "phone": "+1 212 463 9495"
+        },
+        "facilities": {
+          "wheelchair": true,
+          "smoking": false,
+          "air_conditioning": true,
+          "outdoor_seating": false,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "contactless": true,
+          "debit_cards": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "burger"
+        },
+        "building": {
+          "type": "retail",
+          "height": 7.5
+        },
+        "coords": [252.5361631610895, 888.0989739906535],
+        "edge": 36,
+        "distance": 17.800981589264694
+      },
+      {
+        "name": "Bank of America",
+        "city": "New York",
+        "district": "Flower District",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "812",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 09:00-17:00; Sa 09:00-14:00",
+        "brand": "Bank of America",
+        "contact": {
+          "phone": "+1-212-684-1541"
+        },
+        "coords": [229.16699757879505, 867.188768034656],
+        "edge": 36,
+        "distance": 24.96758409545391
+      },
+      {
+        "name": "Milk Bar",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1196",
+        "categories": [
+          "commercial",
+          "commercial.food_and_drink",
+          "commercial.food_and_drink.bakery"
+        ],
+        "opening_hours": "Mo-Th, Su 10:00-23:00; Th-Sa 10:00-01:00",
+        "branch": "Nomad",
+        "contact": {
+          "phone": "+1-347-974-4975"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "commercial": {
+          "type": "pastry"
+        },
+        "coords": [394.3494470556791, 861.4622293124529],
+        "edge": 71,
+        "distance": 28.04075623226394
+      },
+      {
+        "name": "Okdongsik",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 30th Street",
+        "housenumber": "13",
+        "categories": [
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "Mo off; Tu-Su 11:00-14:30,17:00-21:00",
+        "contact": {
+          "phone": "+1-929-237-8164",
+          "email": "okdongsik@handhospitality.com"
+        },
+        "catering": {
+          "cuisine": "korean",
+          "reservation": "required"
+        },
+        "coords": [654.548871577256, 850.9431892523003],
+        "edge": 76,
+        "distance": 50.746225131302076
+      },
+      {
+        "name": "Blank Slate Coffee + Kitchen",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "121",
+        "categories": ["catering", "catering.cafe", "vegetarian"],
+        "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
+        "branch": "Nomad",
+        "craft": "caterer",
+        "contact": {
+          "phone": "+1-212-683-7800"
+        },
+        "facilities": {
+          "wheelchair": false,
+          "toilets": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "debit_cards": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "coffee_shop;breakfast;sandwich;salad",
+          "diet": {
+            "vegetarian": true
+          }
+        },
+        "production": {
+          "industry": "caterer"
+        },
+        "coords": [676.0138287937964, 849.2641458599774],
+        "edge": 58,
+        "distance": 27.97094418510616
+      },
+      {
+        "name": "Valley Bank",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "5th Avenue",
+        "housenumber": "279",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "contact": {
+          "phone": "+1-212-481-6109"
+        },
+        "coords": [571.9407983909271, 846.1506879136435],
+        "edge": 47,
+        "distance": 52.54509143504057
+      },
+      {
+        "name": "Fp Wellness",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "East 30th Street",
+        "housenumber": "2",
+        "categories": ["commercial", "commercial.smoking"],
+        "opening_hours": "Mo 11:00-19:00; Tu-Fr 11:00-18:00",
+        "contact": {
+          "phone": "+1 212-689-8676"
+        },
+        "commercial": {
+          "type": "cannabis"
+        },
+        "coords": [604.3572643951054, 840.5131051329663],
+        "edge": 76,
+        "distance": 2.112846360588383
+      },
+      {
+        "name": "Citizens Bank",
+        "city": "New York",
+        "district": "Flower District",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "800",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "brand": "Citizens Bank",
+        "name_other": {
+          "short_name": "Citizens"
+        },
+        "contact": {
+          "phone": "+1-212-453-9800"
+        },
+        "coords": [234.85567546335017, 821.8323574563783],
+        "edge": 37,
+        "distance": 10.54620492408812
+      },
+      {
+        "name": "Dig",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Broadway",
+        "housenumber": "1178",
+        "categories": ["catering", "catering.fast_food"],
+        "opening_hours": "Mo-Fr 11:00-21:00",
+        "brand": "Dig",
+        "name_other": {
+          "alt_name": "Dig Inn"
+        },
+        "contact": {
+          "phone": "+1-212-335-2010"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "regional"
+        },
+        "coords": [385.38605832546364, 811.4578708005864],
+        "edge": 71,
+        "distance": 76.19166818774913
+      },
+      {
+        "name": "Mulberry & Vine",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 27th Street",
+        "housenumber": "55",
+        "categories": ["catering", "catering.restaurant"],
+        "opening_hours": "Mo-Th 11:00-21:00; Fr-Sa 11:00-20:00",
+        "contact": {
+          "phone": "+1 212 252 8468"
+        },
+        "facilities": {
+          "smoking": false,
+          "outdoor_seating": false,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "new_american"
+        },
+        "coords": [231.4499659485082, 804.952967591623],
+        "edge": 0,
+        "distance": 28.924106493140886
+      },
+      {
+        "name": "Poliform USA",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "112",
+        "categories": [
+          "commercial",
+          "commercial.furniture_and_interior",
+          "wheelchair",
+          "wheelchair.yes"
+        ],
+        "opening_hours": "Mo-Fr 10:00-18:00; Sa 11:00-17:00",
+        "contact": {
+          "phone": "+1-212-672-0060"
+        },
+        "facilities": {
+          "wheelchair": true
+        },
+        "payment_options": {
+          "credit_cards": true
+        },
+        "commercial": {
+          "type": "furniture"
+        },
+        "coords": [679.0128573527838, 790.664419517886],
+        "edge": 59,
+        "distance": 0.8539686567541164
+      },
+      {
+        "name": "Wells Fargo",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "6th Avenue",
+        "housenumber": "777",
+        "categories": [
+          "service",
+          "service.financial",
+          "service.financial.bank"
+        ],
+        "opening_hours": "Mo-Fr 09:00-18:00; Sa 10:00-14:00",
+        "brand": "Wells Fargo",
+        "contact": {
+          "phone": "(646) 216-7520"
+        },
+        "coords": [299.0399412017006, 781.0682973481471],
+        "edge": 38,
+        "distance": 22.64960122141223
+      },
+      {
+        "name": "on",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "Madison Avenue",
+        "housenumber": "110",
+        "categories": [
+          "building",
+          "building.catering",
+          "catering",
+          "catering.restaurant",
+          "catering.restaurant.korean"
+        ],
+        "opening_hours": "12:00-14:15,18:00-23:00",
+        "contact": {
+          "phone": "(917) 261-4326"
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "building": {
+          "levels": 17,
+          "material": "brick",
+          "color": "#E1E7EB",
+          "height": 46,
+          "roof": {
+            "shape": "flat"
+          }
+        },
+        "coords": [663.5080481865073, 780.9181841975736],
+        "edge": 59,
+        "distance": 0.27769727846264847
+      }
+    ]
+  },
+  "context": {
+    "name": "New York City, Empire State Building neighborhood",
+    "description": "The Empire State Building neighborhood is a bustling area in Midtown Manhattan, known for its iconic skyscraper and vibrant atmosphere. It is home to a mix of commercial, residential, and cultural attractions, making it a popular destination for tourists and locals alike. The neighborhood offers a variety of dining, shopping, and entertainment options, as well as easy access to public transportation.",
+    "scale": "150 m: 5 cm",
+    "north": "Midtown North - Bryant Park and the New York Public Library. A green oasis with cultural events and the stunning Beaux-Arts library building.",
+    "south": "Flatiron District - Flatiron Building and Madison Square Park. Known for its iconic flatiron-shaped building, trendy shops, and eateries.",
+    "west": "Hudson Yards - The Vessel and modern skyscrapers. A newly developed area with luxury shopping, dining, and innovative public spaces.",
+    "east": "Midtown East - Chrysler Building and Grand Central Terminal. Features the iconic Art Deco skyscraper and a major transportation hub with shops and restaurants."
+  }
 }

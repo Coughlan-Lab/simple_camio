@@ -94,7 +94,7 @@ class STT:
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source)
             # Vosk model preload
-            self.get_from_audio(sr.AudioData(b"", 16000, 2))
+            # self.get_from_audio(sr.AudioData(b"", 16000, 2))
 
     def process_input(self) -> Optional[str]:
         self.processing_input = True
@@ -138,8 +138,10 @@ class STT:
 
     def get_from_audio(self, audio: sr.AudioData) -> Optional[str]:
         try:
-            result = self.recognizer.recognize_vosk(audio)
-            return str(result)[14:-3]
+            result = self.recognizer.recognize_google_cloud(
+                audio, os.getenv("GOOGLE_SPEECH_CLOUD_KEY_FILE")
+            )
+            return str(result)
         except Exception:
             return None
 

@@ -16,8 +16,8 @@ from src.utils import *
 
 
 class CamIO:
-    NODE_DISTANCE_THRESHOLD = 20
-    EDGE_DISTANCE_THRESHOLD = 40
+    NODE_DISTANCE_THRESHOLD = 25
+    EDGE_DISTANCE_THRESHOLD = 15
 
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
@@ -215,10 +215,13 @@ class CamIO:
         nearest_node, distance = self.graph.get_nearest_node(avg_pos)
         to_announce = nearest_node.description
 
+        print(f"N: {nearest_node}, D: {distance}")
+
         if distance > CamIO.NODE_DISTANCE_THRESHOLD:
-            edge, _ = self.graph.get_nearest_edge(pos)
+            edge, distance = self.graph.get_nearest_edge(pos)
             self.edge_buffer.add(edge)
             nearest_edge = self.edge_buffer.mode()
+            print(f"E: {nearest_edge}, D: {distance}")
 
             if nearest_edge.distance_from(pos) <= CamIO.EDGE_DISTANCE_THRESHOLD:
                 to_announce = nearest_edge.street

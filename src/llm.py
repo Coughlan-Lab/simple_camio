@@ -21,6 +21,7 @@ from src.utils import str_dict
 
 
 class LLM:
+    MODEL = "gpt-4o-mini-2024-07-18"  # "gpt-4o-2024-05-13"
     MAX_TOKENS = 1000
     TEMPERATURE = 0.2
 
@@ -63,7 +64,7 @@ class LLM:
                 print("Sending API request...")
 
                 response = self.client.chat.completions.create(
-                    model="gpt-4o-2024-05-13",
+                    model=LLM.MODEL,
                     max_tokens=self.max_tokens,
                     temperature=self.temperature,
                     messages=self.history,
@@ -139,114 +140,6 @@ class LLM:
 class PromptFormatter:
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
-
-    def get_tool_calls(self) -> List[ChatCompletionToolParam]:
-        return [
-            ChatCompletionToolParam(
-                type="function",
-                function=FunctionDefinition(
-                    name="get_distance",
-                    description="Get the distance between two points on the road network graph",
-                    parameters={
-                        "type": "object",
-                        "properties": {
-                            "x1": {
-                                "type": "number",
-                                "description": "The x coordinate of the first point",
-                            },
-                            "y1": {
-                                "type": "number",
-                                "description": "The y coordinate of the first point",
-                            },
-                            "x2": {
-                                "type": "number",
-                                "description": "The x coordinate of the second point",
-                            },
-                            "y2": {
-                                "type": "number",
-                                "description": "The y coordinate of the second point",
-                            },
-                        },
-                        "required": ["x1", "y1", "x2", "y2"],
-                    },
-                ),
-            ),
-            ChatCompletionToolParam(
-                type="function",
-                function=FunctionDefinition(
-                    name="get_distance_from_poi",
-                    description="Get the distance between a point and a point of interest",
-                    parameters={
-                        "type": "object",
-                        "properties": {
-                            "x": {
-                                "type": "number",
-                                "description": "The x coordinate of the point",
-                            },
-                            "y": {
-                                "type": "number",
-                                "description": "The y coordinate of the point",
-                            },
-                            "poi_index": {
-                                "type": "number",
-                                "description": "The index of the point of interest",
-                            },
-                        },
-                        "required": ["x", "y", "poi_index"],
-                    },
-                ),
-            ),
-            ChatCompletionToolParam(
-                type="function",
-                function=FunctionDefinition(
-                    name="am_i_at",
-                    description="Check if a point is at a point of interest",
-                    parameters={
-                        "type": "object",
-                        "properties": {
-                            "x": {
-                                "type": "number",
-                                "description": "The x coordinate of the point",
-                            },
-                            "y": {
-                                "type": "number",
-                                "description": "The y coordinate of the point",
-                            },
-                            "poi_index": {
-                                "type": "number",
-                                "description": "The index of the point of interest",
-                            },
-                        },
-                        "required": ["x", "y", "poi_index"],
-                    },
-                ),
-            ),
-            ChatCompletionToolParam(
-                type="function",
-                function=FunctionDefinition(
-                    name="get_nearby_pois",
-                    description="Get the points of interest within a certain maximum distance from a point. If you call this function always include in your response the distance you used",
-                    parameters={
-                        "type": "object",
-                        "properties": {
-                            "x": {
-                                "type": "number",
-                                "description": "The x coordinate of the point",
-                            },
-                            "y": {
-                                "type": "number",
-                                "description": "The y coordinate of the point",
-                            },
-                            "distance": {
-                                "type": "number",
-                                "description": f"The maximum distance from the point. If I don't ask for points of interest at a specific maximum distance don't set it; in this case a default distance of {Graph.NEARBY_THRESHOLD} meters will be used.",
-                            },
-                        },
-                        "required": ["x", "y"],
-                    },
-                ),
-            ),
-        ]
 
     def handle_tool_call(
         self, tool_call: ChatCompletionMessageToolCall
@@ -394,3 +287,111 @@ class PromptFormatter:
             content=prompt,
             role="system",
         )
+
+    def get_tool_calls(self) -> List[ChatCompletionToolParam]:
+        return [
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_distance",
+                    description="Get the distance between two points on the road network graph",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x1": {
+                                "type": "number",
+                                "description": "The x coordinate of the first point",
+                            },
+                            "y1": {
+                                "type": "number",
+                                "description": "The y coordinate of the first point",
+                            },
+                            "x2": {
+                                "type": "number",
+                                "description": "The x coordinate of the second point",
+                            },
+                            "y2": {
+                                "type": "number",
+                                "description": "The y coordinate of the second point",
+                            },
+                        },
+                        "required": ["x1", "y1", "x2", "y2"],
+                    },
+                ),
+            ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_distance_from_poi",
+                    description="Get the distance between a point and a point of interest",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number",
+                                "description": "The x coordinate of the point",
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "The y coordinate of the point",
+                            },
+                            "poi_index": {
+                                "type": "number",
+                                "description": "The index of the point of interest",
+                            },
+                        },
+                        "required": ["x", "y", "poi_index"],
+                    },
+                ),
+            ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="am_i_at",
+                    description="Check if a point is at a point of interest",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number",
+                                "description": "The x coordinate of the point",
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "The y coordinate of the point",
+                            },
+                            "poi_index": {
+                                "type": "number",
+                                "description": "The index of the point of interest",
+                            },
+                        },
+                        "required": ["x", "y", "poi_index"],
+                    },
+                ),
+            ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_nearby_pois",
+                    description="Get the points of interest within a certain maximum distance from a point. If you call this function always include in your response the distance you used. Call this function only if I ask for nearby points of interest; otherwise use all the points of interest.",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x": {
+                                "type": "number",
+                                "description": "The x coordinate of the point",
+                            },
+                            "y": {
+                                "type": "number",
+                                "description": "The y coordinate of the point",
+                            },
+                            "distance": {
+                                "type": "number",
+                                "description": f"The maximum distance from the point. If I don't ask for points of interest at a specific maximum distance don't set it; in this case a default distance of {Graph.NEARBY_THRESHOLD} meters will be used.",
+                            },
+                        },
+                        "required": ["x", "y"],
+                    },
+                ),
+            ),
+        ]

@@ -9,7 +9,9 @@ import speech_recognition as sr
 
 
 class TTS:
-    def __init__(self, res_file: str, rate: int) -> None:
+    RATE = 200
+
+    def __init__(self, res_file: str, rate: int = RATE) -> None:
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
 
@@ -43,6 +45,9 @@ class TTS:
 
     def goodbye(self) -> None:
         self.say(self.res["goodbye"])
+
+    def waiting(self) -> None:
+        self.say(self.res["waiting"])
 
     def error(self) -> None:
         self.say(self.res["error"])
@@ -93,8 +98,6 @@ class STT:
     def calibrate(self) -> None:
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source)
-            # Vosk model preload
-            # self.get_from_audio(sr.AudioData(b"", 16000, 2))
 
     def process_input(self) -> Optional[str]:
         self.processing_input = True
@@ -149,8 +152,10 @@ class STT:
 class AmbientSoundPlayer:
     def __init__(self, soundfile: str) -> None:
         self.sound = pyglet.media.load(soundfile, streaming=False)
+
         self.player = pyglet.media.Player()
         self.player.queue(self.sound)
+
         self.player.eos_action = "loop"
         self.player.loop = True
 
@@ -165,3 +170,23 @@ class AmbientSoundPlayer:
     def pause_sound(self) -> None:
         if self.player.playing:
             self.player.pause()
+
+
+class SoundToggler:
+    def __init__(self, white_noise_filename: str, crickets_filename: str) -> None:
+        self.crickets_player = AmbientSoundPlayer(crickets_filename)
+
+        self.white_noise_player = AmbientSoundPlayer(white_noise_filename)
+        self.white_noise_player.set_volume(0.05)
+
+    def play_white_noise(self) -> None:
+        self.crickets_player.pause_sound()
+        self.white_noise_player.play_sound()
+
+    def play_crickets(self) -> None:
+        self.white_noise_player.pause_sound()
+        self.crickets_player.play_sound()
+
+    def stop(self) -> None:
+        self.crickets_player.pause_sound()
+        self.white_noise_player.pause_sound()

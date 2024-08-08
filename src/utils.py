@@ -2,7 +2,8 @@ import argparse
 import json
 import os
 import time
-from typing import Any, Dict, List, Optional, Tuple
+from functools import reduce
+from typing import Any, Dict, Generic, List, Optional, Protocol, Tuple, TypeVar
 
 import cv2
 
@@ -87,17 +88,20 @@ def load_map_parameters(filename: str) -> Optional[Dict[str, Any]]:
     return dict(map_params)
 
 
-class Buffer:
+T = TypeVar("T")
+
+
+class Buffer(Generic[T]):
     def __init__(self, max_size: int) -> None:
         self.max_size = max_size
-        self.buffer: List[Any] = list()
+        self.buffer: List[T] = list()
         self.time_last_update = time.time()
 
     @property
     def time_from_last_update(self) -> float:
         return time.time() - self.time_last_update
 
-    def add(self, value: Any) -> None:
+    def add(self, value: T) -> None:
         if len(self.buffer) == self.max_size:
             self.buffer.pop(0)
         self.buffer.append(value)
@@ -106,22 +110,42 @@ class Buffer:
     def clear(self) -> None:
         self.buffer.clear()
 
-    def mode(self) -> Any:
+    def mode(self) -> Optional[T]:
         if len(self.buffer) == 0:
             return None
         return max(set(self.buffer), key=self.buffer.count)
 
-    def average(self, start: Any = 0) -> Any:
+    def last(self) -> Optional[T]:
         if len(self.buffer) == 0:
             return None
-
-        return sum(self.buffer, start=start) / len(self.buffer)
+        return self.buffer[-1]
 
     def __str__(self) -> str:
         return str(self.buffer)
 
     def __repr__(self) -> str:
         return str(self)
+
+
+U = TypeVar("U", bound="UBound")
+
+
+class UBound(Protocol):
+    def __add__(self: T, other: T) -> T: ...
+    def __truediv__(self: T, other: int) -> T: ...
+
+
+class ArithmeticBuffer(Buffer[U]):
+    def __init__(self, max_size: int) -> None:
+        self.max_size = max_size
+        self.buffer: List[U] = list()
+        self.time_last_update = time.time()
+
+    def average(self) -> Optional[U]:
+        if len(self.buffer) == 0:
+            return None
+
+        return reduce(lambda x, y: x + y, self.buffer) / len(self.buffer)
 
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")

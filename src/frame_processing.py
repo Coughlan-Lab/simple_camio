@@ -5,7 +5,7 @@ import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
 
-from .utils import *
+from src.utils import *
 
 
 class SIFTModelDetector:
@@ -108,13 +108,13 @@ class PoseDetector:
 
         if ratios[pointing_hand_index] > 0:
             return (
-                np.array([position[0], position[1], 0]),
+                np.array([position[0], position[1]]),
                 "pointing",
                 img,
             )
         else:
             return (
-                np.array([position[0], position[1], 0]),
+                np.array([position[0], position[1]]),
                 "moving",
                 img,
             )

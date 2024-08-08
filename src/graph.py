@@ -1,7 +1,7 @@
 from json import JSONEncoder
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-from .utils import str_dict
+from src.utils import ArithmeticBuffer, Buffer, str_dict
 
 
 class Coords:
@@ -17,6 +17,12 @@ class Coords:
 
     def __add__(self, other: "Coords") -> "Coords":
         return Coords(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other: "Coords") -> "Coords":
+        return Coords(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, other: float) -> "Coords":
+        return Coords(self.x * other, self.y * other)
 
     def __truediv__(self, other: float) -> "Coords":
         return Coords(self.x / other, self.y / other)
@@ -354,6 +360,74 @@ class Graph:
 
     def poi_prompt(self) -> str:
         return "\n\n".join([str_dict(poi) for poi in self.pois])
+
+
+class PositionHandler:
+    def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
+        self.graph = graph
+        self.min_corner, self.max_corner = self.graph.bounds
+
+        self.meters_per_pixel = meters_per_pixel
+
+        self.positions_buffer = ArithmeticBuffer[Coords](5)
+        self.edge_buffer = Buffer[Edge](10)
+
+        self.last_announced: Optional[str] = None
+
+    def clear(self) -> None:
+        self.positions_buffer.clear()
+        self.edge_buffer.clear()
+
+        self.last_announced = None
+
+    def process_position(self, pos: Coords) -> None:
+        pos *= self.meters_per_pixel
+
+        if (
+            self.min_corner[0] <= pos.x < self.max_corner[0]
+            and self.min_corner[1] <= pos.y < self.max_corner[1]
+        ):
+            self.positions_buffer.add(pos)
+
+    def get_current_position(self) -> Optional[Coords]:
+        if self.positions_buffer.time_from_last_update < 1:
+            return self.positions_buffer.average()
+        return None
+
+    def get_next_announcement(self) -> Optional[str]:
+        last_pos = self.positions_buffer.last()
+        avg_pos = self.positions_buffer.average()
+
+        if last_pos is None or avg_pos is None:
+            return None
+
+        to_announce: Optional[str] = None
+
+        nearest_node, distance = self.graph.get_nearest_node(avg_pos)
+        to_announce = nearest_node.description
+
+        # print(f"N: {nearest_node}, D: {distance}")
+
+        if distance > CamIO.NODE_DISTANCE_THRESHOLD:
+            edge, distance = self.graph.get_nearest_edge(last_pos)
+            self.edge_buffer.add(edge)
+            nearest_edge = self.edge_buffer.mode()
+            # print(f"E: {nearest_edge}, D: {distance}")
+
+            if (
+                nearest_edge is not None
+                and nearest_edge.distance_from(last_pos)
+                <= CamIO.EDGE_DISTANCE_THRESHOLD
+            ):
+                to_announce = nearest_edge.street
+            else:
+                to_announce = None
+
+        if to_announce is None or to_announce == self.last_announced:
+            return None
+
+        self.last_announced = to_announce
+        return to_announce
 
 
 class GraphEncoder(JSONEncoder):

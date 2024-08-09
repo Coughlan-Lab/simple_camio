@@ -17,7 +17,7 @@ from src.utils import *
 
 class CamIO:
 
-    def __init__(self, model: Dict[str, Any]) -> None:
+    def __init__(self, model: Dict[str, Any], debug: bool = False) -> None:
         self.description = model["context"].get("description", None)
 
         # Model graph
@@ -27,6 +27,7 @@ class CamIO:
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
         self.pose_detector = PoseDetector()
+        self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
 
         # Audio players
         self.tts = TTS("res/strings.json", rate=200)
@@ -41,6 +42,7 @@ class CamIO:
         self.llm = LLM(self.graph, model["context"])
         self.user_input_thread: Optional[CamIO.UserInputThread] = None
 
+        self.debug = debug
         self.running = False
 
     def main_loop(self) -> None:
@@ -63,6 +65,9 @@ class CamIO:
 
         self.running = True
         while self.running and cap.isOpened():
+            if self.debug:
+                self.__draw_debug_info()
+
             cv2.imshow("CamIO", frame)
             cv2.waitKey(1)  # Necessary for the window to show
 
@@ -160,6 +165,17 @@ class CamIO:
         self.position_handler.clear()
         self.ambient_sound_player.stop()
 
+    def __draw_debug_info(self) -> None:
+        template = self.template.copy()
+        pos = self.position_handler.get_current_position()
+
+        if pos is not None:
+            pos /= self.position_handler.meters_per_pixel
+            x, y = int(pos.x), int(pos.y)
+            cv2.circle(template, (x, y), 10, (255, 0, 0), -1)
+
+        cv2.imshow("CamIO - Debug", template)
+
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_processing():
             self.stt.on_question_ended()
@@ -230,7 +246,7 @@ if __name__ == "__main__":
         print(f"Model file {args.model} not found.")
         sys.exit(0)
 
-    camio = CamIO(model)
+    camio = CamIO(model, debug=args.debug)
 
     try:
         camio.main_loop()

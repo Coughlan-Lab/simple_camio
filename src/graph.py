@@ -430,7 +430,7 @@ class PositionHandler:
 
         self.meters_per_pixel = meters_per_pixel
 
-        self.positions_buffer = ArithmeticBuffer[Coords](5)
+        self.positions_buffer = ArithmeticBuffer[Coords](3)
         self.edge_buffer = Buffer[Edge](10)
 
         self.last_announced: Optional[str] = None

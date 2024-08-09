@@ -96,6 +96,8 @@ T = TypeVar("T")
 
 class Buffer(Generic[T]):
     def __init__(self, max_size: int) -> None:
+        assert max_size > 0
+
         self.max_size = max_size
         self.buffer: List[T] = list()
         self.time_last_update = time.time()
@@ -161,4 +163,10 @@ camio_parser.add_argument(
     "--out",
     help="Path to chat save file.",
     default="out/last_chat.txt",
+)
+camio_parser.add_argument(
+    "--debug",
+    help="Debug mode.",
+    action="store_true",
+    default=False,
 )

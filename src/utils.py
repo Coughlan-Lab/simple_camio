@@ -16,12 +16,15 @@ def str_dict(d: Dict[Any, Any], indent: int = 0) -> str:
         if isinstance(value, dict):
             res += "\n" + str_dict(value, indent + 4)
         elif isinstance(value, list):
-            res += "[\n"
-            for item in value:
-                res += " " * (indent + 4) + str(item) + ",\n"
-            if len(value) > 0:
-                res = res[:-2] + "\n"
-            res += " " * indent + "]\n"
+            if len(value) == 0:
+                res += "[]\n"
+            elif len(value) == 1:
+                res += "[ " + str(value[0]) + " ]\n"
+            else:
+                res += "[\n"
+                for item in value:
+                    res += " " * (indent + 4) + str(item) + ",\n"
+                res += " " * indent + "]\n"
         else:
             res += str(value) + "\n"
 

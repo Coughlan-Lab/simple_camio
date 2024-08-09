@@ -278,7 +278,9 @@ class Graph:
         return node, node.distance_from(coords)
 
     def get_nearest_edge(self, coords: Coords) -> Tuple[Edge, float]:
-        candidate_edges = list(filter(lambda edge: edge.contains(coords), self.edges))
+        candidate_edges = list(
+            filter(lambda edge: edge.contains(coords.project_on(edge)), self.edges)
+        )
 
         if len(candidate_edges) > 0:
             edge = min(

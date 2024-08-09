@@ -49,6 +49,9 @@ class CamIO:
     def main_loop(self) -> None:
 
         cap = self.__get_capture()
+        if cap is None:
+            print("No camera found.")
+            return
         ok, frame = cap.read()
         if not ok:
             print("No camera image returned.")
@@ -145,8 +148,10 @@ class CamIO:
         keyboard.add_hotkey("esc", self.stop)
         keyboard.on_press_key("cmd", self.say_map_description)
 
-    def __get_capture(self) -> cv2.VideoCapture:
-        cam_port = 1  # select_cam_port()
+    def __get_capture(self) -> Optional[cv2.VideoCapture]:
+        cam_port = 1  # select_camera_port()
+        if cam_port is None:
+            return None
 
         cap = cv2.VideoCapture(cam_port)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)

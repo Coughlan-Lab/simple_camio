@@ -32,54 +32,53 @@ def str_dict(d: Dict[Any, Any], indent: int = 0) -> str:
     return res
 
 
-def select_cam_port() -> int:
-    _, working_ports, _ = list_ports()
-    if len(working_ports) == 1:
-        return int(working_ports[0][0])
-    elif len(working_ports) > 1:
-        print("The following cameras were detected:")
-        for i in range(len(working_ports)):
-            print(
-                f"{i}) Port {working_ports[i][0]}: {working_ports[i][1]} x {working_ports[i][2]}"
-            )
-        cam_selection = input("Please select which camera you would like to use: ")
-        return int(working_ports[int(cam_selection)][0])
+def select_camera_port() -> Optional[int]:
+    ports = get_working_camera_ports()
+
+    if len(ports) == 0:
+        return None
+    elif len(ports) == 1:
+        return int(ports[0][0])
     else:
-        return 0
+        print("The following cameras were detected:")
+
+        for i in range(len(ports)):
+            print(f"{i}) Port {ports[i][0]}: {ports[i][1]} x {ports[i][2]}")
+
+        while True:
+            selected_index = input("Please select which camera you would like to use: ")
+
+            if selected_index.isnumeric() and 0 <= int(selected_index) < len(ports):
+                break
+
+            print(
+                f"Invalid selection. Please, insert a number between 0 and {len(ports) - 1}."
+            )
+
+        return int(ports[int(selected_index)][0])
 
 
-def list_ports() -> Tuple[List[int], List[Tuple[int, int, int]], List[int]]:
-    """
-    Test the ports and returns a tuple with the available ports and the ones that are working.
-    """
-    non_working_ports: List[int] = list()
-    dev_port = 0
+def get_working_camera_ports(max_non_working: int = 3) -> List[Tuple[int, int, int]]:
+    non_working = 0
     working_ports = list()
-    available_ports = list()
-    while (
-        len(non_working_ports) < 3
-    ):  # if there are more than 2 non working ports stop the testing.
+
+    dev_port = 0
+    while non_working < max_non_working:
         camera = cv2.VideoCapture(dev_port)
+
         if not camera.isOpened():
-            non_working_ports.append(dev_port)
-            print("Port %s is not working." % dev_port)
+            non_working += 1
         else:
             is_reading, _ = camera.read()
             w = camera.get(3)
             h = camera.get(4)
+
             if is_reading:
-                print(
-                    "Port %s is working and reads images (%s x %s)" % (dev_port, h, w)
-                )
                 working_ports.append((dev_port, h, w))
-            else:
-                print(
-                    "Port %s for camera ( %s x %s) is present but does not read."
-                    % (dev_port, h, w)
-                )
-                available_ports.append(dev_port)
+
         dev_port += 1
-    return available_ports, working_ports, non_working_ports
+
+    return working_ports
 
 
 def load_map_parameters(filename: str) -> Optional[Dict[str, Any]]:

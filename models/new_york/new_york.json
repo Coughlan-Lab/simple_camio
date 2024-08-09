@@ -858,7 +858,6 @@
                 "suburb": "Manhattan",
                 "street": "East 32nd Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -874,9 +873,8 @@
                 "suburb": "Manhattan",
                 "street": "Broadway",
                 "categories": [
-                    "internet_access",
-                    "public_transport",
-                    "public_transport.subway"
+                    "public_transport.subway",
+                    "internet_access"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -901,7 +899,6 @@
                 "suburb": "Manhattan",
                 "street": "East 32nd Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "network": "NYC Transit",
@@ -918,9 +915,7 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.subway",
-                    "wheelchair",
                     "wheelchair.yes"
                 ],
                 "operator": "Port Authority of New York and New Jersey",
@@ -944,7 +939,6 @@
                 "suburb": "Manhattan",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -960,9 +954,7 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.subway",
-                    "wheelchair",
                     "wheelchair.yes"
                 ],
                 "operator": "Metropolitan Transportation Authority",
@@ -990,7 +982,6 @@
                 "suburb": "Manhattan",
                 "street": "7th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.subway"
                 ],
                 "opening_hours": "24/7",
@@ -1021,7 +1012,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "38",
                 "categories": [
-                    "catering",
                     "catering.bar"
                 ],
                 "opening_hours": "Su-Th 14:00-03:00; Fr,Sa 14:00-04:00",
@@ -1041,7 +1031,6 @@
                 "suburb": "Manhattan",
                 "street": "5th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -1057,7 +1046,6 @@
                 "suburb": "Manhattan",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -1073,7 +1061,6 @@
                 "suburb": "Manhattan",
                 "street": "5th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "network": "NYC Transit",
@@ -1093,7 +1080,6 @@
                 "suburb": "Manhattan",
                 "street": "5th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "operator": "MTA",
@@ -1111,7 +1097,6 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -1127,7 +1112,6 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -1143,7 +1127,6 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -1159,10 +1142,8 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true
@@ -1180,10 +1161,8 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true
@@ -1201,7 +1180,6 @@
                 "suburb": "Manhattan",
                 "street": "7th Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "network": "NYC Transit",
@@ -1219,9 +1197,8 @@
                 "street": "7th Avenue",
                 "housenumber": "460",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.pizza"
+                    "catering.restaurant.pizza",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Su 09:00-04:00",
                 "contact": {
@@ -1244,7 +1221,6 @@
                 "street": "West 39th Street",
                 "housenumber": "25",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "contact": {
@@ -1264,9 +1240,8 @@
                 "street": "West 34th Street",
                 "housenumber": "14",
                 "categories": [
-                    "commercial",
-                    "office",
-                    "office.telecommunication"
+                    "office.telecommunication",
+                    "commercial"
                 ],
                 "brand": "AT&T",
                 "commercial": {
@@ -1305,7 +1280,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "41",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "contact": {
@@ -1326,9 +1300,8 @@
                 "street": "East 33rd Street",
                 "housenumber": "11",
                 "categories": [
-                    "commercial",
-                    "commercial.houseware_and_hardware",
-                    "commercial.houseware_and_hardware.hardware_and_tools"
+                    "commercial.houseware_and_hardware.hardware_and_tools",
+                    "commercial.houseware_and_hardware"
                 ],
                 "opening_hours": "Mo-Fr 08:00-17:00",
                 "brand": "True Value",
@@ -1352,11 +1325,9 @@
                 "street": "7th Avenue",
                 "housenumber": "463",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
+                    "wheelchair.yes",
                     "catering.restaurant.american",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Th 06:00-22:00; Fr 06:00-23:00; Sa, Su 07:00-23:00",
                 "contact": {
@@ -1384,7 +1355,6 @@
                 "street": "5th Avenue",
                 "housenumber": "417",
                 "categories": [
-                    "commercial",
                     "commercial.gift_and_souvenir"
                 ],
                 "opening_hours": "Mo-We 10:00-19:00; Th-Sa 10:00-20:00; Su 11:00-19:00",
@@ -1413,7 +1383,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "25",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Th 11:00-23:00; Fr, Sa 11:00-24:00",
@@ -1448,7 +1417,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "5",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -1478,7 +1446,6 @@
                 "street": "East 32nd Street",
                 "housenumber": "11",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -1503,9 +1470,8 @@
                 "street": "Broadway",
                 "housenumber": "1293",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "Mo-Fr 10:00-16:00; Sa 10:00-14:00",
                 "brand": "Bank of America",
@@ -1526,9 +1492,8 @@
                 "street": "West 32nd Street",
                 "housenumber": "16",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "Mo-Fr 08:30-17:00",
                 "operator": "Hope Bancorp Inc.",
@@ -1550,7 +1515,6 @@
                 "street": "West 35th Street",
                 "housenumber": "34",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -1578,9 +1542,8 @@
                 "street": "Broadway",
                 "housenumber": "1231",
                 "categories": [
-                    "commercial",
-                    "commercial.hobby",
-                    "commercial.hobby.art"
+                    "commercial.hobby.art",
+                    "commercial.hobby"
                 ],
                 "opening_hours": "Mo-Fr 09:00-18:00; Sa 09:00-16:00",
                 "contact": {
@@ -1604,9 +1567,8 @@
                 "street": "5th Avenue",
                 "housenumber": "315",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.cosmetics"
+                    "commercial.health_and_beauty.cosmetics",
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Sa 10:00-23:00; Su 10:00-22:00",
                 "branch": "5th Ave",
@@ -1630,7 +1592,6 @@
                 "street": "5th Avenue",
                 "housenumber": "276",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "opening_hours": "Mo-Fr 09:00-18:00",
@@ -1652,7 +1613,6 @@
                 "street": "West 38th Street",
                 "housenumber": "8",
                 "categories": [
-                    "catering",
                     "catering.pub"
                 ],
                 "opening_hours": "Mo-Sa 11:00-04:00; Su 12:00-04:00",
@@ -1678,7 +1638,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "121",
                 "categories": [
-                    "catering",
                     "catering.cafe",
                     "vegetarian"
                 ],
@@ -1722,7 +1681,6 @@
                 "street": "West 34th Street",
                 "housenumber": "22",
                 "categories": [
-                    "commercial",
                     "commercial.toy_and_game"
                 ],
                 "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-19:00",
@@ -1747,7 +1705,6 @@
                 "street": "West 35th Street",
                 "housenumber": "237",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "coords": [
@@ -1764,7 +1721,6 @@
                 "street": "5th Avenue",
                 "housenumber": "307",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "contact": {
@@ -1785,7 +1741,6 @@
                 "street": "East 37th Street",
                 "housenumber": "13",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.chinese"
                 ],
@@ -1810,12 +1765,10 @@
                 "street": "5th Avenue",
                 "housenumber": "358",
                 "categories": [
-                    "commercial",
-                    "commercial.chemist",
-                    "commercial.health_and_beauty",
                     "commercial.health_and_beauty.pharmacy",
-                    "healthcare",
-                    "healthcare.pharmacy"
+                    "healthcare.pharmacy",
+                    "commercial.health_and_beauty",
+                    "commercial.chemist"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00 \"shop\"||Mo-Fr 09:00-13:30,14:00-19:00; Sa 10:00-13:30,14:00-18:00,Su 11:00-13:30,14:00-17:00 \"pharmacy\"",
                 "brand": "CVS Pharmacy",
@@ -1842,7 +1795,6 @@
                 "street": "West 37th Street",
                 "housenumber": "59",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.chinese"
                 ],
@@ -1870,9 +1822,7 @@
                 "suburb": "Manhattan",
                 "street": "West 31st Street",
                 "categories": [
-                    "catering",
                     "catering.food_court",
-                    "wheelchair",
                     "wheelchair.yes"
                 ],
                 "opening_hours": "24/7",
@@ -1901,10 +1851,8 @@
                 "street": "West 39th Street",
                 "housenumber": "38",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Mo-We 11:00-23:00; Th-Sa 11:00-24:00; Su 11:00-22:00",
                 "contact": {
@@ -1931,7 +1879,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "49",
                 "categories": [
-                    "office",
                     "office.educational_institution"
                 ],
                 "contact": {
@@ -1951,9 +1898,8 @@
                 "street": "5th Avenue",
                 "housenumber": "349",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "09:00-17:00",
                 "brand": "Chase",
@@ -1977,9 +1923,8 @@
                 "street": "6th Avenue",
                 "housenumber": "1000",
                 "categories": [
-                    "catering",
-                    "catering.fast_food",
-                    "internet_access"
+                    "internet_access",
+                    "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Sa 06:30-22:00",
                 "brand": "Chick-fil-A",
@@ -2008,7 +1953,6 @@
                 "street": "West 36th Street",
                 "housenumber": "130",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Fr 10:30-23:30; Sa, Su 11:30-23:00",
@@ -2033,9 +1977,8 @@
                 "street": "6th Avenue",
                 "housenumber": "800",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00",
                 "brand": "Citizens Bank",
@@ -2059,7 +2002,6 @@
                 "street": "West 36th Street",
                 "housenumber": "16",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo-We 12:00-01:00; Th-Sa 12:00-02:00; Su 12:00-12:00",
@@ -2096,9 +2038,7 @@
                 "street": "Madison Avenue",
                 "housenumber": "233",
                 "categories": [
-                    "building",
                     "building.office",
-                    "office",
                     "office.diplomatic"
                 ],
                 "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
@@ -2120,7 +2060,6 @@
                 "street": "West 38th Street",
                 "housenumber": "29",
                 "categories": [
-                    "commercial",
                     "commercial.trade"
                 ],
                 "opening_hours": "Mo-Fr 07:00-15:00",
@@ -2150,7 +2089,6 @@
                 "street": "West 35th Street",
                 "housenumber": "30",
                 "categories": [
-                    "catering",
                     "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Fr 11:00-20:00",
@@ -2177,11 +2115,9 @@
                 "street": "West 34th Street",
                 "housenumber": "152",
                 "categories": [
-                    "building",
+                    "commercial.clothing.shoes",
                     "building.commercial",
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.shoes"
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Sa 09:00-21:00; Su 10:00-21:00",
                 "brand": "Crocs",
@@ -2210,9 +2146,8 @@
                 "street": "West 35th Street",
                 "housenumber": "213",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.sandwich"
+                    "catering.restaurant.sandwich",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Fr 09:00-21:00",
                 "branch": "Midtown West",
@@ -2241,7 +2176,6 @@
                 "street": "West 34th Street",
                 "housenumber": "213",
                 "categories": [
-                    "commercial",
                     "commercial.clothing",
                     "commercial.clothing.shoes"
                 ],
@@ -2268,7 +2202,6 @@
                 "street": "7th Avenue",
                 "housenumber": "450",
                 "categories": [
-                    "office",
                     "office.lawyer"
                 ],
                 "coords": [
@@ -2285,7 +2218,6 @@
                 "street": "Broadway",
                 "housenumber": "1178",
                 "categories": [
-                    "catering",
                     "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Fr 11:00-21:00",
@@ -2316,7 +2248,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "33",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.chinese"
                 ],
@@ -2345,10 +2276,8 @@
                 "suburb": "Manhattan",
                 "street": "East 34th Street",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "network": "NYC Transit",
                 "facilities": {
@@ -2367,10 +2296,8 @@
                 "suburb": "Manhattan",
                 "street": "East 34th Street",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
@@ -2391,7 +2318,6 @@
                 "street": "East 39th Street",
                 "housenumber": "10",
                 "categories": [
-                    "office",
                     "office.educational_institution"
                 ],
                 "opening_hours": "Mo-Fr 09:00-18:00; Sa 09:00-12:00; Su off",
@@ -2413,16 +2339,13 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "building",
-                    "building.historic",
-                    "building.office",
-                    "building.tourism",
                     "heritage",
-                    "office",
-                    "tourism",
+                    "building.tourism",
+                    "building.office",
                     "tourism.attraction",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "office",
+                    "wheelchair.yes",
+                    "building.historic"
                 ],
                 "opening_hours": "Mo-Su 08:00-02:00",
                 "contact": {
@@ -2454,7 +2377,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "108",
                 "categories": [
-                    "catering",
                     "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Fr 06:00-21:00; Sa-Su 06:00-17:00",
@@ -2482,7 +2404,6 @@
                 "street": "West 34th Street",
                 "housenumber": "108",
                 "categories": [
-                    "commercial",
                     "commercial.clothing",
                     "commercial.clothing.shoes"
                 ],
@@ -2508,7 +2429,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "9",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -2533,7 +2453,6 @@
                 "street": "West 30th Street",
                 "housenumber": "115",
                 "categories": [
-                    "commercial",
                     "commercial.stationery"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00; Sa off; Su off",
@@ -2557,7 +2476,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "11",
                 "categories": [
-                    "catering",
                     "catering.food_court"
                 ],
                 "website_other": [
@@ -2581,11 +2499,9 @@
                 "street": "West 34th Street",
                 "housenumber": "11",
                 "categories": [
-                    "commercial",
+                    "wheelchair.limited",
                     "commercial.clothing",
-                    "commercial.clothing.shoes",
-                    "wheelchair",
-                    "wheelchair.limited"
+                    "commercial.clothing.shoes"
                 ],
                 "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
                 "brand": "Foot Locker",
@@ -2615,7 +2531,6 @@
                 "street": "East 30th Street",
                 "housenumber": "2",
                 "categories": [
-                    "commercial",
                     "commercial.smoking"
                 ],
                 "opening_hours": "Mo 11:00-19:00; Tu-Fr 11:00-18:00",
@@ -2639,7 +2554,6 @@
                 "street": "West 30th Street",
                 "housenumber": "124",
                 "categories": [
-                    "commercial",
                     "commercial.weapons"
                 ],
                 "opening_hours": "Mo-Th 09:30-18:30; Fr 09:30-18:00; Su 10:00-18:00",
@@ -2664,7 +2578,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "9",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -2696,7 +2609,6 @@
                 "street": "5th Avenue",
                 "housenumber": "420",
                 "categories": [
-                    "office",
                     "office.association"
                 ],
                 "coords": [
@@ -2713,10 +2625,9 @@
                 "street": "West 32nd Street",
                 "housenumber": "12",
                 "categories": [
-                    "catering",
-                    "catering.cafe",
+                    "catering.cafe.tea",
                     "catering.cafe.bubble_tea",
-                    "catering.cafe.tea"
+                    "catering.cafe"
                 ],
                 "opening_hours": "10:30-21:30",
                 "brand": "Gong Cha",
@@ -2744,7 +2655,6 @@
                 "street": "5th Avenue",
                 "housenumber": "312",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -2771,7 +2681,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "17",
                 "categories": [
-                    "catering",
                     "catering.cafe"
                 ],
                 "opening_hours": "Su-Th 11:00-23:00; Fr, Sa 11:00-23:30",
@@ -2803,11 +2712,9 @@
                 "street": "West 32nd Street",
                 "housenumber": "38",
                 "categories": [
-                    "commercial",
+                    "wheelchair.yes",
                     "commercial.supermarket",
-                    "no_dogs",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "no_dogs"
                 ],
                 "opening_hours": "08:00-23:00",
                 "brand": "H Mart",
@@ -2841,10 +2748,9 @@
                 "street": "Broadway",
                 "housenumber": "1333",
                 "categories": [
-                    "commercial",
-                    "service",
+                    "service.beauty.hairdresser",
                     "service.beauty",
-                    "service.beauty.hairdresser"
+                    "commercial"
                 ],
                 "opening_hours": "Su,Mo 11:00-19:00; Tu-Fr 10:00-22:00; Sa 09:00-20:00",
                 "contact": {
@@ -2874,7 +2780,6 @@
                 "street": "West 34th Street",
                 "housenumber": "350 5th Ave",
                 "categories": [
-                    "office",
                     "office.non_profit"
                 ],
                 "contact": {
@@ -2894,9 +2799,8 @@
                 "street": "East 32nd Street",
                 "housenumber": "6",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.japanese"
+                    "catering.restaurant.japanese",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Su 11:45-15:30,16:00-22:00",
                 "contact": {
@@ -2928,7 +2832,6 @@
                 "street": "West 31st Street",
                 "housenumber": "132",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.ramen"
                 ],
@@ -2962,7 +2865,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "43",
                 "categories": [
-                    "commercial",
                     "commercial.smoking"
                 ],
                 "opening_hours": "Mo-Su 11:30-22:00",
@@ -2986,7 +2888,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "28",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Tu-Th 17:00-02:00; Fr, Sa 17:00-04:00; Su 14:00-02:00",
@@ -3011,7 +2912,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "110",
                 "categories": [
-                    "commercial",
                     "commercial.discount_store"
                 ],
                 "opening_hours": "Mo-Fr 07:30-19:45; Sa 10:30-19:45; Su 11:00-18:45",
@@ -3039,7 +2939,6 @@
                 "suburb": "Manhattan",
                 "street": "West 31st Street",
                 "categories": [
-                    "commercial",
                     "commercial.stationery"
                 ],
                 "opening_hours": "Mo-Fr 07:00-18:00",
@@ -3063,7 +2962,6 @@
                 "street": "5th Avenue",
                 "housenumber": "312",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Tu-Th 17:00-21:00; Fr, Sa 17:00-21:30",
@@ -3092,11 +2990,9 @@
                 "street": "West 32nd Street",
                 "housenumber": "25",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "service",
+                    "service.beauty.spa",
                     "service.beauty",
-                    "service.beauty.spa"
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "24/7",
                 "contact": {
@@ -3117,7 +3013,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "260",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "opening_hours": "Mo-Fr 09:00-18:00",
@@ -3138,7 +3033,6 @@
                 "street": "5th Avenue",
                 "housenumber": "303",
                 "categories": [
-                    "office",
                     "office.educational_institution"
                 ],
                 "brand": "KidsThrive NYC",
@@ -3160,13 +3054,10 @@
                 "street": "East 32nd Street",
                 "housenumber": "122",
                 "categories": [
-                    "building",
-                    "building.entertainment",
-                    "building.office",
-                    "entertainment",
                     "entertainment.culture",
+                    "building.office",
                     "entertainment.culture.arts_centre",
-                    "office",
+                    "building.entertainment",
                     "office.diplomatic"
                 ],
                 "name_other": {
@@ -3196,9 +3087,8 @@
                 "street": "West 32nd Street",
                 "housenumber": "35",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.cosmetics"
+                    "commercial.health_and_beauty.cosmetics",
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-19:00",
                 "contact": {
@@ -3219,9 +3109,7 @@
                 "street": "East 34th Street",
                 "housenumber": "43",
                 "categories": [
-                    "catering",
                     "catering.food_court",
-                    "kosher",
                     "kosher.only"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
@@ -3248,9 +3136,8 @@
                 "street": "West 32nd Street",
                 "housenumber": "2",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
                     "catering.restaurant.japanese",
+                    "catering.restaurant",
                     "catering.restaurant.ramen"
                 ],
                 "opening_hours": "Su-Th 12:00-21:30; Th-Sa 12:00-23:00",
@@ -3280,9 +3167,8 @@
                 "street": "5th Avenue",
                 "housenumber": "324",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.cosmetics"
+                    "commercial.health_and_beauty.cosmetics",
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Th, Su 09:00-22:00; Fr, Sa 09:00-23:00",
                 "contact": {
@@ -3306,7 +3192,6 @@
                 "street": "West 34th Street",
                 "housenumber": "1",
                 "categories": [
-                    "commercial",
                     "commercial.clothing",
                     "commercial.clothing.shoes"
                 ],
@@ -3332,7 +3217,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "145",
                 "categories": [
-                    "commercial",
                     "commercial.furniture_and_interior"
                 ],
                 "opening_hours": "Mo-Fr 10:00-19:00; Sa 11:00-19:00; Su 12:00-18:00",
@@ -3356,9 +3240,8 @@
                 "street": "Park Avenue",
                 "housenumber": "3",
                 "categories": [
-                    "catering",
-                    "catering.cafe",
                     "catering.cafe.coffee",
+                    "catering.cafe",
                     "catering.cafe.coffee_shop"
                 ],
                 "opening_hours": "Mo-Fr 07:00-20:00; Sa-Su 08:00-18:00",
@@ -3386,7 +3269,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "6",
                 "categories": [
-                    "catering",
                     "catering.pub"
                 ],
                 "opening_hours": "Mo-Su 11:00-23:00",
@@ -3407,9 +3289,8 @@
                 "street": "West 34th Street",
                 "housenumber": "7",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.optician"
+                    "commercial.health_and_beauty.optician",
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-18:00",
                 "brand": "LensCrafters",
@@ -3433,13 +3314,11 @@
                 "street": "West 34th Street",
                 "housenumber": "45",
                 "categories": [
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes",
                     "commercial.clothing.men",
+                    "wheelchair.limited",
+                    "commercial.clothing.clothes",
                     "commercial.clothing.women",
-                    "wheelchair",
-                    "wheelchair.limited"
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
                 "brand": "Levi's",
@@ -3494,7 +3373,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "10",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -3524,11 +3402,9 @@
                 "street": "West 36th Street",
                 "housenumber": "152",
                 "categories": [
-                    "catering",
+                    "wheelchair.yes",
                     "catering.restaurant",
-                    "vegetarian",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "vegetarian"
                 ],
                 "opening_hours": "Mo-Fr 07:00-19:30; Sa 09:00-19:00",
                 "contact": {
@@ -3564,12 +3440,9 @@
                 "street": "West 34th Street",
                 "housenumber": "151",
                 "categories": [
-                    "building",
-                    "building.commercial",
-                    "commercial",
                     "commercial.department_store",
-                    "wheelchair",
-                    "wheelchair.limited"
+                    "wheelchair.limited",
+                    "building.commercial"
                 ],
                 "opening_hours": "Mo-Sa 10:00-22:00; Su 11:00-21:00",
                 "brand": "Macy's",
@@ -3603,9 +3476,8 @@
                 "street": "East 38th Street",
                 "housenumber": "5",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.mexican"
+                    "catering.restaurant.mexican",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Su-Th 12:00-22:00; We 12:00-23:00; Th-Sa 12:00-00:00",
                 "contact": {
@@ -3633,7 +3505,6 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "network": "NYC Transit",
@@ -3650,10 +3521,8 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "network": "NYC Transit",
                 "facilities": {
@@ -3672,7 +3541,6 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "network": "NYC Transit",
@@ -3689,10 +3557,8 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true
@@ -3711,13 +3577,10 @@
                 "street": "6th Avenue",
                 "housenumber": "972",
                 "categories": [
-                    "catering",
-                    "catering.fast_food",
+                    "wheelchair.yes",
                     "catering.fast_food.burger",
-                    "internet_access",
                     "internet_access.free",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "catering.fast_food"
                 ],
                 "opening_hours": "24/7",
                 "brand": "McDonald's",
@@ -3748,7 +3611,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "260",
                 "categories": [
-                    "office",
                     "office.lawyer"
                 ],
                 "contact": {
@@ -3769,11 +3631,9 @@
                 "street": "5th Avenue",
                 "housenumber": "433",
                 "categories": [
-                    "commercial",
-                    "commercial.smoking",
-                    "service",
                     "service.financial",
-                    "service.financial.atm"
+                    "service.financial.atm",
+                    "commercial.smoking"
                 ],
                 "opening_hours": "Mo-Sa 10:00-19:00; Su 11:00-17:00",
                 "contact": {
@@ -3803,7 +3663,6 @@
                 "street": "5th Avenue",
                 "housenumber": "347",
                 "categories": [
-                    "office",
                     "office.estate_agent"
                 ],
                 "contact": {
@@ -3823,9 +3682,8 @@
                 "street": "Broadway",
                 "housenumber": "1196",
                 "categories": [
-                    "commercial",
-                    "commercial.food_and_drink",
-                    "commercial.food_and_drink.bakery"
+                    "commercial.food_and_drink.bakery",
+                    "commercial.food_and_drink"
                 ],
                 "opening_hours": "Mo-Th, Su 10:00-23:00; Th-Sa 10:00-01:00",
                 "branch": "Nomad",
@@ -3853,7 +3711,6 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "office",
                     "office.lawyer"
                 ],
                 "opening_hours": "24/7",
@@ -3874,7 +3731,6 @@
                 "street": "West 27th Street",
                 "housenumber": "55",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Th 11:00-21:00; Fr-Sa 11:00-20:00",
@@ -3902,7 +3758,6 @@
                 "suburb": "Manhattan",
                 "street": "Broadway",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "coords": [
@@ -3919,7 +3774,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "24",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.dumpling"
                 ],
@@ -3946,7 +3800,6 @@
                 "suburb": "Manhattan",
                 "street": "East 33rd Street",
                 "categories": [
-                    "catering",
                     "catering.pub"
                 ],
                 "opening_hours": "Mo-Su 11:00-16:00",
@@ -3970,11 +3823,9 @@
                 "street": "West 32nd Street",
                 "housenumber": "23",
                 "categories": [
-                    "catering",
+                    "wheelchair.limited",
                     "catering.restaurant",
-                    "catering.restaurant.korean",
-                    "wheelchair",
-                    "wheelchair.limited"
+                    "catering.restaurant.korean"
                 ],
                 "opening_hours": "24/7",
                 "contact": {
@@ -4009,9 +3860,8 @@
                 "street": "West 30th Street",
                 "housenumber": "145",
                 "categories": [
-                    "office",
-                    "office.government",
-                    "office.government.transportation"
+                    "office.government.transportation",
+                    "office.government"
                 ],
                 "opening_hours": "Mo-Fr 08:30-16:00",
                 "operator": "New York State Department of Motor Vehicles",
@@ -4032,7 +3882,6 @@
                 "street": "6th Avenue",
                 "housenumber": "855",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "brand": "Nike",
@@ -4072,11 +3921,9 @@
                 "street": "West 33rd Street",
                 "housenumber": "35",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "service",
+                    "service.beauty.spa",
                     "service.beauty",
-                    "service.beauty.spa"
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Tu-Su 10:00-20:00",
                 "contact": {
@@ -4099,10 +3946,9 @@
                 "street": "6th Avenue",
                 "housenumber": "865",
                 "categories": [
-                    "commercial",
-                    "commercial.clothing",
+                    "internet_access",
                     "commercial.clothing.clothes",
-                    "internet_access"
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Sa 10:00-21:00; Su 11:00-20:00",
                 "brand": "Nordstrom Rack",
@@ -4144,12 +3990,9 @@
                 "street": "West 32nd Street",
                 "housenumber": "97",
                 "categories": [
-                    "building",
                     "building.catering",
-                    "catering",
-                    "catering.fast_food",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Fr 07:30-20:00; Sa 09:00-19:00; Su 10:00-19:00",
                 "contact": {
@@ -4180,9 +4023,7 @@
                 "street": "West 31st Street",
                 "housenumber": "54",
                 "categories": [
-                    "catering",
                     "catering.bar",
-                    "wheelchair",
                     "wheelchair.limited"
                 ],
                 "opening_hours": "11:00-02:00",
@@ -4216,7 +4057,6 @@
                 "street": "East 30th Street",
                 "housenumber": "13",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -4243,13 +4083,10 @@
                 "street": "West 34th Street",
                 "housenumber": "144-150",
                 "categories": [
-                    "building",
-                    "building.commercial",
-                    "commercial",
-                    "commercial.clothing",
+                    "wheelchair.yes",
                     "commercial.clothing.clothes",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "building.commercial",
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Sa 08:00-22:00; Su 09:00-22:00",
                 "brand": "Old Navy",
@@ -4290,9 +4127,8 @@
                 "street": "5th Avenue",
                 "housenumber": "308",
                 "categories": [
-                    "commercial",
-                    "commercial.hobby",
-                    "commercial.hobby.art"
+                    "commercial.hobby.art",
+                    "commercial.hobby"
                 ],
                 "opening_hours": "Mo-Fr 12:00-20:00; Sa-Su 10:00-18:00",
                 "contact": {
@@ -4315,7 +4151,6 @@
                 "street": "West 31st Street",
                 "housenumber": "5",
                 "categories": [
-                    "catering",
                     "catering.pub"
                 ],
                 "opening_hours": "Mo-Th 16:00-02:00; Fr 16:00-03:00; Sa 11:00-02:00; Su 11:00-23:00",
@@ -4345,7 +4180,6 @@
                 "street": "Broadway",
                 "housenumber": "1284",
                 "categories": [
-                    "commercial",
                     "commercial.jewelry"
                 ],
                 "opening_hours": "Mo-Th 09:00-21:00; Fr,Sa 09:00-22:00; Su 10:00-20:00",
@@ -4370,9 +4204,7 @@
                 "street": "West 38th Street",
                 "housenumber": "15",
                 "categories": [
-                    "building",
                     "building.office",
-                    "office",
                     "office.diplomatic"
                 ],
                 "contact": {
@@ -4396,7 +4228,6 @@
                 "street": "East 36th Street",
                 "housenumber": "2",
                 "categories": [
-                    "catering",
                     "catering.pub"
                 ],
                 "opening_hours": "Mo-Su 12:00-04:00",
@@ -4422,7 +4253,6 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "description": "literary agent",
@@ -4444,7 +4274,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "7",
                 "categories": [
-                    "catering",
                     "catering.ice_cream",
                     "vegetarian"
                 ],
@@ -4485,10 +4314,8 @@
                 "street": "Broadway",
                 "housenumber": "1333",
                 "categories": [
-                    "catering",
-                    "catering.fast_food",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Fr 11:00-21:00; Sa 11:00-20:00; Su 11:30-20:00",
                 "contact": {
@@ -4511,10 +4338,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "112",
                 "categories": [
-                    "commercial",
-                    "commercial.furniture_and_interior",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "commercial.furniture_and_interior"
                 ],
                 "opening_hours": "Mo-Fr 10:00-18:00; Sa 11:00-17:00",
                 "contact": {
@@ -4543,7 +4368,6 @@
                 "street": "6th Avenue",
                 "housenumber": "1000",
                 "categories": [
-                    "building",
                     "building.office",
                     "office"
                 ],
@@ -4565,11 +4389,9 @@
                 "street": "West 37th Street",
                 "housenumber": "5",
                 "categories": [
-                    "catering",
+                    "internet_access.free",
                     "catering.restaurant",
-                    "catering.restaurant.german",
-                    "internet_access",
-                    "internet_access.free"
+                    "catering.restaurant.german"
                 ],
                 "opening_hours": "Th-Sa 11:30-02:00; We 11:30-01:00; Mo, Tu, Su 11:30-24:00",
                 "contact": {
@@ -4596,7 +4418,6 @@
                 "street": "5th Avenue",
                 "housenumber": "442",
                 "categories": [
-                    "office",
                     "office.advertising_agency"
                 ],
                 "contact": {
@@ -4616,9 +4437,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "238",
                 "categories": [
-                    "commercial",
-                    "commercial.food_and_drink",
-                    "commercial.food_and_drink.bakery"
+                    "commercial.food_and_drink.bakery",
+                    "commercial.food_and_drink"
                 ],
                 "opening_hours": "Mo-Fr 07:00-15:00, 08:00-14:00",
                 "contact": {
@@ -4641,9 +4461,8 @@
                 "street": "Broadway",
                 "housenumber": "1333",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.cosmetics"
+                    "commercial.health_and_beauty.cosmetics",
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Sa 10:00-20:00; Su 11:00-19:00",
                 "brand": "Rituals",
@@ -4669,7 +4488,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "200",
                 "categories": [
-                    "commercial",
                     "commercial.furniture_and_interior"
                 ],
                 "opening_hours": "Mo-Sa 10:00-19:00; Su 12:00-17:00",
@@ -4694,7 +4512,6 @@
                 "street": "5th Avenue",
                 "housenumber": "420",
                 "categories": [
-                    "office",
                     "office.foundation"
                 ],
                 "coords": [
@@ -4711,7 +4528,6 @@
                 "street": "West 37th Street",
                 "housenumber": "15",
                 "categories": [
-                    "commercial",
                     "commercial.florist"
                 ],
                 "opening_hours": "Mo-Fr 08:30-17:00; Sa 09:00-15:00",
@@ -4735,11 +4551,9 @@
                 "street": "Broadway",
                 "housenumber": "1333",
                 "categories": [
-                    "catering",
-                    "catering.fast_food",
+                    "wheelchair.yes",
                     "catering.fast_food.burger",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "catering.fast_food"
                 ],
                 "opening_hours": "10:30-24:00",
                 "brand": "Shake Shack",
@@ -4769,9 +4583,8 @@
                 "street": "West 36th Street",
                 "housenumber": "162",
                 "categories": [
-                    "commercial",
-                    "commercial.hobby",
-                    "commercial.hobby.sewing_and_knitting"
+                    "commercial.hobby.sewing_and_knitting",
+                    "commercial.hobby"
                 ],
                 "opening_hours": "Mo-Fr 09:30-17:00",
                 "contact": {
@@ -4794,11 +4607,9 @@
                 "street": "5th Avenue",
                 "housenumber": "431",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "service",
+                    "service.beauty.spa",
                     "service.beauty",
-                    "service.beauty.spa"
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Fr 08:00-22:00; Sa 09:00-19:00; Su 10:00-18:00",
                 "contact": {
@@ -4821,10 +4632,9 @@
                 "street": "West 33rd Street",
                 "housenumber": "4",
                 "categories": [
-                    "commercial",
-                    "service",
+                    "service.beauty.massage",
                     "service.beauty",
-                    "service.beauty.massage"
+                    "commercial"
                 ],
                 "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
                 "contact": {
@@ -4847,7 +4657,6 @@
                 "street": "Park Avenue",
                 "housenumber": "2",
                 "categories": [
-                    "office",
                     "office.insurance"
                 ],
                 "opening_hours": "Mo-Fr 08:00-22:00",
@@ -4870,7 +4679,6 @@
                 "street": "West 36th Street",
                 "housenumber": "135",
                 "categories": [
-                    "office",
                     "office.company"
                 ],
                 "contact": {
@@ -4890,13 +4698,10 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "catering",
+                    "internet_access.free",
+                    "catering.cafe.coffee_shop",
                     "catering.cafe",
                     "catering.cafe.coffee",
-                    "catering.cafe.coffee_shop",
-                    "internet_access",
-                    "internet_access.free",
-                    "wheelchair",
                     "wheelchair.yes"
                 ],
                 "opening_hours": "Mo-Fr 06:30-18:00",
@@ -4931,7 +4736,6 @@
                 "street": "West 35th Street",
                 "housenumber": "224",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.dumpling"
                 ],
@@ -4960,7 +4764,6 @@
                 "street": "West 33rd Street",
                 "housenumber": "133",
                 "categories": [
-                    "catering",
                     "catering.pub"
                 ],
                 "opening_hours": "Th-Su 11:30-01:45; Mo-We 11:30-23:45",
@@ -4989,11 +4792,9 @@
                 "street": "West 34th Street",
                 "housenumber": "21",
                 "categories": [
-                    "commercial",
-                    "commercial.clothing",
+                    "wheelchair.limited",
                     "commercial.clothing.clothes",
-                    "wheelchair",
-                    "wheelchair.limited"
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Su 10:00-21:00",
                 "brand": "Superdry",
@@ -5048,9 +4849,8 @@
                 "street": "West 31st Street",
                 "housenumber": "5",
                 "categories": [
-                    "commercial",
-                    "commercial.hobby",
-                    "commercial.hobby.art"
+                    "commercial.hobby.art",
+                    "commercial.hobby"
                 ],
                 "opening_hours": "08:00-20:00",
                 "contact": {
@@ -5078,10 +4878,8 @@
                 "street": "West 39th Street",
                 "housenumber": "21",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Fr 11:30-22:00; Sa, Su 12:00-22:00",
                 "contact": {
@@ -5114,9 +4912,8 @@
                 "street": "6th Avenue",
                 "housenumber": "885",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "Mo-Fr 07:30-18:30; Sa 09:00-14:00; Su 11:00-15:00",
                 "brand": "TD Bank",
@@ -5160,9 +4957,7 @@
                 "street": "West 34th Street",
                 "housenumber": "112",
                 "categories": [
-                    "commercial",
                     "commercial.department_store",
-                    "wheelchair",
                     "wheelchair.yes"
                 ],
                 "opening_hours": "09:00-20:00 open \"Store\" || Mo-Fr 10:00-13:30; 14:00-19:00 open \"Pharmacy\"",
@@ -5191,7 +4986,6 @@
                 "street": "West 38th Street",
                 "housenumber": "20",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo, Su 11:30-00:00; Tu, We 11:30-23:00; Th 11:30-02:00; Fr, Sa 11:30-04:00",
@@ -5221,10 +5015,9 @@
                 "street": "Broadway",
                 "housenumber": "1271",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
-                    "catering.restaurant.american",
                     "gluten_free",
+                    "catering.restaurant.american",
+                    "catering.restaurant",
                     "vegetarian"
                 ],
                 "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
@@ -5252,7 +5045,6 @@
                 "street": "5th Avenue",
                 "housenumber": "347",
                 "categories": [
-                    "office",
                     "office.lawyer"
                 ],
                 "coords": [
@@ -5269,11 +5061,9 @@
                 "street": "West 32nd Street",
                 "housenumber": "32",
                 "categories": [
-                    "catering",
+                    "wheelchair.yes",
                     "catering.restaurant",
-                    "catering.restaurant.korean",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "catering.restaurant.korean"
                 ],
                 "opening_hours": "Su 00:00-03:00,06:30-03:00; Mo,Tu 06:30-03:00; We 06:30-24:00; Th-Sa 00:00-24:00",
                 "contact": {
@@ -5308,7 +5098,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "225",
                 "categories": [
-                    "entertainment",
                     "entertainment.museum"
                 ],
                 "opening_hours": "Tu-Su 10:00-17:30",
@@ -5329,7 +5118,6 @@
                 "street": "5th Avenue",
                 "housenumber": "385",
                 "categories": [
-                    "commercial",
                     "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Fr 08:00-20:00; Sa 10:00-19:00; Su 12:00-17:00",
@@ -5355,11 +5143,9 @@
                 "street": "West 34th Street",
                 "housenumber": "28",
                 "categories": [
-                    "commercial",
-                    "commercial.clothing",
+                    "wheelchair.yes",
                     "commercial.clothing.clothes",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Th 10:00-19:00; Fr-Sa 10:00-20:00; Su 11:00-19:00",
                 "brand": "Timberland",
@@ -5387,7 +5173,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "179",
                 "categories": [
-                    "catering",
                     "catering.fast_food"
                 ],
                 "opening_hours": "Mo-Fr 08:00-20:00",
@@ -5411,7 +5196,6 @@
                 "street": "East 36th Street",
                 "housenumber": "6",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.spanish"
                 ],
@@ -5439,9 +5223,8 @@
                 "street": "West 32nd Street",
                 "housenumber": "31",
                 "categories": [
-                    "commercial",
-                    "commercial.food_and_drink",
-                    "commercial.food_and_drink.bakery"
+                    "commercial.food_and_drink.bakery",
+                    "commercial.food_and_drink"
                 ],
                 "opening_hours": "Su-Th 08:00-23:00; Fr, Sa 08:00-24:00",
                 "brand": "Tous les Jours",
@@ -5462,7 +5245,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "180",
                 "categories": [
-                    "commercial",
                     "commercial.bag"
                 ],
                 "opening_hours": "Mo-Fr 10:00-17:00",
@@ -5487,9 +5269,8 @@
                 "street": "West 34th Street",
                 "housenumber": "51",
                 "categories": [
-                    "commercial",
-                    "commercial.health_and_beauty",
-                    "commercial.health_and_beauty.cosmetics"
+                    "commercial.health_and_beauty.cosmetics",
+                    "commercial.health_and_beauty"
                 ],
                 "opening_hours": "Mo-Sa 09:00-21:00; Su 11:00-20:00",
                 "brand": "Ulta Beauty",
@@ -5514,9 +5295,8 @@
                 "street": "6th Avenue",
                 "housenumber": "875",
                 "categories": [
-                    "commercial",
-                    "commercial.food_and_drink",
-                    "commercial.food_and_drink.drinks"
+                    "commercial.food_and_drink.drinks",
+                    "commercial.food_and_drink"
                 ],
                 "opening_hours": "Mo-Th 10:00-23:00; Fr, Sa 10:00-23:30; Su 12:00-21:00",
                 "contact": {
@@ -5542,12 +5322,10 @@
                 "street": "Broadway",
                 "housenumber": "1333",
                 "categories": [
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes",
+                    "wheelchair.limited",
                     "internet_access",
-                    "wheelchair",
-                    "wheelchair.limited"
+                    "commercial.clothing.clothes",
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Sa 10:00-22:00; Su 10:00-21:00",
                 "brand": "Urban Outfitters",
@@ -5596,9 +5374,8 @@
                 "street": "5th Avenue",
                 "housenumber": "279",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00",
                 "contact": {
@@ -5618,7 +5395,6 @@
                 "street": "Broadway",
                 "housenumber": "1293",
                 "categories": [
-                    "commercial",
                     "commercial.elektronics"
                 ],
                 "opening_hours": "Mo-Sa 11:00-16:00",
@@ -5670,7 +5446,6 @@
                 "suburb": "Manhattan",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -5687,12 +5462,9 @@
                 "street": "West 35th Street",
                 "housenumber": "102",
                 "categories": [
-                    "building",
                     "building.catering",
-                    "catering",
-                    "catering.restaurant",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.restaurant"
                 ],
                 "opening_hours": "09:00-22:00",
                 "branch": "Herald Square",
@@ -5720,7 +5492,6 @@
                 "housenumber": "4",
                 "categories": [
                     "fee",
-                    "office",
                     "office.coworking"
                 ],
                 "brand": "WeWork",
@@ -5742,9 +5513,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "180",
                 "categories": [
-                    "service",
-                    "service.financial",
-                    "service.financial.bank"
+                    "service.financial.bank",
+                    "service.financial"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00",
                 "brand": "Wells Fargo",
@@ -5764,7 +5534,6 @@
                 "suburb": "Manhattan",
                 "street": "West 31st Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
@@ -5782,7 +5551,6 @@
                 "suburb": "Manhattan",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
@@ -5800,7 +5568,6 @@
                 "commercial": "Korea Town",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -5816,10 +5583,8 @@
                 "suburb": "Manhattan",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "network": "NYC Transit",
                 "facilities": {
@@ -5838,10 +5603,8 @@
                 "suburb": "Manhattan",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -5861,10 +5624,8 @@
                 "suburb": "Manhattan",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -5884,7 +5645,6 @@
                 "suburb": "Manhattan",
                 "street": "West 37th Street",
                 "categories": [
-                    "public_transport",
                     "public_transport.bus"
                 ],
                 "coords": [
@@ -5900,10 +5660,8 @@
                 "suburb": "Manhattan",
                 "street": "West 37th Street",
                 "categories": [
-                    "public_transport",
-                    "public_transport.bus",
-                    "wheelchair",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -5924,7 +5682,6 @@
                 "street": "West 39th Street",
                 "housenumber": "23",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo 15:00-23:00; Tu, We 15:00-00:00; Th, Fr 15:00-02:00",
@@ -5957,7 +5714,6 @@
                 "street": "Park Avenue",
                 "housenumber": "4",
                 "categories": [
-                    "catering",
                     "catering.restaurant"
                 ],
                 "opening_hours": "Mo-Su 12:00-22:30",
@@ -5978,7 +5734,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "12",
                 "categories": [
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -6010,9 +5765,8 @@
                 "street": "West 36th Street",
                 "housenumber": "8",
                 "categories": [
-                    "catering",
-                    "catering.restaurant",
                     "catering.restaurant.barbecue",
+                    "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
                 "opening_hours": "Mo-Su 11:34-14:30,17:00-23:00",
@@ -6040,9 +5794,7 @@
                 "street": "Madison Avenue",
                 "housenumber": "110",
                 "categories": [
-                    "building",
                     "building.catering",
-                    "catering",
                     "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
@@ -6076,9 +5828,8 @@
                 "street": "West 38th Street",
                 "housenumber": "8",
                 "categories": [
-                    "commercial",
-                    "commercial.clothing",
-                    "commercial.clothing.clothes"
+                    "commercial.clothing.clothes",
+                    "commercial.clothing"
                 ],
                 "opening_hours": "Mo-Fr 11:00-18:00",
                 "contact": {

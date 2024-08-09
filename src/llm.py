@@ -22,7 +22,7 @@ from src.utils import str_dict
 
 
 class LLM:
-    MODEL = "gpt-4o-2024-05-13"  # "gpt-4o-mini-2024-07-18"
+    MODEL = "gpt-4o-2024-08-06"  # "gpt-4o-mini-2024-07-18"
     MAX_TOKENS = 2000
     TEMPERATURE = 0.2
 
@@ -164,26 +164,29 @@ class PromptFormatter:
 
         result: Any = None
 
+        print(f"Function call: {tool_call.function.name}")
+        print(f"Parameters: {params}")
+
         try:
             if tool_call.function.name == "get_distance":
                 result = self.graph.get_distance(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
                 )
-            elif tool_call.function.name == "get_distance_from_poi":
+            elif tool_call.function.name == "get_distance_to_point_of_interest":
                 result = self.graph.get_distance_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
                 )
-            elif tool_call.function.name == "get_nearby_pois":
+            elif tool_call.function.name == "get_nearby_points_of_interest":
                 result = self.graph.get_nearby_pois(
                     Coords(params["x"], params["y"]), params.get("distance", None)
                 )
-            elif tool_call.function.name == "am_i_at":
+            elif tool_call.function.name == "am_i_at_point_of_interest":
                 result = self.graph.am_i_at(
                     Coords(params["x"], params["y"]), params["poi_index"]
                 )
-            elif tool_call.function.name == "get_poi_details":
+            elif tool_call.function.name == "get_point_of_interest_details":
                 poi = self.graph.get_poi_details(params["poi_index"])
                 result = str_dict(poi)
             else:
@@ -194,6 +197,8 @@ class PromptFormatter:
 
         if not isinstance(result, str):
             result = json.dumps(result, cls=GraphEncoder)
+
+        print(f"Result: {result}")
 
         return ChatCompletionToolMessageParam(
             role="tool",
@@ -228,17 +233,17 @@ class PromptFormatter:
 
             instructions = (
                 f"""My coordinates are {position}, """
-                f"""the closest point of the road network is edge {edge.id}, """
+                f"""the closest point on the road network is on edge {edge.id}, """
                 f"""which is {street_str}\n"""
                 f"""I'm at a distance of {distance_m_node1} m from the {edge.node1.description} """
                 f"""and {distance_m_node2} m from the {edge.node2.description}.\n"""
-                """Continue answering my questions with the updated position.\n"""
             )
 
         instructions += (
             """Remembet to not mention the underlying graph, its nodes and streets and the cartesian plane in your answer.\n"""
             """Do not make up things, be objective and precise."""
             """If you can't answer the question, just say that you don't know and suggest how I can get a response.\n"""
+            """Continue answering my questions.\n"""
         )
 
         question = f"{instructions}\n{question}"
@@ -282,12 +287,12 @@ class PromptFormatter:
         )
 
         prompt += (
-            """These are points of interest along the road network. Each point has four important parameters:\n"""
+            """These are points of interest along the road network. Each point has five important fields:\n"""
             """- index: the index of the point in the list of points of interest\n"""
             """- coords: the coordinates of the point\n"""
             """- edge: the edge the point is located on\n"""
-            """- distance: the distance of the point from the first node of the edge\n"""
             """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""
+            """- categories: a list of categories the point belongs to\n"""
         )
         prompt += self.poi_prompt() + "\n\n"
 
@@ -317,7 +322,7 @@ class PromptFormatter:
                 type="function",
                 function=FunctionDefinition(
                     name="get_distance",
-                    description="Get the distance between two points on the road network graph",
+                    description="Get the distance between two points on the road network graph.",
                     parameters={
                         "type": "object",
                         "properties": {
@@ -339,14 +344,15 @@ class PromptFormatter:
                             },
                         },
                         "required": ["x1", "y1", "x2", "y2"],
+                        "additionalProperties": False,
                     },
                 ),
             ),
             ChatCompletionToolParam(
                 type="function",
                 function=FunctionDefinition(
-                    name="get_distance_from_poi",
-                    description="Get the distance between a point and a point of interest",
+                    name="get_distance_to_point_of_interest",
+                    description="Get the distance between a point and a point of interest. You can use this function to determine how far I am from a point of interest by providing the coordinates of my position and the index of the point of interest.",
                     parameters={
                         "type": "object",
                         "properties": {
@@ -364,14 +370,15 @@ class PromptFormatter:
                             },
                         },
                         "required": ["x", "y", "poi_index"],
+                        "additionalProperties": False,
                     },
                 ),
             ),
             ChatCompletionToolParam(
                 type="function",
                 function=FunctionDefinition(
-                    name="am_i_at",
-                    description="Check if a point is near a point of interest. If I'm not give to instructions on how to get to the point of interest.",
+                    name="am_i_at_point_of_interest",
+                    description="Check if a point is near a point of interest. Use this function to determine if I'm near a point of interest by providing the coordinates of my position and the index of the point of interest. If the result is false, give me instructions on how to get there.",
                     parameters={
                         "type": "object",
                         "properties": {
@@ -389,14 +396,15 @@ class PromptFormatter:
                             },
                         },
                         "required": ["x", "y", "poi_index"],
+                        "additionalProperties": False,
                     },
                 ),
             ),
             ChatCompletionToolParam(
                 type="function",
                 function=FunctionDefinition(
-                    name="get_nearby_pois",
-                    description="Get the points of interest within a certain maximum distance from a point. If you call this function always include in your response the distance you used. Call this function only if I ask for nearby points of interest; otherwise use all the points of interest.",
+                    name="get_nearby_points_of_interest",
+                    description="Get the points of interest within a certain maximum distance from a point. Call this function only if I specifically ask for nearby points of interest; otherwise use the information provided in the prompt. If I just ask for a point of interest, don't use this function.",
                     parameters={
                         "type": "object",
                         "properties": {
@@ -410,17 +418,18 @@ class PromptFormatter:
                             },
                             "distance": {
                                 "type": "number",
-                                "description": f"The maximum distance from the point. If I don't ask for points of interest at a specific maximum distance don't set it; in this case a default distance of {Graph.NEARBY_THRESHOLD} meters will be used.",
+                                "description": f"The maximum distance from the point. If not provided, a maximum distance of {Graph.NEARBY_THRESHOLD} m is used. If not told otherwise, use a distance of at least {Graph.NEARBY_THRESHOLD} m.",
                             },
                         },
                         "required": ["x", "y"],
+                        "additionalProperties": False,
                     },
                 ),
             ),
             ChatCompletionToolParam(
                 type="function",
                 function=FunctionDefinition(
-                    name="get_poi_details",
+                    name="get_point_of_interest_details",
                     description="Get the details of a point of interest. Use this function to get information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, website, payment options, building data, public transport network and operator",
                     parameters={
                         "type": "object",
@@ -431,6 +440,7 @@ class PromptFormatter:
                             },
                         },
                         "required": ["poi_index"],
+                        "additionalProperties": False,
                     },
                 ),
             ),

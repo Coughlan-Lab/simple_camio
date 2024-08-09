@@ -1,7 +1,7 @@
 from json import JSONEncoder
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
-from src.utils import ArithmeticBuffer, Buffer, str_dict
+from src.utils import ArithmeticBuffer, Buffer
 
 
 class Coords:
@@ -304,12 +304,10 @@ class Graph:
         return edge, distance
 
     def get_distance(self, p1: Coords, p2: Coords) -> float:
-        print(f"Getting distance from {p1} to {p2}")
-
         e1, dist_to_e1 = self.get_nearest_edge(p1)
         e2, dist_to_e2 = self.get_nearest_edge(p2)
 
-        distance = (
+        return (
             self.__get_edge_distance(
                 e1,
                 e2,
@@ -320,17 +318,13 @@ class Graph:
             + dist_to_e2
         )
 
-        print(f"Distance: {distance}")
-        return distance
-
     def get_distance_to_poi(self, p1: Coords, poi_index: int) -> float:
         poi = self.pois[poi_index]
-        print(f"Getting distance from {p1} to {poi['name']}")
 
         e1, dist_to_e1 = self.get_nearest_edge(p1)
         e2 = poi["edge"]
 
-        distance = (
+        return (
             self.__get_edge_distance(
                 e1,
                 e2,
@@ -341,24 +335,14 @@ class Graph:
             + float(poi["coords"].distance_to_edge(e2))
         )
 
-        print(f"Distance: {distance}")
-        return distance
-
     def am_i_at(self, p1: Coords, poi: int) -> bool:
-        print(f"Checking if {p1} is at {poi}")
-
         p2 = self.pois[poi]["coords"]
 
-        res = p1.distance_to(p2) < Graph.AM_I_THRESHOLD
-
-        print(f"Result: {res}")
-        return res
+        return p1.distance_to(p2) < Graph.AM_I_THRESHOLD
 
     def get_poi_details(self, poi_index: int) -> Dict[str, Any]:
         if poi_index < 0 or poi_index >= len(self.pois):
             raise ValueError("Invalid POI index")
-
-        print(f"Getting details for POI {self.pois[poi_index]['name']}")
 
         return self.pois[poi_index]
 
@@ -387,8 +371,6 @@ class Graph:
     def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
         if threshold is None:
             threshold = Graph.NEARBY_THRESHOLD
-
-        print(f"Getting nearby POIs from {coords} at {threshold} meters")
 
         if threshold < 0:
             return [poi["name"] for poi in self.pois]

@@ -4,6 +4,7 @@ import threading as th
 import time
 from typing import Any, Dict, Optional
 
+os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 import keyboard
 

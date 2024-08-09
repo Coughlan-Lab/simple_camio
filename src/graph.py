@@ -281,32 +281,50 @@ class Graph:
         e1, dist_to_e1 = self.get_nearest_edge(p1)
         e2, dist_to_e2 = self.get_nearest_edge(p2)
 
-        return self.__get_edge_distance(
-            e1,
-            e2,
-            dist_to_e1 + p1.project_on(e1).distance_to(e1[0].coords),
-            dist_to_e2 + p2.project_on(e2).distance_to(e2[0].coords),
+        distance = (
+            self.__get_edge_distance(
+                e1,
+                e2,
+                p1.project_on(e1).distance_to(e1[0].coords),
+                p2.project_on(e2).distance_to(e2[0].coords),
+            )
+            + dist_to_e1
+            + dist_to_e2
         )
 
-    def get_distance_from_poi(self, p1: Coords, poi: int) -> float:
-        print(f"Getting distance from {p1} to {poi}")
+        print(f"Distance: {distance}")
+        return distance
+
+    def get_distance_to_poi(self, p1: Coords, poi_index: int) -> float:
+        poi = self.pois[poi_index]
+        print(f"Getting distance from {p1} to {poi['name']}")
 
         e1, dist_to_e1 = self.get_nearest_edge(p1)
-        e2, dist_to_e2_n1 = self.pois[poi]["edge"], self.pois[poi]["distance"]
+        e2 = poi["edge"]
 
-        return self.__get_edge_distance(
-            e1,
-            e2,
-            dist_to_e1 + p1.project_on(e1).distance_to(e1[0].coords),
-            dist_to_e2_n1,
+        distance = (
+            self.__get_edge_distance(
+                e1,
+                e2,
+                p1.project_on(e1).distance_to(e1[0].coords),
+                poi["coords"].project_on(e2).distance_to(e2[0].coords),
+            )
+            + dist_to_e1
+            + poi["coords"].distance_to_edge(e2)
         )
+
+        print(f"Distance: {distance}")
+        return distance
 
     def am_i_at(self, p1: Coords, poi: int) -> bool:
         print(f"Checking if {p1} is at {poi}")
 
         p2 = self.pois[poi]["coords"]
 
-        return p1.distance_to(p2) < Graph.AM_I_THRESHOLD
+        res = p1.distance_to(p2) < Graph.AM_I_THRESHOLD
+
+        print(f"Result: {res}")
+        return res
 
     def __get_edge_distance(
         self,
@@ -341,12 +359,19 @@ class Graph:
 
         res = []
         e1, dist_to_e1 = self.get_nearest_edge(coords)
-        dist_to_e1_n1 = dist_to_e1 + coords.project_on(e1).distance_to(e1[0].coords)
+
+        projection_distance = coords.project_on(e1).distance_to(e1[0].coords)
+        threshold -= dist_to_e1
 
         for poi in self.pois:
             e2 = poi["edge"]
             try:
-                d = self.__get_edge_distance(e1, e2, dist_to_e1_n1, poi["distance"])
+                d = self.__get_edge_distance(
+                    e1,
+                    e2,
+                    projection_distance,
+                    poi["coords"].project_on(e2).distance_to(e2[0].coords),
+                ) + poi["coords"].distance_to_edge(e2)
             except ValueError:
                 continue
 

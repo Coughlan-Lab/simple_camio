@@ -155,7 +155,7 @@ class PromptFormatter:
                     Coords(params["x2"], params["y2"]),
                 )
             elif tool_call.function.name == "get_distance_from_poi":
-                result = self.graph.get_distance_from_poi(
+                result = self.graph.get_distance_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
                 )
@@ -348,7 +348,7 @@ class PromptFormatter:
                 type="function",
                 function=FunctionDefinition(
                     name="am_i_at",
-                    description="Check if a point is at a point of interest",
+                    description="Check if a point is near a point of interest. If I'm not give to instructions on how to get to the point of interest.",
                     parameters={
                         "type": "object",
                         "properties": {

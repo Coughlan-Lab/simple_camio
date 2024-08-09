@@ -421,7 +421,7 @@ class PromptFormatter:
                 type="function",
                 function=FunctionDefinition(
                     name="get_poi_details",
-                    description="Get the details of a point of interest. Use this function to get information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, payment options, building data, public transport network and operator",
+                    description="Get the details of a point of interest. Use this function to get information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, website, payment options, building data, public transport network and operator",
                     parameters={
                         "type": "object",
                         "properties": {

@@ -146,7 +146,6 @@ class PromptFormatter:
         "street",
         "coords",
         "edge",
-        "distance",
         "opening_hours",
         "brand",
         "categories",
@@ -193,10 +192,13 @@ class PromptFormatter:
             print(f"An error occurred during a function call: {e}")
             result = "An error occurred while processing the function call."
 
+        if not isinstance(result, str):
+            result = json.dumps(result, cls=GraphEncoder)
+
         return ChatCompletionToolMessageParam(
             role="tool",
             tool_call_id=tool_call.id,
-            content=json.dumps(result, cls=GraphEncoder),
+            content=result,
         )
 
     def get_user_message(

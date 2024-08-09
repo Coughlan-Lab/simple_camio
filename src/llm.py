@@ -139,6 +139,22 @@ class LLM:
 
 
 class PromptFormatter:
+    POIS_IMPORTANT_KEYS = [
+        "name",
+        "name_other",
+        "index",
+        "street",
+        "coords",
+        "edge",
+        "distance",
+        "opening_hours",
+        "brand",
+        "categories",
+        "catering",
+        "commercial",
+        "facilities",
+    ]
+
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
 
@@ -168,6 +184,9 @@ class PromptFormatter:
                 result = self.graph.am_i_at(
                     Coords(params["x"], params["y"]), params["poi_index"]
                 )
+            elif tool_call.function.name == "get_poi_details":
+                poi = self.graph.get_poi_details(params["poi_index"])
+                result = str_dict(poi)
             else:
                 result = "Unknown function call."
         except Exception as e:
@@ -220,7 +239,7 @@ class PromptFormatter:
             """If you can't answer the question, just say that you don't know and suggest how I can get a response.\n"""
         )
 
-        question = f"{instructions}\n\n{question}"
+        question = f"{instructions}\n{question}"
 
         return ChatCompletionUserMessageParam(content=question, role="user")
 
@@ -230,7 +249,7 @@ class PromptFormatter:
         prompt = ""
 
         prompt += "Consider the following points on a cartesian plane at the associated coordinates:\n"
-        prompt += self.graph.nodes_prompt() + "\n\n"
+        prompt += self.nodes_prompt() + "\n\n"
 
         prompt += (
             """Each point is a node of a road network graph and represents the intersection of two or more streets. """
@@ -238,7 +257,7 @@ class PromptFormatter:
             """For example the edge "n3 - n5" would connect node n3 with node n5.\n"""
             """Each street is a sequence of connected edges on the graph. These are the streets of the road network graph:\n"""
         )
-        prompt += self.graph.edges_prompt() + "\n\n"
+        prompt += self.edges_prompt() + "\n\n"
 
         prompt += (
             """All units are in meters. """
@@ -249,7 +268,7 @@ class PromptFormatter:
         )
 
         prompt += "These are the names of the streets in the graph; you will use them to identify each street."
-        prompt += self.graph.streets_prompt() + "\n\n"
+        prompt += self.streets_prompt() + "\n\n"
 
         prompt += (
             """Nodes are named after the edges intersecting at their coordinates. """
@@ -268,7 +287,7 @@ class PromptFormatter:
             """- distance: the distance of the point from the first node of the edge\n"""
             """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""
         )
-        prompt += self.graph.poi_prompt() + "\n\n"
+        prompt += self.poi_prompt() + "\n\n"
 
         prompt += (
             """These are addictional information about the context of the map:\n"""
@@ -396,4 +415,48 @@ class PromptFormatter:
                     },
                 ),
             ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_poi_details",
+                    description="Get the details of a point of interest. Use this function to get information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, payment options, building data, public transport network and operator",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "poi_index": {
+                                "type": "number",
+                                "description": "The index of the point of interest",
+                            },
+                        },
+                        "required": ["poi_index"],
+                    },
+                ),
+            ),
         ]
+
+    def nodes_prompt(self) -> str:
+        return "\n".join([str(node) for node in self.graph.nodes])
+
+    def edges_prompt(self) -> str:
+        return "\n".join(
+            [
+                "{}: {}".format(
+                    street,
+                    ", ".join([str(edge) for edge in street.edges]),
+                )
+                for street in self.graph.streets
+            ]
+        )
+
+    def streets_prompt(self) -> str:
+        return "\n".join([f"{street}: {street.name}" for street in self.graph.streets])
+
+    def poi_prompt(self) -> str:
+        return "\n".join(
+            [
+                str_dict(
+                    {k: poi[k] for k in PromptFormatter.POIS_IMPORTANT_KEYS if k in poi}
+                )
+                for poi in self.graph.pois
+            ]
+        )

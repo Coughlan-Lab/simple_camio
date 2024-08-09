@@ -233,7 +233,7 @@ class Graph:
                     e2.between_streets.add(e1.street)
 
     def __load_pois(self, graph_dict: Dict[str, Any]) -> None:
-        self.pois = graph_dict["points_of_interest"]
+        self.pois: List[Dict[str, Any]] = graph_dict["points_of_interest"]
 
         for i, poi in enumerate(self.pois):
             poi["index"] = i
@@ -260,6 +260,15 @@ class Graph:
                     )
 
         return dist
+
+    @property
+    def bounds(self) -> Tuple[Coords, Coords]:
+        min_x = min(self.nodes, key=lambda node: node[0])[0]
+        max_x = max(self.nodes, key=lambda node: node[0])[0]
+        min_y = min(self.nodes, key=lambda node: node[1])[1]
+        max_y = max(self.nodes, key=lambda node: node[1])[1]
+
+        return Coords(min_x, min_y), Coords(max_x, max_y)
 
     def get_nearest_node(self, coords: Coords) -> Tuple[Node, float]:
         node = min(
@@ -327,7 +336,7 @@ class Graph:
                 poi["coords"].project_on(e2).distance_to(e2[0].coords),
             )
             + dist_to_e1
-            + poi["coords"].distance_to_edge(e2)
+            + float(poi["coords"].distance_to_edge(e2))
         )
 
         print(f"Distance: {distance}")
@@ -342,6 +351,14 @@ class Graph:
 
         print(f"Result: {res}")
         return res
+
+    def get_poi_details(self, poi_index: int) -> Dict[str, Any]:
+        if poi_index < 0 or poi_index >= len(self.pois):
+            raise ValueError("Invalid POI index")
+
+        print(f"Getting details for POI {self.pois[poi_index]['name']}")
+
+        return self.pois[poi_index]
 
     def __get_edge_distance(
         self,
@@ -396,35 +413,6 @@ class Graph:
                 res.append(poi["name"])
 
         return res
-
-    @property
-    def bounds(self) -> Tuple[Coords, Coords]:
-        min_x = min(self.nodes, key=lambda node: node[0])[0]
-        max_x = max(self.nodes, key=lambda node: node[0])[0]
-        min_y = min(self.nodes, key=lambda node: node[1])[1]
-        max_y = max(self.nodes, key=lambda node: node[1])[1]
-
-        return Coords(min_x, min_y), Coords(max_x, max_y)
-
-    def nodes_prompt(self) -> str:
-        return "\n".join([str(node) for node in self.nodes])
-
-    def edges_prompt(self) -> str:
-        return "\n".join(
-            [
-                "{}: {}".format(
-                    street,
-                    ", ".join([str(edge) for edge in street.edges]),
-                )
-                for street in self.streets
-            ]
-        )
-
-    def streets_prompt(self) -> str:
-        return "\n".join([f"{street}: {street.name}" for street in self.streets])
-
-    def poi_prompt(self) -> str:
-        return "\n\n".join([str_dict(poi) for poi in self.pois])
 
 
 class PositionHandler:

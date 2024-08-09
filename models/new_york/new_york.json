@@ -858,8 +858,8 @@
                 "suburb": "Manhattan",
                 "street": "Broadway",
                 "categories": [
-                    "internet_access",
-                    "subway_station"
+                    "public_transport.subway",
+                    "internet_access"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -884,7 +884,7 @@
                 "suburb": "Manhattan",
                 "street": "East 32nd Street",
                 "categories": [
-                    "bus_stop"
+                    "public_transport.bus"
                 ],
                 "network": "NYC Transit",
                 "coords": [
@@ -901,7 +901,7 @@
                 "street": "6th Avenue",
                 "categories": [
                     "wheelchair.yes",
-                    "subway_station"
+                    "public_transport.subway"
                 ],
                 "operator": "Port Authority of New York and New Jersey",
                 "network": "PATH",
@@ -925,7 +925,7 @@
                 "street": "6th Avenue",
                 "categories": [
                     "wheelchair.yes",
-                    "subway_station"
+                    "public_transport.subway"
                 ],
                 "operator": "Metropolitan Transportation Authority",
                 "network": "NYC Subway",
@@ -952,7 +952,7 @@
                 "suburb": "Manhattan",
                 "street": "7th Avenue",
                 "categories": [
-                    "subway_station"
+                    "public_transport.subway"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -982,7 +982,7 @@
                 "street": "6th Avenue",
                 "categories": [
                     "wheelchair.limited",
-                    "bus_stop"
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true,
@@ -1003,8 +1003,8 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true
@@ -1022,8 +1022,8 @@
                 "suburb": "Manhattan",
                 "street": "6th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true
@@ -1066,7 +1066,6 @@
                 "housenumber": "463",
                 "categories": [
                     "wheelchair.yes",
-                    "catering.restaurant",
                     "catering.restaurant.american"
                 ],
                 "opening_hours": "Mo-Th 06:00-22:00; Fr 06:00-23:00; Sa, Su 07:00-23:00",
@@ -1096,7 +1095,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "5",
                 "categories": [
-                    "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
                 "opening_hours": "Su-Th 10:30-24:00; Fr, Sa 10:30-03:00",
@@ -1126,7 +1124,6 @@
                 "street": "6th Avenue",
                 "housenumber": "812",
                 "categories": [
-                    "service.financial",
                     "service.financial.bank"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00; Sa 09:00-14:00",
@@ -1149,7 +1146,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "16",
                 "categories": [
-                    "service.financial",
                     "service.financial.bank"
                 ],
                 "opening_hours": "Mo-Fr 08:30-17:00",
@@ -1173,7 +1169,6 @@
                 "street": "West 35th Street",
                 "housenumber": "34",
                 "categories": [
-                    "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
                 "opening_hours": "Mo-We 12:00-21:00; Th-Sa 12:00-22:00; Su 12:00-21:00",
@@ -1271,7 +1266,6 @@
                 "street": "West 37th Street",
                 "housenumber": "59",
                 "categories": [
-                    "catering.restaurant",
                     "catering.restaurant.chinese"
                 ],
                 "opening_hours": "Su-We 11:30-22:30; Th-Sa 11:30-23:00",
@@ -1299,8 +1293,8 @@
                 "suburb": "Manhattan",
                 "street": "West 31st Street",
                 "categories": [
-                    "catering.food_court",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.food_court"
                 ],
                 "opening_hours": "24/7",
                 "contact": {
@@ -1329,7 +1323,6 @@
                 "street": "5th Avenue",
                 "housenumber": "349",
                 "categories": [
-                    "service.financial",
                     "service.financial.bank"
                 ],
                 "opening_hours": "09:00-17:00",
@@ -1355,8 +1348,8 @@
                 "street": "6th Avenue",
                 "housenumber": "1000",
                 "categories": [
-                    "internet_access",
-                    "catering.fast_food"
+                    "catering.fast_food",
+                    "internet_access"
                 ],
                 "opening_hours": "Mo-Sa 06:30-22:00",
                 "brand": "Chick-fil-A",
@@ -1386,7 +1379,6 @@
                 "street": "6th Avenue",
                 "housenumber": "800",
                 "categories": [
-                    "service.financial",
                     "service.financial.bank"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00",
@@ -1412,8 +1404,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "233",
                 "categories": [
-                    "building.office",
-                    "office.diplomatic"
+                    "office.diplomatic",
+                    "building.office"
                 ],
                 "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
                 "contact": {
@@ -1492,8 +1484,8 @@
                 "suburb": "Manhattan",
                 "street": "East 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
@@ -1514,13 +1506,13 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "wheelchair.yes",
                     "tourism.attraction",
-                    "heritage",
-                    "building.tourism",
                     "building.office",
+                    "wheelchair.yes",
                     "office",
-                    "building.historic"
+                    "building.historic",
+                    "building.tourism",
+                    "heritage"
                 ],
                 "opening_hours": "Mo-Su 08:00-02:00",
                 "contact": {
@@ -1577,7 +1569,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "9",
                 "categories": [
-                    "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
                 "opening_hours": "24/7",
@@ -1609,8 +1600,7 @@
                 "street": "East 32nd Street",
                 "housenumber": "6",
                 "categories": [
-                    "catering.restaurant.japanese",
-                    "catering.restaurant"
+                    "catering.restaurant.japanese"
                 ],
                 "opening_hours": "Mo-Su 11:45-15:30,16:00-22:00",
                 "contact": {
@@ -1718,8 +1708,7 @@
                 "street": "East 38th Street",
                 "housenumber": "5",
                 "categories": [
-                    "catering.restaurant.mexican",
-                    "catering.restaurant"
+                    "catering.restaurant.mexican"
                 ],
                 "opening_hours": "Su-Th 12:00-22:00; We 12:00-23:00; Th-Sa 12:00-00:00",
                 "contact": {
@@ -1748,8 +1737,8 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "network": "NYC Transit",
                 "facilities": {
@@ -1768,8 +1757,8 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "facilities": {
                     "wheelchair": true
@@ -1787,7 +1776,7 @@
                 "suburb": "Manhattan",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop"
+                    "public_transport.bus"
                 ],
                 "coords": [
                     1012.3178149089804,
@@ -1803,11 +1792,10 @@
                 "street": "6th Avenue",
                 "housenumber": "809",
                 "categories": [
-                    "wheelchair.yes",
-                    "building.catering",
-                    "catering.fast_food",
+                    "building.commercial",
                     "catering.fast_food.burger",
-                    "building.commercial"
+                    "wheelchair.yes",
+                    "building.catering"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -2115,7 +2103,6 @@
                 "street": "Madison Avenue",
                 "housenumber": "241",
                 "categories": [
-                    "catering.restaurant",
                     "catering.restaurant.italian"
                 ],
                 "opening_hours": "Mo-Su 07:00-22:00",
@@ -2146,9 +2133,8 @@
                 "street": "Broadway",
                 "housenumber": "1333",
                 "categories": [
-                    "catering.fast_food.burger",
-                    "catering.fast_food",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "catering.fast_food.burger"
                 ],
                 "opening_hours": "10:30-24:00",
                 "brand": "Shake Shack",
@@ -2179,9 +2165,8 @@
                 "street": "West 33rd Street",
                 "housenumber": "4",
                 "categories": [
-                    "service.beauty",
-                    "commercial",
-                    "service.beauty.massage"
+                    "service.beauty.massage",
+                    "commercial"
                 ],
                 "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
                 "contact": {
@@ -2205,11 +2190,10 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "wheelchair.yes",
+                    "internet_access.free",
                     "catering.cafe.coffee_shop",
-                    "catering.cafe.coffee",
-                    "catering.cafe",
-                    "internet_access.free"
+                    "wheelchair.yes",
+                    "catering.cafe.coffee"
                 ],
                 "opening_hours": "Mo-Fr 06:30-18:00",
                 "brand": "Starbucks",
@@ -2246,9 +2230,9 @@
                 "housenumber": "455",
                 "categories": [
                     "education.library",
-                    "building.public_and_civil",
+                    "internet_access.free",
                     "wheelchair.yes",
-                    "internet_access.free"
+                    "building.public_and_civil"
                 ],
                 "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
                 "operator": "New York Public Library",
@@ -2313,7 +2297,6 @@
                 "street": "Broadway",
                 "housenumber": "1164",
                 "categories": [
-                    "catering.fast_food",
                     "vegetarian",
                     "catering.fast_food.salad"
                 ],
@@ -2446,9 +2429,8 @@
                 "street": "Broadway",
                 "housenumber": "1271",
                 "categories": [
-                    "vegetarian",
                     "gluten_free",
-                    "catering.restaurant",
+                    "vegetarian",
                     "catering.restaurant.american"
                 ],
                 "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
@@ -2522,7 +2504,6 @@
                 "street": "5th Avenue",
                 "housenumber": "279",
                 "categories": [
-                    "service.financial",
                     "service.financial.bank"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00",
@@ -2543,7 +2524,7 @@
                 "suburb": "Manhattan",
                 "street": "West 32nd Street",
                 "categories": [
-                    "bus_stop"
+                    "public_transport.bus"
                 ],
                 "coords": [
                     256.05105708802097,
@@ -2559,8 +2540,8 @@
                 "street": "West 35th Street",
                 "housenumber": "102",
                 "categories": [
-                    "wheelchair.yes",
                     "catering.restaurant",
+                    "wheelchair.yes",
                     "building.catering"
                 ],
                 "opening_hours": "09:00-22:00",
@@ -2585,7 +2566,6 @@
                 "name": "Wells Fargo",
                 "street": "Madison Avenue",
                 "categories": [
-                    "service.financial",
                     "service.financial.bank"
                 ],
                 "opening_hours": "Mo-Fr 09:00-17:00",
@@ -2607,7 +2587,7 @@
                 "suburb": "Manhattan",
                 "street": "West 31st Street",
                 "categories": [
-                    "bus_stop"
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -2624,7 +2604,7 @@
                 "suburb": "Manhattan",
                 "street": "West 32nd Street",
                 "categories": [
-                    "bus_stop"
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -2641,8 +2621,8 @@
                 "suburb": "Manhattan",
                 "street": "West 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -2662,8 +2642,8 @@
                 "suburb": "Manhattan",
                 "street": "West 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -2683,8 +2663,8 @@
                 "suburb": "Manhattan",
                 "street": "West 37th Street",
                 "categories": [
-                    "bus_stop",
-                    "wheelchair.yes"
+                    "wheelchair.yes",
+                    "public_transport.bus"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -2759,7 +2739,6 @@
                 "street": "West 32nd Street",
                 "housenumber": "12",
                 "categories": [
-                    "catering.restaurant",
                     "catering.restaurant.korean"
                 ],
                 "opening_hours": "Mo-We 09:30-21:00; Fr-Su 09:30-22:00",
@@ -2791,9 +2770,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "110",
                 "categories": [
-                    "catering.restaurant.korean",
-                    "catering.restaurant",
-                    "building.catering"
+                    "building.catering",
+                    "catering.restaurant.korean"
                 ],
                 "opening_hours": "12:00-14:15,18:00-23:00",
                 "contact": {

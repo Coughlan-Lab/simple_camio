@@ -90,13 +90,11 @@ class CamIO:
             gesture_position, gesture_status, frame = self.pose_detector.detect(
                 frame, rotation
             )
-            if gesture_position is None:
+
+            if gesture_position is None or gesture_status != "pointing":
                 self.ambient_sound_player.play_crickets()
                 continue
             self.ambient_sound_player.play_white_noise()
-
-            if gesture_status != "pointing":
-                continue
 
             self.position_handler.process_position(Coords(*gesture_position))
 

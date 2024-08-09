@@ -200,7 +200,7 @@ class CamIO:
             self.camio.tts.stop_speaking()
 
             if not self.camio.stt.processing_input:
-                if answer is None:
+                if answer is None or answer == "":
                     print("No answer received.")
                     self.camio.tts.error()
                 else:

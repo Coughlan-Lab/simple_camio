@@ -1,5 +1,6 @@
 import json
 import math
+from datetime import datetime
 from typing import Any, Dict, Iterable, List, Optional
 
 from openai import OpenAI, OpenAIError
@@ -21,8 +22,8 @@ from src.utils import str_dict
 
 
 class LLM:
-    MODEL = "gpt-4o-mini-2024-07-18"  # "gpt-4o-2024-05-13"
-    MAX_TOKENS = 1000
+    MODEL = "gpt-4o-2024-05-13"  # "gpt-4o-mini-2024-07-18"
+    MAX_TOKENS = 2000
     TEMPERATURE = 0.2
 
     def __init__(
@@ -270,7 +271,8 @@ class PromptFormatter:
         prompt += self.graph.poi_prompt() + "\n\n"
 
         prompt += (
-            """These are addictional information about the context of the road network:\n"""
+            """These are addictional information about the context of the map:\n"""
+            f"""current time: {datetime.now().isoformat()}\n"""
             f"""{str_dict(context)}\n\n"""
         )
 

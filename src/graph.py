@@ -269,11 +269,28 @@ class Graph:
         return node, node.distance_from(coords)
 
     def get_nearest_edge(self, coords: Coords) -> Tuple[Edge, float]:
-        edge = min(
-            filter(lambda edge: edge.contains(coords), self.edges),
-            key=lambda edge: coords.distance_to_edge(edge),
-        )
-        return edge, coords.distance_to_edge(edge)
+        candidate_edges = list(filter(lambda edge: edge.contains(coords), self.edges))
+
+        if len(candidate_edges) > 0:
+            edge = min(
+                candidate_edges,
+                key=lambda edge: coords.distance_to_edge(edge),
+            )
+            distance = coords.distance_to_edge(edge)
+        else:
+            edge = min(
+                self.edges,
+                key=lambda edge: min(
+                    coords.distance_to(edge[0].coords),
+                    coords.distance_to(edge[1].coords),
+                ),
+            )
+            distance = min(
+                coords.distance_to(edge[0].coords),
+                coords.distance_to(edge[1].coords),
+            )
+
+        return edge, distance
 
     def get_distance(self, p1: Coords, p2: Coords) -> float:
         print(f"Getting distance from {p1} to {p2}")

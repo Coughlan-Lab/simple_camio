@@ -42,6 +42,8 @@ class CamIO:
         self.llm = LLM(self.graph, model["context"])
         self.user_input_thread: Optional[CamIO.UserInputThread] = None
 
+        self.fps_manager = FPSManager()
+
         self.debug = debug
         self.running = False
 
@@ -65,6 +67,8 @@ class CamIO:
 
         self.running = True
         while self.running and cap.isOpened():
+            self.fps_manager.update()
+
             if self.debug:
                 self.__draw_debug_info()
 
@@ -75,9 +79,6 @@ class CamIO:
             if not ret:
                 print("No camera image returned.")
                 break
-
-            pyglet.clock.tick()
-            pyglet.app.platform_event_loop.dispatch_posted_events()
 
             frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             ok, rotation = self.model_detector.detect(frame_gray)
@@ -172,6 +173,16 @@ class CamIO:
             x, y = int(pos.x), int(pos.y)
             cv2.circle(template, (x, y), 10, (255, 0, 0), -1)
 
+        cv2.putText(
+            template,
+            f"FPS: {self.fps_manager.fps:.2f}",
+            (10, 30),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1,
+            (0, 0, 0),
+            2,
+        )
+
         cv2.imshow("CamIO - Debug", template)
 
     def __on_spacebar_pressed(self) -> None:
@@ -225,6 +236,28 @@ class CamIO:
             self.stop_event.set()
             self.camio.llm.stop()
             self.camio.user_input_thread = None
+
+
+class FPSManager:
+    def __init__(self) -> None:
+        self.last_time = time.time()
+        self.frame_count = 0
+        self.fps = 0.0
+
+    def update(self) -> float:
+        pyglet.clock.tick()
+        pyglet.app.platform_event_loop.dispatch_posted_events()
+
+        current_time = time.time()
+        self.frame_count += 1
+        elapsed_time = current_time - self.last_time
+
+        if elapsed_time > 1.0:
+            self.fps = self.frame_count / elapsed_time
+            self.frame_count = 0
+            self.last_time = current_time
+
+        return self.fps
 
 
 if __name__ == "__main__":

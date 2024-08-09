@@ -939,7 +939,6 @@
             },
             {
                 "name": "34th Street & 7th Avenue",
-                "ref": 401848,
                 "city": "New York",
                 "district": "Manhattan Community Board 5",
                 "suburb": "Manhattan",
@@ -1089,7 +1088,6 @@
             },
             {
                 "name": "5th Avenue & West 33rd Street",
-                "ref": 400324,
                 "city": "New York",
                 "district": "Manhattan Community Board 5",
                 "suburb": "Manhattan",
@@ -2364,7 +2362,6 @@
             },
             {
                 "name": "East 34th Street & Park Avenue",
-                "ref": 401842,
                 "city": "New York",
                 "district": "Manhattan Community Board 6",
                 "suburb": "Manhattan",
@@ -3670,7 +3667,6 @@
             },
             {
                 "name": "Madison Avenue & East 33rd Street",
-                "ref": 404297,
                 "city": "New York",
                 "district": "Manhattan Community Board 5",
                 "suburb": "Manhattan",
@@ -4097,7 +4093,6 @@
             },
             {
                 "name": "Nordstrom Rack",
-                "ref": 509,
                 "city": "New York",
                 "district": "Chelsea District",
                 "suburb": "Manhattan",
@@ -5764,7 +5759,6 @@
             },
             {
                 "name": "West 31st Street & 6th Avenue",
-                "ref": 803082,
                 "city": "New York",
                 "district": "Midtown South",
                 "suburb": "Manhattan",
@@ -5783,7 +5777,6 @@
             },
             {
                 "name": "West 32nd Street & Avenue of the Americas",
-                "ref": 403539,
                 "city": "New York",
                 "district": "Manhattan Community Board 5",
                 "suburb": "Manhattan",
@@ -5840,7 +5833,6 @@
             },
             {
                 "name": "West 34th Street & Broadway",
-                "ref": 400716,
                 "city": "New York",
                 "district": "Garment District",
                 "suburb": "Manhattan",
@@ -5864,7 +5856,6 @@
             },
             {
                 "name": "West 34th Street/Broadway",
-                "ref": 401821,
                 "city": "New York",
                 "district": "Midtown South",
                 "suburb": "Manhattan",
@@ -5904,7 +5895,6 @@
             },
             {
                 "name": "West 37th Street/Broadway",
-                "ref": 903235,
                 "city": "New York",
                 "district": "Garment District",
                 "suburb": "Manhattan",

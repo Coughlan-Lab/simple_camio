@@ -179,6 +179,7 @@
       {
         "on_border": false,
         "crosswalk": true,
+        "round-about": true,
         "semaphore": true,
         "semaphore_duration": "15 seconds",
         "street_width": "7.5 m"
@@ -240,6 +241,7 @@
         "on_border": false,
         "crosswalk": true,
         "semaphore": true,
+        "round-about": true,
         "semaphore_duration": "15 seconds",
         "street_width": "7.5 m"
       },
@@ -436,9 +438,7 @@
         "one_way": true
       },
       {},
-      {
-        "uphill": false
-      },
+      {},
       {},
       {},
       {},
@@ -475,8 +475,28 @@
       {},
       {},
       {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
       {
-        "uphill": false
+        "bike_lane": true
+      },
+      {
+        "bike_lane": true
+      },
+      {
+        "surface": "grass",
+        "work_in_progress": true
       },
       {},
       {},
@@ -506,23 +526,15 @@
       {},
       {},
       {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
+      {
+        "bike_lane": true,
+        "one-way": true
+      },
+      {
+        "bike_lane": true,
+        "one-way": true,
+        "work_in_progress": true
+      },
       {},
       {},
       {},
@@ -618,15 +630,14 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["subway_station", "wheelchair.yes"],
+        "categories": ["subway_station"],
         "operator": "Port Authority of New York and New Jersey",
         "network": "PATH",
         "name_other": {
           "short_name": "33 St"
         },
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [374.09758003671567, 614.6506326690205],
         "edge": 40
@@ -637,7 +648,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["subway_station", "wheelchair.yes"],
+        "categories": ["subway_station"],
         "operator": "Metropolitan Transportation Authority",
         "network": "NYC Subway",
         "owner": "City of New York",
@@ -648,8 +659,7 @@
           "short_name": "34 St\u2013Herald Sq"
         },
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [447.98656740274123, 483.37390227284385],
         "edge": 41
@@ -684,13 +694,9 @@
         "district": "Chelsea District",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["bus_stop", "wheelchair.limited"],
+        "categories": ["bus_stop"],
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_details": {
-            "condition": "limited"
-          },
-          "wheelchair_ramp": true
+          "wheelchair": "limited"
         },
         "coords": [333.8634215963214, 707.1536921449831],
         "edge": 38
@@ -701,10 +707,9 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [475.9213390483692, 448.33638088681585],
         "edge": 42
@@ -715,10 +720,9 @@
         "district": "Midtown South",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [608.9821707965323, 210.16796750698825],
         "edge": 45
@@ -748,7 +752,7 @@
         "suburb": "Manhattan",
         "street": "7th Avenue",
         "housenumber": "463",
-        "categories": ["catering.restaurant.american", "wheelchair.yes"],
+        "categories": ["catering.restaurant.american"],
         "opening_hours": "Mo-Th 06:00-22:00; Fr 06:00-23:00; Sa, Su 07:00-23:00",
         "contact": {
           "phone": "+1-212-695-1962",
@@ -756,8 +760,7 @@
         },
         "facilities": {
           "wheelchair": true,
-          "takeaway": true,
-          "wheelchair_ramp": true
+          "takeaway": true
         },
         "catering": {
           "cuisine": "american;diner",
@@ -875,7 +878,7 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "121",
-        "categories": ["catering.cafe", "vegetarian"],
+        "categories": ["vegetarian", "catering.cafe"],
         "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
         "branch": "Nomad",
         "craft": "caterer",
@@ -935,7 +938,7 @@
         "district": "Chelsea District",
         "suburb": "Manhattan",
         "street": "West 31st Street",
-        "categories": ["catering.food_court", "wheelchair.yes"],
+        "categories": ["catering.food_court"],
         "opening_hours": "24/7",
         "contact": {
           "phone": "+1-212-695-9550",
@@ -944,8 +947,7 @@
         "facilities": {
           "wheelchair": true,
           "takeaway": true,
-          "delivery": true,
-          "wheelchair_ramp": true
+          "delivery": true
         },
         "catering": {
           "cuisine": "international"
@@ -1025,7 +1027,11 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "233",
-        "categories": ["building.office", "office.diplomatic"],
+        "categories": ["office.diplomatic", "building.office"],
+        "facilities": {
+          "wheelchair": true,
+          "tactile_map": true
+        },
         "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
         "contact": {
           "phone": "+1 646 2372100",
@@ -1089,12 +1095,11 @@
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
         "street": "East 34th Street",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "operator": "MTA",
         "network": "NYC Transit",
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [961.3427536855829, 748.6182802908742],
         "edge": 86
@@ -1107,13 +1112,12 @@
         "street": "5th Avenue",
         "housenumber": "350",
         "categories": [
+          "building.tourism",
+          "heritage",
           "building.historic",
           "office",
-          "tourism.attraction",
           "building.office",
-          "wheelchair.yes",
-          "building.tourism",
-          "heritage"
+          "tourism.attraction"
         ],
         "opening_hours": "Mo-Su 08:00-02:00",
         "contact": {
@@ -1122,7 +1126,10 @@
         },
         "facilities": {
           "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair_ramp": true,
+          "tactile_map": "near the entrace, following the tactile paving",
+          "tactile_paving": true,
+          "reception": true
         },
         "building": {
           "levels": 102,
@@ -1235,7 +1242,7 @@
         "suburb": "Manhattan",
         "street": "East 34th Street",
         "housenumber": "43",
-        "categories": ["kosher.only", "catering.food_court"],
+        "categories": ["catering.food_court", "kosher.only"],
         "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
         "contact": {
           "phone": "+1-212-725-8100",
@@ -1297,11 +1304,10 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "network": "NYC Transit",
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [796.9774554078595, 826.2434585818171],
         "edge": 59
@@ -1312,10 +1318,9 @@
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [898.4305478859114, 642.3270499109316],
         "edge": 61
@@ -1338,9 +1343,8 @@
         "street": "6th Avenue",
         "housenumber": "809",
         "categories": [
-          "building.catering",
-          "wheelchair.yes",
           "building.commercial",
+          "building.catering",
           "catering.fast_food.burger"
         ],
         "opening_hours": "Mo-Su 07:00-23:00",
@@ -1356,8 +1360,7 @@
           "air_conditioning": true,
           "outdoor_seating": false,
           "takeaway": true,
-          "delivery": true,
-          "wheelchair_ramp": true
+          "delivery": true
         },
         "payment_options": {
           "cash": true,
@@ -1457,11 +1460,7 @@
         "suburb": "Manhattan",
         "street": "West 32nd Street",
         "housenumber": "97",
-        "categories": [
-          "catering.fast_food",
-          "building.catering",
-          "wheelchair.yes"
-        ],
+        "categories": ["building.catering", "catering.fast_food"],
         "opening_hours": "Mo-Fr 07:30-20:00; Sa 09:00-19:00; Su 10:00-19:00",
         "contact": {
           "phone": "+1 212-912-0035",
@@ -1470,8 +1469,7 @@
         "facilities": {
           "wheelchair": true,
           "takeaway": true,
-          "delivery": true,
-          "wheelchair_ramp": true
+          "delivery": true
         },
         "catering": {
           "cuisine": "mexican"
@@ -1489,7 +1487,7 @@
         "suburb": "Manhattan",
         "street": "West 31st Street",
         "housenumber": "54",
-        "categories": ["wheelchair.limited", "catering.bar"],
+        "categories": ["catering.bar"],
         "opening_hours": "11:00-02:00",
         "contact": {
           "phone": "+1 212-684-4244",
@@ -1498,13 +1496,9 @@
           "website": "https://www.oreillyspubnyc.com"
         },
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_details": {
-            "condition": "limited"
-          },
+          "wheelchair": "limited",
           "toilets": true,
-          "outdoor_seating": true,
-          "wheelchair_ramp": true
+          "outdoor_seating": true
         },
         "catering": {
           "cuisine": "pub"
@@ -1540,15 +1534,14 @@
         "suburb": "Manhattan",
         "street": "Broadway",
         "housenumber": "1333",
-        "categories": ["catering.fast_food", "wheelchair.yes"],
+        "categories": ["catering.fast_food"],
         "opening_hours": "Mo-Fr 11:00-21:00; Sa 11:00-20:00; Su 11:30-20:00",
         "contact": {
           "phone": "+1 212-244-4320",
           "website": "https://www.ilovepokebar.com/locations/new-york"
         },
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [438.332391195441, 334.0947132521808],
         "edge": 74
@@ -1576,7 +1569,7 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "188",
-        "categories": ["education.library", "wheelchair.yes"],
+        "categories": ["education.library"],
         "operator": "New York Public Library",
         "name_other": {
           "short_name": "SIBL"
@@ -1587,7 +1580,7 @@
         },
         "facilities": {
           "wheelchair": true,
-          "wheelchair_ramp": true
+          "tactile_map": true
         },
         "coords": [862.728629271692, 664.6105132104776],
         "edge": 61
@@ -1624,7 +1617,7 @@
         "suburb": "Manhattan",
         "street": "Broadway",
         "housenumber": "1333",
-        "categories": ["catering.fast_food.burger", "wheelchair.yes"],
+        "categories": ["catering.fast_food.burger"],
         "opening_hours": "10:30-24:00",
         "brand": "Shake Shack",
         "branch": "Herald Square",
@@ -1634,8 +1627,7 @@
         },
         "facilities": {
           "wheelchair": true,
-          "takeaway": true,
-          "wheelchair_ramp": true
+          "takeaway": true
         },
         "catering": {
           "cuisine": "burger",
@@ -1651,7 +1643,7 @@
         "suburb": "Manhattan",
         "street": "West 33rd Street",
         "housenumber": "4",
-        "categories": ["service.beauty.massage", "commercial"],
+        "categories": ["commercial", "service.beauty.massage"],
         "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
         "contact": {
           "phone": "+1-212-564-2100",
@@ -1671,10 +1663,9 @@
         "street": "5th Avenue",
         "housenumber": "350",
         "categories": [
-          "catering.cafe.coffee_shop",
           "catering.cafe.coffee",
-          "internet_access.free",
-          "wheelchair.yes"
+          "catering.cafe.coffee_shop",
+          "internet_access.free"
         ],
         "opening_hours": "Mo-Fr 06:30-18:00",
         "brand": "Starbucks",
@@ -1691,7 +1682,7 @@
           "toilets": true,
           "outdoor_seating": false,
           "takeaway": true,
-          "wheelchair_ramp": true
+          "tactile_paving": true
         },
         "catering": {
           "cuisine": "coffee_shop"
@@ -1708,10 +1699,9 @@
         "street": "5th Avenue",
         "housenumber": "455",
         "categories": [
-          "building.public_and_civil",
           "education.library",
-          "internet_access.free",
-          "wheelchair.yes"
+          "building.public_and_civil",
+          "internet_access.free"
         ],
         "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
         "operator": "New York Public Library",
@@ -1728,8 +1718,7 @@
           "internet_access": true,
           "wheelchair": true,
           "toilets": true,
-          "air_conditioning": true,
-          "wheelchair_ramp": true
+          "air_conditioning": true
         },
         "building": {
           "height": 31
@@ -1753,7 +1742,8 @@
         },
         "facilities": {
           "toilets": true,
-          "outdoor_seating": true
+          "outdoor_seating": true,
+          "wheelchair": true
         },
         "catering": {
           "reservation": "required"
@@ -1796,7 +1786,7 @@
         "suburb": "Manhattan",
         "street": "West 39th Street",
         "housenumber": "21",
-        "categories": ["catering.restaurant", "wheelchair.yes"],
+        "categories": ["catering.restaurant"],
         "opening_hours": "Mo-Fr 11:30-22:00; Sa, Su 12:00-22:00",
         "contact": {
           "phone": "+1-212-921-0233",
@@ -1805,8 +1795,7 @@
         "facilities": {
           "wheelchair": true,
           "takeaway": true,
-          "delivery": true,
-          "wheelchair_ramp": true
+          "delivery": true
         },
         "payment_options": {
           "cash": true,
@@ -1880,8 +1869,8 @@
         "street": "Broadway",
         "housenumber": "1271",
         "categories": [
-          "gluten_free",
           "catering.restaurant.american",
+          "gluten_free",
           "vegetarian"
         ],
         "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
@@ -1967,11 +1956,7 @@
         "suburb": "Manhattan",
         "street": "West 35th Street",
         "housenumber": "102",
-        "categories": [
-          "catering.restaurant",
-          "building.catering",
-          "wheelchair.yes"
-        ],
+        "categories": ["catering.restaurant", "building.catering"],
         "opening_hours": "09:00-22:00",
         "branch": "Herald Square",
         "contact": {
@@ -1979,8 +1964,7 @@
           "website": "https://dinges.nyc/"
         },
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "catering": {
           "cuisine": "dessert"
@@ -2031,12 +2015,11 @@
         "district": "Garment District",
         "suburb": "Manhattan",
         "street": "West 34th Street",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [413.6493752357795, 442.9545464375835],
         "edge": 18
@@ -2047,12 +2030,11 @@
         "district": "Midtown South",
         "suburb": "Manhattan",
         "street": "West 34th Street",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [479.0804281211538, 497.0286392648885],
         "edge": 19
@@ -2063,12 +2045,11 @@
         "district": "Garment District",
         "suburb": "Manhattan",
         "street": "West 37th Street",
-        "categories": ["bus_stop", "wheelchair.yes"],
+        "categories": ["bus_stop"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "facilities": {
-          "wheelchair": true,
-          "wheelchair_ramp": true
+          "wheelchair": true
         },
         "coords": [504.2352013812039, 219.33042946223043],
         "edge": 28

@@ -27,6 +27,12 @@ class Coords:
 
         return Coords(p_x, p_y)
 
+    def dot_product(self, other: "Coords") -> float:
+        return self.x * other.x + self.y * other.y
+
+    def length(self) -> float:
+        return self.distance_to(Coords(0, 0))
+
     def __add__(self, other: Union["Coords", float]) -> "Coords":
         if isinstance(other, Coords):
             return Coords(self.x + other.x, self.y + other.y)
@@ -64,11 +70,14 @@ class Node:
     def id(self) -> str:
         return f"n{self.index}"
 
+    def is_dead_end(self) -> bool:
+        return not self.on_border and len(self.adjacents_street) == 1
+
     @property
     def description(self) -> str:
         if len(self.adjacents_street) == 1:
             if self.on_border:
-                return f"{next(iter(self.adjacents_street))}"
+                return f"{next(iter(self.adjacents_street))}, limit of the map"
             return f"end of {next(iter(self.adjacents_street))}"
 
         streets = list(self.adjacents_street)
@@ -102,16 +111,50 @@ class Node:
 
 
 class Edge:
-    def __init__(self, node1: Node, node2: Node, street_name: str) -> None:
+    def __init__(
+        self,
+        node1: Node,
+        node2: Node,
+        street_name: str,
+        features: Optional[Dict[str, Any]] = None,
+    ) -> None:
         self.node1 = node1
         self.node2 = node2
         self.street = street_name
+        self.features = features if features is not None else dict()
+
         self.between_streets: Set[str] = set()
         self.length = self.node1.distance_from(self.node2)
 
     @property
     def id(self) -> str:
         return f"{self.node1.id} - {self.node2.id}"
+
+    def get_description(self, moving_towards_node2: Optional[bool] = None) -> str:
+        description = self.street
+
+        if self.node1.is_dead_end() or self.node2.is_dead_end():
+            description += ", dead end"
+
+        if "surface" in self.features:
+            description += f", {self.features['surface']}"
+
+        if "one_way" in self.features:
+            description += ", one way"
+
+        if (
+            moving_towards_node2 is not None
+            and (uphill := self.features.get("uphill", None)) is not None
+        ):
+            if uphill == moving_towards_node2:
+                description += ", uphill"
+            else:
+                description += ", downhill"
+
+        if self.features.get("work_in_progress", False):
+            description += ", work in progress"
+
+        return description
 
     @property
     def m(self) -> float:
@@ -194,6 +237,7 @@ class Graph:
 
     def __load_nodes(self, graph_dict: Dict[str, Any]) -> None:
         self.nodes: List[Node] = list()
+
         border: Set[int] = set(graph_dict["border"])
         for node in graph_dict["nodes"]:
             self.nodes.append(
@@ -207,6 +251,7 @@ class Graph:
         self.streets: List[Street] = list()
 
         edges_data: List[Tuple[int, int]] = graph_dict["edges"]
+        edges_features: List[Dict[str, Any]] = graph_dict["edges_features"]
         for street_name, edges_indexes in graph_dict["streets"].items():
             street_edges: List[Edge] = list()
 
@@ -218,11 +263,7 @@ class Graph:
                 node2 = self.nodes[edge_data[1]]
                 node2.adjacents_street.add(street_name)
 
-                edge = Edge(
-                    node1,
-                    node2,
-                    street_name,
-                )
+                edge = Edge(node1, node2, street_name, edges_features[edge_index])
 
                 street_edges.append(edge)
 
@@ -409,7 +450,7 @@ class Graph:
 
 class PositionHandler:
     MARGIN = 50
-    NODE_DISTANCE_THRESHOLD = 25
+    NODE_DISTANCE_THRESHOLD = 20
     EDGE_DISTANCE_THRESHOLD = 15
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
@@ -424,12 +465,14 @@ class PositionHandler:
         self.edge_buffer = Buffer[Edge](10)
 
         self.last_announced: Optional[str] = None
+        self.last_position: Optional[Coords] = None
 
     def clear(self) -> None:
         self.positions_buffer.clear()
         self.edge_buffer.clear()
 
         self.last_announced = None
+        self.last_position = None
 
     def process_position(self, pos: Coords) -> None:
         pos *= self.meters_per_pixel
@@ -472,7 +515,9 @@ class PositionHandler:
                 and last_pos.distance_to_edge(nearest_edge)
                 <= PositionHandler.EDGE_DISTANCE_THRESHOLD
             ):
-                to_announce = nearest_edge.street
+                to_announce = nearest_edge.get_description(
+                    self.get_movement_direction(nearest_edge)
+                )
             else:
                 to_announce = None
 
@@ -480,7 +525,21 @@ class PositionHandler:
             return None
 
         self.last_announced = to_announce
+        self.last_position = avg_pos
+
         return to_announce
+
+    def get_movement_direction(self, edge: Edge) -> Optional[bool]:
+        a = edge[1].coords - edge[0].coords
+        b = (self.positions_buffer.average() or Coords(0, 0)) - (
+            self.last_position or Coords(0, 0)
+        )
+
+        dot = a.dot_product(b)
+        print(f"Dot: {dot}")
+        if dot == 0:
+            return None
+        return dot > 0
 
 
 class GraphEncoder(JSONEncoder):

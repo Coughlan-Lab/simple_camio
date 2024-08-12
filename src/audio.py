@@ -144,7 +144,7 @@ class STT:
             result = self.recognizer.recognize_google_cloud(
                 audio, os.getenv("GOOGLE_SPEECH_CLOUD_KEY_FILE")
             )
-            return str(result)
+            return str(result).strip()
         except Exception:
             return None
 

@@ -60,11 +60,15 @@ class Coords:
 
 
 class Node:
-    def __init__(self, index: int, coords: Coords, on_border: bool = False) -> None:
+    def __init__(
+        self, index: int, coords: Coords, features: Optional[Dict[str, Any]] = None
+    ) -> None:
         self.coords = coords
         self.index = index
         self.adjacents_street: Set[str] = set()
-        self.on_border = on_border
+
+        self.features = features if features is not None else dict()
+        self.on_border = self.features.get("on_border", False)
 
     @property
     def id(self) -> str:
@@ -77,7 +81,7 @@ class Node:
     def description(self) -> str:
         if len(self.adjacents_street) == 1:
             if self.on_border:
-                return f"{next(iter(self.adjacents_street))}, limit of the map"
+                return f"{next(iter(self.adjacents_street))}, at the limit of the map"
             return f"end of {next(iter(self.adjacents_street))}"
 
         streets = list(self.adjacents_street)
@@ -238,13 +242,8 @@ class Graph:
     def __load_nodes(self, graph_dict: Dict[str, Any]) -> None:
         self.nodes: List[Node] = list()
 
-        border: Set[int] = set(graph_dict["border"])
-        for node in graph_dict["nodes"]:
-            self.nodes.append(
-                Node(
-                    len(self.nodes), Coords(node[0], node[1]), len(self.nodes) in border
-                )
-            )
+        for node, features in zip(graph_dict["nodes"], graph_dict["nodes_features"]):
+            self.nodes.append(Node(len(self.nodes), Coords(node[0], node[1]), features))
 
     def __load_edges(self, graph_dict: Dict[str, Any]) -> None:
         self.edges: List[Edge] = list()
@@ -536,7 +535,6 @@ class PositionHandler:
         )
 
         dot = a.dot_product(b)
-        print(f"Dot: {dot}")
         if dot == 0:
             return None
         return dot > 0

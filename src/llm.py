@@ -17,7 +17,7 @@ from openai.types.chat.chat_completion_message_tool_call_param import \
     Function as FunctionParam
 from openai.types.shared_params import FunctionDefinition
 
-from src.graph import Coords, Graph, GraphEncoder
+from src.graph import Coords, Edge, Graph, GraphEncoder, Node
 from src.utils import str_dict
 
 
@@ -209,7 +209,7 @@ class PromptFormatter:
     def get_user_message(
         self, question: str, position: Optional[Coords]
     ) -> ChatCompletionUserMessageParam:
-        instructions = ""
+        position_description = ""
 
         if position is not None:
             edge, _ = self.graph.get_nearest_edge(position)
@@ -231,29 +231,35 @@ class PromptFormatter:
                 streets = list(edge.between_streets)
                 street_str = f"part of {edge.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
 
-            instructions = (
+            position_description = (
                 f"""My coordinates are {position}, """
                 f"""the closest point on the road network is on edge {edge.id}, """
                 f"""which is {street_str}\n"""
-                f"""I'm at a distance of {distance_m_node1} m from the {edge.node1.description} """
-                f"""and {distance_m_node2} m from the {edge.node2.description}.\n"""
+                f"""I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) """
+                f"""and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id}).\n"""
+                """Considering the updated position continue answering my questions while keeping the previous context in mind.\n"""
             )
 
-        instructions += (
-            """Remembet to not mention the underlying graph, its nodes and streets and the cartesian plane in your answer.\n"""
-            """Do not make up things, be objective and precise."""
-            """If you can't answer the question, just say that you don't know and suggest how I can get a response.\n"""
-            """Continue answering my questions.\n"""
+        instructions = (
+            """Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
+            """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
+            """Do not make anythings up: if you don't have enough information to answer a question, """
+            """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
+            """Consider that I'm blind and I can't see the road network. """
+            """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
+            """like the road surface (if not asphalt), tactile paving, semaphores, work in progress """
+            """and smells I might sense coming from nearby points of interest (specify which ones)."""
+            """Only include features which are among those provided with the graph. Be detailed."""
         )
 
-        question = f"{instructions}\n{question}"
+        prompt = f"{position_description}\n{question}\n\n{instructions}"
 
-        return ChatCompletionUserMessageParam(content=question, role="user")
+        return ChatCompletionUserMessageParam(content=prompt, role="user")
 
     def get_main_prompt(
         self, context: Dict[str, str]
     ) -> ChatCompletionSystemMessageParam:
-        prompt = ""
+        prompt = "I'm a blind person who needs help to navigate a new neighborhood. You are my assistant.\n"
 
         prompt += "Consider the following points on a cartesian plane at the associated coordinates:\n"
         prompt += self.nodes_prompt() + "\n\n"
@@ -297,18 +303,29 @@ class PromptFormatter:
         prompt += self.poi_prompt() + "\n\n"
 
         prompt += (
-            """These are addictional information about the context of the map:\n"""
+            """These are features of the road network. """
+            """You should include them as landmarks when giving directions to reach a certain point of interest; """
+            """as I'm blind, they will help me to orient myself better. """
+        )
+        prompt += self.road_features_prompt() + "\n\n"
+
+        prompt += (
+            """Finally, these are addictional information about the context of the map:\n"""
             f"""current time: {datetime.now().isoformat()}\n"""
             f"""{str_dict(context)}\n\n"""
         )
 
         prompt += (
             """I will now ask questions about the points of interest or the road network.\n"""
-            """Answer without mentioning in your response the underlying graph and the cartesian plane; only use the provided information.\n"""
+            """Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
             """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
             """Do not make anythings up: if you don't have enough information to answer a question, """
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
-            """Consider that I'm blind and I can't see the road network."""
+            """Consider that I'm blind and I can't see the road network. """
+            """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
+            """like the road surface (if not asphalt), tactile paving, semaphores, work in progress """
+            """and smells I might sense coming from nearby points of interest (specify which ones)."""
+            """Only include features which are among those provided with the graph. Be detailed.\n"""
         )
 
         return ChatCompletionSystemMessageParam(
@@ -472,3 +489,40 @@ class PromptFormatter:
                 for poi in self.graph.pois
             ]
         )
+
+    def road_features_prompt(self) -> str:
+        return (
+            "\n".join(
+                [
+                    self.edge_features_prompt(edge)
+                    for edge in self.graph.edges
+                    if len(edge.features) > 0
+                ]
+            )
+            + "\n"
+            + "\n".join(
+                [
+                    self.node_features_prompt(node)
+                    for node in self.graph.nodes
+                    if len(node.features) > 1  # 1 is the on_border feature
+                ]
+            )
+        )
+
+    def edge_features_prompt(self, edge: Edge) -> str:
+        features = dict(edge.features)
+        if "uphill" in features:
+            n1, n2 = edge.node1, edge.node2
+            if not features["uphill"]:
+                n1, n2 = n2, n1
+            features["uphill"] = (
+                f"from {n1.description} ({n1.id}) to {n2.description} ({n2.id})"
+            )
+
+        return str_dict({"edge": edge.id, "features": features})
+
+    def node_features_prompt(self, node: Node) -> str:
+        features = dict(node.features)
+        del features["on_border"]
+
+        return str_dict({"node": node.id, "features": features})

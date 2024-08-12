@@ -74,9 +74,260 @@
       [1031.9456697416883, 257.8318419905836],
       [1031.9456697416883, 380.8738960820132]
     ],
-    "border": [
-      0, 1, 2, 3, 5, 8, 9, 13, 14, 19, 20, 26, 27, 32, 33, 39, 40, 46, 47, 52,
-      53, 58, 59, 62, 65, 66, 67, 68
+    "nodes_features": [
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "18 seconds",
+        "street_width": "10 m"
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "18 seconds",
+        "street_width": "10 m"
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "15 seconds",
+        "street_width": "7.5 m"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "15 seconds",
+        "street_width": "7.5 m"
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "15 seconds",
+        "street_width": "7.5 m"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "15 seconds",
+        "street_width": "7.5 m"
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "24 seconds",
+        "street_width": "15 m"
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "15 seconds",
+        "street_width": "7.5 m"
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "24 seconds",
+        "street_width": "15 m"
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "semaphore": true,
+        "semaphore_duration": "15 seconds",
+        "street_width": "7.5 m"
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": false
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      },
+      {
+        "on_border": true
+      }
     ],
     "edges": [
       [0, 1],
@@ -201,7 +452,11 @@
       {},
       {},
       {},
-      {},
+      {
+        "uphill": true,
+        "surface": "grass",
+        "work_in_progress": true
+      },
       {},
       {},
       {},
@@ -221,7 +476,7 @@
       {},
       {},
       {
-        "uphill": true
+        "uphill": false
       },
       {},
       {},

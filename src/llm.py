@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Any, Dict, Iterable, List, Optional
 
 from openai import OpenAI, OpenAIError
+from openai.types import CompletionUsage
 from openai.types.chat import (ChatCompletionAssistantMessageParam,
                                ChatCompletionMessage,
                                ChatCompletionMessageParam,
@@ -43,6 +44,7 @@ class LLM:
         self.history.append(self.prompt_formatter.get_main_prompt(context))
 
         self.running = False
+        self.usage: Optional[CompletionUsage] = None
 
     def is_waiting_for_response(self) -> bool:
         return self.running
@@ -71,6 +73,7 @@ class LLM:
                     messages=self.history,
                     tools=self.prompt_formatter.get_tool_calls(),
                 )
+                self.usage = response.usage
 
                 if not self.running:
                     break
@@ -133,6 +136,9 @@ class LLM:
         for msg in self.history:
             if "content" in msg and msg["content"] is not None and msg["content"] != "":
                 msgs.append(f"{msg['role']}:\n{msg['content']}")
+
+        if self.usage is not None:
+            msgs.append(f"Usage: {str(self.usage.total_tokens)} tokens")
 
         with open(filename, "w") as f:
             f.write("\n\n".join(msgs))

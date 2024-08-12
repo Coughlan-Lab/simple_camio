@@ -297,7 +297,7 @@ class PromptFormatter:
             """- index: the index of the point in the list of points of interest\n"""
             """- coords: the coordinates of the point\n"""
             """- edge: the edge the point is located on\n"""
-            """- street: the name of the street the edge belong to. Replace street ids with their respective names.\n"""
+            """- street: the name of the street the edge belong to\n"""
             """- categories: a list of categories the point belongs to\n"""
         )
         prompt += self.poi_prompt() + "\n\n"

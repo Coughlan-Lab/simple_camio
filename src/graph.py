@@ -54,10 +54,11 @@ class Coords:
 
 
 class Node:
-    def __init__(self, index: int, coords: Coords) -> None:
+    def __init__(self, index: int, coords: Coords, on_border: bool = False) -> None:
         self.coords = coords
         self.index = index
         self.adjacents_street: Set[str] = set()
+        self.on_border = on_border
 
     @property
     def id(self) -> str:
@@ -66,6 +67,8 @@ class Node:
     @property
     def description(self) -> str:
         if len(self.adjacents_street) == 1:
+            if self.on_border:
+                return f"{next(iter(self.adjacents_street))}"
             return f"end of {next(iter(self.adjacents_street))}"
 
         streets = list(self.adjacents_street)
@@ -191,8 +194,13 @@ class Graph:
 
     def __load_nodes(self, graph_dict: Dict[str, Any]) -> None:
         self.nodes: List[Node] = list()
+        border: Set[int] = set(graph_dict["border"])
         for node in graph_dict["nodes"]:
-            self.nodes.append(Node(len(self.nodes), Coords(node[0], node[1])))
+            self.nodes.append(
+                Node(
+                    len(self.nodes), Coords(node[0], node[1]), len(self.nodes) in border
+                )
+            )
 
     def __load_edges(self, graph_dict: Dict[str, Any]) -> None:
         self.edges: List[Edge] = list()

@@ -253,7 +253,7 @@ class PromptFormatter:
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
             """Consider that I'm blind and I can't see the road network. """
             """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
-            """like the road surface (if not asphalt), tactile paving, semaphores, round-abouts, work in progress """
+            """like the road surface (if not asphalt), tactile paving, walk lights, round-abouts, work in progress """
             """and smells I might sense coming from nearby points of interest (specify which ones)."""
             """Only include features which are among those provided with the graph. Be detailed."""
         )
@@ -329,7 +329,7 @@ class PromptFormatter:
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
             """Consider that I'm blind and I can't see the road network. """
             """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
-            """like the road surface (if not asphalt), tactile paving, semaphores, round-abouts, work in progress """
+            """like the road surface (if not asphalt), tactile paving, walk lights, round-abouts, work in progress """
             """and smells I might sense coming from nearby points of interest (specify which ones)."""
             """Only include features which are among those provided with the graph. Be detailed.\n"""
         )

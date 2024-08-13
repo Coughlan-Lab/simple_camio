@@ -248,9 +248,10 @@ class PromptFormatter:
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
             """Consider that I'm blind and I can't see the road network. """
             """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
-            """like the road surface (if not asphalt), tactile paving, walk lights, round-abouts, work in progress """
-            """and smells I might sense coming from nearby points of interest (specify which ones). """
-            """Only include features which are among those provided with the graph. Be detailed."""
+            """like smells I might sense coming from nearby points of interest (specify which ones), """
+            """a particular road surface, the presence of tactile paving, walk lights, round-abouts, and work in progress."""
+            """Only include features which are actually present; for example avoid mentioning that a street is flat or """
+            """that its surface is asphalt as this is the norm. Include scents, sounds, and textures.\n"""
         )
 
         prompt = f"{position_description}\n{question}\n\n{instructions}"
@@ -324,9 +325,10 @@ class PromptFormatter:
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
             """Consider that I'm blind and I can't see the road network. """
             """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
-            """like the road surface (if not asphalt), tactile paving, walk lights, round-abouts, work in progress """
-            """and smells I might sense coming from nearby points of interest (specify which ones). """
-            """Only include features which are among those provided with the graph. Be detailed.\n"""
+            """like smells I might sense coming from nearby points of interest (specify which ones), """
+            """a particular road surface, the presence of tactile paving, walk lights, round-abouts, and work in progress."""
+            """Only include features which are actually present; for example avoid mentioning that a street is flat or """
+            """that its surface is asphalt as this is the norm. Include scents, sounds, and textures.\n"""
         )
 
         return ChatCompletionSystemMessageParam(
@@ -448,7 +450,7 @@ class PromptFormatter:
                 type="function",
                 function=FunctionDefinition(
                     name="get_point_of_interest_details",
-                    description="Get the details of a point of interest. Use this function to get information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, website, payment options, building data, public transport network and operator",
+                    description="Get the details of a point of interest. Use this function to get the information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, website, payment options, building data, public transport network and operator",
                     parameters={
                         "type": "object",
                         "properties": {
@@ -512,7 +514,7 @@ class PromptFormatter:
 
     def edge_features_prompt(self, edge: Edge) -> str:
         features = dict(edge.features)
-        if "uphill" in features:
+        if features.get("uphill", "flat") != "flat":
             n1, n2 = edge.node1, edge.node2
             if not features["uphill"]:
                 n1, n2 = n2, n1

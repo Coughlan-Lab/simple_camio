@@ -76,107 +76,265 @@
     ],
     "nodes_features": [
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
-      },
-      {
-        "on_border": false
-      },
-      {
-        "on_border": true
-      },
-      {
-        "on_border": false
-      },
-      {
-        "on_border": false
-      },
-      {
-        "on_border": true
-      },
-      {
-        "on_border": true
-      },
-      {
-        "on_border": false
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
-        "crosswalk": true
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
-        "crosswalk": true
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": true,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "18 seconds",
-        "street_width": "10 m"
+        "street_width": "10 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
-        "walk_light": "with audio signal"
+        "walk_light": "with audio signal",
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "18 seconds",
-        "street_width": "10 m"
+        "street_width": "10 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m"
+        "street_width": "7.5 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
         "on_border": false,
@@ -184,60 +342,125 @@
         "round-about": true,
         "walk_light": true,
         "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m"
+        "street_width": "7.5 m",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m"
+        "street_width": "7.5 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m"
+        "street_width": "7.5 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "24 seconds",
-        "street_width": "15 m"
+        "street_width": "15 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
-        "walk_light": true
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
@@ -245,92 +468,233 @@
         "walk_light": true,
         "round-about": true,
         "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m"
+        "street_width": "7.5 m",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": true,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "24 seconds",
-        "street_width": "15 m"
+        "street_width": "15 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
-        "crosswalk": true
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m"
-      },
-      {
-        "on_border": false
-      },
-      {
-        "on_border": true
-      },
-      {
-        "on_border": true
+        "street_width": "7.5 m",
+        "round-about": false,
+        "tactile_paving": false
       },
       {
         "on_border": false,
-        "crosswalk": true
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": false
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       },
       {
-        "on_border": true
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
       }
     ],
     "edges": [
@@ -438,124 +802,788 @@
         "work_in_progress": true,
         "uphill": true,
         "surface": "grass",
-        "one_way": true
+        "one_way": true,
+        "bike_lane": false,
+        "tactile_paving": false
       },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
       {
         "uphill": true,
         "surface": "grass",
-        "work_in_progress": true
-      },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {
-        "bike_lane": true
+        "work_in_progress": true,
+        "bike_lane": false,
+        "one_way": false,
+        "tactile_paving": false
       },
       {
-        "bike_lane": true
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "bike_lane": true,
+        "work_in_progress": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "bike_lane": true,
+        "work_in_progress": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
       },
       {
         "surface": "grass",
-        "work_in_progress": true
+        "work_in_progress": true,
+        "bike_lane": false,
+        "uphill": "flat",
+        "one_way": false,
+        "tactile_paving": false
       },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
       {
         "bike_lane": true,
-        "one-way": true
+        "one-way": true,
+        "work_in_progress": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
       },
       {
         "bike_lane": true,
         "one-way": true,
         "work_in_progress": true,
-        "uphill": false
+        "uphill": false,
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
       },
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {}
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "work_in_progress": false,
+        "bike_lane": false,
+        "uphill": "flat",
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      }
     ],
     "streets": {
       "West 27th Street": [0],
@@ -946,7 +1974,7 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "121",
-        "categories": ["catering.cafe", "vegetarian"],
+        "categories": ["vegetarian", "catering.cafe"],
         "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
         "branch": "Nomad",
         "craft": "caterer",
@@ -1198,11 +2226,11 @@
         "housenumber": "350",
         "categories": [
           "heritage",
-          "building.office",
           "office",
+          "building.office",
           "building.historic",
-          "building.tourism",
-          "tourism.attraction"
+          "tourism.attraction",
+          "building.tourism"
         ],
         "opening_hours": "Mo-Su 08:00-02:00",
         "contact": {
@@ -1774,7 +2802,7 @@
         "suburb": "Manhattan",
         "street": "5th Avenue",
         "housenumber": "350",
-        "categories": ["catering.cafe.coffee", "catering.cafe.coffee_shop"],
+        "categories": ["catering.cafe.coffee_shop", "catering.cafe.coffee"],
         "opening_hours": "Mo-Fr 06:30-18:00",
         "brand": "Starbucks",
         "name_other": {
@@ -1862,7 +2890,7 @@
         "suburb": "Manhattan",
         "street": "Broadway",
         "housenumber": "1164",
-        "categories": ["catering.fast_food.salad", "vegetarian"],
+        "categories": ["vegetarian", "catering.fast_food.salad"],
         "opening_hours": "Mo-Su 10:30-22:30",
         "brand": "Sweetgreen",
         "contact": {
@@ -1973,9 +3001,9 @@
         "street": "Broadway",
         "housenumber": "1271",
         "categories": [
+          "vegetarian",
           "catering.restaurant.american",
-          "gluten_free",
-          "vegetarian"
+          "gluten_free"
         ],
         "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
         "contact": {

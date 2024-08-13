@@ -155,9 +155,10 @@ class PromptFormatter:
         "opening_hours",
         "brand",
         "categories",
+        "facilities",
         "catering",
         "commercial",
-        "facilities",
+        "bus",
     ]
 
     def __init__(self, graph: Graph) -> None:
@@ -220,14 +221,8 @@ class PromptFormatter:
         if position is not None:
             edge, _ = self.graph.get_nearest_edge(position)
 
-            edge_pixels = edge[0].distance_from(edge[1])
-            distance_pixels_node1 = edge[0].distance_from(position)
-            distance_pixels_node2 = edge[1].distance_from(position)
-
-            distance_m_node1 = distance_pixels_node1 * edge.length / edge_pixels
-            distance_m_node1 = math.floor(distance_m_node1)
-            distance_m_node2 = distance_pixels_node2 * edge.length / edge_pixels
-            distance_m_node2 = math.floor(distance_m_node2)
+            distance_m_node1 = math.floor(edge[0].distance_from(position))
+            distance_m_node2 = math.floor(edge[1].distance_from(position))
 
             if len(edge.between_streets) == 0:
                 street_str = f"at the end of {edge.street}."
@@ -278,15 +273,7 @@ class PromptFormatter:
         )
         prompt += self.edges_prompt() + "\n\n"
 
-        prompt += (
-            """All units are in meters. """
-            f"""North is indicated by the vector {self.graph.reference_system['north']}, """
-            f"""South by {self.graph.reference_system['south']}, """
-            f"""West by {self.graph.reference_system['west']}, and """
-            f"""East by {self.graph.reference_system['east']}\n\n"""
-        )
-
-        prompt += "These are the names of the streets in the graph; you will use them to identify each street."
+        prompt += "These are the names of the streets in the graph; you will use them to identify each street.\n"
         prompt += self.streets_prompt() + "\n\n"
 
         prompt += (
@@ -301,19 +288,27 @@ class PromptFormatter:
         prompt += (
             """These are points of interest along the road network. Each point has five important fields:\n"""
             """- index: the index of the point in the list of points of interest\n"""
-            """- coords: the coordinates of the point\n"""
-            """- edge: the edge the point is located on\n"""
-            """- street: the name of the street the edge belong to\n"""
-            """- categories: a list of categories the point belongs to\n"""
+            """- coords: the coordinates of the point on the cartesian plane\n"""
+            """- edge: the nearest edge to the point of interest\n"""
+            """- street: the name of the street the point of interest belongs to\n"""
+            """- categories: a list of categories the point of interest belongs to\n\n"""
         )
         prompt += self.poi_prompt() + "\n\n"
 
         prompt += (
             """These are features of the road network. """
             """Include them when giving directions to reach a certain point of interest; """
-            """as I'm blind, they will help me to orient myself better and to avoid hazards. """
+            """as I'm blind, they will help me to orient myself better and to avoid hazards.\n"""
         )
         prompt += self.road_features_prompt() + "\n\n"
+
+        prompt += (
+            """All units are in meters. """
+            f"""North is indicated by the vector {self.graph.reference_system['north']}, """
+            f"""South by {self.graph.reference_system['south']}, """
+            f"""West by {self.graph.reference_system['west']}, and """
+            f"""East by {self.graph.reference_system['east']}\n\n"""
+        )
 
         prompt += (
             """Finally, these are addictional information about the context of the map:\n"""
@@ -322,7 +317,7 @@ class PromptFormatter:
         )
 
         prompt += (
-            """I will now ask questions about the points of interest or the road network.\n"""
+            """I will now ask questions about the points of interest and the road network.\n"""
             """Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
             """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
             """Do not make anythings up: if you don't have enough information to answer a question, """

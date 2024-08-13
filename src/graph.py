@@ -143,7 +143,7 @@ class Edge:
         if "surface" in self.features:
             description += f", {self.features['surface']}"
 
-        if "one_way" in self.features:
+        if "one-way" in self.features:
             description += ", one way"
 
         if (

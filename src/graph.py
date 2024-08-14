@@ -1,5 +1,9 @@
+import math
+import os
 from json import JSONEncoder
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
+
+import requests
 
 from src.utils import ArithmeticBuffer, Buffer
 
@@ -239,6 +243,12 @@ class Graph:
             "east": Coords(*graph_dict["reference_system"]["east"]),
         }
 
+        self.latlon_reference = {
+            "coords": Coords(*graph_dict["latlon_reference"]["coords"]),
+            "lat": graph_dict["latlon_reference"]["lat"],
+            "lon": graph_dict["latlon_reference"]["lon"],
+        }
+
     def __load_nodes(self, graph_dict: Dict[str, Any]) -> None:
         self.nodes: List[Node] = list()
 
@@ -394,27 +404,103 @@ class Graph:
 
         return self.pois[poi_index]
 
-    def __get_edge_distance(
-        self,
-        e1: Edge,
-        e2: Edge,
-        distance_to_e1_n1: float = 0.0,
-        distance_from_e2_n1: float = 0.0,
-    ) -> float:
-        to_distances = [distance_to_e1_n1, e1.length - distance_to_e1_n1]
-        from_distances = [distance_from_e2_n1, e2.length - distance_from_e2_n1]
+    def get_stops(
+        self, pos: Coords, transports: List[str], max_distance: float
+    ) -> Set[int]:
+        stops: Set[int] = set()
 
-        d = min(
-            [
-                self.distances[e1[i].id][e2[j].id] + to_distances[i] + from_distances[j]
-                for i in range(2)
-                for j in range(2)
-            ]
+        for i, poi in enumerate(self.pois):
+            if self.get_distance_to_poi(pos, i) > max_distance:
+                continue
+            for t in transports:
+                if t in poi:
+                    stops.add(i)
+                    break
+
+        return stops
+
+    def get_route_to_poi(
+        self,
+        start: Coords,
+        destination_poi_index: int,
+        only_by_walking: bool = True,
+        transports: Optional[List[str]] = None,
+        transport_preference: Optional[str] = "LESS_WALKING",
+    ) -> List[Dict[str, Any]]:
+        poi = self.pois[destination_poi_index]
+
+        return self.get_route(
+            start, poi["coords"], only_by_walking, transports, transport_preference
         )
 
-        if d >= Graph.INF:
-            raise ValueError("Points are not connected")
-        return d
+    def get_route(
+        self,
+        start: Coords,
+        destination: Coords,
+        only_by_walking: bool = True,
+        transports: Optional[List[str]] = None,
+        transport_preference: Optional[str] = "LESS_WALKING",
+    ) -> List[Dict[str, Any]]:
+        start_latlng = self.coords_to_latlng(start)
+        destination_latlng = self.coords_to_latlng(destination)
+
+        print(f"Start: {start_latlng}, Destination: {destination_latlng}")
+
+        response = requests.post(
+            "https://routes.googleapis.com/directions/v2:computeRoutes",
+            json={
+                "origin": {
+                    "location": {
+                        "latLng": {
+                            "latitude": start_latlng[0],
+                            "longitude": start_latlng[1],
+                        }
+                    }
+                },
+                "destination": {
+                    "location": {
+                        "latLng": {
+                            "latitude": destination_latlng[0],
+                            "longitude": destination_latlng[1],
+                        }
+                    }
+                },
+                "travel_mode": "WALK" if only_by_walking else "TRANSIT",
+                "units": "METRIC",
+                "transitPreferences": (
+                    {
+                        "allowedTravelModes": (
+                            transports if transports and len(transports) > 0 else None
+                        ),
+                        "routingPreference": transport_preference,
+                    }
+                    if not only_by_walking
+                    else None
+                ),
+            },
+            headers={
+                "X-Goog-Api-Key": os.environ["GOOGLE_ROUTES_API_KEY"],
+                "Content-Type": "application/json",
+                "X-Goog-FieldMask": "routes.legs.steps.navigationInstruction,routes.legs.steps.travelMode",
+            },
+        )
+
+        return response.json()["routes"][0]["legs"][0]["steps"]
+
+    def coords_to_latlng(self, coords: Coords) -> Tuple[float, float]:
+        R = 6378137
+
+        diff = coords - self.latlon_reference["coords"]
+        de = diff[0]
+        dn = -(diff[1])
+
+        dLat = dn / R
+        dLon = de / (R * math.cos(math.pi * self.latlon_reference["lat"] / 180))
+
+        latO = self.latlon_reference["lat"] + dLat * 180 / math.pi
+        lonO = self.latlon_reference["lon"] + dLon * 180 / math.pi
+
+        return latO, lonO
 
     def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
         if threshold is None:
@@ -445,6 +531,28 @@ class Graph:
                 res.append(poi["name"])
 
         return res
+
+    def __get_edge_distance(
+        self,
+        e1: Edge,
+        e2: Edge,
+        distance_to_e1_n1: float = 0.0,
+        distance_from_e2_n1: float = 0.0,
+    ) -> float:
+        to_distances = [distance_to_e1_n1, e1.length - distance_to_e1_n1]
+        from_distances = [distance_from_e2_n1, e2.length - distance_from_e2_n1]
+
+        d = min(
+            [
+                self.distances[e1[i].id][e2[j].id] + to_distances[i] + from_distances[j]
+                for i in range(2)
+                for j in range(2)
+            ]
+        )
+
+        if d >= Graph.INF:
+            raise ValueError("Points are not connected")
+        return d
 
 
 class PositionHandler:

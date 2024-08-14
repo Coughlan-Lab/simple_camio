@@ -196,6 +196,14 @@ class PromptFormatter:
             elif tool_call.function.name == "get_point_of_interest_details":
                 poi = self.graph.get_poi_details(params["poi_index"])
                 result = str_dict(poi)
+            elif tool_call.function.name == "get_route_to_poi":
+                result = self.graph.get_route_to_poi(
+                    Coords(params["x1"], params["y1"]),
+                    params["poi_index"],
+                    params.get("walk", True),
+                    params.get("transports", None),
+                    params.get("transport_preference", None),
+                )
             else:
                 result = "Unknown function call."
         except Exception as e:
@@ -464,6 +472,55 @@ class PromptFormatter:
                     },
                 ),
             ),
+            ChatCompletionToolParam(
+                type="function",
+                function=FunctionDefinition(
+                    name="get_route_to_poi",
+                    description="Get instructions to reach a point of interest. Before showing the instructions reformat them to make them more accessible to a blind person, including road features and clearly visible landmarks. If the point of interest is not reachable by public transport, provide walking instructions.",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "x1": {
+                                "type": "number",
+                                "description": "The x coordinate of the starting position",
+                            },
+                            "y1": {
+                                "type": "number",
+                                "description": "The y coordinate of the starting position",
+                            },
+                            "poi_index": {
+                                "type": "number",
+                                "description": "The index of the point of interest to reach",
+                            },
+                            "only_by_walking": {
+                                "type": "boolean",
+                                "description": "If true public transports are not considered and the route is calculated only by walking. Set it to false if you want to use public transport to reach the point of interest.",
+                            },
+                            "transports": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "enum": [
+                                        "BUS",
+                                        "SUBWAY",
+                                        "TRAIN",
+                                        "LIGHT_RAIL",
+                                        "RAIL",
+                                    ],
+                                },
+                                "description": "An array of public transport types to consider in the route calculation. Include more than one type to consider multiple public transport types. If only_by_walking is true, this parameter is ignored.",
+                            },
+                            "transport_preference": {
+                                "type": "string",
+                                "enum": ["LESS_WALKING", "FEWER_TRANSFERS"],
+                                "description": "The preference for the route calculation. If only_by_walking is true, this parameter is ignored.",
+                            },
+                        },
+                        "required": ["x1", "y1", "poi_index", "walk"],
+                        "additionalProperties": False,
+                    },
+                ),
+            ),
         ]
 
     def nodes_prompt(self) -> str:
@@ -473,7 +530,7 @@ class PromptFormatter:
         return "\n".join(
             [
                 "{}: {}".format(
-                    street,
+                    street.id,
                     ", ".join([str(edge) for edge in street.edges]),
                 )
                 for street in self.graph.streets
@@ -481,7 +538,9 @@ class PromptFormatter:
         )
 
     def streets_prompt(self) -> str:
-        return "\n".join([f"{street}: {street.name}" for street in self.graph.streets])
+        return "\n".join(
+            [f"{street.id}: {street.name}" for street in self.graph.streets]
+        )
 
     def poi_prompt(self) -> str:
         return "\n".join(
@@ -514,6 +573,7 @@ class PromptFormatter:
 
     def edge_features_prompt(self, edge: Edge) -> str:
         features = dict(edge.features)
+
         if features.get("uphill", "flat") != "flat":
             n1, n2 = edge.node1, edge.node2
             if not features["uphill"]:

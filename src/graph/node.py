@@ -18,9 +18,6 @@ class Node:
     def id(self) -> str:
         return f"n{self.index}"
 
-    def is_dead_end(self) -> bool:
-        return not self.on_border and len(self.adjacents_street) == 1
-
     @property
     def description(self) -> str:
         if len(self.adjacents_street) == 1:
@@ -32,6 +29,9 @@ class Node:
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
         return f"intersection between {streets_str}"
+
+    def is_dead_end(self) -> bool:
+        return not self.on_border and len(self.adjacents_street) == 1
 
     def distance_from(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):

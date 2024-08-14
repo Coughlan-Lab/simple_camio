@@ -10,7 +10,7 @@ from .graph import Graph
 class PositionHandler:
     MARGIN = 50
     NODE_DISTANCE_THRESHOLD = 20
-    EDGE_DISTANCE_THRESHOLD = 15
+    EDGE_DISTANCE_THRESHOLD = 20
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
         self.graph = graph

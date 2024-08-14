@@ -24,7 +24,18 @@ class Edge(StraightLine):
     def id(self) -> str:
         return f"{self.node1.id} - {self.node2.id}"
 
-    def get_description(self, moving_towards_node2: Optional[bool] = None) -> str:
+    @property
+    def description(self) -> str:
+        description = self.street
+
+        if (surface := self.features.get("surface", "asphalt")) != "asphalt":
+            description += f", {surface}"
+
+        return description
+
+    def get_complete_description(
+        self, moving_towards_node2: Optional[bool] = None
+    ) -> str:
         description = self.street
 
         if (surface := self.features.get("surface", "asphalt")) != "asphalt":

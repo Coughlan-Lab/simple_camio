@@ -1,5 +1,6 @@
 # Python cache
 __pycache__
+.mypy_cache
 
 # Build files
 build
@@ -14,16 +15,8 @@ output
 # Camera parameters
 camera_parameters.json
 
-# Chat files
+# Chat output
 out
-
-# Executables
-*.exe
-simple_camio
-simple_calibration
-
-# Models
-model
 
 *.spec
 .DS_STORE

@@ -313,10 +313,10 @@ class PromptFormatter:
 
         prompt += (
             """All units are in meters. """
-            f"""North is indicated by the vector {self.graph.reference_system['north']}, """
-            f"""South by {self.graph.reference_system['south']}, """
-            f"""West by {self.graph.reference_system['west']}, and """
-            f"""East by {self.graph.reference_system['east']}\n\n"""
+            f"""North is indicated by the vector {self.graph.reference_system.north}, """
+            f"""South by {self.graph.reference_system.south}, """
+            f"""West by {self.graph.reference_system.west}, and """
+            f"""East by {self.graph.reference_system.east}\n\n"""
         )
 
         prompt += (

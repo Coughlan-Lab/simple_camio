@@ -134,7 +134,18 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="get_route_to_poi",
-            description="Get instructions to reach a point of interest. Before showing the instructions reformat them to make them more accessible to a blind person, including road features and clearly visible landmarks. If the point of interest is not reachable by public transport, provide walking instructions.",
+            description=(
+                """Get directions to a point of interest."""
+                """Before providing the instructions adapt them to be accessible to a blind person """
+                """by highlighting tactile and sensory features along the way. """
+                """Describe distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, """
+                """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
+                """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
+                """Take these features from the list provided in the first message of this chat. """
+                """Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. """
+                """Be detailed in your response and include as much details as you can."""
+                """If public transportation cannot take you directly to the point of interest, provide detailed walking directions instead."""
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -152,7 +163,7 @@ tool_calls = [
                     },
                     "only_by_walking": {
                         "type": "boolean",
-                        "description": "If true public transports are not considered and the route is calculated only by walking. Set it to false if you want to use public transport to reach the point of interest.",
+                        "description": "If true public transports are not considered and the route is calculated only by walking. Set it to false if you want to use public transports to reach the point of interest.",
                     },
                     "transports": {
                         "type": "array",
@@ -174,7 +185,7 @@ tool_calls = [
                         "description": "The preference for the route calculation. If only_by_walking is true, this parameter is ignored.",
                     },
                 },
-                "required": ["x1", "y1", "poi_index", "walk"],
+                "required": ["x1", "y1", "poi_index", "only_by_walking"],
                 "additionalProperties": False,
             },
         ),

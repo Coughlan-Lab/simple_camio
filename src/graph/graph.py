@@ -28,6 +28,16 @@ class ReferenceSystem:
         self.east = east
 
 
+GOOGLE_ROUTES_API_FIELDS = [
+    "routes.legs.steps.navigationInstruction",
+    "routes.legs.steps.travelMode",
+    "routes.legs.steps.transitDetails.stopDetails.arrivalStop.name",
+    "routes.legs.steps.transitDetails.stopCount",
+    "routes.legs.steps.transitDetails.transitLine.vehicle.type",
+    "routes.localizedValues",
+]
+
+
 class Graph:
     AM_I_THRESHOLD = 50.0  # meters
     NEARBY_THRESHOLD = 250.0  # meters
@@ -240,9 +250,9 @@ class Graph:
                 ),
             },
             headers={
-                "X-Goog-Api-Key": os.environ["GOOGLE_ROUTES_API_KEY"],
                 "Content-Type": "application/json",
-                "X-Goog-FieldMask": "routes.legs.steps.navigationInstruction,routes.legs.steps.travelMode",
+                "X-Goog-Api-Key": os.environ["GOOGLE_ROUTES_API_KEY"],
+                "X-Goog-FieldMask": ",".join(GOOGLE_ROUTES_API_FIELDS),
             },
         )
 
@@ -252,6 +262,7 @@ class Graph:
             .get("legs", [dict()])[0]
             .get("steps", [])
         )
+
         if len(instructions) == 0:
             return [{"navigationInstruction": "No route found"}]
         return instructions

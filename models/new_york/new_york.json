@@ -1180,8 +1180,16 @@
         "tactile_paving": false
       },
       {
-        "work_in_progress": false,
+        "work_in_progress": true,
+        "uphill": false,
         "bike_lane": false,
+        "surface": "asphalt",
+        "one_way": false,
+        "tactile_paving": false
+      },
+      {
+        "bike_lane": true,
+        "work_in_progress": true,
         "uphill": "flat",
         "surface": "asphalt",
         "one_way": false,
@@ -1189,17 +1197,9 @@
       },
       {
         "bike_lane": true,
+        "surface": "grass",
         "work_in_progress": false,
         "uphill": "flat",
-        "surface": "asphalt",
-        "one_way": false,
-        "tactile_paving": false
-      },
-      {
-        "bike_lane": true,
-        "work_in_progress": false,
-        "uphill": "flat",
-        "surface": "asphalt",
         "one_way": false,
         "tactile_paving": false
       },
@@ -1605,7 +1605,9 @@
       "West 38th Street": [30],
       "West 39th Street": [31],
       "7th Avenue": [32, 33, 34],
-      "6th Avenue": [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+      "6th Avenue/Avenue of the Americas": [
+        35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45
+      ],
       "5th Avenue": [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56],
       "Madison Avenue": [57, 58, 59, 60, 61, 62, 63, 64, 65],
       "Park Avenue South": [66],

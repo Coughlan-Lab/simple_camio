@@ -70,7 +70,7 @@ class PromptFormatter:
                 result = self.graph.get_route_to_poi(
                     Coords(params["x1"], params["y1"]),
                     params["poi_index"],
-                    params.get("walk", True),
+                    params["only_by_walking"],
                     params.get("transports", None),
                     params.get("transport_preference", None),
                 )
@@ -120,16 +120,19 @@ class PromptFormatter:
             )
 
         instructions = (
-            """Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
-            """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
-            """Do not make anythings up: if you don't have enough information to answer a question, """
+            """Remember to:"""
+            """- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
+            """- Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
+            """- Do not make anythings up: if you don't have enough information to answer a question, """
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
-            """Consider that I'm blind and I can't see the road network. """
-            """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
-            """like smells I might sense coming from nearby points of interest (specify which ones), """
-            """a particular road surface, the presence of tactile paving, walk lights, round-abouts, and work in progress."""
-            """Only include features which are actually present; for example avoid mentioning that a street is flat or """
-            """that its surface is asphalt as this is the norm. Include scents, sounds, and textures.\n"""
+            """- Consider that I'm blind and I can't see the road network. """
+            """for this reason when giving directions always include tactile and sensory features along the way.\n"""
+            """- Describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, """
+            """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
+            """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
+            """Take these features from the list provided in the first message of this chat.\n"""
+            """- Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."""
+            """Be detailed in your response and include as much details as you can.\n"""
         )
 
         prompt = f"{position_description}\n{question}\n\n{instructions}"
@@ -177,7 +180,8 @@ class PromptFormatter:
         prompt += (
             """These are features of the road network. """
             """Include them when giving directions to reach a certain point of interest; """
-            """as I'm blind, they will help me to orient myself better and to avoid hazards.\n"""
+            """as I'm blind, they will help me to orient myself better and to avoid hazards. Include as many details as possible.\n"""
+            """When calling the get_route_to_poi function add these information to the returned directions.\n"""
         )
         prompt += self.__road_features_prompt() + "\n\n"
 
@@ -196,17 +200,20 @@ class PromptFormatter:
         )
 
         prompt += (
-            """I will now ask questions about the points of interest and the road network.\n"""
-            """Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
-            """Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
-            """Do not make anythings up: if you don't have enough information to answer a question, """
+            """I will now ask questions about the points of interest and the road network. """
+            """Follow these instructions:\n"""
+            """- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
+            """- Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
+            """- Do not make anythings up: if you don't have enough information to answer a question, """
             """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
-            """Consider that I'm blind and I can't see the road network. """
-            """For this reason when giving directions include road features and clearly visible landmarks I can use to orient myself better, """
-            """like smells I might sense coming from nearby points of interest (specify which ones), """
-            """a particular road surface, the presence of tactile paving, walk lights, round-abouts, and work in progress."""
-            """Only include features which are actually present; for example avoid mentioning that a street is flat or """
-            """that its surface is asphalt as this is the norm. Include scents, sounds, and textures.\n"""
+            """- Consider that I'm blind and I can't see the road network. """
+            """for this reason when giving directions always include tactile and sensory features along the way.\n"""
+            """- Describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, """
+            """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
+            """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
+            """Take these features from the list provided in the first message of this chat.\n"""
+            """- Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. Be detailed in your response."""
+            """Be detailed in your response and include as many details as possible.\n"""
         )
 
         return ChatCompletionSystemMessageParam(

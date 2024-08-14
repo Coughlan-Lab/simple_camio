@@ -27,26 +27,32 @@ class Edge(StraightLine):
     def get_description(self, moving_towards_node2: Optional[bool] = None) -> str:
         description = self.street
 
+        if (surface := self.features.get("surface", "asphalt")) != "asphalt":
+            description += f", {surface}"
+
         if self.node1.is_dead_end() or self.node2.is_dead_end():
             description += ", dead end"
 
-        if "surface" in self.features and self.features["surface"] != "asphalt":
-            description += f", {self.features['surface']}"
-
-        if self.features.get("one_way", False):
-            description += ", one way"
-
         if (
             moving_towards_node2 is not None
-            and (uphill := self.features.get("uphill", "flat")) != "flat"
+            and (slope := self.features.get("slope", "flat")) != "flat"
         ):
-            if uphill == moving_towards_node2:
+            forward = slope == "uphill"
+            if forward == moving_towards_node2:
                 description += ", uphill"
             else:
                 description += ", downhill"
 
-        if self.features.get("work_in_progress", False):
-            description += ", work in progress"
+        if (
+            moving_towards_node2 is not None
+            and (traffic_direction := self.features.get("traffic_direction", "two_way"))
+            != "two_way"
+        ):
+            forward = traffic_direction == "one_way_forward"
+            if forward == moving_towards_node2:
+                description += ", heading with traffic"
+            else:
+                description += ", heading against traffic"
 
         return description
 

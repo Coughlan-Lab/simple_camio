@@ -805,788 +805,787 @@
     "edges_features": [
       {
         "work_in_progress": true,
-        "uphill": true,
+        "slope": "uphill",
         "surface": "grass",
         "one_way": true,
         "bike_lane": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
-        "uphill": true,
+        "slope": "uphill",
         "surface": "grass",
         "work_in_progress": true,
         "bike_lane": false,
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": true,
-        "uphill": false,
+        "slope": "downhill",
         "bike_lane": false,
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "bike_lane": true,
         "work_in_progress": true,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "bike_lane": true,
         "surface": "grass",
         "work_in_progress": false,
-        "uphill": "flat",
-        "one_way": false,
+        "slope": "flat",
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "surface": "grass",
         "work_in_progress": true,
         "bike_lane": false,
-        "uphill": "flat",
-        "one_way": false,
+        "slope": "flat",
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "bike_lane": true,
-        "one-way": true,
+        "traffic_direction": "one_way_forward",
         "work_in_progress": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
         "tactile_paving": false
       },
       {
         "bike_lane": true,
-        "one-way": true,
+        "traffic_direction": "one_way_backward",
         "work_in_progress": true,
-        "uphill": false,
+        "slope": "downhill",
         "surface": "asphalt",
-        "one_way": false,
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       },
       {
         "work_in_progress": false,
         "bike_lane": false,
-        "uphill": "flat",
+        "slope": "flat",
         "surface": "asphalt",
-        "one_way": false,
+        "traffic_direction": "two_way",
         "tactile_paving": false
       }
     ],

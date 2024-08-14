@@ -74,14 +74,14 @@ class PositionHandler:
                 and last_pos.distance_to_line(nearest_edge)
                 <= PositionHandler.EDGE_DISTANCE_THRESHOLD
             ):
-                moving_towards_node1: Optional[bool] = None
+                moving_towards_node2: Optional[bool] = None
                 if self.last_announced is not None:
                     if nearest_edge.street not in self.last_announced:
-                        moving_towards_node1 = None
+                        moving_towards_node2 = None
                     else:
-                        moving_towards_node1 = self.get_movement_direction(nearest_edge)
+                        moving_towards_node2 = self.get_movement_direction(nearest_edge)
 
-                to_announce = nearest_edge.get_description(moving_towards_node1)
+                to_announce = nearest_edge.get_description(moving_towards_node2)
             else:
                 to_announce = None
 

@@ -273,12 +273,20 @@ class PromptFormatter:
     def __edge_features_prompt(self, edge: Edge) -> str:
         features = dict(edge.features)
 
-        if features.get("uphill", "flat") != "flat":
+        if features.get("slope", "flat") != "flat":
             n1, n2 = edge.node1, edge.node2
-            if not features["uphill"]:
+            if features["slope"] == "downhill":
                 n1, n2 = n2, n1
-            features["uphill"] = (
-                f"from {n1.description} ({n1.id}) to {n2.description} ({n2.id})"
+            features["slope"] = (
+                f"uphill, from {n1.description} ({n1.id}) to {n2.description} ({n2.id})"
+            )
+
+        if features.get("traffic_direction", "two_way") != "two_way":
+            n1, n2 = edge.node1, edge.node2
+            if features["traffic_direction"] == "one_way_backward":
+                n1, n2 = n2, n1
+            features["traffic_direction"] = (
+                f"one-way, from {n1.description} ({n1.id}) to {n2.description} ({n2.id})"
             )
 
         return str_dict({"edge": edge.id, "features": features})

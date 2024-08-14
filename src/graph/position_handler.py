@@ -20,8 +20,8 @@ class PositionHandler:
 
         self.meters_per_pixel = meters_per_pixel
 
-        self.positions_buffer = ArithmeticBuffer[Coords](3)
-        self.edge_buffer = Buffer[Edge](10)
+        self.positions_buffer = ArithmeticBuffer[Coords](max_size=3)
+        self.edge_buffer = Buffer[Edge](max_size=10)
 
         self.last_announced: Optional[str] = None
         self.last_position: Optional[Coords] = None
@@ -74,9 +74,14 @@ class PositionHandler:
                 and last_pos.distance_to_line(nearest_edge)
                 <= PositionHandler.EDGE_DISTANCE_THRESHOLD
             ):
-                to_announce = nearest_edge.get_description(
-                    self.get_movement_direction(nearest_edge)
-                )
+                moving_towards_node1: Optional[bool] = None
+                if self.last_announced is not None:
+                    if nearest_edge.street not in self.last_announced:
+                        moving_towards_node1 = None
+                    else:
+                        moving_towards_node1 = self.get_movement_direction(nearest_edge)
+
+                to_announce = nearest_edge.get_description(moving_towards_node1)
             else:
                 to_announce = None
 

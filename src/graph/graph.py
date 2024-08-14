@@ -166,6 +166,36 @@ class Graph:
             start, poi["coords"], only_by_walking, transports, transport_preference
         )
 
+    def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
+        if threshold is None:
+            threshold = Graph.NEARBY_THRESHOLD
+
+        if threshold < 0:
+            return [poi["name"] for poi in self.pois]
+
+        res = []
+        e1, dist_to_e1 = self.get_nearest_edge(coords)
+
+        projection_distance = coords.project_on(e1).distance_to(e1[0].coords)
+        threshold -= dist_to_e1
+
+        for poi in self.pois:
+            e2 = poi["edge"]
+            try:
+                d = self.__get_edge_distance(
+                    e1,
+                    e2,
+                    projection_distance,
+                    poi["coords"].project_on(e2).distance_to(e2[0].coords),
+                ) + poi["coords"].distance_to_edge(e2)
+            except ValueError:
+                continue
+
+            if d <= threshold:
+                res.append(poi["name"])
+
+        return res
+
     def get_route(
         self,
         start: Coords,
@@ -216,37 +246,15 @@ class Graph:
             },
         )
 
-        return response.json()["routes"][0]["legs"][0]["steps"]
-
-    def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
-        if threshold is None:
-            threshold = Graph.NEARBY_THRESHOLD
-
-        if threshold < 0:
-            return [poi["name"] for poi in self.pois]
-
-        res = []
-        e1, dist_to_e1 = self.get_nearest_edge(coords)
-
-        projection_distance = coords.project_on(e1).distance_to(e1[0].coords)
-        threshold -= dist_to_e1
-
-        for poi in self.pois:
-            e2 = poi["edge"]
-            try:
-                d = self.__get_edge_distance(
-                    e1,
-                    e2,
-                    projection_distance,
-                    poi["coords"].project_on(e2).distance_to(e2[0].coords),
-                ) + poi["coords"].distance_to_edge(e2)
-            except ValueError:
-                continue
-
-            if d <= threshold:
-                res.append(poi["name"])
-
-        return res
+        instructions = (
+            response.json()
+            .get("routes", [dict()])[0]
+            .get("legs", [dict()])[0]
+            .get("steps", [])
+        )
+        if len(instructions) == 0:
+            return [{"navigationInstruction": "No route found"}]
+        return instructions
 
     def __get_edge_distance(
         self,

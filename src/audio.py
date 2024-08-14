@@ -34,6 +34,9 @@ class TTS:
         return bool(self.engine.isBusy())
 
     def say(self, text: str) -> None:
+        if text == "":
+            return
+
         self.engine.say(text)
         self.engine.iterate()
 

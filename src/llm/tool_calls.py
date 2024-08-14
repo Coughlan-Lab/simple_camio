@@ -38,7 +38,11 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="get_distance_to_point_of_interest",
-            description="Get the distance between a point and a point of interest. You can use this function to determine how far I am from a point of interest by providing the coordinates of my position and the index of the point of interest.",
+            description=(
+                "Get the distance between a point and a point of interest. "
+                "Use this function to determine how far I am from a point of interest by providing "
+                "the coordinates of my position and the index of the point of interest."
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -64,7 +68,12 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="am_i_at_point_of_interest",
-            description="Check if a point is near a point of interest. Use this function to determine if I'm near a point of interest by providing the coordinates of my position and the index of the point of interest. If the result is false, give me instructions on how to get there.",
+            description=(
+                "Check if a point is near a point of interest. "
+                "Use this function to determine if I'm near a point of interest by providing "
+                "the coordinates of my position and the index of the point of interest. "
+                "If the result is negative, give me instructions on how to get there."
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -90,7 +99,11 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="get_nearby_points_of_interest",
-            description="Get the points of interest within a certain maximum distance from a point. Call this function only if I specifically ask for nearby points of interest; otherwise use the information provided in the prompt. If I just ask for a point of interest, don't use this function.",
+            description=(
+                "Get the points of interest within a certain maximum distance from a point. "
+                "Call this function only if I specifically ask for nearby points of interest; "
+                "If I ask for a point of interest, use the information provided in the prompt."
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -104,7 +117,11 @@ tool_calls = [
                     },
                     "distance": {
                         "type": "number",
-                        "description": f"The maximum distance from the point. If not provided, a maximum distance of {Graph.NEARBY_THRESHOLD} m is used. If not told otherwise, use a distance of at least {Graph.NEARBY_THRESHOLD} m.",
+                        "description": (
+                            "The maximum distance from the point. "
+                            f"If not provided, a maximum distance of {Graph.NEARBY_THRESHOLD} m is used. "
+                            f"If not told otherwise, use a distance of at least {Graph.NEARBY_THRESHOLD} m."
+                        ),
                     },
                 },
                 "required": ["x", "y"],
@@ -116,7 +133,14 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="get_point_of_interest_details",
-            description="Get the details of a point of interest. Use this function to get the information you need to answer a question about a point of interest; otherwise use the information provided in the prompt. Points of interest details can include for example a description, city, suburb, district, contact information, website, payment options, building data, public transport network and operator",
+            description=(
+                "Get the details of a point of interest. "
+                "Use this function to get the information you need to answer a question about a point of interest; "
+                "otherwise use the information provided in the prompt. "
+                "Points of interest details can include for example a description, city, suburb, district, "
+                "contact information, website, payment options, building data, public transport network and operator."
+                "Other information may be present depending on the point of interest."
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -135,16 +159,15 @@ tool_calls = [
         function=FunctionDefinition(
             name="get_route",
             description=(
-                """Get directions to reach a certain position."""
-                """Before giving me the resulting instructions adapt them to be accessible to a blind person """
-                """by highlighting tactile and sensory features along the way. """
-                """Describe distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, """
-                """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
-                """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
-                """Take these features from the list provided in the first message of this chat. """
-                """Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. """
-                """Be detailed in your response and include as much details as you can."""
-                """If public transportation cannot take you directly to the point of interest, provide detailed walking directions instead."""
+                "Get directions to reach a certain position."
+                "Adapt the resulting instructions to be accessible to a blind person "
+                "by highlighting tactile and sensory features along the way, and "
+                "describing distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, "
+                "tactile paving, walk lights, roundabouts, and any ongoing work in progress. "
+                "Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. "
+                "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. "
+                "Be detailed in your response and include as many details as you can."
+                "If public transportation can't take me directly to my destination, provide detailed walking directions instead."
             ),
             parameters={
                 "type": "object",
@@ -167,7 +190,10 @@ tool_calls = [
                     },
                     "only_by_walking": {
                         "type": "boolean",
-                        "description": "If true public transports are not considered and the route is calculated only by walking. Set it to false if you want to use public transports to reach the point of interest.",
+                        "description": (
+                            "If true public transports are not considered and the route is calculated only by walking. "
+                            "Set it to false if you want to use public transports to reach the point of interest."
+                        ),
                     },
                     "transports": {
                         "type": "array",
@@ -181,12 +207,19 @@ tool_calls = [
                                 "RAIL",
                             ],
                         },
-                        "description": "An array of public transport types to consider in the route calculation. Include more than one type to consider multiple public transport types. If only_by_walking is true, this parameter is ignored.",
+                        "description": (
+                            "An array of public transport types to consider in the route calculation. "
+                            "Include more than one type to consider multiple public transport types. "
+                            "If only_by_walking is true, this parameter is ignored."
+                        ),
                     },
                     "transport_preference": {
                         "type": "string",
                         "enum": ["LESS_WALKING", "FEWER_TRANSFERS"],
-                        "description": "The preference for the route calculation. If only_by_walking is true, this parameter is ignored.",
+                        "description": (
+                            "The preference for the route calculation. "
+                            "If only_by_walking is true, this parameter is ignored."
+                        ),
                     },
                 },
                 "required": ["x1", "y1", "x2", "y2", "only_by_walking"],
@@ -199,16 +232,15 @@ tool_calls = [
         function=FunctionDefinition(
             name="get_route_to_poi",
             description=(
-                """Get directions to a point of interest."""
-                """Before giving me the resulting instructions adapt them to be accessible to a blind person """
-                """by highlighting tactile and sensory features along the way. """
-                """Describe distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, """
-                """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
-                """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
-                """Take these features from the list provided in the first message of this chat. """
-                """Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. """
-                """Be detailed in your response and include as much details as you can."""
-                """If public transportation cannot take you directly to the point of interest, provide detailed walking directions instead."""
+                "Get directions to reach a point of interest."
+                "Adapt the resulting instructions to be accessible to a blind person "
+                "by highlighting tactile and sensory features along the way, and "
+                "describing distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, "
+                "tactile paving, walk lights, roundabouts, and any ongoing work in progress. "
+                "Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. "
+                "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. "
+                "Be detailed in your response and include as many details as you can."
+                "If public transportation can't take me directly to the point of interest, provide detailed walking directions instead."
             ),
             parameters={
                 "type": "object",
@@ -227,7 +259,10 @@ tool_calls = [
                     },
                     "only_by_walking": {
                         "type": "boolean",
-                        "description": "If true public transports are not considered and the route is calculated only by walking. Set it to false if you want to use public transports to reach the point of interest.",
+                        "description": (
+                            "If true public transports are not considered and the route is calculated only by walking. "
+                            "Set it to false if you want to use public transports to reach the point of interest."
+                        ),
                     },
                     "transports": {
                         "type": "array",
@@ -241,12 +276,19 @@ tool_calls = [
                                 "RAIL",
                             ],
                         },
-                        "description": "An array of public transport types to consider in the route calculation. Include more than one type to consider multiple public transport types. If only_by_walking is true, this parameter is ignored.",
+                        "description": (
+                            "An array of public transport types to consider in the route calculation. "
+                            "Include more than one type to consider multiple public transport types. "
+                            "If only_by_walking is true, this parameter is ignored."
+                        ),
                     },
                     "transport_preference": {
                         "type": "string",
                         "enum": ["LESS_WALKING", "FEWER_TRANSFERS"],
-                        "description": "The preference for the route calculation. If only_by_walking is true, this parameter is ignored.",
+                        "description": (
+                            "The preference for the route calculation. "
+                            "If only_by_walking is true, this parameter is ignored."
+                        ),
                     },
                 },
                 "required": ["x1", "y1", "poi_index", "only_by_walking"],

@@ -119,109 +119,108 @@ class PromptFormatter:
                 street_str = f"part of {edge.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
 
             position_description = (
-                f"""My coordinates are {position}, """
-                f"""the closest point on the road network is on edge {edge.id}, """
-                f"""which is {street_str}\n"""
-                f"""I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) """
-                f"""and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id}).\n"""
-                """Considering the updated position continue answering my questions while keeping the previous context in mind.\n"""
+                "###Position Update###\n"
+                f"My coordinates are {position}, "
+                f"the closest point on the road network is on edge {edge.id}, "
+                f"which is {street_str}\n"
+                f"I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) "
+                f"and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id}).\n"
+                "Considering the updated position continue answering my questions while keeping the previous context in mind. "
+                "The following question may be related to the previous one; if that's the case keep the flow consistent.\n"
             )
 
-        instructions = (
-            """Remember to:"""
-            """- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
-            """- Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
-            """- Do not make anythings up: if you don't have enough information to answer a question, """
-            """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
-            """- Consider that I'm blind and I can't see the road network. """
-            """for this reason when giving directions always include tactile and sensory features along the way.\n"""
-            """- Describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, """
-            """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
-            """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
-            """Take these features from the list provided in the first message of this chat.\n"""
-            """- Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."""
-            """Be detailed in your response and include as much details as you can.\n"""
-        )
+        question = f"###Question###\n{question}"
 
-        prompt = f"{position_description}\n{question}\n\n{instructions}"
+        instructions = ""
+
+        prompt = f"{position_description}\n{question}\n{instructions}"
 
         return ChatCompletionUserMessageParam(content=prompt, role="user")
 
     def get_main_prompt(
         self, context: Dict[str, str]
     ) -> ChatCompletionSystemMessageParam:
-        prompt = "I'm a blind person who needs help to navigate a new neighborhood. You are my assistant.\n"
+        prompt = "I'm a blind person who needs help to navigate a new neighborhood.\n"
+        prompt += "You are a resident of the neighborhood who knows it perfectly in every detail.\n\n"
 
+        prompt += "###Context###\n\n"
         prompt += "Consider the following points on a cartesian plane at the associated coordinates:\n"
         prompt += self.__nodes_prompt() + "\n\n"
 
         prompt += (
-            """Each point is a node of a road network graph and represents the intersection of two or more streets. """
-            """Each edge connects two nodes and is specified with this notation: nX - nY. """
-            """For example the edge "n3 - n5" would connect node n3 with node n5.\n"""
-            """Each street is a sequence of connected edges on the graph. These are the streets of the road network graph:\n"""
+            "Each point is a node of a road network graph and represents the intersection of two or more streets.\n"
+            "Each edge of the graph connects two nodes and is specified with this notation: nX - nY. "
+            'For example the edge "n3 - n5" would connect node n3 with node n5.\n'
+            "Each street then is a sequence of connected edges on the graph. These are the streets of the road network graph:\n"
         )
         prompt += self.__edges_prompt() + "\n\n"
 
-        prompt += "These are the names of the streets in the graph; you will use them to identify each street.\n"
+        prompt += "These are the names of the streets in the graph. Use them to identify each street.\n"
         prompt += self.__streets_prompt() + "\n\n"
 
         prompt += (
-            """Nodes are named after the edges intersecting at their coordinates. """
-            """For example a node at the intersection between the Webster Street edge and the Washington Street edge """
-            """will be named "Intersection of Webster Street and Washington Street". """
-            """Streets without nodes in common can't intersect.\n"""
-            """If the edges intersecting at a node belong to the same street, the node will be named after that street.\n"""
-            """If a node is connected to only one edge the node's name will be that of the edge's street.\n\n"""
+            "Nodes are named after the edges intersecting at their coordinates. "
+            "For example a node at the intersection between the Webster Street edge and the Washington Street edge "
+            'will be named "Intersection of Webster Street and Washington Street". '
+            "Streets without nodes in common can't intersect.\n"
+            "If all the edges intersecting at a node belong to the same street, the node is named after that street.\n"
+            "If a node is connected to only one edge the node's name is that of the edge's street.\n\n"
         )
 
         prompt += (
-            """These are points of interest along the road network. Each point has five important fields:\n"""
-            """- index: the index of the point in the list of points of interest\n"""
-            """- coords: the coordinates of the point on the cartesian plane\n"""
-            """- edge: the nearest edge to the point of interest\n"""
-            """- street: the name of the street the point of interest belongs to\n"""
-            """- categories: a list of categories the point of interest belongs to\n\n"""
+            "These are points of interest along the road network. Each point has five important fields:\n"
+            "- index: the index of the point in the list of points of interest\n"
+            "- coords: the coordinates of the point on the cartesian plane\n"
+            "- edge: the nearest edge to the point of interest\n"
+            "- street: the name of the street the point of interest belongs to\n"
+            "- categories: a list of categories the point of interest belongs to\n"
         )
         prompt += self.__poi_prompt() + "\n\n"
 
         prompt += (
-            """These are features of the road network. """
-            """Include them when giving directions to reach a certain point of interest; """
-            """as I'm blind, they will help me to orient myself better and to avoid hazards. Include as many details as possible.\n"""
-            """When calling the get_route_to_poi function add these information to the returned directions.\n"""
+            "These are features of the road network. "
+            "Include them when giving directions to reach a certain point; "
+            "as I'm blind, they will help me to orient myself better and to avoid hazards. Include as many details as possible.\n"
+            "When calling the get_route and get_route_to_poi functions add these information to the returned directions.\n"
         )
         prompt += self.__road_features_prompt() + "\n\n"
 
         prompt += (
-            """All units are in meters. """
-            f"""North is indicated by the vector {self.graph.reference_system.north}, """
-            f"""South by {self.graph.reference_system.south}, """
-            f"""West by {self.graph.reference_system.west}, and """
-            f"""East by {self.graph.reference_system.east}\n\n"""
+            "All units are in meters.\n"
+            f"North is indicated by the vector {self.graph.reference_system.north}, "
+            f"South by {self.graph.reference_system.south}, "
+            f"West by {self.graph.reference_system.west}, and "
+            f"East by {self.graph.reference_system.east}\n\n"
         )
 
         prompt += (
-            """Finally, these are addictional information about the context of the map:\n"""
-            f"""current time: {datetime.now().isoformat()}\n"""
-            f"""{str_dict(context)}\n\n"""
+            "Finally, these are addictional information about the context of the map:\n"
+            f"current time: {datetime.now().strftime('%m-%d-%y %H:%M:%S')}\n"
+            f"{str_dict(context)}\n\n"
         )
 
         prompt += (
-            """I will now ask questions about the points of interest and the road network. """
-            """Follow these instructions:\n"""
-            """- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"""
-            """- Give me a direct, detailed and precise answer and keep it as short as possible. Be objective.\n"""
-            """- Do not make anythings up: if you don't have enough information to answer a question, """
-            """respond by saying you don't know the answer and suggest a way for me to find one.\n"""
-            """- Consider that I'm blind and I can't see the road network. """
-            """for this reason when giving directions always include tactile and sensory features along the way.\n"""
-            """- Describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, """
-            """tactile paving, walk lights, roundabouts, and any ongoing work in progress. """
-            """Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. """
-            """Take these features from the list provided in the first message of this chat.\n"""
-            """- Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. Be detailed in your response."""
-            """Be detailed in your response and include as many details as possible.\n"""
+            "###Instructions###\n"
+            "I will now ask questions about the points of interest and the road network. "
+            "You MUST follow these instructions:\n"
+            "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
+            "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective.\n"
+            "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
+            "- Stick to the provided information: when information is insufficient to answer a question, "
+            "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
+            "- If my question is ambiguous or unclear, ask for clarification.\n\n"
+        )
+
+        prompt += (
+            "Most importantly:\n"
+            "Remember that I'm blind.\n"
+            "For this reason when giving directions always include tactile and sensory features along the way, "
+            "describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, "
+            "tactile paving, walk lights, roundabouts, and any ongoing work in progress.\n"
+            "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
+            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."
+            "Be detailed in your response and include as many details as possible.\n\n"
+            "I'm going to tip you $20 for each correct answer, so be as precise as possible. If your answer is incorrect you will be penalized.\n"
         )
 
         return ChatCompletionSystemMessageParam(

@@ -66,6 +66,14 @@ class PromptFormatter:
             elif tool_call.function.name == "get_point_of_interest_details":
                 poi = self.graph.get_poi_details(params["poi_index"])
                 result = str_dict(poi)
+            elif tool_call.function.name == "get_route":
+                result = self.graph.get_route(
+                    Coords(params["x1"], params["y1"]),
+                    Coords(params["x2"], params["y2"]),
+                    params["only_by_walking"],
+                    params.get("transports", None),
+                    params.get("transport_preference", None),
+                )
             elif tool_call.function.name == "get_route_to_poi":
                 result = self.graph.get_route_to_poi(
                     Coords(params["x1"], params["y1"]),

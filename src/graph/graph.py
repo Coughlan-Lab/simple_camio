@@ -1,6 +1,6 @@
 import math
 import os
-from typing import Any, Dict, List, Optional, Set, Tuple, TypeAlias
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 import requests
 
@@ -8,7 +8,7 @@ from .coords import Coords
 from .edge import Edge, Street
 from .node import Node
 
-PoI: TypeAlias = Dict[str, Any]
+PoI = Dict[str, Any]
 
 
 class LatLngReference:

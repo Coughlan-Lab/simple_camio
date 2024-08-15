@@ -35,9 +35,9 @@ class LLM:
 
         self.history: List[ChatCompletionMessageParam] = list()
         self.history.append(self.prompt_formatter.get_main_prompt(context))
+        self.usage: List[Optional[CompletionUsage]] = list()
 
         self.running = False
-        self.usage: Optional[CompletionUsage] = None
 
     def is_waiting_for_response(self) -> bool:
         return self.running
@@ -66,7 +66,7 @@ class LLM:
                     messages=self.history,
                     tools=self.prompt_formatter.get_tool_calls(),
                 )
-                self.usage = response.usage
+                self.usage.append(response.usage)
 
                 if not self.running:
                     break
@@ -100,12 +100,25 @@ class LLM:
 
     def save_chat(self, filename: str) -> None:
         msgs: List[str] = list()
+        assistants_cnt = 0
+
         for msg in self.history:
             if "content" in msg and msg["content"] is not None and msg["content"] != "":
                 msgs.append(f"{msg['role']}:\n{msg['content']}")
 
-        if self.usage is not None:
-            msgs.append(f"Usage: {str(self.usage.total_tokens)} tokens")
+            if "tool_calls" in msg and msg["tool_calls"] is not None:
+                msgs.append(f"{msg['role']}:")
+                for tool_call in msg["tool_calls"]:
+                    msgs.append(
+                        f"Tool call: {tool_call['function']['name']}\n"
+                        f"Parameters: {tool_call['function']['arguments']}"
+                    )
+
+            if msg["role"] == "assistant":
+                usage = self.usage[assistants_cnt]
+                if usage is not None:
+                    msgs.append(f"Usage: {str(usage.total_tokens)} tokens")
+                assistants_cnt += 1
 
         with open(filename, "w") as f:
             f.write("\n\n".join(msgs))

@@ -35,7 +35,7 @@ GOOGLE_ROUTES_API_FIELDS = [
     "routes.legs.steps.transitDetails.stopCount",
     "routes.legs.steps.transitDetails.transitLine.name",
     "routes.legs.steps.transitDetails.transitLine.vehicle.type",
-    "routes.localizedValues",
+    # "routes.localizedValues",
 ]
 
 
@@ -148,35 +148,6 @@ class Graph:
 
         return self.pois[poi_index]
 
-    def get_stops(
-        self, pos: Coords, transports: List[str], max_distance: float
-    ) -> Set[int]:
-        stops: Set[int] = set()
-
-        for i, poi in enumerate(self.pois):
-            if self.get_distance_to_poi(pos, i) > max_distance:
-                continue
-            for t in transports:
-                if t in poi:
-                    stops.add(i)
-                    break
-
-        return stops
-
-    def get_route_to_poi(
-        self,
-        start: Coords,
-        destination_poi_index: int,
-        only_by_walking: bool = True,
-        transports: Optional[List[str]] = None,
-        transport_preference: Optional[str] = "LESS_WALKING",
-    ) -> List[Dict[str, Any]]:
-        poi = self.pois[destination_poi_index]
-
-        return self.get_route(
-            start, poi["coords"], only_by_walking, transports, transport_preference
-        )
-
     def get_nearby_pois(self, coords: Coords, threshold: Optional[float]) -> List[str]:
         if threshold is None:
             threshold = Graph.NEARBY_THRESHOLD
@@ -206,6 +177,20 @@ class Graph:
                 res.append(poi["name"])
 
         return res
+
+    def get_route_to_poi(
+        self,
+        start: Coords,
+        destination_poi_index: int,
+        only_by_walking: bool = True,
+        transports: Optional[List[str]] = None,
+        transport_preference: Optional[str] = "LESS_WALKING",
+    ) -> List[Dict[str, Any]]:
+        poi = self.pois[destination_poi_index]
+
+        return self.get_route(
+            start, poi["coords"], only_by_walking, transports, transport_preference
+        )
 
     def get_route(
         self,

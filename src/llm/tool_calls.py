@@ -135,11 +135,13 @@ tool_calls = [
             name="get_point_of_interest_details",
             description=(
                 "Get the details of a point of interest. "
-                "Use this function to get the information you need to answer a question about a point of interest; "
-                "otherwise use the information provided in the prompt. "
-                "Points of interest details can include for example a description, city, suburb, district, "
-                "contact information, website, payment options, building data, public transport network and operator."
-                "Other information may be present depending on the point of interest."
+                "Use this function to retrieve comprehensive information about a specific point of interest, "
+                "which can include a description, city, suburb, district, and accessibility information "
+                "specifically designed for blind individuals. "
+                "Additionally, it may provide contact information, website, payment options, building data, "
+                "details about public transport networks, and the operator. "
+                "Depending on the point of interest, other relevant information might also be available. "
+                "When in doubt call this function to get more information about a point of interest."
             ),
             parameters={
                 "type": "object",
@@ -158,17 +160,7 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="get_route",
-            description=(
-                "Get directions to reach a certain position."
-                "Adapt the resulting instructions to be accessible to a blind person "
-                "by highlighting tactile and sensory features along the way, and "
-                "describing distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, "
-                "tactile paving, walk lights, roundabouts, and any ongoing work in progress. "
-                "Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. "
-                "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. "
-                "Be detailed in your response and include as many details as you can."
-                "If public transportation can't take me directly to my destination, provide detailed walking directions instead."
-            ),
+            description="Get directions to reach a certain position.",
             parameters={
                 "type": "object",
                 "properties": {
@@ -192,7 +184,7 @@ tool_calls = [
                         "type": "boolean",
                         "description": (
                             "If true public transports are not considered and the route is calculated only by walking. "
-                            "Set it to false if you want to use public transports to reach the point of interest."
+                            "Set it to false if you want to use public transports to reach the destination."
                         ),
                     },
                     "transports": {
@@ -231,17 +223,7 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name="get_route_to_poi",
-            description=(
-                "Get directions to reach a point of interest."
-                "Adapt the resulting instructions to be accessible to a blind person "
-                "by highlighting tactile and sensory features along the way, and "
-                "describing distinct landmarks, notable scents from nearby points of interest, specific textures and surfaces underfoot, "
-                "tactile paving, walk lights, roundabouts, and any ongoing work in progress. "
-                "Include these features only if they are present to avoid redundancy; for example, avoid mentioning the usual flatness or asphalt surfaces of streets. "
-                "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. "
-                "Be detailed in your response and include as many details as you can."
-                "If public transportation can't take me directly to the point of interest, provide detailed walking directions instead."
-            ),
+            description="Get directions to reach a point of interest.",
             parameters={
                 "type": "object",
                 "properties": {

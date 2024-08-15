@@ -25,7 +25,6 @@ POIS_IMPORTANT_KEYS = [
     "brand",
     "categories",
     "facilities",
-    "accessibility",
     "catering",
     "commercial",
 ]
@@ -85,6 +84,7 @@ class PromptFormatter:
                 )
             else:
                 result = "Unknown function call."
+
         except Exception as e:
             print(f"An error occurred during a function call: {e}")
             result = "An error occurred while processing the function call."
@@ -217,7 +217,7 @@ class PromptFormatter:
             "Remember that I'm blind.\n"
             "For this reason when giving directions always include tactile and sensory features along the way, "
             "describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, "
-            "tactile paving, walk lights, roundabouts, and any ongoing work in progress.\n"
+            "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
             "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
             "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."
             "Be detailed in your response and include as many details as possible."

@@ -25,6 +25,7 @@ POIS_IMPORTANT_KEYS = [
     "brand",
     "categories",
     "facilities",
+    "accessibility",
     "catering",
     "commercial",
 ]
@@ -200,7 +201,7 @@ class PromptFormatter:
         )
 
         prompt += (
-            "###Instructions###\n"
+            "###Instructions###\n\n"
             "I will now ask questions about the points of interest and the road network. "
             "You MUST follow these instructions:\n"
             "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
@@ -219,8 +220,7 @@ class PromptFormatter:
             "tactile paving, walk lights, roundabouts, and any ongoing work in progress.\n"
             "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
             "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."
-            "Be detailed in your response and include as many details as possible.\n\n"
-            "I'm going to tip you $20 for each correct answer, so be as precise as possible. If your answer is incorrect you will be penalized.\n"
+            "Be detailed in your response and include as many details as possible."
         )
 
         return ChatCompletionSystemMessageParam(

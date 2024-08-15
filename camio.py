@@ -105,7 +105,7 @@ class CamIO:
             if not self.is_busy() and (
                 announcement := self.position_handler.get_next_announcement()
             ):
-                self.tts.say(announcement)
+                self.tts.say(announcement.text)
 
         cap.release()
         self.__reset()

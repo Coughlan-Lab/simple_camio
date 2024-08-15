@@ -1,13 +1,46 @@
+from enum import Enum
+
 from openai.types.chat import ChatCompletionToolParam
 from openai.types.shared_params import FunctionDefinition
 
 from src.graph import Graph
 
+
+class ToolCall(str, Enum):
+    # function name, response after tool call should be further processed
+    GET_DISTANCE = "get_distance", False
+    GET_DISTANCE_TO_POINT_OF_INTEREST = "get_distance_to_point_of_interest", False
+    AM_I_AT_POINT_OF_INTEREST = "am_i_at_point_of_interest", False
+    GET_NEARBY_POINTS_OF_INTEREST = "get_nearby_points_of_interest", False
+    GET_POINT_OF_INTEREST_DETAILS = "get_point_of_interest_details", False
+    GET_ROUTE = "get_route", True
+    GET_ROUTE_TO_POINT_OF_INTEREST = "get_route_to_point_of_interest", True
+
+    def __new__(cls, *args):
+        obj = str.__new__(cls, args[0])
+        obj._value_ = args[0]
+        return obj
+
+    def __init__(self, _: str, needs_further_processing: bool):
+        self.__needs_further_processing = needs_further_processing
+
+    def __str__(self) -> str:
+        return self.value
+
+    @property
+    def needs_further_processing(self) -> bool:
+        return self.__needs_further_processing
+
+    @classmethod
+    def get(cls, function_name: str) -> "ToolCall":
+        return cls(function_name)
+
+
 tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="get_distance",
+            name=ToolCall.GET_DISTANCE,
             description="Get the distance between two points on the road network graph.",
             parameters={
                 "type": "object",
@@ -37,7 +70,7 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="get_distance_to_point_of_interest",
+            name=ToolCall.GET_DISTANCE_TO_POINT_OF_INTEREST,
             description=(
                 "Get the distance between a point and a point of interest. "
                 "Use this function to determine how far I am from a point of interest by providing "
@@ -67,7 +100,7 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="am_i_at_point_of_interest",
+            name=ToolCall.AM_I_AT_POINT_OF_INTEREST,
             description=(
                 "Check if a point is near a point of interest. "
                 "Use this function to determine if I'm near a point of interest by providing "
@@ -98,7 +131,7 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="get_nearby_points_of_interest",
+            name=ToolCall.GET_NEARBY_POINTS_OF_INTEREST,
             description=(
                 "Get the points of interest within a certain maximum distance from a point. "
                 "Call this function only if I specifically ask for nearby points of interest; "
@@ -132,7 +165,7 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="get_point_of_interest_details",
+            name=ToolCall.GET_POINT_OF_INTEREST_DETAILS,
             description=(
                 "Get the details of a point of interest. "
                 "Use this function to retrieve comprehensive information about a specific point of interest, "
@@ -159,7 +192,7 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="get_route",
+            name=ToolCall.GET_ROUTE,
             description="Get directions to reach a certain position.",
             parameters={
                 "type": "object",
@@ -222,7 +255,7 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name="get_route_to_poi",
+            name=ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST,
             description="Get directions to reach a point of interest.",
             parameters={
                 "type": "object",

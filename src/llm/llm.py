@@ -81,20 +81,27 @@ class LLM:
 
                 self.history.append(convert_assistant_message(response_message))
 
-                if response_message.tool_calls is None:
-                    break
-
-                for tool_call in response_message.tool_calls:
+                if self.prompt_formatter.tool_call_response_needs_processing:
                     self.history.append(
-                        self.prompt_formatter.handle_tool_call(tool_call)
+                        self.prompt_formatter.get_process_message(output)
                     )
+                    output = ""
+
+                elif response_message.tool_calls is not None:
+
+                    for tool_call in response_message.tool_calls:
+                        self.history.append(
+                            self.prompt_formatter.handle_tool_call(tool_call)
+                        )
+
+                else:
+                    break
 
         except OpenAIError as e:
             print(f"An error occurred: {e}")
-            self.running = False
             return None
-
-        self.running = False
+        finally:
+            self.running = False
 
         return output[:-1]
 

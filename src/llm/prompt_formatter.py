@@ -12,7 +12,7 @@ from openai.types.chat import (ChatCompletionMessageToolCall,
 from src.graph import Coords, Edge, Graph, GraphEncoder, Node
 from src.utils import str_dict
 
-from .tool_calls import tool_calls
+from .tool_calls import ToolCall, tool_calls
 
 POIS_IMPORTANT_KEYS = [
     "name",
@@ -33,6 +33,7 @@ POIS_IMPORTANT_KEYS = [
 class PromptFormatter:
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
+        self.tool_call_response_needs_processing = False
 
     def handle_tool_call(
         self, tool_call: ChatCompletionMessageToolCall
@@ -44,29 +45,32 @@ class PromptFormatter:
         print(f"Function call: {tool_call.function.name}")
         print(f"Parameters: {params}")
 
+        fnc = ToolCall.get(tool_call.function.name)
+        self.tool_call_response_needs_processing = fnc.needs_further_processing
+
         try:
-            if tool_call.function.name == "get_distance":
+            if fnc == ToolCall.GET_DISTANCE:
                 result = self.graph.get_distance(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
                 )
-            elif tool_call.function.name == "get_distance_to_point_of_interest":
+            elif fnc == ToolCall.GET_DISTANCE_TO_POINT_OF_INTEREST:
                 result = self.graph.get_distance_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
                 )
-            elif tool_call.function.name == "get_nearby_points_of_interest":
+            elif fnc == ToolCall.GET_NEARBY_POINTS_OF_INTEREST:
                 result = self.graph.get_nearby_pois(
                     Coords(params["x"], params["y"]), params.get("distance", None)
                 )
-            elif tool_call.function.name == "am_i_at_point_of_interest":
+            elif fnc == ToolCall.AM_I_AT_POINT_OF_INTEREST:
                 result = self.graph.am_i_at(
                     Coords(params["x"], params["y"]), params["poi_index"]
                 )
-            elif tool_call.function.name == "get_point_of_interest_details":
+            elif fnc == ToolCall.GET_POINT_OF_INTEREST_DETAILS:
                 poi = self.graph.get_poi_details(params["poi_index"])
                 result = str_dict(poi)
-            elif tool_call.function.name == "get_route":
+            elif fnc == ToolCall.GET_ROUTE:
                 result = self.graph.get_route(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
@@ -74,7 +78,7 @@ class PromptFormatter:
                     params.get("transports", None),
                     params.get("transport_preference", None),
                 )
-            elif tool_call.function.name == "get_route_to_poi":
+            elif fnc == ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST:
                 result = self.graph.get_route_to_poi(
                     Coords(params["x1"], params["y1"]),
                     params["poi_index"],
@@ -88,6 +92,7 @@ class PromptFormatter:
         except Exception as e:
             print(f"An error occurred during a function call: {e}")
             result = "An error occurred while processing the function call."
+            self.tool_call_response_needs_processing = False
 
         if not isinstance(result, str):
             result = json.dumps(result, cls=GraphEncoder)
@@ -99,6 +104,25 @@ class PromptFormatter:
             tool_call_id=tool_call.id,
             content=result,
         )
+
+    def get_process_message(self, response: str) -> ChatCompletionUserMessageParam:
+        assert self.tool_call_response_needs_processing
+
+        prompt = (
+            "Adapt these directions to the needs of a blind person.\n"
+            "Include tactile and sensory features along the way, "
+            "describe distinct landmarks, notable scents from specific nearby points of interest, specific textures and surfaces underfoot, "
+            "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
+            "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
+            "If directions are generic or not detailed enough, add further details, like the intersections along the way and accessibility information about each edge and node.\n"
+            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."
+            "Be detailed in your response and include as many details as possible.\n\n"
+            f"{response}"
+        )
+
+        self.tool_call_response_needs_processing = False
+
+        return ChatCompletionUserMessageParam(content=prompt, role="user")
 
     def get_user_message(
         self, question: str, position: Optional[Coords]
@@ -182,7 +206,7 @@ class PromptFormatter:
             "These are features of the road network. "
             "Include them when giving directions to reach a certain point; "
             "as I'm blind, they will help me to orient myself better and to avoid hazards. Include as many details as possible.\n"
-            "When calling the get_route and get_route_to_poi functions add these information to the returned directions.\n"
+            "When calling the get_route and get_route_to_point_of_interest functions add these information to the returned directions.\n"
         )
         prompt += self.__road_features_prompt() + "\n\n"
 

@@ -192,5 +192,15 @@ class ContentManager:
                 return json.load(file)
         return None
 
+    def __save_json(self, content: str) -> None:
+        if content not in self.__content.keys():
+            raise ValueError(f"Content {content} not found")
+        content_data = self.__content[content]
+        content_name = content_data.__name
+        content_path = os.path.join(content_name, f"{content_name}.json")
+        os.remove(content_path)
+        new_content = {"model": content_data.__content}
+        with open(content_path, 'w') as fp:
+            json.dump(new_content, fp)
 
 singleton: ContentManager = ContentManager()

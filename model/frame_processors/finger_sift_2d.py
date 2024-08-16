@@ -54,6 +54,7 @@ class FingerSift2DFP(FrameProcessor):
 
         if gesture_loc is None:
             self.heartbeat_player.pause_sound()
+            self.finger_count = 0
             return img
         self.heartbeat_player.play_sound()
 
@@ -71,7 +72,9 @@ class FingerSift2DFP(FrameProcessor):
         else:
             if self.finger_count == 2:
                 if self.interaction[0].get_distance(gesture_loc) > self.interaction[1].get_distance(gesture_loc):
+                    temp_hold = self.interaction[0]
                     self.interaction[0] = self.interaction[1]
+                    self.interaction[1] = temp_hold
             zone_id, layer_change = self.interaction[0].push_gesture(gesture_loc)
             self.finger_count = 1
         if zone_id in self.audio_player.hotspots:

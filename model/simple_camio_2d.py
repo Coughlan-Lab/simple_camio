@@ -57,7 +57,7 @@ class InteractionPolicy2D:
         self.model = model
         self.audio_level_up_key = model["audio_level_up_color"][0]*256*256+model["audio_level_up_color"][1]*256+model["audio_level_up_color"][2]
         self.image_map_color = cv.imread(model["filename"], cv.IMREAD_COLOR)
-        self.ZONE_FILTER_SIZE = 10
+        self.ZONE_FILTER_SIZE = 5
         self.Z_THRESHOLD = 2.0
         self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
         self.zone_filter_cnt = 0
@@ -164,6 +164,7 @@ class CamIOPlayer2D:
                 if text_description in self.loaded_text_descriptions:
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
                 else:
+                    print(text_description)
                     tts = gTTS(text_description)
                     with open("hello.mp3", 'wb') as fp:
                         tts.write_to_fp(fp)
@@ -227,9 +228,10 @@ class CamIOPlayer2D:
         if layer:
             #zone = self.current_zone
             self.audiolayer += layer
-            #self.player.pause()
-            #self.player.delete()
-            #self.player = self.blip_sound.play()
+            self.player.pause()
+            self.player.delete()
+            self.player = self.blip_sound.play()
+            time.sleep(0.15)
         if status =="too_many":
             #self.play_warning()
             return

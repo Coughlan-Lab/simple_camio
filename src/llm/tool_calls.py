@@ -246,6 +246,13 @@ tool_calls = [
                             "If only_by_walking is true, this parameter is ignored."
                         ),
                     },
+                    "alternative_route_index": {
+                        "type": "number",
+                        "description": (
+                            "The index of the alternative route to calculate. Must be a positive integer greater than 0. "
+                            "If not provided, the default route is calculated."
+                        ),
+                    },
                 },
                 "required": ["x1", "y1", "x2", "y2", "only_by_walking"],
                 "additionalProperties": False,
@@ -303,6 +310,13 @@ tool_calls = [
                         "description": (
                             "The preference for the route calculation. "
                             "If only_by_walking is true, this parameter is ignored."
+                        ),
+                    },
+                    "alternative_route_index": {
+                        "type": "number",
+                        "description": (
+                            "The index of the alternative route to calculate. Must be a positive integer greater than 0. "
+                            "If not provided, the default route is calculated."
                         ),
                     },
                 },

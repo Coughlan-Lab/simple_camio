@@ -185,11 +185,17 @@ class Graph:
         only_by_walking: bool = True,
         transports: Optional[List[str]] = None,
         transport_preference: Optional[str] = "LESS_WALKING",
+        route_index: int = 0,
     ) -> List[Dict[str, Any]]:
         poi = self.pois[destination_poi_index]
 
         return self.get_route(
-            start, poi["coords"], only_by_walking, transports, transport_preference
+            start,
+            poi["coords"],
+            only_by_walking,
+            transports,
+            transport_preference,
+            route_index,
         )
 
     def get_route(
@@ -199,6 +205,7 @@ class Graph:
         only_by_walking: bool = True,
         transports: Optional[List[str]] = None,
         transport_preference: Optional[str] = "LESS_WALKING",
+        route_index: int = 0,
     ) -> List[Dict[str, Any]]:
         start_latlng = coords_to_latlng(self.latlng_reference, start)
         destination_latlng = coords_to_latlng(self.latlng_reference, destination)
@@ -222,8 +229,9 @@ class Graph:
                         }
                     }
                 },
-                "travel_mode": "WALK" if only_by_walking else "TRANSIT",
                 "units": "METRIC",
+                "computeAlternativeRoutes": True,
+                "travel_mode": "WALK" if only_by_walking else "TRANSIT",
                 "transitPreferences": (
                     {
                         "allowedTravelModes": (
@@ -244,7 +252,7 @@ class Graph:
 
         instructions = (
             response.json()
-            .get("routes", [dict()])[0]
+            .get("routes", [dict()] * (route_index + 1))[0]
             .get("legs", [dict()])[0]
             .get("steps", [])
         )

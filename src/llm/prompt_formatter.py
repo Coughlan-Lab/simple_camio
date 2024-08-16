@@ -110,13 +110,21 @@ class PromptFormatter:
 
         prompt = (
             "Adapt these directions to the needs of a blind person.\n"
-            "Include tactile and sensory features along the way, "
-            "describe distinct landmarks, notable scents from specific nearby points of interest, specific textures and surfaces underfoot, "
+            "Include tactile and sensory features along the route. "
+            "Describe distinct landmarks, notable scents from specific nearby points of interest, specific textures and surfaces underfoot, "
             "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
-            "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
+            "Include only features that are actually present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
             "If directions are generic or not detailed enough, add further details, like the intersections along the way and accessibility information about each edge and node.\n"
-            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."
-            "Be detailed in your response and include as many details as possible.\n\n"
+            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights.\n\n"
+            "Be sure to answer this questions in your response:\n"
+            "- What intersections are there along the way? "
+            "Include intersections not explicitly mentioned in the directions as they only include intersections where you have to turn left or right. "
+            "Also, count intersections where you have to go straight.\n"
+            "- In what direction should you go at each intersection?\n"
+            "- Is there any crosswalk, walk light or tactile paving at the intersections?\n"
+            "- Are there any notable scents or sounds along the way? From what points of interest do they come from?\n"
+            "- How's the road surface? Is it smooth, rough, or uneven? Are there any obstacles or hazards?\n"
+            "Blend the responses to these questions with the directions to create a detailed and useful guide for a blind person.\n\n"
             f"{response}"
         )
 

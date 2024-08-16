@@ -77,14 +77,16 @@ class PromptFormatter:
                     params["only_by_walking"],
                     params.get("transports", None),
                     params.get("transport_preference", None),
+                    params.get("alternative_route_index", 0),
                 )
             elif fnc == ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST:
                 result = self.graph.get_route_to_poi(
-                    Coords(params["x1"], params["y1"]),
+                    Coords(params["x"], params["y"]),
                     params["poi_index"],
                     params["only_by_walking"],
                     params.get("transports", None),
                     params.get("transport_preference", None),
+                    params.get("alternative_route_index", 0),
                 )
             else:
                 result = "Unknown function call."

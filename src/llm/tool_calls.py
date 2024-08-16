@@ -267,11 +267,11 @@ tool_calls = [
             parameters={
                 "type": "object",
                 "properties": {
-                    "x1": {
+                    "x": {
                         "type": "number",
                         "description": "The x coordinate of the starting position",
                     },
-                    "y1": {
+                    "y": {
                         "type": "number",
                         "description": "The y coordinate of the starting position",
                     },

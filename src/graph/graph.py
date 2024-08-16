@@ -134,7 +134,7 @@ class Graph:
                 poi["coords"].project_on(e2).distance_to(e2[0].coords),
             )
             + dist_to_e1
-            + float(poi["coords"].distance_to_edge(e2))
+            + float(poi["coords"].distance_to_line(e2))
         )
 
     def am_i_at(self, p1: Coords, poi: int) -> bool:
@@ -169,7 +169,7 @@ class Graph:
                     e2,
                     projection_distance,
                     poi["coords"].project_on(e2).distance_to(e2[0].coords),
-                ) + poi["coords"].distance_to_edge(e2)
+                ) + poi["coords"].distance_to_line(e2)
             except ValueError:
                 continue
 

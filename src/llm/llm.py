@@ -81,18 +81,18 @@ class LLM:
 
                 self.history.append(convert_assistant_message(response_message))
 
-                if self.prompt_formatter.tool_call_response_needs_processing:
-                    self.history.append(
-                        self.prompt_formatter.get_process_message(output)
-                    )
-                    output = ""
-
-                elif response_message.tool_calls is not None:
+                if response_message.tool_calls is not None:
 
                     for tool_call in response_message.tool_calls:
                         self.history.append(
                             self.prompt_formatter.handle_tool_call(tool_call)
                         )
+
+                elif self.prompt_formatter.tool_call_response_needs_processing:
+                    self.history.append(
+                        self.prompt_formatter.get_process_message(output)
+                    )
+                    output = ""
 
                 else:
                     break

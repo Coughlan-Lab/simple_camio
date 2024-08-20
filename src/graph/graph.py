@@ -1,6 +1,6 @@
 import math
 import os
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 
@@ -58,9 +58,9 @@ class Graph:
         )
 
         self.latlng_reference = LatLngReference(
-            Coords(*graph_dict["latlon_reference"]["coords"]),
-            graph_dict["latlon_reference"]["lat"],
-            graph_dict["latlon_reference"]["lon"],
+            Coords(*graph_dict["latlng_reference"]["coords"]),
+            graph_dict["latlng_reference"]["lat"],
+            graph_dict["latlng_reference"]["lng"],
         )
 
     @property
@@ -252,7 +252,7 @@ class Graph:
 
         instructions = (
             response.json()
-            .get("routes", [dict()] * (route_index + 1))[0]
+            .get("routes", [dict()] * (route_index + 1))[route_index]
             .get("legs", [dict()])[0]
             .get("steps", [])
         )

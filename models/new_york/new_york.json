@@ -3,315 +3,126 @@
   "template_image": "models/new_york/template.png",
   "meters_per_pixel": 0.6183017793539175,
   "graph": {
-    "latlon_reference": {
+    "latlng_reference": {
       "coords": [219.49713167064073, 890.3545622696412],
       "lat": 40.74605893499274,
-      "lon": -73.99053528624474
+      "lng": -73.99053528624474
     },
     "nodes": [
-      [179.30751601263609, 958.3677579985721],
-      [234.95467615448865, 989.282846966268],
-      [166.94148042555773, 863.1492839780689],
-      [219.49713167064073, 890.3545622696412],
-      [367.8895587155809, 970.7337935856505],
-      [170.03298932232732, 773.4955259717508],
-      [256.59523843187577, 822.3413665407103],
-      [377.1640854058897, 887.2630533728716],
-      [525.5565124508299, 970.7337935856505],
-      [170.03298932232732, 685.0783715241406],
-      [296.7848540898804, 753.7098690324254],
-      [389.530120992968, 803.7923131600927],
-      [565.7461281088346, 902.7205978567196],
-      [698.6810106699268, 980.0083202759592],
-      [170.03298932232732, 593.5697081797608],
-      [336.97446974788505, 683.2234661860789],
-      [404.98766547681595, 720.3215729473139],
-      [601.6076313113617, 835.3257039071425],
-      [735.7791174311618, 911.9951245470284],
-      [871.8055088890237, 986.1913380694984],
-      [170.03298932232732, 507.00745907021235],
-      [374.0725765091201, 615.2102704571479],
-      [417.35370106389433, 639.9423416313047],
-      [639.9423416313047, 765.4576028401499],
-      [772.8772241923969, 840.8904199213277],
-      [908.9036156502588, 918.1781423405675],
-      [1026.380953727503, 983.0998291727288],
-      [166.94148042555773, 417.35370106389433],
-      [411.17068327035514, 547.197074728217],
-      [676.4221466131858, 697.444407111219],
-      [809.9753309536319, 772.8772241923969],
-      [946.0017224114938, 850.1649466116365],
-      [1029.4724626242726, 896.5375800631804],
-      [170.03298932232732, 315.33390747049793],
-      [210.22260498033194, 340.06597864465465],
-      [455.07010960448326, 476.0923701025165],
-      [715.9934604918365, 625.1030989268106],
-      [853.2564555084061, 701.7725195666964],
-      [986.1913380694984, 775.9687330891664],
-      [1029.4724626242726, 800.7008042633232],
-      [170.03298932232732, 222.5886405674103],
-      [250.41222063833658, 265.8697651221845],
-      [448.2687900315902, 377.1640854058897],
-      [494.641423483134, 401.89615658004635],
-      [760.5111886053186, 553.3800925217562],
-      [893.4460711664108, 627.5763060442263],
-      [1023.2894448307335, 701.7725195666964],
-      [290.6018362963412, 197.8565693932536],
-      [460.6348256186685, 293.6933451931108],
-      [531.739530244369, 333.88296085111546],
-      [797.6092953665536, 485.36689679282523],
-      [930.5441779276458, 559.5631103152954],
-      [1029.4724626242726, 615.2102704571479],
-      [445.1772811348206, 197.8565693932536],
-      [473.0008612057469, 213.31411387710153],
-      [569.455938784958, 267.7246704602463],
-      [834.7074021277887, 417.35370106389433],
-      [968.2605864682348, 494.0231217037801],
-      [1029.4724626242726, 528.6480213475994],
-      [605.9357437668391, 199.71147473131535],
-      [874.8970177857933, 352.432014231733],
-      [1006.5952967881777, 426.62822775420307],
-      [1032.5639715210423, 438.99426334128145],
-      [763.6026975020881, 200.94807829002318],
-      [911.9951245470284, 284.418818502802],
-      [1032.5639715210423, 349.3405053349634],
-      [949.7115330876172, 213.31411387710153],
-      [1031.9456697416883, 257.8318419905836],
-      [1031.9456697416883, 380.8738960820132]
+      [186.71351894047808, 993.6740014845991],
+      [242.9833465663756, 1024.3666347350886],
+      [172.6460620340037, 893.9229434205081],
+      [225.07931050359002, 924.6155766709976],
+      [381.10019619357854, 1009.0203181098439],
+      [176.4826411903149, 803.1239033878098],
+      [263.44510206670196, 852.9994324198553],
+      [392.60993366251216, 923.3367169522272],
+      [544.7942401961894, 1007.7414583910735],
+      [176.4826411903149, 711.0460036363412],
+      [304.36861306735466, 781.3832881687131],
+      [405.3985308502161, 835.0953963570698],
+      [584.4388914780718, 937.4041738587016],
+      [722.5557411052748, 1015.4146167036959],
+      [175.20378147154452, 616.4103844473318],
+      [346.5709837867778, 711.0460036363412],
+      [419.4659877566905, 750.6906549182236],
+      [624.0835427599542, 867.0668893263297],
+      [762.2003923871571, 946.3561918900944],
+      [900.3172420143601, 1023.0877750163182],
+      [176.4826411903149, 525.6113444146335],
+      [388.7733545062009, 639.4298593851989],
+      [432.2545849443945, 665.0070537606068],
+      [663.7281940418364, 794.1718853564171],
+      [801.8450436690395, 873.4611879201817],
+      [941.2407530150128, 952.7504904839464],
+      [1062.7324262982006, 1017.9723361412367],
+      [176.4826411903149, 430.97572522562405],
+      [427.13914606931286, 571.6502942903678],
+      [702.0939856049484, 726.392320261586],
+      [840.2108352321513, 804.4027631065802],
+      [978.3276848593543, 881.1343462328041],
+      [1064.011286016971, 928.4521558273088],
+      [177.7615009090853, 329.94580744276266],
+      [217.40615219096765, 354.2441420994002],
+      [470.6203765075064, 494.918711164144],
+      [743.0174966056012, 652.2184565729029],
+      [882.4132059515745, 728.9500396991268],
+      [1021.8089152975479, 808.2393422628915],
+      [1065.2901457357414, 832.537676919529],
+      [176.4826411903149, 232.7524688162124],
+      [260.88738262916115, 280.07027841071715],
+      [465.5049376324248, 393.88879338128254],
+      [511.5438875081591, 420.7448474754609],
+      [786.4987270437947, 576.7657331654494],
+      [925.8944363897681, 653.4973162916733],
+      [1064.011286016971, 730.2288994178972],
+      [301.8108936298139, 208.45413415957483],
+      [477.0146751013584, 309.4840519424363],
+      [551.1885387900414, 350.40756294308903],
+      [826.143378325677, 506.42844863307755],
+      [962.9813682341096, 583.1600317593014],
+      [1065.2901457357414, 639.4298593851989],
+      [460.38949875734323, 205.89641472203405],
+      [491.0821320078328, 223.80045078481962],
+      [586.9966109156126, 280.07027841071715],
+      [864.509169888789, 437.37002381947605],
+      [1002.6260195159919, 514.1016069456999],
+      [1066.5690054545119, 548.6308193525007],
+      [626.6412621974949, 209.73299387834524],
+      [904.1538211706712, 367.03273928710416],
+      [1042.2706707978743, 443.76432241332805],
+      [1067.8478651732821, 457.8317793198024],
+      [791.6141659188762, 209.73299387834524],
+      [942.5196127337832, 297.9743144735027],
+      [1069.1267248920526, 365.7538795683338],
+      [983.443123734436, 226.35817022236043],
+      [1069.1267248920526, 273.67597981686515],
+      [1069.1267248920526, 395.1676531000529]
     ],
     "nodes_features": [
       {
         "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
         "crosswalk": true,
         "walk_light": true,
-        "walk_light_duration": "18 seconds",
+        "round-about": false,
+        "walk_light_duration": "45 s",
         "street_width": "10 m",
-        "round-about": false,
         "tactile_paving": false
       },
       {
         "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": "with audio signal",
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "walk_light_duration": "18 seconds",
+        "round-about": false,
+        "walk_light_duration": "30 s",
+        "street_width": "unknown",
+        "tactile_paving": true
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "15 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
         "street_width": "10 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
         "round-about": false,
+        "walk_light_duration": "45 s",
+        "street_width": "10 m",
         "tactile_paving": false
       },
       {
@@ -319,161 +130,161 @@
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
         "street_width": "unknown",
-        "tactile_paving": false
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "20 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": true,
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m",
-        "round-about": false,
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "round-about": true,
-        "walk_light": true,
-        "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "street_width": "12.5 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": true,
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
         "walk_light_duration": "unknown",
+        "street_width": "12.5 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
+        "street_width": "10 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "10 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "45 s",
+        "street_width": "20 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "10 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
         "street_width": "unknown",
         "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "12.5 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "20 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "12.5 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": true,
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m",
-        "round-about": false,
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m",
-        "round-about": false,
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "walk_light_duration": "24 seconds",
         "street_width": "15 m",
-        "round-about": false,
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "walk_light_duration": "45 s",
+        "street_width": "10 m",
+        "tactile_paving": true
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
-        "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m",
+        "round-about": false,
+        "walk_light_duration": "20 s",
+        "street_width": "10 m",
         "tactile_paving": false
       },
       {
@@ -481,52 +292,52 @@
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "street_width": "20 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": false,
         "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": true,
         "walk_light": true,
-        "walk_light_duration": "24 seconds",
+        "walk_light_duration": "unknown",
+        "round-about": false,
         "street_width": "15 m",
-        "round-about": false,
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "tactile_paving": true
       },
       {
         "on_border": false,
         "crosswalk": true,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "street_width": "20 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "20 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
+        "street_width": "20 m",
+        "tactile_paving": true
       },
       {
         "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
+        "crosswalk": true,
+        "walk_light": true,
         "round-about": false,
-        "walk_light_duration": "unknown",
+        "walk_light_duration": "30 s",
         "street_width": "unknown",
         "tactile_paving": false
       },
@@ -534,9 +345,9 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "walk_light_duration": "15 seconds",
-        "street_width": "7.5 m",
         "round-about": false,
+        "walk_light_duration": "20 s",
+        "street_width": "12.5 m",
         "tactile_paving": false
       },
       {
@@ -544,26 +355,71 @@
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
+        "street_width": "15 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
+        "street_width": "12.5 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
         "walk_light_duration": "unknown",
-        "street_width": "unknown",
+        "street_width": "12.5 m",
         "tactile_paving": false
       },
       {
         "on_border": true,
-        "crosswalk": false,
+        "crosswalk": true,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
+        "street_width": "12.5 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "30 s",
+        "street_width": "10 m",
         "tactile_paving": false
       },
       {
-        "on_border": true,
+        "on_border": false,
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
+        "street_width": "10 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "45 s",
+        "street_width": "10 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
         "walk_light_duration": "unknown",
-        "street_width": "unknown",
+        "street_width": "20 m",
         "tactile_paving": false
       },
       {
@@ -571,8 +427,161 @@
         "crosswalk": true,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
+        "street_width": "15 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "45 s",
         "street_width": "unknown",
+        "tactile_paving": true
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
+        "street_width": "15 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "15 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "12.5 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "30 s",
+        "street_width": "15 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "30 s",
+        "street_width": "20 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "12.5 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "20 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
+        "street_width": "12.5 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "20 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "30 s",
+        "street_width": "20 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "30 s",
+        "street_width": "unknown",
+        "tactile_paving": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "20 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "20 s",
+        "street_width": "12.5 m",
         "tactile_paving": false
       },
       {
@@ -580,125 +589,116 @@
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
+        "street_width": "10 m",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "30 s",
         "street_width": "unknown",
         "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "20 s",
+        "street_width": "12.5 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "15 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "unknown",
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "20 s",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
+        "street_width": "20 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": true,
+        "crosswalk": false,
+        "walk_light": false,
+        "round-about": false,
+        "street_width": "12.5 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": false,
         "crosswalk": false,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
         "street_width": "unknown",
-        "tactile_paving": false
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
       },
       {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
+        "on_border": true,
+        "crosswalk": true,
+        "walk_light": true,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
+        "walk_light_duration": "30 s",
+        "street_width": "12.5 m",
         "tactile_paving": false
       },
       {
         "on_border": true,
-        "crosswalk": false,
+        "crosswalk": true,
         "walk_light": false,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "street_width": "10 m",
+        "tactile_paving": true,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
+        "crosswalk": true,
+        "walk_light": true,
         "round-about": false,
         "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
+        "street_width": "20 m",
+        "tactile_paving": true
       },
       {
         "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
+        "crosswalk": true,
+        "walk_light": true,
         "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": true,
-        "crosswalk": false,
-        "walk_light": false,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
+        "walk_light_duration": "30 s",
+        "street_width": "10 m",
         "tactile_paving": false
       }
     ],
@@ -735,50 +735,6 @@
       [55, 56],
       [59, 60],
       [63, 64],
-      [27, 34],
-      [34, 41],
-      [41, 47],
-      [0, 3],
-      [3, 6],
-      [6, 10],
-      [10, 15],
-      [15, 21],
-      [21, 28],
-      [28, 35],
-      [35, 43],
-      [43, 49],
-      [49, 55],
-      [55, 59],
-      [8, 12],
-      [12, 17],
-      [17, 23],
-      [23, 29],
-      [29, 36],
-      [36, 44],
-      [44, 50],
-      [50, 56],
-      [56, 60],
-      [60, 64],
-      [64, 66],
-      [13, 18],
-      [18, 24],
-      [24, 30],
-      [30, 37],
-      [37, 45],
-      [45, 51],
-      [51, 57],
-      [57, 61],
-      [61, 68],
-      [19, 25],
-      [25, 31],
-      [31, 38],
-      [38, 46],
-      [4, 7],
-      [7, 11],
-      [11, 16],
-      [16, 22],
-      [42, 48],
-      [48, 54],
       [12, 13],
       [17, 18],
       [18, 19],
@@ -800,891 +756,934 @@
       [60, 61],
       [61, 62],
       [64, 65],
-      [66, 67]
+      [66, 67],
+      [8, 12],
+      [12, 17],
+      [17, 23],
+      [23, 29],
+      [29, 36],
+      [36, 44],
+      [44, 50],
+      [50, 56],
+      [56, 60],
+      [60, 64],
+      [64, 66],
+      [0, 3],
+      [3, 6],
+      [6, 10],
+      [10, 15],
+      [15, 21],
+      [21, 28],
+      [28, 35],
+      [35, 43],
+      [43, 49],
+      [49, 55],
+      [55, 59],
+      [27, 34],
+      [34, 41],
+      [41, 47],
+      [13, 18],
+      [18, 24],
+      [24, 30],
+      [30, 37],
+      [37, 45],
+      [45, 51],
+      [51, 57],
+      [57, 61],
+      [61, 68],
+      [19, 25],
+      [25, 31],
+      [31, 38],
+      [38, 46],
+      [4, 7],
+      [7, 11],
+      [11, 16],
+      [16, 22],
+      [42, 48],
+      [48, 54]
     ],
     "edges_features": [
       {
-        "roadworks": true,
+        "roadworks": false,
+        "bike_lane": false,
         "slope": "uphill",
-        "surface": "grass, with stairs",
-        "one_way": true,
-        "bike_lane": false,
+        "surface": "concrete",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "slope": "uphill",
-        "surface": "grass, with stairs",
-        "roadworks": true,
-        "bike_lane": false,
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": false,
+        "tactile_paving": false
       },
       {
         "roadworks": true,
+        "bike_lane": true,
         "slope": "downhill",
-        "bike_lane": false,
-        "surface": "asphalt",
+        "surface": "concrete",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": true,
+        "tactile_paving": false
       },
       {
-        "bike_lane": true,
         "roadworks": true,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
         "bike_lane": true,
-        "surface": "grass, with stairs",
-        "roadworks": false,
-        "slope": "flat",
+        "slope": "uphill",
+        "surface": "cobblestone",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": false,
+        "tactile_paving": false
       },
       {
-        "surface": "grass, with stairs",
         "roadworks": true,
         "bike_lane": false,
         "slope": "flat",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "bike_lane": true,
-        "traffic_direction": "one_way_forward",
-        "roadworks": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "bike_lane": true,
+        "surface": "cobblestone",
         "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
         "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
         "slope": "downhill",
-        "surface": "asphalt",
-        "tactile_paving": false,
-        "stairs": false
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "cobblestone",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "cobblestone",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "concrete",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": false,
+        "slope": "uphill",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "two_way",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": false,
+        "slope": "downhill",
+        "surface": "cobblestone",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": true,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "downhill",
+        "surface": "concrete",
         "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": true,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "one_way_forward",
+        "stairs": false,
+        "tactile_paving": false
       },
       {
         "roadworks": false,
         "bike_lane": false,
         "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
-      },
-      {
-        "roadworks": false,
-        "bike_lane": false,
-        "slope": "flat",
-        "surface": "asphalt",
-        "traffic_direction": "two_way",
-        "tactile_paving": false,
-        "stairs": false
+        "surface": "concrete",
+        "traffic_direction": "one_way_backward",
+        "stairs": true,
+        "tactile_paving": false
       }
     ],
     "streets": {
@@ -1701,26 +1700,24 @@
       "West 37th Street": [27, 28, 29],
       "West 38th Street": [30],
       "West 39th Street": [31],
-      "7th Avenue": [32, 33, 34],
-      "6th Avenue/Avenue of the Americas": [
-        35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45
-      ],
-      "5th Avenue": [46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56],
-      "Madison Avenue": [57, 58, 59, 60, 61, 62, 63, 64, 65],
-      "Park Avenue South": [66],
-      "Park Avenue": [67, 68, 69],
-      "Broadway": [70, 71, 72, 73, 74, 75],
-      "East 30th Street": [76],
-      "East 31st Street": [77, 78],
-      "East 32nd Street": [79, 80, 81],
-      "East 33rd Street": [82, 83, 84],
-      "East 34th Street": [85, 86, 87],
-      "East 35th Street": [88, 89],
-      "East 36th Street": [90, 91],
-      "East 37th Street": [92, 93],
-      "East 38th Street": [94, 95],
-      "East 39th Street": [96],
-      "East 40th Street": [97]
+      "East 30th Street": [32],
+      "East 31st Street": [33, 34],
+      "East 32nd Street": [35, 36, 37],
+      "East 33rd Street": [38, 39, 40],
+      "East 34th Street": [41, 42, 43],
+      "East 35th Street": [44, 45],
+      "East 36th Street": [46, 47],
+      "East 37th Street": [48, 49],
+      "East 38th Street": [50, 51],
+      "East 39th Street": [52],
+      "East 40th Street": [53],
+      "5th Avenue": [54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64],
+      "6th Avenue": [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
+      "7th Avenue": [76, 77, 78],
+      "Madison Avenue": [79, 80, 81, 82, 83, 84, 85, 86, 87],
+      "Park Avenue South": [88],
+      "Park Avenue": [89, 90, 91],
+      "Broadway": [92, 93, 94, 95, 96, 97]
     },
     "reference_system": {
       "north": [0, 1],
@@ -1750,10 +1747,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [374.8641856514773, 827.5366571937305],
-        "edge": 71
+        "coords": [380.44636448442657, 861.797671595087],
+        "edge": 93
       },
       {
         "name": "32nd Street",
@@ -1773,14 +1771,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [374.09758003671567, 614.6506326690205],
-        "edge": 40
+        "coords": [379.67975886966497, 648.9116470703768],
+        "edge": 69
       },
       {
         "name": "32nd Street & 5th Avenue",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -1792,10 +1790,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [689.8969722355065, 800.0125753856348],
-        "edge": 79
+        "coords": [695.4791510684558, 834.2735897869914],
+        "edge": 35
       },
       {
         "name": "33rd Street",
@@ -1818,10 +1817,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [952.9100919289433, 853.0191969167508],
-        "edge": 84
+        "coords": [958.4922707618925, 887.2802113181074],
+        "edge": 39
       },
       {
         "name": "34th Street\u2013Herald Square",
@@ -1845,10 +1845,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [437.2877857418151, 500.27553112245016],
-        "edge": 41
+        "coords": [442.86996457476437, 534.5365455238066],
+        "edge": 71
       },
       {
         "name": "34th Street\u2013Penn Station",
@@ -1875,14 +1876,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [226.87792252269801, 340.34386812969933],
-        "edge": 33
+        "coords": [232.4601013556473, 374.60488253105575],
+        "edge": 76
       },
       {
         "name": "5th Avenue & 29th Street",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -1894,14 +1895,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [534.6466988562785, 833.8191705485256],
-        "edge": 47
+        "coords": [540.2288776892278, 868.080184949882],
+        "edge": 55
       },
       {
         "name": "5th Avenue & 32nd Street",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -1913,14 +1914,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [640.7836674595225, 751.9318891051108],
+        "coords": [646.3658462924718, 786.1929035064672],
         "edge": 14
       },
       {
         "name": "5th Avenue & West 33rd Street",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -1934,14 +1935,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [655.7872344937643, 725.3785406215161],
-        "edge": 49
+        "coords": [661.3694133267137, 759.6395550228725],
+        "edge": 57
       },
       {
         "name": "6th Avenue & West 31st Street",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Chelsea District",
         "suburb": "Manhattan",
@@ -1952,14 +1953,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [333.8634215963214, 707.1536921449831],
-        "edge": 38
+        "coords": [339.4456004292707, 741.4147065463396],
+        "edge": 68
       },
       {
         "name": "6th Avenue & West 34th Street",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -1970,14 +1971,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [475.9213390483692, 448.33638088681585],
-        "edge": 42
+        "coords": [481.5035178813185, 482.59739528817227],
+        "edge": 72
       },
       {
         "name": "6th Avenue & West 37th Street",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Midtown South",
         "suburb": "Manhattan",
@@ -1988,10 +1989,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [608.9821707965323, 210.16796750698825],
-        "edge": 45
+        "coords": [614.5643496294816, 244.42898190834467],
+        "edge": 75
       },
       {
         "name": "American Academy of Dramatic Arts",
@@ -2013,10 +2015,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [704.6983575676754, 829.9384676085643],
-        "edge": 58
+        "coords": [710.2805364006248, 864.1994820099208],
+        "edge": 80
       },
       {
         "name": "Andrews NYC Diner",
@@ -2043,10 +2046,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [276.0984248565214, 265.976701189451],
-        "edge": 34
+        "coords": [281.6806036894707, 300.2377155908074],
+        "edge": 77
       },
       {
         "name": "BCD Tofu House",
@@ -2074,9 +2078,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [596.4553295942812, 729.1035706639839],
+        "coords": [602.0375084272305, 763.3645850653402],
         "edge": 14
       },
       {
@@ -2098,10 +2103,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [229.16699757879505, 867.188768034656],
-        "edge": 36
+        "coords": [234.74917641174434, 901.4497824360125],
+        "edge": 66
       },
       {
         "name": "Bank of Hope",
@@ -2123,9 +2129,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [546.0109952823682, 729.8930546438769],
+        "coords": [551.5931741153175, 764.1540690452333],
         "edge": 14
       },
       {
@@ -2152,9 +2159,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [621.0793758853072, 485.51996435694],
+        "coords": [626.6615547182565, 519.7809787582964],
         "edge": 23
       },
       {
@@ -2180,9 +2188,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [803.1355730378773, 318.9944422136998],
+        "coords": [808.7177518708266, 353.25545661505623],
         "edge": 30
       },
       {
@@ -2224,10 +2233,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [676.0138287937964, 849.2641458599774],
-        "edge": 58
+        "coords": [681.5960076267456, 883.5251602613338],
+        "edge": 80
       },
       {
         "name": "Cafe China",
@@ -2254,9 +2264,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [617.2126508611623, 276.50686074344367],
+        "coords": [622.7948296941116, 310.7678751448001],
         "edge": 29
       },
       {
@@ -2283,9 +2294,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [276.8838435965252, 609.4578295952654],
+        "coords": [282.4660224294745, 643.7188439966219],
         "edge": 9
       },
       {
@@ -2310,10 +2322,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [723.964588786956, 658.3947168109429],
-        "edge": 50
+        "coords": [729.5467676199054, 692.6557312122993],
+        "edge": 58
       },
       {
         "name": "Chick-fil-A",
@@ -2342,10 +2355,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [591.3333931786227, 260.46143282828336],
-        "edge": 45
+        "coords": [596.9155720115721, 294.7224472296398],
+        "edge": 74
       },
       {
         "name": "Citizens Bank",
@@ -2369,10 +2383,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [234.85567546335017, 821.8323574563783],
-        "edge": 36
+        "coords": [240.43785429629946, 856.0933718577347],
+        "edge": 66
       },
       {
         "name": "Consulate General of Poland",
@@ -2381,7 +2396,7 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "233",
-        "categories": ["building.office", "office.diplomatic"],
+        "categories": ["office.diplomatic", "building.office"],
         "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
         "contact": {
           "phone": "+1 646 2372100",
@@ -2393,10 +2408,45 @@
           "tactile_paving": false,
           "tactile_map": true,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [1000.0437008457056, 484.48585153873483],
-        "edge": 64
+        "coords": [1005.6258796786549, 518.7468659400913],
+        "edge": 85
+      },
+      {
+        "name": "Cooper Electric",
+        "city": "New York",
+        "district": "Manhattan Community Board 5",
+        "suburb": "Manhattan",
+        "street": "West 38th Street",
+        "housenumber": "29",
+        "categories": ["commercial.trade"],
+        "opening_hours": "Mo-Fr 07:00-15:00",
+        "brand": "Cooper Electric",
+        "branch": "Manhattan",
+        "contact": {
+          "phone": "+1 212-299-0570",
+          "email": "CMATSalesTeam@cooper-electric.com",
+          "fax": "+1 212-354-1786",
+          "website": "https://www.cooper-electric.com/about/location/manhattan"
+        },
+        "commercial": {
+          "type": "trade",
+          "trade": "building_supplies",
+          "level": 0
+        },
+        "distance": 384,
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [747.9789993252591, 292.07600797578664],
+        "edge": 30
       },
       {
         "name": "Costas",
@@ -2422,9 +2472,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [627.5828872564302, 489.4451452673106],
+        "coords": [633.1650660893796, 523.7061596686669],
         "edge": 23
       },
       {
@@ -2455,14 +2506,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [385.38605832546364, 811.4578708005864],
-        "edge": 71
+        "coords": [390.96823715841293, 845.7188852019428],
+        "edge": 93
       },
       {
         "name": "East 34th Street & 5th Avenue",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -2475,14 +2526,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [745.9518487262269, 627.3713322775186],
-        "edge": 85
+        "coords": [751.5340275591763, 661.6323466788751],
+        "edge": 41
       },
       {
         "name": "East 34th Street & Park Avenue",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
@@ -2495,10 +2546,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [961.3427536855829, 748.6182802908742],
-        "edge": 86
+        "coords": [966.9249325185323, 782.8792946922306],
+        "edge": 42
       },
       {
         "name": "Empire State Building",
@@ -2508,12 +2560,12 @@
         "street": "5th Avenue",
         "housenumber": "350",
         "categories": [
-          "heritage",
           "tourism.attraction",
+          "heritage",
+          "building.tourism",
           "building.historic",
           "office",
-          "building.office",
-          "building.tourism"
+          "building.office"
         ],
         "opening_hours": "Mo-Su 08:00-02:00",
         "contact": {
@@ -2534,10 +2586,11 @@
           "tactile_paving": true,
           "tactile_map": "near the entrace, following the tactile paving",
           "reception": true,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [630.2953563196418, 625.3642638515704],
-        "edge": 50
+        "coords": [635.877535152591, 659.6252782529268],
+        "edge": 58
       },
       {
         "name": "Food Gallery 32",
@@ -2557,9 +2610,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [581.7971562971086, 707.2760065637856],
+        "coords": [587.3793351300578, 741.537020965142],
         "edge": 14
       },
       {
@@ -2589,9 +2643,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [589.9602424612157, 716.4162295341768],
+        "coords": [595.542421294165, 750.6772439355332],
         "edge": 14
       },
       {
@@ -2624,10 +2679,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [700.7473901685978, 811.8770740589797],
-        "edge": 79
+        "coords": [706.329569001547, 846.1380884603361],
+        "edge": 35
       },
       {
         "name": "Joomak Banjum",
@@ -2652,10 +2708,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [614.9549552043062, 784.4341661629552],
-        "edge": 48
+        "coords": [620.5371340372556, 818.6951805643116],
+        "edge": 56
       },
       {
         "name": "Kosher in Midtown",
@@ -2664,7 +2721,7 @@
         "suburb": "Manhattan",
         "street": "East 34th Street",
         "housenumber": "43",
-        "categories": ["kosher.only", "catering.food_court"],
+        "categories": ["catering.food_court", "kosher.only"],
         "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
         "contact": {
           "phone": "+1-212-725-8100",
@@ -2681,10 +2738,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [906.8716338824547, 705.6414411425792],
-        "edge": 86
+        "coords": [912.4538127154041, 739.9024555439356],
+        "edge": 42
       },
       {
         "name": "Legends",
@@ -2704,9 +2762,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [611.4757451055227, 674.2622328430514],
+        "coords": [617.0579239384721, 708.5232472444077],
         "edge": 16
       },
       {
@@ -2736,14 +2795,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [940.6780990498385, 368.3649896445813],
-        "edge": 94
+        "coords": [946.2602778827877, 402.62600404593775],
+        "edge": 50
       },
       {
         "name": "Madison Avenue & East 30th Street",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -2756,14 +2815,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [725.8347695179916, 820.9650370287994],
-        "edge": 58
+        "coords": [731.416948350941, 855.2260514301558],
+        "edge": 80
       },
       {
         "name": "Madison Avenue & East 32nd Street",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -2775,14 +2834,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [796.9774554078595, 826.2434585818171],
-        "edge": 59
+        "coords": [802.5596342408087, 860.5044729831734],
+        "edge": 81
       },
       {
         "name": "Madison Avenue & East 33rd Street",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -2795,14 +2854,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [818.0548976908794, 787.147322372776],
-        "edge": 59
+        "coords": [823.6370765238288, 821.4083367741324],
+        "edge": 81
       },
       {
         "name": "Madison Avenue & East 34th Street",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
@@ -2813,14 +2872,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [898.4305478859114, 642.3270499109316],
-        "edge": 61
+        "coords": [904.0127267188608, 676.588064312288],
+        "edge": 83
       },
       {
         "name": "Madison Avenue & East 37th Street",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
@@ -2831,10 +2890,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [1012.3178149089804, 434.9040337482323],
-        "edge": 64
+        "coords": [1017.8999937419296, 469.1650481495887],
+        "edge": 86
       },
       {
         "name": "McDonald's",
@@ -2845,8 +2905,8 @@
         "housenumber": "809",
         "categories": [
           "catering.fast_food.burger",
-          "building.catering",
-          "building.commercial"
+          "building.commercial",
+          "building.catering"
         ],
         "opening_hours": "Mo-Su 07:00-23:00",
         "brand": "McDonald's",
@@ -2880,10 +2940,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [252.5361631610895, 888.0989739906535],
-        "edge": 36
+        "coords": [258.11834199403876, 922.3599883920099],
+        "edge": 66
       },
       {
         "name": "Mondo",
@@ -2903,10 +2964,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [660.3110500455317, 760.7085062799435],
-        "edge": 59
+        "coords": [665.8932288784811, 794.9695206812999],
+        "edge": 81
       },
       {
         "name": "Naya",
@@ -2932,9 +2994,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [619.596710081408, 678.8101053426886],
+        "coords": [625.1788889143572, 713.0711197440451],
         "edge": 16
       },
       {
@@ -2957,10 +3020,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [760.0877192924461, 761.616967214961],
-        "edge": 82
+        "coords": [765.6698981253953, 795.8779816163174],
+        "edge": 38
       },
       {
         "name": "Nomad",
@@ -2983,10 +3047,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [382.5470902780533, 760.4305189629403],
-        "edge": 72
+        "coords": [388.1292691110026, 794.6915333642967],
+        "edge": 94
       },
       {
         "name": "Nuchas",
@@ -3016,9 +3081,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [404.29060085559917, 621.2945295361319],
+        "coords": [409.87277968854846, 655.5555439374882],
         "edge": 13
       },
       {
@@ -3048,9 +3114,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [360.26231447027874, 722.0204538368703],
+        "coords": [365.84449330322803, 756.2814682382266],
         "edge": 10
       },
       {
@@ -3076,10 +3143,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [830.8260417751223, 513.0295892089322],
-        "edge": 90
+        "coords": [836.4082206080717, 547.2906036102886],
+        "edge": 46
       },
       {
         "name": "Pok\u00e9 Bar",
@@ -3099,10 +3167,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [438.332391195441, 334.0947132521808],
-        "edge": 74
+        "coords": [443.91457002839024, 368.3557276535372],
+        "edge": 96
       },
       {
         "name": "Prosek",
@@ -3122,10 +3191,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [710.32574823462, 773.1289795865874],
-        "edge": 59
+        "coords": [715.9079270675693, 807.3899939879439],
+        "edge": 81
       },
       {
         "name": "Science, Industry and Business Library",
@@ -3148,10 +3218,11 @@
           "tactile_paving": false,
           "tactile_map": true,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [862.728629271692, 664.6105132104776],
-        "edge": 61
+        "coords": [868.3108081046412, 698.871527611834],
+        "edge": 83
       },
       {
         "name": "Serafina Italian Restaurant",
@@ -3180,10 +3251,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [1009.9927253547824, 450.3934870300934],
-        "edge": 64
+        "coords": [1015.5749041877316, 484.65450143144983],
+        "edge": 86
       },
       {
         "name": "Shake Shack",
@@ -3212,10 +3284,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [443.7828728762288, 299.32405969073056],
-        "edge": 74
+        "coords": [449.36505170917803, 333.585074092087],
+        "edge": 96
       },
       {
         "name": "Solle Spa",
@@ -3224,7 +3297,7 @@
         "suburb": "Manhattan",
         "street": "West 33rd Street",
         "housenumber": "4",
-        "categories": ["commercial", "service.beauty.massage"],
+        "categories": ["service.beauty.massage", "commercial"],
         "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
         "contact": {
           "phone": "+1-212-564-2100",
@@ -3238,9 +3311,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [632.0982785710997, 686.137851009529],
+        "coords": [637.6804574040491, 720.3988654108854],
         "edge": 16
       },
       {
@@ -3274,10 +3348,11 @@
           "tactile_paving": true,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [627.9282809950957, 653.9913977156663],
-        "edge": 50
+        "coords": [633.5104598280451, 688.2524121170227],
+        "edge": 57
       },
       {
         "name": "Stavros Niarchos Foundation Library",
@@ -3312,10 +3387,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [982.5657597807383, 262.9299602004994],
-        "edge": 56
+        "coords": [988.1479386136876, 297.1909746018558],
+        "edge": 64
       },
       {
         "name": "Stout NYC",
@@ -3343,9 +3419,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [273.2341840958377, 460.01184818468334],
+        "coords": [278.81636292878704, 494.27286258603976],
         "edge": 15
       },
       {
@@ -3355,7 +3432,7 @@
         "suburb": "Manhattan",
         "street": "Broadway",
         "housenumber": "1164",
-        "categories": ["catering.fast_food.salad", "vegetarian"],
+        "categories": ["vegetarian", "catering.fast_food.salad"],
         "opening_hours": "Mo-Su 10:30-22:30",
         "brand": "Sweetgreen",
         "contact": {
@@ -3378,10 +3455,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [380.3736369950741, 751.0123086769604],
-        "edge": 72
+        "coords": [385.9558158280234, 785.2733230783169],
+        "edge": 94
       },
       {
         "name": "Szechuan Gourmet",
@@ -3413,9 +3491,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [808.0553277517313, 190.17511969660643],
+        "coords": [813.6375065846805, 224.43613409796285],
         "edge": 31
       },
       {
@@ -3445,9 +3524,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [781.6874643034478, 307.8749495498388],
+        "coords": [787.269643136397, 342.1359639511952],
         "edge": 30
       },
       {
@@ -3480,10 +3560,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [752.8260265462175, 784.6265350014031],
-        "edge": 76
+        "coords": [758.4082053791667, 818.8875494027595],
+        "edge": 32
       },
       {
         "name": "The Harold",
@@ -3493,9 +3574,9 @@
         "street": "Broadway",
         "housenumber": "1271",
         "categories": [
-          "catering.restaurant.american",
           "vegetarian",
-          "gluten_free"
+          "gluten_free",
+          "catering.restaurant.american"
         ],
         "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
         "contact": {
@@ -3514,10 +3595,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [391.29987307137105, 641.593163395288],
-        "edge": 73
+        "coords": [396.88205190432035, 675.8541777966443],
+        "edge": 95
       },
       {
         "name": "The Morgan Library & Museum",
@@ -3537,10 +3619,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [982.3949232449045, 542.1181820192959],
-        "edge": 63
+        "coords": [987.9771020778537, 576.3791964206523],
+        "edge": 85
       },
       {
         "name": "Tina's Cuban Cuisine",
@@ -3563,10 +3646,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [855.593300090796, 738.3994665318685],
-        "edge": 60
+        "coords": [861.1754789237452, 772.6604809332249],
+        "edge": 82
       },
       {
         "name": "Valley Bank",
@@ -3586,10 +3670,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [571.9407983909271, 846.1506879136435],
-        "edge": 47
+        "coords": [577.5229772238764, 880.411702315],
+        "edge": 55
       },
       {
         "name": "Wafels & Dinges",
@@ -3598,7 +3683,7 @@
         "suburb": "Manhattan",
         "street": "West 35th Street",
         "housenumber": "102",
-        "categories": ["building.catering", "catering.restaurant"],
+        "categories": ["catering.restaurant", "building.catering"],
         "opening_hours": "09:00-22:00",
         "branch": "Herald Square",
         "contact": {
@@ -3613,9 +3698,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [466.05298575868926, 396.48618659270744],
+        "coords": [471.6351645916385, 430.74720099406386],
         "edge": 22
       },
       {
@@ -3633,14 +3719,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [837.1526441535407, 708.9772485775674],
-        "edge": 60
+        "coords": [842.7348229864899, 743.2382629789238],
+        "edge": 82
       },
       {
         "name": "West 31st Street & 6th Avenue",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Midtown South",
         "suburb": "Manhattan",
@@ -3653,14 +3739,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [369.6327341467807, 697.9912301890337],
+        "coords": [375.21491297973, 732.2522445903901],
         "edge": 10
       },
       {
         "name": "West 32nd Street & Avenue of the Americas",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -3673,14 +3759,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [400.36435265293596, 639.302547906831],
+        "coords": [405.9465314858853, 673.5635623081876],
         "edge": 13
       },
       {
         "name": "West 32nd Street & Broadway",
-        "bus_lines": ["19"],
         "city": "New York",
         "suburb": "Manhattan",
         "commercial": "Korea Town",
@@ -3692,14 +3778,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [451.51632292749343, 667.457103332941],
+        "coords": [457.0985017604428, 701.7181177342974],
         "edge": 14
       },
       {
         "name": "West 34th Street & 5th Avenue",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Midtown South",
         "suburb": "Manhattan",
@@ -3712,14 +3798,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [651.9879033697076, 575.5989744318033],
+        "coords": [657.570082202657, 609.8599888331597],
         "edge": 19
       },
       {
         "name": "West 34th Street & Broadway",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Garment District",
         "suburb": "Manhattan",
@@ -3732,14 +3818,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [413.6493752357795, 442.9545464375835],
+        "coords": [419.23155406872877, 477.2155608389399],
         "edge": 18
       },
       {
         "name": "West 34th Street/Broadway",
-        "bus_lines": ["23"],
         "city": "New York",
         "district": "Midtown South",
         "suburb": "Manhattan",
@@ -3752,14 +3838,14 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [479.0804281211538, 497.0286392648885],
+        "coords": [484.66260695410307, 531.2896536662449],
         "edge": 19
       },
       {
         "name": "West 37th Street & 5th Avenue",
-        "bus_lines": ["19"],
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
@@ -3771,9 +3857,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [815.2496265949749, 397.1755951379418],
+        "coords": [820.8318054279241, 431.4366095392982],
         "edge": 29
       },
       {
@@ -3805,33 +3892,11 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [797.6935155980248, 192.4879741699143],
+        "coords": [803.275694430974, 226.74898857127073],
         "edge": 31
-      },
-      {
-        "name": "Wolfgang\u2019s Steakhouse",
-        "city": "New York",
-        "district": "Manhattan Community Board 5",
-        "suburb": "Manhattan",
-        "street": "Park Avenue",
-        "housenumber": "4",
-        "categories": ["catering.restaurant"],
-        "opening_hours": "Mo-Su 12:00-22:30",
-        "contact": {
-          "phone": "+12128893369",
-          "website": "https://wolfgangssteakhouse.net/"
-        },
-        "accessibility": {
-          "wheelchair_accessible": false,
-          "tactile_paving": false,
-          "tactile_map": false,
-          "reception": false,
-          "stairs": false
-        },
-        "coords": [938.1845247450756, 827.0774205307048],
-        "edge": 68
       },
       {
         "name": "Woorijip",
@@ -3861,9 +3926,10 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [563.4154700131834, 736.7982595879387],
+        "coords": [568.9976488461327, 771.0592739892951],
         "edge": 14
       },
       {
@@ -3873,7 +3939,7 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "110",
-        "categories": ["building.catering", "catering.restaurant.korean"],
+        "categories": ["catering.restaurant.korean", "building.catering"],
         "opening_hours": "12:00-14:15,18:00-23:00",
         "contact": {
           "phone": "(917) 261-4326",
@@ -3896,17 +3962,18 @@
           "tactile_paving": false,
           "tactile_map": false,
           "reception": false,
-          "stairs": false
+          "stairs": false,
+          "elevator": false
         },
-        "coords": [663.5080481865073, 780.9181841975736],
-        "edge": 59
+        "coords": [669.0902270194566, 815.17919859893],
+        "edge": 80
       }
     ]
   },
   "context": {
     "name": "New York City, Empire State Building neighborhood",
     "description": "The Empire State Building neighborhood is a bustling area in Midtown Manhattan, known for its iconic skyscraper and vibrant atmosphere. It is home to a mix of commercial, residential, and cultural attractions, making it a popular destination for tourists and locals alike. The neighborhood offers a variety of dining, shopping, and entertainment options, as well as easy access to public transportation.",
-    "scale": "150 m: 5 cm",
+    "scale": "60 m: 1 cm",
     "north_beyond_map": "Midtown North - Bryant Park and the New York Public Library. A green oasis with cultural events and the stunning Beaux-Arts library building.",
     "south_beyond_map": "Flatiron District - Flatiron Building and Madison Square Park. Known for its iconic flatiron-shaped building, trendy shops, and eateries.",
     "west_beyond_map": "Hudson Yards - The Vessel and modern skyscrapers. A newly developed area with luxury shopping, dining, and innovative public spaces.",

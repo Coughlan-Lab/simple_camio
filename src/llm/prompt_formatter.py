@@ -31,7 +31,7 @@ POIS_IMPORTANT_KEYS = [
 
 
 class PromptFormatter:
-    NODE_DISTANCE_THRESHOLD = 40
+    NODE_DISTANCE_THRESHOLD = 25
 
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
@@ -173,14 +173,15 @@ class PromptFormatter:
                     f"and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id})."
                 )
             else:
-                graph_position = f"the closest point on the road network is at node {node.id}, the {node.description}."
+                graph_position = f"the closest point on the road network is at node {node.id}, which is the {node.description}."
 
             position_description = (
                 "###Position Update###\n"
                 f"My coordinates are {position}, "
                 f"{graph_position}\n"
-                "Considering the updated position continue answering my questions while keeping the previous context in mind. "
-                "The following question may be related to the previous one; if that's the case keep the flow consistent.\n"
+                "Continue answering my questions considering the updated position and keeping the previous context in mind.\n"
+                "If appropriate, include the updated position in your response.\n"
+                "If the following question is related to the previous one, keep the flow consistent.\n"
             )
 
         question = f"###Question###\n{question}"

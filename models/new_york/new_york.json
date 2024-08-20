@@ -1,7 +1,7 @@
 {
   "name": "New York",
   "template_image": "models/new_york/template.png",
-  "meters_per_pixel": 0.6183017793539175,
+  "meters_per_pixel": 0.6394298593851989,
   "graph": {
     "latlng_reference": {
       "coords": [219.49713167064073, 890.3545622696412],

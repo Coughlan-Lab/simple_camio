@@ -31,6 +31,8 @@ POIS_IMPORTANT_KEYS = [
 
 
 class PromptFormatter:
+    NODE_DISTANCE_THRESHOLD = 40
+
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
         self.tool_call_response_needs_processing = False
@@ -54,22 +56,27 @@ class PromptFormatter:
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
                 )
+
             elif fnc == ToolCall.GET_DISTANCE_TO_POINT_OF_INTEREST:
                 result = self.graph.get_distance_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
                 )
+
             elif fnc == ToolCall.GET_NEARBY_POINTS_OF_INTEREST:
                 result = self.graph.get_nearby_pois(
                     Coords(params["x"], params["y"]), params.get("distance", None)
                 )
+
             elif fnc == ToolCall.AM_I_AT_POINT_OF_INTEREST:
                 result = self.graph.am_i_at(
                     Coords(params["x"], params["y"]), params["poi_index"]
                 )
+
             elif fnc == ToolCall.GET_POINT_OF_INTEREST_DETAILS:
                 poi = self.graph.get_poi_details(params["poi_index"])
                 result = str_dict(poi)
+
             elif fnc == ToolCall.GET_ROUTE:
                 result = self.graph.get_route(
                     Coords(params["x1"], params["y1"]),
@@ -79,6 +86,7 @@ class PromptFormatter:
                     params.get("transport_preference", None),
                     params.get("alternative_route_index", 0),
                 )
+
             elif fnc == ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST:
                 result = self.graph.get_route_to_poi(
                     Coords(params["x"], params["y"]),
@@ -88,6 +96,7 @@ class PromptFormatter:
                     params.get("transport_preference", None),
                     params.get("alternative_route_index", 0),
                 )
+
             else:
                 result = "Unknown function call."
 
@@ -115,7 +124,7 @@ class PromptFormatter:
             "Include tactile and sensory features along the route. "
             "Describe distinct landmarks, notable scents from specific nearby points of interest, specific textures and surfaces underfoot, "
             "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
-            "Include only features that are actually present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
+            "Include only features that are actually present to avoid redundancy; for example, ignore the usual flatness or concrete surfaces of sidewalks.\n"
             "If directions are generic or not detailed enough, add further details, like the intersections along the way and accessibility information about each edge and node.\n"
             "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights.\n\n"
             "Be sure to answer this questions in your response:\n"
@@ -140,35 +149,43 @@ class PromptFormatter:
         position_description = ""
 
         if position is not None:
-            edge, _ = self.graph.get_nearest_edge(position)
+            node, distance = self.graph.get_nearest_node(position)
+            graph_position: str
 
-            distance_m_node1 = math.floor(edge[0].distance_from(position))
-            distance_m_node2 = math.floor(edge[1].distance_from(position))
+            if distance > PromptFormatter.NODE_DISTANCE_THRESHOLD:
+                edge, _ = self.graph.get_nearest_edge(position)
 
-            if len(edge.between_streets) == 0:
-                street_str = f"at the end of {edge.street}."
-            elif len(edge.between_streets) == 1:
-                street_str = f"part of {edge.street}, at the intersection with {next(iter(edge.between_streets))}."
+                distance_m_node1 = math.floor(edge[0].distance_from(position))
+                distance_m_node2 = math.floor(edge[1].distance_from(position))
+
+                if len(edge.between_streets) == 0:
+                    street_str = f"at the end of {edge.street}."
+                elif len(edge.between_streets) == 1:
+                    street_str = f"part of {edge.street}, at the intersection with {next(iter(edge.between_streets))}."
+                else:
+                    streets = list(edge.between_streets)
+                    street_str = f"part of {edge.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
+
+                graph_position = (
+                    f"the closest point on the road network is on edge {edge.id}, "
+                    f"which is {street_str}\n"
+                    f"I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) "
+                    f"and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id})."
+                )
             else:
-                streets = list(edge.between_streets)
-                street_str = f"part of {edge.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
+                graph_position = f"the closest point on the road network is at node {node.id}, the {node.description}."
 
             position_description = (
                 "###Position Update###\n"
                 f"My coordinates are {position}, "
-                f"the closest point on the road network is on edge {edge.id}, "
-                f"which is {street_str}\n"
-                f"I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) "
-                f"and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id}).\n"
+                f"{graph_position}\n"
                 "Considering the updated position continue answering my questions while keeping the previous context in mind. "
                 "The following question may be related to the previous one; if that's the case keep the flow consistent.\n"
             )
 
         question = f"###Question###\n{question}"
 
-        instructions = ""
-
-        prompt = f"{position_description}\n{question}\n{instructions}"
+        prompt = f"{position_description}\n{question}"
 
         return ChatCompletionUserMessageParam(content=prompt, role="user")
 
@@ -208,7 +225,7 @@ class PromptFormatter:
             "- coords: the coordinates of the point on the cartesian plane\n"
             "- edge: the nearest edge to the point of interest\n"
             "- street: the name of the street the point of interest belongs to\n"
-            "- categories: a list of categories the point of interest belongs to\n"
+            "- categories: a list of categories the point of interest belongs to\n\n"
         )
         prompt += self.__poi_prompt() + "\n\n"
 
@@ -216,7 +233,7 @@ class PromptFormatter:
             "These are features of the road network. "
             "Include them when giving directions to reach a certain point; "
             "as I'm blind, they will help me to orient myself better and to avoid hazards. Include as many details as possible.\n"
-            "When calling the get_route and get_route_to_point_of_interest functions add these information to the returned directions.\n"
+            "When calling the get_route and get_route_to_point_of_interest functions add these information to the returned directions.\n\n"
         )
         prompt += self.__road_features_prompt() + "\n\n"
 
@@ -230,7 +247,7 @@ class PromptFormatter:
 
         prompt += (
             "Finally, these are addictional information about the context of the map:\n"
-            f"current time: {datetime.now().strftime('%m-%d-%y %H:%M:%S')}\n"
+            f"current time: {datetime.now().strftime('%m-%d-%Y %H:%M:%S')}\n"
             f"{str_dict(context)}\n\n"
         )
 
@@ -253,7 +270,7 @@ class PromptFormatter:
             "describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, "
             "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
             "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
-            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights."
+            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. "
             "Be detailed in your response and include as many details as possible."
         )
 

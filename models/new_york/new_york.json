@@ -1732,7 +1732,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "Broadway",
-        "categories": ["public_transport", "subway_station"],
+        "categories": ["subway_station", "public_transport"],
         "opening_hours": "24/7",
         "operator": "New York City Transit Authority",
         "network": "NYC Subway",
@@ -1750,8 +1750,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [380.44636448442657, 861.797671595087],
-        "edge": 93
+        "coords": [380.44636448442657, 987.4334817469082],
+        "edge": 92
       },
       {
         "name": "32nd Street",
@@ -1759,7 +1759,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["public_transport", "subway_station"],
+        "categories": ["subway_station", "public_transport"],
         "operator": "Port Authority of New York and New Jersey",
         "network": "PATH",
         "name_other": {
@@ -1783,7 +1783,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "East 32nd Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "network": "NYC Transit",
         "accessibility": {
           "wheelchair_accessible": false,
@@ -1802,7 +1802,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "East 33rd Street",
-        "categories": ["public_transport", "subway_station"],
+        "categories": ["subway_station", "public_transport"],
         "opening_hours": "24/7",
         "operator": "New York City Transit Authority",
         "network": "NYC Subway",
@@ -1829,7 +1829,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["public_transport", "subway_station"],
+        "categories": ["subway_station", "public_transport"],
         "opening_hours": "24/7",
         "operator": "Metropolitan Transportation Authority",
         "network": "NYC Subway",
@@ -1857,7 +1857,7 @@
         "district": "Chelsea District",
         "suburb": "Manhattan",
         "street": "7th Avenue",
-        "categories": ["public_transport", "subway_station"],
+        "categories": ["subway_station", "public_transport"],
         "opening_hours": "24/7",
         "operator": "Metropolitan Transportation Authority",
         "network": "NYC Subway",
@@ -1879,7 +1879,7 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [232.4601013556473, 374.60488253105575],
+        "coords": [217.69851965153273, 374.60488253105575],
         "edge": 76
       },
       {
@@ -1888,7 +1888,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "5th Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "distance": 335,
         "accessibility": {
           "wheelchair_accessible": false,
@@ -1898,8 +1898,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [540.2288776892278, 868.080184949882],
-        "edge": 55
+        "coords": [540.2288776892278, 981.1509683921132],
+        "edge": 54
       },
       {
         "name": "5th Avenue & 32nd Street",
@@ -1907,7 +1907,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "West 32nd Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "distance": 127,
         "accessibility": {
           "wheelchair_accessible": false,
@@ -1926,7 +1926,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "5th Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "operator": "MTA",
         "network": "NYC Transit",
         "distance": 103,
@@ -1947,7 +1947,7 @@
         "district": "Chelsea District",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "accessibility": {
           "wheelchair_accessible": "limited",
           "tactile_paving": false,
@@ -1965,7 +1965,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "accessibility": {
           "wheelchair_accessible": true,
           "tactile_paving": false,
@@ -1983,7 +1983,7 @@
         "district": "Midtown South",
         "suburb": "Manhattan",
         "street": "6th Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "accessibility": {
           "wheelchair_accessible": true,
           "tactile_paving": false,
@@ -2018,8 +2018,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [710.2805364006248, 864.1994820099208],
-        "edge": 80
+        "coords": [710.2805364006248, 985.0316713320744],
+        "edge": 79
       },
       {
         "name": "Andrews NYC Diner",
@@ -2106,8 +2106,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [234.74917641174434, 901.4497824360125],
-        "edge": 66
+        "coords": [234.74917641174434, 947.7813709059827],
+        "edge": 65
       },
       {
         "name": "Bank of Hope",
@@ -2236,8 +2236,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [681.5960076267456, 883.5251602613338],
-        "edge": 80
+        "coords": [681.5960076267456, 965.7059930806614],
+        "edge": 79
       },
       {
         "name": "Cafe China",
@@ -2386,8 +2386,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [240.43785429629946, 856.0933718577347],
-        "edge": 66
+        "coords": [209.72076671088058, 993.1377814842605],
+        "edge": 65
       },
       {
         "name": "Consulate General of Poland",
@@ -2396,7 +2396,7 @@
         "suburb": "Manhattan",
         "street": "Madison Avenue",
         "housenumber": "233",
-        "categories": ["office.diplomatic", "building.office"],
+        "categories": ["building.office", "office.diplomatic"],
         "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
         "contact": {
           "phone": "+1 646 2372100",
@@ -2509,8 +2509,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [390.96823715841293, 845.7188852019428],
-        "edge": 93
+        "coords": [390.96823715841293, 1003.5122681400524],
+        "edge": 92
       },
       {
         "name": "East 34th Street & 5th Avenue",
@@ -2518,7 +2518,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "East 34th Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "network": "NYC Transit",
         "distance": 116,
         "accessibility": {
@@ -2538,7 +2538,7 @@
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
         "street": "East 34th Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "operator": "MTA",
         "network": "NYC Transit",
         "accessibility": {
@@ -2560,12 +2560,12 @@
         "street": "5th Avenue",
         "housenumber": "350",
         "categories": [
-          "tourism.attraction",
-          "heritage",
           "building.tourism",
           "building.historic",
-          "office",
-          "building.office"
+          "heritage",
+          "tourism.attraction",
+          "building.office",
+          "office"
         ],
         "opening_hours": "Mo-Su 08:00-02:00",
         "contact": {
@@ -2807,7 +2807,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "network": "NYC Transit",
         "distance": 347,
         "accessibility": {
@@ -2818,8 +2818,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [731.416948350941, 855.2260514301558],
-        "edge": 80
+        "coords": [731.416948350941, 994.0051019118393],
+        "edge": 79
       },
       {
         "name": "Madison Avenue & East 32nd Street",
@@ -2827,7 +2827,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "network": "NYC Transit",
         "accessibility": {
           "wheelchair_accessible": true,
@@ -2846,7 +2846,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "network": "NYC Transit",
         "distance": 248,
         "accessibility": {
@@ -2866,7 +2866,7 @@
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "accessibility": {
           "wheelchair_accessible": true,
           "tactile_paving": false,
@@ -2884,7 +2884,7 @@
         "district": "Manhattan Community Board 6",
         "suburb": "Manhattan",
         "street": "Madison Avenue",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "accessibility": {
           "wheelchair_accessible": false,
           "tactile_paving": false,
@@ -2904,9 +2904,9 @@
         "street": "6th Avenue",
         "housenumber": "809",
         "categories": [
-          "catering.fast_food.burger",
           "building.commercial",
-          "building.catering"
+          "building.catering",
+          "catering.fast_food.burger"
         ],
         "opening_hours": "Mo-Su 07:00-23:00",
         "brand": "McDonald's",
@@ -2943,21 +2943,29 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [258.11834199403876, 922.3599883920099],
-        "edge": 66
+        "coords": [192.04027901314126, 926.8711649499853],
+        "edge": 65
       },
       {
-        "name": "Mondo",
+        "name": "Mulberry & Vine",
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
-        "street": "Madison Avenue",
-        "housenumber": "102",
-        "categories": ["office.employment_agency"],
-        "opening_hours": "Mo-Fr 07:00-19:00",
+        "street": "West 27th Street",
+        "housenumber": "55",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo-Th 11:00-21:00; Fr-Sa 11:00-20:00",
         "contact": {
-          "phone": "+1-212-257-5111",
-          "website": "https://www.mondo.com/"
+          "phone": "+1 212 252 8468",
+          "website": "https://www.mulberryandvine.com/"
+        },
+        "facilities": {
+          "smoking": false,
+          "outdoor_seating": false,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "new_american"
         },
         "accessibility": {
           "wheelchair_accessible": false,
@@ -2967,8 +2975,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [665.8932288784811, 794.9695206812999],
-        "edge": 81
+        "coords": [237.0321447814575, 1010.0171713490158],
+        "edge": 0
       },
       {
         "name": "Naya",
@@ -3027,40 +3035,13 @@
         "edge": 38
       },
       {
-        "name": "Nomad",
-        "city": "New York",
-        "district": "Manhattan Community Board 5",
-        "suburb": "Manhattan",
-        "street": "Broadway",
-        "housenumber": "1170",
-        "categories": ["catering.restaurant"],
-        "opening_hours": "Mo-Su 09:00-22:00",
-        "contact": {
-          "phone": "+1-347-472-5660",
-          "website": "https://www.thenomadhotel.com/new-york/dining"
-        },
-        "catering": {
-          "cuisine": "fine_dining"
-        },
-        "accessibility": {
-          "wheelchair_accessible": false,
-          "tactile_paving": false,
-          "tactile_map": false,
-          "reception": false,
-          "stairs": false,
-          "elevator": false
-        },
-        "coords": [388.1292691110026, 794.6915333642967],
-        "edge": 94
-      },
-      {
         "name": "Nuchas",
         "city": "New York",
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "West 32nd Street",
         "housenumber": "97",
-        "categories": ["catering.fast_food", "building.catering"],
+        "categories": ["building.catering", "catering.fast_food"],
         "opening_hours": "Mo-Fr 07:30-20:00; Sa 09:00-19:00; Su 10:00-19:00",
         "contact": {
           "phone": "+1 212-912-0035",
@@ -3172,30 +3153,6 @@
         },
         "coords": [443.91457002839024, 368.3557276535372],
         "edge": 96
-      },
-      {
-        "name": "Prosek",
-        "city": "New York",
-        "district": "Manhattan Community Board 5",
-        "suburb": "Manhattan",
-        "street": "Madison Avenue",
-        "housenumber": "105",
-        "categories": ["office.company"],
-        "opening_hours": "Mo-Fr 08:30-17:30",
-        "contact": {
-          "phone": "+1-212-279-3115",
-          "website": "https://www.prosek.com/"
-        },
-        "accessibility": {
-          "wheelchair_accessible": false,
-          "tactile_paving": false,
-          "tactile_map": false,
-          "reception": false,
-          "stairs": false,
-          "elevator": false
-        },
-        "coords": [715.9079270675693, 807.3899939879439],
-        "edge": 81
       },
       {
         "name": "Science, Industry and Business Library",
@@ -3324,7 +3281,7 @@
         "suburb": "Manhattan",
         "street": "5th Avenue",
         "housenumber": "350",
-        "categories": ["catering.cafe.coffee", "catering.cafe.coffee_shop"],
+        "categories": ["catering.cafe.coffee_shop", "catering.cafe.coffee"],
         "opening_hours": "Mo-Fr 06:30-18:00",
         "brand": "Starbucks",
         "name_other": {
@@ -3426,42 +3383,6 @@
         "edge": 15
       },
       {
-        "name": "Sweetgreen",
-        "city": "New York",
-        "district": "Manhattan Community Board 5",
-        "suburb": "Manhattan",
-        "street": "Broadway",
-        "housenumber": "1164",
-        "categories": ["vegetarian", "catering.fast_food.salad"],
-        "opening_hours": "Mo-Su 10:30-22:30",
-        "brand": "Sweetgreen",
-        "contact": {
-          "phone": "+1 646 449 8884",
-          "website": "https://order.sweetgreen.com/nomad/"
-        },
-        "facilities": {
-          "smoking": false,
-          "takeaway": true,
-          "delivery": true
-        },
-        "catering": {
-          "cuisine": "salad",
-          "diet": {
-            "vegetarian": true
-          }
-        },
-        "accessibility": {
-          "wheelchair_accessible": false,
-          "tactile_paving": false,
-          "tactile_map": false,
-          "reception": false,
-          "stairs": false,
-          "elevator": false
-        },
-        "coords": [385.9558158280234, 785.2733230783169],
-        "edge": 94
-      },
-      {
         "name": "Szechuan Gourmet",
         "city": "New York",
         "district": "Manhattan Community Board 5",
@@ -3531,42 +3452,6 @@
         "edge": 30
       },
       {
-        "name": "The Crooked Knife",
-        "city": "New York",
-        "district": "Manhattan Community Board 5",
-        "suburb": "Manhattan",
-        "street": "East 30th Street",
-        "housenumber": "29",
-        "categories": ["catering.restaurant"],
-        "opening_hours": "Mo-Su 11:00-04:00",
-        "contact": {
-          "phone": "+1-212-696-2593",
-          "website": "http://www.thecrookedknife.com/"
-        },
-        "facilities": {
-          "toilets": true,
-          "takeaway": true
-        },
-        "payment_options": {
-          "cash": true,
-          "credit_cards": true
-        },
-        "catering": {
-          "cuisine": "irish;coffee",
-          "reservation": "required"
-        },
-        "accessibility": {
-          "wheelchair_accessible": false,
-          "tactile_paving": false,
-          "tactile_map": false,
-          "reception": false,
-          "stairs": false,
-          "elevator": false
-        },
-        "coords": [758.4082053791667, 818.8875494027595],
-        "edge": 32
-      },
-      {
         "name": "The Harold",
         "city": "New York",
         "district": "Midtown South",
@@ -3574,9 +3459,9 @@
         "street": "Broadway",
         "housenumber": "1271",
         "categories": [
-          "vegetarian",
           "gluten_free",
-          "catering.restaurant.american"
+          "catering.restaurant.american",
+          "vegetarian"
         ],
         "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
         "contact": {
@@ -3673,8 +3558,8 @@
           "stairs": false,
           "elevator": false
         },
-        "coords": [577.5229772238764, 880.411702315],
-        "edge": 55
+        "coords": [577.5229772238764, 968.8194510269952],
+        "edge": 54
       },
       {
         "name": "Wafels & Dinges",
@@ -3683,7 +3568,7 @@
         "suburb": "Manhattan",
         "street": "West 35th Street",
         "housenumber": "102",
-        "categories": ["catering.restaurant", "building.catering"],
+        "categories": ["building.catering", "catering.restaurant"],
         "opening_hours": "09:00-22:00",
         "branch": "Herald Square",
         "contact": {
@@ -3731,7 +3616,7 @@
         "district": "Midtown South",
         "suburb": "Manhattan",
         "street": "West 31st Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "accessibility": {
@@ -3751,7 +3636,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "West 32nd Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "accessibility": {
@@ -3771,7 +3656,7 @@
         "suburb": "Manhattan",
         "commercial": "Korea Town",
         "street": "West 32nd Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "distance": 184,
         "accessibility": {
           "wheelchair_accessible": false,
@@ -3790,7 +3675,7 @@
         "district": "Midtown South",
         "suburb": "Manhattan",
         "street": "West 34th Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "network": "NYC Transit",
         "distance": 54,
         "accessibility": {
@@ -3810,7 +3695,7 @@
         "district": "Garment District",
         "suburb": "Manhattan",
         "street": "West 34th Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "accessibility": {
@@ -3830,7 +3715,7 @@
         "district": "Midtown South",
         "suburb": "Manhattan",
         "street": "West 34th Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "operator": "New York City Transit Authority",
         "network": "NYC Transit",
         "accessibility": {
@@ -3850,7 +3735,7 @@
         "district": "Manhattan Community Board 5",
         "suburb": "Manhattan",
         "street": "West 37th Street",
-        "categories": ["public_transport", "bus_stop"],
+        "categories": ["bus_stop", "public_transport"],
         "distance": 294,
         "accessibility": {
           "wheelchair_accessible": false,
@@ -3931,42 +3816,6 @@
         },
         "coords": [568.9976488461327, 771.0592739892951],
         "edge": 14
-      },
-      {
-        "name": "on",
-        "city": "New York",
-        "district": "Manhattan Community Board 5",
-        "suburb": "Manhattan",
-        "street": "Madison Avenue",
-        "housenumber": "110",
-        "categories": ["catering.restaurant.korean", "building.catering"],
-        "opening_hours": "12:00-14:15,18:00-23:00",
-        "contact": {
-          "phone": "(917) 261-4326",
-          "website": "https://www.onnewyork.net/"
-        },
-        "catering": {
-          "cuisine": "korean"
-        },
-        "building": {
-          "levels": 17,
-          "material": "brick",
-          "color": "#E1E7EB",
-          "height": 46,
-          "roof": {
-            "shape": "flat"
-          }
-        },
-        "accessibility": {
-          "wheelchair_accessible": false,
-          "tactile_paving": false,
-          "tactile_map": false,
-          "reception": false,
-          "stairs": false,
-          "elevator": false
-        },
-        "coords": [669.0902270194566, 815.17919859893],
-        "edge": 80
       }
     ]
   },

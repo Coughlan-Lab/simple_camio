@@ -127,6 +127,9 @@ class PromptFormatter:
             "Include only features that are actually present to avoid redundancy; for example, ignore the usual flatness or concrete surfaces of sidewalks.\n"
             "If directions are generic or not detailed enough, add further details, like the intersections along the way and accessibility information about each edge and node.\n"
             "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights.\n\n"
+        )
+
+        prompt += (
             "Be sure to answer this questions in your response:\n"
             "- What intersections are there along the way? "
             "Include intersections not explicitly mentioned in the directions as they only include intersections where you have to turn left or right. "
@@ -208,16 +211,24 @@ class PromptFormatter:
         )
         prompt += self.__edges_prompt() + "\n\n"
 
+        prompt += (
+            "The graph includes only streets that can be traveled by car. "
+            "For this reason, certain streets with pedestrian-only segments might break off at some point and then continue. "
+            "Base your responses solely on the information contained in the graph, even if it contradicts your personal knowledge of the area."
+        )
+
         prompt += "These are the names of the streets in the graph. Use them to identify each street.\n"
         prompt += self.__streets_prompt() + "\n\n"
 
         prompt += (
-            "Nodes are named after the edges intersecting at their coordinates. "
-            "For example a node at the intersection between the Webster Street edge and the Washington Street edge "
-            'will be named "Intersection of Webster Street and Washington Street". '
+            "Nodes are named based on the streets intersecting at their coordinates. "
+            "For example, a node at the intersection of the Webster Street edge and the Washington Street edge "
+            'will be named "Intersection of Webster Street and Washington Street." '
             "Streets without nodes in common can't intersect.\n"
-            "If all the edges intersecting at a node belong to the same street, the node is named after that street.\n"
-            "If a node is connected to only one edge the node's name is that of the edge's street.\n\n"
+            "If all the edges intersecting at a node belong to the same street, the node is named after that street."
+            "A node with four edges intersecting is an X intersection, "
+            "while a node with three edges intersecting forms a T intersection. "
+            "A node connected to only one edge marks the end of a street.\n\n"
         )
 
         prompt += (

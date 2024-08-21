@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Set, Union
+from typing import Any, Dict, List, Optional, Union
 
 from .coords import Coords
 
@@ -9,7 +9,7 @@ class Node:
     ) -> None:
         self.coords = coords
         self.index = index
-        self.adjacents_street: Set[str] = set()
+        self.adjacents_streets: List[str] = list()
 
         self.features = features if features is not None else dict()
         self.on_border = self.features.get("on_border", False)
@@ -20,18 +20,24 @@ class Node:
 
     @property
     def description(self) -> str:
-        if len(self.adjacents_street) == 1:
+        if len(self.adjacents_streets) == 1:
             if self.on_border:
-                return f"{next(iter(self.adjacents_street))}, at the limit of the map"
-            return f"end of {next(iter(self.adjacents_street))}"
+                return f"{self.adjacents_streets[0]}, at the limit of the map"
+            return f"end of {self.adjacents_streets[0]}"
 
-        streets = list(self.adjacents_street)
+        streets = list(set(self.adjacents_streets))
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
-        return f"intersection between {streets_str}"
+        intersection_type = ""
+        if len(self.adjacents_streets) == 4:
+            intersection_type = "X "
+        elif not self.on_border and len(self.adjacents_streets) == 3:
+            intersection_type = "T "
+
+        return f"{intersection_type}intersection between {streets_str}"
 
     def is_dead_end(self) -> bool:
-        return not self.on_border and len(self.adjacents_street) == 1
+        return not self.on_border and len(self.adjacents_streets) == 1
 
     def distance_from(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):

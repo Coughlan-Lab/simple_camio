@@ -35,6 +35,7 @@ GOOGLE_ROUTES_API_FIELDS = [
     "routes.legs.steps.transitDetails.stopCount",
     "routes.legs.steps.transitDetails.transitLine.name",
     "routes.legs.steps.transitDetails.transitLine.vehicle.type",
+    "routes.legs.steps.localizedValues.staticDuration",
     # "routes.localizedValues",
 ]
 
@@ -324,9 +325,9 @@ def load_edges(
             edge_data = edges_data[edge_index]
 
             node1 = nodes[edge_data[0]]
-            node1.adjacents_street.add(street_name)
+            node1.adjacents_streets.append(street_name)
             node2 = nodes[edge_data[1]]
-            node2.adjacents_street.add(street_name)
+            node2.adjacents_streets.append(street_name)
 
             edge = Edge(node1, node2, street_name, edges_features[edge_index])
 

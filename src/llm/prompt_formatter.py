@@ -248,7 +248,7 @@ class PromptFormatter:
 
         prompt += (
             "Finally, these are addictional information about the context of the map:\n"
-            f"current time: {datetime.now().strftime('%m-%d-%Y %H:%M:%S')}\n"
+            f"current time: {datetime.now().strftime('%A %m-%d-%Y %H:%M:%S')}\n"
             f"{str_dict(context)}\n\n"
         )
 

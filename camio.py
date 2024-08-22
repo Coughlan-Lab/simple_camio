@@ -30,7 +30,7 @@ class CamIO:
         self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
 
         # Audio players
-        self.tts = TTS("res/strings.json", rate=200)
+        self.tts = TTS("res/strings.json")
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )

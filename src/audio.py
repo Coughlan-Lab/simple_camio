@@ -11,7 +11,7 @@ import speech_recognition as sr
 
 
 class TTS:
-    RATE = 200
+    RATE = 350
     WAITING_LOOP_INTERVAL = 7
 
     def __init__(self, res_file: str, rate: int = RATE) -> None:

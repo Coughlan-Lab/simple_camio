@@ -1,5 +1,7 @@
 import json
 import os
+import threading as th
+import time
 from typing import Optional
 
 import pyglet
@@ -10,6 +12,7 @@ import speech_recognition as sr
 
 class TTS:
     RATE = 200
+    WAITING_LOOP_INTERVAL = 7
 
     def __init__(self, res_file: str, rate: int = RATE) -> None:
         self.engine = pyttsx3.init()
@@ -20,6 +23,9 @@ class TTS:
 
         with open(res_file, "r") as f:
             self.res = json.load(f)
+
+        self.waiting_loop_running = th.Event()
+        self.lock = th.Lock()
 
     def start(self) -> None:
         self.engine.startLoop(False)
@@ -57,6 +63,31 @@ class TTS:
 
     def no_description(self) -> None:
         self.say(self.res["no_description"])
+
+    def start_waiting_loop(self) -> None:
+        with self.lock:
+            if self.waiting_loop_running.is_set():
+                return
+
+            self.waiting_loop_running.set()
+
+            waiting_thread = th.Thread(target=self.waiting_loop)
+            waiting_thread.start()
+
+    def stop_waiting_loop(self) -> None:
+        with self.lock:
+            if not self.waiting_loop_running.is_set():
+                return
+
+            self.waiting_loop_running.clear()
+            self.stop_speaking()
+
+    def waiting_loop(self) -> None:
+        time.sleep(TTS.WAITING_LOOP_INTERVAL)
+
+        while self.waiting_loop_running.is_set():
+            self.waiting()
+            time.sleep(TTS.WAITING_LOOP_INTERVAL)
 
 
 class STT:

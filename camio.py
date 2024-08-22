@@ -133,7 +133,6 @@ class CamIO:
 
         if self.user_input_thread is not None:
             self.user_input_thread.stop()
-            self.user_input_thread = None
 
     def say_map_description(self, _: Any = None) -> None:
         self.stop_interaction()
@@ -219,9 +218,12 @@ class CamIO:
             print(f"Question: {question}")
 
             position = self.camio.position_handler.get_current_position()
+
+            self.camio.tts.start_waiting_loop()
             answer = self.camio.llm.ask(question, position)
             if self.stop_event.is_set():
                 return
+            self.camio.tts.stop_waiting_loop()
 
             self.process_answer(answer)
             self.camio.user_input_thread = None
@@ -240,6 +242,7 @@ class CamIO:
         def stop(self) -> None:
             self.stop_event.set()
             self.camio.llm.stop()
+            self.camio.tts.stop_waiting_loop()
             self.camio.user_input_thread = None
 
 

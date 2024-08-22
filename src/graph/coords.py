@@ -43,6 +43,9 @@ class Coords:
     def length(self) -> float:
         return self.distance_to(Coords(0, 0))
 
+    def normalized(self) -> "Coords":
+        return self / self.length()
+
     def __add__(self, other: Union["Coords", float]) -> "Coords":
         if isinstance(other, Coords):
             return Coords(self.x + other.x, self.y + other.y)

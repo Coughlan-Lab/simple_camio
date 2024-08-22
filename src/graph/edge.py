@@ -1,7 +1,14 @@
+from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
 from .coords import Coords, StraightLine
 from .node import Node
+
+
+class MovementDirection(Enum):
+    NONE = 0
+    FORWARD = 1
+    BACKWARD = 2
 
 
 class Edge(StraightLine):
@@ -28,39 +35,41 @@ class Edge(StraightLine):
     def description(self) -> str:
         description = self.street
 
-        if (surface := self.features.get("surface", "asphalt")) != "asphalt":
-            description += f", {surface}"
-
-        return description
-
-    def get_complete_description(
-        self, moving_towards_node2: Optional[bool] = None
-    ) -> str:
-        description = self.street
-
-        if (surface := self.features.get("surface", "asphalt")) != "asphalt":
+        if (surface := self.features.get("surface", "concrete")) != "concrete":
             description += f", {surface}"
 
         if self.node1.is_dead_end() or self.node2.is_dead_end():
             description += ", dead end"
 
-        if (
-            moving_towards_node2 is not None
-            and (slope := self.features.get("slope", "flat")) != "flat"
-        ):
-            forward = slope == "uphill"
-            if forward == moving_towards_node2:
+        return description
+
+    def get_complete_description(
+        self, movement_direction: MovementDirection = MovementDirection.NONE
+    ) -> str:
+        description = self.description
+        if movement_direction == MovementDirection.NONE:
+            return description
+
+        if (slope := self.features.get("slope", "flat")) != "flat":
+            forward = (
+                MovementDirection.FORWARD
+                if slope == "uphill"
+                else MovementDirection.BACKWARD
+            )
+            if forward == movement_direction:
                 description += ", uphill"
             else:
                 description += ", downhill"
 
         if (
-            moving_towards_node2 is not None
-            and (traffic_direction := self.features.get("traffic_direction", "two_way"))
-            != "two_way"
-        ):
-            forward = traffic_direction == "one_way_forward"
-            if forward == moving_towards_node2:
+            traffic_direction := self.features.get("traffic_direction", "two_way")
+        ) != "two_way":
+            forward = (
+                MovementDirection.FORWARD
+                if traffic_direction == "one_way_forward"
+                else MovementDirection.BACKWARD
+            )
+            if forward == movement_direction:
                 description += ", heading with traffic"
             else:
                 description += ", heading against traffic"

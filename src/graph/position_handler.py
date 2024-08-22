@@ -4,7 +4,7 @@ from typing import Optional, Union
 from src.utils import ArithmeticBuffer, Buffer
 
 from .coords import Coords
-from .edge import Edge
+from .edge import Edge, MovementDirection
 from .graph import Graph
 from .node import Node
 
@@ -15,12 +15,14 @@ class Announcement:
     ) -> None:
         self.text = text
         self.pos = pos
-        self.graph_nearest = graph_nearest
+        self.graph_nearest_element = graph_nearest
         self.time = time.time()
 
     @staticmethod
-    def none_announcement(pos: Coords = Coords(0, 0)) -> "Announcement":
-        return Announcement("", pos, None)
+    def none_announcement(
+        pos: Coords = Coords(0, 0), graph_nearest: Optional[Union[Node, Edge]] = None
+    ) -> "Announcement":
+        return Announcement("", pos, graph_nearest)
 
 
 NONE_ANNOUNCEMENT = Announcement.none_announcement()
@@ -28,9 +30,9 @@ NONE_ANNOUNCEMENT = Announcement.none_announcement()
 
 class PositionHandler:
     MAP_MARGIN = 50
+    MOVEMENT_THRESHOLD = 10
     NODE_DISTANCE_THRESHOLD = 20
     EDGE_DISTANCE_THRESHOLD = 20
-    SILENCE_BETWEEN_ANNOUNCEMENTS = 1.5
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
         self.graph = graph
@@ -68,12 +70,6 @@ class PositionHandler:
         return None
 
     def get_next_announcement(self) -> Optional[Announcement]:
-        if (
-            time.time() - self.last_announcement.time
-            < PositionHandler.SILENCE_BETWEEN_ANNOUNCEMENTS
-        ):
-            return None
-
         last_pos = self.positions_buffer.last()
         avg_pos = self.positions_buffer.average()
 
@@ -100,17 +96,19 @@ class PositionHandler:
                 and last_pos.distance_to_line(nearest_edge)
                 <= PositionHandler.EDGE_DISTANCE_THRESHOLD
             ):
-                if self.last_announcement.graph_nearest != nearest_edge:
+                movement_dir = self.get_movement_direction(nearest_edge)
+
+                if (
+                    movement_dir != MovementDirection.NONE
+                    or self.last_announcement.graph_nearest_element != nearest_edge
+                ):
                     to_announce = Announcement(
-                        nearest_edge.description, avg_pos, nearest_edge
-                    )
-                else:
-                    moving_towards_node2 = self.get_movement_direction(nearest_edge)
-                    to_announce = Announcement(
-                        nearest_edge.get_complete_description(moving_towards_node2),
+                        nearest_edge.get_complete_description(movement_dir),
                         avg_pos,
                         nearest_edge,
                     )
+                else:
+                    to_announce = Announcement.none_announcement(avg_pos, nearest_edge)
             else:
                 to_announce = Announcement.none_announcement(avg_pos)
 
@@ -120,13 +118,16 @@ class PositionHandler:
         self.last_announcement = to_announce
         return to_announce
 
-    def get_movement_direction(self, edge: Edge) -> Optional[bool]:
-        a = edge[1].coords - edge[0].coords
-        b = (
-            self.positions_buffer.average() or Coords(0, 0)
-        ) - self.last_announcement.pos
+    def get_movement_direction(self, edge: Edge) -> MovementDirection:
+        position = self.positions_buffer.average() or Coords(0, 0)
+        movement_vector = position - self.last_announcement.pos
 
-        dot = a.dot_product(b)
-        if dot == 0:
-            return None
-        return dot > 0
+        if movement_vector.length() < PositionHandler.MOVEMENT_THRESHOLD:
+            return MovementDirection.NONE
+
+        edge_versor = (edge[1].coords - edge[0].coords).normalized()
+        dot = edge_versor.dot_product(movement_vector.normalized())
+
+        if abs(dot) < 0.5:  # Angle greater than 60 degrees
+            return MovementDirection.NONE
+        return MovementDirection.FORWARD if dot > 0 else MovementDirection.BACKWARD

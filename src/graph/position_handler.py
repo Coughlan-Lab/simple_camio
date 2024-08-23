@@ -108,9 +108,11 @@ class PositionHandler:
                         nearest_edge,
                     )
                 else:
-                    to_announce = Announcement.none_announcement(avg_pos, nearest_edge)
+                    to_announce = self.last_announcement
             else:
                 to_announce = Announcement.none_announcement(avg_pos)
+        print(to_announce.text)
+        print(self.last_announcement.text)
 
         if to_announce.text == self.last_announcement.text:
             return None

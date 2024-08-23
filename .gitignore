@@ -20,3 +20,5 @@ out
 
 *.spec
 .DS_STORE
+
+google_stt_credentials.json

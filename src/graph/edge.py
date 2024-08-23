@@ -78,10 +78,16 @@ class Edge(StraightLine):
 
     @property
     def m(self) -> float:
+        if self.node1[0] == self.node2[0]:
+            return float("inf")
+
         return (self.node1[1] - self.node2[1]) / (self.node1[0] - self.node2[0])
 
     @property
     def q(self) -> float:
+        if self.node1[0] == self.node2[0]:
+            return self.node1[0]
+
         return (self.node1[0] * self.node2[1] - self.node2[0] * self.node1[1]) / (
             self.node1[0] - self.node2[0]
         )

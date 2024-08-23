@@ -1,3 +1,4 @@
+import math
 from abc import ABC, abstractmethod
 from typing import Union
 
@@ -26,12 +27,17 @@ class Coords:
         return abs(self.x - other.x) + abs(self.y - other.y)
 
     def distance_to_line(self, line: StraightLine) -> float:
+        if math.isinf(line.m):
+            return abs(self.x - line.q)
+
         num = abs(line.m * self.x + line.q - self.y)
         den = (line.m**2 + 1) ** 0.5
 
         return float(num / den)
 
     def project_on(self, line: StraightLine) -> "Coords":
+        if math.isinf(line.m):
+            return Coords(line.q, self.y)
         p_x = (self.x + line.m * self.y - line.m * line.q) / (line.m**2 + 1)
         p_y = (line.m * self.x + line.m**2 * self.y + line.q) / (line.m**2 + 1)
 

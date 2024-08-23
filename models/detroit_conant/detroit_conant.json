@@ -222,7 +222,7 @@
       "Brinker Avenue": [7, 8, 9, 10],
       "Joseph Campau Avenue": [11, 12, 13, 14],
       "Mitchell Avenue": [15, 16],
-      "McDougall": [17, 18],
+      "McDougall Street": [17, 18],
       "Gallagher Street": [19, 20, 21, 22, 23, 24],
       "Klinger Street": [25, 26, 27, 28, 29, 30],
       "Revere Avenue": [31, 32, 33, 34, 35, 36, 37],
@@ -236,7 +236,7 @@
       "East Grixdale Avenue": [55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65],
       "East Robinwood Street": [66, 67, 68, 69, 70, 71, 72, 73, 74, 75],
       "East Brentwood Street": [76, 77, 78, 79, 80],
-      "East Seven Mile": [
+      "East Seven Mile Road": [
         81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97
       ],
       "East Hildale Street": [98, 99, 100, 101, 102, 103, 104, 105],
@@ -249,7 +249,1592 @@
       "east": [1, 0],
       "west": [-1, 0]
     },
-    "points_of_interest": [],
+    "points_of_interest": [
+      {
+        "name": "American Academy of Dramatic Arts",
+        "street": "Revere Avenue",
+        "housenumber": "120",
+        "categories": ["education.college"],
+        "name_other": {
+          "short_name": "AADA"
+        },
+        "contact": {
+          "phone": "+1-800-463-8990",
+          "website": "https://www.aada.edu/campuses/new-york-campus-overview"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": true,
+          "stairs": false,
+          "elevator": true
+        },
+        "coords": [849.2446293067094, 819.2037829942698],
+        "edge": 32
+      },
+      {
+        "name": "Andrews Detroit Diner",
+        "street": "Brinker Avenue",
+        "housenumber": "463",
+        "categories": ["catering.restaurant.american"],
+        "opening_hours": "Mo-Th 06:00-22:00; Fr 06:00-23:00; Sa, Su 07:00-23:00",
+        "contact": {
+          "phone": "+1-212-695-1962",
+          "website": "https://andrewsny.com/"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "american;diner",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [338.24427982689815, 286.7812948723315],
+        "edge": 9
+      },
+      {
+        "name": "Antioch Missionary Baptist Church",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "McDougall Street",
+        "housenumber": "18045",
+        "categories": [
+          "religion.place_of_worship.christianity",
+          "building.place_of_worship"
+        ],
+        "place_of_worship": {
+          "religion": "christian"
+        },
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [603.8371720420892, 948.4070871482924],
+        "edge": 18
+      },
+      {
+        "name": "BCD Tofu House",
+        "commercial": "Korea Town",
+        "street": "Joseph Campau Avenue",
+        "housenumber": "5",
+        "categories": ["catering.restaurant.korean"],
+        "opening_hours": "Su-Th 10:30-24:00; Fr, Sa 10:30-03:00",
+        "branch": "Joseph Campau Avenue",
+        "contact": {
+          "phone": "+1 212-967-1900",
+          "website": "https://www.bcdtofuhouse.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [468.9224346304892, 451.0972166012984],
+        "edge": 14
+      },
+      {
+        "name": "Bank of America",
+        "street": "Klinger Street",
+        "housenumber": "812",
+        "categories": ["service.financial.bank"],
+        "opening_hours": "Mo-Fr 09:00-17:00; Sa 09:00-14:00",
+        "brand": "Bank of America",
+        "contact": {
+          "phone": "+1-212-684-1541",
+          "website": "https://locators.bankofamerica.com/ny/newyork/financial-centers-new-york-15710.html"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [794.3716825129779, 608.8122874820185],
+        "edge": 27
+      },
+      {
+        "name": "Bank of Hope",
+        "commercial": "Korea Town",
+        "street": "Joseph Campau Avenue",
+        "housenumber": "16",
+        "categories": ["service.financial.bank"],
+        "opening_hours": "Mo-Fr 08:30-17:00",
+        "operator": "Hope Bancorp Inc.",
+        "branch": "Joseph Campau Avenue",
+        "contact": {
+          "phone": "+1 212-279-2790",
+          "website": "https://www.bankofhope.com"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [425.5089713130349, 604.5762835457169],
+        "edge": 13
+      },
+      {
+        "name": "Blaggards Pub",
+        "street": "East Robinwood Street",
+        "housenumber": "8",
+        "categories": ["catering.pub"],
+        "opening_hours": "Mo-Sa 11:00-04:00; Su 12:00-04:00",
+        "contact": {
+          "phone": "+1 212-382-2611",
+          "email": "blaggards@verizon.net",
+          "website": "https://blaggardsdetroit.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [823.1457660223391, 496.6022491360523],
+        "edge": 73
+      },
+      {
+        "name": "Blank Slate Coffee + Kitchen",
+        "street": "Revere Avenue",
+        "housenumber": "121",
+        "categories": ["catering.cafe", "vegetarian"],
+        "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
+        "branch": "Revere Avenue",
+        "craft": "caterer",
+        "contact": {
+          "phone": "+1-212-683-7800",
+          "website": "https://www.blankslatedetroit.com/location/nomad/"
+        },
+        "facilities": {
+          "toilets": true,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "debit_cards": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "coffee_shop;breakfast;sandwich;salad",
+          "diet": {
+            "vegetarian": true
+          }
+        },
+        "production": {
+          "industry": "caterer"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [870.3403065543007, 591.7575041014838],
+        "edge": 34
+      },
+      {
+        "name": "Cafe China",
+        "street": "Mitchell Street",
+        "housenumber": "59",
+        "categories": ["catering.restaurant.chinese"],
+        "opening_hours": "Su-We 11:30-22:30; Th-Sa 11:30-23:00",
+        "contact": {
+          "phone": "+12122132810",
+          "website": "http://www.cafechinadetroit.com/"
+        },
+        "facilities": {
+          "smoking": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "chinese"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [504.4836109747544, 387.1497962060478],
+        "edge": 43
+      },
+      {
+        "name": "Calle Dao",
+        "street": "Maine Street",
+        "housenumber": "38",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo-We 11:00-23:00; Th-Sa 11:00-24:00; Su 11:00-22:00",
+        "contact": {
+          "phone": "+1-212-221-9002",
+          "website": "https://www.calledao.com/bryant-park/"
+        },
+        "facilities": {
+          "toilets": true
+        },
+        "catering": {
+          "cuisine": "cuban;chinese"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [201.60405810991315, 534.5541649725399],
+        "edge": 1
+      },
+      {
+        "name": "Chick-fil-A",
+        "street": "Klinger Street",
+        "housenumber": "1000",
+        "categories": ["catering.fast_food"],
+        "opening_hours": "Mo-Sa 06:30-22:00",
+        "brand": "Chick-fil-A",
+        "branch": "Klinger Street",
+        "contact": {
+          "phone": "+1 212-704-9920",
+          "website": "https://www.chick-fil-a.com/Locations/NY/37th--6th-InLine"
+        },
+        "facilities": {
+          "internet_access": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "chicken"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [800.3786621474086, 726.8602948503471],
+        "edge": 26
+      },
+      {
+        "name": "Citizens Bank",
+        "street": "Klinger Street",
+        "housenumber": "800",
+        "categories": ["service.financial.bank"],
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "brand": "Citizens Bank",
+        "name_other": {
+          "short_name": "Citizens"
+        },
+        "contact": {
+          "phone": "+1-212-453-9800",
+          "website": "https://locations.citizensbank.com/ny/new-york/800-6th-avenue.html"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [799.7792343099155, 303.373290581078],
+        "edge": 29
+      },
+      {
+        "name": "Conant / 7 Mile (NB)",
+        "city": "Detroit",
+        "district": "Pershing",
+        "street": "Conant Street",
+        "categories": ["public_transport", "bus_stop"],
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [371.8182954854497, 223.40504593350784],
+        "edge": 118
+      },
+      {
+        "name": "Conant / 7 Mile (SB)",
+        "city": "Detroit",
+        "district": "Northeast Central District",
+        "street": "Conant Street",
+        "categories": ["public_transport", "bus_stop"],
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [382.6026317847311, 276.45614543503314],
+        "edge": 117
+      },
+      {
+        "name": "Conant / Grixdale (NB)",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "categories": ["public_transport", "bus_stop"],
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [642.8055221706788, 738.0818834002948],
+        "edge": 113
+      },
+      {
+        "name": "Conant / Grixdale (SB)",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "categories": ["public_transport", "bus_stop"],
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [655.1328228656928, 797.5155716919812],
+        "edge": 112
+      },
+      {
+        "name": "Conant / Kalsh (NB)",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "categories": ["public_transport", "bus_stop"],
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [478.3649117939522, 416.239287720616],
+        "edge": 116
+      },
+      {
+        "name": "Conant / Robinwood (SB)",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "categories": ["public_transport", "bus_stop"],
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [526.5743420917843, 554.6992103785649],
+        "edge": 114
+      },
+      {
+        "name": "Conant Ave United Methodist Church",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "housenumber": "18600",
+        "categories": [
+          "religion.place_of_worship.christianity",
+          "building.place_of_worship"
+        ],
+        "place_of_worship": {
+          "religion": "christian"
+        },
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [590.976467457556, 593.5451580016666],
+        "edge": 114
+      },
+      {
+        "name": "Conant Gardens Church of Christ",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "housenumber": "18460",
+        "categories": [
+          "religion.place_of_worship.christianity",
+          "building.place_of_worship"
+        ],
+        "place_of_worship": {
+          "religion": "christian"
+        },
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [672.465358835213, 779.1739685421513],
+        "edge": 112
+      },
+      {
+        "name": "Cooper Electric",
+        "street": "East Robinwood Street",
+        "housenumber": "29",
+        "categories": ["commercial.trade"],
+        "opening_hours": "Mo-Fr 07:00-15:00",
+        "brand": "Cooper Electric",
+        "branch": "East Robinwood Street",
+        "contact": {
+          "phone": "+1 212-299-0570",
+          "email": "CMATSalesTeam@cooper-electric.com",
+          "fax": "+1 212-354-1786",
+          "website": "https://www.cooper-electric.com/about/location/detroit"
+        },
+        "commercial": {
+          "type": "trade",
+          "trade": "building_supplies",
+          "level": 0
+        },
+        "distance": 384,
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [543.0098145721875, 495.2315279348054],
+        "edge": 70
+      },
+      {
+        "name": "Detroit Conant Gardens Seventh-Day Adventist Church",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "housenumber": "18801",
+        "categories": [
+          "religion.place_of_worship.christianity",
+          "building.place_of_worship"
+        ],
+        "place_of_worship": {
+          "religion": "christian"
+        },
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [419.77563104788067, 433.96931877289734],
+        "edge": 116
+      },
+      {
+        "name": "Dig",
+        "street": "Charset Street",
+        "housenumber": "1178",
+        "categories": ["catering.fast_food"],
+        "opening_hours": "Mo-Fr 11:00-21:00",
+        "brand": "Dig",
+        "name_other": {
+          "alt_name": "Dig Inn"
+        },
+        "contact": {
+          "phone": "+1-212-335-2010",
+          "website": "https://www.diginn.com/"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "regional"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [611.1958079659465, 534.3010803816527],
+        "edge": 46
+      },
+      {
+        "name": "Faith Temple Christian Methodist Episcopal Church",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "housenumber": "19000",
+        "categories": [
+          "religion.place_of_worship.christianity",
+          "building.place_of_worship"
+        ],
+        "place_of_worship": {
+          "religion": "christian",
+          "denomination": "methodist"
+        },
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [458.4086219059602, 330.83602431040515],
+        "edge": 117
+      },
+      {
+        "name": "Food Gallery 32",
+        "commercial": "Korea Town",
+        "street": "Joseph Campau Avenue",
+        "housenumber": "11",
+        "categories": ["catering.food_court"],
+        "opening_hours": "Mo-Su 11:00-23:00",
+        "contact": {
+          "phone": "+1 212-967-1678",
+          "website": "https://www.foodgallery32detroit.com/"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [480.9317249688451, 580.203571748838],
+        "edge": 13
+      },
+      {
+        "name": "Gammeeok",
+        "commercial": "Korea Town",
+        "street": "Joseph Campau Avenue",
+        "housenumber": "9",
+        "categories": ["catering.restaurant.korean"],
+        "opening_hours": "24/7",
+        "branch": "Joseph Campau Avenue",
+        "contact": {
+          "phone": "+1 212-868-1180",
+          "email": "contact@gammeeok.com",
+          "website": "https://www.gammeeok.com"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [431.53220871763017, 674.33424505842],
+        "edge": 12
+      },
+      {
+        "name": "IchiUmi",
+        "street": "Joseph Campau Avenue",
+        "housenumber": "6",
+        "categories": ["catering.restaurant.japanese"],
+        "opening_hours": "Mo-Su 11:45-15:30,16:00-22:00",
+        "contact": {
+          "phone": "+1 212-725-1333",
+          "email": "info@ichiumi.com",
+          "fax": "+1 212-725-1925",
+          "website": "http://ichiumi.com"
+        },
+        "payment_options": {
+          "visa": true,
+          "mastercard": true,
+          "discover_card": true,
+          "american_express": true
+        },
+        "catering": {
+          "cuisine": "japanese",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [473.7171754727144, 647.4850844203186],
+        "edge": 12
+      },
+      {
+        "name": "Joomak Banjum",
+        "street": "East Seven Mile Road",
+        "housenumber": "312",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Tu-Th 17:00-21:00; Fr, Sa 17:00-21:30",
+        "contact": {
+          "phone": "+1 212-268-7888",
+          "email": "plumpyduck@joomakbanjum.com",
+          "website": "https://www.joomakbanjum.com/"
+        },
+        "catering": {
+          "cuisine": "korean;chinese",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [685.1908473056665, 257.50003744293105],
+        "edge": 92
+      },
+      {
+        "name": "Keynote Lounge",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "housenumber": "19437",
+        "categories": ["catering.bar"],
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [674.2639399902836, 836.0001358034738],
+        "edge": 112
+      },
+      {
+        "name": "Kosher in Midtown",
+        "street": "East Robinwood Street",
+        "housenumber": "43",
+        "categories": ["kosher.only", "catering.food_court"],
+        "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
+        "contact": {
+          "phone": "+1-212-725-8100",
+          "website": "https://kosherinmidtown.com"
+        },
+        "catering": {
+          "cuisine": "international",
+          "diet": {
+            "kosher": true
+          }
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [822.4498607545609, 516.8566865591936],
+        "edge": 73
+      },
+      {
+        "name": "Mad Dog & Beans Mexican Cantina",
+        "street": "East Robinwood Street",
+        "housenumber": "5",
+        "categories": ["catering.restaurant.mexican"],
+        "opening_hours": "Su-Th 12:00-22:00; We 12:00-23:00; Th-Sa 12:00-00:00",
+        "contact": {
+          "phone": "+1-646-998-5722",
+          "email": "info@mdb38.com",
+          "website": "https://www.maddogandbeans.com"
+        },
+        "payment_options": {
+          "debit_cards": true,
+          "credit_cards": true,
+          "nfc_mobile_payments": true
+        },
+        "catering": {
+          "cuisine": "mexican"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [600.2537305923852, 503.5875461160569],
+        "edge": 70
+      },
+      {
+        "name": "McDonald's",
+        "street": "Klinger Street",
+        "housenumber": "809",
+        "categories": [
+          "building.commercial",
+          "catering.fast_food.burger",
+          "building.catering"
+        ],
+        "opening_hours": "Mo-Su 07:00-23:00",
+        "brand": "McDonald's",
+        "branch": "Klinger Street",
+        "contact": {
+          "phone": "+1 212 463 9495",
+          "website": "http://www.mcnewyork.com/3835"
+        },
+        "facilities": {
+          "smoking": false,
+          "air_conditioning": true,
+          "outdoor_seating": false,
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "contactless": true,
+          "debit_cards": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "burger"
+        },
+        "building": {
+          "type": "retail",
+          "height": 7.5
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [795.3431015729128, 792.0465922159664],
+        "edge": 25
+      },
+      {
+        "name": "Mondo",
+        "street": "Revere Avenue",
+        "housenumber": "102",
+        "categories": ["office.employment_agency"],
+        "opening_hours": "Mo-Fr 07:00-19:00",
+        "contact": {
+          "phone": "+1-212-257-5111",
+          "website": "https://www.mondo.com/"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": true,
+          "tactile_map": false,
+          "reception": true,
+          "stairs": false,
+          "elevator": true
+        },
+        "coords": [842.1383030898263, 844.5231892418075],
+        "edge": 37
+      },
+      {
+        "name": "Mulberry & Vine",
+        "street": "Mitchell Avenue",
+        "housenumber": "55",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo-Th 11:00-21:00; Fr-Sa 11:00-20:00",
+        "contact": {
+          "phone": "+1 212 252 8468",
+          "website": "https://www.mulberryandvine.com/"
+        },
+        "facilities": {
+          "smoking": false,
+          "outdoor_seating": false,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "new_american"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [519.6771943266945, 889.2540883055422],
+        "edge": 15
+      },
+      {
+        "name": "Nelly Spillanes",
+        "street": "Gallagher Street",
+        "categories": ["catering.pub"],
+        "opening_hours": "Mo-Su 11:00-16:00",
+        "contact": {
+          "phone": "+12127929673",
+          "website": "http://www.nellyspillanes.com"
+        },
+        "catering": {
+          "cuisine": "irish"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [673.8621434746558, 471.10455482699507],
+        "edge": 22
+      },
+      {
+        "name": "New Merchant Food Center",
+        "city": "Detroit",
+        "district": "Northeast Central District",
+        "street": "East Seven Mile Road",
+        "housenumber": "2819",
+        "categories": ["commercial.convenience"],
+        "opening_hours": "Mo-Fr 07:00-20:00",
+        "commercial": {
+          "type": "convenience"
+        },
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [255.58711536520929, 221.20338638516222],
+        "edge": 82
+      },
+      {
+        "name": "Nomad",
+        "street": "Charset Street",
+        "housenumber": "1170",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo-Su 09:00-22:00",
+        "contact": {
+          "phone": "+1-347-472-5660",
+          "website": "https://www.thenomadhotel.com/new-york/dining"
+        },
+        "catering": {
+          "cuisine": "fine_dining"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [584.4500238450667, 509.1830710945183],
+        "edge": 46
+      },
+      {
+        "name": "Pershing High School",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Revere Avenue",
+        "housenumber": "18875",
+        "categories": ["education.school"],
+        "accessibility": {
+          "tactile_map": true,
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "reception": true,
+          "stairs": true,
+          "elevator": false
+        },
+        "operator": "Detroit Public Schools",
+        "coords": [890.1569297801444, 346.5138157635308],
+        "edge": 35
+      },
+      {
+        "name": "Pig 'N' Whistle On 36th",
+        "street": "East Grixdale Avenue",
+        "housenumber": "202",
+        "categories": ["catering.pub"],
+        "opening_hours": "Mo-Su 11:00-04:00",
+        "contact": {
+          "phone": "+1-212-239-4820",
+          "email": "info@pignwhistleon36th.com",
+          "website": "https://pignwhistleon36th.com/"
+        },
+        "facilities": {
+          "toilets": true,
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "irish;american;sandwich;salad;steak;burger;seafood",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [849.9558182473037, 774.7719669903245],
+        "edge": 55
+      },
+      {
+        "name": "Pok\u00e9 Bar",
+        "street": "Charset Street",
+        "housenumber": "1333",
+        "categories": ["catering.fast_food"],
+        "opening_hours": "Mo-Fr 11:00-21:00; Sa 11:00-20:00; Su 11:30-20:00",
+        "contact": {
+          "phone": "+1 212-244-4320",
+          "website": "https://www.ilovepokebar.com/locations/new-york"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [587.6193575215482, 527.2939443563694],
+        "edge": 46
+      },
+      {
+        "name": "Prosek",
+        "street": "Revere Avenue",
+        "housenumber": "105",
+        "categories": ["office.company"],
+        "opening_hours": "Mo-Fr 08:30-17:30",
+        "contact": {
+          "phone": "+1-212-279-3115",
+          "website": "https://www.prosek.com/"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": true,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": true
+        },
+        "coords": [863.432149256868, 523.9620435198509],
+        "edge": 34
+      },
+      {
+        "name": "Serafina Italian Restaurant",
+        "street": "Revere Avenue",
+        "housenumber": "241",
+        "categories": ["catering.restaurant.italian"],
+        "opening_hours": "Mo-Su 07:00-22:00",
+        "branch": "Revere Avenue",
+        "contact": {
+          "phone": "+1-646-779-7667",
+          "website": "https://www.serafinarestaurant.com/location/serafina-madison-38th/"
+        },
+        "payment_options": {
+          "contactless": true,
+          "debit_cards": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "italian"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [841.5303698478198, 859.545905743293],
+        "edge": 37
+      },
+      {
+        "name": "Shake Shack",
+        "street": "Charset Street",
+        "housenumber": "1333",
+        "categories": ["catering.fast_food.burger"],
+        "opening_hours": "10:30-24:00",
+        "brand": "Shake Shack",
+        "branch": "Charset Street",
+        "contact": {
+          "phone": "+1 646-230-0696",
+          "website": "https://www.shakeshack.com"
+        },
+        "facilities": {
+          "takeaway": true
+        },
+        "catering": {
+          "cuisine": "burger",
+          "capacity": 135
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [581.9463698449639, 340.13169126731856],
+        "edge": 48
+      },
+      {
+        "name": "Stavros Niarchos Foundation Library",
+        "old_name": "Mid-Manhattan Library",
+        "street": "East Seven Mile Road",
+        "housenumber": "455",
+        "categories": ["building.public_and_civil", "education.library"],
+        "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
+        "operator": "Detroit Public Library",
+        "contact": {
+          "phone": "+1 212-340-0863",
+          "website": "https://www.nypl.org/locations/snfl"
+        },
+        "facilities": {
+          "internet_access": true,
+          "toilets": true,
+          "air_conditioning": true
+        },
+        "building": {
+          "height": 31
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": true,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [630.4362991784328, 245.11835454790872],
+        "edge": 90
+      },
+      {
+        "name": "Stout Detroit",
+        "street": "Gallagher Street",
+        "housenumber": "133",
+        "categories": ["catering.pub"],
+        "opening_hours": "Th-Su 11:30-01:45; Mo-We 11:30-23:45",
+        "branch": "Gallagher Street",
+        "contact": {
+          "phone": "+1-212-629-6191",
+          "website": "http://msg.stoutdetroit.com/"
+        },
+        "facilities": {
+          "toilets": true,
+          "outdoor_seating": true
+        },
+        "catering": {
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [686.4964977348209, 728.8794780331368],
+        "edge": 20
+      },
+      {
+        "name": "Sweetgreen",
+        "street": "Charset Street",
+        "housenumber": "1164",
+        "categories": ["vegetarian", "catering.fast_food.salad"],
+        "opening_hours": "Mo-Su 10:30-22:30",
+        "brand": "Sweetgreen",
+        "contact": {
+          "phone": "+1 646 449 8884",
+          "website": "https://order.sweetgreen.com/nomad/"
+        },
+        "facilities": {
+          "smoking": false,
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "salad",
+          "diet": {
+            "vegetarian": true
+          }
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [582.9164607401424, 257.27572364944814],
+        "edge": 48
+      },
+      {
+        "name": "Szechuan Gourmet",
+        "street": "Maine Street",
+        "housenumber": "21",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo-Fr 11:30-22:00; Sa, Su 12:00-22:00",
+        "contact": {
+          "phone": "+1-212-921-0233",
+          "website": "https://szechuan-gourmet.com/"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "payment_options": {
+          "cash": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "chinese;tea",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [188.9059307520759, 845.0634346795973],
+        "edge": 0
+      },
+      {
+        "name": "The Australian Detroit",
+        "street": "East Robinwood Street",
+        "housenumber": "20",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo, Su 11:30-00:00; Tu, We 11:30-23:00; Th 11:30-02:00; Fr, Sa 11:30-04:00",
+        "contact": {
+          "phone": "+1 212-869-9601",
+          "email": "info@theaustraliandetroit.com",
+          "website": "https://theaustraliandetroit.com/"
+        },
+        "facilities": {
+          "takeaway": true,
+          "delivery": true
+        },
+        "catering": {
+          "cuisine": "australian",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [456.1071301005224, 507.60600324433165],
+        "edge": 69
+      },
+      {
+        "name": "The Crooked Knife",
+        "street": "Angling Street",
+        "housenumber": "29",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo-Su 11:00-04:00",
+        "contact": {
+          "phone": "+1-212-696-2593",
+          "website": "http://www.thecrookedknife.com/"
+        },
+        "facilities": {
+          "toilets": true,
+          "takeaway": true
+        },
+        "payment_options": {
+          "cash": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "cuisine": "irish;coffee",
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": true,
+          "elevator": false
+        },
+        "coords": [290.6724613582106, 848.584576240837],
+        "edge": 3
+      },
+      {
+        "name": "The Redbury Detroit",
+        "street": "East Grixdale Avenue",
+        "housenumber": "29",
+        "categories": [
+          "building.facility",
+          "building.accommodation",
+          "service.social_facility.shelter"
+        ],
+        "contact": {
+          "phone": "+1-212-689-1900",
+          "website": "https://redburydetroit.com/"
+        },
+        "facilities": {
+          "smoking": false,
+          "air_conditioning": true
+        },
+        "targeted_for": {
+          "migrant": true
+        },
+        "building": {
+          "type": "hotel",
+          "height": 49
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [891.6883737178887, 785.1637209227558],
+        "edge": 55
+      },
+      {
+        "name": "Tina's Cuban Cuisine",
+        "street": "Revere Avenue",
+        "housenumber": "179",
+        "categories": ["catering.fast_food"],
+        "opening_hours": "Mo-Fr 08:00-20:00",
+        "contact": {
+          "phone": "+1-212-679-3500",
+          "website": "https://tinascubancuisine.com"
+        },
+        "catering": {
+          "cuisine": "cuban"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [829.70109844408, 622.8084451445947],
+        "edge": 37
+      },
+      {
+        "name": "United Grill Coney Island",
+        "city": "Detroit",
+        "district": "Conant Gardens",
+        "street": "Conant Street",
+        "categories": ["catering.restaurant", "building.catering"],
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [471.78218429089173, 497.7284897121745],
+        "edge": 115
+      },
+      {
+        "name": "Valley Bank",
+        "street": "East Seven Mile Road",
+        "housenumber": "279",
+        "categories": ["service.financial.bank"],
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "contact": {
+          "phone": "+1-212-481-6109",
+          "website": "https://locations.valley.com/ny/newyork/valley-bank-135.html"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [879.9428197476135, 236.40284723603799],
+        "edge": 96
+      },
+      {
+        "name": "Wafels & Dinges",
+        "street": "Norwood Street",
+        "housenumber": "102",
+        "categories": ["catering.restaurant", "building.catering"],
+        "opening_hours": "09:00-22:00",
+        "branch": "Norwood Street",
+        "contact": {
+          "phone": "+1 646-257-2592",
+          "website": "https://dinges.detroit"
+        },
+        "catering": {
+          "cuisine": "dessert"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": true,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [976.9941134480566, 628.0361281348587],
+        "edge": 40
+      },
+      {
+        "name": "Wells Fargo",
+        "street": "Revere Avenue",
+        "categories": ["service.financial.bank"],
+        "opening_hours": "Mo-Fr 09:00-17:00",
+        "brand": "Wells Fargo",
+        "contact": {
+          "phone": "+1-212-213-0936",
+          "website": "https://www.wellsfargo.com"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [841.8103135012498, 479.25195081675815],
+        "edge": 34
+      },
+      {
+        "name": "Windfall Lounge",
+        "street": "Maine Street",
+        "housenumber": "23",
+        "categories": ["catering.restaurant"],
+        "opening_hours": "Mo 15:00-23:00; Tu, We 15:00-00:00; Th, Fr 15:00-02:00",
+        "contact": {
+          "phone": "+1-212-869-4606",
+          "fax": "+1-212-869-3885",
+          "website": "https://windfalldetroit.com/"
+        },
+        "facilities": {
+          "toilets": true
+        },
+        "payment_options": {
+          "cash": true,
+          "credit_cards": true
+        },
+        "catering": {
+          "reservation": "required"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [206.9197494234104, 826.7473793996143],
+        "edge": 0
+      },
+      {
+        "name": "Woorijip",
+        "commercial": "Korea Town",
+        "street": "Joseph Campau Avenue",
+        "housenumber": "12",
+        "categories": ["catering.restaurant.korean"],
+        "opening_hours": "Mo-We 09:30-21:00; Fr-Su 09:30-22:00",
+        "contact": {
+          "phone": "+1 212-244-1115",
+          "email": "info@woorijip32.com",
+          "fax": "+1 212-244-4726",
+          "website": "http://woorijip32.com/"
+        },
+        "facilities": {
+          "smoking": false,
+          "takeaway": true,
+          "delivery": false
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [463.5827102603111, 811.998452009987],
+        "edge": 11
+      },
+      {
+        "name": "Yakisch Playground",
+        "city": "Detroit",
+        "street": "Angling Street",
+        "district": "Northeast Central District",
+        "categories": ["leisure.park"],
+        "opening_hours": "Mo-Su 08:00-22:00",
+        "accessibility": {
+          "tactile_map": true,
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [329.44386139358056, 841.1818193848032],
+        "edge": 3
+      },
+      {
+        "name": "on",
+        "street": "Revere Avenue",
+        "housenumber": "110",
+        "categories": ["catering.restaurant.korean", "building.catering"],
+        "opening_hours": "12:00-14:15,18:00-23:00",
+        "contact": {
+          "phone": "(917) 261-4326",
+          "website": "https://www.onnewyork.net/"
+        },
+        "catering": {
+          "cuisine": "korean"
+        },
+        "building": {
+          "levels": 17,
+          "material": "brick",
+          "color": "#E1E7EB",
+          "height": 46,
+          "roof": {
+            "shape": "flat"
+          }
+        },
+        "city": "Detroit",
+        "accessibility": {
+          "wheelchair_accessible": false,
+          "tactile_paving": false,
+          "tactile_map": false,
+          "reception": false,
+          "stairs": false,
+          "elevator": false
+        },
+        "coords": [827.5359176116239, 772.7394501066675],
+        "edge": 37
+      }
+    ],
     "nodes_features": [
       {
         "on_border": true,
@@ -291,7 +1876,7 @@
         "on_border": true,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "30 s",
         "street_width": "12.5 m",
         "tactile_paving": false
@@ -300,7 +1885,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "unknown",
         "street_width": "10 m",
         "tactile_paving": true
@@ -309,7 +1894,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "unknown",
         "street_width": "12.5 m",
         "tactile_paving": false
@@ -318,7 +1903,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "20 s",
         "street_width": "10 m",
         "tactile_paving": true
@@ -336,7 +1921,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "unknown",
         "tactile_paving": true,
         "walk_light_duration": "unknown"
@@ -345,7 +1930,7 @@
         "on_border": false,
         "crosswalk": false,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "unknown",
         "tactile_paving": false,
         "walk_light_duration": "unknown"
@@ -354,7 +1939,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "20 s",
         "street_width": "12.5 m",
         "tactile_paving": false
@@ -363,7 +1948,7 @@
         "on_border": true,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "45 s",
         "street_width": "unknown",
         "tactile_paving": false
@@ -372,7 +1957,7 @@
         "on_border": true,
         "crosswalk": false,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "10 m",
         "tactile_paving": false,
         "walk_light_duration": "unknown"
@@ -399,7 +1984,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "20 s",
         "street_width": "20 m",
         "tactile_paving": false
@@ -479,11 +2064,11 @@
       {
         "on_border": false,
         "crosswalk": true,
-        "walk_light": true,
+        "walk_light": false,
         "round-about": true,
-        "walk_light_duration": "15 s",
         "street_width": "15 m",
-        "tactile_paving": false
+        "tactile_paving": false,
+        "walk_light_duration": "unknown"
       },
       {
         "on_border": false,
@@ -500,42 +2085,6 @@
         "walk_light": true,
         "round-about": true,
         "walk_light_duration": "45 s",
-        "street_width": "10 m",
-        "tactile_paving": true
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "round-about": false,
-        "walk_light_duration": "15 s",
-        "street_width": "12.5 m",
-        "tactile_paving": true
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "round-about": false,
-        "walk_light_duration": "unknown",
-        "street_width": "unknown",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "round-about": true,
-        "walk_light_duration": "45 s",
-        "street_width": "10 m",
-        "tactile_paving": false
-      },
-      {
-        "on_border": false,
-        "crosswalk": true,
-        "walk_light": true,
-        "round-about": false,
-        "walk_light_duration": "unknown",
         "street_width": "10 m",
         "tactile_paving": true
       },
@@ -545,6 +2094,42 @@
         "walk_light": true,
         "round-about": false,
         "walk_light_duration": "15 s",
+        "street_width": "12.5 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "unknown",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": true,
+        "walk_light_duration": "45 s",
+        "street_width": "10 m",
+        "tactile_paving": false
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "unknown",
+        "street_width": "10 m",
+        "tactile_paving": true
+      },
+      {
+        "on_border": false,
+        "crosswalk": true,
+        "walk_light": true,
+        "round-about": false,
+        "walk_light_duration": "15 s",
         "street_width": "10 m",
         "tactile_paving": false
       },
@@ -660,7 +2245,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "15 m",
         "tactile_paving": true,
         "walk_light_duration": "unknown"
@@ -678,7 +2263,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": false,
+        "round-about": true,
         "walk_light_duration": "30 s",
         "street_width": "12.5 m",
         "tactile_paving": false
@@ -768,7 +2353,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "15 s",
         "street_width": "15 m",
         "tactile_paving": true
@@ -786,7 +2371,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "45 s",
         "street_width": "12.5 m",
         "tactile_paving": false
@@ -831,7 +2416,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "unknown",
         "street_width": "20 m",
         "tactile_paving": true
@@ -858,7 +2443,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "20 s",
         "street_width": "10 m",
         "tactile_paving": true
@@ -867,7 +2452,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": true,
-        "round-about": true,
+        "round-about": false,
         "walk_light_duration": "15 s",
         "street_width": "20 m",
         "tactile_paving": true
@@ -885,7 +2470,7 @@
         "on_border": false,
         "crosswalk": true,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "10 m",
         "tactile_paving": false,
         "walk_light_duration": "unknown"
@@ -930,7 +2515,7 @@
         "on_border": true,
         "crosswalk": true,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "20 m",
         "tactile_paving": false,
         "walk_light_duration": "unknown"
@@ -957,7 +2542,7 @@
         "on_border": true,
         "crosswalk": true,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "12.5 m",
         "tactile_paving": true,
         "walk_light_duration": "unknown"
@@ -966,7 +2551,7 @@
         "on_border": true,
         "crosswalk": false,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "12.5 m",
         "tactile_paving": false,
         "walk_light_duration": "unknown"
@@ -1002,7 +2587,7 @@
         "on_border": true,
         "crosswalk": false,
         "walk_light": false,
-        "round-about": true,
+        "round-about": false,
         "street_width": "unknown",
         "tactile_paving": true,
         "walk_light_duration": "unknown"
@@ -1150,7 +2735,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1195,7 +2780,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1213,7 +2798,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1231,7 +2816,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1291,15 +2876,6 @@
       {
         "roadworks": false,
         "bike_lane": false,
-        "slope": "flat",
-        "surface": "concrete",
-        "traffic_direction": "two_way",
-        "stairs": false,
-        "tactile_paving": false
-      },
-      {
-        "roadworks": true,
-        "bike_lane": true,
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
@@ -1316,12 +2892,21 @@
         "tactile_paving": false
       },
       {
-        "roadworks": false,
+        "roadworks": true,
         "bike_lane": true,
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
         "stairs": false,
+        "tactile_paving": false
+      },
+      {
+        "roadworks": false,
+        "bike_lane": true,
+        "slope": "flat",
+        "surface": "concrete",
+        "traffic_direction": "two_way",
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1384,7 +2969,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1447,7 +3032,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1456,7 +3041,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1728,7 +3313,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1791,7 +3376,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1800,7 +3385,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1845,7 +3430,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1917,7 +3502,7 @@
         "slope": "uphil",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -1989,7 +3574,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -2007,7 +3592,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -2043,7 +3628,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -2061,7 +3646,7 @@
         "slope": "flat",
         "surface": "concrete",
         "traffic_direction": "two_way",
-        "stairs": false,
+        "stairs": true,
         "tactile_paving": false
       },
       {
@@ -2094,12 +3679,12 @@
     ]
   },
   "context": {
-    "name": "TODO",
-    "description": "TODO",
-    "scale": "TODO",
-    "north_beyond_map": "TODO",
-    "south_beyond_map": "TODO",
-    "west_beyond_map": "TODO",
-    "east_beyond_map": "TODO"
+    "name": "Detroid, Conant Gardens",
+    "description": "Conant Gardens and the Northeast Central District in Detroit are vibrant and historic neighborhoods. Conant Gardens, known for its strong sense of community, is a predominantly African American neighborhood with a legacy of middle-class pride and cultural richness. The Northeast Central District, diverse and evolving, blends residential, commercial, and industrial spaces. It's marked by a mix of old and new, with ongoing revitalization efforts bringing fresh energy to the area while preserving its historic character. The whole area reflects Detroit's resilience and its complex urban fabric.",
+    "scale": "60 m: 1 cm",
+    "north_beyond_map": "Hamtramck—a multicultural city with Polish and Yemeni roots, known for its diverse shops and eateries.",
+    "south_beyond_map": "Eastern Market—Detroit’s lively hub for fresh produce, local goods, and street art.",
+    "west_beyond_map": "Grosse Pointe—affluent suburbs with lakeside views and upscale amenities.",
+    "east_beyond_map": "Highland Park—an historic city with automotive roots, undergoing revitalization."
   }
 }

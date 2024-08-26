@@ -188,8 +188,17 @@ class PromptFormatter:
             )
 
         question = f"###Question###\n{question}"
+        instructions = (
+            "Remeber that you MUST follow these instructions:\n"
+            "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
+            "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective.\n"
+            "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
+            "- Stick to the provided information: when information is insufficient to answer a question, "
+            "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
+            "- If my question is ambiguous or unclear, ask for clarification.\n\n"
+        )
 
-        prompt = f"{position_description}\n{question}"
+        prompt = f"{position_description}\n{question}\n{instructions}"
 
         return ChatCompletionUserMessageParam(content=prompt, role="user")
 

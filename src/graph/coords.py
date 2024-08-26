@@ -38,6 +38,7 @@ class Coords:
     def project_on(self, line: StraightLine) -> "Coords":
         if math.isinf(line.m):
             return Coords(line.q, self.y)
+
         p_x = (self.x + line.m * self.y - line.m * line.q) / (line.m**2 + 1)
         p_y = (line.m * self.x + line.m**2 * self.y + line.q) / (line.m**2 + 1)
 

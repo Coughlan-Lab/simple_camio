@@ -31,7 +31,7 @@ NONE_ANNOUNCEMENT = Announcement.none_announcement()
 class PositionHandler:
     MAP_MARGIN = 50
     MOVEMENT_THRESHOLD = 10
-    NODE_DISTANCE_THRESHOLD = 20
+    NODE_DISTANCE_THRESHOLD = 25
     EDGE_DISTANCE_THRESHOLD = 20
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:

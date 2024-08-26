@@ -106,7 +106,7 @@ class PoseDetector:
         ).reshape(-1, 1, 2)
         position = cv2.perspectiveTransform(position, H)[0][0]
 
-        if ratios[pointing_hand_index] > 0:
+        if ratios[pointing_hand_index] > 0.1:
             return (
                 np.array([position[0], position[1]]),
                 "pointing",

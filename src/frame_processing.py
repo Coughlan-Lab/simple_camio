@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Optional, Tuple
 
 import cv2
@@ -57,6 +58,12 @@ class SIFTModelDetector:
         return H is not None, H
 
 
+class HandStatus(Enum):
+    NOT_FOUND = 0
+    POINTING = 1
+    MOVING = 2
+
+
 class PoseDetector:
     def __init__(self) -> None:
         self.mp_hands = mp.solutions.hands
@@ -71,7 +78,7 @@ class PoseDetector:
 
     def detect(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> Tuple[Optional[npt.NDArray[np.float32]], Optional[str], npt.NDArray[np.uint8]]:
+    ) -> Tuple[HandStatus, Optional[npt.NDArray[np.float32]], npt.NDArray[np.uint8]]:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img.flags.writeable = False
@@ -81,7 +88,7 @@ class PoseDetector:
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
         if not results.multi_hand_landmarks or len(results.multi_hand_landmarks) == 0:
-            return None, None, img
+            return HandStatus.NOT_FOUND, None, img
 
         ratios = [self.pointing_ratio(hand) for hand in results.multi_hand_landmarks]
         pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
@@ -108,14 +115,14 @@ class PoseDetector:
 
         if ratios[pointing_hand_index] > 0.1:
             return (
+                HandStatus.POINTING,
                 np.array([position[0], position[1]]),
-                "pointing",
                 img,
             )
         else:
             return (
+                HandStatus.MOVING,
                 np.array([position[0], position[1]]),
-                "moving",
                 img,
             )
 

@@ -6,7 +6,6 @@ from functools import reduce
 from typing import Any, Dict, Generic, List, Optional, Protocol, Tuple, TypeVar
 
 import cv2
-import pyglet
 
 
 def str_format(v: Any) -> str:
@@ -164,9 +163,6 @@ class FPSManager:
         self.fps = 0.0
 
     def update(self) -> float:
-        pyglet.clock.tick()
-        pyglet.app.platform_event_loop.dispatch_posted_events()
-
         current_time = time.time()
         self.frame_count += 1
         elapsed_time = current_time - self.last_time

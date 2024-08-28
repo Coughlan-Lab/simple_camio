@@ -8,8 +8,8 @@ os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 import keyboard
 
-from src.audio import STT, TTS, SoundToggler
-from src.frame_processing import PoseDetector, SIFTModelDetector
+from src.audio import STT, TTS, AmbientSoundPlayer
+from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler
 from src.llm import LLM
 from src.utils import *
@@ -34,7 +34,7 @@ class CamIO:
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )
-        self.ambient_sound_player = SoundToggler(
+        self.ambient_sound_player = AmbientSoundPlayer(
             "res/white_noise.mp3", "res/crickets.mp3"
         )
 
@@ -87,18 +87,15 @@ class CamIO:
             ok, rotation = self.model_detector.detect(frame_gray)
 
             if not ok or rotation is None:
-                self.ambient_sound_player.play_crickets()
                 continue
-            self.ambient_sound_player.play_white_noise()
 
-            gesture_position, gesture_status, frame = self.pose_detector.detect(
+            gesture_status, gesture_position, frame = self.pose_detector.detect(
                 frame, rotation
             )
 
-            if gesture_position is None or gesture_status != "pointing":
-                self.ambient_sound_player.play_crickets()
+            self.ambient_sound_player.update(gesture_status)
+            if gesture_status != HandStatus.POINTING:
                 continue
-            self.ambient_sound_player.play_white_noise()
 
             self.position_handler.process_position(Coords(*gesture_position))
 

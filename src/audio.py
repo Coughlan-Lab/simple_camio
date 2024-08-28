@@ -9,6 +9,8 @@ import pyglet.media
 import pyttsx3
 import speech_recognition as sr
 
+from src.frame_processing import HandStatus
+
 
 class TTS:
     RATE = 200
@@ -184,43 +186,34 @@ class STT:
 
 
 class AmbientSoundPlayer:
-    def __init__(self, soundfile: str) -> None:
-        self.sound = pyglet.media.load(soundfile, streaming=False)
+    def __init__(self, white_noise_filename: str, crickets_filename: str) -> None:
+        self.white_noise = pyglet.media.load(white_noise_filename, streaming=False)
+        self.crickets = pyglet.media.load(crickets_filename, streaming=False)
 
         self.player = pyglet.media.Player()
-        self.player.queue(self.sound)
-
-        self.player.eos_action = "loop"
         self.player.loop = True
+        self.player.queue(self.crickets)
 
-    def set_volume(self, volume: float) -> None:
-        if 0 <= volume <= 1:
-            self.player.volume = volume
+        self.playing_crickets = True
+        self.player.play()
 
-    def play_sound(self) -> None:
-        if not self.player.playing:
-            self.player.play()
-
-    def pause_sound(self) -> None:
-        if self.player.playing:
-            self.player.pause()
-
-
-class SoundToggler:
-    def __init__(self, white_noise_filename: str, crickets_filename: str) -> None:
-        self.crickets_player = AmbientSoundPlayer(crickets_filename)
-
-        self.white_noise_player = AmbientSoundPlayer(white_noise_filename)
-        self.white_noise_player.set_volume(0.05)
+    def update(self, gesture: HandStatus) -> None:
+        if gesture == HandStatus.POINTING:
+            self.play_white_noise()
+        else:
+            self.play_crickets()
 
     def play_white_noise(self) -> None:
-        self.crickets_player.pause_sound()
-        self.white_noise_player.play_sound()
+        if self.playing_crickets:
+            self.player.queue(self.white_noise)
+            self.player.next_source()
+            self.playing_crickets = False
 
     def play_crickets(self) -> None:
-        self.white_noise_player.pause_sound()
-        self.crickets_player.play_sound()
+        if not self.playing_crickets:
+            self.player.queue(self.crickets)
+            self.player.next_source()
+            self.playing_crickets = True
 
     def stop(self) -> None:
-        self.crickets_player.pause_sound()
-        self.white_noise_player.pause_sound()
+        self.player.pause()

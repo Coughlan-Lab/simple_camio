@@ -94,7 +94,7 @@ class CamIO:
             )
 
             self.ambient_sound_player.update(gesture_status)
-            if gesture_status != HandStatus.POINTING:
+            if gesture_status != HandStatus.POINTING or gesture_position is None:
                 continue
 
             self.position_handler.process_position(Coords(*gesture_position))
@@ -231,7 +231,7 @@ class CamIO:
             if not self.camio.stt.processing_input:
                 if answer is None or answer == "":
                     print("No answer received.")
-                    self.camio.tts.error()
+                    self.camio.tts.llm_error()
                 else:
                     print(f"Answer: {answer}")
                     self.camio.tts.say(answer)

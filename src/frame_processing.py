@@ -78,7 +78,7 @@ class PoseDetector:
 
     def detect(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> Tuple[HandStatus, Optional[npt.NDArray[np.float32]], npt.NDArray[np.uint8]]:
+    ) -> Tuple[HandStatus, Optional[Tuple[float, float]], npt.NDArray[np.uint8]]:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img.flags.writeable = False
@@ -112,19 +112,16 @@ class PoseDetector:
             dtype=np.float32,
         ).reshape(-1, 1, 2)
         position = cv2.perspectiveTransform(position, H)[0][0]
+        hand_status = HandStatus.MOVING
 
         if ratios[pointing_hand_index] > 0.1:
-            return (
-                HandStatus.POINTING,
-                np.array([position[0], position[1]]),
-                img,
-            )
-        else:
-            return (
-                HandStatus.MOVING,
-                np.array([position[0], position[1]]),
-                img,
-            )
+            hand_status = HandStatus.POINTING
+
+        return (
+            hand_status,
+            (position[0], position[1]),
+            img,
+        )
 
     def pointing_ratio(self, hand_landmarks) -> float:
         """

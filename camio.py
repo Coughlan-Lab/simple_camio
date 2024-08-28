@@ -104,36 +104,20 @@ class CamIO:
                 continue
 
             self.position_handler.process_position(Coords(*gesture_position))
-            self.announce_position()
+            self.__announce_position()
 
+        ambient_sound_player.stop()
         cap.release()
-        self.__reset()
+
+        self.__disable_shortcuts()
+        cv2.destroyAllWindows()
+
+        self.stop_interaction()
+        self.position_handler.clear()
 
         self.tts.goodbye()
         time.sleep(1)
         self.tts.stop()
-
-    def announce_position(self) -> None:
-        announcement = self.position_handler.get_next_announcement()
-
-        if (
-            len(announcement) == 0
-            or announcement.description == self.last_position_announcement.description
-        ):
-            return
-
-        stop_current_announcement = (
-            self.last_position_announcement.graph_nearest_element
-            != announcement.graph_nearest_element
-        )
-
-        self.tts.say(
-            announcement.description,
-            announcement_type=AnnouncementType.POSITION_UPDATE,
-            priority=Announcement.Priority.LOW,
-            stop_current=stop_current_announcement,
-        )
-        self.last_position_announcement = announcement
 
     def stop(self) -> None:
         self.running = False
@@ -161,7 +145,7 @@ class CamIO:
         if self.description is not None:
             self.tts.say(
                 self.description,
-                priority=TTSAnnouncement.Priority.HIGH,
+                priority=Announcement.Priority.HIGH,
                 stop_current=True,
                 announcement_type=AnnouncementType.MAP_DESCRIPTION,
             )
@@ -174,6 +158,9 @@ class CamIO:
         keyboard.add_hotkey("esc", self.stop)
         keyboard.on_press_key("cmd", self.say_map_description)
 
+    def __disable_shortcuts(self) -> None:
+        keyboard.unhook_all()
+
     def __get_capture(self) -> Optional[cv2.VideoCapture]:
         cam_port = 1  # select_camera_port()
         if cam_port is None:
@@ -185,14 +172,6 @@ class CamIO:
         cap.set(cv2.CAP_PROP_FOCUS, 0)
 
         return cap
-
-    def __reset(self) -> None:
-        keyboard.unhook_all()
-        cv2.destroyAllWindows()
-
-        self.stop_interaction()
-        self.position_handler.clear()
-        self.ambient_sound_player.stop()
 
     def __draw_debug_info(self) -> None:
         template = self.template.copy()
@@ -214,6 +193,28 @@ class CamIO:
         )
 
         cv2.imshow("CamIO - Debug", template)
+
+    def __announce_position(self) -> None:
+        announcement = self.position_handler.get_next_announcement()
+
+        if (
+            len(announcement) == 0
+            or announcement.description == self.last_position_announcement.description
+        ):
+            return
+
+        stop_current_announcement = (
+            self.last_position_announcement.graph_nearest_element
+            != announcement.graph_nearest_element
+        )
+
+        self.tts.say(
+            announcement.description,
+            announcement_type=AnnouncementType.POSITION_UPDATE,
+            priority=Announcement.Priority.LOW,
+            stop_current=stop_current_announcement,
+        )
+        self.last_position_announcement = announcement
 
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_processing():

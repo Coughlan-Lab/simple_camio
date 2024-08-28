@@ -2,11 +2,12 @@ import os
 import sys
 import threading as th
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
-import keyboard
+from pynput.keyboard import Key, KeyCode
+from pynput.keyboard import Listener as KeyboardListener
 
 from src.audio import (STT, TTS, AmbientSoundPlayer, Announcement,
                        AnnouncementType)
@@ -153,14 +154,23 @@ class CamIO:
             self.tts.no_description()
 
     def __init_shortcuts(self) -> None:
-        keyboard.add_hotkey("space", self.__on_spacebar_pressed)
-        keyboard.add_hotkey("enter", self.stop_interaction)
-        keyboard.add_hotkey("esc", self.stop)
-        keyboard.on_press_key("cmd", self.say_map_description)
-        keyboard.add_hotkey("delete", self.tts.toggle)
+        def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
+            if key == Key.space:
+                self.__on_spacebar_pressed()
+            elif key == Key.enter:
+                self.tts.toggle()
+            elif key == Key.esc:
+                self.stop_interaction()
+            elif key == KeyCode.from_char("d"):
+                self.say_map_description()
+            elif key == KeyCode.from_char("q"):
+                self.stop()
+
+        self.keyboard = KeyboardListener(on_press=on_press)
+        self.keyboard.start()
 
     def __disable_shortcuts(self) -> None:
-        keyboard.unhook_all()
+        self.keyboard.stop()
 
     def __get_capture(self) -> Optional[cv2.VideoCapture]:
         cam_port = 1  # select_camera_port()
@@ -300,8 +310,9 @@ if __name__ == "__main__":
 
     try:
         camio.main_loop()
-    except:
-        camio.stop()
+    except Exception as e:
+        print(f"An error occurred: {e}")
     finally:
+        camio.stop()
         camio.save_chat(args.out)
         print(f"Chat saved to {args.out}")

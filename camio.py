@@ -8,7 +8,7 @@ os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 import keyboard
 
-from src.audio import STT, TTS, AmbientSoundPlayer
+from src.audio import STT, TTS, AmbientSoundPlayer, TTSAnnouncement
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler
 from src.llm import LLM
@@ -102,7 +102,11 @@ class CamIO:
             if not self.is_busy() and (
                 announcement := self.position_handler.get_next_announcement()
             ):
-                self.tts.say(announcement.text)
+                self.tts.say(
+                    announcement.text,
+                    priority=TTSAnnouncement.Priority.LOW,
+                    name="position announcement",
+                )
 
         cap.release()
         self.__reset()
@@ -204,7 +208,7 @@ class CamIO:
             self.camio.tts.stop_speaking()
 
             if self.camio.llm.is_waiting_for_response():
-                self.camio.tts.waiting()
+                self.camio.tts.waiting_llm()
                 return
 
             print("Listening...")
@@ -234,7 +238,7 @@ class CamIO:
                     self.camio.tts.llm_error()
                 else:
                     print(f"Answer: {answer}")
-                    self.camio.tts.say(answer)
+                    self.camio.tts.say(answer, priority=TTSAnnouncement.Priority.HIGH)
 
         def stop(self) -> None:
             self.stop_event.set()

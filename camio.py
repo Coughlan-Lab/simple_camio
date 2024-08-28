@@ -157,6 +157,7 @@ class CamIO:
         keyboard.add_hotkey("enter", self.stop_interaction)
         keyboard.add_hotkey("esc", self.stop)
         keyboard.on_press_key("cmd", self.say_map_description)
+        keyboard.add_hotkey("delete", self.tts.toggle)
 
     def __disable_shortcuts(self) -> None:
         keyboard.unhook_all()
@@ -299,8 +300,8 @@ if __name__ == "__main__":
 
     try:
         camio.main_loop()
-    except KeyboardInterrupt:
+    except:
         camio.stop()
-
-    camio.save_chat(args.out)
-    print(f"Chat saved to {args.out}")
+    finally:
+        camio.save_chat(args.out)
+        print(f"Chat saved to {args.out}")

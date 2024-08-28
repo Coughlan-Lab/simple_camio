@@ -32,7 +32,7 @@ class Announcement:
 
     text: str = field(compare=False)
     priority: Priority
-    name: str = field(default="", compare=False)
+    name: AnnouncementType
 
 
 def generate_random_id() -> str:
@@ -77,6 +77,18 @@ class TTS:
     def is_speaking(self) -> bool:
         return bool(self.engine.isBusy())
 
+    def toggle(self) -> None:
+        if self.is_speaking():
+            self.stop_speaking()
+
+        elif self.current_announcement is not None:
+            self.say(
+                self.current_announcement.text[self.current_msg_word_index :],
+                self.current_announcement.name,
+                stop_current=True,
+                priority=self.current_announcement.priority,
+            )
+
     def say(
         self,
         text: str,
@@ -93,11 +105,11 @@ class TTS:
         ):
             self.stop_speaking()
 
-        announcement = Announcement(text, priority, announcement_type.value)
-        self.announcements[announcement.name] = announcement
+        announcement = Announcement(text, priority, announcement_type)
+        self.announcements[announcement.name.value] = announcement
 
         # Add the announcement to the queue
-        self.engine.say(announcement.text, announcement.name)
+        self.engine.say(announcement.text, announcement.name.value)
         self.engine.iterate()
 
     def __on_utterance_started(self, name: str) -> None:
@@ -107,7 +119,7 @@ class TTS:
             del self.announcements[name]
 
     def __on_utterance_finished(self, name: str, completed: bool) -> None:
-        self.current_announcement = None
+        pass
 
     def __on_word_started(self, name: str, location: int, length: int) -> None:
         self.current_msg_word_index = location

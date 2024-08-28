@@ -8,9 +8,10 @@ os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 import keyboard
 
-from src.audio import STT, TTS, AmbientSoundPlayer, TTSAnnouncement
+from src.audio import (STT, TTS, AmbientSoundPlayer, Announcement,
+                       AnnouncementType)
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
-from src.graph import Coords, Graph, PositionHandler
+from src.graph import Coords, Graph, PositionData, PositionHandler
 from src.llm import LLM
 from src.utils import *
 
@@ -23,19 +24,17 @@ class CamIO:
         # Model graph
         self.graph = Graph(model["graph"])
         self.position_handler = PositionHandler(self.graph, model["meters_per_pixel"])
+        self.last_position_announcement = PositionData.none_announcement()
 
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
         self.pose_detector = PoseDetector()
         self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
 
-        # Audio players
+        # TTS and STT
         self.tts = TTS("res/strings.json")
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
-        )
-        self.ambient_sound_player = AmbientSoundPlayer(
-            "res/white_noise.mp3", "res/crickets.mp3"
         )
 
         # LLM
@@ -48,11 +47,11 @@ class CamIO:
         self.running = False
 
     def main_loop(self) -> None:
-
         cap = self.__get_capture()
         if cap is None:
             print("No camera found.")
             return
+
         ok, frame = cap.read()
         if not ok:
             print("No camera image returned.")
@@ -66,7 +65,14 @@ class CamIO:
         self.tts.welcome()
         self.tts.instructions()
         if self.description is not None:
-            self.tts.say(f"Map description:\n {self.description}")
+            self.tts.say(
+                f"Map description:\n {self.description}",
+                announcement_type=AnnouncementType.MAP_DESCRIPTION,
+            )
+
+        ambient_sound_player = AmbientSoundPlayer(
+            "res/white_noise.mp3", "res/crickets.mp3"
+        )
 
         self.running = True
         while self.running and cap.isOpened():
@@ -93,20 +99,12 @@ class CamIO:
                 frame, rotation
             )
 
-            self.ambient_sound_player.update(gesture_status)
+            ambient_sound_player.update(gesture_status)
             if gesture_status != HandStatus.POINTING or gesture_position is None:
                 continue
 
             self.position_handler.process_position(Coords(*gesture_position))
-
-            if not self.is_busy() and (
-                announcement := self.position_handler.get_next_announcement()
-            ):
-                self.tts.say(
-                    announcement.text,
-                    priority=TTSAnnouncement.Priority.LOW,
-                    name="position announcement",
-                )
+            self.announce_position()
 
         cap.release()
         self.__reset()
@@ -114,6 +112,28 @@ class CamIO:
         self.tts.goodbye()
         time.sleep(1)
         self.tts.stop()
+
+    def announce_position(self) -> None:
+        announcement = self.position_handler.get_next_announcement()
+
+        if (
+            len(announcement) == 0
+            or announcement.description == self.last_position_announcement.description
+        ):
+            return
+
+        stop_current_announcement = (
+            self.last_position_announcement.graph_nearest_element
+            != announcement.graph_nearest_element
+        )
+
+        self.tts.say(
+            announcement.description,
+            announcement_type=AnnouncementType.POSITION_UPDATE,
+            priority=Announcement.Priority.LOW,
+            stop_current=stop_current_announcement,
+        )
+        self.last_position_announcement = announcement
 
     def stop(self) -> None:
         self.running = False
@@ -139,7 +159,12 @@ class CamIO:
         self.stop_interaction()
 
         if self.description is not None:
-            self.tts.say(self.description)
+            self.tts.say(
+                self.description,
+                priority=TTSAnnouncement.Priority.HIGH,
+                stop_current=True,
+                announcement_type=AnnouncementType.MAP_DESCRIPTION,
+            )
         else:
             self.tts.no_description()
 
@@ -238,7 +263,12 @@ class CamIO:
                     self.camio.tts.llm_error()
                 else:
                     print(f"Answer: {answer}")
-                    self.camio.tts.say(answer, priority=TTSAnnouncement.Priority.HIGH)
+                    self.camio.tts.say(
+                        answer,
+                        stop_current=True,
+                        priority=Announcement.Priority.HIGH,
+                        announcement_type=AnnouncementType.LLM_RESPONSE,
+                    )
 
         def stop(self) -> None:
             self.stop_event.set()

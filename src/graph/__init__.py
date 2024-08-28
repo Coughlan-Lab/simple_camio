@@ -5,7 +5,7 @@ from .coords import Coords
 from .edge import Edge, Street
 from .graph import Graph
 from .node import Node
-from .position_handler import PositionHandler
+from .position_handler import PositionData, PositionHandler
 
 
 class GraphEncoder(JSONEncoder):
@@ -29,4 +29,5 @@ __all__ = [
     "Graph",
     "GraphEncoder",
     "PositionHandler",
+    "PositionData",
 ]

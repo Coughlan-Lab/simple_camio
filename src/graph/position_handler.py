@@ -9,11 +9,11 @@ from .graph import Graph
 from .node import Node
 
 
-class Announcement:
+class PositionData:
     def __init__(
-        self, text: str, pos: Coords, graph_nearest: Optional[Union[Node, Edge]]
+        self, description: str, pos: Coords, graph_nearest: Optional[Union[Node, Edge]]
     ) -> None:
-        self.text = text
+        self.description = description
         self.pos = pos
         self.graph_nearest_element = graph_nearest
         self.time = time.time()
@@ -21,11 +21,14 @@ class Announcement:
     @staticmethod
     def none_announcement(
         pos: Coords = Coords(0, 0), graph_nearest: Optional[Union[Node, Edge]] = None
-    ) -> "Announcement":
-        return Announcement("", pos, graph_nearest)
+    ) -> "PositionData":
+        return PositionData("", pos, graph_nearest)
+
+    def __len__(self) -> int:
+        return len(self.description)
 
 
-NONE_ANNOUNCEMENT = Announcement.none_announcement()
+NONE_ANNOUNCEMENT = PositionData.none_announcement()
 
 
 class PositionHandler:
@@ -45,7 +48,7 @@ class PositionHandler:
         self.positions_buffer = ArithmeticBuffer[Coords](max_size=3)
         self.edge_buffer = Buffer[Edge](max_size=10)
 
-        self.last_announcement: Announcement = NONE_ANNOUNCEMENT
+        self.last_announcement = NONE_ANNOUNCEMENT
 
     def clear(self) -> None:
         self.positions_buffer.clear()
@@ -69,21 +72,21 @@ class PositionHandler:
             return self.positions_buffer.average()
         return None
 
-    def get_next_announcement(self) -> Optional[Announcement]:
+    def get_next_announcement(self) -> PositionData:
         last_pos = self.positions_buffer.last()
         avg_pos = self.positions_buffer.average()
 
         if last_pos is None or avg_pos is None:
-            return None
+            return NONE_ANNOUNCEMENT
 
-        to_announce: Announcement = Announcement.none_announcement(avg_pos)
+        to_announce: PositionData = PositionData.none_announcement(avg_pos)
 
         nearest_node, distance = self.graph.get_nearest_node(avg_pos)
 
         # print(f"N: {nearest_node}, D: {distance}")
 
         if distance <= PositionHandler.NODE_DISTANCE_THRESHOLD:
-            to_announce = Announcement(nearest_node.description, avg_pos, nearest_node)
+            to_announce = PositionData(nearest_node.description, avg_pos, nearest_node)
 
         else:
             edge, distance = self.graph.get_nearest_edge(last_pos)
@@ -102,7 +105,7 @@ class PositionHandler:
                     movement_dir != MovementDirection.NONE
                     or self.last_announcement.graph_nearest_element != nearest_edge
                 ):
-                    to_announce = Announcement(
+                    to_announce = PositionData(
                         nearest_edge.get_complete_description(movement_dir),
                         avg_pos,
                         nearest_edge,
@@ -110,10 +113,7 @@ class PositionHandler:
                 else:
                     to_announce = self.last_announcement
             else:
-                to_announce = Announcement.none_announcement(avg_pos)
-
-        if to_announce.text == self.last_announcement.text:
-            return None
+                to_announce = PositionData.none_announcement(avg_pos)
 
         self.last_announcement = to_announce
         return to_announce

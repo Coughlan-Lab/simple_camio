@@ -2,25 +2,41 @@ import json
 import os
 import threading as th
 import time
+import uuid
 from dataclasses import dataclass, field
-from enum import Enum
-from queue import PriorityQueue
-from typing import Optional
+from enum import Enum, IntEnum
+from typing import Dict, Optional
 
 import pyttsx3
 
 
+class AnnouncementType(Enum):
+    WELCOME = "welcome"
+    INSTRUCTIONS = "instructions"
+    GOODBYE = "goodbye"
+    WAITING = "waiting"
+    ERROR = "error"
+    NO_DESCRIPTION = "no_description"
+    POSITION_UPDATE = "position_update"
+    MAP_DESCRIPTION = "map_description"
+    LLM_RESPONSE = "llm_response"
+
+
 @dataclass(order=True)
-class TTSAnnouncement:
-    class Priority(Enum):
-        NONE = 3
-        LOW = 2
-        MEDIUM = 1
-        HIGH = 0
+class Announcement:
+    class Priority(IntEnum):
+        NONE = 0
+        LOW = 1
+        MEDIUM = 2
+        HIGH = 3
 
     text: str = field(compare=False)
     priority: Priority
     name: str = field(default="", compare=False)
+
+
+def generate_random_id() -> str:
+    return str(uuid.uuid4())
 
 
 class TTS:
@@ -42,25 +58,20 @@ class TTS:
             self.res = json.load(f)
 
         self.running = False
-        self.main_lock = th.Condition()
         self.waiting_loop_running = th.Event()
 
-        self.queue: PriorityQueue[TTSAnnouncement] = PriorityQueue()
         self.current_msg_word_index = 0
-        self.current_announcement: Optional[TTSAnnouncement] = None
+        self.current_announcement: Optional[Announcement] = None
+        self.announcements: Dict[str, Announcement] = dict()
 
     def start(self) -> None:
         self.engine.startLoop(False)
-        th.Thread(target=self.__queue_loop).start()
 
     def stop(self) -> None:
-        self.running = False
-
-        with self.main_lock:
-            self.main_lock.notify()
+        self.engine.endLoop()
 
     def stop_speaking(self) -> None:
-        self.queue.queue.clear()
+        self.announcements.clear()
         self.engine.stop()
 
     def is_speaking(self) -> bool:
@@ -69,81 +80,83 @@ class TTS:
     def say(
         self,
         text: str,
-        priority: TTSAnnouncement.Priority = TTSAnnouncement.Priority.LOW,
-        name: str = "",
+        announcement_type: AnnouncementType,
+        priority: Announcement.Priority = Announcement.Priority.LOW,
+        stop_current: bool = False,
     ) -> None:
         if text == "":
             return
 
-        if (
-            self.current_announcement is not None
-            and self.current_announcement.priority.value < priority.value
-        ):  # min value is high priority
+        if stop_current and (
+            self.current_announcement is None
+            or priority >= self.current_announcement.priority
+        ):
             self.stop_speaking()
 
-        self.queue.put(TTSAnnouncement(text, priority, name))
+        announcement = Announcement(text, priority, announcement_type.value)
+        self.announcements[announcement.name] = announcement
 
-    def __say_now(self, text: str, name: str) -> None:
-        self.engine.say(text, name=name)
+        # Add the announcement to the queue
+        self.engine.say(announcement.text, announcement.name)
         self.engine.iterate()
 
     def __on_utterance_started(self, name: str) -> None:
-        pass
+        self.current_announcement = self.announcements.get(name, None)
+
+        if self.current_announcement is not None:
+            del self.announcements[name]
 
     def __on_utterance_finished(self, name: str, completed: bool) -> None:
-        with self.main_lock:
-            self.main_lock.notify()
+        self.current_announcement = None
 
     def __on_word_started(self, name: str, location: int, length: int) -> None:
         self.current_msg_word_index = location
 
-    def __queue_loop(self) -> None:
-        self.running = True
-
-        with self.main_lock:
-            while self.running:
-
-                self.current_announcement = None
-                next_announcement = (
-                    self.queue.get()
-                )  # blocks until an item is available
-
-                self.current_announcement = next_announcement
-                self.current_msg_word_index = 0
-
-                self.__say_now(
-                    self.current_announcement.text, self.current_announcement.name
-                )
-
-                self.main_lock.wait()
-
-        self.engine.endLoop()
-
     def welcome(self) -> None:
-        self.say(self.res["welcome"], name="welcome message")
+        self.say(
+            self.res["welcome"],
+            announcement_type=AnnouncementType.WELCOME,
+            priority=Announcement.Priority.MEDIUM,
+        )
 
     def instructions(self) -> None:
-        self.say(self.res["instructions"], name="instructions")
+        self.say(
+            self.res["instructions"],
+            announcement_type=AnnouncementType.INSTRUCTIONS,
+            priority=Announcement.Priority.MEDIUM,
+        )
 
     def goodbye(self) -> None:
-        self.say(self.res["goodbye"], name="goodbye message")
+        self.say(
+            self.res["goodbye"],
+            announcement_type=AnnouncementType.GOODBYE,
+            stop_current=True,
+            priority=Announcement.Priority.HIGH,
+        )
 
     def waiting_llm(self) -> None:
         self.say(
             self.res["waiting"],
-            name="waiting llm message",
-            priority=TTSAnnouncement.Priority.MEDIUM,
+            announcement_type=AnnouncementType.WAITING,
+            priority=Announcement.Priority.MEDIUM,
+            stop_current=True,
         )
 
     def llm_error(self) -> None:
         self.say(
             self.res["error"],
-            name="llm error message",
-            priority=TTSAnnouncement.Priority.HIGH,
+            announcement_type=AnnouncementType.ERROR,
+            priority=Announcement.Priority.HIGH,
+            stop_current=True,
         )
 
     def no_description(self) -> None:
-        self.say(self.res["no_description"], name="no description message")
+        self.say(
+            self.res["no_description"],
+            announcement_type=AnnouncementType.NO_DESCRIPTION,
+            stop_current=True,
+            priority=Announcement.Priority.HIGH,
+        )
 
     def start_waiting_loop(self) -> None:
         if self.waiting_loop_running.is_set():

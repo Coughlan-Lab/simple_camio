@@ -110,7 +110,7 @@ class Graph:
         e1, dist_to_e1 = self.get_nearest_edge(p1)
         e2, dist_to_e2 = self.get_nearest_edge(p2)
 
-        return (
+        d = (
             self.__get_edge_distance(
                 e1,
                 e2,
@@ -120,6 +120,9 @@ class Graph:
             + dist_to_e1
             + dist_to_e2
         )
+
+        # round to nearest 5 multiple
+        return 5 * round(d / 5)
 
     def get_distance_to_poi(self, p1: Coords, poi_index: int) -> float:
         poi = self.pois[poi_index]

@@ -25,7 +25,7 @@ class Edge(StraightLine):
         self.features = features if features is not None else dict()
 
         self.between_streets: Set[str] = set()
-        self.length = self.node1.distance_from(self.node2)
+        self.length = self.node1.distance_to(self.node2)
 
     @property
     def id(self) -> str:
@@ -76,6 +76,20 @@ class Edge(StraightLine):
 
         return description
 
+    def get_between_description(self) -> str:
+        if len(self.between_streets) == 0:
+            return f"at the end of {self.street}."
+
+        if len(self.between_streets) == 1:
+            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}."
+
+        streets = list(self.between_streets)
+        street_str = (
+            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
+        )
+
+        return street_str
+
     @property
     def m(self) -> float:
         if self.node1[0] == self.node2[0]:
@@ -106,6 +120,15 @@ class Edge(StraightLine):
             or self.node1 == other.node2
             or self.node2 == other.node1
             or self.node2 == other.node2
+        )
+
+    def distance_from(self, coords: Coords) -> float:
+        if self.contains(coords.project_on(self)):
+            return coords.distance_to_line(self)
+
+        return min(
+            self.node1.distance_to(coords),
+            self.node2.distance_to(coords),
         )
 
     def __getitem__(self, index: int) -> Node:

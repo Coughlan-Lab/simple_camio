@@ -41,17 +41,17 @@ class Node:
         streets = list(set(self.adjacents_streets))
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
-        return f"{self.intersection_type}intersection between {streets_str}"
+        return f"{self.intersection_type} intersection between {streets_str}"
 
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1
 
-    def distance_from(self, other: Union["Node", Coords]) -> float:
+    def distance_to(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):
             return self.coords.distance_to(other.coords)
         return self.coords.distance_to(other)
 
-    def manhattan_distance_from(self, other: Union["Node", Coords]) -> float:
+    def manhattan_distance_to(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):
             return self.coords.manhattan_distance_to(other.coords)
         return self.coords.manhattan_distance_to(other)

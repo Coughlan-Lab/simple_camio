@@ -17,6 +17,16 @@ class PositionData:
         self.pos = pos
         self.graph_nearest_element = graph_nearest
         self.time = time.time()
+        self.__init_distance()
+
+    def __init_distance(self) -> None:
+        self.distance = math.inf
+
+        if isinstance(self.graph_nearest_element, Node):
+            self.distance = self.graph_nearest_element.distance_to(self.pos)
+
+        elif isinstance(self.graph_nearest_element, Edge):
+            self.distance = self.graph_nearest_element.distance_from(self.pos)
 
     @staticmethod
     def none_announcement(

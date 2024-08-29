@@ -76,9 +76,9 @@ class Graph:
     def get_nearest_node(self, coords: Coords) -> Tuple[Node, float]:
         node = min(
             self.nodes,
-            key=lambda node: node.distance_from(coords),
+            key=lambda node: node.distance_to(coords),
         )
-        return node, node.distance_from(coords)
+        return node, node.distance_to(coords)
 
     def get_nearest_edge(self, coords: Coords) -> Tuple[Edge, float]:
         candidate_edges = list(

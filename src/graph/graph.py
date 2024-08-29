@@ -200,7 +200,13 @@ class Graph:
             transports,
             transport_preference,
             route_index,
-        )
+        ) + [
+            {
+                "navigationInstruction": {
+                    "instructions": f"Your destination is {poi['edge'].get_between_description()}"
+                }
+            }
+        ]
 
     def get_route(
         self,

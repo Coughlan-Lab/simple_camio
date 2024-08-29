@@ -120,27 +120,19 @@ class PromptFormatter:
         assert self.tool_call_response_needs_processing
 
         prompt = (
-            "Adapt these directions to the needs of a blind person.\n"
-            "Include tactile and sensory features along the route. "
-            "Describe distinct landmarks, notable scents from specific nearby points of interest, specific textures and surfaces underfoot, "
-            "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
-            "Include only features that are actually present to avoid redundancy; for example, ignore the usual flatness or concrete surfaces of sidewalks.\n"
-            "If directions are generic or not detailed enough, add further details, like the intersections along the way and accessibility information about each edge and node.\n"
-            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights.\n\n"
+            "Adapt these directions to the needs of a blind person and include distinctive landmarks along the route.\n"
+            "If directions are generic or not detailed enough, add further details, like the intersections along the way.\n"
+            "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
+            "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
+            "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n\n"
         )
 
         prompt += (
-            "Be sure to answer this questions in your response:\n"
-            "- What intersections are there along the way? "
-            "Include intersections not explicitly mentioned in the directions as they only include intersections where you have to turn left or right. "
-            "Also, count intersections where you have to go straight.\n"
-            "- In what direction should you go at each intersection?\n"
-            "- Is there any crosswalk, walk light or tactile paving at the intersections?\n"
-            "- Are there any notable scents or sounds along the way? From what points of interest do they come from?\n"
-            "- How's the road surface? Is it smooth, rough, or uneven? Are there any obstacles or hazards?\n"
-            "Blend the responses to these questions with the directions to create a detailed and useful guide for a blind person.\n\n"
-            f"{response}"
+            "Remember that you MUST follow these instructions:\n"
+            f"{self.instructions}\n"
         )
+
+        prompt += f"{response}"
 
         self.tool_call_response_needs_processing = False
 
@@ -158,20 +150,12 @@ class PromptFormatter:
             if distance > PromptFormatter.NODE_DISTANCE_THRESHOLD:
                 edge, _ = self.graph.get_nearest_edge(position)
 
-                distance_m_node1 = math.floor(edge[0].distance_from(position))
-                distance_m_node2 = math.floor(edge[1].distance_from(position))
-
-                if len(edge.between_streets) == 0:
-                    street_str = f"at the end of {edge.street}."
-                elif len(edge.between_streets) == 1:
-                    street_str = f"part of {edge.street}, at the intersection with {next(iter(edge.between_streets))}."
-                else:
-                    streets = list(edge.between_streets)
-                    street_str = f"part of {edge.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
+                distance_m_node1 = math.floor(edge[0].distance_to(position))
+                distance_m_node2 = math.floor(edge[1].distance_to(position))
 
                 graph_position = (
                     f"the closest point on the road network is on edge {edge.id}, "
-                    f"which is {street_str}\n"
+                    f"which is {edge.get_between_description()}\n"
                     f"I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) "
                     f"and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id})."
                 )
@@ -189,13 +173,8 @@ class PromptFormatter:
 
         question = f"###Question###\n{question}"
         instructions = (
-            "Remeber that you MUST follow these instructions:\n"
-            "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
-            "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective.\n"
-            "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
-            "- Stick to the provided information: when information is insufficient to answer a question, "
-            "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
-            "- If my question is ambiguous or unclear, ask for clarification.\n\n"
+            "\nRemember that you MUST follow these instructions:\n"
+            f"{self.instructions}\n"
         )
 
         prompt = f"{position_description}\n{question}\n{instructions}"
@@ -253,8 +232,7 @@ class PromptFormatter:
         prompt += (
             "These are features of the road network. "
             "Include them when giving directions to reach a certain point; "
-            "as I'm blind, they will help me to orient myself better and to avoid hazards. Include as many details as possible.\n"
-            "When calling the get_route and get_route_to_point_of_interest functions add these information to the returned directions.\n\n"
+            "as I'm blind, they will help me to orient myself better and to avoid hazards.\n\n"
         )
         prompt += self.__road_features_prompt() + "\n\n"
 
@@ -276,12 +254,7 @@ class PromptFormatter:
             "###Instructions###\n\n"
             "I will now ask questions about the points of interest and the road network. "
             "You MUST follow these instructions:\n"
-            "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
-            "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective.\n"
-            "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
-            "- Stick to the provided information: when information is insufficient to answer a question, "
-            "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
-            "- If my question is ambiguous or unclear, ask for clarification.\n\n"
+            f"{self.instructions}\n"
         )
 
         prompt += (
@@ -375,3 +348,13 @@ class PromptFormatter:
         del features["on_border"]
 
         return str_dict({"node": node.id, "features": features})
+
+    instructions = (
+        "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
+        "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective.\n"
+        "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
+        "- Stick to the provided information: when information is insufficient to answer a question, "
+        "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
+        "- If my question is ambiguous or unclear, ask for clarification.\n"
+        "- When giving directions, always call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
+    )

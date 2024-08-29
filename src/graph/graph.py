@@ -35,7 +35,7 @@ GOOGLE_ROUTES_API_FIELDS = [
     "routes.legs.steps.transitDetails.stopCount",
     "routes.legs.steps.transitDetails.transitLine.name",
     "routes.legs.steps.transitDetails.transitLine.vehicle.type",
-    "routes.legs.steps.localizedValues.staticDuration",
+    "routes.legs.steps.localizedValues",
     # "routes.localizedValues",
 ]
 

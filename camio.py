@@ -12,7 +12,7 @@ from pynput.keyboard import Listener as KeyboardListener
 from src.audio import (STT, TTS, AmbientSoundPlayer, Announcement,
                        AnnouncementCategory)
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
-from src.graph import Coords, Graph, PositionData, PositionHandler
+from src.graph import Coords, Graph, PositionHandler, PositionInfo
 from src.llm import LLM
 from src.utils import *
 
@@ -25,7 +25,7 @@ class CamIO:
         # Model graph
         self.graph = Graph(model["graph"])
         self.position_handler = PositionHandler(self.graph, model["meters_per_pixel"])
-        self.last_position_announcement = PositionData.none_announcement()
+        self.last_pos_info = PositionInfo.none_info()
 
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
@@ -61,7 +61,7 @@ class CamIO:
         self.stt.calibrate()
         self.tts.start()
 
-        self.__init_shortcuts()
+        self.init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()
@@ -110,7 +110,7 @@ class CamIO:
         ambient_sound_player.stop()
         cap.release()
 
-        self.__disable_shortcuts()
+        self.disable_shortcuts()
         cv2.destroyAllWindows()
 
         self.stop_interaction()
@@ -153,7 +153,7 @@ class CamIO:
         else:
             self.tts.no_description()
 
-    def __init_shortcuts(self) -> None:
+    def init_shortcuts(self) -> None:
         def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
             if key == Key.space:
                 self.__on_spacebar_pressed()
@@ -169,7 +169,7 @@ class CamIO:
         self.keyboard = KeyboardListener(on_press=on_press)
         self.keyboard.start()
 
-    def __disable_shortcuts(self) -> None:
+    def disable_shortcuts(self) -> None:
         self.keyboard.stop()
 
     def __get_capture(self) -> Optional[cv2.VideoCapture]:
@@ -186,7 +186,7 @@ class CamIO:
 
     def __draw_debug_info(self) -> None:
         template = self.template.copy()
-        pos = self.position_handler.get_current_position()
+        pos = self.position_handler.current_position
 
         if pos is not None:
             pos /= self.position_handler.meters_per_pixel
@@ -206,26 +206,25 @@ class CamIO:
         cv2.imshow("CamIO - Debug", template)
 
     def __announce_position(self) -> None:
-        announcement = self.position_handler.get_next_announcement()
+        pos_info = self.position_handler.get_position_info()
 
-        if (
-            len(announcement) == 0
-            or announcement.description == self.last_position_announcement.description
+        if len(pos_info.description) == 0 or (
+            self.last_pos_info.is_still_valid()
+            and pos_info.description == self.last_pos_info.description
         ):
             return
 
         stop_current_announcement = (
-            self.last_position_announcement.graph_nearest_element
-            != announcement.graph_nearest_element
+            self.last_pos_info.graph_element != pos_info.graph_element
         )
 
         self.tts.say(
-            announcement.description,
+            pos_info.description,
             category=AnnouncementCategory.POSITION_UPDATE,
             priority=Announcement.Priority.LOW,
             stop_current=stop_current_announcement,
         )
-        self.last_position_announcement = announcement
+        self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_processing():
@@ -248,14 +247,17 @@ class CamIO:
                 self.camio.tts.waiting_llm()
                 return
 
+            self.camio.disable_shortcuts()
+
             print("Listening...")
-            question = self.camio.stt.process_input()
+            # question = self.camio.stt.process_input()
+            question = input("Question: ")
             if question is None or self.stop_event.is_set():
                 print("Stopping user input handler.")
                 return
             print(f"Question: {question}")
 
-            position = self.camio.position_handler.get_current_position()
+            position = self.camio.position_handler.current_position
 
             self.camio.tts.start_waiting_loop()
             answer = self.camio.llm.ask(question, position)
@@ -265,6 +267,7 @@ class CamIO:
 
             self.process_answer(answer)
             self.camio.user_input_thread = None
+            self.camio.init_shortcuts()
 
         def process_answer(self, answer: Optional[str]) -> None:
             self.camio.tts.stop_speaking()

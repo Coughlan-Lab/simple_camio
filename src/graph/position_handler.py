@@ -1,58 +1,71 @@
 import math
 import time
-from typing import Optional, Tuple, Union
+from typing import Optional, Union
 
 from src.utils import ArithmeticBuffer, Buffer
 
+from .coords import ZERO as Coords_ZERO
 from .coords import Coords
 from .edge import Edge, MovementDirection
 from .graph import Graph, PoI
 from .node import Node
 
 
-class PositionData:
+class PositionInfo:
+    MAX_LIFE_DEFAULT = 10.0  # seconds
+
     def __init__(
         self,
         description: str,
         pos: Coords,
         graph_nearest: Optional[Union[Node, Edge, PoI]],
+        max_life: float = MAX_LIFE_DEFAULT,
     ) -> None:
         self.description = description
         self.pos = pos
-        self.graph_nearest_element = graph_nearest
-        self.time = time.time()
-        self.__init_distance()
+        self.graph_element = graph_nearest
+        self.distance = self.get_distance_to_graph_element(pos)
 
-    def __init_distance(self) -> None:
-        self.distance = math.inf
+        self.max_life = max_life
+        self.timestamp = time.time()
 
-        if isinstance(self.graph_nearest_element, Node):
-            self.distance = self.graph_nearest_element.distance_to(self.pos)
+    def get_distance_to_graph_element(self, pos: Coords) -> float:
+        distance = math.inf
 
-        elif isinstance(self.graph_nearest_element, Edge):
-            self.distance = self.graph_nearest_element.distance_from(self.pos)
+        if isinstance(self.graph_element, Node):
+            distance = self.graph_element.distance_to(pos)
 
-        elif isinstance(self.graph_nearest_element, dict):
-            self.distance = self.graph_nearest_element["coords"].distance_to(self.pos)
+        elif isinstance(self.graph_element, Edge):
+            distance = self.graph_element.distance_from(pos)
+
+        elif isinstance(self.graph_element, dict):
+            distance = self.graph_element["coords"].distance_to(pos)
+
+        return distance
+
+    def is_still_valid(self) -> bool:
+        return time.time() - self.timestamp < self.max_life
 
     @staticmethod
-    def none_announcement(
-        pos: Coords = Coords(0, 0), graph_nearest: Optional[Union[Node, Edge]] = None
-    ) -> "PositionData":
-        return PositionData("", pos, graph_nearest)
+    def none_info(
+        pos: Coords = Coords_ZERO,
+        graph_nearest: Optional[Union[Node, Edge]] = None,
+    ) -> "PositionInfo":
+        return PositionInfo("", pos, graph_nearest)
 
-    def __len__(self) -> int:
-        return len(self.description)
+    @staticmethod
+    def copy(info: "PositionInfo", pos: Coords) -> "PositionInfo":
+        return PositionInfo(info.description, info.pos, info.graph_element)
 
 
-NONE_ANNOUNCEMENT = PositionData.none_announcement()
+NONE_INFO = PositionInfo.none_info()
 
 
 class PositionHandler:
-    MAP_MARGIN = 50
-    MOVEMENT_THRESHOLD = 10
-    COORS_DISTANCE_THRESHOLD = 25
-    EDGE_DISTANCE_THRESHOLD = 20
+    MAP_MARGIN = 50  # meters
+    MOVEMENT_THRESHOLD = 10  # meters
+    DISTANCE_THRESHOLD = 25  # meters
+    BORDER_THICKNESS = 5  # meters
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
         self.graph = graph
@@ -65,17 +78,17 @@ class PositionHandler:
         self.positions_buffer = ArithmeticBuffer[Coords](max_size=3)
         self.edge_buffer = Buffer[Edge](max_size=10)
 
-        self.last_announcement = NONE_ANNOUNCEMENT
+        self.last_info = NONE_INFO
 
     def clear(self) -> None:
         self.positions_buffer.clear()
         self.edge_buffer.clear()
 
-        self.last_announcement = NONE_ANNOUNCEMENT
+        self.last_info = NONE_INFO
 
     @property
     def last_position(self) -> Coords:
-        return self.last_announcement.pos
+        return self.last_info.pos
 
     @property
     def current_position(self) -> Optional[Coords]:
@@ -95,78 +108,90 @@ class PositionHandler:
             edge, _ = self.graph.get_nearest_edge(pos)
             self.edge_buffer.add(edge)
 
-    def get_next_announcement(self) -> PositionData:
-        def implementation() -> PositionData:
-            node_announcement = self.get_node_announcement()
-            poi_announcement = self.get_poi_announcement()
+    def get_position_info(self) -> PositionInfo:
+        def implementation() -> PositionInfo:
+            pos = self.current_position
 
-            announcement = (
-                node_announcement
-                if node_announcement.distance <= poi_announcement.distance
-                else poi_announcement
+            in_range = (
+                pos is not None
+                and self.last_info.get_distance_to_graph_element(pos)
+                <= PositionHandler.DISTANCE_THRESHOLD + PositionHandler.BORDER_THICKNESS
             )
-            if announcement.distance <= PositionHandler.COORS_DISTANCE_THRESHOLD:
-                return announcement
 
-            edge_announcement = self.edge_announcement()
-            if edge_announcement.distance <= PositionHandler.EDGE_DISTANCE_THRESHOLD:
-                return edge_announcement
+            node_info = self.get_node_info()
+            if in_range and node_info.graph_element == self.last_info.graph_element:
+                self.last_info = PositionInfo.copy(self.last_info, pos or Coords_ZERO)
+                return self.last_info
 
-            return PositionData.none_announcement(self.current_position or Coords(0, 0))
+            poi_info = self.get_poi_info()
+            if in_range and poi_info.graph_element == self.last_info.graph_element:
+                self.last_info = PositionInfo.copy(self.last_info, pos or Coords_ZERO)
+                return self.last_info
+
+            info = node_info if node_info.distance <= poi_info.distance else poi_info
+            if info.distance <= PositionHandler.DISTANCE_THRESHOLD:
+                self.last_info = info
+                return info
+
+            edge_info = self.get_edge_info()
+            if edge_info.distance <= PositionHandler.DISTANCE_THRESHOLD:
+                return edge_info
+
+            return PositionInfo.none_info(self.current_position or Coords_ZERO)
 
         announcement = implementation()
-        self.last_announcement = announcement
+        self.last_info = announcement
         return announcement
 
-    def get_node_announcement(self) -> PositionData:
+    def get_node_info(self) -> PositionInfo:
         pos = self.current_position
         if pos is None:
-            return NONE_ANNOUNCEMENT
+            return NONE_INFO
 
         nearest_node, distance = self.graph.get_nearest_node(pos)
 
-        if distance <= PositionHandler.COORS_DISTANCE_THRESHOLD:
-            return PositionData(nearest_node.description, pos, nearest_node)
+        if distance <= PositionHandler.DISTANCE_THRESHOLD:
+            return PositionInfo(nearest_node.description, pos, nearest_node)
 
-        return NONE_ANNOUNCEMENT
+        return NONE_INFO
 
-    def get_poi_announcement(self) -> PositionData:
+    def get_poi_info(self) -> PositionInfo:
         pos = self.current_position
         if pos is None:
-            return NONE_ANNOUNCEMENT
+            return NONE_INFO
 
         nearest_poi, distance = self.graph.get_nearest_poi(pos)
 
         if nearest_poi is None:
-            return NONE_ANNOUNCEMENT
+            return NONE_INFO
 
-        if distance <= PositionHandler.COORS_DISTANCE_THRESHOLD:
-            return PositionData(nearest_poi["name"], pos, nearest_poi)
+        if distance <= PositionHandler.DISTANCE_THRESHOLD:
+            return PositionInfo(nearest_poi["name"], pos, nearest_poi)
 
-        return NONE_ANNOUNCEMENT
+        return NONE_INFO
 
-    def edge_announcement(self) -> PositionData:
+    def get_edge_info(self) -> PositionInfo:
         pos = self.positions_buffer.last()
         nearest_edge = self.edge_buffer.mode()
 
         if pos is None or nearest_edge is None:
-            return NONE_ANNOUNCEMENT
+            return NONE_INFO
 
         distance_edge = pos.distance_to_line(nearest_edge)
 
-        if distance_edge > PositionHandler.EDGE_DISTANCE_THRESHOLD:
-            return NONE_ANNOUNCEMENT
+        if distance_edge > PositionHandler.DISTANCE_THRESHOLD:
+            return NONE_INFO
 
         movement_dir = self.get_movement_direction(nearest_edge)
 
         if (
             movement_dir == MovementDirection.NONE
-            and self.last_announcement.graph_nearest_element == nearest_edge
+            and self.last_info.graph_element == nearest_edge
         ):
             # no movement and still on the same edge -> same announcement
-            return PositionData(self.last_announcement.description, pos, nearest_edge)
+            return PositionInfo(self.last_info.description, pos, nearest_edge)
 
-        return PositionData(
+        return PositionInfo(
             nearest_edge.get_complete_description(movement_dir), pos, nearest_edge
         )
 

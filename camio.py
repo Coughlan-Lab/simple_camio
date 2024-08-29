@@ -306,13 +306,17 @@ if __name__ == "__main__":
         print(f"Model file {args.model} not found.")
         sys.exit(0)
 
-    camio = CamIO(model, debug=args.debug)
-
+    camio: Optional[CamIO] = None
     try:
+        camio = CamIO(model, debug=args.debug)
         camio.main_loop()
+    except KeyboardInterrupt:
+        pass
     except Exception as e:
-        print(f"An error occurred: {e}")
-    finally:
+        print(f"An error occurred")
+        print(e)
+
+    if camio is not None:
         camio.stop()
         camio.save_chat(args.out)
         print(f"Chat saved to {args.out}")

@@ -16,6 +16,7 @@ class AnnouncementCategory(Enum):
     GOODBYE = "goodbye"
     WAITING_LLM = "waiting_llm"
     LLM_ERROR = "llm_error"
+    MORE_THAN_ONE_HAND = "more_than_one_hand"
     NO_DESCRIPTION = "no_description"
     POSITION_UPDATE = "position_update"
     MAP_DESCRIPTION = "map_description"
@@ -42,6 +43,7 @@ def generate_random_id() -> str:
 class TTS:
     RATE = 200
     WAITING_LOOP_INTERVAL = 7
+    MORE_THAN_ONE_HAND_INTERVAL = 5
 
     def __init__(self, res_file: str, rate: int = RATE) -> None:
         self.engine = pyttsx3.init()
@@ -59,6 +61,7 @@ class TTS:
 
         self.running = False
         self.waiting_loop_running = th.Event()
+        self.more_than_one_hand_last_time = time.time()
 
         self.current_msg_word_index = 0
         self.current_announcement: Optional[Announcement] = None
@@ -169,6 +172,22 @@ class TTS:
             stop_current=True,
             priority=Announcement.Priority.HIGH,
         )
+
+    def more_than_one_hand(self) -> None:
+        if (
+            time.time() - self.more_than_one_hand_last_time
+            < TTS.MORE_THAN_ONE_HAND_INTERVAL
+        ):
+            return
+
+        self.say(
+            self.res["more_than_one_hand"],
+            category=AnnouncementCategory.MORE_THAN_ONE_HAND,
+            priority=Announcement.Priority.MEDIUM,
+            stop_current=True,
+        )
+
+        self.more_than_one_hand_last_time = time.time()
 
     def start_waiting_loop(self) -> None:
         if self.waiting_loop_running.is_set():

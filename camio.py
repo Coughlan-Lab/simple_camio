@@ -100,6 +100,8 @@ class CamIO:
 
             ambient_sound_player.update(gesture_status)
             if gesture_status != HandStatus.POINTING or gesture_position is None:
+                if gesture_status == HandStatus.MORE_THAN_ONE_HAND:
+                    self.tts.more_than_one_hand()
                 continue
 
             self.position_handler.process_position(Coords(*gesture_position))

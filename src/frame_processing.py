@@ -59,12 +59,15 @@ class SIFTModelDetector:
 
 
 class HandStatus(Enum):
+    MORE_THAN_ONE_HAND = -1
     NOT_FOUND = 0
     POINTING = 1
     MOVING = 2
 
 
 class PoseDetector:
+    POINTING_THRESHOLD = 0.15
+
     def __init__(self) -> None:
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
@@ -91,7 +94,18 @@ class PoseDetector:
             return HandStatus.NOT_FOUND, None, img
 
         ratios = [self.pointing_ratio(hand) for hand in results.multi_hand_landmarks]
-        pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
+        pointing_ratios = [
+            (i, r) for i, r in enumerate(ratios) if r > self.POINTING_THRESHOLD
+        ]
+
+        if len(pointing_ratios) > 1:
+            return HandStatus.MORE_THAN_ONE_HAND, None, img
+
+        if len(pointing_ratios) == 0:
+            pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
+            pointing_ratio = ratios[pointing_hand_index]
+        else:
+            pointing_hand_index, pointing_ratio = pointing_ratios[0]
         pointing_hand = results.multi_hand_landmarks[pointing_hand_index]
 
         self.mp_drawing.draw_landmarks(
@@ -114,7 +128,7 @@ class PoseDetector:
         position = cv2.perspectiveTransform(position, H)[0][0]
         hand_status = HandStatus.MOVING
 
-        if ratios[pointing_hand_index] > 0.1:
+        if pointing_ratio > 0.15:
             hand_status = HandStatus.POINTING
 
         return (

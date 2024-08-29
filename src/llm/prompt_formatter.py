@@ -48,7 +48,7 @@ class PromptFormatter:
         print(f"Parameters: {params}")
 
         fnc = ToolCall.get(tool_call.function.name)
-        self.tool_call_response_needs_processing = fnc.needs_further_processing
+        error = False
 
         try:
             if fnc == ToolCall.GET_DISTANCE:
@@ -97,16 +97,25 @@ class PromptFormatter:
                     params.get("alternative_route_index", 0),
                 )
 
+            elif fnc == ToolCall.ENABLE_POINTS_OF_INTERESTS:
+                self.graph.enable_pois(params["points_of_interest"])
+                result = "Points of interest are now enabled."
+
             else:
                 result = "Unknown function call."
 
         except Exception as e:
             print(f"An error occurred during a function call: {e}")
             result = "An error occurred while processing the function call."
-            self.tool_call_response_needs_processing = False
+            error = True
 
         if not isinstance(result, str):
             result = json.dumps(result, cls=GraphEncoder)
+
+        if not error:
+            self.tool_call_response_needs_processing = (
+                self.tool_call_response_needs_processing or fnc.needs_further_processing
+            )
 
         print(f"Result: {result}")
 
@@ -357,4 +366,5 @@ class PromptFormatter:
         "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
         "- If my question is ambiguous or unclear, ask for clarification.\n"
         "- When giving directions, always call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
+        "- After I ask a question, always call enable_points_of_interest to enable the points of interest relevant to the question.\n"
     )

@@ -106,6 +106,18 @@ class Graph:
 
         return edge, distance
 
+    def get_nearest_poi(self, coords: Coords) -> Tuple[Optional[PoI], float]:
+        pois = list(filter(lambda p: p["enabled"], self.pois))
+        if len(pois) == 0:
+            return None, math.inf
+
+        poi = min(
+            pois,
+            key=lambda poi: poi["coords"].distance_to(coords),
+        )
+
+        return poi, poi["coords"].distance_to(coords)
+
     def get_distance(self, p1: Coords, p2: Coords) -> float:
         e1, dist_to_e1 = self.get_nearest_edge(p1)
         e2, dist_to_e2 = self.get_nearest_edge(p2)
@@ -271,6 +283,16 @@ class Graph:
             return [{"navigationInstruction": "No route found"}]
         return instructions
 
+    def enable_pois(self, indices: List[int]) -> None:
+        for poi in self.pois:
+            poi["enabled"] = False
+
+        for index in indices:
+            self.pois[index]["enabled"] = True
+
+    def disable_pois(self) -> None:
+        return self.enable_pois(list())
+
     def __get_edge_distance(
         self,
         e1: Edge,
@@ -366,6 +388,7 @@ def load_pois(edges: List[Edge], graph_dict: Dict[str, Any]) -> List[PoI]:
         poi["index"] = i
         poi["edge"] = edges[poi["edge"]]
         poi["coords"] = Coords(*poi["coords"])
+        poi["enabled"] = False
 
     return pois
 

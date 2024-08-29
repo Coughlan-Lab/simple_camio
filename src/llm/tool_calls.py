@@ -15,6 +15,7 @@ class ToolCall(str, Enum):
     GET_POINT_OF_INTEREST_DETAILS = "get_point_of_interest_details", False
     GET_ROUTE = "get_route", True
     GET_ROUTE_TO_POINT_OF_INTEREST = "get_route_to_point_of_interest", True
+    ENABLE_POINTS_OF_INTERESTS = "enable_points_of_interests", False
 
     def __new__(cls, *args):
         obj = str.__new__(cls, args[0])
@@ -321,6 +322,31 @@ tool_calls = [
                     },
                 },
                 "required": ["x", "y", "poi_index", "only_by_walking"],
+                "additionalProperties": False,
+            },
+        ),
+    ),
+    ChatCompletionToolParam(
+        type="function",
+        function=FunctionDefinition(
+            name=ToolCall.ENABLE_POINTS_OF_INTERESTS,
+            description="Enable points of interest to be used in the conversation. Call this function everytime I ask you a question about one or more points of interest.",
+            parameters={
+                "type": "object",
+                "properties": {
+                    "points_of_interest": {
+                        "type": "array",
+                        "items": {
+                            "type": "number",
+                        },
+                        "description": (
+                            "An array of point of interest indices to be enabled. "
+                            "Include all the points of interest that are relevant to the current question. "
+                            "Include more than one index to enable multiple points of interest. "
+                        ),
+                    },
+                },
+                "required": ["points_of_interest"],
                 "additionalProperties": False,
             },
         ),

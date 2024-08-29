@@ -52,6 +52,7 @@ class LLM:
         new_message = self.prompt_formatter.get_user_message(question, position)
         self.history.append(new_message)
         self.running = True
+        self.prompt_formatter.graph.disable_pois()
 
         output = ""
 

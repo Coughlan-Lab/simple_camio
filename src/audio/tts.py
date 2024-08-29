@@ -23,6 +23,10 @@ class AnnouncementCategory(Enum):
     LLM_RESPONSE = "llm_response"
 
 
+def generate_random_id() -> str:
+    return str(uuid.uuid4())
+
+
 @dataclass(order=True)
 class Announcement:
     class Priority(IntEnum):
@@ -33,11 +37,8 @@ class Announcement:
 
     text: str = field(compare=False)
     priority: Priority
-
-
-def generate_random_id() -> str:
-    return str(uuid.uuid4())
     category: AnnouncementCategory
+    id: str = field(default_factory=generate_random_id)
 
 
 class TTS:
@@ -65,6 +66,7 @@ class TTS:
 
         self.current_msg_word_index = 0
         self.current_announcement: Optional[Announcement] = None
+        self.paused_announcement: Optional[Announcement] = None
         self.announcements: Dict[str, Announcement] = dict()
 
     def start(self) -> None:
@@ -81,16 +83,24 @@ class TTS:
         return bool(self.engine.isBusy())
 
     def toggle(self) -> None:
-        if self.is_speaking():
-            self.stop_speaking()
-
-        elif self.current_announcement is not None:
+        if self.paused_announcement is not None:
             self.say(
-                self.current_announcement.text[self.current_msg_word_index :],
-                self.current_announcement.name,
+                self.paused_announcement.text,
+                self.paused_announcement.category,
                 stop_current=True,
-                priority=self.current_announcement.priority,
+                priority=Announcement.Priority.HIGH,
             )
+
+            self.paused_announcement = None
+
+        elif self.is_speaking() and self.current_announcement is not None:
+            self.paused_announcement = Announcement(
+                self.current_announcement.text[self.current_msg_word_index :],
+                self.current_announcement.priority,
+                self.current_announcement.category,
+            )
+
+            self.stop_speaking()
 
     def say(
         self,
@@ -108,11 +118,11 @@ class TTS:
         ):
             self.stop_speaking()
 
-        self.announcements[announcement.name.value] = announcement
         announcement = Announcement(text, priority, category)
+        self.announcements[announcement.id] = announcement
 
         # Add the announcement to the queue
-        self.engine.say(announcement.text, announcement.name.value)
+        self.engine.say(announcement.text, name=announcement.id)
         self.engine.iterate()
 
     def __on_utterance_started(self, name: str) -> None:
@@ -122,7 +132,7 @@ class TTS:
             del self.announcements[name]
 
     def __on_utterance_finished(self, name: str, completed: bool) -> None:
-        pass
+        self.current_announcement = None
 
     def __on_word_started(self, name: str, location: int, length: int) -> None:
         self.current_msg_word_index = location

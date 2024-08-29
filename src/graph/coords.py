@@ -48,7 +48,7 @@ class Coords:
         return self.x * other.x + self.y * other.y
 
     def length(self) -> float:
-        return self.distance_to(Coords(0, 0))
+        return self.distance_to(ZERO)
 
     def normalized(self) -> "Coords":
         return self / self.length()
@@ -77,3 +77,7 @@ class Coords:
 
     def __repr__(self) -> str:
         return str(self)
+
+
+ZERO = Coords(0, 0)
+INF = Coords(math.inf, math.inf)

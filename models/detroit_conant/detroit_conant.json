@@ -1544,7 +1544,7 @@
             },
             {
                 "name": "Detroit Diner",
-                "street": "Brinker Avenue",
+                "street": "Angling Street",
                 "housenumber": "463",
                 "categories": [
                     "catering.restaurant.american"
@@ -1574,7 +1574,7 @@
                     273.39965644720405,
                     806.543626323619
                 ],
-                "edge": 7
+                "edge": 3
             },
             {
                 "name": "Dig",
@@ -1646,8 +1646,8 @@
                 "street": "Mitchell Avenue",
                 "housenumber": "145",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "opening_hours": "24/7",
                 "brand": "RIU",
@@ -1929,9 +1929,9 @@
                 "street": "Klinger Street",
                 "housenumber": "809",
                 "categories": [
+                    "catering.fast_food.burger",
                     "building.catering",
-                    "building.commercial",
-                    "catering.fast_food.burger"
+                    "building.commercial"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -2250,8 +2250,8 @@
                 "street": "Maine Street",
                 "housenumber": "305",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "opening_hours": "24/7",
                 "brand": "RIU",
@@ -2559,8 +2559,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "768",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "operator": "Fairmont Hotels and Resorts",
                 "contact": {
@@ -2592,9 +2592,9 @@
                 "street": "East Grixdale Avenue",
                 "housenumber": "29",
                 "categories": [
-                    "building.facility",
                     "service.social_facility.shelter",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "building.facility"
                 ],
                 "contact": {
                     "phone": "+1-212-689-1900",
@@ -2747,8 +2747,8 @@
                 "street": "East Grixdale Avenue",
                 "housenumber": "301",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "brand": "Waldorf Astoria",
                 "contact": {
@@ -2815,9 +2815,9 @@
                 "street": "Norwood Street",
                 "housenumber": "10",
                 "categories": [
-                    "vegan",
-                    "organic",
                     "vegetarian",
+                    "organic",
+                    "vegan",
                     "commercial.supermarket"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
@@ -2903,8 +2903,8 @@
                 "street": "Revere Avenue",
                 "housenumber": "110",
                 "categories": [
-                    "catering.restaurant.korean",
-                    "building.catering"
+                    "building.catering",
+                    "catering.restaurant.korean"
                 ],
                 "opening_hours": "12:00-14:15,18:00-20:00",
                 "contact": {

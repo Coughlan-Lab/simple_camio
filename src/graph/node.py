@@ -12,11 +12,24 @@ class Node:
         self.adjacents_streets: List[str] = list()
 
         self.features = features if features is not None else dict()
-        self.on_border = self.features.get("on_border", False)
 
     @property
     def id(self) -> str:
         return f"n{self.index}"
+
+    @property
+    def on_border(self) -> bool:
+        return bool(self.features.get("on_border", False))
+
+    @property
+    def intersection_type(self) -> str:
+        if len(self.adjacents_streets) == 4:
+            return "X"
+
+        elif not self.on_border and len(self.adjacents_streets) == 3:
+            return "T"
+
+        return ""
 
     @property
     def description(self) -> str:
@@ -28,13 +41,7 @@ class Node:
         streets = list(set(self.adjacents_streets))
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
-        intersection_type = ""
-        if len(self.adjacents_streets) == 4:
-            intersection_type = "X "
-        elif not self.on_border and len(self.adjacents_streets) == 3:
-            intersection_type = "T "
-
-        return f"{intersection_type}intersection between {streets_str}"
+        return f"{self.intersection_type}intersection between {streets_str}"
 
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1

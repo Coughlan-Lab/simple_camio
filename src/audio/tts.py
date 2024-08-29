@@ -10,12 +10,12 @@ from typing import Dict, Optional
 import pyttsx3
 
 
-class AnnouncementType(Enum):
+class AnnouncementCategory(Enum):
     WELCOME = "welcome"
     INSTRUCTIONS = "instructions"
     GOODBYE = "goodbye"
-    WAITING = "waiting"
-    ERROR = "error"
+    WAITING_LLM = "waiting_llm"
+    LLM_ERROR = "llm_error"
     NO_DESCRIPTION = "no_description"
     POSITION_UPDATE = "position_update"
     MAP_DESCRIPTION = "map_description"
@@ -32,11 +32,11 @@ class Announcement:
 
     text: str = field(compare=False)
     priority: Priority
-    name: AnnouncementType
 
 
 def generate_random_id() -> str:
     return str(uuid.uuid4())
+    category: AnnouncementCategory
 
 
 class TTS:
@@ -92,7 +92,7 @@ class TTS:
     def say(
         self,
         text: str,
-        announcement_type: AnnouncementType,
+        category: AnnouncementCategory,
         priority: Announcement.Priority = Announcement.Priority.LOW,
         stop_current: bool = False,
     ) -> None:
@@ -105,8 +105,8 @@ class TTS:
         ):
             self.stop_speaking()
 
-        announcement = Announcement(text, priority, announcement_type)
         self.announcements[announcement.name.value] = announcement
+        announcement = Announcement(text, priority, category)
 
         # Add the announcement to the queue
         self.engine.say(announcement.text, announcement.name.value)
@@ -127,37 +127,37 @@ class TTS:
     def welcome(self) -> None:
         self.say(
             self.res["welcome"],
-            announcement_type=AnnouncementType.WELCOME,
+            category=AnnouncementCategory.WELCOME,
             priority=Announcement.Priority.MEDIUM,
         )
 
     def instructions(self) -> None:
         self.say(
             self.res["instructions"],
-            announcement_type=AnnouncementType.INSTRUCTIONS,
+            category=AnnouncementCategory.INSTRUCTIONS,
             priority=Announcement.Priority.MEDIUM,
         )
 
     def goodbye(self) -> None:
         self.say(
             self.res["goodbye"],
-            announcement_type=AnnouncementType.GOODBYE,
+            category=AnnouncementCategory.GOODBYE,
             stop_current=True,
             priority=Announcement.Priority.HIGH,
         )
 
     def waiting_llm(self) -> None:
         self.say(
-            self.res["waiting"],
-            announcement_type=AnnouncementType.WAITING,
+            self.res["waiting_llm"],
+            category=AnnouncementCategory.WAITING_LLM,
             priority=Announcement.Priority.MEDIUM,
             stop_current=True,
         )
 
     def llm_error(self) -> None:
         self.say(
-            self.res["error"],
-            announcement_type=AnnouncementType.ERROR,
+            self.res["llm_error"],
+            category=AnnouncementCategory.LLM_ERROR,
             priority=Announcement.Priority.HIGH,
             stop_current=True,
         )
@@ -165,7 +165,7 @@ class TTS:
     def no_description(self) -> None:
         self.say(
             self.res["no_description"],
-            announcement_type=AnnouncementType.NO_DESCRIPTION,
+            category=AnnouncementCategory.NO_DESCRIPTION,
             stop_current=True,
             priority=Announcement.Priority.HIGH,
         )

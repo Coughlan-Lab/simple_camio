@@ -10,7 +10,7 @@ from pynput.keyboard import Key, KeyCode
 from pynput.keyboard import Listener as KeyboardListener
 
 from src.audio import (STT, TTS, AmbientSoundPlayer, Announcement,
-                       AnnouncementType)
+                       AnnouncementCategory)
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionData, PositionHandler
 from src.llm import LLM
@@ -68,7 +68,7 @@ class CamIO:
         if self.description is not None:
             self.tts.say(
                 f"Map description:\n {self.description}",
-                announcement_type=AnnouncementType.MAP_DESCRIPTION,
+                category=AnnouncementCategory.MAP_DESCRIPTION,
             )
 
         ambient_sound_player = AmbientSoundPlayer(
@@ -148,7 +148,7 @@ class CamIO:
                 self.description,
                 priority=Announcement.Priority.HIGH,
                 stop_current=True,
-                announcement_type=AnnouncementType.MAP_DESCRIPTION,
+                category=AnnouncementCategory.MAP_DESCRIPTION,
             )
         else:
             self.tts.no_description()
@@ -221,7 +221,7 @@ class CamIO:
 
         self.tts.say(
             announcement.description,
-            announcement_type=AnnouncementType.POSITION_UPDATE,
+            category=AnnouncementCategory.POSITION_UPDATE,
             priority=Announcement.Priority.LOW,
             stop_current=stop_current_announcement,
         )
@@ -279,7 +279,7 @@ class CamIO:
                         answer,
                         stop_current=True,
                         priority=Announcement.Priority.HIGH,
-                        announcement_type=AnnouncementType.LLM_RESPONSE,
+                        category=AnnouncementCategory.LLM_RESPONSE,
                     )
 
         def stop(self) -> None:

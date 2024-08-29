@@ -320,7 +320,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x1", "y1", "poi_index", "only_by_walking"],
+                "required": ["x", "y", "poi_index", "only_by_walking"],
                 "additionalProperties": False,
             },
         ),

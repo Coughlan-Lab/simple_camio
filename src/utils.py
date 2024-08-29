@@ -98,38 +98,49 @@ T = TypeVar("T")
 
 
 class Buffer(Generic[T]):
-    def __init__(self, max_size: int) -> None:
+    def __init__(self, max_size: int, max_life: float = 1) -> None:
         assert max_size > 0
+        assert max_life > 0
 
         self.max_size = max_size
-        self.buffer: List[T] = list()
-        self.time_last_update = time.time()
-
-    @property
-    def time_from_last_update(self) -> float:
-        return time.time() - self.time_last_update
+        self.max_life = max_life
+        self.buffer: List[Tuple[T, float]] = list()
 
     def add(self, value: T) -> None:
         if len(self.buffer) == self.max_size:
             self.buffer.pop(0)
-        self.buffer.append(value)
-        self.time_last_update = time.time()
+        self.buffer.append((value, time.time()))
+
+    def items(self) -> List[T]:
+        now = time.time()
+        self.buffer = [
+            (item, timestamp)
+            for item, timestamp in self.buffer
+            if now - timestamp < self.max_life
+        ]
+        return [item for item, _ in self.buffer]
 
     def clear(self) -> None:
         self.buffer.clear()
 
     def mode(self) -> Optional[T]:
-        if len(self.buffer) == 0:
+        items = self.items()
+
+        if len(items) == 0:
             return None
-        return max(set(self.buffer), key=self.buffer.count)
+        return max(set(items), key=items.count)
 
     def last(self) -> Optional[T]:
         if len(self.buffer) == 0:
             return None
-        return self.buffer[-1]
+
+        if time.time() - self.buffer[-1][1] > self.max_life:
+            return None
+
+        return self.buffer[-1][0]
 
     def __str__(self) -> str:
-        return str(self.buffer)
+        return str(self.items())
 
     def __repr__(self) -> str:
         return str(self)
@@ -144,16 +155,15 @@ class UBound(Protocol):
 
 
 class ArithmeticBuffer(Buffer[U]):
-    def __init__(self, max_size: int) -> None:
-        self.max_size = max_size
-        self.buffer: List[U] = list()
-        self.time_last_update = time.time()
+    def __init__(self, max_size: int, max_life: float = 1) -> None:
+        super().__init__(max_size, max_life)
 
     def average(self) -> Optional[U]:
-        if len(self.buffer) == 0:
-            return None
+        items = self.items()
 
-        return reduce(lambda x, y: x + y, self.buffer) / len(self.buffer)
+        if len(items) == 0:
+            return None
+        return reduce(lambda x, y: x + y, items) / len(items)
 
 
 class FPSManager:

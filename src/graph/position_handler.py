@@ -1,17 +1,21 @@
+import math
 import time
-from typing import Optional, Union
+from typing import Optional, Tuple, Union
 
 from src.utils import ArithmeticBuffer, Buffer
 
 from .coords import Coords
 from .edge import Edge, MovementDirection
-from .graph import Graph
+from .graph import Graph, PoI
 from .node import Node
 
 
 class PositionData:
     def __init__(
-        self, description: str, pos: Coords, graph_nearest: Optional[Union[Node, Edge]]
+        self,
+        description: str,
+        pos: Coords,
+        graph_nearest: Optional[Union[Node, Edge, PoI]],
     ) -> None:
         self.description = description
         self.pos = pos
@@ -27,6 +31,9 @@ class PositionData:
 
         elif isinstance(self.graph_nearest_element, Edge):
             self.distance = self.graph_nearest_element.distance_from(self.pos)
+
+        elif isinstance(self.graph_nearest_element, dict):
+            self.distance = self.graph_nearest_element["coords"].distance_to(self.pos)
 
     @staticmethod
     def none_announcement(
@@ -44,7 +51,7 @@ NONE_ANNOUNCEMENT = PositionData.none_announcement()
 class PositionHandler:
     MAP_MARGIN = 50
     MOVEMENT_THRESHOLD = 10
-    NODE_DISTANCE_THRESHOLD = 25
+    COORS_DISTANCE_THRESHOLD = 25
     EDGE_DISTANCE_THRESHOLD = 20
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
@@ -66,6 +73,14 @@ class PositionHandler:
 
         self.last_announcement = NONE_ANNOUNCEMENT
 
+    @property
+    def last_position(self) -> Coords:
+        return self.last_announcement.pos
+
+    @property
+    def current_position(self) -> Optional[Coords]:
+        return self.positions_buffer.average()
+
     def process_position(self, pos: Coords) -> None:
         pos *= self.meters_per_pixel
 
@@ -77,60 +92,90 @@ class PositionHandler:
         ):
             self.positions_buffer.add(pos)
 
-    def get_current_position(self) -> Optional[Coords]:
-        if self.positions_buffer.time_from_last_update < 1:
-            return self.positions_buffer.average()
-        return None
+            edge, _ = self.graph.get_nearest_edge(pos)
+            self.edge_buffer.add(edge)
 
     def get_next_announcement(self) -> PositionData:
-        last_pos = self.positions_buffer.last()
-        avg_pos = self.positions_buffer.average()
+        def implementation() -> PositionData:
+            node_announcement = self.get_node_announcement()
+            poi_announcement = self.get_poi_announcement()
 
-        if last_pos is None or avg_pos is None:
+            announcement = (
+                node_announcement
+                if node_announcement.distance <= poi_announcement.distance
+                else poi_announcement
+            )
+            if announcement.distance <= PositionHandler.COORS_DISTANCE_THRESHOLD:
+                return announcement
+
+            edge_announcement = self.edge_announcement()
+            if edge_announcement.distance <= PositionHandler.EDGE_DISTANCE_THRESHOLD:
+                return edge_announcement
+
+            return PositionData.none_announcement(self.current_position or Coords(0, 0))
+
+        announcement = implementation()
+        self.last_announcement = announcement
+        return announcement
+
+    def get_node_announcement(self) -> PositionData:
+        pos = self.current_position
+        if pos is None:
             return NONE_ANNOUNCEMENT
 
-        to_announce: PositionData = PositionData.none_announcement(avg_pos)
+        nearest_node, distance = self.graph.get_nearest_node(pos)
 
-        nearest_node, distance = self.graph.get_nearest_node(avg_pos)
+        if distance <= PositionHandler.COORS_DISTANCE_THRESHOLD:
+            return PositionData(nearest_node.description, pos, nearest_node)
 
-        # print(f"N: {nearest_node}, D: {distance}")
+        return NONE_ANNOUNCEMENT
 
-        if distance <= PositionHandler.NODE_DISTANCE_THRESHOLD:
-            to_announce = PositionData(nearest_node.description, avg_pos, nearest_node)
+    def get_poi_announcement(self) -> PositionData:
+        pos = self.current_position
+        if pos is None:
+            return NONE_ANNOUNCEMENT
 
-        else:
-            edge, distance = self.graph.get_nearest_edge(last_pos)
-            self.edge_buffer.add(edge)
-            nearest_edge = self.edge_buffer.mode()
-            # print(f"E: {nearest_edge}, D: {distance}")
+        nearest_poi, distance = self.graph.get_nearest_poi(pos)
 
-            if (
-                nearest_edge is not None
-                and last_pos.distance_to_line(nearest_edge)
-                <= PositionHandler.EDGE_DISTANCE_THRESHOLD
-            ):
-                movement_dir = self.get_movement_direction(nearest_edge)
+        if nearest_poi is None:
+            return NONE_ANNOUNCEMENT
 
-                if (
-                    movement_dir != MovementDirection.NONE
-                    or self.last_announcement.graph_nearest_element != nearest_edge
-                ):
-                    to_announce = PositionData(
-                        nearest_edge.get_complete_description(movement_dir),
-                        avg_pos,
-                        nearest_edge,
-                    )
-                else:
-                    to_announce = self.last_announcement
-            else:
-                to_announce = PositionData.none_announcement(avg_pos)
+        if distance <= PositionHandler.COORS_DISTANCE_THRESHOLD:
+            return PositionData(nearest_poi["name"], pos, nearest_poi)
 
-        self.last_announcement = to_announce
-        return to_announce
+        return NONE_ANNOUNCEMENT
+
+    def edge_announcement(self) -> PositionData:
+        pos = self.positions_buffer.last()
+        nearest_edge = self.edge_buffer.mode()
+
+        if pos is None or nearest_edge is None:
+            return NONE_ANNOUNCEMENT
+
+        distance_edge = pos.distance_to_line(nearest_edge)
+
+        if distance_edge > PositionHandler.EDGE_DISTANCE_THRESHOLD:
+            return NONE_ANNOUNCEMENT
+
+        movement_dir = self.get_movement_direction(nearest_edge)
+
+        if (
+            movement_dir == MovementDirection.NONE
+            and self.last_announcement.graph_nearest_element == nearest_edge
+        ):
+            # no movement and still on the same edge -> same announcement
+            return PositionData(self.last_announcement.description, pos, nearest_edge)
+
+        return PositionData(
+            nearest_edge.get_complete_description(movement_dir), pos, nearest_edge
+        )
 
     def get_movement_direction(self, edge: Edge) -> MovementDirection:
-        position = self.positions_buffer.average() or Coords(0, 0)
-        movement_vector = position - self.last_announcement.pos
+        current_position = self.current_position
+        if current_position is None:
+            return MovementDirection.NONE
+
+        movement_vector = current_position - self.last_position
 
         if movement_vector.length() < PositionHandler.MOVEMENT_THRESHOLD:
             return MovementDirection.NONE

@@ -71,9 +71,7 @@ class CamIO:
                 category=AnnouncementCategory.MAP_DESCRIPTION,
             )
 
-        ambient_sound_player = AmbientSoundPlayer(
-            "res/white_noise.mp3", "res/crickets.mp3"
-        )
+        ambient_sound_player = AmbientSoundPlayer("res/white_noise.mp3")
 
         self.running = True
         while self.running and cap.isOpened():

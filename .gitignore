@@ -20,5 +20,6 @@ out
 
 *.spec
 .DS_STORE
+launch.json
 
 google_stt_credentials.json

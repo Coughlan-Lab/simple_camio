@@ -51,11 +51,13 @@ class PositionInfo:
         pos: Coords = Coords_ZERO,
         graph_nearest: Optional[Union[Node, Edge]] = None,
     ) -> "PositionInfo":
-        return PositionInfo("", pos, graph_nearest)
+        return PositionInfo("", pos, graph_nearest, max_life=0.0)
 
     @staticmethod
     def copy(info: "PositionInfo", pos: Coords) -> "PositionInfo":
-        return PositionInfo(info.description, info.pos, info.graph_element)
+        return PositionInfo(
+            info.description, info.pos, info.graph_element, max_life=info.max_life
+        )
 
 
 NONE_INFO = PositionInfo.none_info()
@@ -196,12 +198,14 @@ class PositionHandler:
         )
 
     def get_movement_direction(self, edge: Edge) -> MovementDirection:
+        if not self.last_info.is_still_valid():
+            return MovementDirection.NONE
+
         current_position = self.current_position
         if current_position is None:
             return MovementDirection.NONE
 
         movement_vector = current_position - self.last_position
-
         if movement_vector.length() < PositionHandler.MOVEMENT_THRESHOLD:
             return MovementDirection.NONE
 

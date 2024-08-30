@@ -354,7 +354,9 @@ tool_calls = [
                         "type": "boolean",
                         "description": (
                             "If true, disable all the previously enabled points of interest. "
-                            "Set it to false if you want to keep the previously enabled points of interest."
+                            "Set it to false if you want to keep the previously enabled points of interest. "
+                            "If unsure, set it to true to disable all the previously enabled points of interest. "
+                            "Don't keep old points of interest enabled if they are not relevant to the current question."
                         ),
                     },
                 },

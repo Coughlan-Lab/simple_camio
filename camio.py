@@ -211,6 +211,7 @@ class CamIO:
 
         if len(pos_info.description) == 0 or (
             self.last_pos_info.is_still_valid()
+            and pos_info.graph_element == self.last_pos_info.graph_element
             and pos_info.description == self.last_pos_info.description
         ):
             return

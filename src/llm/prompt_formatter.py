@@ -131,12 +131,12 @@ class PromptFormatter:
         assert self.tool_call_response_needs_processing
 
         prompt = (
-            "Adapt these directions to the needs of a blind person and include distinctive landmarks along the route.\n"
+            "Divide these directions into steps. "
+            "For each step, include the distance to the next point, the direction to follow, and my current destination, like the intersection where I need to turn.\n"
             "If directions are generic or not detailed enough, add further details, like the intersections along the way.\n"
             # "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
-            "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
-            "For each step, include the distance to the next point, the direction to follow, and my current destination, like the intersection where I need to turn.\n"
             "Build a coherent speech that includes all this information.\n"
+            "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
             "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n\n"
         )
 
@@ -267,18 +267,7 @@ class PromptFormatter:
             "###Instructions###\n\n"
             "I will now ask questions about the points of interest and the road network. "
             "You MUST follow these instructions:\n"
-            f"{self.instructions}\n"
-        )
-
-        prompt += (
-            "Most importantly:\n"
-            "Remember that I'm blind.\n"
-            "For this reason when giving directions always include tactile and sensory features along the way, "
-            "describe distinct landmarks, notable scents from nearby points of interest in the list, specific textures and surfaces underfoot, "
-            "tactile paving, walk lights, roundabouts, and any ongoing roadworks.\n"
-            "Include these features only if they are present to avoid redundancy; for example, ignore the usual flatness or asphalt surfaces of streets.\n"
-            "Avoid generic descriptions and focus on real, unique sensory cues like smells, sounds, street surfaces and walk lights. "
-            "Be detailed in your response and include as many details as possible."
+            f"{self.instructions}"
         )
 
         return ChatCompletionSystemMessageParam(

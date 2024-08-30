@@ -9,6 +9,7 @@ from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionToolParam,
                                ChatCompletionUserMessageParam)
 
+from graph.position_handler import PositionHandler
 from src.graph import Coords, Edge, Graph, GraphEncoder, Node
 from src.utils import str_dict
 
@@ -31,8 +32,6 @@ POIS_IMPORTANT_KEYS = [
 
 
 class PromptFormatter:
-    NODE_DISTANCE_THRESHOLD = 25
-
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
         self.tool_call_response_needs_processing = False
@@ -160,7 +159,7 @@ class PromptFormatter:
             node, distance = self.graph.get_nearest_node(position)
             graph_position: str
 
-            if distance > PromptFormatter.NODE_DISTANCE_THRESHOLD:
+            if distance > PositionHandler.DISTANCE_THRESHOLD:
                 edge, _ = self.graph.get_nearest_edge(position)
 
                 distance_m_node1 = math.floor(edge[0].distance_to(position))

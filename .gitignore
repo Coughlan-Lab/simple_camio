@@ -20,6 +20,6 @@ out
 
 *.spec
 .DS_STORE
-launch.json
+.vscode
 
 google_stt_credentials.json

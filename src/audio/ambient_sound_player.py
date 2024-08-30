@@ -4,23 +4,31 @@ from src.frame_processing import HandStatus
 
 
 class AmbientSoundPlayer:
-    def __init__(self, sound_path: str) -> None:
-        self.sound = pyglet.media.load(sound_path, streaming=False)
+    def __init__(self, background_path: str, pointing_path: str) -> None:
+        self.background = pyglet.media.load(background_path, streaming=False)
+        self.pointing = pyglet.media.load(pointing_path, streaming=False)
 
-        self.player = pyglet.media.Player()
-        self.player.loop = True
-        self.player.queue(self.sound)
+        self.background_player = pyglet.media.Player()
+        self.background_player.loop = True
+        self.background_player.queue(self.background)
 
-        self.player.play()
+        self.background_player.play()
+        self.last_hand_status: HandStatus = HandStatus.NOT_FOUND
 
-    def update(self, gesture: HandStatus) -> None:
-        if gesture == HandStatus.POINTING:
-            self.play()
+    def update(self, hand_status: HandStatus) -> None:
+        if hand_status == self.last_hand_status:
+            return
+
+        if hand_status == HandStatus.POINTING:
+            self.stop_background()
+            self.pointing.play()
         else:
-            self.stop()
+            self.play_background()
 
-    def play(self) -> None:
-        self.player.play()
+        self.last_hand_status = hand_status
 
-    def stop(self) -> None:
-        self.player.pause()
+    def play_background(self) -> None:
+        self.background_player.play()
+
+    def stop_background(self) -> None:
+        self.background_player.pause()

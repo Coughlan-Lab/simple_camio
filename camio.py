@@ -72,7 +72,9 @@ class CamIO:
                 category=AnnouncementCategory.MAP_DESCRIPTION,
             )
 
-        ambient_sound_player = AmbientSoundPlayer("res/white_noise.mp3")
+        ambient_sound_player = AmbientSoundPlayer(
+            "res/crickets.mp3", "res/pointing.mp3"
+        )
 
         self.running = True
         while self.running and cap.isOpened():
@@ -110,7 +112,7 @@ class CamIO:
             if not self.stt.is_processing() and not self.llm.is_waiting_for_response():
                 self.__announce_position()
 
-        ambient_sound_player.stop()
+        ambient_sound_player.stop_background()
         cap.release()
 
         self.disable_shortcuts()

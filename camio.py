@@ -18,6 +18,7 @@ from src.utils import *
 
 
 class CamIO:
+    POSITION_ANNOUNCEMENT_INTERVAL = 0.75
 
     def __init__(self, model: Dict[str, Any], debug: bool = False) -> None:
         self.description = model["context"].get("description", None)
@@ -207,6 +208,12 @@ class CamIO:
         cv2.imshow("CamIO - Debug", template)
 
     def __announce_position(self) -> None:
+        if (
+            time.time() - self.last_pos_info.timestamp
+            < CamIO.POSITION_ANNOUNCEMENT_INTERVAL
+        ):
+            return
+
         pos_info = self.position_handler.get_position_info()
 
         if len(pos_info.description) == 0 or (

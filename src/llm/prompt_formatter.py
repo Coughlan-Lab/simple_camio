@@ -9,8 +9,7 @@ from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionToolParam,
                                ChatCompletionUserMessageParam)
 
-from graph.position_handler import PositionHandler
-from src.graph import Coords, Edge, Graph, GraphEncoder, Node
+from src.graph import Coords, Edge, Graph, GraphEncoder, Node, PositionHandler
 from src.utils import str_dict
 
 from .tool_calls import ToolCall, tool_calls

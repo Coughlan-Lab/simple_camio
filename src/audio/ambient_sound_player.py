@@ -28,7 +28,9 @@ class AmbientSoundPlayer:
         self.last_hand_status = hand_status
 
     def play_background(self) -> None:
-        self.background_player.play()
+        if not self.background_player.playing:
+            self.background_player.play()
 
     def stop_background(self) -> None:
-        self.background_player.pause()
+        if self.background_player.playing:
+            self.background_player.pause()

@@ -203,7 +203,7 @@ class CamIO:
             if poi["enabled"]:
                 x, y = poi["coords"] / self.position_handler.meters_per_pixel
                 x, y = int(x), int(y)
-                cv2.circle(template, (x, y), 10, (255, 0, 0), -1)
+                cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
 
         cv2.imshow("CamIO - Debug", template)
 

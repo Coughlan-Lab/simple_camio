@@ -72,8 +72,9 @@ class PoseDetector:
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
             model_complexity=0,
-            min_detection_confidence=0.5,
+            min_detection_confidence=0.8,
             min_tracking_confidence=0.5,
+            max_num_hands=4,
         )
 
         self.mp_drawing = mp.solutions.drawing_utils
@@ -101,11 +102,8 @@ class PoseDetector:
         if len(pointing_ratios) > 1:
             return HandStatus.MORE_THAN_ONE_HAND, None, img
 
-        if len(pointing_ratios) == 0:
-            pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
-            pointing_ratio = ratios[pointing_hand_index]
-        else:
-            pointing_hand_index, pointing_ratio = pointing_ratios[0]
+        pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
+        pointing_ratio = ratios[pointing_hand_index]
         pointing_hand = results.multi_hand_landmarks[pointing_hand_index]
 
         self.mp_drawing.draw_landmarks(

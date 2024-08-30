@@ -215,7 +215,7 @@ class Graph:
         ) + [
             {
                 "navigationInstruction": {
-                    "instructions": f"Your destination is {poi['edge'].get_between_description()}"
+                    "instructions": f"Your destination is {poi['edge'].get_llm_description()}"
                 }
             }
         ]

@@ -168,9 +168,9 @@ class PromptFormatter:
 
                 graph_position = (
                     f"the closest point on the road network is on edge {edge.id}, "
-                    f"which is {edge.get_between_description()}\n"
-                    f"I'm at a distance of {distance_m_node1} m from the {edge.node1.description} ({edge.node1.id}) "
-                    f"and {distance_m_node2} m from the {edge.node2.description} ({edge.node2.id})."
+                    f"which is {edge.get_llm_description()}\n"
+                    f"I'm at a distance of {distance_m_node1} m from the {edge.node1.get_llm_description()} ({edge.node1.id}) "
+                    f"and {distance_m_node2} m from the {edge.node2.get_llm_description()} ({edge.node2.id})."
                 )
             else:
                 graph_position = f"the closest point on the road network is at node {node.id}, which is the {node.description}."

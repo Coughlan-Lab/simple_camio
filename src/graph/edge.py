@@ -32,65 +32,6 @@ class Edge(StraightLine):
         return f"{self.node1.id} - {self.node2.id}"
 
     @property
-    def description(self) -> str:
-        description = self.street
-
-        if (surface := self.features.get("surface", "concrete")) != "concrete":
-            description += f", {surface}"
-
-        if self.node1.is_dead_end() or self.node2.is_dead_end():
-            description += ", dead end"
-
-        return description
-
-    def get_complete_description(
-        self, movement_direction: MovementDirection = MovementDirection.NONE
-    ) -> str:
-        description = self.description
-        if movement_direction == MovementDirection.NONE:
-            return description
-
-        if (slope := self.features.get("slope", "flat")) != "flat":
-            forward = (
-                MovementDirection.FORWARD
-                if slope == "uphill"
-                else MovementDirection.BACKWARD
-            )
-            if forward == movement_direction:
-                description += ", uphill"
-            else:
-                description += ", downhill"
-
-        if (
-            traffic_direction := self.features.get("traffic_direction", "two_way")
-        ) != "two_way":
-            forward = (
-                MovementDirection.FORWARD
-                if traffic_direction == "one_way_forward"
-                else MovementDirection.BACKWARD
-            )
-            if forward == movement_direction:
-                description += ", heading with traffic"
-            else:
-                description += ", heading against traffic"
-
-        return description
-
-    def get_between_description(self) -> str:
-        if len(self.between_streets) == 0:
-            return f"at the end of {self.street}."
-
-        if len(self.between_streets) == 1:
-            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}."
-
-        streets = list(self.between_streets)
-        street_str = (
-            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
-        )
-
-        return street_str
-
-    @property
     def m(self) -> float:
         if self.node1[0] == self.node2[0]:
             return float("inf")
@@ -130,6 +71,60 @@ class Edge(StraightLine):
             self.node1.distance_to(coords),
             self.node2.distance_to(coords),
         )
+
+    def get_complete_description(
+        self, movement_direction: MovementDirection = MovementDirection.NONE
+    ) -> str:
+        description = self.street
+
+        if (surface := self.features.get("surface", "concrete")) != "concrete":
+            description += f", {surface}"
+
+        if self.node1.is_dead_end() or self.node2.is_dead_end():
+            description += ", dead end"
+
+        if movement_direction == MovementDirection.NONE:
+            return description
+
+        if (slope := self.features.get("slope", "flat")) != "flat":
+            forward = (
+                MovementDirection.FORWARD
+                if slope == "uphill"
+                else MovementDirection.BACKWARD
+            )
+            if forward == movement_direction:
+                description += ", uphill"
+            else:
+                description += ", downhill"
+
+        if (
+            traffic_direction := self.features.get("traffic_direction", "two_way")
+        ) != "two_way":
+            forward = (
+                MovementDirection.FORWARD
+                if traffic_direction == "one_way_forward"
+                else MovementDirection.BACKWARD
+            )
+            if forward == movement_direction:
+                description += ", heading with traffic"
+            else:
+                description += ", heading against traffic"
+
+        return description
+
+    def get_llm_description(self) -> str:
+        if len(self.between_streets) == 0:
+            return f"at the end of {self.street}."
+
+        if len(self.between_streets) == 1:
+            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}."
+
+        streets = list(self.between_streets)
+        street_str = (
+            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
+        )
+
+        return street_str
 
     def __getitem__(self, index: int) -> Node:
         return self.node1 if index == 0 else self.node2

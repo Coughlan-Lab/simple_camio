@@ -24,15 +24,14 @@ class Node:
     @property
     def intersection_type(self) -> str:
         if len(self.adjacents_streets) == 4:
-            return "X"
+            return "four-way"
 
         elif not self.on_border and len(self.adjacents_streets) == 3:
             return "T"
 
         return ""
 
-    @property
-    def description(self) -> str:
+    def get_llm_description(self) -> str:
         if len(self.adjacents_streets) == 1:
             if self.on_border:
                 return f"{self.adjacents_streets[0]}, at the limit of the map"
@@ -42,6 +41,23 @@ class Node:
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
         return f"{self.intersection_type} intersection between {streets_str}"
+
+    @property
+    def description(self) -> str:
+        if len(self.adjacents_streets) == 1:
+            if self.on_border:
+                return f"{self.adjacents_streets[0]}, at the limit of the map"
+            return f"end of {self.adjacents_streets[0]}"
+
+        streets = list(set(self.adjacents_streets))
+        streets_str = (
+            ", ".join(streets[1:-1]) + " and " + streets[-1]
+            if len(streets) > 2
+            else streets[-1]
+        )
+        streets_str = f"{streets[0]} at {streets_str}"
+
+        return f"{streets_str} - {self.intersection_type} intersection"
 
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1

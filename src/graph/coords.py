@@ -1,6 +1,6 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Iterable, Union
 
 
 class StraightLine(ABC):
@@ -69,8 +69,14 @@ class Coords:
     def __truediv__(self, other: float) -> "Coords":
         return Coords(self.x / other, self.y / other)
 
+    def __floordiv__(self, other: float) -> "Coords":
+        return Coords(self.x // other, self.y // other)
+
     def __getitem__(self, index: int) -> float:
         return self.x if index == 0 else self.y
+
+    def __iter__(self) -> Iterable[float]:
+        return iter((self.x, self.y))
 
     def __str__(self) -> str:
         return f"({self.x}, {self.y})"

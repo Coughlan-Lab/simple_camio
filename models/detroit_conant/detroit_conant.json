@@ -1053,8 +1053,8 @@
                 "street": "McDougall Street",
                 "housenumber": "18045",
                 "categories": [
-                    "building.place_of_worship",
-                    "religion.place_of_worship.christianity"
+                    "religion.place_of_worship.christianity",
+                    "building.place_of_worship"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1068,8 +1068,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    603.8371720420892,
-                    948.4070871482924
+                    600.393900693885,
+                    947.2130490127145
                 ],
                 "edge": 18
             },
@@ -1158,8 +1158,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    272.208827350537,
-                    519.1518804990782
+                    260.1456569976047,
+                    508.01951054465735
                 ],
                 "edge": 66
             },
@@ -1168,8 +1168,8 @@
                 "street": "Revere Avenue",
                 "housenumber": "121",
                 "categories": [
-                    "catering.cafe",
-                    "vegetarian"
+                    "vegetarian",
+                    "catering.cafe"
                 ],
                 "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
                 "branch": "Revere Avenue",
@@ -1331,8 +1331,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    371.8182954854497,
-                    223.40504593350784
+                    382.5327660576689,
+                    227.69977821262654
                 ],
                 "edge": 118
             },
@@ -1354,8 +1354,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    382.6026317847311,
-                    276.45614543503314
+                    383.56942452528267,
+                    280.71418784087047
                 ],
                 "edge": 117
             },
@@ -1458,8 +1458,8 @@
                 "street": "Conant Street",
                 "housenumber": "18600",
                 "categories": [
-                    "building.place_of_worship",
-                    "religion.place_of_worship.christianity"
+                    "religion.place_of_worship.christianity",
+                    "building.place_of_worship"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1485,8 +1485,8 @@
                 "street": "Conant Street",
                 "housenumber": "18460",
                 "categories": [
-                    "building.place_of_worship",
-                    "religion.place_of_worship.christianity"
+                    "religion.place_of_worship.christianity",
+                    "building.place_of_worship"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1723,8 +1723,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    456.2840396575833,
-                    541.994597054101
+                    459.0049280679362,
+                    546.9575315042192
                 ],
                 "edge": 13
             },
@@ -1849,8 +1849,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    429.5720329424222,
-                    536.7209287667051
+                    425.6241760516182,
+                    539.6495488198614
                 ],
                 "edge": 13
             },
@@ -1859,8 +1859,8 @@
                 "street": "East Robinwood Street",
                 "housenumber": "43",
                 "categories": [
-                    "kosher.only",
-                    "catering.food_court"
+                    "catering.food_court",
+                    "kosher.only"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -2186,8 +2186,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    951.8333378041543,
-                    754.2313113577368
+                    946.9804554473177,
+                    757.9207159482694
                 ],
                 "edge": 64
             },
@@ -2213,8 +2213,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    616.4987644869435,
-                    478.0101204011484
+                    622.8707271048502,
+                    460.98137037109353
                 ],
                 "edge": 47
             },
@@ -2325,8 +2325,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    844.1802579997835,
-                    604.0212685411892
+                    837.3992303457328,
+                    601.4011006722848
                 ],
                 "edge": 34
             },
@@ -2372,8 +2372,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "455",
                 "categories": [
-                    "building.public_and_civil",
-                    "education.library"
+                    "education.library",
+                    "building.public_and_civil"
                 ],
                 "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
                 "operator": "Detroit Public Library",
@@ -2398,8 +2398,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    704.9487888271462,
-                    238.23711874977892
+                    706.9104557802231,
+                    237.1958221938459
                 ],
                 "edge": 92
             },
@@ -2509,8 +2509,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    759.4985525262849,
-                    492.5740340033706
+                    753.5826848824977,
+                    497.5106867228802
                 ],
                 "edge": 72
             },
@@ -2582,8 +2582,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    619.2558775111902,
-                    239.0512653966975
+                    623.2610364061991,
+                    235.70619108131078
                 ],
                 "edge": 90
             },
@@ -2592,9 +2592,9 @@
                 "street": "East Grixdale Avenue",
                 "housenumber": "29",
                 "categories": [
-                    "service.social_facility.shelter",
                     "building.accommodation",
-                    "building.facility"
+                    "building.facility",
+                    "service.social_facility.shelter"
                 ],
                 "contact": {
                     "phone": "+1-212-689-1900",
@@ -2805,8 +2805,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    846.7529915333747,
-                    745.5869705860678
+                    840.2568649519178,
+                    746.2266942043253
                 ],
                 "edge": 32
             },
@@ -2815,9 +2815,9 @@
                 "street": "Norwood Street",
                 "housenumber": "10",
                 "categories": [
+                    "vegan",
                     "vegetarian",
                     "organic",
-                    "vegan",
                     "commercial.supermarket"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
@@ -2843,8 +2843,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    956.3520037266949,
-                    748.7029316335198
+                    945.1430108167323,
+                    755.1531620122568
                 ],
                 "edge": 39
             },
@@ -2870,8 +2870,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    367.9620843007699,
-                    761.9705284020152
+                    359.3708462685782,
+                    746.2499239758895
                 ],
                 "edge": 56
             },

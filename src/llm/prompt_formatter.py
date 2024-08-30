@@ -130,12 +130,13 @@ class PromptFormatter:
 
         prompt = (
             "Divide these directions into steps. "
-            "For each step, include the distance to the next point, the direction to follow, and my current destination, like the intersection where I need to turn.\n"
+            "For each step, you MUST include the distance to the next point, the direction to follow, and my current destination, like the intersection where I need to turn.\n"
             "If directions are generic or not detailed enough, add further details, like the intersections along the way.\n"
             # "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
-            "Build a coherent speech that includes all this information.\n"
+            "Build a coherent speech that includes ALL this information.\n"
             "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
-            "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n\n"
+            "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n"
+            "If I get lost, call get_route or get_route_to_point_of_interest again to provide the best route to the destination.\n"
         )
 
         prompt += (

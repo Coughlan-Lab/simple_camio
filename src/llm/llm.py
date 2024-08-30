@@ -82,7 +82,6 @@ class LLM:
                 self.history.append(convert_assistant_message(response_message))
 
                 if response_message.tool_calls is not None:
-
                     for tool_call in response_message.tool_calls:
                         self.history.append(
                             self.prompt_formatter.handle_tool_call(tool_call)

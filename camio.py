@@ -105,7 +105,9 @@ class CamIO:
                 continue
 
             self.position_handler.process_position(Coords(*gesture_position))
-            self.__announce_position()
+
+            if not self.stt.is_processing() and not self.llm.is_waiting_for_response():
+                self.__announce_position()
 
         ambient_sound_player.stop()
         cap.release()
@@ -125,13 +127,6 @@ class CamIO:
 
     def save_chat(self, filename: str) -> None:
         self.llm.save_chat(filename)
-
-    def is_busy(self) -> bool:
-        return (
-            self.tts.is_speaking()
-            or self.stt.is_processing()
-            or self.llm.is_waiting_for_response()
-        )
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
@@ -247,11 +242,8 @@ class CamIO:
                 self.camio.tts.waiting_llm()
                 return
 
-            self.camio.disable_shortcuts()
-
             print("Listening...")
-            # question = self.camio.stt.process_input()
-            question = input("Question: ")
+            question = self.camio.stt.process_input()
             if question is None or self.stop_event.is_set():
                 print("Stopping user input handler.")
                 return
@@ -267,7 +259,6 @@ class CamIO:
 
             self.process_answer(answer)
             self.camio.user_input_thread = None
-            self.camio.init_shortcuts()
 
         def process_answer(self, answer: Optional[str]) -> None:
             self.camio.tts.stop_speaking()

@@ -49,7 +49,7 @@ class Node:
                 return f"{self.adjacents_streets[0]}, at the limit of the map"
             return f"end of {self.adjacents_streets[0]}"
 
-        streets = list(set(self.adjacents_streets))
+        streets = sorted(list(set(self.adjacents_streets)))
         streets_str = (
             ", ".join(streets[1:-1]) + " and " + streets[-1]
             if len(streets) > 2

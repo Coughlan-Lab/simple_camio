@@ -98,6 +98,8 @@ class PromptFormatter:
                 )
 
             elif fnc == ToolCall.ENABLE_POINTS_OF_INTERESTS:
+                if params["disable_previous"]:
+                    self.graph.disable_pois()
                 self.graph.enable_pois(params["points_of_interest"])
                 result = "Points of interest are now enabled."
 
@@ -131,8 +133,10 @@ class PromptFormatter:
         prompt = (
             "Adapt these directions to the needs of a blind person and include distinctive landmarks along the route.\n"
             "If directions are generic or not detailed enough, add further details, like the intersections along the way.\n"
-            "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
+            # "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
             "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
+            "For each step, include the distance to the next point, the direction to follow, and my current destination, like the intersection where I need to turn.\n"
+            "Build a coherent speech that includes all this information.\n"
             "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n\n"
         )
 
@@ -365,6 +369,7 @@ class PromptFormatter:
         "- Stick to the provided information: when information is insufficient to answer a question, "
         "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
         "- If my question is ambiguous or unclear, ask for clarification.\n"
-        "- When giving directions, always call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
-        "- After I ask a question, always call enable_points_of_interest to enable the points of interest relevant to the question.\n"
+        "- When giving directions, you MUST call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
+        "- Everytime I ask a question, you MUST call enable_points_of_interest to enable the points of interest relevant to the conversation, "
+        "even if they are not explicitly mentioned in my question.\n"
     )

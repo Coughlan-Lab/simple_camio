@@ -330,7 +330,11 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name=ToolCall.ENABLE_POINTS_OF_INTERESTS,
-            description="Enable points of interest to be used in the conversation. Call this function everytime I ask you a question about one or more points of interest.",
+            description=(
+                "Enable points of interest to be used in the conversation. "
+                "You MUST call this function everytime I ask you a question; otherwise, I won't be able to locate them. "
+                "Include all the points of interest that are relevant to the conversation."
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -343,10 +347,18 @@ tool_calls = [
                             "An array of point of interest indices to be enabled. "
                             "Include all the points of interest that are relevant to the current question. "
                             "Include more than one index to enable multiple points of interest. "
+                            "Pass an empty array along with disable_previous set to true to disable all points of interest."
+                        ),
+                    },
+                    "disable_previous": {
+                        "type": "boolean",
+                        "description": (
+                            "If true, disable all the previously enabled points of interest. "
+                            "Set it to false if you want to keep the previously enabled points of interest."
                         ),
                     },
                 },
-                "required": ["points_of_interest"],
+                "required": ["points_of_interest", "disable_previous"],
                 "additionalProperties": False,
             },
         ),

@@ -284,14 +284,12 @@ class Graph:
         return instructions
 
     def enable_pois(self, indices: List[int]) -> None:
-        for poi in self.pois:
-            poi["enabled"] = False
-
         for index in indices:
             self.pois[index]["enabled"] = True
 
     def disable_pois(self) -> None:
-        return self.enable_pois(list())
+        for poi in self.pois:
+            poi["enabled"] = False
 
     def __get_edge_distance(
         self,

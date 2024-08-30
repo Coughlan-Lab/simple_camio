@@ -56,7 +56,7 @@ class PositionInfo:
     @staticmethod
     def copy(info: "PositionInfo", pos: Coords) -> "PositionInfo":
         return PositionInfo(
-            info.description, info.pos, info.graph_element, max_life=info.max_life
+            info.description, pos, info.graph_element, max_life=info.max_life
         )
 
 

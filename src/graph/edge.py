@@ -49,10 +49,10 @@ class Edge(StraightLine):
 
     def contains(self, coords: Coords) -> bool:
         return (
-            self.node1[0] <= coords[0] <= self.node2[0]
-            or self.node2[0] <= coords[0] <= self.node1[0]
-            or self.node1[1] <= coords[1] <= self.node2[1]
-            or self.node2[1] <= coords[1] <= self.node1[1]
+            self.node1[0] < coords[0] < self.node2[0]
+            or self.node2[0] < coords[0] < self.node1[0]
+            or self.node1[1] < coords[1] < self.node2[1]
+            or self.node2[1] < coords[1] < self.node1[1]
         )
 
     def is_adjacent(self, other: "Edge") -> bool:

@@ -151,6 +151,8 @@ class TTS:
 
         except KeyboardInterrupt:
             pass
+        except Exception as e:
+            print(f"An error occurred in TTS loop: {e}")
 
     def stop_speaking(self) -> None:
         with self.queue_cond:
@@ -220,7 +222,7 @@ class TTS:
     ) -> None:
         with self.queue_cond:
             with self.is_speaking_cond:
-                if priority > self.current_announcement.priority:
+                if priority >= self.current_announcement.priority:
                     self.stop_speaking()
 
             self.say(text, category, priority)

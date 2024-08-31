@@ -6,6 +6,7 @@ import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
 
+from src.graph import Coords
 from src.utils import *
 
 
@@ -67,8 +68,13 @@ class HandStatus(Enum):
 
 class PoseDetector:
     POINTING_THRESHOLD = 0.15
+    MAP_MARGIN = 50  # meters
 
-    def __init__(self) -> None:
+    def __init__(self, image_bounds: Tuple[Coords, Coords]) -> None:
+        self.min_corner, self.max_corner = image_bounds
+        self.min_corner -= PoseDetector.MAP_MARGIN
+        self.max_corner += PoseDetector.MAP_MARGIN
+
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
             model_complexity=0,
@@ -91,10 +97,20 @@ class PoseDetector:
 
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-        if not results.multi_hand_landmarks or len(results.multi_hand_landmarks) == 0:
+        if not results.multi_hand_landmarks:
             return HandStatus.NOT_FOUND, None, img
 
-        ratios = [self.pointing_ratio(hand) for hand in results.multi_hand_landmarks]
+        hands = list(
+            filter(
+                lambda hand: self.is_index_inside_image(hand, img, H),
+                results.multi_hand_landmarks,
+            )
+        )
+
+        if len(hands) == 0:
+            return HandStatus.NOT_FOUND, None, img
+
+        ratios = list(map(lambda h: self.pointing_ratio(h), hands))
         pointing_ratios = [
             (i, r) for i, r in enumerate(ratios) if r > self.POINTING_THRESHOLD
         ]
@@ -114,25 +130,40 @@ class PoseDetector:
             self.mp_drawing_styles.get_default_hand_connections_style(),
         )
 
-        position = np.array(
-            [
-                [
-                    pointing_hand.landmark[8].x * img.shape[1],
-                    pointing_hand.landmark[8].y * img.shape[0],
-                ]
-            ],
-            dtype=np.float32,
-        ).reshape(-1, 1, 2)
-        position = cv2.perspectiveTransform(position, H)[0][0]
         hand_status = HandStatus.MOVING
-
         if pointing_ratio > 0.15:
             hand_status = HandStatus.POINTING
 
         return (
             hand_status,
-            (position[0], position[1]),
+            self.get_index_position(pointing_hand, img, H),
             img,
+        )
+
+    def get_index_position(
+        self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
+    ) -> Tuple[float, float]:
+        position = np.array(
+            [
+                [
+                    hand_landmarks.landmark[8].x * img.shape[1],
+                    hand_landmarks.landmark[8].y * img.shape[0],
+                ]
+            ],
+            dtype=np.float32,
+        ).reshape(-1, 1, 2)
+
+        position = cv2.perspectiveTransform(position, H)[0][0]
+        return (position[0], position[1])
+
+    def is_index_inside_image(
+        self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
+    ) -> bool:
+        index_position = self.get_index_position(hand_landmarks, img, H)
+
+        return (
+            self.min_corner[0] <= index_position[0] < self.max_corner[0]
+            and self.min_corner[1] <= index_position[1] < self.max_corner[1]
         )
 
     def pointing_ratio(self, hand_landmarks) -> float:

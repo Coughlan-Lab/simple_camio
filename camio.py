@@ -29,7 +29,7 @@ class CamIO:
 
         # Frame processing
         self.model_detector = SIFTModelDetector(model["template_image"])
-        self.pose_detector = PoseDetector()
+        self.pose_detector = PoseDetector(self.graph.bounds)
         self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
 
         # TTS and STT
@@ -305,13 +305,16 @@ if __name__ == "__main__":
     try:
         camio = CamIO(model, debug=args.debug)
         camio.main_loop()
+
     except KeyboardInterrupt:
         pass
+
     except Exception as e:
         print(f"An error occurred")
         print(e)
 
-    if camio is not None:
-        camio.stop()
-        camio.save_chat(args.out)
-        print(f"Chat saved to {args.out}")
+    finally:
+        if camio is not None:
+            camio.stop()
+            camio.save_chat(args.out)
+            print(f"Chat saved to {args.out}")

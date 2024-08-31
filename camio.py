@@ -28,9 +28,9 @@ class CamIO:
         self.last_pos_info = PositionInfo.none_info()
 
         # Frame processing
-        self.model_detector = SIFTModelDetector(model["template_image"])
-        self.pose_detector = PoseDetector(self.graph.bounds)
         self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
+        self.model_detector = SIFTModelDetector(model["template_image"])
+        self.pose_detector = PoseDetector(self.template.shape[:2])
 
         # TTS and STT
         self.tts = TTS("res/strings.json")

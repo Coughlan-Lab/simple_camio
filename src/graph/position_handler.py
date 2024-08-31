@@ -12,7 +12,7 @@ from .node import Node
 
 
 class PositionInfo:
-    MAX_LIFE_DEFAULT = 7.0  # seconds
+    MAX_LIFE_DEFAULT = 6.0  # seconds
 
     def __init__(
         self,

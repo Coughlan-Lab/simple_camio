@@ -233,7 +233,7 @@ class TTS:
             self.queue_cond.notify()
 
     def position_info(self, position_info: PositionInfo, stop_current: bool) -> None:
-        fn = self.stop_and_say
+        fn = self.say
         if stop_current:
             fn = self.stop_and_say
 

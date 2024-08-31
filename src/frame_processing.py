@@ -70,15 +70,13 @@ class PoseDetector:
     POINTING_THRESHOLD = 0.15
     MAP_MARGIN = 50  # meters
 
-    def __init__(self, image_bounds: Tuple[Coords, Coords]) -> None:
-        self.min_corner, self.max_corner = image_bounds
-        self.min_corner -= PoseDetector.MAP_MARGIN
-        self.max_corner += PoseDetector.MAP_MARGIN
+    def __init__(self, image_size: Tuple[float, float]) -> None:
+        self.image_size = image_size
 
         self.mp_hands = mp.solutions.hands
         self.hands = self.mp_hands.Hands(
             model_complexity=0,
-            min_detection_confidence=0.8,
+            min_detection_confidence=0.75,
             min_tracking_confidence=0.5,
             max_num_hands=4,
         )
@@ -97,30 +95,29 @@ class PoseDetector:
 
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-        if not results.multi_hand_landmarks:
-            return HandStatus.NOT_FOUND, None, img
-
-        hands = list(
-            filter(
-                lambda hand: self.is_index_inside_image(hand, img, H),
-                results.multi_hand_landmarks,
-            )
-        )
-
-        if len(hands) == 0:
+        hands = results.multi_hand_landmarks
+        if not hands or len(hands) == 0:
             return HandStatus.NOT_FOUND, None, img
 
         ratios = list(map(lambda h: self.pointing_ratio(h), hands))
-        pointing_ratios = [
-            (i, r) for i, r in enumerate(ratios) if r > self.POINTING_THRESHOLD
+        pointing_hands = [
+            h for h, r in zip(hands, ratios) if r > self.POINTING_THRESHOLD
         ]
 
-        if len(pointing_ratios) > 1:
-            return HandStatus.MORE_THAN_ONE_HAND, None, img
+        if len(pointing_hands) == 0:
+            return HandStatus.MOVING, None, img
 
-        pointing_hand_index = max(range(len(ratios)), key=lambda i: ratios[i])
-        pointing_ratio = ratios[pointing_hand_index]
-        pointing_hand = results.multi_hand_landmarks[pointing_hand_index]
+        if len(pointing_hands) > 1:
+            on_map_pointing_hands = [
+                h for h in pointing_hands if self.is_index_on_the_map(h, img, H)
+            ]
+
+            if len(on_map_pointing_hands) > 1:
+                return HandStatus.MORE_THAN_ONE_HAND, None, img
+
+            pointing_hand = on_map_pointing_hands[0]
+        else:
+            pointing_hand = pointing_hands[0]
 
         self.mp_drawing.draw_landmarks(
             img,
@@ -130,12 +127,8 @@ class PoseDetector:
             self.mp_drawing_styles.get_default_hand_connections_style(),
         )
 
-        hand_status = HandStatus.MOVING
-        if pointing_ratio > 0.15:
-            hand_status = HandStatus.POINTING
-
         return (
-            hand_status,
+            HandStatus.POINTING,
             self.get_index_position(pointing_hand, img, H),
             img,
         )
@@ -156,14 +149,14 @@ class PoseDetector:
         position = cv2.perspectiveTransform(position, H)[0][0]
         return (position[0], position[1])
 
-    def is_index_inside_image(
+    def is_index_on_the_map(
         self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
     ) -> bool:
         index_position = self.get_index_position(hand_landmarks, img, H)
 
         return (
-            self.min_corner[0] <= index_position[0] < self.max_corner[0]
-            and self.min_corner[1] <= index_position[1] < self.max_corner[1]
+            0 <= index_position[0] < self.image_size[0]
+            and 0 <= index_position[1] < self.image_size[1]
         )
 
     def pointing_ratio(self, hand_landmarks) -> float:

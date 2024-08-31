@@ -1168,8 +1168,8 @@
                 "street": "Revere Avenue",
                 "housenumber": "121",
                 "categories": [
-                    "vegetarian",
-                    "catering.cafe"
+                    "catering.cafe",
+                    "vegetarian"
                 ],
                 "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
                 "branch": "Revere Avenue",
@@ -1219,7 +1219,7 @@
                 "categories": [
                     "catering.restaurant.chinese"
                 ],
-                "opening_hours": "Su-We 11:30-20:00; Th-Sa 11:30-20:30",
+                "opening_hours": "Su-We 11:30-22:30; Th-Sa 11:30-23:00",
                 "contact": {
                     "phone": "+12122132810",
                     "website": "http://www.cafechinadetroit.com/"
@@ -1245,42 +1245,6 @@
                     402.28157989359426
                 ],
                 "edge": 43
-            },
-            {
-                "name": "Chick-fil-A",
-                "street": "Klinger Street",
-                "housenumber": "1000",
-                "categories": [
-                    "catering.fast_food"
-                ],
-                "opening_hours": "Mo-Sa 06:30-22:00",
-                "brand": "Chick-fil-A",
-                "branch": "Klinger Street",
-                "contact": {
-                    "phone": "+1 212-704-9920",
-                    "website": "https://www.chick-fil-a.com"
-                },
-                "facilities": {
-                    "internet_access": true,
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "chicken"
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": true,
-                    "elevator": false
-                },
-                "coords": [
-                    798.4627456055124,
-                    563.0647608687428
-                ],
-                "edge": 27
             },
             {
                 "name": "Citizens Bank",
@@ -1319,8 +1283,8 @@
                 "district": "Pershing",
                 "street": "Conant Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1342,8 +1306,8 @@
                 "district": "Northeast Central District",
                 "street": "Conant Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1365,8 +1329,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1388,8 +1352,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1411,8 +1375,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1434,8 +1398,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1544,7 +1508,7 @@
             },
             {
                 "name": "Detroit Diner",
-                "street": "Angling Street",
+                "street": "Brinker Avenue",
                 "housenumber": "463",
                 "categories": [
                     "catering.restaurant.american"
@@ -1574,7 +1538,7 @@
                     273.39965644720405,
                     806.543626323619
                 ],
-                "edge": 3
+                "edge": 7
             },
             {
                 "name": "Dig",
@@ -1614,6 +1578,42 @@
                 "edge": 47
             },
             {
+                "name": "Eden Crest",
+                "street": "East Grixdale Avenue",
+                "housenumber": "202",
+                "categories": [
+                    "catering.pub"
+                ],
+                "opening_hours": "Mo-Su 11:00-04:00",
+                "contact": {
+                    "phone": "+1-212-239-4820",
+                    "email": "info@pignwhistleon36th.com",
+                    "website": "https://pignwhistleon36th.com/"
+                },
+                "facilities": {
+                    "toilets": true,
+                    "takeaway": true
+                },
+                "catering": {
+                    "cuisine": "irish;american;sandwich;salad;steak;burger;seafood",
+                    "reservation": "required"
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": true,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    946.9804554473177,
+                    757.9207159482694
+                ],
+                "edge": 64
+            },
+            {
                 "name": "Food Gallery 32",
                 "commercial": "Korea Town",
                 "street": "Joseph Campau Avenue",
@@ -1642,7 +1642,135 @@
                 "edge": 11
             },
             {
-                "name": "Hotel Riu Plaza",
+                "name": "Fry & Shake",
+                "street": "Charset Street",
+                "housenumber": "1333",
+                "categories": [
+                    "catering.fast_food.burger"
+                ],
+                "opening_hours": "10:30-24:00",
+                "brand": "Shake Shack",
+                "branch": "Charset Street",
+                "contact": {
+                    "phone": "+1 646-230-0696",
+                    "website": "https://www.shakeshack.com"
+                },
+                "facilities": {
+                    "takeaway": true
+                },
+                "catering": {
+                    "cuisine": "burger",
+                    "capacity": 135
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": true,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    633.2184554927309,
+                    534.9990840567696
+                ],
+                "edge": 46
+            },
+            {
+                "name": "Grand Vista Hotel",
+                "street": "Maine Street",
+                "housenumber": "305",
+                "categories": [
+                    "building.accommodation",
+                    "accommodation.hotel"
+                ],
+                "opening_hours": "24/7",
+                "brand": "RIU",
+                "operator": "Grand Vista",
+                "branch": "Maine Street",
+                "description": "Located a few steps from Conant Gardens, the Grand Vista Hotel offers its guests many services and facilities such as modern rooms, gym, meeting rooms, free Wi-Fi, restaurant and bar.",
+                "contact": {
+                    "phone": "+1-646-864-1100",
+                    "email": "hotel.plazadetroit@riu.com",
+                    "website": "https://www.grandvista.com"
+                },
+                "facilities": {
+                    "internet_access": true,
+                    "smoking": false,
+                    "air_conditioning": true
+                },
+                "payment_options": {
+                    "debit_cards": true,
+                    "credit_cards": true
+                },
+                "accommodation": {
+                    "rooms": 647,
+                    "reservation": "required"
+                },
+                "building": {
+                    "type": "hotel"
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": true,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    199.53015664049894,
+                    433.7831428833646
+                ],
+                "edge": 2
+            },
+            {
+                "name": "Harrison & Co.",
+                "street": "Klinger Street",
+                "housenumber": "917",
+                "categories": [
+                    "commercial.supermarket"
+                ],
+                "opening_hours": "24/7",
+                "contact": {
+                    "phone": "+1-212-586-8784",
+                    "website": "https://www.mortonwilliams.com/"
+                },
+                "facilities": {
+                    "smoking": false,
+                    "air_conditioning": true
+                },
+                "payment_options": {
+                    "cash": true,
+                    "visa": true,
+                    "mastercard": true,
+                    "contactless": true,
+                    "debit_cards": true,
+                    "discover_card": true,
+                    "american_express": true
+                },
+                "commercial": {
+                    "type": "supermarket"
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": true,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": true,
+                    "elevator": false
+                },
+                "coords": [
+                    795.30351843914,
+                    668.6579601980432
+                ],
+                "edge": 26
+            },
+            {
+                "name": "Hotel Plaza",
                 "street": "Mitchell Avenue",
                 "housenumber": "145",
                 "categories": [
@@ -1729,7 +1857,7 @@
                 "edge": 13
             },
             {
-                "name": "IGT Jewelry Shopping Mall",
+                "name": "Jewelry Shopping Mall",
                 "street": "Angling Street",
                 "housenumber": "44",
                 "categories": [
@@ -1783,44 +1911,6 @@
                 "name": "Korean Bites",
                 "commercial": "Korea Town",
                 "street": "Joseph Campau Avenue",
-                "housenumber": "12",
-                "categories": [
-                    "catering.restaurant.korean"
-                ],
-                "opening_hours": "Mo-We 09:30-21:00; Fr-Su 09:30-22:00",
-                "contact": {
-                    "phone": "+1 212-244-1115",
-                    "email": "info@koreanbites.com",
-                    "fax": "+1 212-244-4726",
-                    "website": "http://koreanbites.com/"
-                },
-                "facilities": {
-                    "smoking": false,
-                    "takeaway": true,
-                    "delivery": false
-                },
-                "catering": {
-                    "cuisine": "korean"
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "coords": [
-                    412.93373403422396,
-                    537.627431970755
-                ],
-                "edge": 13
-            },
-            {
-                "name": "Korean Detroit",
-                "commercial": "Korea Town",
-                "street": "Joseph Campau Avenue",
                 "housenumber": "9",
                 "categories": [
                     "catering.restaurant.korean"
@@ -1829,8 +1919,8 @@
                 "branch": "Joseph Campau Avenue",
                 "contact": {
                     "phone": "+1 212-868-1180",
-                    "email": "contact@koreandetroit.com",
-                    "website": "https://www.koreandetroit.com"
+                    "email": "contact@koreanbites.com",
+                    "website": "https://www.koreanbites.com"
                 },
                 "facilities": {
                     "takeaway": true,
@@ -1859,8 +1949,8 @@
                 "street": "East Robinwood Street",
                 "housenumber": "43",
                 "categories": [
-                    "kosher.only",
-                    "catering.food_court"
+                    "catering.food_court",
+                    "kosher.only"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -1895,11 +1985,11 @@
                 "categories": [
                     "catering.restaurant.mexican"
                 ],
-                "opening_hours": "Su-Th 12:00-20:30; We-Sa 12:00-20:00",
+                "opening_hours": "Su-Th 12:00-22:00; We 12:00-23:00; Th-Sa 12:00-00:00",
                 "contact": {
                     "phone": "+1-646-998-5722",
-                    "email": "info@mdb38.com",
-                    "website": "https://www.maddogandbeans.com"
+                    "email": "info@maddog.com",
+                    "website": "https://www.maddog.com"
                 },
                 "payment_options": {
                     "debit_cards": true,
@@ -1930,8 +2020,8 @@
                 "housenumber": "809",
                 "categories": [
                     "catering.fast_food.burger",
-                    "building.catering",
-                    "building.commercial"
+                    "building.commercial",
+                    "building.catering"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -2001,78 +2091,6 @@
                     676.8496843818441
                 ],
                 "edge": 33
-            },
-            {
-                "name": "Morton Williams",
-                "street": "Klinger Street",
-                "housenumber": "917",
-                "categories": [
-                    "commercial.supermarket"
-                ],
-                "opening_hours": "24/7",
-                "contact": {
-                    "phone": "+1-212-586-8784",
-                    "website": "https://www.mortonwilliams.com/"
-                },
-                "facilities": {
-                    "smoking": false,
-                    "air_conditioning": true
-                },
-                "payment_options": {
-                    "cash": true,
-                    "visa": true,
-                    "mastercard": true,
-                    "contactless": true,
-                    "debit_cards": true,
-                    "discover_card": true,
-                    "american_express": true
-                },
-                "commercial": {
-                    "type": "supermarket"
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": true,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": true,
-                    "elevator": false
-                },
-                "coords": [
-                    795.30351843914,
-                    668.6579601980432
-                ],
-                "edge": 26
-            },
-            {
-                "name": "Nelly Spillanes",
-                "street": "Gallagher Street",
-                "categories": [
-                    "catering.pub"
-                ],
-                "opening_hours": "Mo-Su 11:00-16:00",
-                "contact": {
-                    "phone": "+12127929673",
-                    "website": "http://www.nellyspillanes.com"
-                },
-                "catering": {
-                    "cuisine": "irish"
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": true,
-                    "elevator": false
-                },
-                "coords": [
-                    700.2467507113454,
-                    273.07265530150124
-                ],
-                "edge": 23
             },
             {
                 "name": "New Merchant Food Center",
@@ -2156,42 +2174,6 @@
                 "edge": 35
             },
             {
-                "name": "Pig 'N' Whistle On 36th",
-                "street": "East Grixdale Avenue",
-                "housenumber": "202",
-                "categories": [
-                    "catering.pub"
-                ],
-                "opening_hours": "Mo-Su 11:00-04:00",
-                "contact": {
-                    "phone": "+1-212-239-4820",
-                    "email": "info@pignwhistleon36th.com",
-                    "website": "https://pignwhistleon36th.com/"
-                },
-                "facilities": {
-                    "toilets": true,
-                    "takeaway": true
-                },
-                "catering": {
-                    "cuisine": "irish;american;sandwich;salad;steak;burger;seafood",
-                    "reservation": "required"
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": true,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "coords": [
-                    946.9804554473177,
-                    757.9207159482694
-                ],
-                "edge": 64
-            },
-            {
                 "name": "Pok\u00e9 Bar",
                 "street": "Charset Street",
                 "housenumber": "1333",
@@ -2246,38 +2228,29 @@
                 "edge": 33
             },
             {
-                "name": "Riu Plaza Hotel",
-                "street": "Maine Street",
-                "housenumber": "305",
+                "name": "PureLeaf",
+                "street": "Charset Street",
+                "housenumber": "1164",
                 "categories": [
-                    "building.accommodation",
-                    "accommodation.hotel"
+                    "vegetarian",
+                    "catering.fast_food.salad"
                 ],
-                "opening_hours": "24/7",
-                "brand": "RIU",
-                "operator": "RIU Plaza Hotels",
-                "branch": "Maine Street",
-                "description": "Located a few steps from Conant Gardens, the Riu Plaza Detroit Hotel offers its guests many services and facilities such as modern rooms, gym, meeting rooms, free Wi-Fi, restaurant and bar.",
+                "opening_hours": "Mo-Su 10:30-22:30",
+                "brand": "PureLeaf",
                 "contact": {
-                    "phone": "+1-646-864-1100",
-                    "email": "hotel.plazadetroit@riu.com",
-                    "website": "https://www.riu.com"
+                    "phone": "+1 646 449 8884",
+                    "website": "https://order.pureleaf.com"
                 },
                 "facilities": {
-                    "internet_access": true,
                     "smoking": false,
-                    "air_conditioning": true
+                    "takeaway": true,
+                    "delivery": true
                 },
-                "payment_options": {
-                    "debit_cards": true,
-                    "credit_cards": true
-                },
-                "accommodation": {
-                    "rooms": 647,
-                    "reservation": "required"
-                },
-                "building": {
-                    "type": "hotel"
+                "catering": {
+                    "cuisine": "salad",
+                    "diet": {
+                        "vegetarian": true
+                    }
                 },
                 "city": "Detroit",
                 "accessibility": {
@@ -2285,14 +2258,50 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "coords": [
-                    199.53015664049894,
-                    433.7831428833646
+                    578.8195424776943,
+                    543.2609275790365
                 ],
-                "edge": 2
+                "edge": 46
+            },
+            {
+                "name": "QuickBite Grill",
+                "street": "Klinger Street",
+                "housenumber": "1000",
+                "categories": [
+                    "catering.fast_food"
+                ],
+                "opening_hours": "Mo-Sa 06:30-22:00",
+                "brand": "Chick-fil-A",
+                "branch": "Klinger Street",
+                "contact": {
+                    "phone": "+1 212-704-9920",
+                    "website": "https://www.chick-fil-a.com"
+                },
+                "facilities": {
+                    "internet_access": true,
+                    "takeaway": true
+                },
+                "catering": {
+                    "cuisine": "chicken"
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": true,
+                    "elevator": false
+                },
+                "coords": [
+                    798.4627456055124,
+                    563.0647608687428
+                ],
+                "edge": 27
             },
             {
                 "name": "Serafina Italian Restaurant",
@@ -2331,40 +2340,33 @@
                 "edge": 34
             },
             {
-                "name": "Shake Shack",
-                "street": "Charset Street",
-                "housenumber": "1333",
+                "name": "Silver Creek",
+                "street": "Gallagher Street",
                 "categories": [
-                    "catering.fast_food.burger"
+                    "catering.pub"
                 ],
-                "opening_hours": "10:30-24:00",
-                "brand": "Shake Shack",
-                "branch": "Charset Street",
+                "opening_hours": "Mo-Su 11:00-16:00",
                 "contact": {
-                    "phone": "+1 646-230-0696",
-                    "website": "https://www.shakeshack.com"
-                },
-                "facilities": {
-                    "takeaway": true
+                    "phone": "+12127929673",
+                    "website": "http://www.nellyspillanes.com"
                 },
                 "catering": {
-                    "cuisine": "burger",
-                    "capacity": 135
+                    "cuisine": "irish"
                 },
                 "city": "Detroit",
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "coords": [
-                    633.2184554927309,
-                    534.9990840567696
+                    700.2467507113454,
+                    273.07265530150124
                 ],
-                "edge": 46
+                "edge": 23
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -2372,8 +2374,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "455",
                 "categories": [
-                    "education.library",
-                    "building.public_and_civil"
+                    "building.public_and_civil",
+                    "education.library"
                 ],
                 "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
                 "operator": "Detroit Public Library",
@@ -2439,53 +2441,13 @@
                 "edge": 22
             },
             {
-                "name": "Sweetgreen",
-                "street": "Charset Street",
-                "housenumber": "1164",
-                "categories": [
-                    "vegetarian",
-                    "catering.fast_food.salad"
-                ],
-                "opening_hours": "Mo-Su 10:30-22:30",
-                "brand": "Sweetgreen",
-                "contact": {
-                    "phone": "+1 646 449 8884",
-                    "website": "https://order.sweetgreen.com/nomad/"
-                },
-                "facilities": {
-                    "smoking": false,
-                    "takeaway": true,
-                    "delivery": true
-                },
-                "catering": {
-                    "cuisine": "salad",
-                    "diet": {
-                        "vegetarian": true
-                    }
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": true,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": true,
-                    "elevator": false
-                },
-                "coords": [
-                    578.8195424776943,
-                    543.2609275790365
-                ],
-                "edge": 46
-            },
-            {
                 "name": "The Australian Detroit",
                 "street": "East Robinwood Street",
                 "housenumber": "20",
                 "categories": [
                     "catering.restaurant.american"
                 ],
-                "opening_hours": "Mo, Su 11:30-20:30; Tu, We 11:30-20:00; Th, Fr, Sa 11:30-20:00",
+                "opening_hours": "Mo, Su 11:30-00:00; Tu, We 11:30-23:00; Th 11:30-02:00; Fr, Sa 11:30-04:00",
                 "contact": {
                     "phone": "+1 212-869-9601",
                     "email": "info@theaustraliandetroit.com",
@@ -2554,6 +2516,45 @@
                 "edge": 3
             },
             {
+                "name": "The Lincoln Detroit",
+                "street": "East Grixdale Avenue",
+                "housenumber": "29",
+                "categories": [
+                    "building.accommodation",
+                    "building.facility",
+                    "service.social_facility.shelter"
+                ],
+                "contact": {
+                    "phone": "+1-212-689-1900",
+                    "website": "https://lincolndetroit.com/"
+                },
+                "facilities": {
+                    "smoking": false,
+                    "air_conditioning": true
+                },
+                "targeted_for": {
+                    "migrant": true
+                },
+                "building": {
+                    "type": "hotel",
+                    "height": 49
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    775.1529377572533,
+                    782.1096880141765
+                ],
+                "edge": 62
+            },
+            {
                 "name": "The Plaza",
                 "quarter": "Midtown",
                 "street": "East Seven Mile Road",
@@ -2586,45 +2587,6 @@
                     235.70619108131078
                 ],
                 "edge": 90
-            },
-            {
-                "name": "The Redbury Detroit",
-                "street": "East Grixdale Avenue",
-                "housenumber": "29",
-                "categories": [
-                    "building.accommodation",
-                    "building.facility",
-                    "service.social_facility.shelter"
-                ],
-                "contact": {
-                    "phone": "+1-212-689-1900",
-                    "website": "https://redburydetroit.com/"
-                },
-                "facilities": {
-                    "smoking": false,
-                    "air_conditioning": true
-                },
-                "targeted_for": {
-                    "migrant": true
-                },
-                "building": {
-                    "type": "hotel",
-                    "height": 49
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "coords": [
-                    775.1529377572533,
-                    782.1096880141765
-                ],
-                "edge": 62
             },
             {
                 "name": "Tina's Cuban Cuisine",
@@ -2668,7 +2630,7 @@
                 "branch": "Joseph Campau Avenue",
                 "contact": {
                     "phone": "+1 212-967-1900",
-                    "website": "https://www.bcdtofuhouse.com"
+                    "website": "https://www.tofuhouse.com"
                 },
                 "facilities": {
                     "takeaway": true,
@@ -2693,13 +2655,13 @@
                 "edge": 12
             },
             {
-                "name": "United Grill",
+                "name": "United Grill Coney Island",
                 "city": "Detroit",
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "building.catering",
-                    "catering.restaurant.american"
+                    "catering.restaurant.american",
+                    "building.catering"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2714,6 +2676,44 @@
                     497.7284897121745
                 ],
                 "edge": 115
+            },
+            {
+                "name": "Urban Fusion",
+                "commercial": "Korea Town",
+                "street": "Joseph Campau Avenue",
+                "housenumber": "12",
+                "categories": [
+                    "catering.restaurant.korean"
+                ],
+                "opening_hours": "Mo-We 09:30-21:00; Fr-Su 09:30-22:00",
+                "contact": {
+                    "phone": "+1 212-244-1115",
+                    "email": "info@urbanfusion.com",
+                    "fax": "+1 212-244-4726",
+                    "website": "http://urbanfusion.com/"
+                },
+                "facilities": {
+                    "smoking": false,
+                    "takeaway": true,
+                    "delivery": false
+                },
+                "catering": {
+                    "cuisine": "korean"
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    412.93373403422396,
+                    537.627431970755
+                ],
+                "edge": 13
             },
             {
                 "name": "Valley Bank",
@@ -2815,10 +2815,10 @@
                 "street": "Norwood Street",
                 "housenumber": "10",
                 "categories": [
-                    "vegetarian",
-                    "commercial.supermarket",
                     "vegan",
-                    "organic"
+                    "organic",
+                    "vegetarian",
+                    "commercial.supermarket"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "Whole Foods Market",
@@ -2906,7 +2906,7 @@
                     "building.catering",
                     "catering.restaurant.korean"
                 ],
-                "opening_hours": "12:00-14:15,18:00-20:00",
+                "opening_hours": "12:00-14:15,18:00-23:00",
                 "contact": {
                     "phone": "(917) 261-4326",
                     "website": "https://www.ondetroit.net/"

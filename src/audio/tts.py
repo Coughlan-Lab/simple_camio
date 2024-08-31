@@ -3,42 +3,50 @@ import os
 import threading as th
 import time
 import uuid
+from abc import ABC
+from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum, IntEnum
-from typing import Dict, Optional
+from typing import Optional
 
 import pyttsx3
 
-
-class AnnouncementCategory(Enum):
-    WELCOME = "welcome"
-    INSTRUCTIONS = "instructions"
-    GOODBYE = "goodbye"
-    WAITING_LLM = "waiting_llm"
-    LLM_ERROR = "llm_error"
-    MORE_THAN_ONE_HAND = "more_than_one_hand"
-    NO_DESCRIPTION = "no_description"
-    POSITION_UPDATE = "position_update"
-    MAP_DESCRIPTION = "map_description"
-    LLM_RESPONSE = "llm_response"
+from src.graph import PositionInfo
 
 
 def generate_random_id() -> str:
     return str(uuid.uuid4())
 
 
-@dataclass(order=True)
-class Announcement:
+@dataclass
+class Announcement(ABC):
+    class Category(Enum):
+        SYSTEM = "system"
+        GRAPH = "graph"
+        LLM = "llm"
+
     class Priority(IntEnum):
         NONE = 0
         LOW = 1
         MEDIUM = 2
         HIGH = 3
 
-    text: str = field(compare=False)
-    priority: Priority
-    category: AnnouncementCategory
     id: str = field(default_factory=generate_random_id)
+
+
+@dataclass
+class TextAnnouncement(Announcement):
+    text: str = field(default="", compare=False)
+    category: Announcement.Category = Announcement.Category.SYSTEM
+    priority: Announcement.Priority = Announcement.Priority.LOW
+
+
+@dataclass
+class PauseAnnouncement(Announcement):
+    duration: float = field(default=1.0, compare=False)
+
+
+NONE_ANNOUNCEMENT = TextAnnouncement(priority=Announcement.Priority.NONE)
 
 
 class TTS:
@@ -60,126 +68,225 @@ class TTS:
         with open(res_file, "r") as f:
             self.res = json.load(f)
 
-        self.running = False
-        self.waiting_loop_running = th.Event()
-        self.more_than_one_hand_last_time = time.time()
+        self.current_announcement_index = 0
+        self.current_announcement: TextAnnouncement = NONE_ANNOUNCEMENT
+        self.paused_announcement: Optional[TextAnnouncement] = None
 
-        self.current_msg_word_index = 0
-        self.current_announcement: Optional[Announcement] = None
-        self.paused_announcement: Optional[Announcement] = None
-        self.announcements: Dict[str, Announcement] = dict()
+        self.queue: deque[Announcement] = deque()
+
+        self.__running = th.Event()
+        self.__waiting_loop_running = th.Event()
+        self.__is_speaking = th.Event()
+
+        self.main_lock = th.Lock()
+        self.queue_cond = th.Condition()
+
+        self.is_speaking_cond = th.Condition()
+        self.more_than_one_hand_last_time = 0.0
+
+        self.loop_thread: Optional[th.Thread] = None
 
     def start(self) -> None:
-        self.engine.startLoop(False)
+        with self.main_lock:
+            if self.__running.is_set():
+                return
+
+            self.loop_thread = th.Thread(target=self.__loop)
+            self.loop_thread.start()
 
     def stop(self) -> None:
-        self.engine.endLoop()
+        with self.main_lock:
+            if not self.__running or self.loop_thread is None:
+                return
+
+            self.__running.clear()
+
+            with self.queue_cond:
+                self.queue_cond.notify()
+
+            with self.is_speaking_cond:
+                self.is_speaking_cond.notify()
+
+            self.loop_thread.join()
+
+    def __loop(self) -> None:
+        if self.__running.is_set():
+            return
+
+        self.__running.set()
+
+        try:
+            self.engine.startLoop(False)
+
+            while self.__running.is_set():
+
+                with self.is_speaking_cond:
+                    while self.is_speaking() and self.__running.is_set():
+                        self.is_speaking_cond.wait()
+
+                with self.queue_cond:
+                    while len(self.queue) == 0 and self.__running.is_set():
+                        self.queue_cond.wait()
+
+                    if not self.__running.is_set():
+                        break
+
+                    next_announcement = self.queue.popleft()
+
+                    if isinstance(next_announcement, PauseAnnouncement):
+                        time.sleep(next_announcement.duration)
+
+                    elif isinstance(next_announcement, TextAnnouncement):
+                        with self.is_speaking_cond:
+                            self.current_announcement = next_announcement
+                            self.current_announcement_index = 0
+
+                            self.engine.say(
+                                self.current_announcement.text,
+                                name=self.current_announcement.id,
+                            )
+                            self.engine.iterate()
+
+            self.engine.endLoop()
+
+        except KeyboardInterrupt:
+            pass
 
     def stop_speaking(self) -> None:
-        self.announcements.clear()
+        with self.queue_cond:
+            self.queue.clear()
+            self.queue_cond.notify()
+
         self.engine.stop()
 
     def is_speaking(self) -> bool:
-        return bool(self.engine.isBusy())
+        return self.__is_speaking.is_set()
 
-    def toggle(self) -> None:
+    def toggle_pause(self) -> None:
         if self.paused_announcement is not None:
-            self.say(
+            self.stop_and_say(
                 self.paused_announcement.text,
                 self.paused_announcement.category,
-                stop_current=True,
-                priority=Announcement.Priority.HIGH,
+                Announcement.Priority.HIGH,
             )
 
             self.paused_announcement = None
+            return
 
-        elif self.is_speaking() and self.current_announcement is not None:
-            self.paused_announcement = Announcement(
-                self.current_announcement.text[self.current_msg_word_index :],
-                self.current_announcement.priority,
-                self.current_announcement.category,
-            )
+        with self.is_speaking_cond:
+            if self.is_speaking():
+                self.paused_announcement = TextAnnouncement(
+                    text=self.current_announcement.text[
+                        self.current_announcement_index :
+                    ],
+                    priority=self.current_announcement.priority,
+                    category=self.current_announcement.category,
+                )
 
-            self.stop_speaking()
+                self.stop_speaking()
+
+    def __on_utterance_started(self, name: str) -> None:
+        self.__is_speaking.set()
+
+    def __on_utterance_finished(self, name: str, completed: bool) -> None:
+        with self.is_speaking_cond:
+            self.__is_speaking.clear()
+            self.is_speaking_cond.notify()
+
+    def __on_word_started(self, name: str, location: int, length: int) -> None:
+        self.current_announcement_index = location
 
     def say(
         self,
         text: str,
-        category: AnnouncementCategory,
+        category: Announcement.Category,
         priority: Announcement.Priority = Announcement.Priority.LOW,
-        stop_current: bool = False,
     ) -> None:
-        if text == "":
+        text = text.strip()
+        if len(text) == 0:
             return
 
-        if stop_current and (
-            self.current_announcement is None
-            or priority >= self.current_announcement.priority
-        ):
-            self.stop_speaking()
+        announcement = TextAnnouncement(text=text, priority=priority, category=category)
 
-        announcement = Announcement(text, priority, category)
-        self.announcements[announcement.id] = announcement
+        with self.queue_cond:
+            self.queue.append(announcement)
+            self.queue_cond.notify()
 
-        # Add the announcement to the queue
-        self.engine.say(announcement.text, name=announcement.id)
-        self.engine.iterate()
+    def stop_and_say(
+        self,
+        text: str,
+        category: Announcement.Category,
+        priority: Announcement.Priority = Announcement.Priority.LOW,
+    ) -> None:
+        with self.queue_cond:
+            with self.is_speaking_cond:
+                if priority > self.current_announcement.priority:
+                    self.stop_speaking()
 
-    def __on_utterance_started(self, name: str) -> None:
-        self.current_announcement = self.announcements.get(name, None)
+            self.say(text, category, priority)
 
-        if self.current_announcement is not None:
-            del self.announcements[name]
+    def pause(self, duration: float) -> None:
+        with self.queue_cond:
+            self.queue.append(PauseAnnouncement(duration=duration))
+            self.queue_cond.notify()
 
-    def __on_utterance_finished(self, name: str, completed: bool) -> None:
-        self.current_announcement = None
+    def position_info(self, position_info: PositionInfo, stop_current: bool) -> None:
+        fn = self.stop_and_say
+        if stop_current:
+            fn = self.stop_and_say
 
-    def __on_word_started(self, name: str, location: int, length: int) -> None:
-        self.current_msg_word_index = location
+        fn(
+            position_info.description,
+            category=Announcement.Category.GRAPH,
+            priority=Announcement.Priority.LOW,
+        )
 
     def welcome(self) -> None:
         self.say(
             self.res["welcome"],
-            category=AnnouncementCategory.WELCOME,
+            category=Announcement.Category.SYSTEM,
             priority=Announcement.Priority.MEDIUM,
         )
 
     def instructions(self) -> None:
         self.say(
             self.res["instructions"],
-            category=AnnouncementCategory.INSTRUCTIONS,
+            category=Announcement.Category.SYSTEM,
             priority=Announcement.Priority.MEDIUM,
         )
 
     def goodbye(self) -> None:
-        self.say(
+        self.stop_and_say(
             self.res["goodbye"],
-            category=AnnouncementCategory.GOODBYE,
-            stop_current=True,
+            category=Announcement.Category.SYSTEM,
             priority=Announcement.Priority.HIGH,
         )
 
     def waiting_llm(self) -> None:
-        self.say(
+        self.stop_and_say(
             self.res["waiting_llm"],
-            category=AnnouncementCategory.WAITING_LLM,
+            category=Announcement.Category.LLM,
             priority=Announcement.Priority.MEDIUM,
-            stop_current=True,
         )
 
     def llm_error(self) -> None:
-        self.say(
+        self.stop_and_say(
             self.res["llm_error"],
-            category=AnnouncementCategory.LLM_ERROR,
+            category=Announcement.Category.LLM,
             priority=Announcement.Priority.HIGH,
-            stop_current=True,
         )
 
     def no_description(self) -> None:
-        self.say(
+        self.stop_and_say(
             self.res["no_description"],
-            category=AnnouncementCategory.NO_DESCRIPTION,
-            stop_current=True,
+            category=Announcement.Category.SYSTEM,
+            priority=Announcement.Priority.HIGH,
+        )
+
+    def map_description(self, description: str) -> None:
+        self.say(
+            f"Map description:\n{description}",
+            category=Announcement.Category.SYSTEM,
             priority=Announcement.Priority.HIGH,
         )
 
@@ -190,33 +297,32 @@ class TTS:
         ):
             return
 
-        self.say(
+        self.stop_and_say(
             self.res["more_than_one_hand"],
-            category=AnnouncementCategory.MORE_THAN_ONE_HAND,
+            category=Announcement.Category.SYSTEM,
             priority=Announcement.Priority.MEDIUM,
-            stop_current=True,
         )
 
         self.more_than_one_hand_last_time = time.time()
 
     def start_waiting_loop(self) -> None:
-        if self.waiting_loop_running.is_set():
+        if self.__waiting_loop_running.is_set():
             return
 
-        self.waiting_loop_running.set()
+        self.__waiting_loop_running.set()
 
-        th.Thread(target=self.waiting_loop).start()
+        th.Thread(target=self.__waiting_loop).start()
 
     def stop_waiting_loop(self) -> None:
-        if not self.waiting_loop_running.is_set():
+        if not self.__waiting_loop_running.is_set():
             return
 
-        self.waiting_loop_running.clear()
+        self.__waiting_loop_running.clear()
         self.stop_speaking()
 
-    def waiting_loop(self) -> None:
+    def __waiting_loop(self) -> None:
         time.sleep(TTS.WAITING_LOOP_INTERVAL)
 
-        while self.waiting_loop_running.is_set():
+        while self.__waiting_loop_running.is_set():
             self.waiting_llm()
             time.sleep(TTS.WAITING_LOOP_INTERVAL)

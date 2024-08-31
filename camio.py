@@ -9,8 +9,7 @@ import cv2
 from pynput.keyboard import Key, KeyCode
 from pynput.keyboard import Listener as KeyboardListener
 
-from src.audio import (STT, TTS, AmbientSoundPlayer, Announcement,
-                       AnnouncementCategory)
+from src.audio import STT, TTS, AmbientSoundPlayer, Announcement
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler, PositionInfo
 from src.llm import LLM
@@ -62,15 +61,12 @@ class CamIO:
         self.stt.calibrate()
         self.tts.start()
 
-        self.init_shortcuts()
+        self.__init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()
         if self.description is not None:
-            self.tts.say(
-                f"Map description:\n {self.description}",
-                category=AnnouncementCategory.MAP_DESCRIPTION,
-            )
+            self.tts.map_description(self.description)
 
         ambient_sound_player = AmbientSoundPlayer(
             "res/crickets.mp3", "res/pointing.mp3"
@@ -95,6 +91,7 @@ class CamIO:
             ok, rotation = self.model_detector.detect(frame_gray)
 
             if not ok or rotation is None:
+                ambient_sound_player.update(HandStatus.NOT_FOUND)
                 continue
 
             gesture_status, gesture_position, frame = self.pose_detector.detect(
@@ -115,7 +112,7 @@ class CamIO:
         ambient_sound_player.stop_background()
         cap.release()
 
-        self.disable_shortcuts()
+        self.__disable_shortcuts()
         cv2.destroyAllWindows()
 
         self.stop_interaction()
@@ -142,21 +139,16 @@ class CamIO:
         self.stop_interaction()
 
         if self.description is not None:
-            self.tts.say(
-                self.description,
-                priority=Announcement.Priority.HIGH,
-                stop_current=True,
-                category=AnnouncementCategory.MAP_DESCRIPTION,
-            )
+            self.tts.map_description(self.description)
         else:
             self.tts.no_description()
 
-    def init_shortcuts(self) -> None:
+    def __init_shortcuts(self) -> None:
         def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
             if key == Key.space:
                 self.__on_spacebar_pressed()
             elif key == Key.enter:
-                self.tts.toggle()
+                self.tts.toggle_pause()
             elif key == Key.esc:
                 self.stop_interaction()
             elif key == KeyCode.from_char("d"):
@@ -167,7 +159,7 @@ class CamIO:
         self.keyboard = KeyboardListener(on_press=on_press)
         self.keyboard.start()
 
-    def disable_shortcuts(self) -> None:
+    def __disable_shortcuts(self) -> None:
         self.keyboard.stop()
 
     def __get_capture(self) -> Optional[cv2.VideoCapture]:
@@ -225,16 +217,9 @@ class CamIO:
         ):
             return
 
-        stop_current_announcement = (
-            self.last_pos_info.graph_element != pos_info.graph_element
-        )
+        stop_current = self.last_pos_info.graph_element != pos_info.graph_element
 
-        self.tts.say(
-            pos_info.description,
-            category=AnnouncementCategory.POSITION_UPDATE,
-            priority=Announcement.Priority.LOW,
-            stop_current=stop_current_announcement,
-        )
+        self.tts.position_info(pos_info, stop_current=stop_current)
         self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
@@ -287,10 +272,10 @@ class CamIO:
                     print(f"Answer: {answer}")
                     self.camio.tts.say(
                         answer,
-                        stop_current=True,
+                        category=Announcement.Category.LLM,
                         priority=Announcement.Priority.HIGH,
-                        category=AnnouncementCategory.LLM_RESPONSE,
                     )
+                    self.camio.tts.pause(2.0)
 
         def stop(self) -> None:
             self.stop_event.set()

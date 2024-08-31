@@ -1053,8 +1053,8 @@
                 "street": "McDougall Street",
                 "housenumber": "18045",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1210,7 +1210,7 @@
                     838.9218410532662,
                     550.5397369402322
                 ],
-                "edge": 37
+                "edge": 34
             },
             {
                 "name": "Cafe China",
@@ -1458,8 +1458,8 @@
                 "street": "Conant Street",
                 "housenumber": "18600",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1485,8 +1485,8 @@
                 "street": "Conant Street",
                 "housenumber": "18460",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1859,8 +1859,8 @@
                 "street": "East Robinwood Street",
                 "housenumber": "43",
                 "categories": [
-                    "catering.food_court",
-                    "kosher.only"
+                    "kosher.only",
+                    "catering.food_court"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -2000,7 +2000,7 @@
                     822.0253563656761,
                     676.8496843818441
                 ],
-                "edge": 37
+                "edge": 33
             },
             {
                 "name": "Morton Williams",
@@ -2443,8 +2443,8 @@
                 "street": "Charset Street",
                 "housenumber": "1164",
                 "categories": [
-                    "catering.fast_food.salad",
-                    "vegetarian"
+                    "vegetarian",
+                    "catering.fast_food.salad"
                 ],
                 "opening_hours": "Mo-Su 10:30-22:30",
                 "brand": "Sweetgreen",
@@ -2624,7 +2624,7 @@
                     775.1529377572533,
                     782.1096880141765
                 ],
-                "edge": 55
+                "edge": 62
             },
             {
                 "name": "Tina's Cuban Cuisine",
@@ -2815,10 +2815,10 @@
                 "street": "Norwood Street",
                 "housenumber": "10",
                 "categories": [
-                    "vegan",
                     "vegetarian",
-                    "organic",
-                    "commercial.supermarket"
+                    "commercial.supermarket",
+                    "vegan",
+                    "organic"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "Whole Foods Market",
@@ -2936,7 +2936,7 @@
                     837.1365341436436,
                     708.8638989615465
                 ],
-                "edge": 37
+                "edge": 33
             }
         ],
         "nodes_features": [

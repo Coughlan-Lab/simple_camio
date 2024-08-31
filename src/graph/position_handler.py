@@ -67,7 +67,7 @@ class PositionHandler:
     MAP_MARGIN = 50  # meters
     MOVEMENT_THRESHOLD = 10  # meters
     DISTANCE_THRESHOLD = 25  # meters
-    BORDER_THICKNESS = 5  # meters
+    BORDER_THICKNESS = 10  # meters
 
     def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
         self.graph = graph

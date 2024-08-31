@@ -1,5 +1,5 @@
-from .ambient_sound_player import AmbientSoundPlayer
+from .audio_manager import AudioManager
 from .stt import STT
 from .tts import TTS, Announcement
 
-__all__ = ["AmbientSoundPlayer", "STT", "TTS", "Announcement"]
+__all__ = ["AudioManager", "STT", "TTS", "Announcement"]

@@ -9,7 +9,7 @@ import cv2
 from pynput.keyboard import Key, KeyCode
 from pynput.keyboard import Listener as KeyboardListener
 
-from src.audio import STT, TTS, AmbientSoundPlayer, Announcement
+from src.audio import STT, TTS, Announcement, AudioManager
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler, PositionInfo
 from src.llm import LLM
@@ -68,9 +68,8 @@ class CamIO:
         if self.description is not None:
             self.tts.map_description(self.description)
 
-        ambient_sound_player = AmbientSoundPlayer(
-            "res/crickets.mp3", "res/pointing.mp3"
-        )
+        audio_manager = AudioManager("res/crickets.wav", "res/pointing.mp3")
+        audio_manager.start()
 
         self.running = True
         while self.running and cap.isOpened():
@@ -91,14 +90,14 @@ class CamIO:
             ok, rotation = self.model_detector.detect(frame_gray)
 
             if not ok or rotation is None:
-                ambient_sound_player.update(HandStatus.NOT_FOUND)
+                audio_manager.update(HandStatus.NOT_FOUND)
                 continue
 
             gesture_status, gesture_position, frame = self.pose_detector.detect(
                 frame, rotation
             )
 
-            ambient_sound_player.update(gesture_status)
+            audio_manager.update(gesture_status)
             if gesture_status != HandStatus.POINTING or gesture_position is None:
                 if gesture_status == HandStatus.MORE_THAN_ONE_HAND:
                     self.tts.more_than_one_hand()
@@ -109,7 +108,7 @@ class CamIO:
             if not self.stt.is_processing() and not self.llm.is_waiting_for_response():
                 self.__announce_position()
 
-        ambient_sound_player.stop_background()
+        audio_manager.stop()
         cap.release()
 
         self.__disable_shortcuts()

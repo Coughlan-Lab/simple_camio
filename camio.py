@@ -254,20 +254,21 @@ class CamIO:
 
             question = self.camio.stt.audio_to_text(recording) or ""
             if self.stop_event.is_set():
+                self.camio.tts.stop_waiting_loop()
                 return
 
             if len(question) == 0:
                 print("No question recognized.")
+                self.camio.tts.stop_waiting_loop()
                 self.camio.tts.error()
                 return
 
             print(f"Question: {question}")
 
             answer = self.camio.llm.ask(question, position) or ""
+            self.camio.tts.stop_waiting_loop()
             if self.stop_event.is_set():
                 return
-
-            self.camio.tts.stop_waiting_loop()
 
             self.process_answer(answer)
             self.camio.user_input_thread = None

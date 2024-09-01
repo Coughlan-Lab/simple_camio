@@ -117,7 +117,7 @@ class PromptFormatter:
                 self.tool_call_response_needs_processing or fnc.needs_further_processing
             )
 
-        print(f"Result: {result}")
+        print(f"Result:\n{result}")
 
         return ChatCompletionToolMessageParam(
             role="tool",
@@ -135,7 +135,7 @@ class PromptFormatter:
             # "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
             "Build a coherent speech that includes ALL this information.\n"
             "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
-            "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n"
+            # "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n"
             "If I get lost, call get_route or get_route_to_point_of_interest again to provide the best route to the destination.\n\n"
         )
 
@@ -232,11 +232,11 @@ class PromptFormatter:
         )
 
         prompt += (
-            "These are points of interest along the road network. Each point has five important fields:\n"
+            "These are points of interest along the road network. Each point has five key fields:\n"
             "- index: the index of the point in the list of points of interest\n"
-            "- coords: the coordinates of the point on the cartesian plane\n"
-            "- edge: the nearest edge to the point of interest\n"
             "- street: the name of the street the point of interest belongs to\n"
+            "- coords: the coordinates of the point on the cartesian plane\n"
+            "- edge: the nearest edge to the point of interest. Edge's nodes are in no particular order\n"
             "- categories: a list of categories the point of interest belongs to\n\n"
         )
         prompt += self.__poi_prompt() + "\n\n"
@@ -357,7 +357,8 @@ class PromptFormatter:
         "- Stick to the provided information: when information is insufficient to answer a question, "
         "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
         "- If my question is ambiguous or unclear, ask for clarification.\n"
-        "- When giving directions, you MUST call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
+        # "- When giving directions, you MUST call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
+        "- When I ask where a point of interest is located or what's its nearest intersection, call get_point_of_interest_details to get more information about it.\n"
         "- Everytime I ask a question, you MUST call enable_points_of_interest to enable the points of interest relevant to the conversation, "
         "even if they are not explicitly mentioned in my question.\n"
     )

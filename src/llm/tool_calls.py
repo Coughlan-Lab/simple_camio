@@ -170,10 +170,10 @@ tool_calls = [
             description=(
                 "Get the details of a point of interest. "
                 "Use this function to retrieve comprehensive information about a specific point of interest, "
-                "which can include a description, city, suburb, district, and accessibility information "
-                "specifically designed for blind individuals. "
-                "Additionally, it may provide contact information, website, payment options, building data, "
-                "details about public transport networks, and the operator. "
+                "which will include its precise location, city, suburb, district, nearest intersection "
+                "and accessibility information specifically designed for blind individuals. "
+                "Additionally, it may provide a description, contact information, website, payment options, building data, "
+                "details about public transport networks, and its operator. "
                 "Depending on the point of interest, other relevant information might also be available. "
                 "When in doubt call this function to get more information about a point of interest."
             ),
@@ -194,7 +194,7 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name=ToolCall.GET_ROUTE,
-            description="Get directions to reach a certain position.",
+            description="Get directions to reach a certain position. You MUST call this function everytime I ask for directions to a specific position, like an intersection.",
             parameters={
                 "type": "object",
                 "properties": {
@@ -264,7 +264,7 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name=ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST,
-            description="Get directions to reach a point of interest.",
+            description="Get directions to reach a point of interest. You MUST call this function everytime I ask for directions to a specific point of interest.",
             parameters={
                 "type": "object",
                 "properties": {

@@ -44,7 +44,7 @@ class Node:
         if len(intersection_type) > 0:
             intersection_type += " "
 
-        return f"{intersection_type}intersection between {streets_str}"
+        return f"{intersection_type}intersection of {streets_str}"
 
     @property
     def description(self) -> str:
@@ -60,7 +60,7 @@ class Node:
         if self.intersection_type == "T":
             intersection = "T "
 
-        return f"{intersection}intersection between {streets_str}"
+        return f"{intersection}intersection of {streets_str}"
 
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1

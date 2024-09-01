@@ -98,9 +98,12 @@ class CamIO:
                 frame, rotation
             )
 
-            self.audio_manager.update(gesture_status)
+            if not self.is_handling_user_input():
+                self.audio_manager.update(gesture_status)
+
             if gesture_status != HandStatus.POINTING or gesture_position is None:
                 if gesture_status == HandStatus.MORE_THAN_ONE_HAND:
+                    self.stop_interaction()
                     self.tts.more_than_one_hand()
                 continue
 
@@ -136,6 +139,8 @@ class CamIO:
 
         if self.user_input_thread is not None:
             self.user_input_thread.stop()
+
+        self.stt.on_question_ended()
 
     def say_map_description(self, _: Any = None) -> None:
         self.stop_interaction()

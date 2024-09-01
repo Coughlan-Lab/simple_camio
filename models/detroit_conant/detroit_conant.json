@@ -871,10 +871,6 @@
                 13,
                 14
             ],
-            "Mitchell Avenue": [
-                15,
-                16
-            ],
             "McDougall Street": [
                 17,
                 18
@@ -912,6 +908,8 @@
                 42
             ],
             "Mitchell Street": [
+                15,
+                16,
                 43,
                 44,
                 45
@@ -1789,7 +1787,7 @@
             },
             {
                 "name": "Hotel Plaza",
-                "street": "Mitchell Avenue",
+                "street": "Mitchell Street",
                 "housenumber": "145",
                 "categories": [
                     "accommodation.hotel",
@@ -1798,7 +1796,7 @@
                 "opening_hours": "24/7",
                 "brand": "RIU",
                 "operator": "RIU Hotels & Resorts",
-                "branch": "Mitchell Avenue",
+                "branch": "Mitchell Street",
                 "contact": {
                     "phone": "+1 212-706-3170",
                     "email": "hotel.plazadetroit@riu.com",

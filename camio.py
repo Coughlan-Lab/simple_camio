@@ -17,7 +17,7 @@ from src.utils import *
 
 
 class CamIO:
-    POSITION_ANNOUNCEMENT_INTERVAL = 0.75
+    POSITION_ANNOUNCEMENT_INTERVAL = 0.25
 
     def __init__(self, model: Dict[str, Any], debug: bool = False) -> None:
         self.description = model["context"].get("description", None)

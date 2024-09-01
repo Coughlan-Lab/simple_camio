@@ -40,7 +40,11 @@ class Node:
         streets = list(set(self.adjacents_streets))
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
-        return f"{self.intersection_type} intersection between {streets_str}"
+        intersection_type = self.intersection_type
+        if len(intersection_type) > 0:
+            intersection_type += " "
+
+        return f"{intersection_type}intersection between {streets_str}"
 
     @property
     def description(self) -> str:
@@ -49,15 +53,14 @@ class Node:
                 return f"{self.adjacents_streets[0]}, at the limit of the map"
             return f"end of {self.adjacents_streets[0]}"
 
-        streets = sorted(list(set(self.adjacents_streets)))
-        streets_str = (
-            ", ".join(streets[1:-1]) + " and " + streets[-1]
-            if len(streets) > 2
-            else streets[-1]
-        )
-        streets_str = f"{streets[0]} at {streets_str}"
+        streets = list(set(self.adjacents_streets))
+        streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
-        return f"{streets_str} - {self.intersection_type} intersection"
+        intersection = ""
+        if self.intersection_type == "T":
+            intersection = "T "
+
+        return f"{intersection}intersection between {streets_str}"
 
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1

@@ -1,6 +1,6 @@
 {
     "welcome": "Welcome to CamIO!",
-    "llm_error": "An error occurred in obtaining a response. Please try again.",
+    "error": "An error occurred in obtaining a response. Please try again.",
     "more_than_one_hand": "Please, only one pointing hand at a time",
     "waiting_llm": "Waiting for a response...",
     "no_description": "No description available.",

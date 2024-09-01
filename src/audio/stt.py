@@ -22,7 +22,7 @@ class STT:
         self.timeout = timeout
         self.phrase_time_limit = phrase_time_limit
 
-        self.processing_input = False
+        self.recording_audio = False
 
         if start_filename is not None:
             self.start_audio = pyglet.media.load(start_filename, streaming=False)
@@ -34,12 +34,9 @@ class STT:
         else:
             self.end_audio = None
 
-    def is_processing(self) -> bool:
-        return self.processing_input
-
-    def stop_processing(self) -> None:
-        self.processing_input = False
-        self.recognizer.listening = False
+    @property
+    def is_recording(self) -> bool:
+        return self.recording_audio
 
     def on_question_ended(self) -> None:
         self.recognizer.listening = False
@@ -48,37 +45,24 @@ class STT:
         with sr.Microphone() as source:
             self.recognizer.adjust_for_ambient_noise(source)
 
-    def process_input(self) -> Optional[str]:
-        self.processing_input = True
-
-        self.play_start_signal()
-
+    def get_audio(self) -> Optional[sr.AudioData]:
         try:
             with sr.Microphone() as source:
+                self.play_start_signal()
+                self.recording_audio = True
+
                 audio = self.recognizer.listen(
                     source,
                     timeout=self.timeout,
                     phrase_time_limit=self.phrase_time_limit,
                 )
         except Exception:
-            self.processing_input = False
-            self.play_end_signal()
             return None
-
-        if not self.processing_input:
+        finally:
+            self.recording_audio = False
             self.play_end_signal()
-            return None
 
-        text = self.get_from_audio(audio)
-
-        if not self.processing_input or text == "":
-            self.play_end_signal()
-            return None
-
-        self.processing_input = False
-        self.play_end_signal()
-
-        return text
+        return audio
 
     def play_start_signal(self) -> None:
         if self.start_audio is not None:
@@ -88,7 +72,7 @@ class STT:
         if self.end_audio is not None:
             self.end_audio.play()
 
-    def get_from_audio(self, audio: sr.AudioData) -> Optional[str]:
+    def audio_to_text(self, audio: sr.AudioData) -> Optional[str]:
         try:
             result = self.recognizer.recognize_google_cloud(
                 audio, os.getenv("GOOGLE_SPEECH_CLOUD_KEY_FILE")

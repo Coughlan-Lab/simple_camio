@@ -32,11 +32,13 @@ class CamIO:
         self.model_detector = SIFTModelDetector(model["template_image"])
         self.pose_detector = PoseDetector(self.template.shape[:2])
 
-        # TTS and STT
+        # Audio
         self.tts = TTS("res/strings.json")
+        self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )
+        self.audio_manager = AudioManager("res/crickets.wav", "res/pointing.mp3")
 
         # LLM
         self.llm = LLM(self.graph, model["context"])
@@ -68,8 +70,7 @@ class CamIO:
         if self.description is not None:
             self.tts.map_description(self.description)
 
-        audio_manager = AudioManager("res/crickets.wav", "res/pointing.mp3")
-        audio_manager.start()
+        self.audio_manager.start()
 
         self.running = True
         while self.running and cap.isOpened():
@@ -90,14 +91,14 @@ class CamIO:
             ok, rotation = self.model_detector.detect(frame_gray)
 
             if not ok or rotation is None:
-                audio_manager.update(HandStatus.NOT_FOUND)
+                self.audio_manager.update(HandStatus.NOT_FOUND)
                 continue
 
             gesture_status, gesture_position, frame = self.pose_detector.detect(
                 frame, rotation
             )
 
-            audio_manager.update(gesture_status)
+            self.audio_manager.update(gesture_status)
             if gesture_status != HandStatus.POINTING or gesture_position is None:
                 if gesture_status == HandStatus.MORE_THAN_ONE_HAND:
                     self.tts.more_than_one_hand()
@@ -105,10 +106,10 @@ class CamIO:
 
             self.position_handler.process_position(Coords(*gesture_position))
 
-            if not self.stt.is_processing() and not self.llm.is_waiting_for_response():
+            if not self.is_handling_user_input():
                 self.__announce_position()
 
-        audio_manager.stop()
+        self.audio_manager.stop()
         cap.release()
 
         self.__disable_shortcuts()
@@ -121,6 +122,9 @@ class CamIO:
         time.sleep(1)
         self.tts.stop()
 
+    def is_handling_user_input(self) -> bool:
+        return self.user_input_thread is not None
+
     def stop(self) -> None:
         self.running = False
 
@@ -129,7 +133,6 @@ class CamIO:
 
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
-        self.stt.stop_processing()
 
         if self.user_input_thread is not None:
             self.user_input_thread.stop()
@@ -140,7 +143,7 @@ class CamIO:
         if self.description is not None:
             self.tts.map_description(self.description)
         else:
-            self.tts.no_description()
+            self.tts.no_map_description()
 
     def __init_shortcuts(self) -> None:
         def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
@@ -218,12 +221,14 @@ class CamIO:
 
         stop_current = self.last_pos_info.graph_element != pos_info.graph_element
 
-        self.tts.position_info(pos_info, stop_current=stop_current)
-        self.last_pos_info = pos_info
+        if self.tts.position_info(pos_info, stop_current=stop_current):
+            self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
-        if self.stt.is_processing():
+        if self.stt.is_recording:
             self.stt.on_question_ended()
+        elif self.user_input_thread is not None:
+            self.tts.waiting_llm()
         else:
             self.user_input_thread = self.UserInputThread(self)
             self.user_input_thread.start()
@@ -231,56 +236,69 @@ class CamIO:
     class UserInputThread(th.Thread):
         def __init__(self, camio: "CamIO"):
             super().__init__()
-            self.camio = camio
 
+            self.camio = camio
             self.stop_event = th.Event()
 
         def run(self) -> None:
             self.camio.tts.stop_speaking()
 
-            if self.camio.llm.is_waiting_for_response():
-                self.camio.tts.waiting_llm()
-                return
-
             print("Listening...")
-            question = self.camio.stt.process_input()
-            if question is None or self.stop_event.is_set():
+            recording = self.camio.stt.get_audio()
+            if recording is None or self.stop_event.is_set():
                 print("Stopping user input handler.")
                 return
-            print(f"Question: {question}")
 
             position = self.camio.position_handler.current_position
-
             self.camio.tts.start_waiting_loop()
-            answer = self.camio.llm.ask(question, position)
+
+            question = self.camio.stt.audio_to_text(recording) or ""
             if self.stop_event.is_set():
                 return
+
+            if len(question) == 0:
+                print("No question recognized.")
+                self.camio.tts.error()
+                return
+
+            print(f"Question: {question}")
+
+            answer = self.camio.llm.ask(question, position) or ""
+            if self.stop_event.is_set():
+                return
+
             self.camio.tts.stop_waiting_loop()
 
             self.process_answer(answer)
             self.camio.user_input_thread = None
 
-        def process_answer(self, answer: Optional[str]) -> None:
+        def process_answer(self, answer: str) -> None:
             self.camio.tts.stop_speaking()
 
-            if not self.camio.stt.processing_input:
-                if answer is None or answer == "":
-                    print("No answer received.")
-                    self.camio.tts.llm_error()
-                else:
-                    print(f"Answer: {answer}")
-                    self.camio.tts.say(
-                        answer,
-                        category=Announcement.Category.LLM,
-                        priority=Announcement.Priority.HIGH,
-                    )
-                    self.camio.tts.pause(2.0)
+            if len(answer) == 0:
+                print("No answer received.")
+                self.camio.tts.error()
+            else:
+                print(f"Answer: {answer}")
+                self.camio.tts.say(
+                    answer,
+                    category=Announcement.Category.LLM,
+                    priority=Announcement.Priority.HIGH,
+                )
+                self.camio.tts.pause(3.0)
 
         def stop(self) -> None:
             self.stop_event.set()
             self.camio.llm.stop()
             self.camio.tts.stop_waiting_loop()
             self.camio.user_input_thread = None
+
+    def on_announcement_ended(self, category: Announcement.Category) -> None:
+        if (
+            category == Announcement.Category.LLM
+            and self.audio_manager.last_hand_status == HandStatus.POINTING
+        ):
+            self.audio_manager.play_pointing()
 
 
 if __name__ == "__main__":

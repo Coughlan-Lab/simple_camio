@@ -423,14 +423,6 @@
                 17
             ],
             [
-                18,
-                19
-            ],
-            [
-                19,
-                20
-            ],
-            [
                 24,
                 25
             ],
@@ -533,6 +525,14 @@
             [
                 73,
                 82
+            ],
+            [
+                18,
+                19
+            ],
+            [
+                19,
+                20
             ],
             [
                 21,
@@ -1060,7 +1060,8 @@
                     878.7738379657069,
                     487.86313282589117
                 ],
-                "edge": 34
+                "edge": 32,
+                "location_description": "on Revere Avenue, between the intersection with East Robinwood Street and the intersection with East Hildale Street"
             },
             {
                 "name": "Antioch Missionary Baptist Church",
@@ -1069,8 +1070,8 @@
                 "street": "McDougall Street",
                 "housenumber": "18045",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1087,7 +1088,8 @@
                     593.4253982751073,
                     927.0914883424832
                 ],
-                "edge": 18
+                "edge": 16,
+                "location_description": "on McDougall Street, near the the intersection with Berry Street"
             },
             {
                 "name": "Bank of America",
@@ -1115,7 +1117,8 @@
                     789.3423781270606,
                     565.6989042825003
                 ],
-                "edge": 27
+                "edge": 25,
+                "location_description": "on Klinger Street, between the intersection with East Hildale Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "Bank of Hope",
@@ -1145,7 +1148,8 @@
                     409.0496763203265,
                     840.3613571072606
                 ],
-                "edge": 11
+                "edge": 11,
+                "location_description": "on Joseph Campau Avenue, between the intersection with East Grixdale Avenue and the limit of the map"
             },
             {
                 "name": "Blaggards Pub",
@@ -1177,7 +1181,8 @@
                     255.82480231446272,
                     486.86882885558134
                 ],
-                "edge": 68
+                "edge": 68,
+                "location_description": "on East Robinwood Street, near the the intersection with Angling Street"
             },
             {
                 "name": "Blank Slate Coffee + Kitchen",
@@ -1226,7 +1231,8 @@
                     832.1895356382138,
                     531.0167413748381
                 ],
-                "edge": 34
+                "edge": 32,
+                "location_description": "on Revere Avenue, between the intersection with East Hildale Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "Cafe China",
@@ -1260,7 +1266,8 @@
                     508.41668405688887,
                     382.7585843282003
                 ],
-                "edge": 43
+                "edge": 43,
+                "location_description": "on Mitchell Street, between the intersection with Kalsh Street and the intersection with East Brentwood Street"
             },
             {
                 "name": "Citizens Bank",
@@ -1291,7 +1298,8 @@
                     788.2695829990973,
                     394.56115818355437
                 ],
-                "edge": 28
+                "edge": 26,
+                "location_description": "on Klinger Street, between the intersection with East Brentwood Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "Conant / 7 Mile (NB)",
@@ -1314,7 +1322,8 @@
                     378.4200108424567,
                     205.73466825480637
                 ],
-                "edge": 120
+                "edge": 120,
+                "location_description": "on Conant Street, near the border of the map"
             },
             {
                 "name": "Conant / 7 Mile (SB)",
@@ -1337,7 +1346,8 @@
                     377.7067454833716,
                     262.03359596922496
                 ],
-                "edge": 119
+                "edge": 119,
+                "location_description": "on Conant Street, near the the intersection with East Seven Mile Road"
             },
             {
                 "name": "Conant / Grixdale (NB)",
@@ -1360,7 +1370,8 @@
                     636.0732167556264,
                     718.5588878349009
                 ],
-                "edge": 115
+                "edge": 115,
+                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street"
             },
             {
                 "name": "Conant / Grixdale (SB)",
@@ -1383,7 +1394,8 @@
                     648.4005174506405,
                     777.9925761265873
                 ],
-                "edge": 114
+                "edge": 114,
+                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with Gallagher Street and Stockton Street"
             },
             {
                 "name": "Conant / Kalsh (NB)",
@@ -1406,7 +1418,8 @@
                     471.6326063788998,
                     396.71629215522205
                 ],
-                "edge": 118
+                "edge": 118,
+                "location_description": "on Conant Street, between the intersection with Kalsh Street and the intersection with Joseph Campau Avenue and East Brentwood Street"
             },
             {
                 "name": "Conant / Robinwood (SB)",
@@ -1429,7 +1442,8 @@
                     519.8420366767319,
                     535.176214813171
                 ],
-                "edge": 116
+                "edge": 116,
+                "location_description": "on Conant Street, between the intersection with East Robinwood Street and the intersection with East Hildale Street"
             },
             {
                 "name": "Conant Ave United Methodist Church",
@@ -1438,8 +1452,8 @@
                 "street": "Conant Street",
                 "housenumber": "18600",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1456,7 +1470,8 @@
                     584.2441620425036,
                     574.0221624362725
                 ],
-                "edge": 116
+                "edge": 116,
+                "location_description": "on Conant Street, between the intersection with East Hildale Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "Conant Gardens Church of Christ",
@@ -1465,8 +1480,8 @@
                 "street": "Conant Street",
                 "housenumber": "18460",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1483,7 +1498,8 @@
                     665.7330534201606,
                     759.6509729767574
                 ],
-                "edge": 114
+                "edge": 114,
+                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with Gallagher Street and Stockton Street"
             },
             {
                 "name": "Cooper Electric",
@@ -1520,7 +1536,8 @@
                     444.9307323110218,
                     464.6726797059371
                 ],
-                "edge": 14
+                "edge": 14,
+                "location_description": "on Joseph Campau Avenue, between the intersection with East Robinwood Street and the intersection with East Brentwood Street and Conant Street"
             },
             {
                 "name": "Detroit Diner",
@@ -1554,7 +1571,8 @@
                     266.6673510321516,
                     787.0206307582251
                 ],
-                "edge": 3
+                "edge": 3,
+                "location_description": "on Angling Street, between the intersection with East Grixdale Avenue and the limit of the map"
             },
             {
                 "name": "Dig",
@@ -1591,7 +1609,8 @@
                     618.0269510573687,
                     398.355413318541
                 ],
-                "edge": 47
+                "edge": 47,
+                "location_description": "on Charest Street, between the intersection with East Brentwood Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "Eden Crest",
@@ -1627,7 +1646,8 @@
                     933.9442541735613,
                     743.1136690988802
                 ],
-                "edge": 65
+                "edge": 65,
+                "location_description": "on East Grixdale Avenue, near the the intersection with Norwood Street"
             },
             {
                 "name": "Food Gallery 32",
@@ -1655,7 +1675,8 @@
                     431.73464787996454,
                     854.4754781408772
                 ],
-                "edge": 11
+                "edge": 11,
+                "location_description": "on Joseph Campau Avenue, between the intersection with East Grixdale Avenue and the limit of the map"
             },
             {
                 "name": "Fry & Shake",
@@ -1691,15 +1712,16 @@
                     626.4861500776785,
                     515.4760884913755
                 ],
-                "edge": 46
+                "edge": 46,
+                "location_description": "on Charest Street, between the intersection with East Robinwood Street and the intersection with East Hildale Street"
             },
             {
                 "name": "Grand Vista Hotel",
                 "street": "Maine Street",
                 "housenumber": "305",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "opening_hours": "24/7",
                 "brand": "RIU",
@@ -1740,7 +1762,8 @@
                     192.79785122544655,
                     414.2601473179706
                 ],
-                "edge": 2
+                "edge": 2,
+                "location_description": "on Maine Street, between the intersection with East Robinwood Street and the intersection with East Seven Mile Road"
             },
             {
                 "name": "Harrison & Co.",
@@ -1783,15 +1806,16 @@
                     788.5712130240877,
                     649.1349646326491
                 ],
-                "edge": 26
+                "edge": 24,
+                "location_description": "on Klinger Street, between the intersection with East Hildale Street and the intersection with East Grixdale Avenue"
             },
             {
                 "name": "Hotel Plaza",
                 "street": "Mitchell Street",
                 "housenumber": "145",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "opening_hours": "24/7",
                 "brand": "RIU",
@@ -1831,7 +1855,8 @@
                     524.5585806395479,
                     850.0993073570105
                 ],
-                "edge": 15
+                "edge": 41,
+                "location_description": "on Mitchell Street, between the intersection with East Grixdale Avenue and the limit of the map"
             },
             {
                 "name": "House of Sushi",
@@ -1870,7 +1895,8 @@
                     457.54551578580345,
                     530.9663470799395
                 ],
-                "edge": 13
+                "edge": 13,
+                "location_description": "on Joseph Campau Avenue, near the the intersection with East Robinwood Street"
             },
             {
                 "name": "Jewelry Shopping Mall",
@@ -1898,7 +1924,8 @@
                     243.47815616644397,
                     271.55484891559774
                 ],
-                "edge": 5
+                "edge": 5,
+                "location_description": "on Angling Street, between the intersection with East Seven Mile Road and the intersection with East Robinwood Street"
             },
             {
                 "name": "Keynote Lounge",
@@ -1921,7 +1948,8 @@
                     667.5316345752312,
                     816.4771402380798
                 ],
-                "edge": 114
+                "edge": 114,
+                "location_description": "on Conant Street, between the intersection with Gallagher Street and Stockton Street and the intersection with East Grixdale Avenue"
             },
             {
                 "name": "Korean Bites",
@@ -1958,7 +1986,8 @@
                     414.8648830682445,
                     519.637542384358
                 ],
-                "edge": 13
+                "edge": 13,
+                "location_description": "on Joseph Campau Avenue, near the the intersection with East Robinwood Street"
             },
             {
                 "name": "Kosher",
@@ -1992,7 +2021,8 @@
                     510.1675364249894,
                     456.01658017950325
                 ],
-                "edge": 117
+                "edge": 117,
+                "location_description": "on Conant Street, between the intersection with East Robinwood Street and the intersection with Kalsh Street"
             },
             {
                 "name": "Mad Dog",
@@ -2028,7 +2058,8 @@
                     868.5209512604865,
                     474.73475648544803
                 ],
-                "edge": 76
+                "edge": 76,
+                "location_description": "on East Robinwood Street, between the intersection with Revere Avenue and the intersection with Norwood Street"
             },
             {
                 "name": "McDonald's",
@@ -2036,8 +2067,8 @@
                 "housenumber": "809",
                 "categories": [
                     "building.commercial",
-                    "building.catering",
-                    "catering.fast_food.burger"
+                    "catering.fast_food.burger",
+                    "building.catering"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -2079,7 +2110,8 @@
                     789.7878718913119,
                     265.7908099171602
                 ],
-                "edge": 29
+                "edge": 27,
+                "location_description": "on Klinger Street, between the intersection with East Seven Mile Road and the intersection with East Brentwood Street"
             },
             {
                 "name": "Mondo",
@@ -2106,7 +2138,8 @@
                     815.2930509506236,
                     657.3266888164501
                 ],
-                "edge": 33
+                "edge": 31,
+                "location_description": "on Revere Avenue, between the intersection with East Hildale Street and the intersection with East Grixdale Avenue"
             },
             {
                 "name": "New Merchant Food Center",
@@ -2133,7 +2166,8 @@
                     248.8548099501569,
                     201.68039081976826
                 ],
-                "edge": 84
+                "edge": 84,
+                "location_description": "on East Seven Mile Road, between the intersection with Angling Street and the intersection with Angling Street"
             },
             {
                 "name": "Nomad",
@@ -2163,7 +2197,8 @@
                     602.9159373413784,
                     422.7456492175364
                 ],
-                "edge": 47
+                "edge": 47,
+                "location_description": "on Charest Street, between the intersection with East Robinwood Street and the intersection with East Brentwood Street"
             },
             {
                 "name": "Pershing High School",
@@ -2187,7 +2222,8 @@
                     883.4246243650921,
                     326.9908201981368
                 ],
-                "edge": 36
+                "edge": 34,
+                "location_description": "on Revere Avenue, between the intersection with East Brentwood Street and the intersection with East Seven Mile Road"
             },
             {
                 "name": "Pok\u00e9 Bar",
@@ -2214,7 +2250,8 @@
                     613.5449953029096,
                     447.6369287170175
                 ],
-                "edge": 47
+                "edge": 47,
+                "location_description": "on Charest Street, near the the intersection with East Robinwood Street"
             },
             {
                 "name": "Prosek",
@@ -2241,7 +2278,8 @@
                     859.7187951549204,
                     636.1816516911044
                 ],
-                "edge": 33
+                "edge": 31,
+                "location_description": "on Revere Avenue, between the intersection with East Hildale Street and the intersection with East Grixdale Avenue"
             },
             {
                 "name": "PureLeaf",
@@ -2281,7 +2319,8 @@
                     572.087237062642,
                     523.7379320136425
                 ],
-                "edge": 46
+                "edge": 46,
+                "location_description": "on Charest Street, between the intersection with East Robinwood Street and the intersection with East Hildale Street"
             },
             {
                 "name": "QuickBite Grill",
@@ -2317,7 +2356,8 @@
                     791.7304401904601,
                     543.5417653033489
                 ],
-                "edge": 27
+                "edge": 25,
+                "location_description": "on Klinger Street, between the intersection with East Hildale Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "Serafina Italian Restaurant",
@@ -2353,7 +2393,8 @@
                     830.9207121528719,
                     578.4165136974638
                 ],
-                "edge": 34
+                "edge": 32,
+                "location_description": "on Revere Avenue, near the the intersection with East Hildale Street"
             },
             {
                 "name": "Silver Creek",
@@ -2382,7 +2423,8 @@
                     693.5144452962929,
                     253.5496597361073
                 ],
-                "edge": 23
+                "edge": 21,
+                "location_description": "on Gallagher Street, between the intersection with East Seven Mile Road and the intersection with East Brentwood Street"
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -2419,7 +2461,8 @@
                     698.2164834120938,
                     218.71412318438496
                 ],
-                "edge": 94
+                "edge": 94,
+                "location_description": "on East Seven Mile Road, between the intersection with Gallagher Street and the intersection with Klinger Street"
             },
             {
                 "name": "Stout Detroit",
@@ -2454,7 +2497,8 @@
                     654.0767194460041,
                     387.64307754871595
                 ],
-                "edge": 22
+                "edge": 20,
+                "location_description": "on Gallagher Street, between the intersection with East Brentwood Street and the intersection with East Robinwood Street"
             },
             {
                 "name": "The Australian Detroit",
@@ -2490,7 +2534,8 @@
                     743.1653798147582,
                     479.874111169091
                 ],
-                "edge": 74
+                "edge": 74,
+                "location_description": "on East Robinwood Street, near the the intersection with Klinger Street"
             },
             {
                 "name": "The Crooked Knife",
@@ -2529,16 +2574,17 @@
                     286.5681885675498,
                     899.3951117385159
                 ],
-                "edge": 3
+                "edge": 3,
+                "location_description": "on Angling Street, between the limit of the map and the intersection with East Grixdale Avenue"
             },
             {
                 "name": "The Lincoln Detroit",
                 "street": "Klinger Street",
                 "housenumber": "29",
                 "categories": [
-                    "service.social_facility.shelter",
                     "building.accommodation",
-                    "building.facility"
+                    "building.facility",
+                    "service.social_facility.shelter"
                 ],
                 "contact": {
                     "phone": "+1-212-689-1900",
@@ -2568,7 +2614,8 @@
                     768.4206323422009,
                     762.5866924487825
                 ],
-                "edge": 25
+                "edge": 23,
+                "location_description": "on Klinger Street, between the intersection with East Grixdale Avenue and the intersection with Stockton Street"
             },
             {
                 "name": "The Plaza",
@@ -2576,8 +2623,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "768",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "operator": "Fairmont Hotels and Resorts",
                 "contact": {
@@ -2602,7 +2649,8 @@
                     612.5235720961377,
                     219.52826983130353
                 ],
-                "edge": 92
+                "edge": 92,
+                "location_description": "on East Seven Mile Road, between the intersection with Charest Street and the intersection with Gallagher Street"
             },
             {
                 "name": "Tina's Cuban Cuisine",
@@ -2632,7 +2680,8 @@
                     852.7673290964551,
                     785.380977100865
                 ],
-                "edge": 32
+                "edge": 30,
+                "location_description": "on Revere Avenue, between the intersection with East Grixdale Avenue and the intersection with Stockton Street"
             },
             {
                 "name": "Tofu House",
@@ -2668,7 +2717,8 @@
                     422.77765979074115,
                     731.617102726398
                 ],
-                "edge": 12
+                "edge": 12,
+                "location_description": "on Joseph Campau Avenue, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street"
             },
             {
                 "name": "United Grill Coney Island",
@@ -2691,7 +2741,8 @@
                     465.04987887583934,
                     478.20549414678055
                 ],
-                "edge": 117
+                "edge": 117,
+                "location_description": "on Conant Street, between the intersection with East Robinwood Street and the intersection with Kalsh Street"
             },
             {
                 "name": "Urban Fusion",
@@ -2729,7 +2780,8 @@
                     406.20142861917157,
                     518.1044364053611
                 ],
-                "edge": 70
+                "edge": 70,
+                "location_description": "on East Robinwood Street, between the intersection with Joseph Campau Avenue and the intersection with Brinker Avenue"
             },
             {
                 "name": "Valley Bank",
@@ -2756,15 +2808,16 @@
                     957.2244507356668,
                     239.5496305285791
                 ],
-                "edge": 99
+                "edge": 99,
+                "location_description": "on East Seven Mile Road, between the intersection with Yonka Street and the intersection with Norwood Street"
             },
             {
                 "name": "Waldorf Astoria",
                 "street": "East Grixdale Avenue",
                 "housenumber": "301",
                 "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
+                    "building.accommodation",
+                    "accommodation.hotel"
                 ],
                 "brand": "Waldorf Astoria",
                 "contact": {
@@ -2797,7 +2850,8 @@
                     583.877569514393,
                     736.7046581234065
                 ],
-                "edge": 60
+                "edge": 60,
+                "location_description": "on East Grixdale Avenue, between the intersection with McDougall Street and the intersection with Mitchell Street"
             },
             {
                 "name": "Wells Fargo",
@@ -2824,17 +2878,18 @@
                     829.9473796523679,
                     725.1697897172639
                 ],
-                "edge": 64
+                "edge": 64,
+                "location_description": "on East Grixdale Avenue, near the the intersection with Revere Avenue"
             },
             {
                 "name": "Whole Foods Market",
                 "street": "East Grixdale Avenue",
                 "housenumber": "10",
                 "categories": [
-                    "commercial.supermarket",
                     "vegan",
-                    "vegetarian",
-                    "organic"
+                    "commercial.supermarket",
+                    "organic",
+                    "vegetarian"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "Whole Foods Market",
@@ -2862,7 +2917,8 @@
                     930.0655455151704,
                     735.7529231599115
                 ],
-                "edge": 65
+                "edge": 65,
+                "location_description": "on East Grixdale Avenue, near the the intersection with Norwood Street"
             },
             {
                 "name": "Wolfgang\u2019s Steakhouse",
@@ -2889,7 +2945,8 @@
                     355.3284624748242,
                     726.7391224497397
                 ],
-                "edge": 8
+                "edge": 8,
+                "location_description": "on Brinker Avenue, near the border of the map"
             },
             {
                 "name": "Yakisch Playground",
@@ -2912,7 +2969,8 @@
                     322.71155597852817,
                     821.6588238194093
                 ],
-                "edge": 3
+                "edge": 3,
+                "location_description": "on Angling Street, between the intersection with East Grixdale Avenue and the limit of the map"
             },
             {
                 "name": "on",
@@ -2952,7 +3010,8 @@
                     830.4042287285913,
                     689.3409033961526
                 ],
-                "edge": 33
+                "edge": 31,
+                "location_description": "on Revere Avenue, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street"
             }
         ],
         "nodes_features": [
@@ -3879,24 +3938,6 @@
             {
                 "roadworks": false,
                 "bike_lane": false,
-                "slope": "uphil",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "uphil",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
@@ -4123,6 +4164,24 @@
                 "roadworks": false,
                 "bike_lane": false,
                 "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadworks": false,
+                "bike_lane": false,
+                "slope": "uphil",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadworks": false,
+                "bike_lane": false,
+                "slope": "uphil",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
                 "stairs": false,

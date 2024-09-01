@@ -46,11 +46,14 @@ class STT:
             self.recognizer.adjust_for_ambient_noise(source)
 
     def get_audio(self) -> Optional[sr.AudioData]:
+        if self.recording_audio:
+            return None
+
+        self.play_start_signal()
+        self.recording_audio = True
+
         try:
             with sr.Microphone() as source:
-                self.play_start_signal()
-                self.recording_audio = True
-
                 audio = self.recognizer.listen(
                     source,
                     timeout=self.timeout,

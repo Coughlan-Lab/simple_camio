@@ -99,6 +99,16 @@ class PoseDetector:
         if not hands or len(hands) == 0:
             return HandStatus.NOT_FOUND, None, img
 
+        for hand in hands:
+            self.mp_drawing.draw_landmarks(
+                img,
+                hand,
+                self.mp_hands.HAND_CONNECTIONS,
+                self.mp_drawing_styles.get_default_hand_landmarks_style(),
+                self.mp_drawing_styles.get_default_hand_connections_style(),
+            )
+
+        hands = list(filter(lambda h: self.is_index_on_the_map(h, img, H), hands))
         ratios = list(map(lambda h: self.pointing_ratio(h), hands))
         pointing_hands = [
             h for h, r in zip(hands, ratios) if r > self.POINTING_THRESHOLD
@@ -106,26 +116,10 @@ class PoseDetector:
 
         if len(pointing_hands) == 0:
             return HandStatus.MOVING, None, img
-
         if len(pointing_hands) > 1:
-            on_map_pointing_hands = [
-                h for h in pointing_hands if self.is_index_on_the_map(h, img, H)
-            ]
+            return HandStatus.MORE_THAN_ONE_HAND, None, img
 
-            if len(on_map_pointing_hands) > 1:
-                return HandStatus.MORE_THAN_ONE_HAND, None, img
-
-            pointing_hand = on_map_pointing_hands[0]
-        else:
-            pointing_hand = pointing_hands[0]
-
-        self.mp_drawing.draw_landmarks(
-            img,
-            pointing_hand,
-            self.mp_hands.HAND_CONNECTIONS,
-            self.mp_drawing_styles.get_default_hand_landmarks_style(),
-            self.mp_drawing_styles.get_default_hand_connections_style(),
-        )
+        pointing_hand = pointing_hands[0]
 
         return (
             HandStatus.POINTING,

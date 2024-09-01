@@ -285,7 +285,7 @@ class CamIO:
                     category=Announcement.Category.LLM,
                     priority=Announcement.Priority.HIGH,
                 )
-                self.camio.tts.pause(3.0)
+            self.camio.tts.pause(2.0)
 
         def stop(self) -> None:
             self.stop_event.set()

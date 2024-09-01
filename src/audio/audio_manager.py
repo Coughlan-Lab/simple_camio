@@ -14,7 +14,7 @@ class AudioLooper(threading.Thread):
     def __init__(self, filepath: str) -> None:
         assert self.check_extension(filepath), "File must be a .wav file"
 
-        super(AudioLooper, self).__init__()
+        super(AudioLooper, self).__init__(daemon=True)
 
         self.filepath = os.path.abspath(filepath)
         self.running = False
@@ -75,7 +75,7 @@ class AudioManager:
 
         if hand_status == HandStatus.POINTING:
             self.background_player.pause()
-            self.pointing_player.play()
+            self.play_pointing()
         else:
             self.background_player.play()
 
@@ -87,3 +87,6 @@ class AudioManager:
     def stop(self) -> None:
         self.background_player.stop()
         self.background_player.join()
+
+    def play_pointing(self) -> None:
+        self.pointing_player.play()

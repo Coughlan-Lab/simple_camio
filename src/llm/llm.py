@@ -18,7 +18,7 @@ from .prompt_formatter import PromptFormatter
 class LLM:
     MODEL = "gpt-4o-2024-08-06"  # "gpt-4o-mini-2024-07-18"
     MAX_TOKENS = 2000
-    TEMPERATURE = 0.2
+    TEMPERATURE = 0.0
 
     def __init__(
         self,

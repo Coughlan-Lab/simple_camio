@@ -105,8 +105,11 @@ class TTS:
                 return
 
             self.__running.clear()
-            self.queue_cond.notify_all()
-            self.is_speaking_cond.notify_all()
+
+            with self.queue_cond:
+                self.queue_cond.notify_all()
+            with self.is_speaking_cond:
+                self.is_speaking_cond.notify_all()
 
             self.loop_thread.join()
             self.loop_thread = None

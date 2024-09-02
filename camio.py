@@ -250,6 +250,7 @@ class CamIO:
 
         def run(self) -> None:
             self.camio.tts.stop_speaking()
+            position = self.camio.position_handler.current_position
 
             print("Listening...")
             recording = self.camio.stt.get_audio()
@@ -257,7 +258,9 @@ class CamIO:
                 print("Stopping user input handler.")
                 return
 
-            position = self.camio.position_handler.current_position
+            if self.camio.hand_status_buffer.mode() == HandStatus.POINTING:
+                position = self.camio.position_handler.current_position
+
             self.camio.tts.start_waiting_loop()
 
             question = self.camio.stt.audio_to_text(recording) or ""

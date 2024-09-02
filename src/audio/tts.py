@@ -320,8 +320,6 @@ class TTS:
         if self.__waiting_loop_running.is_set():
             return
 
-        self.__waiting_loop_running.set()
-
         th.Thread(target=self.__waiting_loop, daemon=True).start()
 
     def stop_waiting_loop(self) -> None:
@@ -332,7 +330,8 @@ class TTS:
         self.stop_speaking()
 
     def __waiting_loop(self) -> None:
-        time.sleep(TTS.WAITING_LOOP_INTERVAL)
+        self.__waiting_loop_running.set()
+        time.sleep(TTS.WAITING_LOOP_INTERVAL / 2)
 
         while self.__waiting_loop_running.is_set():
             self.waiting_llm()

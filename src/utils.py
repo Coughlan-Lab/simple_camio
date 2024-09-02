@@ -197,6 +197,12 @@ camio_parser.add_argument(
     default="out/last_chat.txt",
 )
 camio_parser.add_argument(
+    "--tts_rate",
+    help="TTS speed rate (words per minute).",
+    type=int,
+    default=200,
+)
+camio_parser.add_argument(
     "--debug",
     help="Debug mode.",
     action="store_true",

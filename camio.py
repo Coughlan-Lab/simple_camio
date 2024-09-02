@@ -19,7 +19,9 @@ from src.utils import *
 class CamIO:
     POSITION_ANNOUNCEMENT_INTERVAL = 0.25
 
-    def __init__(self, model: Dict[str, Any], debug: bool = False) -> None:
+    def __init__(
+        self, model: Dict[str, Any], tts_rate: int = 200, debug: bool = False
+    ) -> None:
         self.description = model["context"].get("description", None)
 
         # Model graph
@@ -33,7 +35,7 @@ class CamIO:
         self.pose_detector = PoseDetector(self.template.shape[:2])
 
         # Audio
-        self.tts = TTS("res/strings.json")
+        self.tts = TTS("res/strings.json", rate=tts_rate)
         self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
@@ -326,7 +328,7 @@ if __name__ == "__main__":
 
     camio: Optional[CamIO] = None
     try:
-        camio = CamIO(model, debug=args.debug)
+        camio = CamIO(model, tts_rate=args.tts_rate, debug=args.debug)
         camio.main_loop()
 
     except KeyboardInterrupt:

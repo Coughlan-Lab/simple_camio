@@ -63,23 +63,21 @@ class AudioManager:
         self.background_player.start()
 
         self.pointing_player = pyglet.media.load(pointing_path, streaming=False)
-
-        self.last_hand_status: HandStatus = HandStatus.NOT_FOUND
+        self.hand_status = HandStatus.NOT_FOUND
 
     def check_extension(self, path: str) -> bool:
         return path.endswith(".wav")
 
     def update(self, hand_status: HandStatus) -> None:
-        if hand_status == self.last_hand_status:
+        if hand_status == self.hand_status:
             return
+        self.hand_status = hand_status
 
-        if hand_status == HandStatus.POINTING:
+        if self.hand_status == HandStatus.POINTING:
             self.background_player.pause()
             self.play_pointing()
         else:
             self.background_player.play()
-
-        self.last_hand_status = hand_status
 
     def start(self) -> None:
         self.background_player.play()

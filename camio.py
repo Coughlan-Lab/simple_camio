@@ -33,6 +33,7 @@ class CamIO:
         self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
         self.model_detector = SIFTModelDetector(model["template_image"])
         self.pose_detector = PoseDetector(self.template.shape[:2])
+        self.hand_status_buffer = Buffer[HandStatus](3)
 
         # Audio
         self.tts = TTS("res/strings.json", rate=tts_rate)
@@ -96,20 +97,19 @@ class CamIO:
                 self.audio_manager.update(HandStatus.NOT_FOUND)
                 continue
 
-            gesture_status, gesture_position, frame = self.pose_detector.detect(
-                frame, rotation
-            )
+            hand_status, finger_pos, frame = self.pose_detector.detect(frame, rotation)
+            self.hand_status_buffer.add(hand_status)
+            hand_status = self.hand_status_buffer.mode() or HandStatus.NOT_FOUND
 
             if not self.is_handling_user_input():
-                self.audio_manager.update(gesture_status)
+                self.audio_manager.update(hand_status)
 
-            if gesture_status != HandStatus.POINTING or gesture_position is None:
-                if gesture_status == HandStatus.MORE_THAN_ONE_HAND:
-                    self.stop_interaction()
+            if hand_status != HandStatus.POINTING or finger_pos is None:
+                if hand_status == HandStatus.MORE_THAN_ONE_HAND:
                     self.tts.more_than_one_hand()
                 continue
 
-            self.position_handler.process_position(Coords(*gesture_position))
+            self.position_handler.process_position(Coords(*finger_pos))
 
             if not self.is_handling_user_input():
                 self.__announce_position()
@@ -122,6 +122,7 @@ class CamIO:
 
         self.stop_interaction()
         self.position_handler.clear()
+        self.hand_status_buffer.clear()
 
         self.tts.goodbye()
         time.sleep(1)
@@ -236,7 +237,7 @@ class CamIO:
             self.stt.on_question_ended()
         elif self.user_input_thread is not None:
             self.tts.waiting_llm()
-        else:
+        elif self.hand_status_buffer.mode() == HandStatus.POINTING:
             self.user_input_thread = self.UserInputThread(self)
             self.user_input_thread.start()
 
@@ -304,7 +305,7 @@ class CamIO:
     def on_announcement_ended(self, category: Announcement.Category) -> None:
         if (
             category == Announcement.Category.LLM
-            and self.audio_manager.last_hand_status == HandStatus.POINTING
+            and self.hand_status_buffer.mode() == HandStatus.POINTING
         ):
             self.audio_manager.play_pointing()
 

@@ -1395,7 +1395,7 @@
                     777.9925761265873
                 ],
                 "edge": 114,
-                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with Gallagher Street and Stockton Street"
+                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with Stockton Street and Gallagher Street"
             },
             {
                 "name": "Conant / Kalsh (NB)",
@@ -1419,7 +1419,7 @@
                     396.71629215522205
                 ],
                 "edge": 118,
-                "location_description": "on Conant Street, between the intersection with Kalsh Street and the intersection with Joseph Campau Avenue and East Brentwood Street"
+                "location_description": "on Conant Street, between the intersection with Kalsh Street and the intersection with East Brentwood Street and Joseph Campau Avenue"
             },
             {
                 "name": "Conant / Robinwood (SB)",
@@ -1499,7 +1499,7 @@
                     759.6509729767574
                 ],
                 "edge": 114,
-                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with Gallagher Street and Stockton Street"
+                "location_description": "on Conant Street, between the intersection with East Grixdale Avenue and the intersection with Stockton Street and Gallagher Street"
             },
             {
                 "name": "Cooper Electric",
@@ -1537,7 +1537,7 @@
                     464.6726797059371
                 ],
                 "edge": 14,
-                "location_description": "on Joseph Campau Avenue, between the intersection with East Robinwood Street and the intersection with East Brentwood Street and Conant Street"
+                "location_description": "on Joseph Campau Avenue, between the intersection with East Robinwood Street and the intersection with Conant Street and East Brentwood Street"
             },
             {
                 "name": "Detroit Diner",
@@ -1949,7 +1949,7 @@
                     816.4771402380798
                 ],
                 "edge": 114,
-                "location_description": "on Conant Street, between the intersection with Gallagher Street and Stockton Street and the intersection with East Grixdale Avenue"
+                "location_description": "on Conant Street, between the intersection with Stockton Street and Gallagher Street and the intersection with East Grixdale Avenue"
             },
             {
                 "name": "Korean Bites",
@@ -1994,8 +1994,8 @@
                 "street": "Conant Street",
                 "housenumber": "43",
                 "categories": [
-                    "catering.food_court",
-                    "kosher.only"
+                    "kosher.only",
+                    "catering.food_court"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -2066,11 +2066,11 @@
                 "street": "Klinger Street",
                 "housenumber": "809",
                 "categories": [
+                    "building.catering",
                     "building.commercial",
-                    "catering.fast_food.burger",
-                    "building.catering"
+                    "catering.fast_food.burger"
                 ],
-                "opening_hours": "Mo-Su 07:00-23:00",
+                "opening_hours": "Mo-Su 07:00-20:00",
                 "brand": "McDonald's",
                 "branch": "Klinger Street",
                 "contact": {
@@ -2286,8 +2286,8 @@
                 "street": "Charest Street",
                 "housenumber": "1164",
                 "categories": [
-                    "catering.fast_food.salad",
-                    "vegetarian"
+                    "vegetarian",
+                    "catering.fast_food.salad"
                 ],
                 "opening_hours": "Mo-Su 10:30-22:30",
                 "brand": "PureLeaf",
@@ -2364,6 +2364,7 @@
                 "street": "Revere Avenue",
                 "housenumber": "241",
                 "categories": [
+                    "vegetarian",
                     "catering.restaurant.italian"
                 ],
                 "opening_hours": "Mo-Su 07:00-22:00",
@@ -2432,8 +2433,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "455",
                 "categories": [
-                    "education.library",
-                    "building.public_and_civil"
+                    "building.public_and_civil",
+                    "education.library"
                 ],
                 "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
                 "operator": "Detroit Public Library",
@@ -2726,8 +2727,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "catering.restaurant.american",
-                    "building.catering"
+                    "building.catering",
+                    "catering.restaurant.american"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2887,9 +2888,9 @@
                 "housenumber": "10",
                 "categories": [
                     "vegan",
+                    "vegetarian",
                     "commercial.supermarket",
-                    "organic",
-                    "vegetarian"
+                    "organic"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "Whole Foods Market",
@@ -2977,8 +2978,8 @@
                 "street": "Revere Avenue",
                 "housenumber": "110",
                 "categories": [
-                    "catering.restaurant.korean",
-                    "building.catering"
+                    "building.catering",
+                    "catering.restaurant.korean"
                 ],
                 "opening_hours": "12:00-14:15,18:00-23:00",
                 "contact": {

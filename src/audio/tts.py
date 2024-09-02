@@ -180,13 +180,17 @@ class TTS:
 
         with self.is_speaking_cond:
             if self.is_speaking():
-                self.paused_announcement = TextAnnouncement(
-                    text=self.current_announcement.text[
-                        self.current_announcement_index :
-                    ],
-                    priority=self.current_announcement.priority,
-                    category=self.current_announcement.category,
-                )
+                if self.current_announcement.category not in {
+                    Announcement.Category.ERROR,
+                    Announcement.Category.GRAPH,
+                }:
+                    self.paused_announcement = TextAnnouncement(
+                        text=self.current_announcement.text[
+                            self.current_announcement_index :
+                        ],
+                        priority=self.current_announcement.priority,
+                        category=self.current_announcement.category,
+                    )
                 self.stop_speaking()
 
     def __on_utterance_started(self, name: str) -> None:

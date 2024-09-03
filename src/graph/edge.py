@@ -117,11 +117,11 @@ class Edge(StraightLine):
             return f"at the end of {self.street}."
 
         if len(self.between_streets) == 1:
-            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}."
+            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}"
 
         streets = list(self.between_streets)
         street_str = (
-            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}."
+            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}"
         )
 
         return street_str

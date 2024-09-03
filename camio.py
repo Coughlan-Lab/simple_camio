@@ -2,12 +2,13 @@ import os
 import sys
 import threading as th
 import time
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
+
+from src.frame_processing import VideoCapture, WindowManager
+from src.input_handler import InputHandler, InputListener
 
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
-from pynput.keyboard import Key, KeyCode
-from pynput.keyboard import Listener as KeyboardListener
 
 from src.audio import STT, TTS, Announcement, AudioManager
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
@@ -30,9 +31,11 @@ class CamIO:
         self.last_pos_info = PositionInfo.none_info()
 
         # Frame processing
-        self.template = cv2.imread(model["template_image"], cv2.IMREAD_COLOR)
+        self.window_manager = WindowManager(
+            "CamIO", debug, model["template_image"], self.position_handler
+        )
         self.model_detector = SIFTModelDetector(model["template_image"])
-        self.pose_detector = PoseDetector(self.template.shape[:2])
+        self.pose_detector = PoseDetector(self.window_manager.template.shape[:2])
         self.hand_status_buffer = Buffer[HandStatus](3)
 
         # Audio
@@ -52,21 +55,30 @@ class CamIO:
         self.debug = debug
         self.running = False
 
+        self.input_listeners = {
+            InputListener.STOP_INTERACTION: self.stop_interaction,
+            InputListener.SAY_MAP_DESCRIPTION: self.say_map_description,
+            InputListener.TOGGLE_TTS: self.tts.toggle_pause,
+            InputListener.STOP: self.stop,
+            InputListener.QUESTION: self.__on_spacebar_pressed,
+        }
+
     def main_loop(self) -> None:
-        cap = self.__get_capture()
+        cap = VideoCapture.get_capture()
         if cap is None:
             print("No camera found.")
             return
 
-        ok, frame = cap.read()
-        if not ok:
+        frame = cap.read()
+        if frame is None:
             print("No camera image returned.")
             return
 
         self.stt.calibrate()
         self.tts.start()
 
-        self.__init_shortcuts()
+        input_handler = InputHandler(self.input_listeners)
+        input_handler.init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()
@@ -76,17 +88,11 @@ class CamIO:
         self.audio_manager.start()
 
         self.running = True
-        while self.running and cap.isOpened():
-            self.fps_manager.update()
+        while self.running and cap.is_opened():
+            self.window_manager.update(frame)
 
-            if self.debug:
-                self.__draw_debug_info()
-
-            cv2.imshow("CamIO", frame)
-            cv2.waitKey(1)  # Necessary for the window to show
-
-            ret, frame = cap.read()
-            if not ret:
+            frame = cap.read()
+            if frame is None:
                 print("No camera image returned.")
                 break
 
@@ -115,10 +121,10 @@ class CamIO:
                 self.__announce_position()
 
         self.audio_manager.stop()
-        cap.release()
+        cap.stop()
 
-        self.__disable_shortcuts()
-        cv2.destroyAllWindows()
+        input_handler.disable_shortcuts()
+        self.window_manager.close()
 
         self.stop_interaction()
         self.position_handler.clear()
@@ -153,64 +159,6 @@ class CamIO:
         else:
             self.tts.no_map_description()
 
-    def __init_shortcuts(self) -> None:
-        def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
-            if key == Key.space:
-                self.__on_spacebar_pressed()
-            elif key == Key.enter:
-                self.tts.toggle_pause()
-            elif key == Key.esc:
-                self.stop_interaction()
-            elif key == KeyCode.from_char("d"):
-                self.say_map_description()
-            elif key == KeyCode.from_char("q"):
-                self.stop()
-
-        self.keyboard = KeyboardListener(on_press=on_press)
-        self.keyboard.start()
-
-    def __disable_shortcuts(self) -> None:
-        self.keyboard.stop()
-
-    def __get_capture(self) -> Optional[cv2.VideoCapture]:
-        cam_port = 1  # select_camera_port()
-        if cam_port is None:
-            return None
-
-        cap = cv2.VideoCapture(cam_port)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        cap.set(cv2.CAP_PROP_FOCUS, 0)
-
-        return cap
-
-    def __draw_debug_info(self) -> None:
-        template = self.template.copy()
-        pos = self.position_handler.current_position
-
-        if pos is not None:
-            pos /= self.position_handler.meters_per_pixel
-            x, y = int(pos.x), int(pos.y)
-            cv2.circle(template, (x, y), 10, (255, 0, 0), -1)
-
-        cv2.putText(
-            template,
-            f"FPS: {self.fps_manager.fps:.2f}",
-            (10, 30),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1,
-            (0, 0, 0),
-            2,
-        )
-
-        for poi in self.graph.pois:
-            if poi.enabled:
-                x, y = poi.coords / self.position_handler.meters_per_pixel
-                x, y = int(x), int(y)
-                cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
-
-        cv2.imshow("CamIO - Debug", template)
-
     def __announce_position(self) -> None:
         if (
             time.time() - self.last_pos_info.timestamp
@@ -233,7 +181,7 @@ class CamIO:
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_recording:
             self.stt.on_question_ended()
-        elif self.user_input_thread is not None:
+        elif self.is_handling_user_input():
             self.tts.waiting_llm()
         elif self.hand_status_buffer.mode() == HandStatus.POINTING:
             self.user_input_thread = self.UserInputThread(self)

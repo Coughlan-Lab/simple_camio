@@ -242,13 +242,18 @@ class TTS:
             self.queue.append(PauseAnnouncement(duration=duration))
             self.queue_cond.notify_all()
 
-    def position_info(self, position_info: PositionInfo, stop_current: bool) -> bool:
-        fn = self.stop_and_say if stop_current else self.say
-
-        return fn(
+    def position_info(self, position_info: PositionInfo) -> bool:
+        return self.stop_and_say(
             position_info.description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,
+        )
+
+    def llm_response(self, response: str) -> bool:
+        return self.stop_and_say(
+            response,
+            category=Announcement.Category.LLM,
+            priority=Announcement.Priority.HIGH,
         )
 
     def welcome(self) -> None:

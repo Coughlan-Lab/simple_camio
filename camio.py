@@ -227,9 +227,7 @@ class CamIO:
         ):
             return
 
-        stop_current = self.last_pos_info.graph_element != pos_info.graph_element
-
-        if self.tts.position_info(pos_info, stop_current=stop_current):
+        if self.tts.position_info(pos_info):
             self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
@@ -292,11 +290,7 @@ class CamIO:
                 self.camio.tts.error()
             else:
                 print(f"Answer: {answer}")
-                self.camio.tts.say(
-                    answer,
-                    category=Announcement.Category.LLM,
-                    priority=Announcement.Priority.HIGH,
-                )
+                self.camio.tts.llm_response(answer)
             self.camio.tts.pause(2.0)
 
         def stop(self) -> None:

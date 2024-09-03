@@ -60,7 +60,12 @@ class Node:
         if self.intersection_type == "T":
             intersection = "T "
 
-        return f"{intersection}intersection of {streets_str}"
+        description = f"{intersection}intersection of {streets_str}"
+
+        if self.on_border:
+            description += ", at the limit of the map"
+
+        return description
 
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1

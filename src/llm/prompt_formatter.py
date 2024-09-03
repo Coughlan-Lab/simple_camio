@@ -311,7 +311,7 @@ class PromptFormatter:
             if features["slope"] == "downhill":
                 n1, n2 = n2, n1
             features["slope"] = (
-                f"uphill, from {n1.description} ({n1.id}) to {n2.description} ({n2.id})"
+                f"uphill, from {n1.get_llm_description()} ({n1.id}) to {n2.get_llm_description()} ({n2.id})"
             )
 
         if features.get("traffic_direction", "two_way") != "two_way":
@@ -319,16 +319,20 @@ class PromptFormatter:
             if features["traffic_direction"] == "one_way_backward":
                 n1, n2 = n2, n1
             features["traffic_direction"] = (
-                f"one-way, from {n1.description} ({n1.id}) to {n2.description} ({n2.id})"
+                f"one-way, from {n1.get_llm_description()} ({n1.id}) to {n2.get_llm_description()} ({n2.id})"
             )
 
-        return str_dict({"edge": edge.id, "features": features})
+        return str_dict(
+            {"edge": f"{edge.id} ({edge.get_llm_description()})", "features": features}
+        )
 
     def __node_features_prompt(self, node: Node) -> str:
         features = dict(node.features)
         del features["on_border"]
 
-        return str_dict({"node": node.id, "features": features})
+        return str_dict(
+            {"node": f"{node.id} ({node.get_llm_description()})", "features": features}
+        )
 
     instructions = (
         "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"

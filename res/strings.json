@@ -3,7 +3,8 @@
     "error": "An error occurred in obtaining a response. Please try again.",
     "more_than_one_hand": "Please, only one pointing hand at a time",
     "waiting_llm": "Waiting for a response...",
-    "no_description": "No description available.",
+    "no_map_description": "No map description available.",
+    "no_pointing": "Please, point at the map to ask a question.",
     "goodbye": "Goodbye!",
     "instructions": "Use your index finger to explore the map and ask the system questions by pressing the space bar. After pressing the space bar, ask your questions aloud and press the space bar again when you've finished your question. You can stop the response at any time by pressing the Escape key."
 }

@@ -160,12 +160,6 @@ class CamIO:
             self.tts.no_map_description()
 
     def __announce_position(self) -> None:
-        if (
-            time.time() - self.last_pos_info.timestamp
-            < CamIO.POSITION_ANNOUNCEMENT_INTERVAL
-        ):
-            return
-
         pos_info = self.position_handler.get_position_info()
 
         if len(pos_info.description) == 0 or (
@@ -186,6 +180,8 @@ class CamIO:
         elif self.hand_status_buffer.mode() == HandStatus.POINTING:
             self.user_input_thread = self.UserInputThread(self)
             self.user_input_thread.start()
+        else:
+            self.tts.no_pointing()
 
     class UserInputThread(th.Thread):
         def __init__(self, camio: "CamIO"):

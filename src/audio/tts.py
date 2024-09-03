@@ -52,8 +52,10 @@ NONE_ANNOUNCEMENT = TextAnnouncement(priority=Announcement.Priority.NONE)
 
 class TTS:
     RATE = 200
+
     WAITING_LOOP_INTERVAL = 7
     MORE_THAN_ONE_HAND_INTERVAL = 5
+    POSITION_INTERVAL = 0.25
 
     def __init__(self, res_file: str, rate: int = RATE) -> None:
         self.engine = pyttsx3.init()
@@ -83,7 +85,7 @@ class TTS:
         self.queue_cond = th.Condition()
         self.is_speaking_cond = th.Condition()
 
-        self.more_than_one_hand_last_time = 0.0
+        self.timestamps = {category: 0.0 for category in Announcement.Category}
 
         self.on_announcement_ended: Callable[[Announcement.Category], None] = (
             lambda _: None
@@ -132,14 +134,20 @@ class TTS:
 
                 if isinstance(next_announcement, PauseAnnouncement):
                     time.sleep(next_announcement.duration)
+
                 elif isinstance(next_announcement, TextAnnouncement):
                     with self.is_speaking_cond:
                         self.current_announcement = next_announcement
+
                         self.engine.say(
                             self.current_announcement.text,
                             name=self.current_announcement.id,
                         )
                         self.engine.iterate()
+
+                        self.timestamps[self.current_announcement.category] = (
+                            time.time()
+                        )
 
                 with self.is_speaking_cond:
                     while self.is_speaking() and self.__running.is_set():
@@ -243,6 +251,12 @@ class TTS:
             self.queue_cond.notify_all()
 
     def position_info(self, position_info: PositionInfo) -> bool:
+        if (
+            time.time() - self.timestamps[Announcement.Category.GRAPH]
+            < TTS.POSITION_INTERVAL
+        ):
+            return False
+
         return self.stop_and_say(
             position_info.description,
             category=Announcement.Category.GRAPH,
@@ -293,7 +307,7 @@ class TTS:
 
     def no_map_description(self) -> None:
         self.stop_and_say(
-            self.res["no_description"],
+            self.res["no_map_description"],
             category=Announcement.Category.ERROR,
             priority=Announcement.Priority.HIGH,
         )
@@ -305,10 +319,16 @@ class TTS:
             priority=Announcement.Priority.HIGH,
         )
 
+    def no_pointing(self) -> None:
+        self.stop_and_say(
+            self.res["no_pointing"],
+            category=Announcement.Category.ERROR,
+            priority=Announcement.Priority.HIGH,
+        )
+
     def more_than_one_hand(self) -> None:
-        current_time = time.time()
         if (
-            current_time - self.more_than_one_hand_last_time
+            time.time() - self.timestamps[Announcement.Category.ERROR]
             < TTS.MORE_THAN_ONE_HAND_INTERVAL
         ):
             return
@@ -318,8 +338,6 @@ class TTS:
             category=Announcement.Category.ERROR,
             priority=Announcement.Priority.MEDIUM,
         )
-
-        self.more_than_one_hand_last_time = current_time
 
     def start_waiting_loop(self) -> None:
         if self.__waiting_loop_running.is_set():

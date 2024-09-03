@@ -3,8 +3,8 @@ import json
 import os
 import time
 from functools import reduce
-from types import MappingProxyType
-from typing import Any, Dict, Generic, List, Optional, Protocol, Tuple, TypeVar
+from typing import (Any, Dict, Generic, List, Mapping, Optional, Protocol,
+                    Tuple, TypeVar, Union)
 
 import cv2
 
@@ -13,7 +13,7 @@ def str_format(v: Any) -> str:
     return str(v).replace("_", " ")
 
 
-def str_dict(d: Dict[Any, Any] | MappingProxyType[str, Any], indent: int = 0) -> str:
+def str_dict(d: Union[Dict[Any, Any], Mapping[Any, Any]], indent: int = 0) -> str:
     res = ""
 
     for key, value in d.items():

@@ -1,9 +1,10 @@
 from types import MappingProxyType
-from typing import Any, Dict
+from typing import Any, Dict, Mapping
 
-from graph.coords import Coords
-from graph.edge import Edge
 from src.utils import str_dict
+
+from .coords import Coords
+from .edge import Edge
 
 POIS_IMPORTANT_KEYS = [
     "name",
@@ -52,7 +53,7 @@ class PoI:
         self.enabled = False
 
     @property
-    def info(self) -> MappingProxyType[str, Any]:
+    def info(self) -> Mapping[str, Any]:
         return MappingProxyType(self.__info)
 
     def __hash__(self) -> int:
@@ -80,3 +81,6 @@ class PoI:
                 },
             }
         )
+
+    def __repr__(self) -> str:
+        return str(self)

@@ -5,5 +5,5 @@
     "waiting_llm": "Waiting for a response...",
     "no_description": "No description available.",
     "goodbye": "Goodbye!",
-    "instructions": "Use your index finger to explore the map and ask the system questions by pressing the space bar. After pressing the space bar, ask your questions aloud and press the space bar again when you've finished your question. You can stop the response at any time by pressing the Escape key. Press the return key to pause the response and press it again to resume."
+    "instructions": "Use your index finger to explore the map and ask the system questions by pressing the space bar. After pressing the space bar, ask your questions aloud and press the space bar again when you've finished your question. You can stop the response at any time by pressing the Escape key."
 }

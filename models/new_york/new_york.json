@@ -1308,7 +1308,7 @@
         ],
         "edges_features": [
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
@@ -1317,7 +1317,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1326,7 +1326,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "uphill",
                 "surface": "cobblestone",
@@ -1335,7 +1335,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "cobblestone",
@@ -1344,7 +1344,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "cobblestone",
@@ -1353,7 +1353,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
@@ -1362,7 +1362,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1371,7 +1371,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "cobblestone",
@@ -1380,7 +1380,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
@@ -1389,7 +1389,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1398,7 +1398,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1407,7 +1407,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1416,7 +1416,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "cobblestone",
@@ -1425,7 +1425,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
@@ -1434,7 +1434,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1443,7 +1443,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "cobblestone",
@@ -1452,7 +1452,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1461,7 +1461,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1470,7 +1470,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1479,7 +1479,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "cobblestone",
@@ -1488,7 +1488,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1497,7 +1497,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1506,7 +1506,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1515,7 +1515,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1524,7 +1524,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1533,7 +1533,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "uphill",
                 "surface": "cobblestone",
@@ -1542,7 +1542,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "uphill",
                 "surface": "cobblestone",
@@ -1551,7 +1551,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -1560,340 +1560,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "downhill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "uphill",
-                "surface": "cobblestone",
-                "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "cobblestone",
@@ -1902,79 +1569,16 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "downhill",
-                "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
                 "stairs": true,
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -1983,8 +1587,35 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
                 "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
@@ -1992,151 +1623,106 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
+                "traffic_direction": "one_way_backward",
                 "stairs": false,
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": true,
-                "bike_lane": true,
-                "slope": "uphill",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
                 "slope": "flat",
                 "surface": "cobblestone",
-                "traffic_direction": "two_way",
-                "stairs": true,
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": false,
                 "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": true,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "flat",
-                "surface": "concrete",
-                "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
-            },
-            {
-                "roadworks": false,
-                "bike_lane": false,
-                "slope": "uphill",
+                "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
                 "stairs": false,
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
+                "stairs": false,
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
                 "bike_lane": false,
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
+                "stairs": false,
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "downhill",
-                "surface": "cobblestone",
+                "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
+                "stairs": false,
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -2145,7 +1731,421 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_backward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_forward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": true,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "flat",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_backward",
+                "stairs": false,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
+                "bike_lane": false,
+                "slope": "uphill",
+                "surface": "concrete",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "two_way",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": false,
+                "slope": "downhill",
+                "surface": "cobblestone",
+                "traffic_direction": "one_way_backward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": true,
+                "bike_lane": true,
+                "slope": "downhill",
+                "surface": "concrete",
+                "traffic_direction": "one_way_forward",
+                "stairs": true,
+                "tactile_paving": false
+            },
+            {
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -2154,7 +2154,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": true,
                 "slope": "downhill",
                 "surface": "concrete",
@@ -2163,7 +2163,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "concrete",
@@ -2172,7 +2172,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": true,
+                "roadwork": true,
                 "bike_lane": true,
                 "slope": "flat",
                 "surface": "concrete",
@@ -2181,7 +2181,7 @@
                 "tactile_paving": false
             },
             {
-                "roadworks": false,
+                "roadwork": false,
                 "bike_lane": false,
                 "slope": "flat",
                 "surface": "concrete",
@@ -2377,8 +2377,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Broadway",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2410,8 +2410,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "operator": "Port Authority of New York and New Jersey",
                 "network": "PATH",
@@ -2440,8 +2440,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 32nd Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "network": "NYC Transit",
                 "accessibility": {
@@ -2457,7 +2457,7 @@
                     834.2735897869914
                 ],
                 "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with West 32nd Street and 5th Avenue and the intersection with Madison Avenue"
+                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
             },
             {
                 "name": "33rd Street",
@@ -2465,8 +2465,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 33rd Street",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2498,8 +2498,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2532,8 +2532,8 @@
                 "district": "Chelsea District",
                 "street": "7th Avenue",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2569,8 +2569,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "5th Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "distance": 335,
                 "accessibility": {
@@ -2594,8 +2594,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "distance": 127,
                 "accessibility": {
@@ -2619,8 +2619,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "5th Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
@@ -2638,7 +2638,7 @@
                     759.6395550228725
                 ],
                 "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with West 32nd Street and East 32nd Street and the intersection with East 33rd Street and West 33rd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 32nd Street and West 32nd Street and the intersection with East 33rd Street and West 33rd Street"
             },
             {
                 "name": "6th Avenue & West 31st Street",
@@ -2646,8 +2646,8 @@
                 "district": "Chelsea District",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": "limited",
@@ -2670,8 +2670,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2694,8 +2694,8 @@
                 "district": "Midtown South",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2944,7 +2944,7 @@
                     353.25545661505623
                 ],
                 "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with East 38th Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 38th Street, between the intersection with 5th Avenue and East 38th Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Blank Slate Coffee + Kitchen",
@@ -2953,8 +2953,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "121",
                 "categories": [
-                    "vegetarian",
-                    "catering.cafe"
+                    "catering.cafe",
+                    "vegetarian"
                 ],
                 "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
                 "branch": "Nomad",
@@ -3099,7 +3099,7 @@
                     692.6557312122993
                 ],
                 "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with East 34th Street and West 34th Street and the intersection with East 33rd Street and West 33rd Street"
+                "location_description": "on 5th Avenue, between the intersection with West 34th Street and East 34th Street and the intersection with East 33rd Street and West 33rd Street"
             },
             {
                 "name": "Chick-fil-A",
@@ -3179,8 +3179,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "233",
                 "categories": [
-                    "building.office",
-                    "office.diplomatic"
+                    "office.diplomatic",
+                    "building.office"
                 ],
                 "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
                 "contact": {
@@ -3240,7 +3240,7 @@
                     292.07600797578664
                 ],
                 "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with 6th Avenue and the intersection with East 38th Street and 5th Avenue"
+                "location_description": "on West 38th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 38th Street"
             },
             {
                 "name": "Costas",
@@ -3322,8 +3322,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 34th Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "network": "NYC Transit",
                 "distance": 116,
@@ -3340,7 +3340,7 @@
                     671.4992001253637
                 ],
                 "edge": 41,
-                "location_description": "on East 34th Street, near the the intersection with 5th Avenue and West 34th Street"
+                "location_description": "on East 34th Street, near the the intersection with West 34th Street and 5th Avenue"
             },
             {
                 "name": "East 34th Street & Park Avenue",
@@ -3348,8 +3348,8 @@
                 "district": "Manhattan Community Board 6",
                 "street": "East 34th Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
@@ -3375,12 +3375,12 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "building.tourism",
-                    "tourism.attraction",
                     "building.office",
                     "heritage",
                     "office",
-                    "building.historic"
+                    "building.historic",
+                    "tourism.attraction",
+                    "building.tourism"
                 ],
                 "opening_hours": "Mo-Su 08:00-02:00",
                 "contact": {
@@ -3409,7 +3409,7 @@
                     659.6252782529268
                 ],
                 "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with East 34th Street and West 34th Street"
+                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with West 34th Street and East 34th Street"
             },
             {
                 "name": "Food Gallery 32",
@@ -3517,7 +3517,7 @@
                     846.1380884603361
                 ],
                 "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with West 32nd Street and 5th Avenue and the intersection with Madison Avenue"
+                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
             },
             {
                 "name": "Joomak Banjum",
@@ -3551,7 +3551,7 @@
                     818.6951805643116
                 ],
                 "edge": 56,
-                "location_description": "on 5th Avenue, between the intersection with West 31st Street and East 31st Street and the intersection with West 32nd Street and East 32nd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 31st Street and West 31st Street and the intersection with East 32nd Street and West 32nd Street"
             },
             {
                 "name": "Kosher in Midtown",
@@ -3616,7 +3616,7 @@
                     708.5232472444077
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Mad Dog & Beans Mexican Cantina",
@@ -3654,7 +3654,7 @@
                     402.62600404593775
                 ],
                 "edge": 50,
-                "location_description": "on East 38th Street, between the intersection with West 38th Street and 5th Avenue and the intersection with Madison Avenue"
+                "location_description": "on East 38th Street, between the intersection with 5th Avenue and West 38th Street and the intersection with Madison Avenue"
             },
             {
                 "name": "Madison Avenue & East 30th Street",
@@ -3662,8 +3662,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "network": "NYC Transit",
                 "distance": 347,
@@ -3688,8 +3688,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "network": "NYC Transit",
                 "accessibility": {
@@ -3713,8 +3713,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "network": "NYC Transit",
                 "distance": 248,
@@ -3739,8 +3739,8 @@
                 "district": "Manhattan Community Board 6",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -3763,8 +3763,8 @@
                 "district": "Manhattan Community Board 6",
                 "street": "Madison Avenue",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -3788,9 +3788,9 @@
                 "street": "6th Avenue",
                 "housenumber": "809",
                 "categories": [
+                    "building.catering",
                     "catering.fast_food.burger",
-                    "building.commercial",
-                    "building.catering"
+                    "building.commercial"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -3904,7 +3904,7 @@
                     713.0711197440451
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Nelly Spillanes",
@@ -4047,7 +4047,7 @@
                     547.2906036102886
                 ],
                 "edge": 46,
-                "location_description": "on East 36th Street, between the intersection with West 36th Street and 5th Avenue and the intersection with Madison Avenue"
+                "location_description": "on East 36th Street, between the intersection with 5th Avenue and West 36th Street and the intersection with Madison Avenue"
             },
             {
                 "name": "Pok\u00e9 Bar",
@@ -4193,8 +4193,8 @@
                 "street": "West 33rd Street",
                 "housenumber": "4",
                 "categories": [
-                    "commercial",
-                    "service.beauty.massage"
+                    "service.beauty.massage",
+                    "commercial"
                 ],
                 "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
                 "contact": {
@@ -4217,7 +4217,7 @@
                     720.3988654108854
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Starbucks",
@@ -4226,8 +4226,8 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "catering.cafe.coffee_shop",
-                    "catering.cafe.coffee"
+                    "catering.cafe.coffee",
+                    "catering.cafe.coffee_shop"
                 ],
                 "opening_hours": "Mo-Fr 06:30-18:00",
                 "brand": "Starbucks",
@@ -4260,7 +4260,7 @@
                     688.2524121170227
                 ],
                 "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with West 32nd Street and East 32nd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with East 32nd Street and West 32nd Street"
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -4270,8 +4270,8 @@
                 "street": "5th Avenue",
                 "housenumber": "455",
                 "categories": [
-                    "education.library",
-                    "building.public_and_civil"
+                    "building.public_and_civil",
+                    "education.library"
                 ],
                 "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
                 "operator": "New York Public Library",
@@ -4305,7 +4305,7 @@
                     297.1909746018558
                 ],
                 "edge": 64,
-                "location_description": "on 5th Avenue, between the intersection with West 39th Street and East 39th Street and the intersection with East 40th Street"
+                "location_description": "on 5th Avenue, between the intersection with East 39th Street and West 39th Street and the intersection with East 40th Street"
             },
             {
                 "name": "Stout NYC",
@@ -4383,7 +4383,7 @@
                     224.43613409796285
                 ],
                 "edge": 31,
-                "location_description": "on West 39th Street, between the limit of the map and the intersection with East 39th Street and 5th Avenue"
+                "location_description": "on West 39th Street, between the limit of the map and the intersection with 5th Avenue and East 39th Street"
             },
             {
                 "name": "The Australian NYC",
@@ -4421,7 +4421,7 @@
                     342.1359639511952
                 ],
                 "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with East 38th Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 38th Street, between the intersection with 5th Avenue and East 38th Street and the intersection with 6th Avenue"
             },
             {
                 "name": "The Harold",
@@ -4431,8 +4431,8 @@
                 "housenumber": "1271",
                 "categories": [
                     "vegetarian",
-                    "gluten_free",
-                    "catering.restaurant.american"
+                    "catering.restaurant.american",
+                    "gluten_free"
                 ],
                 "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
                 "contact": {
@@ -4484,8 +4484,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    987.9771020778537,
-                    576.3791964206523
+                    1009.5763136804508,
+                    577.9267546072724
                 ],
                 "edge": 85,
                 "location_description": "on Madison Avenue, between the intersection with East 36th Street and the intersection with East 37th Street"
@@ -4618,8 +4618,8 @@
                 "district": "Midtown South",
                 "street": "West 31st Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4644,8 +4644,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4670,8 +4670,8 @@
                 "commercial": "Korea Town",
                 "street": "West 32nd Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "distance": 184,
                 "accessibility": {
@@ -4695,8 +4695,8 @@
                 "district": "Midtown South",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "network": "NYC Transit",
                 "distance": 54,
@@ -4713,7 +4713,7 @@
                     609.8599888331597
                 ],
                 "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with East 34th Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 34th Street, between the intersection with 5th Avenue and East 34th Street and the intersection with 6th Avenue"
             },
             {
                 "name": "West 34th Street & Broadway",
@@ -4721,8 +4721,8 @@
                 "district": "Garment District",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4747,8 +4747,8 @@
                 "district": "Midtown South",
                 "street": "West 34th Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4765,7 +4765,7 @@
                     531.2896536662449
                 ],
                 "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with East 34th Street and 5th Avenue"
+                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 34th Street"
             },
             {
                 "name": "West 37th Street & 5th Avenue",
@@ -4773,8 +4773,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "West 37th Street",
                 "categories": [
-                    "public_transport",
-                    "bus_stop"
+                    "bus_stop",
+                    "public_transport"
                 ],
                 "distance": 294,
                 "accessibility": {

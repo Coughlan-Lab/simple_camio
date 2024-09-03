@@ -7,8 +7,7 @@ import requests
 from .coords import Coords
 from .edge import Edge, Street
 from .node import Node
-
-PoI = Dict[str, Any]
+from .poi import PoI
 
 
 class LatLngReference:
@@ -42,7 +41,7 @@ GOOGLE_ROUTES_API_FIELDS = [
 
 class Graph:
     AM_I_THRESHOLD = 50.0  # meters
-    NEARBY_THRESHOLD = 250.0  # meters
+    NEARBY_THRESHOLD = 400.0  # meters
     INF = 999999
 
     def __init__(self, graph_dict: Dict[str, Any]) -> None:
@@ -107,16 +106,16 @@ class Graph:
         return edge, distance
 
     def get_nearest_poi(self, coords: Coords) -> Tuple[Optional[PoI], float]:
-        pois = list(filter(lambda p: p["enabled"], self.pois))
+        pois = list(filter(lambda p: p.enabled, self.pois))
         if len(pois) == 0:
             return None, math.inf
 
         poi = min(
             pois,
-            key=lambda poi: poi["coords"].distance_to(coords),
+            key=lambda poi: poi.coords.distance_to(coords),
         )
 
-        return poi, poi["coords"].distance_to(coords)
+        return poi, poi.coords.distance_to(coords)
 
     def get_distance(self, p1: Coords, p2: Coords) -> float:
         e1, dist_to_e1 = self.get_nearest_edge(p1)
@@ -140,21 +139,21 @@ class Graph:
         poi = self.pois[poi_index]
 
         e1, dist_to_e1 = self.get_nearest_edge(p1)
-        e2 = poi["edge"]
+        e2 = poi.edge
 
         return (
             self.__get_edge_distance(
                 e1,
                 e2,
                 p1.project_on(e1).distance_to(e1[0].coords),
-                poi["coords"].project_on(e2).distance_to(e2[0].coords),
+                poi.coords.project_on(e2).distance_to(e2[0].coords),
             )
             + dist_to_e1
-            + float(poi["coords"].distance_to_line(e2))
+            + float(poi.coords.distance_to_line(e2))
         )
 
     def am_i_at(self, p1: Coords, poi: int) -> bool:
-        p2 = self.pois[poi]["coords"]
+        p2 = self.pois[poi].coords
 
         return p1.distance_to(p2) < Graph.AM_I_THRESHOLD
 
@@ -169,7 +168,7 @@ class Graph:
             threshold = Graph.NEARBY_THRESHOLD
 
         if threshold < 0:
-            return [poi["name"] for poi in self.pois]
+            return [poi.name for poi in self.pois]
 
         res = []
         e1, dist_to_e1 = self.get_nearest_edge(coords)
@@ -178,19 +177,19 @@ class Graph:
         threshold -= dist_to_e1
 
         for poi in self.pois:
-            e2 = poi["edge"]
+            e2 = poi.edge
             try:
                 d = self.__get_edge_distance(
                     e1,
                     e2,
                     projection_distance,
-                    poi["coords"].project_on(e2).distance_to(e2[0].coords),
-                ) + poi["coords"].distance_to_line(e2)
+                    poi.coords.project_on(e2).distance_to(e2[0].coords),
+                ) + poi.coords.distance_to_line(e2)
             except ValueError:
                 continue
 
             if d <= threshold:
-                res.append(poi["name"])
+                res.append(poi.name)
 
         return res
 
@@ -207,7 +206,7 @@ class Graph:
 
         return self.get_route(
             start,
-            poi["coords"],
+            poi.coords,
             only_by_walking,
             transports,
             transport_preference,
@@ -215,7 +214,7 @@ class Graph:
         ) + [
             {
                 "navigationInstruction": {
-                    "instructions": f"Your destination is {poi['edge'].get_llm_description()}"
+                    "instructions": f"Your destination is {poi.edge.get_llm_description()}"
                 }
             }
         ]
@@ -285,11 +284,11 @@ class Graph:
 
     def enable_pois(self, indices: List[int]) -> None:
         for index in indices:
-            self.pois[index]["enabled"] = True
+            self.pois[index].enable()
 
     def disable_pois(self) -> None:
         for poi in self.pois:
-            poi["enabled"] = False
+            poi.disable()
 
     def __get_edge_distance(
         self,
@@ -380,13 +379,16 @@ def load_edges(
 
 
 def load_pois(edges: List[Edge], graph_dict: Dict[str, Any]) -> List[PoI]:
-    pois: List[Dict[str, Any]] = graph_dict["points_of_interest"]
+    pois_data: List[Dict[str, Any]] = graph_dict["points_of_interest"]
 
-    for i, poi in enumerate(pois):
-        poi["index"] = i
-        poi["edge"] = edges[poi["edge"]]
-        poi["coords"] = Coords(*poi["coords"])
-        poi["enabled"] = False
+    pois: List[PoI] = list()
+
+    for i, poi_data in enumerate(pois_data):
+        edge = edges[poi_data["edge"]]
+        coords = Coords(*poi_data["coords"])
+
+        poi = PoI(i, poi_data["name"], coords, edge, poi_data)
+        pois.append(poi)
 
     return pois
 

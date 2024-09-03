@@ -204,8 +204,8 @@ class CamIO:
         )
 
         for poi in self.graph.pois:
-            if poi["enabled"]:
-                x, y = poi["coords"] / self.position_handler.meters_per_pixel
+            if poi.enabled:
+                x, y = poi.coords / self.position_handler.meters_per_pixel
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
 

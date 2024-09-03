@@ -5,6 +5,7 @@ from .coords import Coords
 from .edge import Edge, Street
 from .graph import Graph
 from .node import Node
+from .poi import PoI
 from .position_handler import PositionHandler, PositionInfo
 
 
@@ -18,6 +19,14 @@ class GraphEncoder(JSONEncoder):
             return o.id
         if isinstance(o, Street):
             return o.id
+        if isinstance(o, PoI):
+            return {
+                "index": o.index,
+                "name": o.name,
+                "coords": o.coords,
+                "edge": o.edge,
+                **o.info,
+            }
         return super().default(o)
 
 
@@ -30,4 +39,5 @@ __all__ = [
     "GraphEncoder",
     "PositionHandler",
     "PositionInfo",
+    "PoI",
 ]

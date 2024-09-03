@@ -14,21 +14,6 @@ from src.utils import str_dict
 
 from .tool_calls import ToolCall, tool_calls
 
-POIS_IMPORTANT_KEYS = [
-    "name",
-    "name_other",
-    "index",
-    "street",
-    "coords",
-    "edge",
-    "opening_hours",
-    "brand",
-    "categories",
-    "facilities",
-    "catering",
-    "commercial",
-]
-
 
 class PromptFormatter:
     def __init__(self, graph: Graph) -> None:
@@ -73,7 +58,7 @@ class PromptFormatter:
 
             elif fnc == ToolCall.GET_POINT_OF_INTEREST_DETAILS:
                 poi = self.graph.get_poi_details(params["poi_index"])
-                result = str_dict(poi)
+                result = str_dict(poi.info)
 
             elif fnc == ToolCall.GET_ROUTE:
                 result = self.graph.get_route(
@@ -297,12 +282,7 @@ class PromptFormatter:
         )
 
     def __poi_prompt(self) -> str:
-        return "\n".join(
-            [
-                str_dict({k: poi[k] for k in POIS_IMPORTANT_KEYS if k in poi})
-                for poi in self.graph.pois
-            ]
-        )
+        return "\n".join([str(poi) for poi in self.graph.pois])
 
     def __road_features_prompt(self) -> str:
         return (

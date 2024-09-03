@@ -16,15 +16,13 @@ class SIFTModelDetector:
             img_template, mask=None
         )
 
-    def detect(
-        self, frame: npt.NDArray[np.uint8]
-    ) -> Tuple[bool, Optional[npt.NDArray[np.float32]]]:
+    def detect(self, frame: npt.NDArray[np.uint8]) -> Optional[npt.NDArray[np.float32]]:
         keypoints_scene, descriptors_scene = self.detector.detectAndCompute(frame, None)
         matcher = cv2.DescriptorMatcher_create(cv2.DescriptorMatcher_FLANNBASED)
         try:
             knn_matches = matcher.knnMatch(self.descriptors_obj, descriptors_scene, 2)
         except:
-            return False, None
+            return None
 
         RATIO_THRESH = 0.75
         good_matches = list()
@@ -35,7 +33,7 @@ class SIFTModelDetector:
 
         # -- Localize the object
         if len(good_matches) < 4:
-            return False, None
+            return None
 
         obj = np.empty((len(good_matches), 2), dtype=np.float32)
         scene = np.empty((len(good_matches), 2), dtype=np.float32)
@@ -51,4 +49,4 @@ class SIFTModelDetector:
             scene, obj, cv2.RANSAC, ransacReprojThreshold=8.0, confidence=0.995
         )
 
-        return H is not None, H
+        return H

@@ -4,16 +4,14 @@ import os
 import time
 from functools import reduce
 from typing import (Any, Dict, Generic, List, Mapping, Optional, Protocol,
-                    Tuple, TypeVar, Union)
-
-import cv2
+                    Tuple, TypeVar)
 
 
 def str_format(v: Any) -> str:
     return str(v).replace("_", " ")
 
 
-def str_dict(d: Union[Dict[Any, Any], Mapping[Any, Any]], indent: int = 0) -> str:
+def str_dict(d: Mapping[Any, Any], indent: int = 0) -> str:
     res = ""
 
     for key, value in d.items():

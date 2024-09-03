@@ -6,6 +6,8 @@ import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
 
+from src.graph import Coords
+
 
 class HandStatus(Enum):
     MORE_THAN_ONE_HAND = -1
@@ -34,7 +36,7 @@ class PoseDetector:
 
     def detect(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> Tuple[HandStatus, Optional[Tuple[float, float]], npt.NDArray[np.uint8]]:
+    ) -> Tuple[HandStatus, Optional[Coords], npt.NDArray[np.uint8]]:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img.flags.writeable = False
@@ -77,7 +79,7 @@ class PoseDetector:
 
     def get_index_position(
         self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> Tuple[float, float]:
+    ) -> Coords:
         position = np.array(
             [
                 [
@@ -89,7 +91,7 @@ class PoseDetector:
         ).reshape(-1, 1, 2)
 
         position = cv2.perspectiveTransform(position, H)[0][0]
-        return (position[0], position[1])
+        return Coords(position[0], position[1])
 
     def is_index_on_the_map(
         self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]

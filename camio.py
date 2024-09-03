@@ -2,6 +2,7 @@ import os
 import sys
 import threading as th
 import time
+from functools import partial
 from typing import Any, Dict, Optional
 
 from src.frame_processing import VideoCapture, WindowManager
@@ -18,8 +19,6 @@ from src.utils import *
 
 
 class CamIO:
-    POSITION_ANNOUNCEMENT_INTERVAL = 0.25
-
     def __init__(
         self, model: Dict[str, Any], tts_rate: int = 200, debug: bool = False
     ) -> None:
@@ -35,8 +34,9 @@ class CamIO:
             "CamIO", debug, model["template_image"], self.position_handler
         )
         self.model_detector = SIFTModelDetector(model["template_image"])
-        self.pose_detector = PoseDetector(self.window_manager.template.shape[:2])
-        self.hand_status_buffer = Buffer[HandStatus](3)
+        template = cv2.imread(model["template_image"], cv2.IMREAD_GRAYSCALE)
+        self.pose_detector = PoseDetector(template.shape[:2])
+        self.hand_status_buffer = Buffer[HandStatus](max_size=3, max_life=5)
 
         # Audio
         self.tts = TTS("res/strings.json", rate=tts_rate)
@@ -50,17 +50,15 @@ class CamIO:
         self.llm = LLM(self.graph, model["context"])
         self.user_input_thread: Optional[CamIO.UserInputThread] = None
 
-        self.fps_manager = FPSManager()
-
         self.debug = debug
         self.running = False
 
         self.input_listeners = {
-            InputListener.STOP_INTERACTION: self.stop_interaction,
-            InputListener.SAY_MAP_DESCRIPTION: self.say_map_description,
-            InputListener.TOGGLE_TTS: self.tts.toggle_pause,
-            InputListener.STOP: self.stop,
-            InputListener.QUESTION: self.__on_spacebar_pressed,
+            InputListener.STOP_INTERACTION: partial(self.stop_interaction),
+            InputListener.SAY_MAP_DESCRIPTION: partial(self.say_map_description),
+            InputListener.TOGGLE_TTS: partial(self.tts.toggle_pause),
+            InputListener.STOP: partial(self.stop),
+            InputListener.QUESTION: partial(self.__on_spacebar_pressed),
         }
 
     def main_loop(self) -> None:
@@ -97,25 +95,21 @@ class CamIO:
                 break
 
             frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            ok, rotation = self.model_detector.detect(frame_gray)
+            homography = self.model_detector.detect(frame_gray)
 
-            if not ok or rotation is None:
+            if homography is None:
                 self.audio_manager.update(HandStatus.NOT_FOUND)
                 continue
 
-            hand_status, finger_pos, frame = self.pose_detector.detect(frame, rotation)
-            self.hand_status_buffer.add(hand_status)
-            hand_status = self.hand_status_buffer.mode() or HandStatus.NOT_FOUND
+            hand_status, finger_pos, frame = self.pose_detector.detect(
+                frame, homography
+            )
 
-            if not self.is_handling_user_input():
-                self.audio_manager.update(hand_status)
-
+            hand_status = self.__process_hand_status(hand_status, finger_pos)
             if hand_status != HandStatus.POINTING or finger_pos is None:
-                if hand_status == HandStatus.MORE_THAN_ONE_HAND:
-                    self.tts.more_than_one_hand()
                 continue
 
-            self.position_handler.process_position(Coords(*finger_pos))
+            self.position_handler.process_position(finger_pos)
 
             if not self.is_handling_user_input():
                 self.__announce_position()
@@ -133,6 +127,27 @@ class CamIO:
         self.tts.goodbye()
         time.sleep(1)
         self.tts.stop()
+
+    def __process_hand_status(
+        self, hand_status: HandStatus, finger_pos: Optional[Coords]
+    ) -> HandStatus:
+
+        if (
+            hand_status == HandStatus.POINTING
+            and finger_pos is not None
+            and not self.position_handler.is_valid_position(finger_pos)
+        ):
+            hand_status = HandStatus.NOT_FOUND
+
+        self.hand_status_buffer.add(hand_status)
+        hand_status = self.hand_status_buffer.mode() or HandStatus.NOT_FOUND
+
+        if hand_status == HandStatus.MORE_THAN_ONE_HAND:
+            self.tts.more_than_one_hand()
+
+        self.audio_manager.update(hand_status)
+
+        return hand_status
 
     def is_handling_user_input(self) -> bool:
         return self.user_input_thread is not None

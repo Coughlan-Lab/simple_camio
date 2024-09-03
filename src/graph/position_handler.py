@@ -96,19 +96,26 @@ class PositionHandler:
     def current_position(self) -> Optional[Coords]:
         return self.positions_buffer.average()
 
-    def process_position(self, pos: Coords) -> None:
+    def is_valid_position(self, pos: Coords) -> bool:
+        return (
+            self.min_corner[0] <= pos.x < self.max_corner[0]
+            and self.min_corner[1] <= pos.y < self.max_corner[1]
+        )
+
+    def process_position(self, pos: Coords) -> bool:
         pos *= self.meters_per_pixel
 
         # print(f"Position detected: {pos}")
 
-        if (
-            self.min_corner[0] <= pos.x < self.max_corner[0]
-            and self.min_corner[1] <= pos.y < self.max_corner[1]
-        ):
+        if self.is_valid_position(pos):
             self.positions_buffer.add(pos)
 
             edge, _ = self.graph.get_nearest_edge(pos)
             self.edge_buffer.add(edge)
+
+            return True
+
+        return False
 
     def get_position_info(self) -> PositionInfo:
         def implementation() -> PositionInfo:

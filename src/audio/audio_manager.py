@@ -1,6 +1,7 @@
 import os
 import threading
 import wave
+from typing import Optional
 
 import pyaudio
 import pyglet
@@ -58,12 +59,28 @@ class AudioLooper(threading.Thread):
 
 
 class AudioManager:
-    def __init__(self, background_path: str, pointing_path: str) -> None:
+    def __init__(
+        self,
+        background_path: str,
+        pointing_path: str,
+        start_path: Optional[str] = None,
+        end_path: Optional[str] = None,
+    ) -> None:
         self.background_player = AudioLooper(background_path)
         self.background_player.start()
 
         self.pointing_player = pyglet.media.load(pointing_path, streaming=False)
         self.hand_status = HandStatus.NOT_FOUND
+
+        if start_path is not None:
+            self.start_audio = pyglet.media.load(start_path, streaming=False)
+        else:
+            self.start_audio = None
+
+        if end_path is not None:
+            self.end_audio = pyglet.media.load(end_path, streaming=False)
+        else:
+            self.end_audio = None
 
     def check_extension(self, path: str) -> bool:
         return path.endswith(".wav")
@@ -88,3 +105,11 @@ class AudioManager:
 
     def play_pointing(self) -> None:
         self.pointing_player.play()
+
+    def play_start_signal(self) -> None:
+        if self.start_audio is not None:
+            self.start_audio.play()
+
+    def play_end_signal(self) -> None:
+        if self.end_audio is not None:
+            self.end_audio.play()

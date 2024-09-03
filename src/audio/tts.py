@@ -298,9 +298,16 @@ class TTS:
             priority=Announcement.Priority.MEDIUM,
         )
 
-    def error(self) -> None:
+    def llm_error(self) -> None:
         self.stop_and_say(
-            self.res["error"],
+            self.res["llm_error"],
+            category=Announcement.Category.ERROR,
+            priority=Announcement.Priority.HIGH,
+        )
+
+    def question_error(self) -> None:
+        self.stop_and_say(
+            self.res["no_question_error"],
             category=Announcement.Category.ERROR,
             priority=Announcement.Priority.HIGH,
         )

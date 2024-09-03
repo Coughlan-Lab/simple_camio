@@ -24,16 +24,6 @@ class STT:
 
         self.recording_audio = False
 
-        if start_filename is not None:
-            self.start_audio = pyglet.media.load(start_filename, streaming=False)
-        else:
-            self.start_audio = None
-
-        if end_filename is not None:
-            self.end_audio = pyglet.media.load(end_filename, streaming=False)
-        else:
-            self.end_audio = None
-
     @property
     def is_recording(self) -> bool:
         return self.recording_audio
@@ -49,7 +39,6 @@ class STT:
         if self.recording_audio:
             return None
 
-        self.play_start_signal()
         self.recording_audio = True
 
         try:
@@ -63,17 +52,8 @@ class STT:
             return None
         finally:
             self.recording_audio = False
-            self.play_end_signal()
 
         return audio
-
-    def play_start_signal(self) -> None:
-        if self.start_audio is not None:
-            self.start_audio.play()
-
-    def play_end_signal(self) -> None:
-        if self.end_audio is not None:
-            self.end_audio.play()
 
     def audio_to_text(self, audio: sr.AudioData) -> Optional[str]:
         try:

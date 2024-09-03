@@ -1,6 +1,7 @@
 {
     "welcome": "Welcome to CamIO!",
-    "error": "An error occurred in obtaining a response. Please try again.",
+    "no_question_error": "No question recognized. Please try again.",
+    "llm_error": "An error occurred in obtaining a response. Please try again.",
     "more_than_one_hand": "Please, only one pointing hand at a time",
     "waiting_llm": "Waiting for a response...",
     "no_map_description": "No map description available.",

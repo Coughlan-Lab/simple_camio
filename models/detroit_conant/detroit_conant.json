@@ -2,6 +2,7 @@
     "name": "Detroit, Conant Street",
     "template_image": "models/detroit_conant/template.png",
     "meters_per_pixel": 0.7377978833454896,
+    "meters_per_cm": 60,
     "graph": {
         "latlng_reference": {
             "coords": [

@@ -1,14 +1,15 @@
 import math
 import time
-from typing import Optional, Union
+from typing import Optional, Protocol, TypeVar, Union
 
 from src.utils import ArithmeticBuffer, Buffer
 
 from .coords import ZERO as Coords_ZERO
 from .coords import Coords
 from .edge import Edge, MovementDirection
-from .graph import Graph, PoI
+from .graph import Graph
 from .node import Node
+from .poi import PoI
 
 
 class PositionInfo:
@@ -64,18 +65,26 @@ NONE_INFO = PositionInfo.none_info()
 
 
 class PositionHandler:
-    MAP_MARGIN = 50  # meters
-    MOVEMENT_THRESHOLD = 10  # meters
-    DISTANCE_THRESHOLD = 25  # meters
-    BORDER_THICKNESS = 10  # meters
+    MAP_MARGIN = 2.0  # cm
+    MOVEMENT_THRESHOLD = 0.15  # cm
+    DISTANCE_THRESHOLD = 0.5  # cm
+    BORDER_THICKNESS = 0.5  # cm
 
-    def __init__(self, graph: Graph, meters_per_pixel: float) -> None:
+    def __init__(
+        self, graph: Graph, meters_per_pixel: float, meters_per_cm: float
+    ) -> None:
+        self.meters_per_pixel = meters_per_pixel
+        self.meters_per_cm = meters_per_cm
+
+        self.map_margin = self.__to_meters(PositionHandler.MAP_MARGIN)
+        self.movement_threshold = self.__to_meters(PositionHandler.MOVEMENT_THRESHOLD)
+        self.distance_threshold = self.__to_meters(PositionHandler.DISTANCE_THRESHOLD)
+        self.border_thickness = self.__to_meters(PositionHandler.BORDER_THICKNESS)
+
         self.graph = graph
         self.min_corner, self.max_corner = self.graph.bounds
-        self.min_corner -= PositionHandler.MAP_MARGIN
-        self.max_corner += PositionHandler.MAP_MARGIN
-
-        self.meters_per_pixel = meters_per_pixel
+        self.min_corner -= self.map_margin
+        self.max_corner += self.map_margin
 
         self.positions_buffer = ArithmeticBuffer[Coords](max_size=3)
         self.edge_buffer = Buffer[Edge](max_size=10)
@@ -124,7 +133,7 @@ class PositionHandler:
             in_range = (
                 pos is not None
                 and self.last_info.get_distance_to_graph_element(pos)
-                <= PositionHandler.DISTANCE_THRESHOLD + PositionHandler.BORDER_THICKNESS
+                <= self.distance_threshold + self.border_thickness
             )
 
             nearest_node_info = self.get_nearest_node_info()
@@ -148,12 +157,12 @@ class PositionHandler:
                 if nearest_node_info.distance <= nearest_poi_info.distance
                 else nearest_poi_info
             )
-            if info.distance <= PositionHandler.DISTANCE_THRESHOLD:
+            if info.distance <= self.distance_threshold:
                 self.last_info = info
                 return info
 
             nearest_edge_info = self.get_nearest_edge_info()
-            if nearest_edge_info.distance <= PositionHandler.DISTANCE_THRESHOLD:
+            if nearest_edge_info.distance <= self.distance_threshold:
                 return nearest_edge_info
 
             return PositionInfo.none_info(self.current_position or Coords_ZERO)
@@ -169,7 +178,7 @@ class PositionHandler:
 
         nearest_node, distance = self.graph.get_nearest_node(pos)
 
-        if distance <= PositionHandler.DISTANCE_THRESHOLD:
+        if distance <= self.distance_threshold:
             return PositionInfo(nearest_node.description, pos, nearest_node)
 
         return NONE_INFO
@@ -184,7 +193,7 @@ class PositionHandler:
         if nearest_poi is None:
             return NONE_INFO
 
-        if distance <= PositionHandler.DISTANCE_THRESHOLD:
+        if distance <= self.distance_threshold:
             return PositionInfo(nearest_poi["name"], pos, nearest_poi)
 
         return NONE_INFO
@@ -198,7 +207,7 @@ class PositionHandler:
 
         distance_edge = pos.distance_to_line(nearest_edge)
 
-        if distance_edge > PositionHandler.DISTANCE_THRESHOLD:
+        if distance_edge > self.distance_threshold:
             return NONE_INFO
 
         movement_dir = self.get_movement_direction(nearest_edge)
@@ -216,7 +225,8 @@ class PositionHandler:
             return MovementDirection.NONE
 
         movement_vector = current_position - self.last_position
-        if movement_vector.length() < PositionHandler.MOVEMENT_THRESHOLD:
+        print(movement_vector.length())
+        if movement_vector.length() < self.movement_threshold:
             return MovementDirection.NONE
 
         edge_versor = (edge[1].coords - edge[0].coords).normalized()
@@ -225,3 +235,6 @@ class PositionHandler:
         if abs(dot) < 0.5:  # Angle greater than 60 degrees
             return MovementDirection.NONE
         return MovementDirection.FORWARD if dot > 0 else MovementDirection.BACKWARD
+
+    def __to_meters(self, value: float) -> float:
+        return value * self.meters_per_cm

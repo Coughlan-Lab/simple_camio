@@ -26,7 +26,11 @@ class CamIO:
 
         # Model graph
         self.graph = Graph(model["graph"])
-        self.position_handler = PositionHandler(self.graph, model["meters_per_pixel"])
+        self.position_handler = PositionHandler(
+            self.graph,
+            meters_per_pixel=model["meters_per_pixel"],
+            meters_per_cm=model["meters_per_cm"],
+        )
         self.last_pos_info = PositionInfo.none_info()
 
         # Frame processing
@@ -110,7 +114,6 @@ class CamIO:
                 continue
 
             self.position_handler.process_position(finger_pos)
-
             if not self.is_handling_user_input():
                 self.__announce_position()
 
@@ -160,7 +163,9 @@ class CamIO:
         if (
             hand_status == HandStatus.POINTING
             and finger_pos is not None
-            and not self.position_handler.is_valid_position(finger_pos)
+            and not self.position_handler.is_valid_position(
+                finger_pos * self.position_handler.meters_per_pixel
+            )
         ):
             hand_status = HandStatus.NOT_FOUND
 

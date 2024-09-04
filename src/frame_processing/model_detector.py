@@ -7,7 +7,7 @@ import numpy.typing as npt
 
 
 class SIFTModelDetector:
-    DETECTION_INTERVAL = 5  # seconds
+    DETECTION_INTERVAL = 2  # seconds
 
     def __init__(self, template_filename: str) -> None:
         # Load the template image

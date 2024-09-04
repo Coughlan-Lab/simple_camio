@@ -2,9 +2,10 @@ import argparse
 import json
 import os
 import time
+from collections import deque
 from functools import reduce
-from typing import (Any, Dict, Generic, List, Mapping, Optional, Protocol,
-                    Tuple, TypeVar)
+from typing import (Any, Deque, Dict, Generic, Mapping, Optional, Protocol,
+                    TypeVar)
 
 
 def str_format(v: Any) -> str:
@@ -54,21 +55,22 @@ class Buffer(Generic[T]):
 
         self.max_size = max_size
         self.max_life = max_life
-        self.buffer: List[Tuple[T, float]] = list()
+        self.buffer: Deque[T] = deque(maxlen=max_size)
+        self.buffer_timestamps: Deque[float] = deque(maxlen=max_size)
 
     def add(self, value: T) -> None:
-        if len(self.buffer) == self.max_size:
-            self.buffer.pop(0)
-        self.buffer.append((value, time.time()))
+        self.buffer.append(value)
+        self.buffer_timestamps.append(time.time())
 
-    def items(self) -> List[T]:
-        now = time.time()
-        self.buffer = [
-            (item, timestamp)
-            for item, timestamp in self.buffer
-            if now - timestamp < self.max_life
-        ]
-        return [item for item, _ in self.buffer]
+    def items(self) -> Deque[T]:
+        while (
+            len(self.buffer) > 0
+            and time.time() - self.buffer_timestamps[0] > self.max_life
+        ):
+            self.buffer.popleft()
+            self.buffer_timestamps.popleft()
+
+        return self.buffer
 
     def clear(self) -> None:
         self.buffer.clear()
@@ -80,14 +82,19 @@ class Buffer(Generic[T]):
             return None
         return max(set(items), key=items.count)
 
+    def first(self) -> Optional[T]:
+        items = self.items()
+
+        if len(items) == 0:
+            return None
+        return items[0]
+
     def last(self) -> Optional[T]:
-        if len(self.buffer) == 0:
-            return None
+        items = self.items()
 
-        if time.time() - self.buffer[-1][1] > self.max_life:
+        if len(items) == 0:
             return None
-
-        return self.buffer[-1][0]
+        return items[-1]
 
     def __str__(self) -> str:
         return str(self.items())

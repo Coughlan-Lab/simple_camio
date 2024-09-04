@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Optional, Union
 
-from .coords import Coords
+from .coords import Coords, WithDistance
 
 
-class Node:
+class Node(WithDistance):
     def __init__(
         self, index: int, coords: Coords, features: Optional[Dict[str, Any]] = None
     ) -> None:
@@ -70,10 +70,10 @@ class Node:
     def is_dead_end(self) -> bool:
         return not self.on_border and len(self.adjacents_streets) == 1
 
-    def distance_to(self, other: Union["Node", Coords]) -> float:
-        if isinstance(other, Node):
-            return self.coords.distance_to(other.coords)
-        return self.coords.distance_to(other)
+    def distance_to(self, coords: Union["Node", Coords]) -> float:
+        if isinstance(coords, Node):
+            return self.coords.distance_to(coords.coords)
+        return self.coords.distance_to(coords)
 
     def manhattan_distance_to(self, other: Union["Node", Coords]) -> float:
         if isinstance(other, Node):

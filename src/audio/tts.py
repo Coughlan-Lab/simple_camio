@@ -11,8 +11,6 @@ from typing import Callable, Optional
 
 import pyttsx3
 
-from src.graph import PositionInfo
-
 
 def generate_random_id() -> str:
     return str(uuid.uuid4())
@@ -52,24 +50,16 @@ NONE_ANNOUNCEMENT = TextAnnouncement(priority=Announcement.Priority.NONE)
 
 class TTS:
     RATE = 200
-
-    WAITING_LOOP_INTERVAL = 7
+    ONE_MSG_LOOP_INTERVAL = 7
     ERROR_INTERVAL = 5
-    GRAPH_INTERVAL = 0.25
 
-    def __init__(self, res_file: str, rate: int = RATE) -> None:
+    def __init__(self, rate: int = RATE) -> None:
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
 
         self.engine.connect("started-utterance", self.__on_utterance_started)
         self.engine.connect("finished-utterance", self.__on_utterance_finished)
         self.engine.connect("started-word", self.__on_word_started)
-
-        if not os.path.exists(res_file):
-            raise FileNotFoundError("Resource file not found.")
-
-        with open(res_file, "r") as f:
-            self.res = json.load(f)
 
         self.current_announcement_index = 0
         self.current_announcement: TextAnnouncement = NONE_ANNOUNCEMENT
@@ -78,14 +68,14 @@ class TTS:
         self.queue: deque[Announcement] = deque()
 
         self.__running = th.Event()
-        self.__waiting_loop_running = th.Event()
+        self.__one_msg_loop_running = th.Event()
         self.__is_speaking = th.Event()
 
         self.main_lock = th.RLock()
         self.queue_cond = th.Condition()
         self.is_speaking_cond = th.Condition()
 
-        self.timestamps = {category: 0.0 for category in Announcement.Category}
+        self._timestamps = {category: 0.0 for category in Announcement.Category}
 
         self.on_announcement_ended: Callable[[Announcement.Category], None] = (
             lambda _: None
@@ -145,7 +135,7 @@ class TTS:
                         )
                         self.engine.iterate()
 
-                        self.timestamps[self.current_announcement.category] = (
+                        self._timestamps[self.current_announcement.category] = (
                             time.time()
                         )
 
@@ -250,122 +240,22 @@ class TTS:
             self.queue.append(PauseAnnouncement(duration=duration))
             self.queue_cond.notify_all()
 
-    def position_info(
-        self, position_info: PositionInfo, stop_previous: bool = False
-    ) -> bool:
-        if (
-            time.time() - self.timestamps[Announcement.Category.GRAPH]
-            < TTS.GRAPH_INTERVAL
-        ):
-            return False
-
-        fn = self.stop_and_say if stop_previous else self.say
-        return fn(
-            position_info.description,
-            category=Announcement.Category.GRAPH,
-            priority=Announcement.Priority.LOW,
-        )
-
-    def llm_response(self, response: str) -> bool:
-        return self.stop_and_say(
-            response,
-            category=Announcement.Category.LLM,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def welcome(self) -> None:
-        self.say(
-            self.res["welcome"],
-            category=Announcement.Category.SYSTEM,
-            priority=Announcement.Priority.MEDIUM,
-        )
-
-    def instructions(self) -> None:
-        self.say(
-            self.res["instructions"],
-            category=Announcement.Category.SYSTEM,
-            priority=Announcement.Priority.MEDIUM,
-        )
-
-    def goodbye(self) -> None:
-        self.stop_and_say(
-            self.res["goodbye"],
-            category=Announcement.Category.SYSTEM,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def waiting_llm(self) -> None:
-        self.stop_and_say(
-            self.res["waiting_llm"],
-            category=Announcement.Category.SYSTEM,
-            priority=Announcement.Priority.MEDIUM,
-        )
-
-    def llm_error(self) -> None:
-        self.stop_and_say(
-            self.res["llm_error"],
-            category=Announcement.Category.ERROR,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def question_error(self) -> None:
-        self.stop_and_say(
-            self.res["no_question_error"],
-            category=Announcement.Category.ERROR,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def no_map_description(self) -> None:
-        self.stop_and_say(
-            self.res["no_map_description"],
-            category=Announcement.Category.ERROR,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def map_description(self, description: str) -> None:
-        self.say(
-            f"Map description:\n{description}",
-            category=Announcement.Category.SYSTEM,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def no_pointing(self) -> None:
-        self.stop_and_say(
-            self.res["no_pointing"],
-            category=Announcement.Category.ERROR,
-            priority=Announcement.Priority.HIGH,
-        )
-
-    def more_than_one_hand(self) -> None:
-        if (
-            time.time() - self.timestamps[Announcement.Category.ERROR]
-            < TTS.ERROR_INTERVAL
-        ):
+    def start_one_msg_loop(self, msg_fn: Callable[[], bool]) -> None:
+        if self.__one_msg_loop_running.is_set():
             return
 
-        self.stop_and_say(
-            self.res["more_than_one_hand"],
-            category=Announcement.Category.ERROR,
-            priority=Announcement.Priority.MEDIUM,
-        )
+        th.Thread(target=self.__one_msg_loop, daemon=True, args=(msg_fn,)).start()
 
-    def start_waiting_loop(self) -> None:
-        if self.__waiting_loop_running.is_set():
+    def stop_one_msg_loop(self) -> None:
+        if not self.__one_msg_loop_running.is_set():
             return
 
-        th.Thread(target=self.__waiting_loop, daemon=True).start()
+        self.__one_msg_loop_running.clear()
 
-    def stop_waiting_loop(self) -> None:
-        if not self.__waiting_loop_running.is_set():
-            return
+    def __one_msg_loop(self, msg_fn: Callable[[], bool]) -> None:
+        self.__one_msg_loop_running.set()
+        time.sleep(TTS.ONE_MSG_LOOP_INTERVAL / 2)
 
-        self.__waiting_loop_running.clear()
-        self.stop_speaking()
-
-    def __waiting_loop(self) -> None:
-        self.__waiting_loop_running.set()
-        time.sleep(TTS.WAITING_LOOP_INTERVAL / 2)
-
-        while self.__waiting_loop_running.is_set():
-            self.waiting_llm()
-            time.sleep(TTS.WAITING_LOOP_INTERVAL)
+        while self.__one_msg_loop_running.is_set():
+            msg_fn()
+            time.sleep(TTS.ONE_MSG_LOOP_INTERVAL)

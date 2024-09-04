@@ -15,13 +15,26 @@ class StraightLine(ABC):
         pass
 
 
-class Coords:
-    def __init__(self, x: float, y: float) -> None:
-        self.x = x
-        self.y = y
+class WithDistance(ABC):
+    @abstractmethod
+    def distance_to(self, coords: "Coords") -> float:
+        pass
 
-    def distance_to(self, other: "Coords") -> float:
-        return float(((self.x - other.x) ** 2 + (self.y - other.y) ** 2) ** 0.5)
+
+class Coords(WithDistance):
+    def __init__(self, x: float, y: float) -> None:
+        self.coords = (x, y)
+
+    @property
+    def x(self) -> float:
+        return self.coords[0]
+
+    @property
+    def y(self) -> float:
+        return self.coords[1]
+
+    def distance_to(self, coords: "Coords") -> float:
+        return float(((self.x - coords.x) ** 2 + (self.y - coords.y) ** 2) ** 0.5)
 
     def manhattan_distance_to(self, other: "Coords") -> float:
         return abs(self.x - other.x) + abs(self.y - other.y)
@@ -73,7 +86,7 @@ class Coords:
         return Coords(self.x // other, self.y // other)
 
     def __getitem__(self, index: int) -> float:
-        return self.x if index == 0 else self.y
+        return self.coords[index]
 
     def __iter__(self) -> Iterator[float]:
         return iter((self.x, self.y))

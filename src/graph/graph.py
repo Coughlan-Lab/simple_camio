@@ -40,11 +40,14 @@ GOOGLE_ROUTES_API_FIELDS = [
 
 
 class Graph:
-    AM_I_THRESHOLD = 50.0  # meters
+    AM_I_THRESHOLD = 2.0  # cm
     NEARBY_THRESHOLD = 400.0  # meters
     INF = 999999
 
-    def __init__(self, graph_dict: Dict[str, Any]) -> None:
+    def __init__(self, graph_dict: Dict[str, Any], meters_per_cm: float) -> None:
+        self.meters_per_cm = meters_per_cm
+        self.am_i_threshold = Graph.AM_I_THRESHOLD * meters_per_cm
+
         self.nodes = load_nodes(graph_dict)
         self.edges, self.streets = load_edges(self.nodes, graph_dict)
         self.pois = load_pois(self.edges, graph_dict)
@@ -155,7 +158,7 @@ class Graph:
     def am_i_at(self, p1: Coords, poi: int) -> bool:
         p2 = self.pois[poi].coords
 
-        return p1.distance_to(p2) < Graph.AM_I_THRESHOLD
+        return p1.distance_to(p2) < self.am_i_threshold
 
     def get_poi_details(self, poi_index: int) -> PoI:
         if poi_index < 0 or poi_index >= len(self.pois):

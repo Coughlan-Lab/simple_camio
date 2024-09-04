@@ -3,7 +3,7 @@ from typing import Any, Dict, Mapping
 
 from src.utils import str_dict
 
-from .coords import Coords
+from .coords import Coords, WithDistance
 from .edge import Edge
 
 POIS_IMPORTANT_KEYS = [
@@ -22,7 +22,7 @@ POIS_IMPORTANT_KEYS = [
 ]
 
 
-class PoI:
+class PoI(WithDistance):
 
     def __init__(
         self, index: int, name: str, coords: Coords, edge: Edge, info: Dict[str, Any]
@@ -41,6 +41,9 @@ class PoI:
             del self.__info["edge"]
 
         self.enabled = False
+
+    def distance_to(self, coords: "Coords") -> float:
+        return self.coords.distance_to(coords)
 
     @property
     def street(self) -> str:

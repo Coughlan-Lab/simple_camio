@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
-from .coords import Coords, StraightLine
+from .coords import Coords, StraightLine, WithDistance
 from .node import Node
 
 
@@ -11,7 +11,7 @@ class MovementDirection(Enum):
     BACKWARD = 2
 
 
-class Edge(StraightLine):
+class Edge(StraightLine, WithDistance):
     def __init__(
         self,
         node1: Node,
@@ -63,7 +63,7 @@ class Edge(StraightLine):
             or self.node2 == other.node2
         )
 
-    def distance_from(self, coords: Coords) -> float:
+    def distance_to(self, coords: "Coords") -> float:
         if self.contains(coords.project_on(self)):
             return coords.distance_to_line(self)
 
@@ -127,7 +127,7 @@ class Edge(StraightLine):
         return street_str
 
     def __getitem__(self, index: int) -> Node:
-        return self.node1 if index == 0 else self.node2
+        return (self.node1, self.node2)[index]
 
     def __str__(self) -> str:
         return self.id

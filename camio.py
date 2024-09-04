@@ -11,7 +11,7 @@ from src.input_handler import InputHandler, InputListener
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 
-from src.audio import STT, TTS, Announcement, AudioManager
+from src.audio import STT, TTS, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler, PositionInfo
 from src.llm import LLM
@@ -19,13 +19,14 @@ from src.utils import *
 
 
 class CamIO:
+
     def __init__(
         self, model: Dict[str, Any], tts_rate: int = 200, debug: bool = False
     ) -> None:
         self.description = model["context"].get("description", None)
 
         # Model graph
-        self.graph = Graph(model["graph"])
+        self.graph = Graph(model["graph"], meters_per_cm=model["meters_per_cm"])
         self.position_handler = PositionHandler(
             self.graph,
             meters_per_pixel=model["meters_per_pixel"],
@@ -43,7 +44,7 @@ class CamIO:
         self.hand_status_buffer = Buffer[HandStatus](max_size=3, max_life=5)
 
         # Audio
-        self.tts = TTS("res/strings.json", rate=tts_rate)
+        self.tts = CamIOTTS("res/strings.json", rate=tts_rate)
         self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
@@ -184,14 +185,24 @@ class CamIO:
 
         if len(pos_info.description) == 0 or (
             self.last_pos_info.is_still_valid()
-            and pos_info.graph_element == self.last_pos_info.graph_element
             and pos_info.description == self.last_pos_info.description
         ):
             return
 
-        stop_previous = self.last_pos_info.graph_element != pos_info.graph_element
-        if self.tts.position_info(pos_info, stop_previous=stop_previous):
-            self.last_pos_info = pos_info
+        if pos_info.is_node():
+            if self.last_pos_info.graph_element == pos_info.graph_element:
+                if (
+                    pos_info.timestamp - self.last_pos_info.timestamp
+                    > CamIO.NODE_ANNOUNCEMENT_DELAY
+                ):
+                    if self.tts.position_info(pos_info, stop_previous=False):
+                        self.last_pos_info = pos_info
+            else:
+                self.last_pos_info = pos_info
+                self.last_pos_info.invalidate()
+        else:
+            if self.tts.position_info(pos_info, stop_previous=True):
+                self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_recording:
@@ -199,7 +210,7 @@ class CamIO:
         elif self.tts.current_announcement.category == Announcement.Category.LLM:
             pass
         elif self.is_handling_user_input():
-            self.tts.waiting_llm()
+            self.tts.start_waiting_llm()
         elif self.hand_status_buffer.mode() == HandStatus.POINTING:
             self.user_input_thread = UserInputThread(self)
             self.user_input_thread.start()
@@ -235,23 +246,23 @@ class UserInputThread(th.Thread):
         if self.hand_status == HandStatus.POINTING:
             position = self.position_handler.current_position
 
-        self.tts.start_waiting_loop()
+        self.tts.start_waiting_llm()
 
         question = self.stt.audio_to_text(recording) or ""
         if self.stop_event.is_set():
-            self.tts.stop_waiting_loop()
+            self.tts.stop_waiting_llm()
             return
 
         if len(question) == 0:
             print("No question recognized.")
-            self.tts.stop_waiting_loop()
+            self.tts.stop_waiting_llm()
             self.tts.question_error()
             return
 
         print(f"Question: {question}")
 
         answer = self.camio.llm.ask(question, position) or ""
-        self.tts.stop_waiting_loop()
+        self.tts.stop_waiting_llm()
         if self.stop_event.is_set():
             return
 
@@ -275,14 +286,14 @@ class UserInputThread(th.Thread):
 
         self.stop_event.set()
         self.llm.stop()
-        self.tts.stop_waiting_loop()
+        self.tts.stop_waiting_llm()
 
     @property
     def stt(self) -> STT:
         return self.camio.stt
 
     @property
-    def tts(self) -> TTS:
+    def tts(self) -> CamIOTTS:
         return self.camio.tts
 
     @property
@@ -327,9 +338,9 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-    except Exception as e:
-        print(f"An error occurred")
-        print(e)
+    # except Exception as e:
+    #    print(f"An error occurred:")
+    #    print(e)
 
     finally:
         if camio is not None:

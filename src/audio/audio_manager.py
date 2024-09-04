@@ -1,61 +1,24 @@
-import os
-import threading
-import wave
 from typing import Optional
 
-import pyaudio
-import pyglet
+import pygame
 
 from src.frame_processing import HandStatus
 
+pygame.mixer.init()
 
-class AudioLooper(threading.Thread):
-    CHUNK = 1024
 
+class AudioLooper:
     def __init__(self, filepath: str) -> None:
-        assert self.check_extension(filepath), "File must be a .wav file"
-
-        super(AudioLooper, self).__init__(daemon=True)
-
-        self.filepath = os.path.abspath(filepath)
-        self.running = False
-        self.is_paused = True
-
-    def run(self) -> None:
-        wf = wave.open(self.filepath, "rb")
-        player = pyaudio.PyAudio()
-
-        stream = player.open(
-            format=player.get_format_from_width(wf.getsampwidth()),
-            channels=wf.getnchannels(),
-            rate=wf.getframerate(),
-            output=True,
-        )
-
-        self.running = True
-        while self.running:
-            while not self.is_paused:
-                data = wf.readframes(self.CHUNK)
-                stream.write(data)
-                if data == b"":  # If file is over then rewind.
-                    wf.rewind()
-                    data = wf.readframes(self.CHUNK)
-
-        stream.close()
-        player.terminate()
+        pygame.mixer.music.load(filepath)
 
     def play(self) -> None:
-        self.is_paused = False
+        pygame.mixer.music.play(-1)
 
     def pause(self) -> None:
-        self.is_paused = True
+        pygame.mixer.music.pause()
 
     def stop(self) -> None:
-        self.is_paused = True
-        self.running = False
-
-    def check_extension(self, path: str) -> bool:
-        return path.endswith(".wav")
+        pygame.mixer.music.stop()
 
 
 class AudioManager:
@@ -63,27 +26,24 @@ class AudioManager:
         self,
         background_path: str,
         pointing_path: str,
-        start_path: Optional[str] = None,
-        end_path: Optional[str] = None,
+        start_recording_path: Optional[str] = None,
+        end_recording_path: Optional[str] = None,
     ) -> None:
-        self.background_player = AudioLooper(background_path)
-        self.background_player.start()
-
-        self.pointing_player = pyglet.media.load(pointing_path, streaming=False)
+        self.pointing_sound = pygame.mixer.Sound(pointing_path)
         self.hand_status = HandStatus.NOT_FOUND
 
-        if start_path is not None:
-            self.start_audio = pyglet.media.load(start_path, streaming=False)
+        if start_recording_path is not None:
+            self.start_recording_sound = pygame.mixer.Sound(start_recording_path)
         else:
-            self.start_audio = None
+            self.start_recording_sound = None
 
-        if end_path is not None:
-            self.end_audio = pyglet.media.load(end_path, streaming=False)
+        if end_recording_path is not None:
+            self.end_recording_sound = pygame.mixer.Sound(end_recording_path)
         else:
-            self.end_audio = None
+            self.end_recording_sound = None
 
-    def check_extension(self, path: str) -> bool:
-        return path.endswith(".wav")
+        self.background_player = AudioLooper(background_path)
+        self.background_player.play()
 
     def update(self, hand_status: HandStatus) -> None:
         if hand_status == self.hand_status:
@@ -101,15 +61,14 @@ class AudioManager:
 
     def stop(self) -> None:
         self.background_player.stop()
-        self.background_player.join()
 
     def play_pointing(self) -> None:
-        self.pointing_player.play()
+        self.pointing_sound.play()
 
     def play_start_signal(self) -> None:
-        if self.start_audio is not None:
-            self.start_audio.play()
+        if self.start_recording_sound is not None:
+            self.start_recording_sound.play()
 
     def play_end_signal(self) -> None:
-        if self.end_audio is not None:
-            self.end_audio.play()
+        if self.end_recording_sound is not None:
+            self.end_recording_sound.play()

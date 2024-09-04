@@ -1,7 +1,6 @@
 import os
 from typing import Optional
 
-import pyglet
 import speech_recognition as sr
 
 

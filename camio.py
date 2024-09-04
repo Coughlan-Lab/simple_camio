@@ -189,7 +189,8 @@ class CamIO:
         ):
             return
 
-        if self.tts.position_info(pos_info):
+        stop_previous = self.last_pos_info.graph_element != pos_info.graph_element
+        if self.tts.position_info(pos_info, stop_previous=stop_previous):
             self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
@@ -275,7 +276,6 @@ class UserInputThread(th.Thread):
         self.stop_event.set()
         self.llm.stop()
         self.tts.stop_waiting_loop()
-        self.camio.user_input_thread = None
 
     @property
     def stt(self) -> STT:

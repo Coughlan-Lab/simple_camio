@@ -66,7 +66,7 @@ NONE_INFO = PositionInfo.none_info()
 
 class PositionHandler:
     MAP_MARGIN = 2.0  # cm
-    MOVEMENT_THRESHOLD = 0.15  # cm
+    MOVEMENT_THRESHOLD = 0.2  # cm
     DISTANCE_THRESHOLD = 0.5  # cm
     BORDER_THICKNESS = 0.5  # cm
 
@@ -206,11 +206,17 @@ class PositionHandler:
             return NONE_INFO
 
         distance_edge = pos.distance_to_line(nearest_edge)
-
         if distance_edge > self.distance_threshold:
             return NONE_INFO
 
         movement_dir = self.get_movement_direction(nearest_edge)
+        if (
+            self.last_info.graph_element == nearest_edge
+            and movement_dir == MovementDirection.NONE
+        ):
+            # no movement and still on the same edge -> same announcement
+            # this prevents the system from announcing the street name as soon as the user stops
+            return PositionInfo.copy(self.last_info, pos)
 
         return PositionInfo(
             nearest_edge.get_complete_description(movement_dir), pos, nearest_edge
@@ -225,7 +231,6 @@ class PositionHandler:
             return MovementDirection.NONE
 
         movement_vector = current_position - self.last_position
-        print(movement_vector.length())
         if movement_vector.length() < self.movement_threshold:
             return MovementDirection.NONE
 

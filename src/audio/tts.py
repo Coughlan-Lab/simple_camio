@@ -54,8 +54,8 @@ class TTS:
     RATE = 200
 
     WAITING_LOOP_INTERVAL = 7
-    MORE_THAN_ONE_HAND_INTERVAL = 5
-    POSITION_INTERVAL = 0.25
+    ERROR_INTERVAL = 5
+    GRAPH_INTERVAL = 0.25
 
     def __init__(self, res_file: str, rate: int = RATE) -> None:
         self.engine = pyttsx3.init()
@@ -250,14 +250,17 @@ class TTS:
             self.queue.append(PauseAnnouncement(duration=duration))
             self.queue_cond.notify_all()
 
-    def position_info(self, position_info: PositionInfo) -> bool:
+    def position_info(
+        self, position_info: PositionInfo, stop_previous: bool = False
+    ) -> bool:
         if (
             time.time() - self.timestamps[Announcement.Category.GRAPH]
-            < TTS.POSITION_INTERVAL
+            < TTS.GRAPH_INTERVAL
         ):
             return False
 
-        return self.stop_and_say(
+        fn = self.stop_and_say if stop_previous else self.say
+        return fn(
             position_info.description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,
@@ -336,7 +339,7 @@ class TTS:
     def more_than_one_hand(self) -> None:
         if (
             time.time() - self.timestamps[Announcement.Category.ERROR]
-            < TTS.MORE_THAN_ONE_HAND_INTERVAL
+            < TTS.ERROR_INTERVAL
         ):
             return
 

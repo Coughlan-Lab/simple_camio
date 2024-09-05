@@ -80,6 +80,9 @@ class Node(WithDistance):
             return self.coords.manhattan_distance_to(other.coords)
         return self.coords.manhattan_distance_to(other)
 
+    def closest_point(self, coords: Coords) -> Coords:
+        return self.coords
+
     def __getitem__(self, index: int) -> float:
         return self.coords[index]
 

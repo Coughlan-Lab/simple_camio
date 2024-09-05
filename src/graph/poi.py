@@ -45,6 +45,9 @@ class PoI(WithDistance):
     def distance_to(self, coords: "Coords") -> float:
         return self.coords.distance_to(coords)
 
+    def closest_point(self, coords: "Coords") -> "Coords":
+        return self.coords
+
     @property
     def street(self) -> str:
         return self.edge.street

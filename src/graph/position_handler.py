@@ -18,19 +18,17 @@ class PositionInfo:
     def __init__(
         self,
         description: str,
-        pos: Coords,
+        real_pos: Coords,
         graph_element: Optional[WithDistance],
         max_life: float = MAX_LIFE_DEFAULT,
     ) -> None:
         self.description = description
-        self.pos = pos
+        self.real_pos = real_pos
         self.graph_element = graph_element
-        self.distance = self.get_distance_to_graph_element(pos)
+        self.distance = self.get_distance_to_graph_element(real_pos)
 
         self.max_life = max_life
         self.timestamp = time.time()
-
-        self.valid = True
 
     def get_distance_to_graph_element(self, pos: Coords) -> float:
         if self.graph_element is None:
@@ -39,10 +37,16 @@ class PositionInfo:
         return self.graph_element.distance_to(pos)
 
     def is_still_valid(self) -> bool:
-        return self.valid and time.time() - self.timestamp < self.max_life
+        return time.time() - self.timestamp < self.max_life
+
+    def snap_to_graph(self) -> Coords:
+        if self.graph_element is None:
+            return self.real_pos
+
+        return self.graph_element.closest_point(self.real_pos)
 
     def invalidate(self) -> None:
-        self.valid = False
+        self.max_life = -1
 
     def is_node(self) -> bool:
         return isinstance(self.graph_element, Node)
@@ -53,12 +57,20 @@ class PositionInfo:
     def is_poi(self) -> bool:
         return isinstance(self.graph_element, PoI)
 
+    def __str__(self) -> str:
+        return self.description
+
+    def __repr__(self) -> str:
+        return str(self)
+
     @staticmethod
     def none_info(
         pos: Coords = Coords_ZERO,
         graph_nearest: Optional[Union[Node, Edge]] = None,
     ) -> "PositionInfo":
-        return PositionInfo("", pos, graph_nearest, max_life=0.0)
+        info = PositionInfo("", pos, graph_nearest)
+        info.invalidate()
+        return info
 
     @staticmethod
     def copy(info: "PositionInfo", pos: Coords) -> "PositionInfo":
@@ -87,11 +99,11 @@ class PositionHandler:
         self.meters_per_cm = meters_per_cm
 
         self.map_margin = self.__to_meters(PositionHandler.MAP_MARGIN)
-        self.movement_threshold = self.__to_meters(PositionHandler.MOVEMENT_THRESHOLD)
         self.edges_min_distance = self.__to_meters(PositionHandler.EDGES_MIN_DISTANCE)
         self.nodes_min_distance = self.__to_meters(PositionHandler.NODES_MIN_DISTANCE)
         self.pois_min_distance = self.__to_meters(PositionHandler.POIS_MIN_DISTANCE)
         self.points_gravity = self.__to_meters(PositionHandler.GRAVITY_EFFECT)
+        self.movement_threshold = self.__to_meters(PositionHandler.MOVEMENT_THRESHOLD)
 
         self.graph = graph
         self.min_corner, self.max_corner = self.graph.bounds
@@ -106,7 +118,6 @@ class PositionHandler:
 
     def clear(self) -> None:
         self.positions_buffer.clear()
-        self.last_info = NONE_INFO
 
     @property
     def last_position(self) -> Optional[Coords]:
@@ -114,7 +125,7 @@ class PositionHandler:
 
     @property
     def current_position(self) -> Optional[Coords]:
-        return self.positions_buffer.average()
+        return self.last_info.real_pos
 
     def is_valid_position(self, pos: Coords) -> bool:
         return (
@@ -133,27 +144,26 @@ class PositionHandler:
 
     def get_position_info(self) -> PositionInfo:
         def implementation() -> PositionInfo:
-            pos = self.current_position
+            pos = self.positions_buffer.average()
             if pos is None:
                 return NONE_INFO
 
             if self.__should_stick_to_last(pos):
                 return PositionInfo.copy(self.last_info, pos)
 
-            nearest_node_info = self.get_nearest_node_info()
-            nearest_poi_info = self.get_nearest_poi_info()
+            nearest_node_info = self.get_nearest_node_info(pos)
+            nearest_poi_info = self.get_nearest_poi_info(pos)
 
             if (
                 nearest_node_info.distance < nearest_poi_info.distance
                 and nearest_node_info.distance <= self.nodes_min_distance
             ):
-                self.last_info = nearest_node_info
                 return nearest_node_info
+
             elif nearest_poi_info.distance <= self.pois_min_distance:
-                self.last_info = nearest_poi_info
                 return nearest_poi_info
 
-            nearest_edge_info = self.get_nearest_edge_info()
+            nearest_edge_info = self.get_nearest_edge_info(pos)
             if nearest_edge_info.distance <= self.edges_min_distance:
                 return nearest_edge_info
 
@@ -178,11 +188,7 @@ class PositionHandler:
             <= base_distance + self.points_gravity
         )
 
-    def get_nearest_node_info(self) -> PositionInfo:
-        pos = self.current_position
-        if pos is None:
-            return NONE_INFO
-
+    def get_nearest_node_info(self, pos: Coords) -> PositionInfo:
         nearest_node, distance = self.graph.get_nearest_node(pos)
 
         if distance > self.nodes_min_distance:
@@ -190,11 +196,7 @@ class PositionHandler:
 
         return PositionInfo(nearest_node.description, pos, nearest_node)
 
-    def get_nearest_poi_info(self) -> PositionInfo:
-        pos = self.current_position
-        if pos is None:
-            return NONE_INFO
-
+    def get_nearest_poi_info(self, pos: Coords) -> PositionInfo:
         nearest_poi, distance = self.graph.get_nearest_poi(pos)
 
         if nearest_poi is None or distance > self.pois_min_distance:
@@ -202,16 +204,12 @@ class PositionHandler:
 
         return PositionInfo(nearest_poi.name, pos, nearest_poi)
 
-    def get_nearest_edge_info(self) -> PositionInfo:
-        pos = self.positions_buffer.last()
-        if pos is None:
-            return NONE_INFO
-
+    def get_nearest_edge_info(self, pos: Coords) -> PositionInfo:
         nearest_edge, distance_edge = self.graph.get_nearest_edge(pos)
         if distance_edge > self.edges_min_distance:
             return NONE_INFO
 
-        movement_dir = self.get_movement_direction(nearest_edge)
+        movement_dir = self.get_movement_direction(pos, nearest_edge)
         if (
             self.last_info.graph_element == nearest_edge
             and movement_dir == MovementDirection.NONE
@@ -224,12 +222,10 @@ class PositionHandler:
             nearest_edge.get_complete_description(movement_dir), pos, nearest_edge
         )
 
-    def get_movement_direction(self, edge: Edge) -> MovementDirection:
+    def get_movement_direction(
+        self, current_position: Coords, edge: Edge
+    ) -> MovementDirection:
         if not self.last_info.is_still_valid():
-            return MovementDirection.NONE
-
-        current_position = self.current_position
-        if current_position is None:
             return MovementDirection.NONE
 
         last_position = self.last_position

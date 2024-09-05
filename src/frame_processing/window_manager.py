@@ -51,12 +51,6 @@ class WindowManager:
 
     def __draw_debug_info(self) -> None:
         template = self.template.copy()
-        pos = self.position_handler.current_position
-
-        if pos is not None:
-            pos /= self.position_handler.meters_per_pixel
-            x, y = int(pos.x), int(pos.y)
-            cv2.circle(template, (x, y), 10, (255, 0, 0), -1)
 
         cv2.putText(
             template,
@@ -73,5 +67,20 @@ class WindowManager:
                 x, y = poi.coords / self.position_handler.meters_per_pixel
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
+
+        last_pos_info = self.position_handler.last_info
+        border = -1 if last_pos_info.is_still_valid() else 2
+
+        snapped_pos = (
+            last_pos_info.snap_to_graph() / self.position_handler.meters_per_pixel
+        )
+        snapped_x, snapped_y = int(snapped_pos.x), int(snapped_pos.y)
+        cv2.circle(template, (snapped_x, snapped_y), 10, (28, 172, 255), border)
+
+        pos = last_pos_info.real_pos / self.position_handler.meters_per_pixel
+        x, y = int(pos.x), int(pos.y)
+        cv2.circle(template, (x, y), 10, (255, 0, 0), border)
+
+        cv2.line(template, (snapped_x, snapped_y), (x, y), (0, 0, 0), 4)
 
         cv2.imshow(f"{self.window_name} - Debug", template)

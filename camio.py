@@ -11,7 +11,7 @@ from src.input_handler import InputHandler, InputListener
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 
-from src.audio import STT, TTS, Announcement, AudioManager, CamIOTTS
+from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler, PositionInfo
 from src.llm import LLM
@@ -41,7 +41,7 @@ class CamIO:
         self.model_detector = SIFTModelDetector(model["template_image"])
         template = cv2.imread(model["template_image"], cv2.IMREAD_GRAYSCALE)
         self.pose_detector = PoseDetector(template.shape[:2])
-        self.hand_status_buffer = Buffer[HandStatus](max_size=3, max_life=5)
+        self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
 
         # Audio
         self.tts = CamIOTTS("res/strings.json", rate=tts_rate)
@@ -67,12 +67,12 @@ class CamIO:
         }
 
     def main_loop(self) -> None:
-        cap = VideoCapture.get_capture()
-        if cap is None:
+        video_capture = VideoCapture.get_capture()
+        if video_capture is None:
             print("No camera found.")
             return
 
-        frame = cap.read()
+        frame = video_capture.read()
         if frame is None:
             print("No camera image returned.")
             return
@@ -91,10 +91,10 @@ class CamIO:
         self.audio_manager.start()
 
         self.running = True
-        while self.running and cap.is_opened():
+        while self.running and video_capture.is_opened():
             self.window_manager.update(frame)
 
-            frame = cap.read()
+            frame = video_capture.read()
             if frame is None:
                 print("No camera image returned.")
                 break
@@ -111,15 +111,15 @@ class CamIO:
             )
 
             hand_status = self.__process_hand_status(hand_status, finger_pos)
-            if hand_status != HandStatus.POINTING or finger_pos is None:
+            if finger_pos is None:
                 continue
 
             self.position_handler.process_position(finger_pos)
-            if not self.is_handling_user_input():
-                self.__announce_position()
+            if hand_status == HandStatus.POINTING and not self.is_handling_user_input():
+                self.tts.announce_position(self.position_handler.get_position_info())
 
         self.audio_manager.stop()
-        cap.stop()
+        video_capture.stop()
 
         input_handler.disable_shortcuts()
         self.window_manager.close()
@@ -179,30 +179,6 @@ class CamIO:
         self.audio_manager.update(hand_status)
 
         return hand_status
-
-    def __announce_position(self) -> None:
-        pos_info = self.position_handler.get_position_info()
-
-        if len(pos_info.description) == 0 or (
-            self.last_pos_info.is_still_valid()
-            and pos_info.description == self.last_pos_info.description
-        ):
-            return
-
-        if pos_info.is_node():
-            if self.last_pos_info.graph_element == pos_info.graph_element:
-                if (
-                    pos_info.timestamp - self.last_pos_info.timestamp
-                    > CamIO.NODE_ANNOUNCEMENT_DELAY
-                ):
-                    if self.tts.position_info(pos_info, stop_previous=False):
-                        self.last_pos_info = pos_info
-            else:
-                self.last_pos_info = pos_info
-                self.last_pos_info.invalidate()
-        else:
-            if self.tts.position_info(pos_info, stop_previous=True):
-                self.last_pos_info = pos_info
 
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_recording:

@@ -132,7 +132,7 @@ class CamIOTTS(TTS):
                     info.timestamp - self.last_pos_info.timestamp
                     > CamIOTTS.NODE_ANNOUNCEMENT_DELAY
                 ):
-                    if self.__say(info):
+                    if self.__say_position(info):
                         self.last_pos_info = info
                         return True
             else:
@@ -140,20 +140,20 @@ class CamIOTTS(TTS):
                 self.last_pos_info.invalidate()
 
         else:
-            if self.__stop_and_say(info):
+            if self.__stop_and_say_position(info):
                 self.last_pos_info = info
                 return True
 
         return False
 
-    def __say(self, info: PositionInfo) -> bool:
+    def __say_position(self, info: PositionInfo) -> bool:
         return self.say(
             info.description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,
         )
 
-    def __stop_and_say(self, info: PositionInfo) -> bool:
+    def __stop_and_say_position(self, info: PositionInfo) -> bool:
         return self.stop_and_say(
             info.description,
             category=Announcement.Category.GRAPH,

@@ -72,6 +72,16 @@ class Edge(StraightLine, WithDistance):
             self.node2.distance_to(coords),
         )
 
+    def closest_point(self, coords: "Coords") -> "Coords":
+        projection = coords.project_on(self)
+        if self.contains(projection):
+            return projection
+
+        return min(
+            [self.node1, self.node2],
+            key=lambda node: node.distance_to(coords),
+        ).coords
+
     def get_complete_description(
         self, movement_direction: MovementDirection = MovementDirection.NONE
     ) -> str:

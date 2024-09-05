@@ -144,7 +144,7 @@ class PromptFormatter:
             node, distance = self.graph.get_nearest_node(position)
             graph_position: str
 
-            if distance > PositionHandler.DISTANCE_THRESHOLD:
+            if distance > PositionHandler.EDGES_MIN_DISTANCE:
                 edge, _ = self.graph.get_nearest_edge(position)
 
                 distance_m_node1 = math.floor(edge[0].distance_to(position))

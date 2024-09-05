@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Callable, Dict, Optional, Union
+from typing import Callable, Mapping, Optional, Union
 
 from pynput.keyboard import Key, KeyCode
 from pynput.keyboard import Listener as KeyboardListener
@@ -14,7 +14,7 @@ class InputListener(Enum):
 
 
 class InputHandler:
-    def __init__(self, listeners: Dict[InputListener, Callable[[], None]]) -> None:
+    def __init__(self, listeners: Mapping[InputListener, Callable[[], None]]) -> None:
         self.keyboard: Optional[KeyboardListener] = None
         self.listeners = listeners
 

@@ -240,13 +240,13 @@ class TTS:
             self.queue.append(PauseAnnouncement(duration=duration))
             self.queue_cond.notify_all()
 
-    def start_one_msg_loop(self, msg_fn: Callable[[], bool]) -> None:
+    def _start_one_msg_loop(self, msg_fn: Callable[[], bool]) -> None:
         if self.__one_msg_loop_running.is_set():
             return
 
         th.Thread(target=self.__one_msg_loop, daemon=True, args=(msg_fn,)).start()
 
-    def stop_one_msg_loop(self) -> None:
+    def _stop_one_msg_loop(self) -> None:
         if not self.__one_msg_loop_running.is_set():
             return
 

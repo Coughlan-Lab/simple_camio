@@ -74,6 +74,7 @@ class Buffer(Generic[T]):
 
     def clear(self) -> None:
         self.buffer.clear()
+        self.buffer = deque(maxlen=self.max_size)
 
     def mode(self) -> Optional[T]:
         items = self.items()

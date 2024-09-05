@@ -20,6 +20,10 @@ class WithDistance(ABC):
     def distance_to(self, coords: "Coords") -> float:
         pass
 
+    @abstractmethod
+    def closest_point(self, coords: "Coords") -> "Coords":
+        pass
+
 
 class Coords(WithDistance):
     def __init__(self, x: float, y: float) -> None:
@@ -56,6 +60,12 @@ class Coords(WithDistance):
         p_y = (line.m * self.x + line.m**2 * self.y + line.q) / (line.m**2 + 1)
 
         return Coords(p_x, p_y)
+
+    def closest_point(self, coords: "Coords") -> "Coords":
+        return self
+
+    def snap_to(self, to: WithDistance) -> "Coords":
+        return to.closest_point(self)
 
     def dot_product(self, other: "Coords") -> float:
         return self.x * other.x + self.y * other.y

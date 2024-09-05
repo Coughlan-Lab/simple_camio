@@ -13,8 +13,7 @@ import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
-from src.graph import (NONE_POSITION_INFO, Coords, Graph, PositionHandler,
-                       PositionInfo)
+from src.graph import NONE_POSITION_INFO, Coords, Graph, PositionHandler
 from src.llm import LLM
 from src.utils import *
 
@@ -56,16 +55,18 @@ class CamIO:
         self.llm = LLM(self.graph, model["context"])
         self.user_input_thread: Optional[UserInputThread] = None
 
-        self.debug = debug
-        self.running = False
-
-        self.input_listeners = {
+        # Input handling
+        input_listeners = {
             InputListener.STOP_INTERACTION: partial(self.stop_interaction),
             InputListener.SAY_MAP_DESCRIPTION: partial(self.say_map_description),
             InputListener.TOGGLE_TTS: partial(self.tts.toggle_pause),
             InputListener.STOP: partial(self.stop),
             InputListener.QUESTION: partial(self.__on_spacebar_pressed),
         }
+        self.input_handler = InputHandler(input_listeners)
+
+        self.debug = debug
+        self.running = False
 
     def main_loop(self) -> None:
         video_capture = VideoCapture.get_capture()
@@ -81,8 +82,7 @@ class CamIO:
         self.stt.calibrate()
         self.tts.start()
 
-        input_handler = InputHandler(self.input_listeners)
-        input_handler.init_shortcuts()
+        self.input_handler.init_shortcuts()
 
         self.tts.welcome()
         self.tts.instructions()
@@ -124,7 +124,7 @@ class CamIO:
         self.audio_manager.stop()
         video_capture.stop()
 
-        input_handler.disable_shortcuts()
+        self.input_handler.disable_shortcuts()
         self.window_manager.close()
 
         self.stop_interaction()
@@ -136,7 +136,9 @@ class CamIO:
         self.tts.stop()
 
     def is_handling_user_input(self) -> bool:
-        return self.user_input_thread is not None and self.user_input_thread.is_alive()
+        return (
+            self.user_input_thread is not None and self.user_input_thread.is_alive()
+        ) or self.tts.current_announcement.category == Announcement.Category.LLM
 
     def stop(self) -> None:
         self.running = False
@@ -215,24 +217,12 @@ class UserInputThread(th.Thread):
 
     def run(self) -> None:
         self.tts.stop_speaking()
-        position = self.position_handler.current_position
+        position = self.position_handler.last_info
 
-        print("Listening...")
-        self.audio_manager.play_start_recording()
-        recording = self.stt.get_audio()
-        self.audio_manager.play_end_recording()
+        question = self.get_question_from_stt()
 
-        if recording is None or self.stop_event.is_set():
-            print("Stopping user input handler.")
-            return
-
-        if self.hand_status == HandStatus.POINTING:
-            position = self.position_handler.current_position
-
-        self.tts.start_waiting_llm_loop()
-
-        question = self.stt.audio_to_text(recording) or ""
         if self.stop_event.is_set():
+            print("Stopping user input handler.")
             self.tts.stop_waiting_llm_loop()
             return
 
@@ -244,12 +234,29 @@ class UserInputThread(th.Thread):
 
         print(f"Question: {question}")
 
+        if self.hand_status == HandStatus.POINTING:
+            position = self.position_handler.last_info
+
         answer = self.camio.llm.ask(question, position) or ""
         self.tts.stop_waiting_llm_loop()
+
         if self.stop_event.is_set():
+            print("Stopping user input handler.")
             return
 
         self.process_answer(answer)
+
+    def get_question_from_stt(self) -> str:
+        print("Listening...")
+        self.audio_manager.play_start_recording()
+        recording = self.stt.get_audio()
+        self.audio_manager.play_end_recording()
+
+        if recording is None or self.stop_event.is_set():
+            return ""
+
+        self.tts.start_waiting_llm_loop()
+        return self.stt.audio_to_text(recording) or ""
 
     def process_answer(self, answer: str) -> None:
         self.tts.stop_speaking()

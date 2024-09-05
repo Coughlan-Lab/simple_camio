@@ -10,7 +10,7 @@ from openai.types.chat import (ChatCompletionAssistantMessageParam,
 from openai.types.chat.chat_completion_message_tool_call_param import \
     Function as FunctionParam
 
-from src.graph import Coords, Graph
+from src.graph import Graph, PositionInfo
 
 from .prompt_formatter import PromptFormatter
 
@@ -48,7 +48,7 @@ class LLM:
     def reset(self) -> None:
         self.history.clear()
 
-    def ask(self, question: str, position: Optional[Coords]) -> Optional[str]:
+    def ask(self, question: str, position: Optional[PositionInfo]) -> Optional[str]:
         new_message = self.prompt_formatter.get_user_message(question, position)
         self.history.append(new_message)
         self.running = True
@@ -86,6 +86,7 @@ class LLM:
                         self.history.append(
                             self.prompt_formatter.handle_tool_call(tool_call)
                         )
+                    self.history.append(self.prompt_formatter.get_instructions_prompt())
 
                 elif self.prompt_formatter.tool_call_response_needs_processing:
                     self.history.append(

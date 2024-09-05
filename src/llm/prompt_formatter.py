@@ -1,7 +1,7 @@
 import json
 import math
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionSystemMessageParam,
@@ -10,7 +10,7 @@ from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionUserMessageParam)
 
 from src.graph import (Coords, Edge, EdgeFeatures, Graph, GraphEncoder, Node,
-                       NodeFeatures, PositionHandler)
+                       NodeFeatures, PoI, PositionInfo)
 from src.utils import str_dict
 
 from .tool_calls import ToolCall, tool_calls
@@ -137,47 +137,62 @@ class PromptFormatter:
         return ChatCompletionUserMessageParam(content=prompt, role="user")
 
     def get_user_message(
-        self, question: str, position: Optional[Coords]
+        self, question: str, position: Optional[PositionInfo]
     ) -> ChatCompletionUserMessageParam:
         position_description = ""
 
-        if position is not None:
-            node, distance = self.graph.get_nearest_node(position)
+        if position is not None and position.is_still_valid():
+            coords = position.snap_to_graph()
+
             graph_position: str
+            if not position.is_node():
+                if position.is_edge():
+                    edge = cast(Edge, position.graph_element)
+                elif position.is_poi():
+                    edge = cast(PoI, position.graph_element).edge
+                else:
+                    edge, _ = self.graph.get_nearest_edge(coords)
 
-            if distance > PositionHandler.EDGES_MIN_DISTANCE:
-                edge, _ = self.graph.get_nearest_edge(position)
-
-                distance_m_node1 = math.floor(edge[0].distance_to(position))
-                distance_m_node2 = math.floor(edge[1].distance_to(position))
+                distance_m_node1 = math.floor(edge[0].distance_to(coords))
+                distance_m_node2 = math.floor(edge[1].distance_to(coords))
 
                 graph_position = (
-                    f"the closest point on the road network is on edge {edge.id}, "
+                    f"on edge {edge.id}, "
                     f"which is {edge.get_llm_description()}\n"
-                    f"I'm at a distance of {distance_m_node1} m from the {edge.node1.get_llm_description()} ({edge.node1.id}) "
-                    f"and {distance_m_node2} m from the {edge.node2.get_llm_description()} ({edge.node2.id})."
+                    f"I'm at a distance of {distance_m_node1} m from the {edge.node1.get_llm_description()} (node {edge.node1.id}) "
+                    f"and {distance_m_node2} m from the {edge.node2.get_llm_description()} (node {edge.node2.id})."
                 )
             else:
-                graph_position = f"the closest point on the road network is at node {node.id}, which is the {node.get_llm_description()}."
+                node = cast(Node, position.graph_element)
+
+                graph_position = (
+                    f"node {node.id}, which is the {node.get_llm_description()}."
+                )
 
             position_description = (
                 "###Position Update###\n"
-                f"My coordinates are {position}, "
-                f"{graph_position}\n"
+                f"My coordinates are {position.snap_to_graph()}; "
+                f"the closest point on the road network is {graph_position}\n"
                 "Continue answering my questions considering the updated position and keeping the previous context in mind.\n"
                 "If appropriate, include the updated position in your response.\n"
                 "If the following question is related to the previous one, keep the flow consistent.\n"
             )
 
         question = f"###Question###\n{question}"
-        instructions = (
-            "\nRemember that you MUST follow these instructions:\n"
-            f"{self.instructions}\n"
-        )
+        instructions = self.get_instructions_prompt()["content"]
 
         prompt = f"{position_description}\n{question}\n{instructions}"
 
         return ChatCompletionUserMessageParam(content=prompt, role="user")
+
+    def get_instructions_prompt(self) -> ChatCompletionUserMessageParam:
+        instructions = (
+            "\nRemember that you MUST follow these instructions:\n"
+            f"{self.instructions}\n"
+            "Include with your answer a tool call to the enable_points_of_interest function to enable the points of interest relevant to my question and the previous context.\n"
+        )
+
+        return ChatCompletionUserMessageParam(content=instructions, role="user")
 
     def get_main_prompt(
         self, context: Dict[str, str]

@@ -3,6 +3,7 @@ import json
 import os
 import time
 from collections import deque
+from enum import Enum
 from functools import reduce
 from typing import (Any, Deque, Dict, Generic, Mapping, Optional, Protocol,
                     TypeVar)
@@ -141,6 +142,14 @@ class FPSManager:
             self.last_time = current_time
 
         return self.fps
+
+
+class StrEnum(str, Enum):
+    def __str__(self) -> str:
+        return str(self.value)
+
+    def __repr__(self) -> str:
+        return str(self)
 
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")

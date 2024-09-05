@@ -4,9 +4,10 @@ from openai.types.chat import ChatCompletionToolParam
 from openai.types.shared_params import FunctionDefinition
 
 from src.graph import Graph
+from src.utils import StrEnum
 
 
-class ToolCall(str, Enum):
+class ToolCall(StrEnum):
     # function name, response after tool call should be further processed
     GET_DISTANCE = "get_distance", False
     GET_DISTANCE_TO_POINT_OF_INTEREST = "get_distance_to_point_of_interest", False
@@ -17,16 +18,13 @@ class ToolCall(str, Enum):
     GET_ROUTE_TO_POINT_OF_INTEREST = "get_route_to_point_of_interest", True
     ENABLE_POINTS_OF_INTERESTS = "enable_points_of_interests", False
 
-    def __new__(cls, *args):
+    def __new__(cls, *args) -> "ToolCall":
         obj = str.__new__(cls, args[0])
         obj._value_ = args[0]
         return obj
 
     def __init__(self, _: str, needs_further_processing: bool):
         self.__needs_further_processing = needs_further_processing
-
-    def __str__(self) -> str:
-        return self.value
 
     @property
     def needs_further_processing(self) -> bool:

@@ -9,7 +9,8 @@ from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionToolParam,
                                ChatCompletionUserMessageParam)
 
-from src.graph import Coords, Edge, Graph, GraphEncoder, Node, PositionHandler
+from src.graph import (Coords, Edge, EdgeFeatures, Graph, GraphEncoder, Node,
+                       NodeFeatures, PositionHandler)
 from src.utils import str_dict
 
 from .tool_calls import ToolCall, tool_calls
@@ -306,19 +307,19 @@ class PromptFormatter:
     def __edge_features_prompt(self, edge: Edge) -> str:
         features = dict(edge.features)
 
-        if features.get("slope", "flat") != "flat":
+        if features.get(EdgeFeatures.SLOPE, "flat") != "flat":
             n1, n2 = edge.node1, edge.node2
-            if features["slope"] == "downhill":
+            if features[EdgeFeatures.SLOPE] == "downhill":
                 n1, n2 = n2, n1
-            features["slope"] = (
+            features[EdgeFeatures.SLOPE] = (
                 f"uphill, from {n1.get_llm_description()} ({n1.id}) to {n2.get_llm_description()} ({n2.id})"
             )
 
-        if features.get("traffic_direction", "two_way") != "two_way":
+        if features.get(EdgeFeatures.TRAFFIC_DIRECTION, "two_way") != "two_way":
             n1, n2 = edge.node1, edge.node2
-            if features["traffic_direction"] == "one_way_backward":
+            if features[EdgeFeatures.TRAFFIC_DIRECTION] == "one_way_backward":
                 n1, n2 = n2, n1
-            features["traffic_direction"] = (
+            features[EdgeFeatures.TRAFFIC_DIRECTION] = (
                 f"one-way, from {n1.get_llm_description()} ({n1.id}) to {n2.get_llm_description()} ({n2.id})"
             )
 
@@ -328,7 +329,15 @@ class PromptFormatter:
 
     def __node_features_prompt(self, node: Node) -> str:
         features = dict(node.features)
-        del features["on_border"]
+
+        del features[NodeFeatures.ON_BORDER]
+
+        features[NodeFeatures.STREET_WIDTH] = f"{features[NodeFeatures.STREET_WIDTH]} m"
+
+        if NodeFeatures.WALK_LIGHT_DURATION in features:
+            features[NodeFeatures.WALK_LIGHT_DURATION] = (
+                f"{features[NodeFeatures.WALK_LIGHT_DURATION]} s"
+            )
 
         return str_dict(
             {"node": f"{node.id} ({node.get_llm_description()})", "features": features}

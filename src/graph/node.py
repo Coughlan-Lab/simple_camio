@@ -1,6 +1,18 @@
 from typing import Any, Dict, List, Optional, Union
 
+from src.utils import StrEnum
+
 from .coords import Coords, Position
+
+
+class Features(StrEnum):
+    ON_BORDER = "on_border"
+    CROSSWALK = "crosswalk"
+    WALK_LIGHT = "walk_light"
+    WALK_LIGHT_DURATION = "walk_light_duration"
+    ROUND_ABOUT = "round-about"
+    STREET_WIDTH = "street_width"
+    TACTILE_PAVING = "tactile_paving"
 
 
 class Node(Position):
@@ -19,7 +31,7 @@ class Node(Position):
 
     @property
     def on_border(self) -> bool:
-        return bool(self.features.get("on_border", False))
+        return bool(self.features.get(Features.ON_BORDER, False))
 
     @property
     def intersection_type(self) -> str:
@@ -51,6 +63,24 @@ class Node(Position):
 
         if self.on_border:
             description += ", at the limit of the map"
+
+        tactile_paving = self.features.get(Features.TACTILE_PAVING, False)
+        crosswalk = self.features.get(Features.CROSSWALK, False)
+        walk_light = self.features.get(Features.WALK_LIGHT, False)
+        walk_light_duration = self.features.get(Features.WALK_LIGHT_DURATION, "unknown")
+        street_width = self.features.get(Features.STREET_WIDTH, "unknown")
+
+        if tactile_paving or crosswalk:
+            description += (
+                ", with tactile paving" if tactile_paving else ", with crosswalks"
+            )
+            if walk_light:
+                description += f" and walk lights"
+                if walk_light_duration != "unknown":
+                    description += f" that last {walk_light_duration} seconds"
+
+        if street_width != "unknown":
+            description += f", {street_width} meters wide"
 
         return description
 

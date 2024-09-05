@@ -2,8 +2,11 @@ from json import JSONEncoder
 from typing import Any
 
 from .coords import Coords
-from .edge import Edge, Street
+from .edge import Edge
+from .edge import Features as EdgeFeatures
+from .edge import Street
 from .graph import Graph
+from .node import Features as NodeFeatures
 from .node import Node
 from .poi import PoI
 from .position_handler import NONE_INFO as NONE_POSITION_INFO
@@ -34,7 +37,9 @@ class GraphEncoder(JSONEncoder):
 __all__ = [
     "Coords",
     "Node",
+    "NodeFeatures",
     "Edge",
+    "EdgeFeatures",
     "Street",
     "Graph",
     "GraphEncoder",

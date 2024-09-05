@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
+from src.utils import StrEnum
+
 from .coords import Coords, Position, StraightLine
 from .node import Node
 
@@ -9,6 +11,15 @@ class MovementDirection(Enum):
     NONE = 0
     FORWARD = 1
     BACKWARD = 2
+
+
+class Features(StrEnum):
+    ROADWORK = "roadwork"
+    SLOPE = "slope"
+    BIKE_LANE = "bike_lane"
+    SURFACE = "surface"
+    TRAFFIC_DIRECTION = "traffic_direction"
+    STAIRS = "stairs"
 
 
 class Edge(StraightLine, Position):
@@ -104,7 +115,7 @@ class Edge(StraightLine, Position):
         if movement_direction == MovementDirection.NONE:
             return description
 
-        if (slope := self.features.get("slope", "flat")) != "flat":
+        if (slope := self.features.get(Features.SLOPE, "flat")) != "flat":
             forward = (
                 MovementDirection.FORWARD
                 if slope == "uphill"
@@ -116,7 +127,9 @@ class Edge(StraightLine, Position):
                 description += ", downhill"
 
         if (
-            traffic_direction := self.features.get("traffic_direction", "two_way")
+            traffic_direction := self.features.get(
+                Features.TRAFFIC_DIRECTION, "two_way"
+            )
         ) != "two_way":
             forward = (
                 MovementDirection.FORWARD
@@ -133,7 +146,7 @@ class Edge(StraightLine, Position):
     def get_complete_description(self) -> str:
         description = self.street
 
-        if (surface := self.features.get("surface", "concrete")) != "concrete":
+        if (surface := self.features.get(Features.SURFACE, "concrete")) != "concrete":
             description += f", {surface}"
 
         if self.node1.is_dead_end() or self.node2.is_dead_end():

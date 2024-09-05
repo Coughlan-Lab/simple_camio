@@ -1,7 +1,7 @@
 from types import MappingProxyType
-from typing import Any, Dict, Mapping
+from typing import Any, Dict, List, Mapping
 
-from src.utils import str_dict
+from src.utils import StrEnum, str_dict
 
 from .coords import Coords, Position
 from .edge import Edge
@@ -20,6 +20,15 @@ POIS_IMPORTANT_KEYS = [
     "catering",
     "commercial",
 ]
+
+
+class Features(StrEnum):
+    WHEELCHAIR_ACCESSIBLE = "wheelchair_accessible"
+    TACTILE_PAVING = "tactile_paving"
+    TACTILE_MAP = "tactile_map"
+    RECEPTION = "reception"
+    STAIRS = "stairs"
+    ELEVATOR = "elevator"
 
 
 class PoI(Position):
@@ -42,8 +51,35 @@ class PoI(Position):
 
         self.enabled = False
 
+    def accessibility(self) -> Dict[str, Any]:
+        return dict(self.__info.get("accessibility", dict()))
+
     def get_complete_description(self) -> str:
-        return self.name + " on " + self.street
+        description = f"{self.name} on {self.street}"
+
+        accessibility = self.accessibility()
+
+        if accessibility[Features.WHEELCHAIR_ACCESSIBLE]:
+            description += ", wheelchair accessible"
+
+        tactile_features: List[str] = list()
+        if accessibility[Features.TACTILE_PAVING]:
+            tactile_features.append("tactile paving")
+        if accessibility[Features.TACTILE_MAP]:
+            tactile_features.append("tactile map")
+
+        if len(tactile_features) > 1:
+            description += f", with {' and '.join(tactile_features)}"
+
+        if accessibility[Features.ELEVATOR]:
+            description += ", accessible via elevator"
+        elif accessibility[Features.STAIRS]:
+            description += ", accessible via stairs"
+
+        if accessibility[Features.RECEPTION]:
+            description += ", includes a reception area"
+
+        return description
 
     def distance_to(self, coords: "Coords") -> float:
         return self.coords.distance_to(coords)

@@ -141,17 +141,13 @@ class PositionHandler:
             if self.__should_stick_to_last(pos):
                 return PositionInfo.copy(self.last_info, pos)
 
-            nearest_node_info = self.get_nearest_node_info(pos)
             nearest_poi_info = self.get_nearest_poi_info(pos)
-
-            if (
-                nearest_node_info.distance < nearest_poi_info.distance
-                and nearest_node_info.distance <= self.nodes_min_distance
-            ):
-                return nearest_node_info
-
-            elif nearest_poi_info.distance <= self.pois_min_distance:
+            if nearest_poi_info.distance <= self.pois_min_distance:
                 return nearest_poi_info
+
+            nearest_node_info = self.get_nearest_node_info(pos)
+            if nearest_node_info.distance <= self.nodes_min_distance:
+                return nearest_node_info
 
             nearest_edge_info = self.get_nearest_edge_info(pos)
             if nearest_edge_info.distance <= self.edges_min_distance:

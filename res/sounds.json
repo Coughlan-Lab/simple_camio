@@ -1,6 +1,7 @@
 {
     "background": "res/crickets.wav",
     "pointing": "res/pointing.mp3",
+    "poi": "res/poi.mp3",
     "start_recording": "res/start_stt.wav",
     "end_recording": "res/end_stt.wav"
 }

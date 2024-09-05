@@ -50,12 +50,7 @@ class CamIO:
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )
-        self.audio_manager = AudioManager(
-            "res/crickets.wav",
-            "res/pointing.mp3",
-            "res/start_stt.wav",
-            "res/end_stt.wav",
-        )
+        self.audio_manager = AudioManager("res/sounds.json")
 
         # LLM
         self.llm = LLM(self.graph, model["context"])
@@ -123,7 +118,8 @@ class CamIO:
             self.position_handler.process_position(finger_pos)
             if hand_status == HandStatus.POINTING and not self.is_handling_user_input():
                 position = self.position_handler.get_position_info()
-                self.tts.announce_position(info)
+                self.audio_manager.position_feedback(position)
+                self.tts.announce_position(position)
 
         self.audio_manager.stop()
         video_capture.stop()

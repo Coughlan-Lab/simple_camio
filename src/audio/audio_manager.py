@@ -5,6 +5,7 @@ from typing import Optional
 import pygame
 
 from src.frame_processing import HandStatus
+from src.graph import NONE_POSITION_INFO, PositionInfo
 
 pygame.mixer.init()
 
@@ -35,6 +36,7 @@ class AudioManager:
             sounds = json.load(f)
 
         self.pointing_sound = pygame.mixer.Sound(sounds["pointing"])
+        self.poi_sound = pygame.mixer.Sound(sounds["poi"])
         self.hand_status = HandStatus.NOT_FOUND
 
         self.start_recording_sound: Optional[pygame.mixer.Sound]
@@ -51,6 +53,8 @@ class AudioManager:
 
         self.background_player = AudioLooper(sounds["background"])
         self.background_player.play()
+
+        self.last_pos_info = NONE_POSITION_INFO
 
     def update(self, hand_status: HandStatus) -> None:
         if hand_status == self.hand_status:
@@ -79,3 +83,11 @@ class AudioManager:
     def play_end_recording(self) -> None:
         if self.end_recording_sound is not None:
             self.end_recording_sound.play()
+
+    def position_feedback(self, info: PositionInfo) -> None:
+        if self.last_pos_info.graph_element == info.graph_element:
+            return
+
+        self.last_pos_info = info
+        if info.is_poi():
+            self.poi_sound.play()

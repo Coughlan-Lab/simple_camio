@@ -49,7 +49,12 @@ class CamIO:
         self.stt = STT(
             start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
         )
-        self.audio_manager = AudioManager("res/crickets.wav", "res/pointing.mp3")
+        self.audio_manager = AudioManager(
+            "res/crickets.wav",
+            "res/pointing.mp3",
+            "res/start_stt.wav",
+            "res/end_stt.wav",
+        )
 
         # LLM
         self.llm = LLM(self.graph, model["context"])
@@ -183,13 +188,15 @@ class CamIO:
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_recording:
             self.stt.on_question_ended()
-        elif self.tts.current_announcement.category == Announcement.Category.LLM:
-            pass
-        elif self.is_handling_user_input():
-            self.tts.start_waiting_llm()
+
+        elif self.llm.is_waiting_for_response():
+            self.tts.waiting_llm()
+
         elif self.hand_status_buffer.mode() == HandStatus.POINTING:
+            self.stop_interaction()
             self.user_input_thread = UserInputThread(self)
             self.user_input_thread.start()
+
         else:
             self.tts.no_pointing()
 
@@ -213,8 +220,10 @@ class UserInputThread(th.Thread):
         position = self.position_handler.current_position
 
         print("Listening...")
-        self.audio_manager.play_start_signal()
+        self.audio_manager.play_start_recording()
         recording = self.stt.get_audio()
+        self.audio_manager.play_end_recording()
+
         if recording is None or self.stop_event.is_set():
             print("Stopping user input handler.")
             return
@@ -222,23 +231,23 @@ class UserInputThread(th.Thread):
         if self.hand_status == HandStatus.POINTING:
             position = self.position_handler.current_position
 
-        self.tts.start_waiting_llm()
+        self.tts.start_waiting_llm_loop()
 
         question = self.stt.audio_to_text(recording) or ""
         if self.stop_event.is_set():
-            self.tts.stop_waiting_llm()
+            self.tts.stop_waiting_llm_loop()
             return
 
         if len(question) == 0:
             print("No question recognized.")
-            self.tts.stop_waiting_llm()
+            self.tts.stop_waiting_llm_loop()
             self.tts.question_error()
             return
 
         print(f"Question: {question}")
 
         answer = self.camio.llm.ask(question, position) or ""
-        self.tts.stop_waiting_llm()
+        self.tts.stop_waiting_llm_loop()
         if self.stop_event.is_set():
             return
 
@@ -262,7 +271,7 @@ class UserInputThread(th.Thread):
 
         self.stop_event.set()
         self.llm.stop()
-        self.tts.stop_waiting_llm()
+        self.tts.stop_waiting_llm_loop()
 
     @property
     def stt(self) -> STT:

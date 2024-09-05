@@ -65,10 +65,10 @@ class AudioManager:
     def play_pointing(self) -> None:
         self.pointing_sound.play()
 
-    def play_start_signal(self) -> None:
+    def play_start_recording(self) -> None:
         if self.start_recording_sound is not None:
             self.start_recording_sound.play()
 
-    def play_end_signal(self) -> None:
+    def play_end_recording(self) -> None:
         if self.end_recording_sound is not None:
             self.end_recording_sound.play()

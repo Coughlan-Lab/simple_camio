@@ -1,3 +1,5 @@
+import json
+import os
 from typing import Optional
 
 import pygame
@@ -24,25 +26,30 @@ class AudioLooper:
 class AudioManager:
     def __init__(
         self,
-        background_path: str,
-        pointing_path: str,
-        start_recording_path: Optional[str] = None,
-        end_recording_path: Optional[str] = None,
+        sound_file: str,
     ) -> None:
-        self.pointing_sound = pygame.mixer.Sound(pointing_path)
+        if not os.path.exists(sound_file):
+            raise FileNotFoundError("Sound file not found.")
+
+        with open(sound_file, "r") as f:
+            sounds = json.load(f)
+
+        self.pointing_sound = pygame.mixer.Sound(sounds["pointing"])
         self.hand_status = HandStatus.NOT_FOUND
 
-        if start_recording_path is not None:
+        self.start_recording_sound: Optional[pygame.mixer.Sound]
+        if start_recording_path := sounds.get("start_recording"):
             self.start_recording_sound = pygame.mixer.Sound(start_recording_path)
         else:
             self.start_recording_sound = None
 
-        if end_recording_path is not None:
+        self.end_recording_sound: Optional[pygame.mixer.Sound]
+        if end_recording_path := sounds.get("end_recording"):
             self.end_recording_sound = pygame.mixer.Sound(end_recording_path)
         else:
             self.end_recording_sound = None
 
-        self.background_player = AudioLooper(background_path)
+        self.background_player = AudioLooper(sounds["background"])
         self.background_player.play()
 
     def update(self, hand_status: HandStatus) -> None:

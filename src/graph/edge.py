@@ -93,6 +93,23 @@ class Edge(StraightLine, Position):
             key=lambda node: node.distance_to(coords),
         ).coords
 
+    def __getitem__(self, index: int) -> Node:
+        return (self.node1, self.node2)[index]
+
+    def __str__(self) -> str:
+        return self.id
+
+    def __repr__(self) -> str:
+        return str(self)
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Edge):
+            return False
+        return self.node1 == other.node1 and self.node2 == other.node2
+
+    def __hash__(self) -> int:
+        return hash(self.id)
+
     def get_llm_description(self) -> str:
         if len(self.between_streets) == 0:
             return f"at the end of {self.street}."
@@ -109,7 +126,7 @@ class Edge(StraightLine, Position):
 
     def get_movement_description(
         self, movement_direction: MovementDirection = MovementDirection.NONE
-    ):
+    ) -> str:
         description = self.street
 
         if movement_direction == MovementDirection.NONE:
@@ -152,24 +169,26 @@ class Edge(StraightLine, Position):
         if self.node1.is_dead_end() or self.node2.is_dead_end():
             description += ", dead end"
 
+        if self.features[Features.TRAFFIC_DIRECTION] != "two_way":
+            description += ", one-way"
+
+        if self.features[Features.SLOPE] == "uphill":
+            description += ", uphill"
+
+        hazards: List[str] = list()
+        if self.features[Features.ROADWORK]:
+            hazards.append("roadwork")
+        if self.features[Features.STAIRS]:
+            hazards.append("stairs on the way")
+        if self.features[Features.BIKE_LANE]:
+            hazards.append("a bike lane")
+
+        if len(hazards) == 1:
+            description += f", with {hazards[0]}"
+        elif len(hazards) > 1:
+            description += f", with {', '.join(hazards[:-1])} and {hazards[-1]}"
+
         return description
-
-    def __getitem__(self, index: int) -> Node:
-        return (self.node1, self.node2)[index]
-
-    def __str__(self) -> str:
-        return self.id
-
-    def __repr__(self) -> str:
-        return str(self)
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, Edge):
-            return False
-        return self.node1 == other.node1 and self.node2 == other.node2
-
-    def __hash__(self) -> int:
-        return hash(self.id)
 
 
 class Street:

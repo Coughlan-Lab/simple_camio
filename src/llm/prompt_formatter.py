@@ -157,7 +157,7 @@ class PromptFormatter:
                     f"and {distance_m_node2} m from the {edge.node2.get_llm_description()} ({edge.node2.id})."
                 )
             else:
-                graph_position = f"the closest point on the road network is at node {node.id}, which is the {node.description}."
+                graph_position = f"the closest point on the road network is at node {node.id}, which is the {node.get_llm_description()}."
 
             position_description = (
                 "###Position Update###\n"

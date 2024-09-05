@@ -1,14 +1,15 @@
 import json
+import math
 import os
 import time
 
-from src.graph import Graph, PositionInfo
+from src.graph import NONE_POSITION_INFO, PositionInfo
 
 from .tts import TTS, Announcement
 
 
 class CamIOTTS(TTS):
-    NODE_ANNOUNCEMENT_DELAY = 1.0
+    DETAILED_ANNOUNCEMENT_DELAY = 2.0
 
     ANNOUNCEMENT_INTERVAL = 0.25
     ERROR_INTERVAL = 5
@@ -22,7 +23,8 @@ class CamIOTTS(TTS):
         with open(res_file, "r") as f:
             self.res = json.load(f)
 
-        self.last_pos_info = PositionInfo.none_info()
+        self.last_pos_info = NONE_POSITION_INFO
+        self.last_pos_change_timestamp = math.inf
 
     def llm_response(self, response: str) -> bool:
         return self.stop_and_say(
@@ -114,48 +116,57 @@ class CamIOTTS(TTS):
         )
 
     def announce_position(self, info: PositionInfo) -> bool:
+        current_time = time.time()
+        if self.last_pos_info.graph_element != info.graph_element:
+            self.last_pos_change_timestamp = current_time
+
         if (
             time.time() - self._timestamps[Announcement.Category.GRAPH]
             < CamIOTTS.ANNOUNCEMENT_INTERVAL
         ):
             return False
 
-        if len(info.description) == 0 or (
-            self.last_pos_info.is_still_valid()
-            and info.description == self.last_pos_info.description
-        ):
+        if info.graph_element is None:
             return False
 
-        if info.is_node():
-            if self.last_pos_info.graph_element == info.graph_element:
-                if (
-                    info.timestamp - self.last_pos_info.timestamp
-                    > CamIOTTS.NODE_ANNOUNCEMENT_DELAY
-                ):
-                    if self.__say_position(info):
-                        self.last_pos_info = info
-                        return True
-            else:
+        if (
+            current_time - self.last_pos_change_timestamp
+            > CamIOTTS.DETAILED_ANNOUNCEMENT_DELAY
+        ):
+            if self.__stop_and_say_position_detailed(info):
                 self.last_pos_info = info
-                self.last_pos_info.invalidate()
+                self.last_pos_change_timestamp = current_time + info.max_life
+                return True
 
-        else:
-            if self.__stop_and_say_position(info):
+        elif (
+            not self.last_pos_info.is_still_valid()
+            or info.description != self.last_pos_info.description
+        ):
+            if len(info.description) == 0:
                 self.last_pos_info = info
+            elif self.__stop_and_say_position(info):
+                self.last_pos_info = info
+                self.last_pos = info
                 return True
 
         return False
 
-    def __say_position(self, info: PositionInfo) -> bool:
-        return self.say(
+    def __stop_and_say_position(self, info: PositionInfo) -> bool:
+        return self.stop_and_say(
             info.description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,
         )
 
-    def __stop_and_say_position(self, info: PositionInfo) -> bool:
+    def __stop_and_say_position_detailed(self, info: PositionInfo) -> bool:
+        description = (
+            info.graph_element.get_complete_description()
+            if info.graph_element is not None
+            else ""
+        )
+
         return self.stop_and_say(
-            info.description,
+            description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,
         )

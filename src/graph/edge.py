@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
-from .coords import Coords, StraightLine, WithDistance
+from .coords import Coords, Position, StraightLine
 from .node import Node
 
 
@@ -11,7 +11,7 @@ class MovementDirection(Enum):
     BACKWARD = 2
 
 
-class Edge(StraightLine, WithDistance):
+class Edge(StraightLine, Position):
     def __init__(
         self,
         node1: Node,
@@ -82,16 +82,24 @@ class Edge(StraightLine, WithDistance):
             key=lambda node: node.distance_to(coords),
         ).coords
 
-    def get_complete_description(
+    def get_llm_description(self) -> str:
+        if len(self.between_streets) == 0:
+            return f"at the end of {self.street}."
+
+        if len(self.between_streets) == 1:
+            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}"
+
+        streets = list(self.between_streets)
+        street_str = (
+            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}"
+        )
+
+        return street_str
+
+    def get_movement_description(
         self, movement_direction: MovementDirection = MovementDirection.NONE
-    ) -> str:
+    ):
         description = self.street
-
-        if (surface := self.features.get("surface", "concrete")) != "concrete":
-            description += f", {surface}"
-
-        if self.node1.is_dead_end() or self.node2.is_dead_end():
-            description += ", dead end"
 
         if movement_direction == MovementDirection.NONE:
             return description
@@ -122,19 +130,16 @@ class Edge(StraightLine, WithDistance):
 
         return description
 
-    def get_llm_description(self) -> str:
-        if len(self.between_streets) == 0:
-            return f"at the end of {self.street}."
+    def get_complete_description(self) -> str:
+        description = self.street
 
-        if len(self.between_streets) == 1:
-            return f"on {self.street}, at the intersection with {next(iter(self.between_streets))}"
+        if (surface := self.features.get("surface", "concrete")) != "concrete":
+            description += f", {surface}"
 
-        streets = list(self.between_streets)
-        street_str = (
-            f"on {self.street}, between {', '.join(streets[:-1])} and {streets[-1]}"
-        )
+        if self.node1.is_dead_end() or self.node2.is_dead_end():
+            description += ", dead end"
 
-        return street_str
+        return description
 
     def __getitem__(self, index: int) -> Node:
         return (self.node1, self.node2)[index]

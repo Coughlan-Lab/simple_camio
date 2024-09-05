@@ -13,7 +13,8 @@ import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
-from src.graph import Coords, Graph, PositionHandler, PositionInfo
+from src.graph import (NONE_POSITION_INFO, Coords, Graph, PositionHandler,
+                       PositionInfo)
 from src.llm import LLM
 from src.utils import *
 
@@ -32,7 +33,7 @@ class CamIO:
             meters_per_pixel=model["meters_per_pixel"],
             meters_per_cm=model["meters_per_cm"],
         )
-        self.last_pos_info = PositionInfo.none_info()
+        self.last_pos_info = NONE_POSITION_INFO
 
         # Frame processing
         self.window_manager = WindowManager(
@@ -121,7 +122,8 @@ class CamIO:
 
             self.position_handler.process_position(finger_pos)
             if hand_status == HandStatus.POINTING and not self.is_handling_user_input():
-                self.tts.announce_position(self.position_handler.get_position_info())
+                position = self.position_handler.get_position_info()
+                self.tts.announce_position(info)
 
         self.audio_manager.stop()
         video_capture.stop()

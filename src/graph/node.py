@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Optional, Union
 
-from .coords import Coords, WithDistance
+from .coords import Coords, Position
 
 
-class Node(WithDistance):
+class Node(Position):
     def __init__(
         self, index: int, coords: Coords, features: Optional[Dict[str, Any]] = None
     ) -> None:
@@ -46,21 +46,8 @@ class Node(WithDistance):
 
         return f"{intersection_type}intersection of {streets_str}"
 
-    @property
-    def description(self) -> str:
-        if len(self.adjacents_streets) == 1:
-            if self.on_border:
-                return f"{self.adjacents_streets[0]}, at the limit of the map"
-            return f"end of {self.adjacents_streets[0]}"
-
-        streets = list(set(self.adjacents_streets))
-        streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
-
-        intersection = ""
-        if self.intersection_type == "T":
-            intersection = "T "
-
-        description = f"{intersection}intersection of {streets_str}"
+    def get_complete_description(self) -> str:
+        description = self.get_llm_description()
 
         if self.on_border:
             description += ", at the limit of the map"

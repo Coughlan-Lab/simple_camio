@@ -75,7 +75,7 @@ class LLM:
                 response_message = response.choices[0].message
                 if (
                     response_message.content is not None
-                    and response_message.content != ""
+                    and len(response_message.content) > 0
                 ):
                     output += response_message.content + "\n"
 

@@ -15,7 +15,7 @@ class StraightLine(ABC):
         pass
 
 
-class WithDistance(ABC):
+class Position(ABC):
     @abstractmethod
     def distance_to(self, coords: "Coords") -> float:
         pass
@@ -24,8 +24,12 @@ class WithDistance(ABC):
     def closest_point(self, coords: "Coords") -> "Coords":
         pass
 
+    @abstractmethod
+    def get_complete_description(self) -> str:
+        pass
 
-class Coords(WithDistance):
+
+class Coords(Position):
     def __init__(self, x: float, y: float) -> None:
         self.coords = (x, y)
 
@@ -64,7 +68,7 @@ class Coords(WithDistance):
     def closest_point(self, coords: "Coords") -> "Coords":
         return self
 
-    def snap_to(self, to: WithDistance) -> "Coords":
+    def snap_to(self, to: Position) -> "Coords":
         return to.closest_point(self)
 
     def dot_product(self, other: "Coords") -> float:

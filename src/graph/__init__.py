@@ -6,6 +6,7 @@ from .edge import Edge, Street
 from .graph import Graph
 from .node import Node
 from .poi import PoI
+from .position_handler import NONE_INFO as NONE_POSITION_INFO
 from .position_handler import PositionHandler, PositionInfo
 
 
@@ -39,5 +40,6 @@ __all__ = [
     "GraphEncoder",
     "PositionHandler",
     "PositionInfo",
+    "NONE_POSITION_INFO",
     "PoI",
 ]

@@ -1,11 +1,11 @@
 import math
 import time
-from typing import Optional, Union
+from typing import Optional
 
 from src.utils import ArithmeticBuffer
 
 from .coords import ZERO as Coords_ZERO
-from .coords import Coords, WithDistance
+from .coords import Coords, Position
 from .edge import Edge, MovementDirection
 from .graph import Graph
 from .node import Node
@@ -13,14 +13,14 @@ from .poi import PoI
 
 
 class PositionInfo:
-    MAX_LIFE_DEFAULT = 6.0  # seconds
+    DEFAULT_MAX_LIFE = 6.0  # seconds
 
     def __init__(
         self,
-        description: str,
         real_pos: Coords,
-        graph_element: Optional[WithDistance],
-        max_life: float = MAX_LIFE_DEFAULT,
+        graph_element: Optional[Position] = None,
+        description: str = "",
+        max_life: float = DEFAULT_MAX_LIFE,
     ) -> None:
         self.description = description
         self.real_pos = real_pos
@@ -37,16 +37,15 @@ class PositionInfo:
         return self.graph_element.distance_to(pos)
 
     def is_still_valid(self) -> bool:
-        return time.time() - self.timestamp < self.max_life
+        return (
+            len(self.description) > 0 and time.time() - self.timestamp < self.max_life
+        )
 
     def snap_to_graph(self) -> Coords:
         if self.graph_element is None:
             return self.real_pos
 
         return self.graph_element.closest_point(self.real_pos)
-
-    def invalidate(self) -> None:
-        self.max_life = -1
 
     def is_node(self) -> bool:
         return isinstance(self.graph_element, Node)
@@ -64,22 +63,13 @@ class PositionInfo:
         return str(self)
 
     @staticmethod
-    def none_info(
-        pos: Coords = Coords_ZERO,
-        graph_nearest: Optional[Union[Node, Edge]] = None,
-    ) -> "PositionInfo":
-        info = PositionInfo("", pos, graph_nearest)
-        info.invalidate()
-        return info
-
-    @staticmethod
     def copy(info: "PositionInfo", pos: Coords) -> "PositionInfo":
         return PositionInfo(
-            info.description, pos, info.graph_element, max_life=info.max_life
+            pos, info.graph_element, info.description, max_life=info.max_life
         )
 
 
-NONE_INFO = PositionInfo.none_info()
+NONE_INFO = PositionInfo(Coords_ZERO)
 
 
 class PositionHandler:
@@ -167,7 +157,7 @@ class PositionHandler:
             if nearest_edge_info.distance <= self.edges_min_distance:
                 return nearest_edge_info
 
-            return PositionInfo.none_info(pos)
+            return PositionInfo(pos)
 
         announcement = implementation()
         self.last_info = announcement
@@ -194,7 +184,7 @@ class PositionHandler:
         if distance > self.nodes_min_distance:
             return NONE_INFO
 
-        return PositionInfo(nearest_node.description, pos, nearest_node)
+        return PositionInfo(pos, nearest_node)  # Nodes are not immediately announced
 
     def get_nearest_poi_info(self, pos: Coords) -> PositionInfo:
         nearest_poi, distance = self.graph.get_nearest_poi(pos)
@@ -202,7 +192,7 @@ class PositionHandler:
         if nearest_poi is None or distance > self.pois_min_distance:
             return NONE_INFO
 
-        return PositionInfo(nearest_poi.name, pos, nearest_poi)
+        return PositionInfo(pos, nearest_poi, nearest_poi.name)
 
     def get_nearest_edge_info(self, pos: Coords) -> PositionInfo:
         nearest_edge, distance_edge = self.graph.get_nearest_edge(pos)
@@ -219,7 +209,7 @@ class PositionHandler:
             return PositionInfo.copy(self.last_info, pos)
 
         return PositionInfo(
-            nearest_edge.get_complete_description(movement_dir), pos, nearest_edge
+            pos, nearest_edge, nearest_edge.get_movement_description(movement_dir)
         )
 
     def get_movement_direction(

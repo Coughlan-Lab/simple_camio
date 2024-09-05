@@ -9,7 +9,7 @@ from .tts import TTS, Announcement
 
 
 class CamIOTTS(TTS):
-    DETAILED_ANNOUNCEMENT_DELAY = 1.0
+    DETAILED_ANNOUNCEMENT_DELAY = 1.5
 
     ANNOUNCEMENT_INTERVAL = 0.25
     ERROR_INTERVAL = 5
@@ -129,24 +129,24 @@ class CamIOTTS(TTS):
         if info.graph_element is None:
             return False
 
-        if (
-            current_time - self.last_pos_change_timestamp
-            > CamIOTTS.DETAILED_ANNOUNCEMENT_DELAY
-        ):
-            if self.__stop_and_say_position_detailed(info):
+        if self.last_pos_info.graph_element != info.graph_element:
+            self.last_pos_change_timestamp = current_time
+
+            if len(info.description) == 0 or self.__stop_and_say_position(info):
                 self.last_pos_info = info
-                self.last_pos_change_timestamp = current_time + info.max_life
                 return True
 
-        elif (
-            not self.last_pos_info.is_still_valid()
-            or info.description != self.last_pos_info.description
+            return False
+
+        if not self.last_pos_info.is_still_valid() or (
+            current_time - self.last_pos_change_timestamp
+            > CamIOTTS.DETAILED_ANNOUNCEMENT_DELAY
+            and info.graph_element.get_complete_description()
+            not in [self.last_announcement.text, self.current_announcement.text]
         ):
-            if len(info.description) == 0:
+            if self.__say_position_detailed(info):
                 self.last_pos_info = info
-            elif self.__stop_and_say_position(info):
-                self.last_pos_info = info
-                self.last_pos = info
+                self.last_pos_change_timestamp = math.inf
                 return True
 
         return False
@@ -158,14 +158,14 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.LOW,
         )
 
-    def __stop_and_say_position_detailed(self, info: PositionInfo) -> bool:
+    def __say_position_detailed(self, info: PositionInfo) -> bool:
         description = (
             info.graph_element.get_complete_description()
             if info.graph_element is not None
             else ""
         )
 
-        return self.stop_and_say(
+        return self.say(
             description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,

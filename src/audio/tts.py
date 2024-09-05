@@ -1,5 +1,3 @@
-import json
-import os
 import threading as th
 import time
 import uuid
@@ -63,6 +61,7 @@ class TTS:
 
         self.current_announcement_index = 0
         self.current_announcement: TextAnnouncement = NONE_ANNOUNCEMENT
+        self.last_announcement: TextAnnouncement = NONE_ANNOUNCEMENT
         self.paused_announcement: Optional[TextAnnouncement] = None
 
         self.queue: deque[Announcement] = deque()
@@ -127,6 +126,7 @@ class TTS:
 
                 elif isinstance(next_announcement, TextAnnouncement):
                     with self.is_speaking_cond:
+                        self.last_announcement = self.current_announcement
                         self.current_announcement = next_announcement
 
                         self.engine.say(
@@ -145,6 +145,7 @@ class TTS:
 
                 if isinstance(next_announcement, TextAnnouncement):
                     self.on_announcement_ended(self.current_announcement.category)
+                    self.last_announcement = self.current_announcement
                     self.current_announcement = NONE_ANNOUNCEMENT
 
             self.engine.endLoop()

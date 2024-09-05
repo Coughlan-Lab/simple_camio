@@ -37,9 +37,7 @@ class PositionInfo:
         return self.graph_element.distance_to(pos)
 
     def is_still_valid(self) -> bool:
-        return (
-            len(self.description) > 0 and time.time() - self.timestamp < self.max_life
-        )
+        return time.time() - self.timestamp < self.max_life
 
     def snap_to_graph(self) -> Coords:
         if self.graph_element is None:

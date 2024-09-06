@@ -22,6 +22,16 @@ class Features(StrEnum):
     STAIRS = "stairs"
 
 
+default_features = {
+    "roadwork": False,
+    "slope": "flat",
+    "bike_lane": False,
+    "surface": "concrete",
+    "traffic_direction": "two_way",
+    "stairs": False,
+}
+
+
 class Edge(StraightLine, Position):
     def __init__(
         self,
@@ -33,7 +43,7 @@ class Edge(StraightLine, Position):
         self.node1 = node1
         self.node2 = node2
         self.street = street_name
-        self.features = features if features is not None else dict()
+        self.features = features if features is not None else default_features
 
         self.between_streets: Set[str] = set()
         self.length = self.node1.distance_to(self.node2)
@@ -124,47 +134,10 @@ class Edge(StraightLine, Position):
 
         return street_str
 
-    def get_movement_description(
-        self, movement_direction: MovementDirection = MovementDirection.NONE
-    ) -> str:
-        description = self.street
-
-        if movement_direction == MovementDirection.NONE:
-            return description
-
-        if (slope := self.features.get(Features.SLOPE, "flat")) != "flat":
-            forward = (
-                MovementDirection.FORWARD
-                if slope == "uphill"
-                else MovementDirection.BACKWARD
-            )
-            if forward == movement_direction:
-                description += ", uphill"
-            else:
-                description += ", downhill"
-
-        if (
-            traffic_direction := self.features.get(
-                Features.TRAFFIC_DIRECTION, "two_way"
-            )
-        ) != "two_way":
-            forward = (
-                MovementDirection.FORWARD
-                if traffic_direction == "one_way_forward"
-                else MovementDirection.BACKWARD
-            )
-            if forward == movement_direction:
-                description += ", heading with traffic"
-            else:
-                description += ", heading against traffic"
-
-        return description
-
     def get_complete_description(self) -> str:
         description = self.street
 
-        if (surface := self.features.get(Features.SURFACE, "concrete")) != "concrete":
-            description += f", {surface}"
+        description += f", {self.features[Features.SURFACE]}"
 
         if self.node1.is_dead_end() or self.node2.is_dead_end():
             description += ", dead end"

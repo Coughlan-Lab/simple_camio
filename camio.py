@@ -13,7 +13,7 @@ import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
-from src.graph import NONE_POSITION_INFO, Coords, Graph, PositionHandler
+from src.graph import Coords, Graph, PositionHandler
 from src.llm import LLM
 from src.utils import *
 

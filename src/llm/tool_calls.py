@@ -1,5 +1,3 @@
-from enum import Enum
-
 from openai.types.chat import ChatCompletionToolParam
 from openai.types.shared_params import FunctionDefinition
 

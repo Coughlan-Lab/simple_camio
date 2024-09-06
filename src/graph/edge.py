@@ -172,8 +172,8 @@ class Edge(StraightLine, Position):
         if self.features[Features.TRAFFIC_DIRECTION] != "two_way":
             description += ", one-way"
 
-        if self.features[Features.SLOPE] == "uphill":
-            description += ", uphill"
+        if self.features[Features.SLOPE] != "flat":
+            description += ", sloped"
 
         hazards: List[str] = list()
         if self.features[Features.ROADWORK]:

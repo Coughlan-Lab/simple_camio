@@ -40,13 +40,12 @@ GOOGLE_ROUTES_API_FIELDS = [
 
 
 class Graph:
-    AM_I_THRESHOLD = 2.0  # cm
-    NEARBY_THRESHOLD = 400.0  # meters
+    AM_I_THRESHOLD = 0.75  # inch
+    NEARBY_THRESHOLD = 1400.0  # feets
     INF = 999999
 
-    def __init__(self, graph_dict: Dict[str, Any], meters_per_cm: float) -> None:
-        self.meters_per_cm = meters_per_cm
-        self.am_i_threshold = Graph.AM_I_THRESHOLD * meters_per_cm
+    def __init__(self, graph_dict: Dict[str, Any], feets_per_inch: float) -> None:
+        self.am_i_threshold = Graph.AM_I_THRESHOLD * feets_per_inch
 
         self.nodes = load_nodes(graph_dict)
         self.edges, self.streets = load_edges(self.nodes, graph_dict)
@@ -253,7 +252,7 @@ class Graph:
                         }
                     }
                 },
-                "units": "METRIC",
+                "units": "IMPERIAL",
                 "computeAlternativeRoutes": True,
                 "travel_mode": "WALK" if only_by_walking else "TRANSIT",
                 "transitPreferences": (
@@ -317,7 +316,8 @@ class Graph:
 
 
 def coords_to_latlng(latlng_reference: LatLngReference, coords: Coords) -> Coords:
-    R = 6378137
+    feets_per_meter = 3.280839895
+    R = 6378137 * feets_per_meter  # Earth radius in feets
 
     diff = coords - latlng_reference.coords
     de = diff[0]

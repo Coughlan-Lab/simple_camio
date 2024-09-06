@@ -1,292 +1,293 @@
 {
     "name": "New York",
     "template_image": "models/new_york/template.png",
-    "meters_per_pixel": 0.6394298593851989,
+    "feets_per_pixel": 2.0978965222031607,
+    "feets_per_inch": 60.0,
     "graph": {
         "latlng_reference": {
             "coords": [
-                219.49713167064073,
-                890.3545622696412
+                738.4595758155126,
+                3033.55837110577
             ],
             "lat": 40.74605893499274,
             "lng": -73.99053528624474
         },
         "nodes": [
             [
-                186.71351894047808,
-                993.6740014845991
+                612.5857844833229,
+                3260.1311955037118
             ],
             [
-                242.9833465663756,
-                1024.3666347350886
+                797.2006784372011,
+                3360.8302285694635
             ],
             [
-                172.6460620340037,
-                893.9229434205081
+                566.4320609948534,
+                2932.8593380400184
             ],
             [
-                225.07931050359002,
-                924.6155766709976
+                738.4595758155126,
+                3033.55837110577
             ],
             [
-                381.10019619357854,
-                1009.0203181098439
+                1250.3463272330837,
+                3310.4807120365876
             ],
             [
-                176.4826411903149,
-                803.1239033878098
+                579.0194401280723,
+                2634.95803188717
             ],
             [
-                263.44510206670196,
-                852.9994324198553
+                864.3333671477022,
+                2798.5939606190163
             ],
             [
-                392.60993366251216,
-                923.3367169522272
+                1288.1084646327406,
+                3029.362578061364
             ],
             [
-                544.7942401961894,
-                1007.7414583910735
+                1787.407836917093,
+                3306.2849189921812
             ],
             [
-                176.4826411903149,
-                711.0460036363412
+                579.0194401280723,
+                2332.8609326899145
             ],
             [
-                304.36861306735466,
-                781.3832881687131
+                998.5987445687045,
+                2563.6295501322625
             ],
             [
-                405.3985308502161,
-                835.0953963570698
+                1330.066395076804,
+                2739.8528579973276
             ],
             [
-                584.4388914780718,
-                937.4041738587016
+                1917.4774212936888,
+                3075.5163015498338
             ],
             [
-                722.5557411052748,
-                1015.4146167036959
+                2370.6230700895717,
+                3331.459677258619
             ],
             [
-                175.20378147154452,
-                616.4103844473318
+                574.8236470836661,
+                2022.3722474038468
             ],
             [
-                346.5709837867778,
-                711.0460036363412
+                1137.0599150341131,
+                2332.8609326899145
             ],
             [
-                419.4659877566905,
-                750.6906549182236
+                1376.2201185652734,
+                2462.9305170665107
             ],
             [
-                624.0835427599542,
-                867.0668893263297
+                2047.5470056702848,
+                2844.747684107486
             ],
             [
-                762.2003923871571,
-                946.3561918900944
+                2500.6926544661674,
+                3104.8868528606777
             ],
             [
-                900.3172420143601,
-                1023.0877750163182
+                2953.8383032620504,
+                3356.634435525057
             ],
             [
-                176.4826411903149,
-                525.6113444146335
+                579.0194401280723,
+                1724.470941250998
             ],
             [
-                388.7733545062009,
-                639.4298593851989
+                1275.5210854995216,
+                2097.8965222031607
             ],
             [
-                432.2545849443945,
-                665.0070537606068
+                1418.1780490093365,
+                2181.8123830912873
             ],
             [
-                663.7281940418364,
-                794.1718853564171
+                2177.616590046881,
+                2605.5874805763256
             ],
             [
-                801.8450436690395,
-                873.4611879201817
+                2630.7622388427635,
+                2865.7266493295174
             ],
             [
-                941.2407530150128,
-                952.7504904839464
+                3088.1036806830525,
+                3125.865818082709
             ],
             [
-                1062.7324262982006,
-                1017.9723361412367
+                3486.7040199016533,
+                3339.851263347432
             ],
             [
-                176.4826411903149,
-                430.97572522562405
+                579.0194401280723,
+                1413.9822559649303
             ],
             [
-                427.13914606931286,
-                571.6502942903678
+                1401.3948768317114,
+                1875.5194908496258
             ],
             [
-                702.0939856049484,
-                726.392320261586
+                2303.4903813790706,
+                2383.2104492227904
             ],
             [
-                840.2108352321513,
-                804.4027631065802
+                2756.6360301749532,
+                2639.1538249315763
             ],
             [
-                978.3276848593543,
-                881.1343462328041
+                3209.781678970836,
+                2890.9014075959553
             ],
             [
-                1064.011286016971,
-                928.4521558273088
+                3490.8998129460592,
+                3046.1457502389894
             ],
             [
-                177.7615009090853,
-                329.94580744276266
+                583.2152331724786,
+                1082.5146054568309
             ],
             [
-                217.40615219096765,
-                354.2441420994002
+                713.2848175490747,
+                1162.234673300551
             ],
             [
-                470.6203765075064,
-                494.918711164144
+                1544.0518403415263,
+                1623.7719081852463
             ],
             [
-                743.0174966056012,
-                652.2184565729029
+                2437.7557588000727,
+                2139.8544526472238
             ],
             [
-                882.4132059515745,
-                728.9500396991268
+                2895.0972006403617,
+                2391.6020353116032
             ],
             [
-                1021.8089152975479,
-                808.2393422628915
+                3352.4386424806507,
+                2651.741204064795
             ],
             [
-                1065.2901457357414,
-                832.537676919529
+                3495.0956059904656,
+                2731.4612719085153
             ],
             [
-                176.4826411903149,
-                232.7524688162124
+                579.0194401280723,
+                763.6343340819504
             ],
             [
-                260.88738262916115,
-                280.07027841071715
+                855.9417810588895,
+                918.8786767249844
             ],
             [
-                465.5049376324248,
-                393.88879338128254
+                1527.2686681639009,
+                1292.304257677147
             ],
             [
-                511.5438875081591,
-                420.7448474754609
+                1678.3172177625286,
+                1380.4159116096798
             ],
             [
-                786.4987270437947,
-                576.7657331654494
+                2580.4127223098876,
+                1892.302663027251
             ],
             [
-                925.8944363897681,
-                653.4973162916733
+                3037.7541641501766,
+                2144.05024569163
             ],
             [
-                1064.011286016971,
-                730.2288994178972
+                3490.8998129460592,
+                2395.7978283560096
             ],
             [
-                301.8108936298139,
-                208.45413415957483
+                990.2071584798919,
+                683.9142662382304
             ],
             [
-                477.0146751013584,
-                309.4840519424363
+                1565.0308055635578,
+                1015.3819167463298
             ],
             [
-                551.1885387900414,
-                350.40756294308903
+                1808.3868021391245,
+                1149.6472941673321
             ],
             [
-                826.143378325677,
-                506.42844863307755
+                2710.4823066864838,
+                1661.5340455849032
             ],
             [
-                962.9813682341096,
-                583.1600317593014
+                3159.43216243796,
+                1913.2816282492824
             ],
             [
-                1065.2901457357414,
-                639.4298593851989
+                3495.0956059904656,
+                2097.8965222031607
             ],
             [
-                460.38949875734323,
-                205.89641472203405
+                1510.4854959862757,
+                675.5226801494177
             ],
             [
-                491.0821320078328,
-                223.80045078481962
+                1611.1845290520273,
+                734.2637827711062
             ],
             [
-                586.9966109156126,
-                280.07027841071715
+                1925.8690073825014,
+                918.8786767249844
             ],
             [
-                864.509169888789,
-                437.37002381947605
+                2836.356098018673,
+                1434.961221186962
             ],
             [
-                1002.6260195159919,
-                514.1016069456999
+                3289.501746814556,
+                1686.7088038513411
             ],
             [
-                1066.5690054545119,
-                548.6308193525007
+                3499.291399034872,
+                1799.995216050312
             ],
             [
-                626.6412621974949,
-                209.73299387834524
+                2055.9385917590976,
+                688.1100592826367
             ],
             [
-                904.1538211706712,
-                367.03273928710416
+                2966.425682395269,
+                1204.1926037446142
             ],
             [
-                1042.2706707978743,
-                443.76432241332805
+                3419.571331191152,
+                1455.9401864089934
             ],
             [
-                1067.8478651732821,
-                457.8317793198024
+                3503.4871920792784,
+                1502.0939098974632
             ],
             [
-                791.6141659188762,
-                209.73299387834524
+                2597.1958944875128,
+                688.1100592826367
             ],
             [
-                942.5196127337832,
-                297.9743144735027
+                3092.299473727459,
+                977.6197793466729
             ],
             [
-                1069.1267248920526,
-                365.7538795683338
+                3507.682985123685,
+                1199.996810700208
             ],
             [
-                983.443123734436,
-                226.35817022236043
+                3226.564851148461,
+                742.6553688599189
             ],
             [
-                1069.1267248920526,
-                273.67597981686515
+                3507.682985123685,
+                897.8997115029528
             ],
             [
-                1069.1267248920526,
-                395.1676531000529
+                3507.682985123685,
+                1296.5000507215534
             ]
         ],
         "nodes_features": [
@@ -2377,8 +2378,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Broadway",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2398,11 +2399,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    380.3130575934003,
-                    983.0322359792958
+                    1248.19400488446,
+                    3239.653860199141
                 ],
                 "edge": 92,
-                "location_description": "on Broadway, near the border of the map"
+                "location_description": "on Broadway, between the intersection with West 28th Street and the intersection with West 29th Street"
             },
             {
                 "name": "32nd Street",
@@ -2410,8 +2411,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "operator": "Port Authority of New York and New Jersey",
                 "network": "PATH",
@@ -2428,8 +2429,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    370.7767163500549,
-                    658.1947472099836
+                    1243.6836979001716,
+                    2131.0986418771927
                 ],
                 "edge": 69,
                 "location_description": "on 6th Avenue, near the the intersection with West 32nd Street"
@@ -2453,11 +2454,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    695.4791510684558,
-                    834.2735897869914
+                    2281.7661393423637,
+                    2737.1607763431557
                 ],
                 "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
+                "location_description": "on East 32nd Street, between the intersection with West 32nd Street and 5th Avenue and the intersection with Madison Avenue"
             },
             {
                 "name": "33rd Street",
@@ -2465,8 +2466,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 33rd Street",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2486,11 +2487,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    953.4924921891792,
-                    888.829357930994
+                    3144.6700753410014,
+                    2911.067014961607
                 ],
                 "edge": 39,
-                "location_description": "on East 33rd Street, near the the intersection with Park Avenue"
+                "location_description": "on East 33rd Street, between the intersection with Park Avenue and the intersection with Madison Avenue"
             },
             {
                 "name": "34th Street\u2013Herald Square",
@@ -2498,8 +2499,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2520,8 +2521,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    442.86996457476437,
-                    534.5365455238066
+                    1452.9958424503657,
+                    1753.7715235151181
                 ],
                 "edge": 71,
                 "location_description": "on 6th Avenue, between the intersection with West 33rd Street and the intersection with West 34th Street"
@@ -2532,8 +2533,8 @@
                 "district": "Chelsea District",
                 "street": "7th Avenue",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2557,11 +2558,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    217.779457397286,
-                    380.2414620232488
+                    714.244382731432,
+                    1229.0613430948063
                 ],
                 "edge": 76,
-                "location_description": "on 7th Avenue, near the the intersection with West 34th Street"
+                "location_description": "on 7th Avenue, between the intersection with West 34th Street and the intersection with West 33rd Street"
             },
             {
                 "name": "5th Avenue & 29th Street",
@@ -2582,11 +2583,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    540.2288776892278,
-                    981.1509683921132
+                    1772.4148487301359,
+                    3219.041939743859
                 ],
                 "edge": 54,
-                "location_description": "on 5th Avenue, between the intersection with West 29th Street and the intersection with West 30th Street and East 30th Street"
+                "location_description": "on 5th Avenue, between the intersection with West 29th Street and the intersection with East 30th Street and West 30th Street"
             },
             {
                 "name": "5th Avenue & 32nd Street",
@@ -2607,11 +2608,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    640.1034669852187,
-                    783.3149856377906
+                    2120.633249658021,
+                    2579.415742615033
                 ],
                 "edge": 14,
-                "location_description": "on West 32nd Street, near the the intersection with 5th Avenue and East 32nd Street"
+                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
             },
             {
                 "name": "5th Avenue & West 33rd Street",
@@ -2634,11 +2635,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    661.3694133267137,
-                    759.6395550228725
+                    2169.857550951269,
+                    2492.2984575642176
                 ],
                 "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with East 32nd Street and West 32nd Street and the intersection with East 33rd Street and West 33rd Street"
+                "location_description": "on 5th Avenue, between the intersection with West 32nd Street and East 32nd Street and the intersection with East 33rd Street and West 33rd Street"
             },
             {
                 "name": "6th Avenue & West 31st Street",
@@ -2658,8 +2659,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    339.4456004292707,
-                    741.4147065463396
+                    1113.6770624468224,
+                    2432.5056476020786
                 ],
                 "edge": 68,
                 "location_description": "on 6th Avenue, between the intersection with West 31st Street and the intersection with West 30th Street"
@@ -2682,11 +2683,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    487.83266703818356,
-                    475.43186804660536
+                    1579.7463454241174,
+                    1583.3674873096504
                 ],
                 "edge": 72,
-                "location_description": "on 6th Avenue, near the the intersection with West 34th Street"
+                "location_description": "on 6th Avenue, between the intersection with West 34th Street and the intersection with West 35th Street"
             },
             {
                 "name": "6th Avenue & West 37th Street",
@@ -2706,8 +2707,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    614.5643496294816,
-                    244.42898190834467
+                    2016.2976306853739,
+                    801.9750549642604
                 ],
                 "edge": 75,
                 "location_description": "on 6th Avenue, between the intersection with West 38th Street and the intersection with West 37th Street"
@@ -2737,8 +2738,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    710.2805364006248,
-                    985.0316713320744
+                    2330.3271148414115,
+                    3231.773904769928
                 ],
                 "edge": 79,
                 "location_description": "on Madison Avenue, between the intersection with East 30th Street and the intersection with East 31st Street"
@@ -2773,8 +2774,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    281.6806036894707,
-                    300.2377155908074
+                    924.1593566083416,
+                    985.0745749191142
                 ],
                 "edge": 77,
                 "location_description": "on 7th Avenue, between the intersection with West 35th Street and the intersection with West 34th Street"
@@ -2810,8 +2811,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    602.0375084272305,
-                    763.3645850653402
+                    1975.1990703106985,
+                    2504.519684737619
                 ],
                 "edge": 14,
                 "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
@@ -2840,8 +2841,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    234.74917641174434,
-                    947.7813709059827
+                    770.1848576662857,
+                    3109.5616330312705
                 ],
                 "edge": 65,
                 "location_description": "on 6th Avenue, between the intersection with West 28th Street and the intersection with West 27th Street"
@@ -2871,8 +2872,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    551.5931741153175,
-                    764.1540690452333
+                    1809.699285823457,
+                    2507.109855275316
                 ],
                 "edge": 14,
                 "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
@@ -2906,11 +2907,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    626.6615547182565,
-                    519.7809787582964
+                    2055.9866237586234,
+                    1705.3608713974966
                 ],
                 "edge": 23,
-                "location_description": "on West 35th Street, between the intersection with 6th Avenue and the intersection with East 35th Street and 5th Avenue"
+                "location_description": "on West 35th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 35th Street"
             },
             {
                 "name": "Blaggards Pub",
@@ -2940,8 +2941,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    808.7177518708266,
-                    353.25545661505623
+                    2653.283858508761,
+                    1159.017294814248
                 ],
                 "edge": 30,
                 "location_description": "on West 38th Street, between the intersection with 5th Avenue and East 38th Street and the intersection with 6th Avenue"
@@ -2991,8 +2992,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    681.5960076267456,
-                    965.7059930806614
+                    2236.217768470793,
+                    3168.369448564758
                 ],
                 "edge": 79,
                 "location_description": "on Madison Avenue, between the intersection with East 30th Street and the intersection with East 31st Street"
@@ -3027,11 +3028,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    622.7948296941116,
-                    310.7678751448001
+                    2043.3005180364141,
+                    1019.6223424845689
                 ],
                 "edge": 29,
-                "location_description": "on West 37th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 37th Street"
+                "location_description": "on West 37th Street, between the intersection with 6th Avenue and the intersection with East 37th Street and 5th Avenue"
             },
             {
                 "name": "Cafe R",
@@ -3062,8 +3063,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    282.4660224294745,
-                    643.7188439966219
+                    926.7361897448267,
+                    2111.981164172528
                 ],
                 "edge": 9,
                 "location_description": "on West 31st Street, between the intersection with 6th Avenue and the limit of the map"
@@ -3095,11 +3096,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    729.5467676199054,
-                    692.6557312122993
+                    2393.5365348519217,
+                    2272.535256086838
                 ],
                 "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with West 34th Street and East 34th Street and the intersection with East 33rd Street and West 33rd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 34th Street and West 34th Street and the intersection with East 33rd Street and West 33rd Street"
             },
             {
                 "name": "Chick-fil-A",
@@ -3133,11 +3134,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    601.5719118978434,
-                    301.6007359366821
+                    1958.3948169785529,
+                    966.9798624481641
                 ],
                 "edge": 74,
-                "location_description": "on 6th Avenue, near the the intersection with West 37th Street"
+                "location_description": "on 6th Avenue, between the intersection with West 37th Street and the intersection with West 36th Street"
             },
             {
                 "name": "Citizens Bank",
@@ -3166,11 +3167,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    212.70646026616313,
-                    993.0681952123516
+                    688.0706526112868,
+                    3258.368754350484
                 ],
                 "edge": 65,
-                "location_description": "on 6th Avenue, near the border of the map"
+                "location_description": "on 6th Avenue, between the intersection with West 27th Street and the intersection with West 28th Street"
             },
             {
                 "name": "Consulate General of Poland",
@@ -3179,8 +3180,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "233",
                 "categories": [
-                    "office.diplomatic",
-                    "building.office"
+                    "building.office",
+                    "office.diplomatic"
                 ],
                 "opening_hours": "Mo,Tu,Th,Fr 08:30-14:30; We 11:30-17:30",
                 "contact": {
@@ -3197,8 +3198,8 @@
                     "elevator": true
                 },
                 "coords": [
-                    1016.7310073881163,
-                    535.9430656224281
+                    3314.3704897257076,
+                    1725.406938509475
                 ],
                 "edge": 85,
                 "location_description": "on Madison Avenue, near the the intersection with East 37th Street"
@@ -3236,8 +3237,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    747.9789993252591,
-                    292.07600797578664
+                    2454.0097359847305,
+                    958.297318964429
                 ],
                 "edge": 30,
                 "location_description": "on West 38th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 38th Street"
@@ -3271,11 +3272,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    633.1650660893796,
-                    523.7061596686669
+                    2077.3236033225903,
+                    1718.2387615233326
                 ],
                 "edge": 23,
-                "location_description": "on West 35th Street, between the intersection with 6th Avenue and the intersection with East 35th Street and 5th Avenue"
+                "location_description": "on West 35th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 35th Street"
             },
             {
                 "name": "Dig",
@@ -3310,8 +3311,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    403.80303667000896,
-                    996.3482608853143
+                    1290.5087084450702,
+                    3288.0534265257847
                 ],
                 "edge": 92,
                 "location_description": "on Broadway, near the border of the map"
@@ -3336,8 +3337,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    760.4603440814075,
-                    671.4992001253637
+                    2468.5947318801855,
+                    2173.985929898642
                 ],
                 "edge": 41,
                 "location_description": "on East 34th Street, near the the intersection with West 34th Street and 5th Avenue"
@@ -3362,8 +3363,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    966.9249325185323,
-                    782.8792946922306
+                    3172.3362884532253,
+                    2568.5443226208617
                 ],
                 "edge": 42,
                 "location_description": "on East 34th Street, between the intersection with Park Avenue and the intersection with Madison Avenue"
@@ -3375,12 +3376,12 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "building.office",
                     "heritage",
-                    "office",
                     "building.historic",
+                    "building.tourism",
+                    "building.office",
                     "tourism.attraction",
-                    "building.tourism"
+                    "office"
                 ],
                 "opening_hours": "Mo-Su 08:00-02:00",
                 "contact": {
@@ -3405,11 +3406,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    635.877535152591,
-                    659.6252782529268
+                    2086.2227800391274,
+                    2164.167628267808
                 ],
                 "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with West 34th Street and East 34th Street"
+                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with East 34th Street and West 34th Street"
             },
             {
                 "name": "Food Gallery 32",
@@ -3434,8 +3435,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    587.3793351300578,
-                    741.537020965142
+                    1927.1079505695106,
+                    2432.906941627019
                 ],
                 "edge": 14,
                 "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
@@ -3472,8 +3473,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    595.542421294165,
-                    750.6772439355332
+                    1953.889729323036,
+                    2462.894549797474
                 ],
                 "edge": 14,
                 "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
@@ -3513,11 +3514,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    706.329569001547,
-                    846.1380884603361
+                    2317.364623374673,
+                    2776.08629692484
                 ],
                 "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
+                "location_description": "on East 32nd Street, between the intersection with West 32nd Street and 5th Avenue and the intersection with Madison Avenue"
             },
             {
                 "name": "Joomak Banjum",
@@ -3547,11 +3548,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    620.5371340372556,
-                    818.6951805643116
+                    2035.8933800546322,
+                    2686.050509864752
                 ],
                 "edge": 56,
-                "location_description": "on 5th Avenue, between the intersection with East 31st Street and West 31st Street and the intersection with East 32nd Street and West 32nd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 31st Street and West 31st Street and the intersection with West 32nd Street and East 32nd Street"
             },
             {
                 "name": "Kosher in Midtown",
@@ -3560,8 +3561,8 @@
                 "street": "East 34th Street",
                 "housenumber": "43",
                 "categories": [
-                    "catering.food_court",
-                    "kosher.only"
+                    "kosher.only",
+                    "catering.food_court"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -3583,8 +3584,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    912.4538127154041,
-                    739.9024555439356
+                    2993.625265477798,
+                    2427.544194182138
                 ],
                 "edge": 42,
                 "location_description": "on East 34th Street, between the intersection with Madison Avenue and the intersection with Park Avenue"
@@ -3612,11 +3613,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    617.0579239384721,
-                    708.5232472444077
+                    2024.4786487594567,
+                    2324.594035719532
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "Mad Dog & Beans Mexican Cantina",
@@ -3650,11 +3651,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    946.2602778827877,
-                    402.62600404593775
+                    3104.5388651078783,
+                    1320.994156463474
                 ],
                 "edge": 50,
-                "location_description": "on East 38th Street, between the intersection with 5th Avenue and West 38th Street and the intersection with Madison Avenue"
+                "location_description": "on East 38th Street, between the intersection with West 38th Street and 5th Avenue and the intersection with Madison Avenue"
             },
             {
                 "name": "Madison Avenue & East 30th Street",
@@ -3676,11 +3677,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    732.4988973741663,
-                    991.3910107418008
+                    2399.672298405164,
+                    3261.2142938110333
                 ],
                 "edge": 79,
-                "location_description": "on Madison Avenue, near the border of the map"
+                "location_description": "on Madison Avenue, between the intersection with East 30th Street and the intersection with East 31st Street"
             },
             {
                 "name": "Madison Avenue & East 32nd Street",
@@ -3701,8 +3702,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    803.2768234295261,
-                    847.5006408011886
+                    2633.2668328919285,
+                    2819.7948846274194
                 ],
                 "edge": 81,
                 "location_description": "on Madison Avenue, near the the intersection with East 32nd Street"
@@ -3727,11 +3728,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    822.0639791842895,
-                    823.0224198052999
+                    2702.2317740367876,
+                    2694.951940999299
                 ],
                 "edge": 81,
-                "location_description": "on Madison Avenue, near the the intersection with East 33rd Street"
+                "location_description": "on Madison Avenue, between the intersection with East 33rd Street and the intersection with East 32nd Street"
             },
             {
                 "name": "Madison Avenue & East 34th Street",
@@ -3751,8 +3752,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    904.0127267188608,
-                    676.588064312288
+                    2965.9314137832125,
+                    2219.81981350171
                 ],
                 "edge": 83,
                 "location_description": "on Madison Avenue, between the intersection with East 35th Street and the intersection with East 34th Street"
@@ -3775,8 +3776,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    1017.8999937419296,
-                    469.1650481495887
+                    3339.5773029650154,
+                    1539.2981069338964
                 ],
                 "edge": 86,
                 "location_description": "on Madison Avenue, between the intersection with East 38th Street and the intersection with East 37th Street"
@@ -3788,8 +3789,8 @@
                 "street": "6th Avenue",
                 "housenumber": "809",
                 "categories": [
-                    "building.catering",
                     "catering.fast_food.burger",
+                    "building.catering",
                     "building.commercial"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
@@ -3828,8 +3829,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    192.04027901314126,
-                    926.8711649499853
+                    630.063803209487,
+                    3040.9585951181675
                 ],
                 "edge": 65,
                 "location_description": "on 6th Avenue, between the intersection with West 28th Street and the intersection with West 27th Street"
@@ -3865,11 +3866,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    233.0229219176354,
-                    1000.3501832732933
+                    777.6749113726637,
+                    3313.747330022032
                 ],
                 "edge": 0,
-                "location_description": "on West 27th Street, near the border of the map"
+                "location_description": "on West 27th Street, between the limit of the map and the intersection with 6th Avenue"
             },
             {
                 "name": "Naya",
@@ -3900,11 +3901,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    625.1788889143572,
-                    713.0711197440451
+                    2051.1222346382383,
+                    2339.514877253715
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "Nelly Spillanes",
@@ -3931,11 +3932,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    765.6698981253953,
-                    795.8779816163174
+                    2512.050742546625,
+                    2611.1909332640207
                 ],
                 "edge": 38,
-                "location_description": "on East 33rd Street, between the intersection with Madison Avenue and the intersection with 5th Avenue and West 33rd Street"
+                "location_description": "on East 33rd Street, between the intersection with Madison Avenue and the intersection with West 33rd Street and 5th Avenue"
             },
             {
                 "name": "Nuchas",
@@ -3971,11 +3972,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    408.3026387249657,
-                    654.8924963159337
+                    1344.7373618529773,
+                    2150.8154815636667
                 ],
                 "edge": 13,
-                "location_description": "on West 32nd Street, near the the intersection with Broadway"
+                "location_description": "on West 32nd Street, between the intersection with Broadway and the intersection with 6th Avenue"
             },
             {
                 "name": "O'Reilly's Pub",
@@ -4009,8 +4010,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    365.84449330322803,
-                    756.2814682382266
+                    1200.287603371533,
+                    2481.2811124702794
                 ],
                 "edge": 10,
                 "location_description": "on West 31st Street, between the intersection with 6th Avenue and the intersection with Broadway"
@@ -4043,8 +4044,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    836.4082206080717,
-                    547.2906036102886
+                    2744.131853053165,
+                    1795.6155461083958
                 ],
                 "edge": 46,
                 "location_description": "on East 36th Street, between the intersection with 5th Avenue and West 36th Street and the intersection with Madison Avenue"
@@ -4072,8 +4073,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    443.91457002839024,
-                    368.3557276535372
+                    1456.423025697156,
+                    1208.5588664626096
                 ],
                 "edge": 96,
                 "location_description": "on Broadway, between the intersection with West 35th Street and the intersection with West 36th Street"
@@ -4104,8 +4105,8 @@
                     "elevator": true
                 },
                 "coords": [
-                    868.3108081046412,
-                    698.871527611834
+                    2848.799134865638,
+                    2292.928288893629
                 ],
                 "edge": 83,
                 "location_description": "on Madison Avenue, between the intersection with East 34th Street and the intersection with East 35th Street"
@@ -4142,8 +4143,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    1015.5749041877316,
-                    484.65450143144983
+                    3331.9490563961544,
+                    1590.116523212765
                 ],
                 "edge": 86,
                 "location_description": "on Madison Avenue, between the intersection with East 37th Street and the intersection with East 38th Street"
@@ -4180,8 +4181,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    449.36505170917803,
-                    333.585074092087
+                    1474.3051834424514,
+                    1094.4819190829799
                 ],
                 "edge": 96,
                 "location_description": "on Broadway, between the intersection with West 36th Street and the intersection with West 35th Street"
@@ -4213,11 +4214,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    637.6804574040491,
-                    720.3988654108854
+                    2092.1378792892942,
+                    2363.556037577898
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "Starbucks",
@@ -4256,11 +4257,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    633.5104598280451,
-                    688.2524121170227
+                    2078.456784879887,
+                    2258.0886711286394
                 ],
                 "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with East 32nd Street and West 32nd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with West 32nd Street and East 32nd Street"
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -4301,8 +4302,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    988.1479386136876,
-                    297.1909746018558
+                    3241.9655735420392,
+                    975.0787055328301
                 ],
                 "edge": 64,
                 "location_description": "on 5th Avenue, between the intersection with East 39th Street and West 39th Street and the intersection with East 40th Street"
@@ -4338,8 +4339,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    278.81636292878704,
-                    494.27286258603976
+                    914.7622412518054,
+                    1621.6728262132622
                 ],
                 "edge": 15,
                 "location_description": "on West 33rd Street, between the intersection with 7th Avenue and the intersection with 6th Avenue"
@@ -4379,11 +4380,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    813.6375065846805,
-                    224.43613409796285
+                    2669.424786047587,
+                    736.3817222532962
                 ],
                 "edge": 31,
-                "location_description": "on West 39th Street, between the limit of the map and the intersection with 5th Avenue and East 39th Street"
+                "location_description": "on West 39th Street, between the limit of the map and the intersection with East 39th Street and 5th Avenue"
             },
             {
                 "name": "The Australian NYC",
@@ -4417,8 +4418,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    787.269643136397,
-                    342.1359639511952
+                    2582.916047700546,
+                    1122.536019670493
                 ],
                 "edge": 30,
                 "location_description": "on West 38th Street, between the intersection with 5th Avenue and East 38th Street and the intersection with 6th Avenue"
@@ -4430,8 +4431,8 @@
                 "street": "Broadway",
                 "housenumber": "1271",
                 "categories": [
-                    "vegetarian",
                     "catering.restaurant.american",
+                    "vegetarian",
                     "gluten_free"
                 ],
                 "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
@@ -4455,8 +4456,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    396.88205190432035,
-                    675.8541777966443
+                    1302.1168638733968,
+                    2217.412049342784
                 ],
                 "edge": 95,
                 "location_description": "on Broadway, between the intersection with West 32nd Street and the intersection with West 31st Street"
@@ -4484,8 +4485,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    1009.5763136804508,
-                    577.9267546072724
+                    3312.268641346099,
+                    1896.1278525285443
                 ],
                 "edge": 85,
                 "location_description": "on Madison Avenue, between the intersection with East 36th Street and the intersection with East 37th Street"
@@ -4516,8 +4517,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    861.1754789237452,
-                    772.6604809332249
+                    2825.389262224997,
+                    2535.018030760741
                 ],
                 "edge": 82,
                 "location_description": "on Madison Avenue, between the intersection with East 33rd Street and the intersection with East 34th Street"
@@ -4545,11 +4546,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    577.5229772238764,
-                    968.8194510269952
+                    1894.7708183315121,
+                    3178.5842056064944
                 ],
                 "edge": 54,
-                "location_description": "on 5th Avenue, between the intersection with West 30th Street and East 30th Street and the intersection with West 29th Street"
+                "location_description": "on 5th Avenue, between the intersection with East 30th Street and West 30th Street and the intersection with West 29th Street"
             },
             {
                 "name": "Wafels & Dinges",
@@ -4579,8 +4580,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    471.6351645916385,
-                    430.74720099406386
+                    1547.3698582533812,
+                    1413.2553013060383
                 ],
                 "edge": 22,
                 "location_description": "on West 35th Street, between the intersection with Broadway and the intersection with 6th Avenue"
@@ -4606,8 +4607,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    842.7348229864899,
-                    743.2382629789238
+                    2764.888422536081,
+                    2438.4884442968846
                 ],
                 "edge": 82,
                 "location_description": "on Madison Avenue, between the intersection with East 34th Street and the intersection with East 33rd Street"
@@ -4632,8 +4633,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    375.21491297973,
-                    732.2522445903901
+                    1231.0304500790935,
+                    2402.4450768805796
                 ],
                 "edge": 10,
                 "location_description": "on West 31st Street, between the intersection with 6th Avenue and the intersection with Broadway"
@@ -4658,8 +4659,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    405.9465314858853,
-                    673.5635623081876
+                    1331.855970112008,
+                    2209.89690666415
                 ],
                 "edge": 13,
                 "location_description": "on West 32nd Street, between the intersection with Broadway and the intersection with 6th Avenue"
@@ -4683,8 +4684,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    457.0985017604428,
-                    701.7181177342974
+                    1499.6773948966302,
+                    2302.26749533212
                 ],
                 "edge": 14,
                 "location_description": "on West 32nd Street, between the intersection with Broadway and the intersection with 5th Avenue and East 32nd Street"
@@ -4709,11 +4710,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    657.570082202657,
-                    609.8599888331597
+                    2157.3925538251483,
+                    2000.895681353215
                 ],
                 "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with 5th Avenue and East 34th Street and the intersection with 6th Avenue"
+                "location_description": "on West 34th Street, between the intersection with East 34th Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "West 34th Street & Broadway",
@@ -4735,8 +4736,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    419.23155406872877,
-                    477.2155608389399
+                    1375.442002207777,
+                    1565.7105501403237
                 ],
                 "edge": 18,
                 "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with 7th Avenue"
@@ -4761,11 +4762,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    484.66260695410307,
-                    531.2896536662449
+                    1590.1108108859678,
+                    1743.1189911740794
                 ],
                 "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 34th Street"
+                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with East 34th Street and 5th Avenue"
             },
             {
                 "name": "West 37th Street & 5th Avenue",
@@ -4786,11 +4787,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    820.8318054279241,
-                    431.4366095392982
+                    2693.028128709053,
+                    1415.517140365197
                 ],
                 "edge": 29,
-                "location_description": "on West 37th Street, between the intersection with 5th Avenue and East 37th Street and the intersection with 6th Avenue"
+                "location_description": "on West 37th Street, between the intersection with East 37th Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "Windfall Lounge",
@@ -4826,11 +4827,11 @@
                     "elevator": false
                 },
                 "coords": [
-                    806.3122598539751,
-                    231.1798126325337
+                    2635.4293393492107,
+                    743.9698274806537
                 ],
                 "edge": 31,
-                "location_description": "on West 39th Street, near the border of the map"
+                "location_description": "on West 39th Street, between the limit of the map and the intersection with East 39th Street and 5th Avenue"
             },
             {
                 "name": "Woorijip",
@@ -4865,8 +4866,8 @@
                     "elevator": false
                 },
                 "coords": [
-                    568.9976488461327,
-                    771.0592739892951
+                    1866.8005808718349,
+                    2529.764727138945
                 ],
                 "edge": 14,
                 "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
@@ -4876,7 +4877,7 @@
     "context": {
         "name": "New York City, Empire State Building neighborhood",
         "description": "The Empire State Building neighborhood is a bustling area in Midtown Manhattan, known for its iconic skyscraper and vibrant atmosphere. It is home to a mix of commercial, residential, and cultural attractions, making it a popular destination for tourists and locals alike. The neighborhood offers a variety of dining, shopping, and entertainment options, as well as easy access to public transportation.",
-        "scale": "60 m: 1 cm",
+        "scale": "500 ft: 1.5 in",
         "north_beyond_map": "Midtown North - Bryant Park and the New York Public Library. A green oasis with cultural events and the stunning Beaux-Arts library building.",
         "south_beyond_map": "Flatiron District - Flatiron Building and Madison Square Park. Known for its iconic flatiron-shaped building, trendy shops, and eateries.",
         "west_beyond_map": "Hudson Yards - The Vessel and modern skyscrapers. A newly developed area with luxury shopping, dining, and innovative public spaces.",

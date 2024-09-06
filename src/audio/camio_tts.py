@@ -129,7 +129,13 @@ class CamIOTTS(TTS):
         if info.graph_element is None:
             return False
 
-        if self.last_pos_info.graph_element != info.graph_element:
+        if (
+            self.last_pos_info.graph_element != info.graph_element
+            or info.description != self.last_pos_info.description
+        ) and info.description not in [
+            self.last_announcement.text,
+            self.current_announcement.text,
+        ]:
             self.last_pos_change_timestamp = current_time
 
             if len(info.description) == 0 or self.__stop_and_say_position(info):

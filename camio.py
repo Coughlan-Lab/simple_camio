@@ -26,11 +26,11 @@ class CamIO:
         self.description = model["context"].get("description", None)
 
         # Model graph
-        self.graph = Graph(model["graph"], meters_per_cm=model["meters_per_cm"])
+        self.graph = Graph(model["graph"], feets_per_inch=model["feets_per_inch"])
         self.position_handler = PositionHandler(
             self.graph,
-            meters_per_pixel=model["meters_per_pixel"],
-            meters_per_cm=model["meters_per_cm"],
+            feets_per_pixel=model["feets_per_pixel"],
+            feets_per_inch=model["feets_per_inch"],
         )
         self.last_pos_info = NONE_POSITION_INFO
 
@@ -170,7 +170,7 @@ class CamIO:
             hand_status == HandStatus.POINTING
             and finger_pos is not None
             and not self.position_handler.is_valid_position(
-                finger_pos * self.position_handler.meters_per_pixel
+                finger_pos * self.position_handler.feets_per_pixel
             )
         ):
             hand_status = HandStatus.NOT_FOUND

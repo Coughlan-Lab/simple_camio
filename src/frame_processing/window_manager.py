@@ -64,7 +64,7 @@ class WindowManager:
 
         for poi in self.position_handler.graph.pois:
             if poi.enabled:
-                x, y = poi.coords / self.position_handler.meters_per_pixel
+                x, y = poi.coords / self.position_handler.feets_per_pixel
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
 
@@ -72,12 +72,12 @@ class WindowManager:
         border = -1 if last_pos_info.is_still_valid() else 2
 
         snapped_pos = (
-            last_pos_info.snap_to_graph() / self.position_handler.meters_per_pixel
+            last_pos_info.snap_to_graph() / self.position_handler.feets_per_pixel
         )
         snapped_x, snapped_y = int(snapped_pos.x), int(snapped_pos.y)
         cv2.circle(template, (snapped_x, snapped_y), 10, (28, 172, 255), border)
 
-        pos = last_pos_info.real_pos / self.position_handler.meters_per_pixel
+        pos = last_pos_info.real_pos / self.position_handler.feets_per_pixel
         x, y = int(pos.x), int(pos.y)
         cv2.circle(template, (x, y), 10, (255, 0, 0), border)
 

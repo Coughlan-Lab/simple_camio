@@ -80,7 +80,7 @@ class Node(Position):
                     description += f" that last {walk_light_duration} seconds"
 
         if street_width != "unknown":
-            description += f", {street_width} meters wide"
+            description += f", {street_width} feets wide"
 
         return description
 

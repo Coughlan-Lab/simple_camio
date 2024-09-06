@@ -71,27 +71,27 @@ NONE_INFO = PositionInfo(Coords_ZERO)
 
 
 class PositionHandler:
-    MAP_MARGIN = 2.0  # cm
+    MAP_MARGIN = 1.0  # inch
 
-    EDGES_MIN_DISTANCE = 0.5  # cm
-    NODES_MIN_DISTANCE = 0.25  # cm
-    POIS_MIN_DISTANCE = 0.5  # cm
+    EDGES_MIN_DISTANCE = 0.3  # inch
+    NODES_MIN_DISTANCE = 0.25  # inch
+    POIS_MIN_DISTANCE = 0.35  # inch
 
-    GRAVITY_EFFECT = 0.25  # cm
-    MOVEMENT_THRESHOLD = 0.5  # cm
+    GRAVITY_EFFECT = 0.2  # inch
+    MOVEMENT_THRESHOLD = 0.35  # inch
 
     def __init__(
-        self, graph: Graph, meters_per_pixel: float, meters_per_cm: float
+        self, graph: Graph, feets_per_pixel: float, feets_per_inch: float
     ) -> None:
-        self.meters_per_pixel = meters_per_pixel
-        self.meters_per_cm = meters_per_cm
+        self.feets_per_pixel = feets_per_pixel
+        self.feets_per_inch = feets_per_inch
 
-        self.map_margin = self.__to_meters(PositionHandler.MAP_MARGIN)
-        self.edges_min_distance = self.__to_meters(PositionHandler.EDGES_MIN_DISTANCE)
-        self.nodes_min_distance = self.__to_meters(PositionHandler.NODES_MIN_DISTANCE)
-        self.pois_min_distance = self.__to_meters(PositionHandler.POIS_MIN_DISTANCE)
-        self.points_gravity = self.__to_meters(PositionHandler.GRAVITY_EFFECT)
-        self.movement_threshold = self.__to_meters(PositionHandler.MOVEMENT_THRESHOLD)
+        self.map_margin = self.__to_feets(PositionHandler.MAP_MARGIN)
+        self.edges_min_distance = self.__to_feets(PositionHandler.EDGES_MIN_DISTANCE)
+        self.nodes_min_distance = self.__to_feets(PositionHandler.NODES_MIN_DISTANCE)
+        self.pois_min_distance = self.__to_feets(PositionHandler.POIS_MIN_DISTANCE)
+        self.points_gravity = self.__to_feets(PositionHandler.GRAVITY_EFFECT)
+        self.movement_threshold = self.__to_feets(PositionHandler.MOVEMENT_THRESHOLD)
 
         self.graph = graph
         self.min_corner, self.max_corner = self.graph.bounds
@@ -122,7 +122,7 @@ class PositionHandler:
         )
 
     def process_position(self, pos: Coords) -> bool:
-        pos *= self.meters_per_pixel
+        pos *= self.feets_per_pixel
 
         if self.is_valid_position(pos):
             self.positions_buffer.add(pos)
@@ -227,5 +227,5 @@ class PositionHandler:
             return MovementDirection.NONE
         return MovementDirection.FORWARD if dot > 0 else MovementDirection.BACKWARD
 
-    def __to_meters(self, value: float) -> float:
-        return value * self.meters_per_cm
+    def __to_feets(self, value: float) -> float:
+        return value * self.feets_per_inch

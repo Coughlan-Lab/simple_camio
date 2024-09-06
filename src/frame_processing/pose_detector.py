@@ -18,7 +18,6 @@ class HandStatus(Enum):
 
 class PoseDetector:
     POINTING_THRESHOLD = 0.15
-    MAP_MARGIN = 50  # meters
 
     def __init__(self, image_size: Tuple[float, float]) -> None:
         self.image_size = image_size

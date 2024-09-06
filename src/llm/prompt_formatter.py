@@ -250,7 +250,7 @@ class PromptFormatter:
         prompt += self.__road_features_prompt() + "\n\n"
 
         prompt += (
-            "All units are in meters.\n"
+            "All units are in feets.\n"
             f"North is indicated by the vector {self.graph.reference_system.north}, "
             f"South by {self.graph.reference_system.south}, "
             f"West by {self.graph.reference_system.west}, and "
@@ -347,7 +347,9 @@ class PromptFormatter:
 
         del features[NodeFeatures.ON_BORDER]
 
-        features[NodeFeatures.STREET_WIDTH] = f"{features[NodeFeatures.STREET_WIDTH]} m"
+        features[NodeFeatures.STREET_WIDTH] = (
+            f"{features[NodeFeatures.STREET_WIDTH]} ft"
+        )
 
         if NodeFeatures.WALK_LIGHT_DURATION in features:
             features[NodeFeatures.WALK_LIGHT_DURATION] = (

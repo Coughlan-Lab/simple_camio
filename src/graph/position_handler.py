@@ -76,11 +76,11 @@ class PositionHandler:
     MAP_MARGIN = 1.0  # inch
 
     EDGES_MIN_DISTANCE = 0.3  # inch
-    NODES_MIN_DISTANCE = 0.25  # inch
-    POIS_MIN_DISTANCE = 0.35  # inch
+    NODES_MIN_DISTANCE = 0.15  # inch
+    POIS_MIN_DISTANCE = 0.25  # inch
 
     GRAVITY_EFFECT = 0.2  # inch
-    MOVEMENT_THRESHOLD = 0.35  # inch
+    MOVEMENT_THRESHOLD = 0.25  # inch
 
     def __init__(
         self, graph: Graph, feets_per_pixel: float, feets_per_inch: float

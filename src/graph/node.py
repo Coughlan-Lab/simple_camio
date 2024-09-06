@@ -15,6 +15,16 @@ class Features(StrEnum):
     TACTILE_PAVING = "tactile_paving"
 
 
+default_features = {
+    "on_border": False,
+    "crosswalk": False,
+    "walk_light": False,
+    "round-about": False,
+    "street_width": "unknown",
+    "tactile_paving": False,
+}
+
+
 class Node(Position):
     def __init__(
         self, index: int, coords: Coords, features: Optional[Dict[str, Any]] = None
@@ -23,7 +33,7 @@ class Node(Position):
         self.index = index
         self.adjacents_streets: List[str] = list()
 
-        self.features = features if features is not None else dict()
+        self.features = features if features is not None else default_features
 
     @property
     def id(self) -> str:

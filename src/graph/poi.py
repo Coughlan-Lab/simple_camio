@@ -31,6 +31,16 @@ class Features(StrEnum):
     ELEVATOR = "elevator"
 
 
+default_features = {
+    "wheelchair_accessible": False,
+    "tactile_paving": False,
+    "tactile_map": False,
+    "reception": False,
+    "stairs": False,
+    "elevator": False,
+}
+
+
 class PoI(Position):
 
     def __init__(
@@ -52,7 +62,7 @@ class PoI(Position):
         self.enabled = False
 
     def accessibility(self) -> Dict[str, Any]:
-        return dict(self.__info.get("accessibility", dict()))
+        return dict(self.__info.get("accessibility", default_features))
 
     def get_complete_description(self) -> str:
         description = f"{self.name} on {self.street}"

@@ -10,7 +10,7 @@ from .tts import TTS, Announcement
 
 class CamIOTTS(TTS):
     DETAILED_NODES_ANNOUNCEMENT_DELAY = 1.5
-    DETAILED_ANNOUNCEMENT_DELAY = 4
+    DETAILED_ANNOUNCEMENT_DELAY = 2.5
 
     ANNOUNCEMENT_INTERVAL = 0.25
     ERROR_INTERVAL = 5
@@ -122,7 +122,7 @@ class CamIOTTS(TTS):
             self.last_pos_change_timestamp = current_time
 
         if (
-            time.time() - self._timestamps[Announcement.Category.GRAPH]
+            current_time - self._timestamps[Announcement.Category.GRAPH]
             < CamIOTTS.ANNOUNCEMENT_INTERVAL
         ):
             return False
@@ -130,13 +130,9 @@ class CamIOTTS(TTS):
         if info.graph_element is None:
             return False
 
-        if (
-            self.last_pos_info.graph_element != info.graph_element
-            or info.description != self.last_pos_info.description
-        ) and info.description not in [
-            self.last_announcement.text,
-            self.current_announcement.text,
-        ]:
+        if self.__has_changed_position(info) and not self.__is_repeated(
+            info.description
+        ):
             self.last_pos_change_timestamp = current_time
 
             if len(info.description) == 0 or self.__stop_and_say_position(info):
@@ -145,12 +141,7 @@ class CamIOTTS(TTS):
 
             return False
 
-        if not self.last_pos_info.is_still_valid() or (
-            info.movement == MovementDirection.NONE
-            and current_time - self.last_pos_change_timestamp > self.get_delay(info)
-            and info.graph_element.get_complete_description()
-            not in [self.last_announcement.text, self.current_announcement.text]
-        ):
+        if not self.last_pos_info.is_still_valid() or self.__should_play_detailed(info):
             if self.__say_position_detailed(info):
                 self.last_pos_info = info
                 self.last_pos_change_timestamp = math.inf
@@ -158,7 +149,26 @@ class CamIOTTS(TTS):
 
         return False
 
-    def get_delay(self, info: PositionInfo) -> float:
+    def __has_changed_position(self, info: PositionInfo) -> bool:
+        return self.last_pos_info.graph_element != info.graph_element
+
+    def __is_repeated(self, description: str) -> bool:
+        return description in [
+            self.last_announcement.text,
+            self.current_announcement.text,
+        ]
+
+    def __should_play_detailed(self, info: PositionInfo) -> bool:
+        if info.graph_element is None:
+            return False
+
+        return (
+            info.movement == MovementDirection.NONE
+            and time.time() - self.last_pos_change_timestamp > self.__get_delay(info)
+            and not self.__is_repeated(info.graph_element.get_complete_description())
+        )
+
+    def __get_delay(self, info: PositionInfo) -> float:
         return (
             CamIOTTS.DETAILED_NODES_ANNOUNCEMENT_DELAY
             if info.is_node()

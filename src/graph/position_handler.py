@@ -1,15 +1,22 @@
 import math
 import time
+from enum import Enum
 from typing import Optional
 
 from src.utils import ArithmeticBuffer
 
 from .coords import ZERO as Coords_ZERO
 from .coords import Coords, Position
-from .edge import Edge, MovementDirection
+from .edge import Edge
 from .graph import Graph
 from .node import Node
 from .poi import PoI
+
+
+class MovementDirection(Enum):
+    NONE = 0
+    FORWARD = 1
+    BACKWARD = 2
 
 
 class PositionInfo:

@@ -1,16 +1,9 @@
-from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
 from src.utils import StrEnum
 
 from .coords import Coords, Position, StraightLine
 from .node import Node
-
-
-class MovementDirection(Enum):
-    NONE = 0
-    FORWARD = 1
-    BACKWARD = 2
 
 
 class Features(StrEnum):

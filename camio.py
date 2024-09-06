@@ -32,7 +32,6 @@ class CamIO:
             feets_per_pixel=model["feets_per_pixel"],
             feets_per_inch=model["feets_per_inch"],
         )
-        self.last_pos_info = NONE_POSITION_INFO
 
         # Frame processing
         self.window_manager = WindowManager(
@@ -116,8 +115,8 @@ class CamIO:
                 continue
 
             self.position_handler.process_position(finger_pos)
+            position = self.position_handler.get_position_info()
             if hand_status == HandStatus.POINTING and not self.is_handling_user_input():
-                position = self.position_handler.get_position_info()
                 self.audio_manager.position_feedback(position)
                 self.tts.announce_position(position)
 

@@ -3,13 +3,14 @@ import math
 import os
 import time
 
-from src.graph import NONE_POSITION_INFO, PositionInfo
+from src.graph import NONE_POSITION_INFO, MovementDirection, PositionInfo
 
 from .tts import TTS, Announcement
 
 
 class CamIOTTS(TTS):
-    DETAILED_ANNOUNCEMENT_DELAY = 1.5
+    DETAILED_NODES_ANNOUNCEMENT_DELAY = 1.5
+    DETAILED_ANNOUNCEMENT_DELAY = 4
 
     ANNOUNCEMENT_INTERVAL = 0.25
     ERROR_INTERVAL = 5
@@ -145,8 +146,8 @@ class CamIOTTS(TTS):
             return False
 
         if not self.last_pos_info.is_still_valid() or (
-            current_time - self.last_pos_change_timestamp
-            > CamIOTTS.DETAILED_ANNOUNCEMENT_DELAY
+            info.movement == MovementDirection.NONE
+            and current_time - self.last_pos_change_timestamp > self.get_delay(info)
             and info.graph_element.get_complete_description()
             not in [self.last_announcement.text, self.current_announcement.text]
         ):
@@ -156,6 +157,13 @@ class CamIOTTS(TTS):
                 return True
 
         return False
+
+    def get_delay(self, info: PositionInfo) -> float:
+        return (
+            CamIOTTS.DETAILED_NODES_ANNOUNCEMENT_DELAY
+            if info.is_node()
+            else CamIOTTS.DETAILED_ANNOUNCEMENT_DELAY
+        )
 
     def __stop_and_say_position(self, info: PositionInfo) -> bool:
         return self.stop_and_say(

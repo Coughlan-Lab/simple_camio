@@ -20,12 +20,14 @@ class PositionInfo:
         real_pos: Coords,
         graph_element: Optional[Position] = None,
         description: str = "",
+        movement: MovementDirection = MovementDirection.NONE,
         max_life: float = DEFAULT_MAX_LIFE,
     ) -> None:
         self.description = description
         self.real_pos = real_pos
         self.graph_element = graph_element
         self.distance = self.get_distance_to_graph_element(real_pos)
+        self.movement = movement
 
         self.max_life = max_life
         self.timestamp = time.time()
@@ -178,7 +180,11 @@ class PositionHandler:
         if distance > self.nodes_min_distance:
             return NONE_INFO
 
-        return PositionInfo(pos, nearest_node)  # Nodes are not immediately announced
+        return PositionInfo(
+            pos,
+            nearest_node,
+            max_life=PositionInfo.DEFAULT_MAX_LIFE * 2,
+        )  # Nodes are not immediately announced
 
     def get_nearest_poi_info(self, pos: Coords) -> PositionInfo:
         nearest_poi, distance = self.graph.get_nearest_poi(pos)
@@ -186,7 +192,12 @@ class PositionHandler:
         if nearest_poi is None or distance > self.pois_min_distance:
             return NONE_INFO
 
-        return PositionInfo(pos, nearest_poi, nearest_poi.name)
+        return PositionInfo(
+            pos,
+            nearest_poi,
+            nearest_poi.name,
+            max_life=PositionInfo.DEFAULT_MAX_LIFE * 2,
+        )
 
     def get_nearest_edge_info(self, pos: Coords) -> PositionInfo:
         nearest_edge, distance_edge = self.graph.get_nearest_edge(pos)
@@ -203,7 +214,10 @@ class PositionHandler:
             return PositionInfo.copy(self.last_info, pos)
 
         return PositionInfo(
-            pos, nearest_edge, nearest_edge.get_movement_description(movement_dir)
+            pos,
+            nearest_edge,
+            nearest_edge.street,
+            movement=movement_dir,
         )
 
     def get_movement_direction(

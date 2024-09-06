@@ -33,7 +33,7 @@ class Announcement(ABC):
 
 @dataclass(frozen=True)
 class TextAnnouncement(Announcement):
-    text: str = field(default="", compare=False)
+    text: Optional[str] = field(default=None, compare=False)
     category: Announcement.Category = Announcement.Category.SYSTEM
     priority: Announcement.Priority = Announcement.Priority.LOW
 
@@ -178,11 +178,16 @@ class TTS:
             return
 
         with self.is_speaking_cond:
-            if self.is_speaking():
-                if self.current_announcement.category not in {
+            if (
+                self.is_speaking()
+                and self.current_announcement.text is not None
+                and self.current_announcement_index
+                < len(self.current_announcement.text)
+            ):
+                if self.current_announcement.category not in [
                     Announcement.Category.ERROR,
                     Announcement.Category.GRAPH,
-                }:
+                ]:
                     self.paused_announcement = TextAnnouncement(
                         text=self.current_announcement.text[
                             self.current_announcement_index :
@@ -205,10 +210,13 @@ class TTS:
 
     def say(
         self,
-        text: str,
+        text: Optional[str],
         category: Announcement.Category,
         priority: Announcement.Priority = Announcement.Priority.LOW,
     ) -> bool:
+        if text is None:
+            return False
+
         text = text.strip()
         if len(text) == 0:
             return False
@@ -223,7 +231,7 @@ class TTS:
 
     def stop_and_say(
         self,
-        text: str,
+        text: Optional[str],
         category: Announcement.Category,
         priority: Announcement.Priority = Announcement.Priority.LOW,
     ) -> bool:

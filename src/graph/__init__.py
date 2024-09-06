@@ -4,7 +4,7 @@ from typing import Any
 from .coords import Coords
 from .edge import Edge
 from .edge import Features as EdgeFeatures
-from .edge import Street
+from .edge import MovementDirection, Street
 from .graph import Graph
 from .node import Features as NodeFeatures
 from .node import Node
@@ -40,6 +40,7 @@ __all__ = [
     "NodeFeatures",
     "Edge",
     "EdgeFeatures",
+    "MovementDirection",
     "Street",
     "Graph",
     "GraphEncoder",

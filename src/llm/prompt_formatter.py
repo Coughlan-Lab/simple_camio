@@ -19,7 +19,6 @@ from .tool_calls import ToolCall, tool_calls
 class PromptFormatter:
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
-        self.tool_call_response_needs_processing = False
 
     def handle_tool_call(
         self, tool_call: ChatCompletionMessageToolCall
@@ -32,7 +31,6 @@ class PromptFormatter:
         print(f"Parameters: {params}")
 
         fnc = ToolCall.get(tool_call.function.name)
-        error = False
 
         try:
             if fnc == ToolCall.GET_DISTANCE:
@@ -61,8 +59,8 @@ class PromptFormatter:
                 poi = self.graph.get_poi_details(params["poi_index"])
                 result = str_dict(poi.info)
 
-            elif fnc == ToolCall.GET_ROUTE:
-                result = self.graph.get_route(
+            elif fnc == ToolCall.GUIDE_TO_DESTINATION:
+                self.graph.get_route(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
                     params["only_by_walking"],
@@ -70,9 +68,10 @@ class PromptFormatter:
                     params.get("transport_preference", None),
                     params.get("alternative_route_index", 0),
                 )
+                result = "Navigation mode has been enabled."
 
-            elif fnc == ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST:
-                result = self.graph.get_route_to_poi(
+            elif fnc == ToolCall.GUIDE_TO_POINT_OF_INTEREST:
+                self.graph.get_route_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
                     params["only_by_walking"],
@@ -80,6 +79,7 @@ class PromptFormatter:
                     params.get("transport_preference", None),
                     params.get("alternative_route_index", 0),
                 )
+                result = "Navigation mode has been enabled."
 
             elif fnc == ToolCall.ENABLE_POINTS_OF_INTERESTS:
                 if params["disable_previous"]:
@@ -93,15 +93,9 @@ class PromptFormatter:
         except Exception as e:
             print(f"An error occurred during a function call: {e}")
             result = "An error occurred while processing the function call."
-            error = True
 
         if not isinstance(result, str):
             result = json.dumps(result, cls=GraphEncoder)
-
-        if not error:
-            self.tool_call_response_needs_processing = (
-                self.tool_call_response_needs_processing or fnc.needs_further_processing
-            )
 
         print(f"Result:\n{result}")
 
@@ -110,31 +104,6 @@ class PromptFormatter:
             tool_call_id=tool_call.id,
             content=result,
         )
-
-    def get_process_message(self, response: str) -> ChatCompletionUserMessageParam:
-        assert self.tool_call_response_needs_processing
-
-        prompt = (
-            "Divide these directions into steps. "
-            "For each step, you MUST include the distance to the next point, the direction to follow, and my current destination, like the intersection where I need to turn.\n"
-            # "If directions are generic or not detailed enough, add further details, like the intersections along the way.\n"
-            # "Also, convert egocentric directions into allocentric ones, like 'turn left' into 'turn north' if I'm walking east.\n"
-            "Build a coherent speech that includes ALL this information.\n"
-            "Provide only the first step of the directions; when I ask for more, give me the next one, and so on.\n"
-            # "When I'm on the street where my destination is located, tell me how to find the point of interest and what streets I need to cross.\n"
-            "If I get lost, call get_route or get_route_to_point_of_interest again to provide the best route to the destination.\n\n"
-        )
-
-        prompt += (
-            "Remember that you MUST follow these instructions:\n"
-            f"{self.instructions}\n"
-        )
-
-        prompt += f"{response}"
-
-        self.tool_call_response_needs_processing = False
-
-        return ChatCompletionUserMessageParam(content=prompt, role="user")
 
     def get_user_message(
         self, question: str, position: Optional[PositionInfo]
@@ -362,12 +331,11 @@ class PromptFormatter:
 
     instructions = (
         "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
-        "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective.\n"
+        "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective. Do not include unnecessary information.\n"
         "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
         "- Stick to the provided information: when information is insufficient to answer a question, "
         "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
         "- If my question is ambiguous or unclear, ask for clarification.\n"
-        # "- When giving directions, you MUST call get_route or get_route_to_point_of_interest to provide the best route to the destination.\n"
         "- When I ask where a point of interest is located or what's its nearest intersection, call get_point_of_interest_details to get more information about it.\n"
         "- Everytime I ask a question, you MUST call enable_points_of_interest to enable the points of interest relevant to the conversation, "
         "even if they are not explicitly mentioned in my question.\n"

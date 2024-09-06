@@ -33,8 +33,9 @@ class LLM:
         self.client = OpenAI()
         self.prompt_formatter = PromptFormatter(graph)
 
+        self.context = context
         self.history: List[ChatCompletionMessageParam] = list()
-        self.history.append(self.prompt_formatter.get_main_prompt(context))
+        self.history.append(self.prompt_formatter.get_main_prompt(self.context))
         self.usage: List[Optional[CompletionUsage]] = list()
 
         self.running = False
@@ -46,7 +47,9 @@ class LLM:
         self.running = False
 
     def reset(self) -> None:
+        self.running = False
         self.history.clear()
+        self.history.append(self.prompt_formatter.get_main_prompt(self.context))
 
     def ask(self, question: str, position: Optional[PositionInfo]) -> Optional[str]:
         new_message = self.prompt_formatter.get_user_message(question, position)
@@ -81,18 +84,15 @@ class LLM:
 
                 self.history.append(convert_assistant_message(response_message))
 
-                if response_message.tool_calls is not None:
+                if (
+                    response_message.tool_calls is not None
+                    and len(response_message.tool_calls) > 0
+                ):
                     for tool_call in response_message.tool_calls:
                         self.history.append(
                             self.prompt_formatter.handle_tool_call(tool_call)
                         )
                     self.history.append(self.prompt_formatter.get_instructions_prompt())
-
-                elif self.prompt_formatter.tool_call_response_needs_processing:
-                    self.history.append(
-                        self.prompt_formatter.get_process_message(output)
-                    )
-                    output = ""
 
                 else:
                     break
@@ -113,9 +113,9 @@ class LLM:
             if "content" in msg and msg["content"] is not None and msg["content"] != "":
                 msgs.append(f"{msg['role']}:\n{msg['content']}")
 
-            if "tool_calls" in msg and msg["tool_calls"] is not None:
+            if "tool_calls" in msg and msg.get("tool_calls", None) is not None:
                 msgs.append(f"{msg['role']}:")
-                for tool_call in msg["tool_calls"]:
+                for tool_call in msg.get("tool_calls", list()):
                     msgs.append(
                         f"Tool call: {tool_call['function']['name']}\n"
                         f"Parameters: {tool_call['function']['arguments']}"

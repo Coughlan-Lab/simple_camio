@@ -6,27 +6,14 @@ from src.utils import StrEnum
 
 
 class ToolCall(StrEnum):
-    # function name, response after tool call should be further processed
-    GET_DISTANCE = "get_distance", False
-    GET_DISTANCE_TO_POINT_OF_INTEREST = "get_distance_to_point_of_interest", False
-    AM_I_AT_POINT_OF_INTEREST = "am_i_at_point_of_interest", False
-    GET_NEARBY_POINTS_OF_INTEREST = "get_nearby_points_of_interest", False
-    GET_POINT_OF_INTEREST_DETAILS = "get_point_of_interest_details", False
-    GET_ROUTE = "get_route", True
-    GET_ROUTE_TO_POINT_OF_INTEREST = "get_route_to_point_of_interest", True
-    ENABLE_POINTS_OF_INTERESTS = "enable_points_of_interests", False
-
-    def __new__(cls, *args) -> "ToolCall":
-        obj = str.__new__(cls, args[0])
-        obj._value_ = args[0]
-        return obj
-
-    def __init__(self, _: str, needs_further_processing: bool):
-        self.__needs_further_processing = needs_further_processing
-
-    @property
-    def needs_further_processing(self) -> bool:
-        return self.__needs_further_processing
+    GET_DISTANCE = "get_distance"
+    GET_DISTANCE_TO_POINT_OF_INTEREST = "get_distance_to_point_of_interest"
+    AM_I_AT_POINT_OF_INTEREST = "am_i_at_point_of_interest"
+    GET_NEARBY_POINTS_OF_INTEREST = "get_nearby_points_of_interest"
+    GET_POINT_OF_INTEREST_DETAILS = "get_point_of_interest_details"
+    GUIDE_TO_DESTINATION = "guide_to_destination"
+    GUIDE_TO_POINT_OF_INTEREST = "guide_to_point_of_interest"
+    ENABLE_POINTS_OF_INTERESTS = "enable_points_of_interests"
 
     @classmethod
     def get(cls, function_name: str) -> "ToolCall":
@@ -189,8 +176,11 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name=ToolCall.GET_ROUTE,
-            description="Get directions to reach a certain position. You MUST call this function everytime I ask for directions to a specific position, like an intersection.",
+            name=ToolCall.GUIDE_TO_DESTINATION,
+            description=(
+                "Guide me to a specific position. You MUST call this function everytime I ask for directions to a specific position, like an intersection."
+                "This function does not return a response. It is used to guide me to a specific position. "
+            ),
             parameters={
                 "type": "object",
                 "properties": {
@@ -259,8 +249,11 @@ tool_calls = [
     ChatCompletionToolParam(
         type="function",
         function=FunctionDefinition(
-            name=ToolCall.GET_ROUTE_TO_POINT_OF_INTEREST,
-            description="Get directions to reach a point of interest. You MUST call this function everytime I ask for directions to a specific point of interest.",
+            name=ToolCall.GUIDE_TO_POINT_OF_INTEREST,
+            description=(
+                "Guide me to a specific point of interest. You MUST call this function everytime I ask for directions to a point of interest."
+                "This function does not return a response. It is used to guide me to a specific point of interest. "
+            ),
             parameters={
                 "type": "object",
                 "properties": {

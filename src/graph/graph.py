@@ -360,25 +360,24 @@ class Graph:
                 )
                 same_direction = direction == waypoints[-1].direction
 
+            description = "Continue straight" if same_direction else f"Head {direction}"
+
             crossings = self.get_crossings(start, destination)
-            description = "{} for {} intersection{}{}".format(
-                (
-                    "Continue straight"
-                    if same_direction
-                    else f"Head {direction} and proceed"
-                ),
-                crossings,
-                "s" if crossings > 1 else "",
-                (
-                    f" until {destination.get_short_description()}"
-                    if isinstance(destination, Node)
-                    else (
-                        f", and then continue for {destination.get_distance_description(to_coords)}"
-                        if isinstance(destination, Edge)
-                        else " until your final destination"
-                    )
-                ),
-            )
+            if crossings == 1 and not isinstance(destination, Node):
+                description += ", pass the first intersection"
+            elif crossings > 1:
+                description += f" for {crossings} intersections"
+
+            if isinstance(destination, Node):
+                description += f" until {destination.get_short_description()}"
+            elif isinstance(destination, Edge):
+                if crossings > 0:
+                    description += f", and then continue"
+                description += f" for {destination.get_distance_description(to_coords)}"
+            else:
+                if crossings == 1:
+                    description += ", and then continue"
+                description += " until your final destination"
 
             waypoints.append(
                 WayPoint(

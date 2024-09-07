@@ -3,14 +3,8 @@ import time
 from enum import Enum
 from typing import Optional
 
+from src.graph import Coords, Coords_ZERO, Edge, Graph, Node, PoI, Position
 from src.utils import ArithmeticBuffer
-
-from .coords import ZERO as Coords_ZERO
-from .coords import Coords, Position
-from .edge import Edge
-from .graph import Graph
-from .node import Node
-from .poi import PoI
 
 
 class MovementDirection(Enum):

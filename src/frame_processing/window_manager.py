@@ -1,11 +1,11 @@
 # type: ignore
-from typing import Optional
+from typing import List, Optional
 
 import cv2
 import numpy as np
 import numpy.typing as npt
 
-from src.graph.position_handler import PositionHandler
+from src.graph import Coords, PositionHandler
 from src.utils import FPSManager
 
 
@@ -23,6 +23,7 @@ class WindowManager:
 
         self.template: npt.NDArray[np.uint8]
         self.position_handler: PositionHandler
+        self.waypoints: List[Coords] = list()
 
         if self.debug:
             assert (
@@ -47,6 +48,8 @@ class WindowManager:
         cv2.waitKey(1)  # Necessary for the window to show
 
     def close(self) -> None:
+        self.waypoints.clear()
+        self.fps_manager.clear()
         cv2.destroyAllWindows()
 
     def __draw_debug_info(self) -> None:
@@ -61,6 +64,11 @@ class WindowManager:
             (0, 0, 0),
             2,
         )
+
+        for waypoint in self.waypoints:
+            x, y = waypoint / self.position_handler.feets_per_pixel
+            x, y = int(x), int(y)
+            cv2.circle(template, (x, y), 10, (0, 255, 0), -1)
 
         for poi in self.position_handler.graph.pois:
             if poi.enabled:
@@ -84,3 +92,9 @@ class WindowManager:
         cv2.line(template, (snapped_x, snapped_y), (x, y), (0, 0, 0), 4)
 
         cv2.imshow(f"{self.window_name} - Debug", template)
+
+    def clear_waypoints(self) -> None:
+        self.waypoints.clear()
+
+    def add_waypoint(self, coords: Coords) -> None:
+        self.waypoints.append(coords)

@@ -3,7 +3,7 @@ import sys
 import threading as th
 import time
 from functools import partial
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from src.frame_processing import VideoCapture, WindowManager
 from src.input_handler import InputHandler, InputListener
@@ -13,7 +13,7 @@ import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
-from src.graph import Coords, Graph, PositionHandler
+from src.graph import Coords, Graph, PositionHandler, WayPoint
 from src.llm import LLM
 from src.utils import *
 
@@ -27,6 +27,7 @@ class CamIO:
 
         # Model graph
         self.graph = Graph(model["graph"], feets_per_inch=model["feets_per_inch"])
+        self.graph.on_new_route = self.enable_navigation_mode
         self.position_handler = PositionHandler(
             self.graph,
             feets_per_pixel=model["feets_per_pixel"],
@@ -91,6 +92,9 @@ class CamIO:
         self.audio_manager.start()
 
         self.running = True
+        self.graph.guide_to_poi(
+            Coords(634.1952458372947, 2464.163207108267), destination_poi_index=41
+        )
         while self.running and video_capture.is_opened():
             self.window_manager.update(frame)
 
@@ -160,6 +164,14 @@ class CamIO:
             self.tts.map_description(self.description)
         else:
             self.tts.no_map_description()
+
+    def enable_navigation_mode(self, start: Coords, waypoints: List[WayPoint]) -> None:
+        print("Enabling navigation mode.")
+        self.window_manager.clear_waypoints()
+        self.window_manager.add_waypoint(start)
+        for waypoint in waypoints:
+            print(waypoint)
+            self.window_manager.add_waypoint(waypoint.coords)
 
     def __process_hand_status(
         self, hand_status: HandStatus, finger_pos: Optional[Coords]

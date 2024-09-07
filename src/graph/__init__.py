@@ -1,11 +1,13 @@
 from json import JSONEncoder
 from typing import Any
 
-from .coords import Coords
+from .coords import INF as Coords_INF
+from .coords import ZERO as Coords_ZERO
+from .coords import Coords, Position
 from .edge import Edge
 from .edge import Features as EdgeFeatures
 from .edge import Street
-from .graph import Graph
+from .graph import Graph, WayPoint
 from .node import Features as NodeFeatures
 from .node import Node
 from .poi import PoI
@@ -40,12 +42,16 @@ __all__ = [
     "NodeFeatures",
     "Edge",
     "EdgeFeatures",
-    "MovementDirection",
     "Street",
     "Graph",
     "GraphEncoder",
+    "WayPoint",
+    "PoI",
+    "Coords_ZERO",
+    "Coords_INF",
+    "Position",
     "PositionHandler",
+    "MovementDirection",
     "PositionInfo",
     "NONE_POSITION_INFO",
-    "PoI",
 ]

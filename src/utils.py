@@ -143,6 +143,11 @@ class FPSManager:
 
         return self.fps
 
+    def clear(self) -> None:
+        self.last_time = time.time()
+        self.frame_count = 0
+        self.fps = 0.0
+
 
 class StrEnum(str, Enum):
     def __str__(self) -> str:

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, Iterator, List, Optional, Set
 
 from src.utils import StrEnum
 
@@ -110,6 +110,9 @@ class Edge(StraightLine, Position):
             return False
         return self.node1 == other.node1 and self.node2 == other.node2
 
+    def __iter__(self) -> Iterator[Node]:
+        return iter((self.node1, self.node2))
+
     def __hash__(self) -> int:
         return hash(self.id)
 
@@ -156,6 +159,19 @@ class Edge(StraightLine, Position):
 
         return description
 
+    def get_distance_description(self, coords: Coords) -> str:
+        if not self.contains(coords):
+            raise ValueError("Coords are not on the edge")
+
+        distance = self.node1.distance_to(coords)
+        length = self.length
+
+        if distance < 0.33 * length:
+            return "one third a block"
+        if distance < 0.66 * length:
+            return "half a block"
+        return "two third a block"
+
 
 class Street:
     def __init__(self, index: int, name: str, edges: List[Edge]) -> None:
@@ -172,3 +188,6 @@ class Street:
 
     def __eq__(self, other: Any) -> bool:
         return bool(self.index == other.index)
+
+    def __iter__(self) -> Iterator[Edge]:
+        return iter(self.edges)

@@ -1,20 +1,20 @@
 import math
 import os
-from typing import Any, Dict, List, Optional, Tuple
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import requests
 
-from .coords import Coords
+from src.utils import StrEnum
+
+from .coords import (Coords, LatLngReference, Position, coords_to_latlng,
+                     latlng_to_coords)
 from .edge import Edge, Street
 from .node import Node
 from .poi import PoI
 
-
-class LatLngReference:
-    def __init__(self, coords: Coords, lat: float, lng: float) -> None:
-        self.coords = coords
-        self.lat = lat
-        self.lng = lng
+DistanceMatrix = Dict[str, Dict[str, float]]
+PredecessorMatrix = Dict[str, Dict[str, Optional[Node]]]
 
 
 class ReferenceSystem:
@@ -28,7 +28,9 @@ class ReferenceSystem:
 
 
 GOOGLE_ROUTES_API_FIELDS = [
-    "routes.legs.steps.navigationInstruction",
+    # "routes.legs.steps.navigationInstruction",
+    "routes.legs.steps.startLocation",
+    "routes.legs.steps.endLocation",
     "routes.legs.steps.travelMode",
     "routes.legs.steps.transitDetails.stopDetails.arrivalStop.name",
     "routes.legs.steps.transitDetails.stopCount",
@@ -39,18 +41,52 @@ GOOGLE_ROUTES_API_FIELDS = [
 ]
 
 
+class TurningDirection(StrEnum):
+    SOUTH_WEST = "south-west"
+    WEST = "west"
+    NORTH_WEST = "north-west"
+    NORTH = "north"
+    NORTH_EAST = "north-east"
+    EAST = "east"
+    SOUTH_EAST = "south-east"
+    SOUTH = "south"
+
+
+@dataclass(frozen=True)
+class WayPoint:
+    coords: Coords
+    destination: Position
+    distance: Coords
+    direction: TurningDirection
+    instructions: str = ""
+
+    @property
+    def name(self) -> Optional[str]:
+        if isinstance(self.destination, Node):
+            return self.destination.get_short_description()
+        elif isinstance(self.destination, PoI):
+            return self.destination.name
+        return None
+
+
+def on_new_route_placeholder(start: Coords, waypoints: List[WayPoint]) -> None:
+    pass
+
+
 class Graph:
     AM_I_THRESHOLD = 0.75  # inch
+    SNAP_MIN_DISTANCE = 0.25  # inch
     NEARBY_THRESHOLD = 1400.0  # feets
     INF = 999999
 
     def __init__(self, graph_dict: Dict[str, Any], feets_per_inch: float) -> None:
-        self.am_i_threshold = Graph.AM_I_THRESHOLD * feets_per_inch
+        self.feets_per_inch = feets_per_inch
+        self.am_i_threshold = Graph.AM_I_THRESHOLD * self.feets_per_inch
 
         self.nodes = load_nodes(graph_dict)
         self.edges, self.streets = load_edges(self.nodes, graph_dict)
         self.pois = load_pois(self.edges, graph_dict)
-        self.distances = precompute_distances(self)
+        self.distances, self.prev_distances = precompute_distances(self)
 
         self.reference_system = ReferenceSystem(
             north=Coords(*graph_dict["reference_system"]["north"]),
@@ -64,6 +100,8 @@ class Graph:
             graph_dict["latlng_reference"]["lat"],
             graph_dict["latlng_reference"]["lng"],
         )
+
+        self.on_new_route = on_new_route_placeholder
 
     @property
     def bounds(self) -> Tuple[Coords, Coords]:
@@ -195,41 +233,45 @@ class Graph:
 
         return res
 
-    def get_route_to_poi(
+    def guide_to_poi(
         self,
         start: Coords,
         destination_poi_index: int,
-        only_by_walking: bool = True,
-        transports: Optional[List[str]] = None,
-        transport_preference: Optional[str] = "LESS_WALKING",
         route_index: int = 0,
-    ) -> List[Dict[str, Any]]:
+    ) -> None:
         poi = self.pois[destination_poi_index]
 
-        return self.get_route(
+        self.guide_to_destination(
             start,
             poi.coords,
-            only_by_walking,
-            transports,
-            transport_preference,
             route_index,
-        ) + [
-            {
-                "navigationInstruction": {
-                    "instructions": f"Your destination is {poi.edge.get_llm_description()}"
-                }
-            }
-        ]
+        )
 
-    def get_route(
+    def snap_to_graph(
+        self, coords: Coords, force: bool = False
+    ) -> Tuple[Coords, Position]:
+        node, distance = self.get_nearest_node(coords)
+        if distance < Graph.SNAP_MIN_DISTANCE * self.feets_per_inch:
+            return node.coords, node
+
+        edge, distance = self.get_nearest_edge(coords)
+        if force or distance < Graph.SNAP_MIN_DISTANCE * self.feets_per_inch:
+            return coords.project_on(edge), edge
+
+        return coords, coords
+
+    def guide_to_destination(
         self,
         start: Coords,
         destination: Coords,
-        only_by_walking: bool = True,
-        transports: Optional[List[str]] = None,
-        transport_preference: Optional[str] = "LESS_WALKING",
         route_index: int = 0,
-    ) -> List[Dict[str, Any]]:
+    ) -> None:
+        start = self.snap_to_graph(start, force=True)[0]
+        destination = self.snap_to_graph(destination, force=False)[0]
+
+        if start == destination:
+            return self.on_new_route(start, list())
+
         start_latlng = coords_to_latlng(self.latlng_reference, start)
         destination_latlng = coords_to_latlng(self.latlng_reference, destination)
 
@@ -253,18 +295,8 @@ class Graph:
                     }
                 },
                 "units": "IMPERIAL",
-                "computeAlternativeRoutes": True,
-                "travel_mode": "WALK" if only_by_walking else "TRANSIT",
-                "transitPreferences": (
-                    {
-                        "allowedTravelModes": (
-                            transports if transports and len(transports) > 0 else None
-                        ),
-                        "routingPreference": transport_preference,
-                    }
-                    if not only_by_walking
-                    else None
-                ),
+                "computeAlternativeRoutes": route_index > 0,
+                "travel_mode": "WALK",
             },
             headers={
                 "Content-Type": "application/json",
@@ -281,8 +313,134 @@ class Graph:
         )
 
         if len(instructions) == 0:
-            return [{"navigationInstruction": "No route found"}]
-        return instructions
+            raise ValueError("No route found")
+
+        self.on_new_route(start, self.__process_instructions(instructions))
+
+    def __process_instructions(self, steps: List[Dict[str, Any]]) -> List[WayPoint]:
+        waypoints: List[WayPoint] = list()
+
+        previous_versor = Coords(0, 0)
+        for i, step in enumerate(steps):
+            from_coords = latlng_to_coords(
+                self.latlng_reference,
+                Coords(
+                    step["startLocation"]["latLng"]["latitude"],
+                    step["startLocation"]["latLng"]["longitude"],
+                ),
+            )
+            to_coords = latlng_to_coords(
+                self.latlng_reference,
+                Coords(
+                    step["endLocation"]["latLng"]["latitude"],
+                    step["endLocation"]["latLng"]["longitude"],
+                ),
+            )
+
+            versor = (to_coords - from_coords).normalized()
+
+            from_coords, start = self.snap_to_graph(from_coords, force=True)
+            to_coords, destination = self.snap_to_graph(to_coords)
+
+            distance = (
+                round(
+                    Coords(to_coords.x - from_coords.x, to_coords.y - from_coords.y)
+                    * 10
+                    / self.feets_per_inch
+                )
+                / 10
+            )
+
+            if i == 0:
+                direction = get_direction(versor)
+                same_direction = False
+            else:
+                direction = get_turning_direction(
+                    versor, waypoints[-1].direction, previous_versor
+                )
+                same_direction = direction == waypoints[-1].direction
+
+            crossings = self.get_crossings(start, destination)
+            description = "{} for {} intersection{}{}".format(
+                (
+                    "Continue straight"
+                    if same_direction
+                    else f"Head {direction} and proceed"
+                ),
+                crossings,
+                "s" if crossings > 1 else "",
+                (
+                    f" until {destination.get_short_description()}"
+                    if isinstance(destination, Node)
+                    else (
+                        f", and then continue for {destination.get_distance_description(to_coords)}"
+                        if isinstance(destination, Edge)
+                        else " until your final destination"
+                    )
+                ),
+            )
+
+            waypoints.append(
+                WayPoint(
+                    coords=to_coords,
+                    destination=destination,
+                    distance=distance,
+                    direction=direction,
+                    instructions=description,
+                )
+            )
+            previous_versor = versor
+
+        return waypoints
+
+    def get_crossings(self, start: Position, destination: Position) -> int:
+        start_nodes: List[Node] = list()
+        destination_nodes: List[Node] = list()
+
+        if isinstance(start, Node):
+            start_nodes.append(start)
+        elif isinstance(start, PoI):
+            start_nodes.extend([node for node in start.edge])
+        elif isinstance(start, Edge):
+            start_nodes.extend([start.node1, start.node2])
+        elif isinstance(start, Coords):
+            start_nodes.append(self.get_nearest_node(start)[0])
+
+        if isinstance(destination, Node):
+            destination_nodes.append(destination)
+        elif isinstance(destination, PoI):
+            destination_nodes.extend([node for node in destination.edge])
+        elif isinstance(destination, Edge):
+            destination_nodes.extend([destination.node1, destination.node2])
+        elif isinstance(destination, Coords):
+            destination_nodes.append(self.get_nearest_node(destination)[0])
+
+        min_crossings = Graph.INF
+        for start_node in start_nodes:
+            for destination_node in destination_nodes:
+                if start_node == destination_node:
+                    return 0
+
+                path = self.get_min_path(start_node, destination_node)
+                min_crossings = min(min_crossings, len(path) - 1)
+
+        return min_crossings
+
+    def get_min_path(self, start: Node, destination: Node) -> List[Node]:
+        if self.prev_distances[start.id][destination.id] == None:
+            return list()
+
+        path: List[Node] = [destination]
+
+        current = destination
+        while start != current:
+            current = self.prev_distances[start.id][current.id]
+            assert (
+                current is not None
+            ), f"No path found between n{start.id} and n{destination.id}"
+            path.append(current)
+
+        return path[::-1]
 
     def enable_pois(self, indices: List[int]) -> None:
         for index in indices:
@@ -315,23 +473,6 @@ class Graph:
         return d
 
 
-def coords_to_latlng(latlng_reference: LatLngReference, coords: Coords) -> Coords:
-    feets_per_meter = 3.280839895
-    R = 6378137 * feets_per_meter  # Earth radius in feets
-
-    diff = coords - latlng_reference.coords
-    de = diff[0]
-    dn = -(diff[1])
-
-    dLat = dn / R
-    dLon = de / (R * math.cos(math.pi * latlng_reference.lat / 180))
-
-    latO = latlng_reference.lat + dLat * 180 / math.pi
-    lonO = latlng_reference.lng + dLon * 180 / math.pi
-
-    return Coords(latO, lonO)
-
-
 def load_nodes(graph_dict: Dict[str, Any]) -> List[Node]:
     nodes: List[Node] = list()
 
@@ -343,9 +484,9 @@ def load_nodes(graph_dict: Dict[str, Any]) -> List[Node]:
 
 def load_edges(
     nodes: List[Node], graph_dict: Dict[str, Any]
-) -> Tuple[List[Edge], List[Street]]:
+) -> Tuple[List[Edge], Dict[str, Street]]:
     edges: List[Edge] = list()
-    streets: List[Street] = list()
+    streets: Dict[str, Street] = dict()
 
     edges_data: List[Tuple[int, int]] = graph_dict["edges"]
     edges_features: List[Dict[str, Any]] = graph_dict["edges_features"]
@@ -365,7 +506,7 @@ def load_edges(
             street_edges.append(edge)
 
         edges.extend(street_edges)
-        streets.append(Street(len(streets), street_name, street_edges))
+        streets[street_name] = Street(len(streets), street_name, street_edges)
 
     for i, e1 in enumerate(edges):
         for j in range(i + 1, len(edges)):
@@ -396,21 +537,59 @@ def load_pois(edges: List[Edge], graph_dict: Dict[str, Any]) -> List[PoI]:
     return pois
 
 
-def precompute_distances(graph: Graph) -> Dict[str, Dict[str, float]]:
-    dist = {n1.id: {n2.id: Graph.INF + 1.0 for n2 in graph.nodes} for n1 in graph.nodes}
-
-    for node in graph.nodes:
-        dist[node.id][node.id] = 0.0
+def precompute_distances(
+    graph: Graph,
+) -> Tuple[DistanceMatrix, PredecessorMatrix]:
+    dist: DistanceMatrix = {
+        n1.id: {n2.id: Graph.INF + 1.0 for n2 in graph.nodes} for n1 in graph.nodes
+    }
+    prev: PredecessorMatrix = {
+        n1.id: {n2.id: None for n2 in graph.nodes} for n1 in graph.nodes
+    }
 
     for edge in graph.edges:
         dist[edge.node1.id][edge.node2.id] = edge.length
         dist[edge.node2.id][edge.node1.id] = edge.length
+        prev[edge.node1.id][edge.node2.id] = edge.node1
+        prev[edge.node2.id][edge.node1.id] = edge.node2
 
-    for n1 in graph.nodes:
-        for n2 in graph.nodes:
-            for n3 in graph.nodes:
-                dist[n2.id][n3.id] = min(
-                    dist[n2.id][n3.id], dist[n2.id][n1.id] + dist[n1.id][n3.id]
-                )
+    for node in graph.nodes:
+        dist[node.id][node.id] = 0.0
+        prev[node.id][node.id] = node
 
-    return dist
+    for k in graph.nodes:
+        for i in graph.nodes:
+            for j in graph.nodes:
+                if dist[i.id][j.id] > dist[i.id][k.id] + dist[k.id][j.id]:
+                    dist[i.id][j.id] = dist[i.id][k.id] + dist[k.id][j.id]
+                    prev[i.id][j.id] = prev[k.id][j.id]
+
+    return dist, prev
+
+
+directions = list(TurningDirection.__members__.values())
+
+
+def get_direction(versor: Coords):
+    return get_turning_direction(versor, TurningDirection.NORTH, Coords(0, -1))
+
+
+def get_turning_direction(
+    new_versor: Coords, old_direction: TurningDirection, old_versor: Coords
+) -> TurningDirection:
+    dot = new_versor.dot_product(old_versor)
+    angle = math.degrees(math.acos(dot))  # between 0 and 180
+
+    direction_index = 0
+    side = (
+        1 if old_versor.cross_product_2d(new_versor) > 0 else -1
+    )  # 1 to go down the list, -1 to go up
+
+    threshold = 22.5
+    while angle > threshold:
+        direction_index += 1
+        angle -= 45
+
+    return directions[
+        (directions.index(old_direction) + side * direction_index) % len(directions)
+    ]

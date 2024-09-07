@@ -25,6 +25,17 @@ default_features = {
 }
 
 
+class IntersectionType(StrEnum):
+    FOUR_WAY = "four-way"
+    T = "T"
+    UNKNOWN = ""
+
+    def __add__(self, other: str) -> str:
+        if self == IntersectionType.UNKNOWN:
+            return other
+        return f"{self.value} {other}"
+
+
 class Node(Position):
     def __init__(
         self, index: int, coords: Coords, features: Optional[Dict[str, Any]] = None
@@ -44,14 +55,29 @@ class Node(Position):
         return bool(self.features.get(Features.ON_BORDER, False))
 
     @property
-    def intersection_type(self) -> str:
+    def intersection_type(self) -> IntersectionType:
         if len(self.adjacents_streets) == 4:
-            return "four-way"
+            return IntersectionType.FOUR_WAY
 
         elif not self.on_border and len(self.adjacents_streets) == 3:
-            return "T"
+            return IntersectionType.T
 
-        return ""
+        return IntersectionType.UNKNOWN
+
+    def get_short_description(self) -> str:
+        if len(self.adjacents_streets) == 1:
+            if self.on_border:
+                return f"{self.adjacents_streets[0]}, at the limit of the map"
+            return f"end of {self.adjacents_streets[0]}"
+
+        streets = sorted(set(self.adjacents_streets))
+        streets_str = streets[0]
+        if len(streets) == 2:
+            streets_str += f" at {streets[1]}"
+        else:
+            streets_str += " at " + ", ".join(streets[1:-1]) + f" and {streets[-1]}"
+
+        return streets_str
 
     def get_llm_description(self) -> str:
         if len(self.adjacents_streets) == 1:
@@ -62,11 +88,7 @@ class Node(Position):
         streets = list(set(self.adjacents_streets))
         streets_str = ", ".join(streets[:-1]) + " and " + streets[-1]
 
-        intersection_type = self.intersection_type
-        if len(intersection_type) > 0:
-            intersection_type += " "
-
-        return f"{intersection_type}intersection of {streets_str}"
+        return self.intersection_type + "intersection of " + streets_str
 
     def get_complete_description(self) -> str:
         description = self.get_llm_description()
@@ -109,6 +131,9 @@ class Node(Position):
 
     def closest_point(self, coords: Coords) -> Coords:
         return self.coords
+
+    def is_on_same_street(self, other: "Node") -> bool:
+        return bool(set(self.adjacents_streets) & set(other.adjacents_streets))
 
     def __getitem__(self, index: int) -> float:
         return self.coords[index]

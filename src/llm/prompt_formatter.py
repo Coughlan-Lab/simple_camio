@@ -60,7 +60,7 @@ class PromptFormatter:
                 result = str_dict(poi.info)
 
             elif fnc == ToolCall.GUIDE_TO_DESTINATION:
-                self.graph.get_route(
+                self.graph.guide_to_destination(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
                     params["only_by_walking"],
@@ -71,7 +71,7 @@ class PromptFormatter:
                 result = "Navigation mode has been enabled."
 
             elif fnc == ToolCall.GUIDE_TO_POINT_OF_INTEREST:
-                self.graph.get_route_to_poi(
+                self.graph.guide_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
                     params["only_by_walking"],
@@ -257,13 +257,13 @@ class PromptFormatter:
                     street.id,
                     ", ".join([str(edge) for edge in street.edges]),
                 )
-                for street in self.graph.streets
+                for street in self.graph.streets.values()
             ]
         )
 
     def __streets_prompt(self) -> str:
         return "\n".join(
-            [f"{street.id}: {street.name}" for street in self.graph.streets]
+            [f"{street.id}: {street.name}" for street in self.graph.streets.values()]
         )
 
     def __poi_prompt(self) -> str:

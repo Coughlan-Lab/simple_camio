@@ -200,39 +200,6 @@ tool_calls = [
                         "type": "number",
                         "description": "The y coordinate of the destination",
                     },
-                    "only_by_walking": {
-                        "type": "boolean",
-                        "description": (
-                            "If true public transports are not considered and the route is calculated only by walking. "
-                            "Set it to false if you want to use public transports to reach the destination."
-                        ),
-                    },
-                    "transports": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "enum": [
-                                "BUS",
-                                "SUBWAY",
-                                "TRAIN",
-                                "LIGHT_RAIL",
-                                "RAIL",
-                            ],
-                        },
-                        "description": (
-                            "An array of public transport types to consider in the route calculation. "
-                            "Include more than one type to consider multiple public transport types. "
-                            "If only_by_walking is true, this parameter is ignored."
-                        ),
-                    },
-                    "transport_preference": {
-                        "type": "string",
-                        "enum": ["LESS_WALKING", "FEWER_TRANSFERS"],
-                        "description": (
-                            "The preference for the route calculation. "
-                            "If only_by_walking is true, this parameter is ignored."
-                        ),
-                    },
                     "alternative_route_index": {
                         "type": "number",
                         "description": (
@@ -241,7 +208,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x1", "y1", "x2", "y2", "only_by_walking"],
+                "required": ["x1", "y1", "x2", "y2"],
                 "additionalProperties": False,
             },
         ),
@@ -269,39 +236,6 @@ tool_calls = [
                         "type": "number",
                         "description": "The index of the point of interest to reach",
                     },
-                    "only_by_walking": {
-                        "type": "boolean",
-                        "description": (
-                            "If true public transports are not considered and the route is calculated only by walking. "
-                            "Set it to false if you want to use public transports to reach the point of interest."
-                        ),
-                    },
-                    "transports": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "enum": [
-                                "BUS",
-                                "SUBWAY",
-                                "TRAIN",
-                                "LIGHT_RAIL",
-                                "RAIL",
-                            ],
-                        },
-                        "description": (
-                            "An array of public transport types to consider in the route calculation. "
-                            "Include more than one type to consider multiple public transport types. "
-                            "If only_by_walking is true, this parameter is ignored."
-                        ),
-                    },
-                    "transport_preference": {
-                        "type": "string",
-                        "enum": ["LESS_WALKING", "FEWER_TRANSFERS"],
-                        "description": (
-                            "The preference for the route calculation. "
-                            "If only_by_walking is true, this parameter is ignored."
-                        ),
-                    },
                     "alternative_route_index": {
                         "type": "number",
                         "description": (
@@ -310,7 +244,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x", "y", "poi_index", "only_by_walking"],
+                "required": ["x", "y", "poi_index"],
                 "additionalProperties": False,
             },
         ),

@@ -63,9 +63,6 @@ class PromptFormatter:
                 self.graph.guide_to_destination(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
-                    params["only_by_walking"],
-                    params.get("transports", None),
-                    params.get("transport_preference", None),
                     params.get("alternative_route_index", 0),
                 )
                 result = "Navigation mode has been enabled."
@@ -74,9 +71,6 @@ class PromptFormatter:
                 self.graph.guide_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
-                    params["only_by_walking"],
-                    params.get("transports", None),
-                    params.get("transport_preference", None),
                     params.get("alternative_route_index", 0),
                 )
                 result = "Navigation mode has been enabled."

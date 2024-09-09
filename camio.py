@@ -103,9 +103,6 @@ class CamIO:
 
         self.audio_manager.start()
 
-        self.graph.guide_to_poi(
-            Coords(634.1952458372947, 2464.163207108267), 31, step_by_step=True
-        )
         self.running = True
         while self.running and video_capture.is_opened():
             self.window_manager.update(frame)
@@ -258,13 +255,14 @@ class CamIO:
 
         elif action == NavigationAction.DESTINATION_REACHED:
             self.tts.destination_reached()
+            self.tts.pause(2.0)
             self.audio_manager.play_destination_reached()
             self.window_manager.clear_waypoints()
 
-        elif action == NavigationAction.ANNOUNCE_STEP:
-            waypoint: WayPoint = kwargs["waypoint"]
+        elif action == NavigationAction.ANNOUNCE_DIRECTION:
+            instructions: str = kwargs["instructions"]
             self.tts.stop_and_say(
-                waypoint.instructions,
+                instructions,
                 category=Announcement.Category.GRAPH,
                 priority=Announcement.Priority.MEDIUM,
             )

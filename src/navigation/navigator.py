@@ -2,14 +2,14 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Protocol
 
-from src.graph import Graph, PositionInfo
+from src.graph import Coords, Graph, PositionInfo, WayPoint
 
 
 class NavigationAction(Enum):
     NEW_ROUTE = 1
     WAYPOINT_REACHED = 2
     DESTINATION_REACHED = 3
-    ANNOUNCE_STEP = 4
+    ANNOUNCE_DIRECTION = 4
     WRONG_DIRECTION = 5
 
 
@@ -22,21 +22,41 @@ class Navigator(ABC):
         self,
         graph: Graph,
         arrived_threshold: float,
+        far_threshold: float,
         on_action: ActionHandler,
     ) -> None:
         self.graph = graph
-        self.arrived_threshold = arrived_threshold
         self.on_action = on_action
 
+        self.arrived_threshold = arrived_threshold
+        self.far_threshold = far_threshold
+
+        self.destination_reached = False
+
     @property
-    @abstractmethod
     def running(self) -> bool:
-        pass
+        return not self.destination_reached
 
     @abstractmethod
     def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
         pass
 
-    @abstractmethod
-    def clear(self) -> None:
-        pass
+    def _new_route_needed(self, start: Coords, destination: Coords) -> None:
+        self.on_action(
+            NavigationAction.NEW_ROUTE,
+            start=start,
+            destination=destination,
+        )
+
+    def _waypoint_reached(self, waypoint: WayPoint) -> None:
+        self.on_action(NavigationAction.WAYPOINT_REACHED, waypoint=waypoint)
+
+    def _destination_reached(self, waypoint: WayPoint) -> None:
+        self.destination_reached = True
+        self.on_action(NavigationAction.DESTINATION_REACHED, waypoint=waypoint)
+
+    def _wrong_direction(self) -> None:
+        self.on_action(NavigationAction.WRONG_DIRECTION)
+
+    def _announce_directions(self, instructions: str) -> None:
+        self.on_action(NavigationAction.ANNOUNCE_DIRECTION, instructions=instructions)

@@ -110,9 +110,6 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.MEDIUM,
         )
 
-        if announced:
-            self._timestamps[Announcement.Category.GRAPH] += 2.5
-
         return announced
 
     def wrong_direction(self) -> bool:

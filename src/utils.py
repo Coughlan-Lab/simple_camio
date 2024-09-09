@@ -157,6 +157,17 @@ class StrEnum(str, Enum):
         return str(self)
 
 
+class CardinalDirection(StrEnum):
+    SOUTH_WEST = "south-west"
+    WEST = "west"
+    NORTH_WEST = "north-west"
+    NORTH = "north"
+    NORTH_EAST = "north-east"
+    EAST = "east"
+    SOUTH_EAST = "south-east"
+    SOUTH = "south"
+
+
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
 camio_parser.add_argument(
     "--model",

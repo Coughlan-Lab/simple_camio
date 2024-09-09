@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import requests
 
-from src.utils import StrEnum
+from src.utils import CardinalDirection
 
 from .coords import (Coords, LatLngReference, Position, coords_to_latlng,
                      latlng_to_coords)
@@ -41,23 +41,12 @@ GOOGLE_ROUTES_API_FIELDS = [
 ]
 
 
-class TurningDirection(StrEnum):
-    SOUTH_WEST = "south-west"
-    WEST = "west"
-    NORTH_WEST = "north-west"
-    NORTH = "north"
-    NORTH_EAST = "north-east"
-    EAST = "east"
-    SOUTH_EAST = "south-east"
-    SOUTH = "south"
-
-
 @dataclass(frozen=True)
 class WayPoint:
     coords: Coords
     destination: Position
     distance: Union[float, Coords]
-    direction: TurningDirection
+    direction: CardinalDirection
     instructions: str = ""
 
     @property
@@ -587,16 +576,16 @@ def precompute_distances(
     return dist, prev
 
 
-directions = list(TurningDirection.__members__.values())
+directions = list(CardinalDirection.__members__.values())
 
 
-def get_direction(versor: Coords) -> TurningDirection:
-    return get_turning_direction(versor, TurningDirection.NORTH, Coords(0, -1))
+def get_direction(versor: Coords) -> CardinalDirection:
+    return get_turning_direction(versor, CardinalDirection.NORTH, Coords(0, -1))
 
 
 def get_turning_direction(
-    new_versor: Coords, old_direction: TurningDirection, old_versor: Coords
-) -> TurningDirection:
+    new_versor: Coords, old_direction: CardinalDirection, old_versor: Coords
+) -> CardinalDirection:
     dot = new_versor.dot(old_versor)
     angle = math.degrees(math.acos(dot))  # between 0 and 180
 

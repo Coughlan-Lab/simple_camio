@@ -10,7 +10,7 @@ north_index = directions.index(CardinalDirection.NORTH)
 
 
 class DirectNavigator(Navigator):
-    ANNOUNCEMENTS_INTERVAL = 1.5  # seconds
+    ANNOUNCEMENTS_INTERVAL = 1.25  # seconds
 
     def __init__(
         self,

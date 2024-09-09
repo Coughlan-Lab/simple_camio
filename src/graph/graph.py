@@ -31,12 +31,12 @@ GOOGLE_ROUTES_API_FIELDS = [
     # "routes.legs.steps.navigationInstruction",
     "routes.legs.steps.startLocation",
     "routes.legs.steps.endLocation",
-    "routes.legs.steps.travelMode",
-    "routes.legs.steps.transitDetails.stopDetails.arrivalStop.name",
-    "routes.legs.steps.transitDetails.stopCount",
-    "routes.legs.steps.transitDetails.transitLine.name",
-    "routes.legs.steps.transitDetails.transitLine.vehicle.type",
-    "routes.legs.steps.localizedValues",
+    # "routes.legs.steps.travelMode",
+    # "routes.legs.steps.transitDetails.stopDetails.arrivalStop.name",
+    # "routes.legs.steps.transitDetails.stopCount",
+    # "routes.legs.steps.transitDetails.transitLine.name",
+    # "routes.legs.steps.transitDetails.transitLine.vehicle.type",
+    # "routes.legs.steps.localizedValues",
     # "routes.localizedValues",
 ]
 

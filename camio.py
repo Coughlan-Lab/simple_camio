@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 
 from src.frame_processing import VideoCapture, WindowManager
 from src.input_handler import InputHandler, InputListener
-from src.navigation_manager import NavigationManager
+from src.navigation import NavigationAction, NavigationManager
 
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
@@ -240,30 +240,28 @@ class CamIO:
         else:
             self.tts.no_pointing()
 
-    def __on_navigation_action(
-        self, action: NavigationManager.Action, **kwargs
-    ) -> None:
+    def __on_navigation_action(self, action: NavigationAction, **kwargs) -> None:
         if self.is_handling_user_input():
             return
 
-        if action == NavigationManager.Action.NEW_ROUTE:
+        if action == NavigationAction.NEW_ROUTE:
             th.Thread(
                 target=self.graph.guide_to_destination,
                 args=(kwargs["start"], kwargs["destination"], True),
             ).start()
 
-        elif action == NavigationManager.Action.WAYPOINT_REACHED:
+        elif action == NavigationAction.WAYPOINT_REACHED:
             self.audio_manager.play_waypoint_reached()
 
-        elif action == NavigationManager.Action.WRONG_DIRECTION:
+        elif action == NavigationAction.WRONG_DIRECTION:
             self.tts.wrong_direction()
 
-        elif action == NavigationManager.Action.DESTINATION_REACHED:
+        elif action == NavigationAction.DESTINATION_REACHED:
             self.tts.destination_reached()
             self.audio_manager.play_destination_reached()
             self.window_manager.clear_waypoints()
 
-        elif action == NavigationManager.Action.ANNOUNCE_STEP:
+        elif action == NavigationAction.ANNOUNCE_STEP:
             waypoint: WayPoint = kwargs["waypoint"]
             self.tts.stop_and_say(
                 waypoint.instructions,

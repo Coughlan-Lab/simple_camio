@@ -1,90 +1,11 @@
 import time
-from abc import ABC, abstractmethod
 from collections import deque
-from enum import Enum
-from typing import List, Optional, Protocol
+from typing import List
 
 from src.graph import (NONE_POSITION_INFO, Coords, Graph, MovementDirection,
                        PositionInfo, WayPoint)
 
-
-def on_action_placeholder(action: "NavigationManager.Action", **kwargs) -> None:
-    return
-
-
-class NavigationManager:
-    ARRIVED_THRESHOLD = 0.35  # inch
-
-    class Action(Enum):
-        NEW_ROUTE = 1
-        WAYPOINT_REACHED = 2
-        DESTINATION_REACHED = 3
-        ANNOUNCE_STEP = 4
-        WRONG_DIRECTION = 5
-
-    def __init__(self, graph: Graph, feets_per_inch: float) -> None:
-        self.arrived_threshold = self.ARRIVED_THRESHOLD * feets_per_inch
-
-        self.on_action = on_action_placeholder
-        self.graph = graph
-        self.navigator: Optional[Navigator] = None
-
-    @property
-    def running(self) -> bool:
-        return self.navigator is not None and self.navigator.running
-
-    def navigate_step_by_step(
-        self, waypoints: List[WayPoint], current_position: PositionInfo
-    ) -> None:
-        first_waypoint = waypoints[0]
-        if (
-            first_waypoint.coords.distance_to(current_position.real_pos)
-            < self.arrived_threshold
-        ):
-            waypoints.pop(0)
-
-        self.navigator = StepByStepNavigator(
-            self.graph, self.arrived_threshold, self.on_action, waypoints
-        )
-
-    def navigate(self, destination: WayPoint) -> None:
-        pass
-
-    def update(self, position: PositionInfo, ignore_not_moving: bool = False) -> None:
-        if self.navigator is not None:
-            self.navigator.update(position, ignore_not_moving)
-
-    def clear(self) -> None:
-        if self.navigator is not None:
-            self.navigator.clear()
-
-    class ActionHandler(Protocol):
-        def __call__(self, action: "NavigationManager.Action", **kwargs) -> None: ...
-
-
-class Navigator(ABC):
-    def __init__(
-        self,
-        graph: Graph,
-        arrived_threshold: float,
-        on_action: NavigationManager.ActionHandler,
-    ) -> None:
-        self.graph = graph
-        self.arrived_threshold = arrived_threshold
-        self.on_action = on_action
-
-    @property
-    @abstractmethod
-    def running(self) -> bool:
-        pass
-
-    @abstractmethod
-    def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
-        pass
-
-    @abstractmethod
-    def clear(self) -> None:
-        pass
+from .navigator import ActionHandler, NavigationAction, Navigator
 
 
 class StepByStepNavigator(Navigator):
@@ -94,7 +15,7 @@ class StepByStepNavigator(Navigator):
         self,
         graph: Graph,
         arrived_threshold: float,
-        on_action: NavigationManager.ActionHandler,
+        on_action: ActionHandler,
         waypoints: List[WayPoint],
     ) -> None:
         super().__init__(graph, arrived_threshold, on_action)
@@ -166,24 +87,22 @@ class StepByStepNavigator(Navigator):
     def __new_route_needed(self, start: Coords) -> None:
         self.__waiting_new_route = True
         self.on_action(
-            NavigationManager.Action.NEW_ROUTE,
+            NavigationAction.NEW_ROUTE,
             start=start,
             destination=self.waypoints[-1].coords,
         )
 
     def __waypoint_reached(self, waypoint: WayPoint) -> None:
-        self.on_action(NavigationManager.Action.WAYPOINT_REACHED, waypoint=waypoint)
+        self.on_action(NavigationAction.WAYPOINT_REACHED, waypoint=waypoint)
 
     def __destination_reached(self, waypoint: WayPoint) -> None:
-        self.on_action(NavigationManager.Action.DESTINATION_REACHED, waypoint=waypoint)
+        self.on_action(NavigationAction.DESTINATION_REACHED, waypoint=waypoint)
 
     def __wrong_direction(self) -> None:
-        self.on_action(NavigationManager.Action.WRONG_DIRECTION)
+        self.on_action(NavigationAction.WRONG_DIRECTION)
 
     def __announce_step(self) -> None:
-        self.on_action(
-            NavigationManager.Action.ANNOUNCE_STEP, waypoint=self.waypoints[0]
-        )
+        self.on_action(NavigationAction.ANNOUNCE_STEP, waypoint=self.waypoints[0])
 
     def clear(self) -> None:
         self.waypoints.clear()

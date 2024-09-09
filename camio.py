@@ -132,7 +132,6 @@ class CamIO:
             if not hand_status == HandStatus.POINTING or self.is_handling_user_input():
                 continue
 
-            self.audio_manager.position_feedback(position)
             if self.navigation_manager.running:
                 self.navigation_manager.update(
                     position,
@@ -141,6 +140,7 @@ class CamIO:
                 )
             else:
                 self.tts.announce_position(position)
+                self.audio_manager.position_feedback(position)
 
         self.audio_manager.stop()
         video_capture.stop()

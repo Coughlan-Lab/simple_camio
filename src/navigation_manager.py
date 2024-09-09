@@ -13,7 +13,6 @@ def on_action_placeholder(action: "NavigationManager.Action", **kwargs) -> None:
 
 class NavigationManager:
     NEXT_STEP_THRESHOLD = 1.5  # seconds
-    REPEAT_THRESHOLD = 7  # seconds
     ARRIVED_THRESHOLD = 0.35  # inch
 
     class Action(Enum):
@@ -30,7 +29,6 @@ class NavigationManager:
 
         self.last_position = NONE_POSITION_INFO
         self.__stop_timestamp = 0.0
-        self.last_announcement_timestamp = 0.0
 
         self.on_waypoint = False
         self.__waiting_new_route = False
@@ -76,12 +74,6 @@ class NavigationManager:
             self.__stop_timestamp = current_time
             self.__new_route_needed(position.real_pos)
 
-        elif (
-            not self.on_waypoint
-            and current_time - self.last_announcement_timestamp > self.REPEAT_THRESHOLD
-        ):
-            self.__announce_step()
-
         else:
             self.on_waypoint = False
 
@@ -108,7 +100,6 @@ class NavigationManager:
         self.on_waypoint = False
         self.__waiting_new_route = False
         self.__stop_timestamp = 0.0
-        self.last_announcement_timestamp = 0.0
         self.last_position = NONE_POSITION_INFO
 
     def __new_route_needed(self, start: Coords) -> None:
@@ -125,4 +116,3 @@ class NavigationManager:
 
     def __announce_step(self) -> None:
         self.on_action(self.Action.ANNOUNCE_STEP, waypoint=self.waypoints[0])
-        self.last_announcement_timestamp = time.time()

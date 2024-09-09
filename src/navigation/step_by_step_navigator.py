@@ -65,7 +65,7 @@ class StepByStepNavigator(Navigator):
                 self.waypoints.popleft()
                 self.__stop_timestamp = current_time
                 self.on_waypoint = False
-                self._announce_directions(current_waypoint.instructions)
+                self._announce_directions(self.waypoints[0].instructions)
 
         elif current_time - self.__stop_timestamp > self.NEXT_STEP_THRESHOLD:
             self.__stop_timestamp = current_time

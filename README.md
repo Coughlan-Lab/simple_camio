@@ -15,3 +15,12 @@ To run the code, simply run the following command:
 ```bash
 python camio.py --model <path_to_model>
 ```
+
+## Keyboard shortcuts:
+
+- `q`: Quit the application
+- `Space`: Start/Stop LLM question recording
+- `Escape`: Stop TTS
+- `Enter`: Pause/Resume TTS
+- `n`: Disable navigation mode
+- `d`: Play map description

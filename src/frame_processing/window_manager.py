@@ -65,10 +65,11 @@ class WindowManager:
             2,
         )
 
-        for waypoint in self.waypoints:
+        color_step = 100 // len(self.waypoints)
+        for i, waypoint in enumerate(self.waypoints):
             x, y = waypoint / self.position_handler.feets_per_pixel
             x, y = int(x), int(y)
-            cv2.circle(template, (x, y), 10, (0, 255, 0), -1)
+            cv2.circle(template, (x, y), 10, (0, 100 + i * color_step, 0), -1)
 
         for poi in self.position_handler.graph.pois:
             if poi.enabled:

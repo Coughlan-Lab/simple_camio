@@ -13,9 +13,9 @@ class CamIOTTS(TTS):
     DETAILED_ANNOUNCEMENT_DELAY = 2.5
 
     ANNOUNCEMENT_INTERVAL = 0.25
-    ERROR_INTERVAL = 5
+    ERROR_INTERVAL = 3.5
 
-    def __init__(self, res_file: str, rate: int) -> None:
+    def __init__(self, res_file: str, rate: int = TTS.DEFAULT_RATE) -> None:
         super().__init__(rate)
 
         if not os.path.exists(res_file):
@@ -114,6 +114,19 @@ class CamIOTTS(TTS):
             self._timestamps[Announcement.Category.GRAPH] += 2.5
 
         return announced
+
+    def wrong_direction(self) -> bool:
+        if (
+            time.time() - self._timestamps[Announcement.Category.ERROR]
+            < CamIOTTS.ERROR_INTERVAL
+        ):
+            return False
+
+        return self.stop_and_say(
+            self.res["wrong_direction"],
+            category=Announcement.Category.ERROR,
+            priority=Announcement.Priority.MEDIUM,
+        )
 
     def more_than_one_hand(self) -> bool:
         if (

@@ -56,7 +56,7 @@ class TurningDirection(StrEnum):
 class WayPoint:
     coords: Coords
     destination: Position
-    distance: Coords
+    distance: Union[float, Coords]
     direction: TurningDirection
     instructions: str = ""
 
@@ -69,7 +69,9 @@ class WayPoint:
         return None
 
 
-def on_new_route_placeholder(start: Coords, waypoints: List[WayPoint]) -> None:
+def on_new_route_placeholder(
+    start: Coords, step_by_step: bool, waypoints: List[WayPoint]
+) -> None:
     pass
 
 
@@ -233,20 +235,6 @@ class Graph:
 
         return res
 
-    def guide_to_poi(
-        self,
-        start: Coords,
-        destination_poi_index: int,
-        route_index: int = 0,
-    ) -> None:
-        poi = self.pois[destination_poi_index]
-
-        self.guide_to_destination(
-            start,
-            poi.coords,
-            route_index,
-        )
-
     def snap_to_graph(
         self, coords: Coords, force: bool = False
     ) -> Tuple[Coords, Position]:
@@ -260,17 +248,48 @@ class Graph:
 
         return coords, coords
 
+    def guide_to_poi(
+        self,
+        start: Coords,
+        destination_poi_index: int,
+        step_by_step: bool = True,
+        route_index: int = 0,
+    ) -> None:
+        poi = self.pois[destination_poi_index]
+
+        self.guide_to_destination(
+            start,
+            poi.coords,
+            step_by_step,
+            route_index,
+        )
+
     def guide_to_destination(
         self,
         start: Coords,
         destination: Coords,
+        step_by_step: bool = True,
         route_index: int = 0,
     ) -> None:
         start = self.snap_to_graph(start, force=True)[0]
         destination = self.snap_to_graph(destination, force=True)[0]
 
         if start == destination:
-            return self.on_new_route(start, list())
+            return self.on_new_route(start, step_by_step, list())
+
+        if not step_by_step:
+            return self.on_new_route(
+                start,
+                step_by_step,
+                [
+                    WayPoint(
+                        destination,
+                        destination,
+                        start.distance_to(destination),
+                        get_direction((destination - start).normalized()),
+                    )
+                ],
+            )
 
         start_latlng = coords_to_latlng(self.latlng_reference, start)
         destination_latlng = coords_to_latlng(self.latlng_reference, destination)
@@ -315,7 +334,55 @@ class Graph:
         if len(instructions) == 0:
             raise ValueError("No route found")
 
-        self.on_new_route(start, self.__process_instructions(instructions))
+        self.on_new_route(
+            start, step_by_step, self.__process_instructions(instructions)
+        )
+
+    def get_min_path(self, start: Node, destination: Node) -> List[Node]:
+        if self.prev_distances[start.id][destination.id] == None:
+            return list()
+
+        path: List[Node] = [destination]
+
+        current = destination
+        while start != current:
+            current = self.prev_distances[start.id][current.id]
+            assert (
+                current is not None
+            ), f"No path found between n{start.id} and n{destination.id}"
+            path.append(current)
+
+        return path[::-1]
+
+    def enable_pois(self, indices: List[int]) -> None:
+        for index in indices:
+            self.pois[index].enable()
+
+    def disable_pois(self) -> None:
+        for poi in self.pois:
+            poi.disable()
+
+    def __get_edge_distance(
+        self,
+        e1: Edge,
+        e2: Edge,
+        distance_to_e1_n1: float = 0.0,
+        distance_from_e2_n1: float = 0.0,
+    ) -> float:
+        to_distances = [distance_to_e1_n1, e1.length - distance_to_e1_n1]
+        from_distances = [distance_from_e2_n1, e2.length - distance_from_e2_n1]
+
+        d = min(
+            [
+                self.distances[e1[i].id][e2[j].id] + to_distances[i] + from_distances[j]
+                for i in range(2)
+                for j in range(2)
+            ]
+        )
+
+        if d >= Graph.INF:
+            raise ValueError("Points are not connected")
+        return d
 
     def __process_instructions(self, steps: List[Dict[str, Any]]) -> List[WayPoint]:
         waypoints: List[WayPoint] = list()
@@ -425,52 +492,6 @@ class Graph:
 
         return min_crossings
 
-    def get_min_path(self, start: Node, destination: Node) -> List[Node]:
-        if self.prev_distances[start.id][destination.id] == None:
-            return list()
-
-        path: List[Node] = [destination]
-
-        current = destination
-        while start != current:
-            current = self.prev_distances[start.id][current.id]
-            assert (
-                current is not None
-            ), f"No path found between n{start.id} and n{destination.id}"
-            path.append(current)
-
-        return path[::-1]
-
-    def enable_pois(self, indices: List[int]) -> None:
-        for index in indices:
-            self.pois[index].enable()
-
-    def disable_pois(self) -> None:
-        for poi in self.pois:
-            poi.disable()
-
-    def __get_edge_distance(
-        self,
-        e1: Edge,
-        e2: Edge,
-        distance_to_e1_n1: float = 0.0,
-        distance_from_e2_n1: float = 0.0,
-    ) -> float:
-        to_distances = [distance_to_e1_n1, e1.length - distance_to_e1_n1]
-        from_distances = [distance_from_e2_n1, e2.length - distance_from_e2_n1]
-
-        d = min(
-            [
-                self.distances[e1[i].id][e2[j].id] + to_distances[i] + from_distances[j]
-                for i in range(2)
-                for j in range(2)
-            ]
-        )
-
-        if d >= Graph.INF:
-            raise ValueError("Points are not connected")
-        return d
-
 
 def load_nodes(graph_dict: Dict[str, Any]) -> List[Node]:
     nodes: List[Node] = list()
@@ -576,12 +597,12 @@ def get_direction(versor: Coords):
 def get_turning_direction(
     new_versor: Coords, old_direction: TurningDirection, old_versor: Coords
 ) -> TurningDirection:
-    dot = new_versor.dot_product(old_versor)
+    dot = new_versor.dot(old_versor)
     angle = math.degrees(math.acos(dot))  # between 0 and 180
 
     direction_index = 0
     side = (
-        1 if old_versor.cross_product_2d(new_versor) > 0 else -1
+        1 if old_versor.cross_2d(new_versor) > 0 else -1
     )  # 1 to go down the list, -1 to go up
 
     threshold = 22.5

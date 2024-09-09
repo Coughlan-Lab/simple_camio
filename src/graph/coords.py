@@ -71,10 +71,10 @@ class Coords(Position):
 
         return Coords(p_x, p_y)
 
-    def dot_product(self, other: "Coords") -> float:
+    def dot(self, other: "Coords") -> float:
         return self.x * other.x + self.y * other.y
 
-    def cross_product_2d(self, other: "Coords") -> float:
+    def cross_2d(self, other: "Coords") -> float:
         return self.x * other.y - self.y * other.x
 
     def length(self) -> float:

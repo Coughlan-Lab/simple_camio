@@ -47,11 +47,10 @@ NONE_ANNOUNCEMENT = TextAnnouncement(priority=Announcement.Priority.NONE)
 
 
 class TTS:
-    RATE = 200
+    DEFAULT_RATE = 200
     ONE_MSG_LOOP_INTERVAL = 7
-    ERROR_INTERVAL = 5
 
-    def __init__(self, rate: int = RATE) -> None:
+    def __init__(self, rate: int = DEFAULT_RATE) -> None:
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
 

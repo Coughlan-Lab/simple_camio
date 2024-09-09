@@ -55,7 +55,7 @@ class CamIO:
         self.audio_manager = AudioManager("res/sounds.json")
 
         # User iteraction
-        self.navigation_manager = NavigationManager(model["feets_per_inch"])
+        self.navigation_manager = NavigationManager(self.graph, model["feets_per_inch"])
         self.navigation_manager.on_action = self.__on_navigation_action
         self.llm = LLM(self.graph, model["context"])
         self.user_input_thread: Optional[UserInputThread] = None
@@ -244,6 +244,9 @@ class CamIO:
 
         elif action == NavigationManager.Action.WAYPOINT_REACHED:
             self.audio_manager.play_waypoint_reached()
+
+        elif action == NavigationManager.Action.WRONG_DIRECTION:
+            self.tts.wrong_direction()
 
         elif action == NavigationManager.Action.DESTINATION_REACHED:
             self.tts.destination_reached()

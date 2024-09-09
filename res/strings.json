@@ -7,7 +7,7 @@
     "no_map_description": "No map description available.",
     "no_pointing": "Please, point at the map to ask a question.",
     "goodbye": "Goodbye!",
-    "new_route_needed": "Recalculating route...",
+    "wrong_direction": "Wrong direction",
     "destination_reached": "You have reached your destination.",
     "instructions": "Use your index finger to explore the map and ask the system questions by pressing the space bar. After pressing the space bar, ask your questions aloud and press the space bar again when you've finished your question. You can stop the response at any time by pressing the Escape key."
 }

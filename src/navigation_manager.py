@@ -3,7 +3,7 @@ from collections import deque
 from enum import Enum
 from typing import Deque, List
 
-from src.graph import (NONE_POSITION_INFO, Coords, MovementDirection,
+from src.graph import (NONE_POSITION_INFO, Coords, Graph, MovementDirection,
                        PositionInfo, WayPoint)
 
 
@@ -20,8 +20,9 @@ class NavigationManager:
         WAYPOINT_REACHED = 2
         DESTINATION_REACHED = 3
         ANNOUNCE_STEP = 4
+        WRONG_DIRECTION = 5
 
-    def __init__(self, feets_per_inch: float) -> None:
+    def __init__(self, graph: Graph, feets_per_inch: float) -> None:
         self.arrived_threshold = self.ARRIVED_THRESHOLD * feets_per_inch
 
         self.waypoints: Deque[WayPoint] = deque()
@@ -32,6 +33,8 @@ class NavigationManager:
 
         self.on_waypoint = False
         self.__waiting_new_route = False
+
+        self.graph = graph
 
     @property
     def running(self) -> bool:
@@ -74,6 +77,14 @@ class NavigationManager:
             self.__stop_timestamp = current_time
             self.__new_route_needed(position.real_pos)
 
+        elif position.movement != MovementDirection.NONE and self.graph.get_distance(
+            position.real_pos, current_waypoint.coords
+        ) > self.graph.get_distance(
+            self.last_position.real_pos, current_waypoint.coords
+        ):
+            self.on_waypoint = False
+            self.__wrong_direction()
+
         else:
             self.on_waypoint = False
 
@@ -98,9 +109,9 @@ class NavigationManager:
     def clear(self) -> None:
         self.waypoints.clear()
         self.on_waypoint = False
-        self.__waiting_new_route = False
         self.__stop_timestamp = 0.0
         self.last_position = NONE_POSITION_INFO
+        self.__waiting_new_route = False
 
     def __new_route_needed(self, start: Coords) -> None:
         self.__waiting_new_route = True
@@ -113,6 +124,9 @@ class NavigationManager:
 
     def __destination_reached(self, waypoint: WayPoint) -> None:
         self.on_action(self.Action.DESTINATION_REACHED, waypoint=waypoint)
+
+    def __wrong_direction(self) -> None:
+        self.on_action(self.Action.WRONG_DIRECTION)
 
     def __announce_step(self) -> None:
         self.on_action(self.Action.ANNOUNCE_STEP, waypoint=self.waypoints[0])

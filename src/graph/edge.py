@@ -61,13 +61,12 @@ class Edge(StraightLine, Position):
             self.node1[0] - self.node2[0]
         )
 
+    @property
+    def versor(self) -> Coords:
+        return (self.node2.coords - self.node1.coords).normalized()
+
     def contains(self, coords: Coords) -> bool:
-        return (
-            self.node1[0] < coords[0] < self.node2[0]
-            or self.node2[0] < coords[0] < self.node1[0]
-            or self.node1[1] < coords[1] < self.node2[1]
-            or self.node2[1] < coords[1] < self.node1[1]
-        )
+        return 0 < self.versor.dot(coords - self.node1.coords) < self.length
 
     def is_adjacent(self, other: "Edge") -> bool:
         return (

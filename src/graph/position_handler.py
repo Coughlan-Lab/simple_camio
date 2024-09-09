@@ -236,7 +236,7 @@ class PositionHandler:
             return MovementDirection.NONE
 
         edge_versor = (edge[1].coords - edge[0].coords).normalized()
-        dot = edge_versor.dot_product(movement_vector.normalized())
+        dot = edge_versor.dot(movement_vector.normalized())
 
         if abs(dot) < 0.5:  # Angle greater than 60 degrees
             return MovementDirection.NONE

@@ -477,7 +477,10 @@ class Graph:
                     return 0
 
                 path = self.get_min_path(start_node, destination_node)
-                min_crossings = min(min_crossings, len(path) - 1)
+                min_crossings = min(min_crossings, len(path))
+
+        if isinstance(start, Node):
+            min_crossings -= 1
 
         return min_crossings
 

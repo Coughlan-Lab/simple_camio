@@ -45,7 +45,9 @@ class CamIO:
         )
         self.model_detector = SIFTModelDetector(model["template_image"])
         template = cv2.imread(model["template_image"], cv2.IMREAD_GRAYSCALE)
-        self.pose_detector = PoseDetector(template.shape[:2])
+        self.pose_detector = PoseDetector(
+            template.shape[:2], feets_per_inch=model["feets_per_inch"]
+        )
         self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
 
         # Audio

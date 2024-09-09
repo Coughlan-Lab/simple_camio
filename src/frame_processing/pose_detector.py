@@ -17,28 +17,21 @@ landmarks = mp_hands.HandLandmark.__members__.values()
 
 active_landmark_style = mp_styles.get_default_hand_landmarks_style()
 inactive_landmark_style = mp_styles.get_default_hand_landmarks_style()
-active_connection_style = mp_styles.get_default_hand_connections_style()
-inactive_connection_style = mp_styles.get_default_hand_connections_style()
+connection_style = mp_styles.get_default_hand_connections_style()
 
-red_style = mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=7, circle_radius=1)
-green_style = mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=7, circle_radius=1)
+red_style = mp_drawing.DrawingSpec(color=(0, 0, 255), thickness=5, circle_radius=1)
+green_style = mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=5, circle_radius=1)
+blue_style = mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=5, circle_radius=1)
 for landmark1 in landmarks:
     active_landmark_style[landmark1] = green_style
     inactive_landmark_style[landmark1] = red_style
-
-    for landmark2 in landmarks:
-        if landmark1 == landmark2:
-            continue
-
-        active_connection_style[landmark1] = green_style
-        inactive_connection_style[landmark1] = red_style
 
 
 class HandStatus(Enum):
     MORE_THAN_ONE_HAND = -1
     NOT_FOUND = 0
     POINTING = 1
-    MOVING = 2
+    EXPLORING = 2
 
 
 def ratio(
@@ -81,11 +74,7 @@ class Hand:
             landmark_drawing_spec=(
                 active_landmark_style if self.is_pointing else inactive_landmark_style
             ),
-            connection_drawing_spec=(
-                active_connection_style
-                if self.is_pointing
-                else inactive_connection_style
-            ),
+            connection_drawing_spec=connection_style,
         )
 
     def __get_pointing_ratio(self) -> float:
@@ -139,9 +128,11 @@ class Hand:
 
 
 class PoseDetector:
+    MOVEMENT_THRESHOLD = 0.25  # inch
 
-    def __init__(self, image_size: Tuple[float, float]) -> None:
+    def __init__(self, image_size: Tuple[float, float], feets_per_inch: float) -> None:
         self.image_size = image_size
+        self.movement_threshold = self.MOVEMENT_THRESHOLD * feets_per_inch
 
         self.hands_detector = mp_hands.Hands(
             model_complexity=0,
@@ -149,7 +140,8 @@ class PoseDetector:
             min_tracking_confidence=0.75,
             max_num_hands=4,
         )
-        self.buffers = [Buffer(20) for _ in range(2)]
+        self.buffers = [Buffer[Coords](20) for _ in range(2)]
+        self.last_side_pointing: Optional[Hand.Side] = None
 
     def detect(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
@@ -169,34 +161,75 @@ class PoseDetector:
         for hand in hands:
             hand.draw(img)
 
-        # for i, hand in enumerate(hands):
-        #    self.buffers[results.multi_handedness[i].classification[0].index].add(
-        #        self.get_index_position(hand, img, H)
-        #    )
+        hands_per_side = {
+            side: [h for h in hands if h.side == side] for side in Hand.Side
+        }
+        if (
+            len(hands_per_side[Hand.Side.LEFT]) > 1
+            or len(hands_per_side[Hand.Side.RIGHT]) > 1
+        ):
+            return HandStatus.MORE_THAN_ONE_HAND, None, img
+
+        for hand in hands:
+            self.buffers[hand.side].add(self.get_index_position(hand, img, H))
 
         pointing_hands = [h for h in hands if h.is_pointing]
 
         if len(pointing_hands) == 0:
-            return HandStatus.MOVING, None, img
-        if len(pointing_hands) > 1:
-            return HandStatus.MORE_THAN_ONE_HAND, None, img
+            self.last_side_pointing = None
+            return HandStatus.EXPLORING, None, img
 
-        pointing_hand = pointing_hands[0]
+        if len(pointing_hands) == 1:
+            self.last_side_pointing = pointing_hands[0].side
+            return (
+                HandStatus.POINTING,
+                self.get_index_position(pointing_hands[0], img, H),
+                img,
+            )
 
-        return (
-            HandStatus.POINTING,
-            self.get_index_position(pointing_hand, img, H),
-            img,
-        )
+        if self.is_moving(Hand.Side.LEFT):
+            self.last_side_pointing = Hand.Side.LEFT
+            return (
+                HandStatus.POINTING,
+                self.buffers[Hand.Side.LEFT].last(),
+                img,
+            )
+
+        if self.is_moving(Hand.Side.RIGHT):
+            self.last_side_pointing = Hand.Side.RIGHT
+            return (
+                HandStatus.POINTING,
+                self.buffers[Hand.Side.RIGHT].last(),
+                img,
+            )
+
+        if self.last_side_pointing is not None:
+            return (
+                HandStatus.POINTING,
+                self.buffers[self.last_side_pointing].last(),
+                img,
+            )
+
+        self.last_side_pointing = None
+        return HandStatus.EXPLORING, None, img
+
+    def is_moving(self, side: Hand.Side) -> bool:
+        first = self.buffers[side].first()
+        last = self.buffers[side].last()
+
+        if first is None or last is None:
+            return False
+
+        return last.distance_to(first) > self.movement_threshold
 
     def get_index_position(
-        self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
+        self, hand, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
     ) -> Coords:
         position = np.array(
             [
                 [
-                    hand_landmarks.landmark[8].x * img.shape[1],
-                    hand_landmarks.landmark[8].y * img.shape[0],
+                    hand.landmark[8].x * img.shape[1],
+                    hand.landmark[8].y * img.shape[0],
                 ]
             ],
             dtype=np.float32,

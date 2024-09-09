@@ -1071,8 +1071,8 @@
                 "street": "McDougall Street",
                 "housenumber": "18045",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1190,8 +1190,8 @@
                 "street": "Revere Avenue",
                 "housenumber": "121",
                 "categories": [
-                    "catering.cafe",
-                    "vegetarian"
+                    "vegetarian",
+                    "catering.cafe"
                 ],
                 "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
                 "branch": "Revere Avenue",
@@ -1308,8 +1308,8 @@
                 "district": "Pershing",
                 "street": "Conant Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1332,8 +1332,8 @@
                 "district": "Northeast Central District",
                 "street": "Conant Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1356,8 +1356,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1380,8 +1380,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1404,8 +1404,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1428,8 +1428,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -1453,8 +1453,8 @@
                 "street": "Conant Street",
                 "housenumber": "18600",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1481,8 +1481,8 @@
                 "street": "Conant Street",
                 "housenumber": "18460",
                 "categories": [
-                    "religion.place_of_worship.christianity",
-                    "building.place_of_worship"
+                    "building.place_of_worship",
+                    "religion.place_of_worship.christianity"
                 ],
                 "place_of_worship": {
                     "religion": "christian"
@@ -1950,7 +1950,7 @@
                     2621.73713201546
                 ],
                 "edge": 114,
-                "location_description": "on Conant Street, near the the intersection with Gallagher Street and Stockton Street"
+                "location_description": "on Conant Street, near the the intersection with Stockton Street and Gallagher Street"
             },
             {
                 "name": "Korean Bites",
@@ -1995,8 +1995,8 @@
                 "street": "Conant Street",
                 "housenumber": "43",
                 "categories": [
-                    "kosher.only",
-                    "catering.food_court"
+                    "catering.food_court",
+                    "kosher.only"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -2068,8 +2068,8 @@
                 "housenumber": "809",
                 "categories": [
                     "building.commercial",
-                    "catering.fast_food.burger",
-                    "building.catering"
+                    "building.catering",
+                    "catering.fast_food.burger"
                 ],
                 "opening_hours": "Mo-Su 07:00-20:00",
                 "brand": "McDonald's",
@@ -2287,8 +2287,8 @@
                 "street": "Charest Street",
                 "housenumber": "1164",
                 "categories": [
-                    "catering.fast_food.salad",
-                    "vegetarian"
+                    "vegetarian",
+                    "catering.fast_food.salad"
                 ],
                 "opening_hours": "Mo-Su 10:30-22:30",
                 "brand": "PureLeaf",
@@ -2361,44 +2361,6 @@
                 "location_description": "on Klinger Street, near the the intersection with East Hildale Street"
             },
             {
-                "name": "Serafina Italian Restaurant",
-                "street": "Revere Avenue",
-                "housenumber": "241",
-                "categories": [
-                    "catering.restaurant.italian",
-                    "vegetarian"
-                ],
-                "opening_hours": "Mo-Su 07:00-22:00",
-                "branch": "Revere Avenue",
-                "contact": {
-                    "phone": "+1-646-779-7667",
-                    "website": "https://www.serafinarestaurant.com/location/serafina-madison-38th/"
-                },
-                "payment_options": {
-                    "contactless": true,
-                    "debit_cards": true,
-                    "credit_cards": true
-                },
-                "catering": {
-                    "cuisine": "italian"
-                },
-                "city": "Detroit",
-                "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "coords": [
-                    2604.8913252957263,
-                    1784.7268301017143
-                ],
-                "edge": 32,
-                "location_description": "on Revere Avenue, near the the intersection with East Hildale Street"
-            },
-            {
                 "name": "Silver Creek",
                 "street": "Gallagher Street",
                 "categories": [
@@ -2434,8 +2396,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "455",
                 "categories": [
-                    "building.public_and_civil",
-                    "education.library"
+                    "education.library",
+                    "building.public_and_civil"
                 ],
                 "opening_hours": "Mo-Th 08:00-21:00; Fr 08:00-20:00; Sa-Su 10:00-18:00; PH off",
                 "operator": "Detroit Public Library",
@@ -2580,13 +2542,51 @@
                 "location_description": "on Angling Street, near the border of the map"
             },
             {
+                "name": "The Italian Table",
+                "street": "Revere Avenue",
+                "housenumber": "241",
+                "categories": [
+                    "vegetarian",
+                    "catering.restaurant.italian"
+                ],
+                "opening_hours": "Mo-Su 07:00-22:00",
+                "branch": "Revere Avenue",
+                "contact": {
+                    "phone": "+1-646-779-7667",
+                    "website": "https://www.italiantable.com"
+                },
+                "payment_options": {
+                    "contactless": true,
+                    "debit_cards": true,
+                    "credit_cards": true
+                },
+                "catering": {
+                    "cuisine": "italian"
+                },
+                "city": "Detroit",
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    2604.8913252957263,
+                    1784.7268301017143
+                ],
+                "edge": 32,
+                "location_description": "on Revere Avenue, near the the intersection with East Hildale Street"
+            },
+            {
                 "name": "The Lincoln Detroit",
                 "street": "Klinger Street",
                 "housenumber": "29",
                 "categories": [
+                    "building.accommodation",
                     "service.social_facility.shelter",
-                    "building.facility",
-                    "building.accommodation"
+                    "building.facility"
                 ],
                 "contact": {
                     "phone": "+1-212-689-1900",
@@ -2728,8 +2728,8 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "categories": [
-                    "catering.restaurant.american",
-                    "building.catering"
+                    "building.catering",
+                    "catering.restaurant.american"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2888,10 +2888,10 @@
                 "street": "East Grixdale Avenue",
                 "housenumber": "10",
                 "categories": [
-                    "commercial.supermarket",
                     "organic",
-                    "vegan",
-                    "vegetarian"
+                    "vegetarian",
+                    "commercial.supermarket",
+                    "vegan"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "Whole Foods Market",
@@ -2948,7 +2948,7 @@
                     2229.1980812982715
                 ],
                 "edge": 8,
-                "location_description": "on Brinker Avenue, near the border of the map"
+                "location_description": "on Brinker Avenue, near the the intersection with East Grixdale Avenue"
             },
             {
                 "name": "Yakisch Playground",
@@ -2979,8 +2979,8 @@
                 "street": "Revere Avenue",
                 "housenumber": "110",
                 "categories": [
-                    "catering.restaurant.korean",
-                    "building.catering"
+                    "building.catering",
+                    "catering.restaurant.korean"
                 ],
                 "opening_hours": "12:00-14:15,18:00-23:00",
                 "contact": {

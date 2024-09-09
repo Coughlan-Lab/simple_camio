@@ -2378,8 +2378,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Broadway",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2411,8 +2411,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "operator": "Port Authority of New York and New Jersey",
                 "network": "PATH",
@@ -2441,8 +2441,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 32nd Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "network": "NYC Transit",
                 "accessibility": {
@@ -2458,7 +2458,7 @@
                     2737.1607763431557
                 ],
                 "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with West 32nd Street and 5th Avenue and the intersection with Madison Avenue"
+                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
             },
             {
                 "name": "33rd Street",
@@ -2466,8 +2466,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 33rd Street",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2499,8 +2499,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2533,8 +2533,8 @@
                 "district": "Chelsea District",
                 "street": "7th Avenue",
                 "categories": [
-                    "subway_station",
-                    "public_transport"
+                    "public_transport",
+                    "subway_station"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2570,8 +2570,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "5th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "distance": 335,
                 "accessibility": {
@@ -2595,8 +2595,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "West 32nd Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "distance": 127,
                 "accessibility": {
@@ -2620,8 +2620,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "5th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
@@ -2639,7 +2639,7 @@
                     2492.2984575642176
                 ],
                 "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with West 32nd Street and East 32nd Street and the intersection with East 33rd Street and West 33rd Street"
+                "location_description": "on 5th Avenue, between the intersection with West 32nd Street and East 32nd Street and the intersection with West 33rd Street and East 33rd Street"
             },
             {
                 "name": "6th Avenue & West 31st Street",
@@ -2647,8 +2647,8 @@
                 "district": "Chelsea District",
                 "street": "6th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": "limited",
@@ -2671,8 +2671,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2695,8 +2695,8 @@
                 "district": "Midtown South",
                 "street": "6th Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -2945,7 +2945,7 @@
                     1159.017294814248
                 ],
                 "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with 5th Avenue and East 38th Street and the intersection with 6th Avenue"
+                "location_description": "on West 38th Street, between the intersection with East 38th Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "Blank Slate Coffee + Kitchen",
@@ -2954,8 +2954,8 @@
                 "street": "Madison Avenue",
                 "housenumber": "121",
                 "categories": [
-                    "catering.cafe",
-                    "vegetarian"
+                    "vegetarian",
+                    "catering.cafe"
                 ],
                 "opening_hours": "Fr-Su 07:30-19:00; Mo-Th 07:30-21:00",
                 "branch": "Nomad",
@@ -3032,7 +3032,7 @@
                     1019.6223424845689
                 ],
                 "edge": 29,
-                "location_description": "on West 37th Street, between the intersection with 6th Avenue and the intersection with East 37th Street and 5th Avenue"
+                "location_description": "on West 37th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 37th Street"
             },
             {
                 "name": "Cafe R",
@@ -3100,7 +3100,7 @@
                     2272.535256086838
                 ],
                 "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with East 34th Street and West 34th Street and the intersection with East 33rd Street and West 33rd Street"
+                "location_description": "on 5th Avenue, between the intersection with East 34th Street and West 34th Street and the intersection with West 33rd Street and East 33rd Street"
             },
             {
                 "name": "Chick-fil-A",
@@ -3241,7 +3241,7 @@
                     958.297318964429
                 ],
                 "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 38th Street"
+                "location_description": "on West 38th Street, between the intersection with 6th Avenue and the intersection with East 38th Street and 5th Avenue"
             },
             {
                 "name": "Costas",
@@ -3323,8 +3323,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "network": "NYC Transit",
                 "distance": 116,
@@ -3341,7 +3341,7 @@
                     2173.985929898642
                 ],
                 "edge": 41,
-                "location_description": "on East 34th Street, near the the intersection with West 34th Street and 5th Avenue"
+                "location_description": "on East 34th Street, near the the intersection with 5th Avenue and West 34th Street"
             },
             {
                 "name": "East 34th Street & Park Avenue",
@@ -3349,8 +3349,8 @@
                 "district": "Manhattan Community Board 6",
                 "street": "East 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
@@ -3376,12 +3376,12 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "heritage",
                     "building.historic",
                     "building.tourism",
                     "building.office",
+                    "office",
                     "tourism.attraction",
-                    "office"
+                    "heritage"
                 ],
                 "opening_hours": "Mo-Su 08:00-02:00",
                 "contact": {
@@ -3410,7 +3410,7 @@
                     2164.167628267808
                 ],
                 "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with East 34th Street and West 34th Street"
+                "location_description": "on 5th Avenue, between the intersection with West 33rd Street and East 33rd Street and the intersection with East 34th Street and West 34th Street"
             },
             {
                 "name": "Food Gallery 32",
@@ -3518,7 +3518,7 @@
                     2776.08629692484
                 ],
                 "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with West 32nd Street and 5th Avenue and the intersection with Madison Avenue"
+                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
             },
             {
                 "name": "Joomak Banjum",
@@ -3552,7 +3552,7 @@
                     2686.050509864752
                 ],
                 "edge": 56,
-                "location_description": "on 5th Avenue, between the intersection with East 31st Street and West 31st Street and the intersection with West 32nd Street and East 32nd Street"
+                "location_description": "on 5th Avenue, between the intersection with West 31st Street and East 31st Street and the intersection with West 32nd Street and East 32nd Street"
             },
             {
                 "name": "Kosher in Midtown",
@@ -3617,7 +3617,7 @@
                     2324.594035719532
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Mad Dog & Beans Mexican Cantina",
@@ -3663,8 +3663,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "network": "NYC Transit",
                 "distance": 347,
@@ -3689,8 +3689,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "network": "NYC Transit",
                 "accessibility": {
@@ -3714,8 +3714,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "network": "NYC Transit",
                 "distance": 248,
@@ -3740,8 +3740,8 @@
                 "district": "Manhattan Community Board 6",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": true,
@@ -3764,8 +3764,8 @@
                 "district": "Manhattan Community Board 6",
                 "street": "Madison Avenue",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -3790,8 +3790,8 @@
                 "housenumber": "809",
                 "categories": [
                     "catering.fast_food.burger",
-                    "building.catering",
-                    "building.commercial"
+                    "building.commercial",
+                    "building.catering"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -3905,7 +3905,7 @@
                     2339.514877253715
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Nelly Spillanes",
@@ -3936,7 +3936,7 @@
                     2611.1909332640207
                 ],
                 "edge": 38,
-                "location_description": "on East 33rd Street, between the intersection with Madison Avenue and the intersection with West 33rd Street and 5th Avenue"
+                "location_description": "on East 33rd Street, between the intersection with Madison Avenue and the intersection with 5th Avenue and West 33rd Street"
             },
             {
                 "name": "Nuchas",
@@ -3945,8 +3945,8 @@
                 "street": "West 32nd Street",
                 "housenumber": "97",
                 "categories": [
-                    "building.catering",
-                    "catering.fast_food"
+                    "catering.fast_food",
+                    "building.catering"
                 ],
                 "opening_hours": "Mo-Fr 07:30-20:00; Sa 09:00-19:00; Su 10:00-19:00",
                 "contact": {
@@ -4112,44 +4112,6 @@
                 "location_description": "on Madison Avenue, between the intersection with East 34th Street and the intersection with East 35th Street"
             },
             {
-                "name": "Serafina Italian Restaurant",
-                "city": "New York",
-                "district": "Manhattan Community Board 6",
-                "street": "Madison Avenue",
-                "housenumber": "241",
-                "categories": [
-                    "catering.restaurant.italian"
-                ],
-                "opening_hours": "Mo-Su 07:00-22:00",
-                "branch": "Madison 38th",
-                "contact": {
-                    "phone": "+1-646-779-7667",
-                    "website": "https://www.serafinarestaurant.com/location/serafina-madison-38th/"
-                },
-                "payment_options": {
-                    "contactless": true,
-                    "debit_cards": true,
-                    "credit_cards": true
-                },
-                "catering": {
-                    "cuisine": "italian"
-                },
-                "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "coords": [
-                    3331.9490563961544,
-                    1590.116523212765
-                ],
-                "edge": 86,
-                "location_description": "on Madison Avenue, between the intersection with East 37th Street and the intersection with East 38th Street"
-            },
-            {
                 "name": "Shake Shack",
                 "city": "New York",
                 "district": "Garment District",
@@ -4194,8 +4156,8 @@
                 "street": "West 33rd Street",
                 "housenumber": "4",
                 "categories": [
-                    "service.beauty.massage",
-                    "commercial"
+                    "commercial",
+                    "service.beauty.massage"
                 ],
                 "opening_hours": "Mo-Sa 10:00-02:00, Su 11:00-01:00",
                 "contact": {
@@ -4218,7 +4180,7 @@
                     2363.556037577898
                 ],
                 "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with East 33rd Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Starbucks",
@@ -4227,8 +4189,8 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "catering.cafe.coffee",
-                    "catering.cafe.coffee_shop"
+                    "catering.cafe.coffee_shop",
+                    "catering.cafe.coffee"
                 ],
                 "opening_hours": "Mo-Fr 06:30-18:00",
                 "brand": "Starbucks",
@@ -4261,7 +4223,7 @@
                     2258.0886711286394
                 ],
                 "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with East 33rd Street and West 33rd Street and the intersection with West 32nd Street and East 32nd Street"
+                "location_description": "on 5th Avenue, between the intersection with West 33rd Street and East 33rd Street and the intersection with West 32nd Street and East 32nd Street"
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -4306,7 +4268,7 @@
                     975.0787055328301
                 ],
                 "edge": 64,
-                "location_description": "on 5th Avenue, between the intersection with East 39th Street and West 39th Street and the intersection with East 40th Street"
+                "location_description": "on 5th Avenue, between the intersection with West 39th Street and East 39th Street and the intersection with East 40th Street"
             },
             {
                 "name": "Stout NYC",
@@ -4384,7 +4346,7 @@
                     736.3817222532962
                 ],
                 "edge": 31,
-                "location_description": "on West 39th Street, between the limit of the map and the intersection with East 39th Street and 5th Avenue"
+                "location_description": "on West 39th Street, between the limit of the map and the intersection with 5th Avenue and East 39th Street"
             },
             {
                 "name": "The Australian NYC",
@@ -4422,7 +4384,7 @@
                     1122.536019670493
                 ],
                 "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with 5th Avenue and East 38th Street and the intersection with 6th Avenue"
+                "location_description": "on West 38th Street, between the intersection with East 38th Street and 5th Avenue and the intersection with 6th Avenue"
             },
             {
                 "name": "The Harold",
@@ -4431,8 +4393,8 @@
                 "street": "Broadway",
                 "housenumber": "1271",
                 "categories": [
-                    "catering.restaurant.american",
                     "vegetarian",
+                    "catering.restaurant.american",
                     "gluten_free"
                 ],
                 "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
@@ -4461,6 +4423,44 @@
                 ],
                 "edge": 95,
                 "location_description": "on Broadway, between the intersection with West 32nd Street and the intersection with West 31st Street"
+            },
+            {
+                "name": "The Italian Table",
+                "city": "New York",
+                "district": "Manhattan Community Board 6",
+                "street": "Madison Avenue",
+                "housenumber": "241",
+                "categories": [
+                    "catering.restaurant.italian"
+                ],
+                "opening_hours": "Mo-Su 07:00-22:00",
+                "branch": "Madison 38th",
+                "contact": {
+                    "phone": "+1-646-779-7667",
+                    "website": "https://www.italiantable.com"
+                },
+                "payment_options": {
+                    "contactless": true,
+                    "debit_cards": true,
+                    "credit_cards": true
+                },
+                "catering": {
+                    "cuisine": "italian"
+                },
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "coords": [
+                    3331.9490563961544,
+                    1590.116523212765
+                ],
+                "edge": 86,
+                "location_description": "on Madison Avenue, between the intersection with East 37th Street and the intersection with East 38th Street"
             },
             {
                 "name": "The Morgan Library & Museum",
@@ -4619,8 +4619,8 @@
                 "district": "Midtown South",
                 "street": "West 31st Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4645,8 +4645,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "West 32nd Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4671,8 +4671,8 @@
                 "commercial": "Korea Town",
                 "street": "West 32nd Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "distance": 184,
                 "accessibility": {
@@ -4696,8 +4696,8 @@
                 "district": "Midtown South",
                 "street": "West 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "network": "NYC Transit",
                 "distance": 54,
@@ -4714,7 +4714,7 @@
                     2000.895681353215
                 ],
                 "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with East 34th Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 34th Street, between the intersection with 5th Avenue and East 34th Street and the intersection with 6th Avenue"
             },
             {
                 "name": "West 34th Street & Broadway",
@@ -4722,8 +4722,8 @@
                 "district": "Garment District",
                 "street": "West 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4748,8 +4748,8 @@
                 "district": "Midtown South",
                 "street": "West 34th Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
@@ -4766,7 +4766,7 @@
                     1743.1189911740794
                 ],
                 "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with East 34th Street and 5th Avenue"
+                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 34th Street"
             },
             {
                 "name": "West 37th Street & 5th Avenue",
@@ -4774,8 +4774,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "West 37th Street",
                 "categories": [
-                    "bus_stop",
-                    "public_transport"
+                    "public_transport",
+                    "bus_stop"
                 ],
                 "distance": 294,
                 "accessibility": {
@@ -4791,7 +4791,7 @@
                     1415.517140365197
                 ],
                 "edge": 29,
-                "location_description": "on West 37th Street, between the intersection with East 37th Street and 5th Avenue and the intersection with 6th Avenue"
+                "location_description": "on West 37th Street, between the intersection with 5th Avenue and East 37th Street and the intersection with 6th Avenue"
             },
             {
                 "name": "Windfall Lounge",
@@ -4831,7 +4831,7 @@
                     743.9698274806537
                 ],
                 "edge": 31,
-                "location_description": "on West 39th Street, between the limit of the map and the intersection with East 39th Street and 5th Avenue"
+                "location_description": "on West 39th Street, between the limit of the map and the intersection with 5th Avenue and East 39th Street"
             },
             {
                 "name": "Woorijip",

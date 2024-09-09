@@ -103,6 +103,18 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.HIGH,
         )
 
+    def destination_reached(self) -> bool:
+        announced = self.stop_and_say(
+            self.res["destination_reached"],
+            category=Announcement.Category.GRAPH,
+            priority=Announcement.Priority.MEDIUM,
+        )
+
+        if announced:
+            self._timestamps[Announcement.Category.GRAPH] += 2.5
+
+        return announced
+
     def more_than_one_hand(self) -> bool:
         if (
             time.time() - self._timestamps[Announcement.Category.ERROR]
@@ -117,7 +129,7 @@ class CamIOTTS(TTS):
         )
 
     def announce_position(self, info: PositionInfo) -> bool:
-        current_time = time.time()
+        current_time = info.timestamp
         if self.last_pos_info.graph_element != info.graph_element:
             self.last_pos_change_timestamp = current_time
 
@@ -164,7 +176,7 @@ class CamIOTTS(TTS):
 
         return (
             info.movement == MovementDirection.NONE
-            and time.time() - self.last_pos_change_timestamp > self.__get_delay(info)
+            and info.timestamp - self.last_pos_change_timestamp > self.__get_delay(info)
             and not self.__is_repeated(info.graph_element.get_complete_description())
         )
 

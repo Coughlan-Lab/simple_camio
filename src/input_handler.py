@@ -11,6 +11,7 @@ class InputListener(Enum):
     TOGGLE_TTS = 2
     STOP = 3
     QUESTION = 4
+    STOP_NAVIGATION = 5
 
 
 class InputHandler:
@@ -31,6 +32,8 @@ class InputHandler:
                 self.__call_listener(InputListener.SAY_MAP_DESCRIPTION)
             elif key == KeyCode.from_char("q"):
                 self.__call_listener(InputListener.STOP)
+            elif key == KeyCode.from_char("n"):
+                self.__call_listener(InputListener.STOP_NAVIGATION)
 
         self.keyboard = KeyboardListener(on_press=on_press)
         self.keyboard.start()

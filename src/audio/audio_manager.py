@@ -39,17 +39,13 @@ class AudioManager:
         self.poi_sound = pygame.mixer.Sound(sounds["poi"])
         self.hand_status = HandStatus.NOT_FOUND
 
-        self.start_recording_sound: Optional[pygame.mixer.Sound]
-        if start_recording_path := sounds.get("start_recording"):
-            self.start_recording_sound = pygame.mixer.Sound(start_recording_path)
-        else:
-            self.start_recording_sound = None
+        self.start_recording_sound = pygame.mixer.Sound(sounds["start_recording"])
+        self.end_recording_sound = pygame.mixer.Sound(sounds["end_recording"])
 
-        self.end_recording_sound: Optional[pygame.mixer.Sound]
-        if end_recording_path := sounds.get("end_recording"):
-            self.end_recording_sound = pygame.mixer.Sound(end_recording_path)
-        else:
-            self.end_recording_sound = None
+        self.waypoint_reached_sound = pygame.mixer.Sound(sounds["waypoint_reached"])
+        self.destination_reached_sound = pygame.mixer.Sound(
+            sounds["destination_reached"]
+        )
 
         self.background_player = AudioLooper(sounds["background"])
         self.background_player.play()
@@ -77,12 +73,16 @@ class AudioManager:
         self.pointing_sound.play()
 
     def play_start_recording(self) -> None:
-        if self.start_recording_sound is not None:
-            self.start_recording_sound.play()
+        self.start_recording_sound.play()
 
     def play_end_recording(self) -> None:
-        if self.end_recording_sound is not None:
-            self.end_recording_sound.play()
+        self.end_recording_sound.play()
+
+    def play_waypoint_reached(self) -> None:
+        self.waypoint_reached_sound.play()
+
+    def play_destination_reached(self) -> None:
+        self.destination_reached_sound.play()
 
     def position_feedback(self, info: PositionInfo) -> None:
         if self.last_pos_info.graph_element == info.graph_element:

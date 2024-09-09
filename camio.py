@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 
 from src.frame_processing import VideoCapture, WindowManager
 from src.input_handler import InputHandler, InputListener
+from src.navigation_manager import NavigationManager
 
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
@@ -46,12 +47,12 @@ class CamIO:
         # Audio
         self.tts = CamIOTTS("res/strings.json", rate=tts_rate)
         self.tts.on_announcement_ended = self.on_announcement_ended
-        self.stt = STT(
-            start_filename="res/start_stt.wav", end_filename="res/end_stt.wav"
-        )
+        self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
 
-        # LLM
+        # User iteraction
+        self.navigation_manager = NavigationManager(model["feets_per_inch"])
+        self.navigation_manager.on_action = self.__on_navigation_action
         self.llm = LLM(self.graph, model["context"])
         self.user_input_thread: Optional[UserInputThread] = None
 
@@ -62,6 +63,7 @@ class CamIO:
             InputListener.TOGGLE_TTS: partial(self.tts.toggle_pause),
             InputListener.STOP: partial(self.stop),
             InputListener.QUESTION: partial(self.__on_spacebar_pressed),
+            InputListener.STOP_NAVIGATION: partial(self.navigation_manager.clear),
         }
         self.input_handler = InputHandler(input_listeners)
 
@@ -92,9 +94,6 @@ class CamIO:
         self.audio_manager.start()
 
         self.running = True
-        self.graph.guide_to_poi(
-            Coords(634.1952458372947, 2464.163207108267), destination_poi_index=41
-        )
         while self.running and video_capture.is_opened():
             self.window_manager.update(frame)
 
@@ -120,8 +119,17 @@ class CamIO:
 
             self.position_handler.process_position(finger_pos)
             position = self.position_handler.get_position_info()
-            if hand_status == HandStatus.POINTING and not self.is_handling_user_input():
-                self.audio_manager.position_feedback(position)
+            if not hand_status == HandStatus.POINTING or self.is_handling_user_input():
+                continue
+
+            self.audio_manager.position_feedback(position)
+            if self.navigation_manager.running:
+                self.navigation_manager.update(
+                    position,
+                    ignore_not_moving=self.is_handling_user_input()
+                    or self.tts.is_speaking(),
+                )
+            else:
                 self.tts.announce_position(position)
 
         self.audio_manager.stop()
@@ -166,12 +174,13 @@ class CamIO:
             self.tts.no_map_description()
 
     def enable_navigation_mode(self, start: Coords, waypoints: List[WayPoint]) -> None:
-        print("Enabling navigation mode.")
         self.window_manager.clear_waypoints()
+
         self.window_manager.add_waypoint(start)
         for waypoint in waypoints:
-            print(waypoint)
             self.window_manager.add_waypoint(waypoint.coords)
+
+        self.navigation_manager.navigate(waypoints, self.position_handler.last_info)
 
     def __process_hand_status(
         self, hand_status: HandStatus, finger_pos: Optional[Coords]
@@ -210,6 +219,34 @@ class CamIO:
 
         else:
             self.tts.no_pointing()
+
+    def __on_navigation_action(
+        self, action: NavigationManager.Action, **kwargs
+    ) -> None:
+        if self.is_handling_user_input():
+            return
+
+        if action == NavigationManager.Action.NEW_ROUTE:
+            th.Thread(
+                target=self.graph.guide_to_destination,
+                args=(kwargs["start"], kwargs["destination"]),
+            ).start()
+
+        elif action == NavigationManager.Action.WAYPOINT_REACHED:
+            self.audio_manager.play_waypoint_reached()
+
+        elif action == NavigationManager.Action.DESTINATION_REACHED:
+            self.tts.destination_reached()
+            self.audio_manager.play_destination_reached()
+            self.window_manager.clear_waypoints()
+
+        elif action == NavigationManager.Action.ANNOUNCE_STEP:
+            waypoint: WayPoint = kwargs["waypoint"]
+            self.tts.stop_and_say(
+                waypoint.instructions,
+                category=Announcement.Category.GRAPH,
+                priority=Announcement.Priority.MEDIUM,
+            )
 
     def on_announcement_ended(self, category: Announcement.Category) -> None:
         if (

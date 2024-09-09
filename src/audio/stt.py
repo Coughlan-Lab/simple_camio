@@ -5,16 +5,14 @@ import speech_recognition as sr
 
 
 class STT:
-    TIMEOUT = 5
-    PHRASE_TIME_LIMIT = 7
+    TIMEOUT = 10
+    PHRASE_TIME_LIMIT = 20
     FINAL_SILENCE_DURATION = 0.4
 
     def __init__(
         self,
         timeout: int = TIMEOUT,
         phrase_time_limit: int = PHRASE_TIME_LIMIT,
-        start_filename: Optional[str] = None,
-        end_filename: Optional[str] = None,
     ) -> None:
         self.recognizer = sr.Recognizer()
 

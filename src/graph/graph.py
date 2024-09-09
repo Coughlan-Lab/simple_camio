@@ -267,7 +267,7 @@ class Graph:
         route_index: int = 0,
     ) -> None:
         start = self.snap_to_graph(start, force=True)[0]
-        destination = self.snap_to_graph(destination, force=False)[0]
+        destination = self.snap_to_graph(destination, force=True)[0]
 
         if start == destination:
             return self.on_new_route(start, list())

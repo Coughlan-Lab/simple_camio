@@ -25,7 +25,7 @@ tool_calls = [
         type="function",
         function=FunctionDefinition(
             name=ToolCall.GET_DISTANCE,
-            description="Get the distance between two points on the road network graph.",
+            description="Get the distance between two points on the road network graph. The distance unit is feet.",
             parameters={
                 "type": "object",
                 "properties": {

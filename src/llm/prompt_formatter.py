@@ -65,7 +65,7 @@ class PromptFormatter:
                     Coords(params["x2"], params["y2"]),
                     params.get("alternative_route_index", 0),
                 )
-                result = "Navigation mode has been enabled."
+                result = "Navigation mode is now enabled."
 
             elif fnc == ToolCall.GUIDE_TO_POINT_OF_INTEREST:
                 self.graph.guide_to_poi(
@@ -73,7 +73,7 @@ class PromptFormatter:
                     params["poi_index"],
                     params.get("alternative_route_index", 0),
                 )
-                result = "Navigation mode has been enabled."
+                result = "Navigation mode is now enabled."
 
             elif fnc == ToolCall.ENABLE_POINTS_OF_INTERESTS:
                 if params["disable_previous"]:

@@ -63,6 +63,7 @@ class PromptFormatter:
                 self.graph.guide_to_destination(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
+                    True,
                     params.get("alternative_route_index", 0),
                 )
                 result = "Navigation mode is now enabled."
@@ -71,6 +72,7 @@ class PromptFormatter:
                 self.graph.guide_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
+                    True,
                     params.get("alternative_route_index", 0),
                 )
                 result = "Navigation mode is now enabled."

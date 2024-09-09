@@ -103,6 +103,9 @@ class CamIO:
 
         self.audio_manager.start()
 
+        self.graph.guide_to_poi(
+            Coords(634.1952458372947, 2464.163207108267), 31, step_by_step=True
+        )
         self.running = True
         while self.running and video_capture.is_opened():
             self.window_manager.update(frame)
@@ -183,14 +186,21 @@ class CamIO:
         else:
             self.tts.no_map_description()
 
-    def enable_navigation_mode(self, start: Coords, waypoints: List[WayPoint]) -> None:
+    def enable_navigation_mode(
+        self, start: Coords, step_by_step: bool, waypoints: List[WayPoint]
+    ) -> None:
         self.window_manager.clear_waypoints()
 
         self.window_manager.add_waypoint(start)
         for waypoint in waypoints:
             self.window_manager.add_waypoint(waypoint.coords)
 
-        self.navigation_manager.navigate(waypoints, self.position_handler.last_info)
+        if step_by_step:
+            self.navigation_manager.navigate_step_by_step(
+                waypoints, self.position_handler.last_info
+            )
+        else:
+            self.navigation_manager.navigate(waypoints[0])
 
     def __process_hand_status(
         self, hand_status: HandStatus, finger_pos: Optional[Coords]
@@ -239,7 +249,7 @@ class CamIO:
         if action == NavigationManager.Action.NEW_ROUTE:
             th.Thread(
                 target=self.graph.guide_to_destination,
-                args=(kwargs["start"], kwargs["destination"]),
+                args=(kwargs["start"], kwargs["destination"], True),
             ).start()
 
         elif action == NavigationManager.Action.WAYPOINT_REACHED:

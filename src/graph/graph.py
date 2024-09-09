@@ -590,7 +590,7 @@ def precompute_distances(
 directions = list(TurningDirection.__members__.values())
 
 
-def get_direction(versor: Coords):
+def get_direction(versor: Coords) -> TurningDirection:
     return get_turning_direction(versor, TurningDirection.NORTH, Coords(0, -1))
 
 

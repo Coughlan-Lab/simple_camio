@@ -22,7 +22,11 @@ from src.utils import *
 class CamIO:
 
     def __init__(
-        self, model: Dict[str, Any], tts_rate: int = 200, debug: bool = False
+        self,
+        model: Dict[str, Any],
+        tts_rate: int = 200,
+        disable_llm: bool = False,
+        debug: bool = False,
     ) -> None:
         self.description = model["context"].get("description", None)
 
@@ -65,6 +69,12 @@ class CamIO:
             InputListener.QUESTION: partial(self.__on_spacebar_pressed),
             InputListener.STOP_NAVIGATION: partial(self.navigation_manager.clear),
         }
+
+        if disable_llm:
+            input_listeners[InputListener.QUESTION] = partial(lambda: None)
+            for poi in self.graph.pois:
+                poi.enable()
+
         self.input_handler = InputHandler(input_listeners)
 
         self.debug = debug
@@ -370,7 +380,9 @@ if __name__ == "__main__":
 
     camio: Optional[CamIO] = None
     try:
-        camio = CamIO(model, tts_rate=args.tts_rate, debug=args.debug)
+        camio = CamIO(
+            model, tts_rate=args.tts_rate, disable_llm=args.no_llm, debug=args.debug
+        )
         camio.main_loop()
 
     except KeyboardInterrupt:

@@ -180,3 +180,9 @@ camio_parser.add_argument(
     action="store_true",
     default=False,
 )
+camio_parser.add_argument(
+    "--no-llm",
+    help="Disable llm interaction.",
+    action="store_true",
+    default=False,
+)

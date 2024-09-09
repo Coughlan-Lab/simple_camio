@@ -63,7 +63,7 @@ class PromptFormatter:
                 self.graph.guide_to_destination(
                     Coords(params["x1"], params["y1"]),
                     Coords(params["x2"], params["y2"]),
-                    True,
+                    params.get("step_by_step", True),
                     params.get("alternative_route_index", 0),
                 )
                 result = "Navigation mode is now enabled."
@@ -72,7 +72,7 @@ class PromptFormatter:
                 self.graph.guide_to_poi(
                     Coords(params["x"], params["y"]),
                     params["poi_index"],
-                    True,
+                    params.get("step_by_step", True),
                     params.get("alternative_route_index", 0),
                 )
                 result = "Navigation mode is now enabled."
@@ -327,12 +327,13 @@ class PromptFormatter:
 
     instructions = (
         "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
-        "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective. Do not include unnecessary information.\n"
+        "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective. Do not include not requested information.\n"
         "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
         "- Stick to the provided information: when information is insufficient to answer a question, "
         "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
         "- If my question is ambiguous or unclear, ask for clarification.\n"
-        "- When I ask where a point of interest is located or what's its nearest intersection, call get_point_of_interest_details to get more information about it.\n"
+        "- When I ask where a point of interest is located or what's its nearest intersection, call get_point_of_interest_details to get more information about it. "
+        "Then, ask me if I want to be guided to that point, either directly or step by step. If I've already asked for directions, you can skip this step.\n",
         "- Everytime I ask a question, you MUST call enable_points_of_interest to enable the points of interest relevant to the conversation, "
-        "even if they are not explicitly mentioned in my question.\n"
+        "even if they are not explicitly mentioned in my question.\n",
     )

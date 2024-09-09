@@ -200,6 +200,14 @@ tool_calls = [
                         "type": "number",
                         "description": "The y coordinate of the destination",
                     },
+                    "step_by_step": {
+                        "type": "boolean",
+                        "description": (
+                            "if true, provide step-by-step directions. "
+                            "if false, provide direct navigation to the destination. "
+                            "if unsure, ask me if i want step-by-step directions or direct navigation to the destination."
+                        ),
+                    },
                     "alternative_route_index": {
                         "type": "number",
                         "description": (
@@ -208,7 +216,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x1", "y1", "x2", "y2"],
+                "required": ["x1", "y1", "x2", "y2", "step_by_step"],
                 "additionalProperties": False,
             },
         ),
@@ -236,6 +244,14 @@ tool_calls = [
                         "type": "number",
                         "description": "The index of the point of interest to reach",
                     },
+                    "step_by_step": {
+                        "type": "boolean",
+                        "description": (
+                            "if true, provide step-by-step directions. "
+                            "if false, provide direct navigation to the destination. "
+                            "if unsure, ask me if i want step-by-step directions or direct navigation to the destination."
+                        ),
+                    },
                     "alternative_route_index": {
                         "type": "number",
                         "description": (
@@ -244,7 +260,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x", "y", "poi_index"],
+                "required": ["x", "y", "poi_index", "step_by_step"],
                 "additionalProperties": False,
             },
         ),

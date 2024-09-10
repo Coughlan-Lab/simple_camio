@@ -26,6 +26,7 @@ class CamIO:
         model: Dict[str, Any],
         tts_rate: int = 200,
         disable_llm: bool = False,
+        lang: str = "en",
         debug: bool = False,
     ) -> None:
         self.description = model["context"].get("description", None)
@@ -51,7 +52,7 @@ class CamIO:
         self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
 
         # Audio
-        self.tts = CamIOTTS("res/strings.json", rate=tts_rate)
+        self.tts = CamIOTTS(f"res/strings_{lang}.json", rate=tts_rate)
         self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
@@ -59,7 +60,7 @@ class CamIO:
         # User iteraction
         self.navigation_manager = NavigationManager(self.graph, model["feets_per_inch"])
         self.navigation_manager.on_action = self.__on_navigation_action
-        self.llm = LLM("res/prompt.yml", self.graph, model["context"])
+        self.llm = LLM(f"res/prompt_{lang}.yaml", self.graph, model["context"])
         self.user_input_thread: Optional[UserInputThread] = None
 
         # Input handling
@@ -392,7 +393,11 @@ if __name__ == "__main__":
     camio: Optional[CamIO] = None
     try:
         camio = CamIO(
-            model, tts_rate=args.tts_rate, disable_llm=args.no_llm, debug=args.debug
+            model,
+            tts_rate=args.tts_rate,
+            disable_llm=args.no_llm,
+            lang=args.lang,
+            debug=args.debug,
         )
         camio.main_loop()
 

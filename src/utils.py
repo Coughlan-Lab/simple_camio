@@ -197,3 +197,9 @@ camio_parser.add_argument(
     action="store_true",
     default=False,
 )
+camio_parser.add_argument(
+    "--lang",
+    help="System language",
+    choices=["en"],
+    default="en",
+)

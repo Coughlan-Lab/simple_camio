@@ -16,7 +16,7 @@ from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler, WayPoint
 from src.llm import LLM
-from src.utils import *
+from src.utils import Buffer, get_args, load_map_parameters
 
 
 class CamIO:
@@ -378,7 +378,7 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    args = camio_parser.parse_args()
+    args = get_args()
 
     out_dir = os.path.dirname(args.out)
     if not os.path.exists(out_dir):
@@ -389,6 +389,7 @@ if __name__ == "__main__":
     if model is None:
         print(f"Model file {args.model} not found.")
         sys.exit(0)
+    print(f"Loaded map: {model.get('name', 'Unknown')}")
 
     camio: Optional[CamIO] = None
     try:

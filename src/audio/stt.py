@@ -29,7 +29,7 @@ class STT:
         return self.recording_audio
 
     def on_question_ended(self) -> None:
-        self.recognizer.listening = False
+        self.recognizer.stop_listening()
 
     def calibrate(self) -> None:
         with sr.Microphone() as source:

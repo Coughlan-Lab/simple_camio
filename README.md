@@ -16,6 +16,12 @@ To run the code, simply run the following command:
 python camio.py --model <path_to_model>
 ```
 
+For a list of all command line arguments, run:
+
+```bash
+python camio.py --help
+```
+
 ## Keyboard shortcuts:
 
 - `q`: Quit the application

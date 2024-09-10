@@ -46,18 +46,14 @@ camio_parser.add_argument(
     default=False,
 )
 camio_parser.add_argument(
-    "--lang",
-    help="System language",
-    type=Lang,
-    choices=list(Lang),
-    default=Lang.EN_US,
+    "--lang", help="System language", type=Lang, choices=list(Lang), default=Lang.EN_GB
 )
 camio_parser.add_argument(
     "--tts-gender",
     help="TTS voice gender",
     type=Gender,
     choices=list(Gender),
-    default=Gender.NEUTRAL,
+    default=Gender.MALE,
 )
 camio_parser.add_argument(
     "--no-stt",

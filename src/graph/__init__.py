@@ -18,7 +18,7 @@ from .position_handler import MovementDirection, PositionHandler, PositionInfo
 class GraphEncoder(JSONEncoder):
     def default(self, o: Any) -> Any:
         if isinstance(o, Coords):
-            return {"x": o.x, "y": o.y}
+            return [o.x, o.y]
         if isinstance(o, Node):
             return o.id
         if isinstance(o, Edge):

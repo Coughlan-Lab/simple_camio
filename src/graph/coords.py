@@ -147,7 +147,7 @@ def coords_to_latlng(latlng_reference: LatLngReference, coords: Coords) -> Coord
     return Coords(latO, lonO)
 
 
-def latlng_to_coords(reference: LatLngReference, latlng) -> Coords:
+def latlng_to_coords(reference: LatLngReference, latlng: Coords) -> Coords:
     dx = latlng_distance(reference.lat, reference.lng, reference.lat, latlng.y)
     dy = latlng_distance(reference.lat, reference.lng, latlng.x, reference.lng)
 

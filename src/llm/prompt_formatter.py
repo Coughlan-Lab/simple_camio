@@ -214,7 +214,7 @@ class PromptFormatter:
             + "\n\n"
         )
 
-        prompt += "###Examples###\n\n"
+        prompt += "###Examples###\n"
         prompt += "\n".join(self.prompt_components["examples"])
 
         return ChatCompletionSystemMessageParam(

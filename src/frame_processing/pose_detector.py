@@ -34,9 +34,11 @@ class HandStatus(Enum):
     EXPLORING = 2
 
 
-def ratio(
-    coors: npt.NDArray[np.float32],
-) -> np.float32:  # ratio is 1 if points are collinear, lower otherwise (minimum is 0)
+def ratio(coors: npt.NDArray[np.float32]) -> np.float32:
+    """
+    This function calculates a value between 0 and 1 that represents how close the points are to be collinear.
+    1 means that the points are collinear, 0 means that the points are as far as possible.
+    """
     d = np.linalg.norm(coors[0, :] - coors[3, :])
     a = np.linalg.norm(coors[0, :] - coors[1, :])
     b = np.linalg.norm(coors[1, :] - coors[2, :])

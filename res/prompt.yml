@@ -12,10 +12,6 @@ main:
     I'm a blind person who needs help to navigate a new neighborhood.
     You are a resident of the neighborhood who knows it perfectly in every detail.
 
-  instructions: |
-    I will now ask questions about the points of interest and the road network. You MUST follow these instructions:
-    {}
-
   graph:
     nodes: "Consider the following points on a cartesian plane at the associated coordinates:"
 
@@ -29,15 +25,13 @@ main:
       For this reason, certain streets with pedestrian-only segments might break off at some point and then continue.
       Base your responses solely on the information contained in the graph, even if it contradicts your personal knowledge of the area.
 
-      These are the names of the streets in the graph. Use them to identify each street.
-
     nodes_naming: >
       Nodes are named based on the streets intersecting at their coordinates.
       For example, a node at the intersection of the Webster Street edge and the Washington Street edge will be named "Intersection of Webster Street and Washington Street."
       Streets without nodes in common can't intersect.
 
       If all the edges intersecting at a node belong to the same street, the node is named after that street.
-      A node with four edges intersecting is an X intersection, while a node with three edges intersecting forms a T intersection.
+      A node with four edges intersecting is a four-way intersection, while a node with three edges intersecting forms a T intersection.
       A node connected to only one edge marks the end of a street.
 
     points_of_interest: |
@@ -60,6 +54,10 @@ main:
   context: |
     Finally, these are addictional information about the context of the map:
     current time: {}
+    {}
+
+  instructions: |
+    I will now ask questions about the points of interest and the road network. You MUST follow these instructions:
     {}
 
 question:

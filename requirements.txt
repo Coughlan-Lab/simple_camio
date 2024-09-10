@@ -9,3 +9,4 @@ SpeechRecognition==3.10.4
 pynput==1.7.7
 pygame==2.6.0
 pyyaml==6.0.1
+-e "git+https://github.com/Matteo-3033/speech_recognition.git#egg=speechrecognition"

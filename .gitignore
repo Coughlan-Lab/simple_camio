@@ -7,19 +7,20 @@ build
 
 # Environment variables
 .env
+google_stt_credentials.json
+
+# speech recognition library
+speechrecognition
 
 # pyinstaller folders
 dist
 output
 
-# Camera parameters
-camera_parameters.json
-
 # Chat output
 out
 
+# misc
 *.spec
 .DS_STORE
 .vscode
 
-google_stt_credentials.json

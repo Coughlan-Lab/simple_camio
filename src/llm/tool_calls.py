@@ -203,9 +203,9 @@ tool_calls = [
                     "step_by_step": {
                         "type": "boolean",
                         "description": (
-                            "if true, provide step-by-step directions. "
-                            "if false, provide direct navigation to the destination. "
-                            "if unsure, ask me if i want step-by-step directions or direct navigation to the destination."
+                            "If true, provide step-by-step directions. "
+                            "If false, provide direct navigation to the destination. "
+                            "If unsure, ask me if I want step-by-step directions or direct navigation to the destination."
                         ),
                     },
                     "alternative_route_index": {
@@ -216,7 +216,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x1", "y1", "x2", "y2", "step_by_step"],
+                "required": ["x1", "y1", "x2", "y2"],
                 "additionalProperties": False,
             },
         ),
@@ -247,9 +247,9 @@ tool_calls = [
                     "step_by_step": {
                         "type": "boolean",
                         "description": (
-                            "if true, provide step-by-step directions. "
-                            "if false, provide direct navigation to the destination. "
-                            "if unsure, ask me if i want step-by-step directions or direct navigation to the destination."
+                            "If true, provide step-by-step directions. "
+                            "If false, provide direct navigation to the destination. "
+                            "If unsure, ask me if I want step-by-step directions or direct navigation to the destination."
                         ),
                     },
                     "alternative_route_index": {
@@ -260,7 +260,7 @@ tool_calls = [
                         ),
                     },
                 },
-                "required": ["x", "y", "poi_index", "step_by_step"],
+                "required": ["x", "y", "poi_index"],
                 "additionalProperties": False,
             },
         ),

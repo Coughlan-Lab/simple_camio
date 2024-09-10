@@ -94,7 +94,7 @@ class TTS:
 
         if len(voices) == 0:
             raise RuntimeError(
-                f"Voice {lang} for gender {gender} not found. Ensure it is installed in your system."
+                f"Voice {lang} for gender {gender} not found. Ensure one is installed in your system."
             )
 
         if len(voices) == 1:

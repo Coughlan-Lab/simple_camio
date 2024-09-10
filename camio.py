@@ -396,14 +396,14 @@ if __name__ == "__main__":
 
     out_dir = os.path.dirname(args.out)
     if not os.path.exists(out_dir):
-        print(f"Directory {out_dir} does not exist.")
+        print(f"\nDirectory {out_dir} does not exist.")
         sys.exit(0)
 
     model = load_map_parameters(args.model)
     if model is None:
-        print(f"Model file {args.model} not found.")
+        print(f"\nModel file {args.model} not found.")
         sys.exit(0)
-    print(f"Loaded map: {model.get('name', 'Unknown')}")
+    print(f"\nLoaded map: {model.get('name', 'Unknown')}\n")
 
     camio: Optional[CamIO] = None
     try:
@@ -420,11 +420,10 @@ if __name__ == "__main__":
         pass
 
     except Exception as e:
-        print(f"An error occurred:")
-        print(e)
+        print(f"\nAn error occurred:\n{e}")
 
     finally:
         if camio is not None:
             camio.stop()
             camio.save_chat(args.out)
-            print(f"Chat saved to {args.out}")
+            print(f"\nChat saved to {args.out}")

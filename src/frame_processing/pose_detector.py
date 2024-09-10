@@ -66,13 +66,13 @@ class Hand:
     def landmark(self) -> List[Any]:
         return self.landmarks
 
-    def draw(self, img: npt.NDArray[np.uint8]) -> None:
+    def draw(self, img: npt.NDArray[np.uint8], active: bool = False) -> None:
         mp_drawing.draw_landmarks(
             img,
             self,
             connections=mp_hands.HAND_CONNECTIONS,
             landmark_drawing_spec=(
-                active_landmark_style if self.is_pointing else inactive_landmark_style
+                active_landmark_style if active else inactive_landmark_style
             ),
             connection_drawing_spec=connection_style,
         )
@@ -140,7 +140,9 @@ class PoseDetector:
             min_tracking_confidence=0.75,
             max_num_hands=4,
         )
-        self.buffers = [Buffer[Coords](20) for _ in range(2)]
+        self.buffers = [
+            Buffer[Coords](15) for _ in range(2)
+        ]  # Left and right hand buffers
         self.last_side_pointing: Optional[Hand.Side] = None
 
     def detect(
@@ -158,9 +160,6 @@ class PoseDetector:
         if len(hands) == 0:
             return HandStatus.NOT_FOUND, None, img
 
-        for hand in hands:
-            hand.draw(img)
-
         hands_per_side = {
             side: [h for h in hands if h.side == side] for side in Hand.Side
         }
@@ -168,6 +167,8 @@ class PoseDetector:
             len(hands_per_side[Hand.Side.LEFT]) > 1
             or len(hands_per_side[Hand.Side.RIGHT]) > 1
         ):
+            for hand in hands:
+                hand.draw(img, active=False)
             return HandStatus.MORE_THAN_ONE_HAND, None, img
 
         for hand in hands:
@@ -177,31 +178,21 @@ class PoseDetector:
 
         if len(pointing_hands) == 0:
             self.last_side_pointing = None
+            for hand in hands:
+                hand.draw(img, active=False)
             return HandStatus.EXPLORING, None, img
 
         if len(pointing_hands) == 1:
             self.last_side_pointing = pointing_hands[0].side
-            return (
-                HandStatus.POINTING,
-                self.get_index_position(pointing_hands[0], img, H),
-                img,
-            )
 
         if self.is_moving(Hand.Side.LEFT):
             self.last_side_pointing = Hand.Side.LEFT
-            return (
-                HandStatus.POINTING,
-                self.buffers[Hand.Side.LEFT].last(),
-                img,
-            )
 
         if self.is_moving(Hand.Side.RIGHT):
             self.last_side_pointing = Hand.Side.RIGHT
-            return (
-                HandStatus.POINTING,
-                self.buffers[Hand.Side.RIGHT].last(),
-                img,
-            )
+
+        for hand in hands:
+            hand.draw(img, active=hand.side == self.last_side_pointing)
 
         if self.last_side_pointing is not None:
             return (
@@ -210,7 +201,6 @@ class PoseDetector:
                 img,
             )
 
-        self.last_side_pointing = None
         return HandStatus.EXPLORING, None, img
 
     def is_moving(self, side: Hand.Side) -> bool:

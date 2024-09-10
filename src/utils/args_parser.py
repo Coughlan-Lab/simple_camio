@@ -27,26 +27,15 @@ camio_parser.add_argument(
     help="Path to chat save file.",
     default="out/last_chat.txt",
 )
+
 camio_parser.add_argument(
-    "--tts_rate",
+    "--lang", help="System language", type=Lang, choices=list(Lang), default=Lang.EN_GB
+)
+camio_parser.add_argument(
+    "--tts-rate",
     help="TTS speed rate (words per minute).",
     type=int,
     default=200,
-)
-camio_parser.add_argument(
-    "--debug",
-    help="Debug mode.",
-    action="store_true",
-    default=False,
-)
-camio_parser.add_argument(
-    "--no-llm",
-    help="Disable llm interaction.",
-    action="store_true",
-    default=False,
-)
-camio_parser.add_argument(
-    "--lang", help="System language", type=Lang, choices=list(Lang), default=Lang.EN_GB
 )
 camio_parser.add_argument(
     "--tts-gender",
@@ -55,9 +44,23 @@ camio_parser.add_argument(
     choices=list(Gender),
     default=Gender.MALE,
 )
+
+camio_parser.add_argument(
+    "--no-llm",
+    help="Disable llm interaction.",
+    action="store_true",
+    default=False,
+)
 camio_parser.add_argument(
     "--no-stt",
     help="Replace STT with keyboard input.",
+    action="store_true",
+    default=False,
+)
+
+camio_parser.add_argument(
+    "--debug",
+    help="Enable debug mode.",
     action="store_true",
     default=False,
 )

@@ -1,8 +1,11 @@
 import json
 import math
+import os
 from datetime import datetime
 from typing import Any, Dict, List, Optional, cast
 
+import yaml
+from httpx import main
 from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionSystemMessageParam,
                                ChatCompletionToolMessageParam,
@@ -17,8 +20,14 @@ from .tool_calls import ToolCall, tool_calls
 
 
 class PromptFormatter:
-    def __init__(self, graph: Graph) -> None:
+    def __init__(self, prompt_file: str, graph: Graph) -> None:
         self.graph = graph
+
+        if not os.path.exists(prompt_file):
+            raise FileNotFoundError(f"Prompt file not found: {prompt_file}")
+
+        with open(prompt_file, "r") as file:
+            self.prompt_components = yaml.safe_load(file)
 
     def handle_tool_call(
         self, tool_call: ChatCompletionMessageToolCall
@@ -104,7 +113,8 @@ class PromptFormatter:
     def get_user_message(
         self, question: str, position: Optional[PositionInfo]
     ) -> ChatCompletionUserMessageParam:
-        position_description = ""
+        components = self.prompt_components["question"]
+        position_prompt = ""
 
         if position is not None and position.is_still_valid():
             coords = position.snap_to_graph()
@@ -121,40 +131,42 @@ class PromptFormatter:
                 distance_m_node1 = math.floor(edge[0].distance_to(coords))
                 distance_m_node2 = math.floor(edge[1].distance_to(coords))
 
-                graph_position = (
-                    f"on edge {edge.id}, "
-                    f"which is {edge.get_llm_description()}\n"
-                    f"I'm at a distance of {distance_m_node1} m from the {edge.node1.get_llm_description()} (node {edge.node1.id}) "
-                    f"and {distance_m_node2} m from the {edge.node2.get_llm_description()} (node {edge.node2.id})."
+                graph_position = components["position"]["edge"].format(
+                    edge.id,
+                    edge.get_llm_description(),
+                    distance_m_node1,
+                    edge.node1.get_llm_description(),
+                    edge.node1.id,
+                    distance_m_node2,
+                    edge.node2.get_llm_description(),
+                    edge.node2.id,
                 )
+
             else:
                 node = cast(Node, position.graph_element)
 
-                graph_position = (
-                    f"node {node.id}, which is the {node.get_llm_description()}."
+                graph_position = components["position"]["node"].format(
+                    node.id, node.get_llm_description()
                 )
 
-            position_description = (
-                "###Position Update###\n"
-                f"My coordinates are {position.snap_to_graph()}; "
-                f"the closest point on the road network is {graph_position}\n"
-                "Continue answering my questions considering the updated position and keeping the previous context in mind.\n"
-                "If appropriate, include the updated position in your response.\n"
-                "If the following question is related to the previous one, keep the flow consistent.\n"
+            position_prompt = "###Position Update###\n\n"
+            position_prompt += components["position"]["structure"].format(
+                position.snap_to_graph(), graph_position.strip()
             )
 
-        question = f"###Question###\n{question}"
+        question_prompt = f"###Question###\n\n"
+        question_prompt += question + "\n"
+
         instructions = self.get_instructions_prompt()["content"]
 
-        prompt = f"{position_description}\n{question}\n{instructions}"
+        prompt = f"{position_prompt}\n{question_prompt}\n{instructions}"
 
         return ChatCompletionUserMessageParam(content=prompt, role="user")
 
     def get_instructions_prompt(self) -> ChatCompletionUserMessageParam:
-        instructions = (
-            "\nRemember that you MUST follow these instructions:\n"
-            f"{self.instructions}\n"
-            "Include with your answer a tool call to the enable_points_of_interest function to enable the points of interest relevant to my question and the previous context.\n"
+        instructions = "###Instructions###\n\n"
+        instructions += self.prompt_components["question"]["instructions"].format(
+            self.prompt_components["base_instructions"].strip()
         )
 
         return ChatCompletionUserMessageParam(content=instructions, role="user")
@@ -162,77 +174,44 @@ class PromptFormatter:
     def get_main_prompt(
         self, context: Dict[str, str]
     ) -> ChatCompletionSystemMessageParam:
-        prompt = "I'm a blind person who needs help to navigate a new neighborhood.\n"
-        prompt += "You are a resident of the neighborhood who knows it perfectly in every detail.\n\n"
+        main_prompts = self.prompt_components["main"]
+        prompt = main_prompts["header"] + "\n"
 
         prompt += "###Context###\n\n"
-        prompt += "Consider the following points on a cartesian plane at the associated coordinates:\n"
+        prompt += main_prompts["graph"]["nodes"]
         prompt += self.__nodes_prompt() + "\n\n"
 
-        prompt += (
-            "Each point is a node of a road network graph and represents the intersection of two or more streets.\n"
-            "Each edge of the graph connects two nodes and is specified with this notation: nX - nY. "
-            'For example the edge "n3 - n5" would connect node n3 with node n5.\n'
-            "Each street then is a sequence of connected edges on the graph. These are the streets of the road network graph:\n"
-        )
+        prompt += main_prompts["graph"]["edges"]
         prompt += self.__edges_prompt() + "\n\n"
 
-        prompt += (
-            "The graph includes only streets that can be traveled by car. "
-            "For this reason, certain streets with pedestrian-only segments might break off at some point and then continue. "
-            "Base your responses solely on the information contained in the graph, even if it contradicts your personal knowledge of the area."
-        )
-
-        prompt += "These are the names of the streets in the graph. Use them to identify each street.\n"
+        prompt += main_prompts["graph"]["streets"]
         prompt += self.__streets_prompt() + "\n\n"
 
-        prompt += (
-            "Nodes are named based on the streets intersecting at their coordinates. "
-            "For example, a node at the intersection of the Webster Street edge and the Washington Street edge "
-            'will be named "Intersection of Webster Street and Washington Street." '
-            "Streets without nodes in common can't intersect.\n"
-            "If all the edges intersecting at a node belong to the same street, the node is named after that street."
-            "A node with four edges intersecting is an X intersection, "
-            "while a node with three edges intersecting forms a T intersection. "
-            "A node connected to only one edge marks the end of a street.\n\n"
-        )
+        prompt += main_prompts["graph"]["nodes_naming"] + "\n"
 
-        prompt += (
-            "These are points of interest along the road network. Each point has five key fields:\n"
-            "- index: the index of the point in the list of points of interest\n"
-            "- street: the name of the street the point of interest belongs to\n"
-            "- coords: the coordinates of the point on the cartesian plane\n"
-            "- edge: the nearest edge to the point of interest. Edge's nodes are in no particular order\n"
-            "- categories: a list of categories the point of interest belongs to\n\n"
-        )
+        prompt += main_prompts["graph"]["points_of_interest"] + "\n"
         prompt += self.__poi_prompt() + "\n\n"
 
-        prompt += (
-            "These are features of the road network. "
-            "Include them when giving directions to reach a certain point; "
-            "as I'm blind, they will help me to orient myself better and to avoid hazards.\n\n"
-        )
+        prompt += main_prompts["graph"]["accessibility_features"] + "\n"
         prompt += self.__road_features_prompt() + "\n\n"
 
         prompt += (
-            "All units are in feets.\n"
-            f"North is indicated by the vector {self.graph.reference_system.north}, "
-            f"South by {self.graph.reference_system.south}, "
-            f"West by {self.graph.reference_system.west}, and "
-            f"East by {self.graph.reference_system.east}\n\n"
+            main_prompts["units"].format(
+                self.graph.reference_system.north,
+                self.graph.reference_system.south,
+                self.graph.reference_system.west,
+                self.graph.reference_system.east,
+            )
+            + "\n"
         )
 
-        prompt += (
-            "Finally, these are addictional information about the context of the map:\n"
-            f"current time: {datetime.now().strftime('%A %m-%d-%Y %H:%M:%S')}\n"
-            f"{str_dict(context)}\n\n"
+        prompt += main_prompts["context"].format(
+            datetime.now().strftime("%A %m-%d-%Y %H:%M:%S"), str_dict(context)
         )
 
-        prompt += (
-            "###Instructions###\n\n"
-            "I will now ask questions about the points of interest and the road network. "
-            "You MUST follow these instructions:\n"
-            f"{self.instructions}"
+        prompt += "###Instructions###\n\n"
+        prompt += main_prompts["instructions"].format(
+            self.prompt_components["base_instructions"].strip()
         )
 
         return ChatCompletionSystemMessageParam(
@@ -324,16 +303,3 @@ class PromptFormatter:
         return str_dict(
             {"node": f"{node.id} ({node.get_llm_description()})", "features": features}
         )
-
-    instructions = (
-        "- Answer without mentioning in your response the underlying graph, its nodes and edges and the cartesian plane; only use the provided information.\n"
-        "- Give me a direct, detailed and precise answer and keep it as short as possible; be objective. Do not include not requested information.\n"
-        "- Ensure that your answer is unbiased and does not rely on stereotypes.\n"
-        "- Stick to the provided information: when information is insufficient to answer a question, "
-        "respond by acknowledging the lack of an answer and suggest a way for me to find one.\n"
-        "- If my question is ambiguous or unclear, ask for clarification.\n"
-        "- When I ask where a point of interest is located or what's its nearest intersection, call get_point_of_interest_details to get more information about it. "
-        "Then, ask me if I want to be guided to that point, either directly or step by step. If I've already asked for directions, you can skip this step.\n",
-        "- Everytime I ask a question, you MUST call enable_points_of_interest to enable the points of interest relevant to the conversation, "
-        "even if they are not explicitly mentioned in my question.\n",
-    )

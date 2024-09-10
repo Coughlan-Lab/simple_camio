@@ -22,6 +22,7 @@ class LLM:
 
     def __init__(
         self,
+        prompt_file: str,
         graph: Graph,
         context: Dict[str, str],
         max_tokens: int = MAX_TOKENS,
@@ -31,7 +32,7 @@ class LLM:
         self.temperature = temperature
 
         self.client = OpenAI()
-        self.prompt_formatter = PromptFormatter(graph)
+        self.prompt_formatter = PromptFormatter(prompt_file, graph)
 
         self.context = context
         self.history: List[ChatCompletionMessageParam] = list()

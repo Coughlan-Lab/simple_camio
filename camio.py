@@ -59,7 +59,7 @@ class CamIO:
         # User iteraction
         self.navigation_manager = NavigationManager(self.graph, model["feets_per_inch"])
         self.navigation_manager.on_action = self.__on_navigation_action
-        self.llm = LLM(self.graph, model["context"])
+        self.llm = LLM("res/prompt.yml", self.graph, model["context"])
         self.user_input_thread: Optional[UserInputThread] = None
 
         # Input handling

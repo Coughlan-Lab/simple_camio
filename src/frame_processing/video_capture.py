@@ -42,25 +42,24 @@ def select_camera_port() -> Optional[int]:
 
     if len(ports) == 0:
         return None
-    elif len(ports) == 1:
+
+    if len(ports) == 1:
         return int(ports[0][0])
-    else:
-        print("The following cameras were detected:")
 
-        for i in range(len(ports)):
-            print(f"{i}) Port {ports[i][0]}: {ports[i][1]} x {ports[i][2]}")
+    print("\nAvailable cameras:")
 
-        while True:
-            selected_index = input("Please select which camera you would like to use: ")
+    for i in range(len(ports)):
+        print(f"{i + 1}) Camera {ports[i][0]}: {ports[i][1]} x {ports[i][2]}")
 
-            if selected_index.isnumeric() and 0 <= int(selected_index) < len(ports):
-                break
+    while True:
+        selected_index = input("Please, select which camera you would like to use: ")
 
-            print(
-                f"Invalid selection. Please, insert a number between 0 and {len(ports) - 1}."
-            )
+        if selected_index.isnumeric() and 1 <= int(selected_index) <= len(ports):
+            break
 
-        return int(ports[int(selected_index)][0])
+        print(f"Invalid selection. Please, insert a number between 1 and {len(ports)}.")
+
+    return int(ports[int(selected_index) - 1][0])
 
 
 def get_working_camera_ports(max_non_working: int = 3) -> List[Tuple[int, int, int]]:

@@ -16,7 +16,7 @@ from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
 from src.graph import Coords, Graph, PositionHandler, WayPoint
 from src.llm import LLM
-from src.utils import Buffer, get_args, load_map_parameters
+from src.utils import Buffer, Gender, Lang, get_args, load_map_parameters
 
 DEBUG = False
 NO_STT = False
@@ -27,9 +27,10 @@ class CamIO:
     def __init__(
         self,
         model: Dict[str, Any],
+        lang: Lang = Lang.EN_US,
         tts_rate: int = 200,
+        tts_gender: Gender = Gender.NEUTRAL,
         disable_llm: bool = False,
-        lang: str = "en",
     ) -> None:
         self.description = model["context"].get("description", None)
 
@@ -54,7 +55,7 @@ class CamIO:
         self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
 
         # Audio
-        self.tts = CamIOTTS(f"res/strings_{lang}.json", rate=tts_rate)
+        self.tts = CamIOTTS(f"res/strings_{lang}.json", lang, tts_gender, tts_rate)
         self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
@@ -408,18 +409,19 @@ if __name__ == "__main__":
     try:
         camio = CamIO(
             model,
-            tts_rate=args.tts_rate,
-            disable_llm=args.no_llm,
             lang=args.lang,
+            tts_rate=args.tts_rate,
+            tts_gender=args.tts_gender,
+            disable_llm=args.no_llm,
         )
         camio.main_loop()
 
     except KeyboardInterrupt:
         pass
 
-    # except Exception as e:
-    #    print(f"An error occurred:")
-    #    print(e)
+    except Exception as e:
+        print(f"An error occurred:")
+        print(e)
 
     finally:
         if camio is not None:

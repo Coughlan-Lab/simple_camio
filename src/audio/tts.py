@@ -9,6 +9,8 @@ from typing import Callable, Optional
 
 import pyttsx3
 
+from src.utils import Gender, Lang
+
 
 def generate_random_id() -> str:
     return str(uuid.uuid4())
@@ -50,9 +52,10 @@ class TTS:
     DEFAULT_RATE = 200
     ONE_MSG_LOOP_INTERVAL = 7
 
-    def __init__(self, rate: int = DEFAULT_RATE) -> None:
+    def __init__(self, lang: Lang, gender: Gender, rate: int = DEFAULT_RATE) -> None:
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
+        self.change_voice(lang, gender)
 
         self.engine.connect("started-utterance", self.__on_utterance_started)
         self.engine.connect("finished-utterance", self.__on_utterance_finished)
@@ -80,6 +83,39 @@ class TTS:
         )
 
         self.loop_thread: Optional[th.Thread] = None
+
+    def change_voice(self, lang: Lang, gender: Gender = Gender.NEUTRAL) -> None:
+        voices = list(
+            filter(
+                lambda v: lang in v.languages and gender == v.gender,
+                self.engine.getProperty("voices"),
+            )
+        )
+
+        if len(voices) == 0:
+            raise RuntimeError(
+                f"Voice {lang} for gender {gender} not found. Ensure it is installed in your system."
+            )
+
+        if len(voices) == 1:
+            self.engine.setProperty("voice", voices[0].id)
+            return
+
+        print("\nAvailable voices:")
+        for i, voice in enumerate(voices):
+            print(f"{i + 1}) {voice.name}")
+
+        while True:
+            selected_voice = input("Please, select which voice you would like to use: ")
+
+            if selected_voice.isnumeric() and 1 <= int(selected_voice) <= len(voices):
+                break
+
+            print(
+                f"Invalid selection. Please, insert a number between 1 and {len(voices)}."
+            )
+
+        self.engine.setProperty("voice", voices[int(selected_voice) - 1].id)
 
     def start(self) -> None:
         with self.main_lock:

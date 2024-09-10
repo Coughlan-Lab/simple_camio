@@ -1,6 +1,22 @@
 import argparse
 
+from .utils import StrEnum
+
+
+class Lang(StrEnum):
+    EN_US = "en_US"
+    EN_GB = "en_GB"
+    IT = "it_IT"
+
+
+class Gender(StrEnum):
+    MALE = "VoiceGenderMale"
+    FEMALE = "VoiceGenderFemale"
+    NEUTRAL = "VoiceGenderNeuter"
+
+
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
+
 camio_parser.add_argument(
     "--model",
     help="Path to model json file.",
@@ -32,8 +48,16 @@ camio_parser.add_argument(
 camio_parser.add_argument(
     "--lang",
     help="System language",
-    choices=["en"],
-    default="en",
+    type=Lang,
+    choices=list(Lang),
+    default=Lang.EN_US,
+)
+camio_parser.add_argument(
+    "--tts-gender",
+    help="TTS voice gender",
+    type=Gender,
+    choices=list(Gender),
+    default=Gender.NEUTRAL,
 )
 camio_parser.add_argument(
     "--no-stt",

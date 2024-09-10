@@ -182,9 +182,7 @@ class PromptFormatter:
 
         prompt += main_prompts["graph"]["edges"]
         prompt += self.__edges_prompt() + "\n\n"
-
-        prompt += main_prompts["graph"]["streets"]
-        prompt += self.__streets_prompt() + "\n\n"
+        prompt += main_prompts["graph"]["streets"] + "\n"
 
         prompt += main_prompts["graph"]["nodes_naming"] + "\n"
 
@@ -228,16 +226,11 @@ class PromptFormatter:
         return "\n".join(
             [
                 "{}: {}".format(
-                    street.id,
+                    street.name,
                     ", ".join([str(edge) for edge in street.edges]),
                 )
                 for street in self.graph.streets.values()
             ]
-        )
-
-    def __streets_prompt(self) -> str:
-        return "\n".join(
-            [f"{street.id}: {street.name}" for street in self.graph.streets.values()]
         )
 
     def __poi_prompt(self) -> str:

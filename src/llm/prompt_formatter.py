@@ -5,7 +5,6 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, cast
 
 import yaml
-from httpx import main
 from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionSystemMessageParam,
                                ChatCompletionToolMessageParam,

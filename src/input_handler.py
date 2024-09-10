@@ -18,6 +18,7 @@ class InputHandler:
     def __init__(self, listeners: Mapping[InputListener, Callable[[], None]]) -> None:
         self.keyboard: Optional[KeyboardListener] = None
         self.listeners = listeners
+        self.paused = False
 
     def init_shortcuts(self) -> None:
         def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
@@ -42,6 +43,12 @@ class InputHandler:
         if self.keyboard is not None:
             self.keyboard.stop()
 
+    def pause(self) -> None:
+        self.paused = True
+
+    def resume(self) -> None:
+        self.paused = False
+
     def __call_listener(self, listener: InputListener) -> None:
-        if listener in self.listeners:
+        if not self.paused and listener in self.listeners:
             self.listeners[listener]()

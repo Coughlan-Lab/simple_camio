@@ -35,6 +35,12 @@ camio_parser.add_argument(
     choices=["en"],
     default="en",
 )
+camio_parser.add_argument(
+    "--no-stt",
+    help="Replace STT with keyboard input.",
+    action="store_true",
+    default=False,
+)
 
 
 def get_args() -> argparse.Namespace:

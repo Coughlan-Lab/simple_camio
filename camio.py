@@ -18,6 +18,9 @@ from src.graph import Coords, Graph, PositionHandler, WayPoint
 from src.llm import LLM
 from src.utils import Buffer, get_args, load_map_parameters
 
+DEBUG = False
+NO_STT = False
+
 
 class CamIO:
 
@@ -27,7 +30,6 @@ class CamIO:
         tts_rate: int = 200,
         disable_llm: bool = False,
         lang: str = "en",
-        debug: bool = False,
     ) -> None:
         self.description = model["context"].get("description", None)
 
@@ -42,7 +44,7 @@ class CamIO:
 
         # Frame processing
         self.window_manager = WindowManager(
-            "CamIO", debug, model["template_image"], self.position_handler
+            "CamIO", DEBUG, model["template_image"], self.position_handler
         )
         self.model_detector = SIFTModelDetector(model["template_image"])
         template = cv2.imread(model["template_image"], cv2.IMREAD_GRAYSCALE)
@@ -80,7 +82,6 @@ class CamIO:
 
         self.input_handler = InputHandler(input_listeners)
 
-        self.debug = debug
         self.running = False
 
     def main_loop(self) -> None:
@@ -289,7 +290,10 @@ class UserInputThread(th.Thread):
         self.tts.stop_speaking()
         position = self.position_handler.last_info
 
-        question = self.get_question_from_stt()
+        if not NO_STT:
+            question = self.get_question_from_stt()
+        else:
+            question = self.get_question_from_keyboard()
 
         if self.stop_event.is_set():
             print("Stopping user input handler.")
@@ -307,7 +311,7 @@ class UserInputThread(th.Thread):
         if self.hand_status == HandStatus.POINTING:
             position = self.position_handler.last_info
 
-        answer = self.camio.llm.ask(question, position) or ""
+        answer = self.llm.ask(question, position) or ""
         self.tts.stop_waiting_llm_loop()
 
         if self.stop_event.is_set():
@@ -318,15 +322,26 @@ class UserInputThread(th.Thread):
 
     def get_question_from_stt(self) -> str:
         print("Listening...")
+
         self.audio_manager.play_start_recording()
-        recording = self.stt.get_audio()
+        recording = self.camio.stt.get_audio()
         self.audio_manager.play_end_recording()
 
         if recording is None or self.stop_event.is_set():
             return ""
 
         self.tts.start_waiting_llm_loop()
-        return self.stt.audio_to_text(recording) or ""
+        return self.camio.stt.audio_to_text(recording) or ""
+
+    def get_question_from_keyboard(self) -> str:
+        self.camio.input_handler.pause()
+
+        self.audio_manager.play_start_recording()
+        question = input("Input: ")
+        self.audio_manager.play_end_recording()
+
+        self.camio.input_handler.resume()
+        return question
 
     def process_answer(self, answer: str) -> None:
         self.tts.stop_speaking()
@@ -347,10 +362,6 @@ class UserInputThread(th.Thread):
         self.stop_event.set()
         self.llm.stop()
         self.tts.stop_waiting_llm_loop()
-
-    @property
-    def stt(self) -> STT:
-        return self.camio.stt
 
     @property
     def tts(self) -> CamIOTTS:
@@ -379,6 +390,8 @@ if __name__ == "__main__":
     load_dotenv()
 
     args = get_args()
+    DEBUG = args.debug
+    NO_STT = args.no_stt
 
     out_dir = os.path.dirname(args.out)
     if not os.path.exists(out_dir):
@@ -398,7 +411,6 @@ if __name__ == "__main__":
             tts_rate=args.tts_rate,
             disable_llm=args.no_llm,
             lang=args.lang,
-            debug=args.debug,
         )
         camio.main_loop()
 

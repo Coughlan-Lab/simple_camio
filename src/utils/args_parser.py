@@ -17,11 +17,7 @@ class Gender(StrEnum):
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
 
-camio_parser.add_argument(
-    "--model",
-    help="Path to model json file.",
-    default="models/new_york/new_york.json",
-)
+camio_parser.add_argument("--model", help="Path to model json file.", required=True)
 camio_parser.add_argument(
     "--out",
     help="Path to chat save file.",

@@ -2,7 +2,7 @@
     "name": "New York",
     "template_image": "models/new_york/template.png",
     "feets_per_pixel": 2.0978965222031607,
-    "feets_per_inch": 60.0,
+    "feets_per_inch": 333.33,
     "graph": {
         "latlng_reference": {
             "coords": [
@@ -315,8 +315,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "15 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -324,8 +323,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "10 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -342,8 +340,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -351,8 +348,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -360,8 +356,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": true,
@@ -369,8 +364,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": true,
@@ -378,8 +372,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -405,8 +398,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "10 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -423,8 +415,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -432,8 +423,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "10 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -450,8 +440,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -459,8 +448,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -468,8 +456,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": true,
@@ -477,8 +464,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "15 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -504,8 +490,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -522,8 +507,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": true,
@@ -531,8 +515,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -567,8 +550,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "15 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -594,8 +576,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -612,8 +593,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "10 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -639,8 +619,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "15 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -666,8 +645,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -675,8 +653,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -684,8 +661,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "15 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -693,8 +669,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -711,8 +686,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": true,
@@ -729,8 +703,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -738,8 +711,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -756,8 +728,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -783,8 +754,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "20 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -801,8 +771,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "10 m",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -828,8 +797,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "15 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -837,8 +805,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": false,
-                "walk_light_duration": "unknown"
+                "tactile_paving": false
             },
             {
                 "on_border": false,
@@ -864,8 +831,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "12.5 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": false,
@@ -873,8 +839,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "unknown",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -891,8 +856,7 @@
                 "walk_light": false,
                 "round-about": false,
                 "street_width": "10 m",
-                "tactile_paving": true,
-                "walk_light_duration": "unknown"
+                "tactile_paving": true
             },
             {
                 "on_border": true,
@@ -1314,8 +1278,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1323,8 +1286,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1332,8 +1294,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1341,8 +1302,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1350,8 +1310,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1359,8 +1318,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1368,8 +1326,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1377,8 +1334,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1386,8 +1342,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1395,8 +1350,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1404,8 +1358,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1413,8 +1366,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1422,8 +1374,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1431,8 +1382,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1440,8 +1390,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1449,8 +1398,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1458,8 +1406,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1467,8 +1414,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1476,8 +1422,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1485,8 +1430,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1494,8 +1438,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1503,8 +1446,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1512,8 +1454,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1521,8 +1462,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1530,8 +1470,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1539,8 +1478,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1548,8 +1486,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1557,8 +1494,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1566,8 +1502,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1575,8 +1510,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1584,8 +1518,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1593,8 +1526,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1602,8 +1534,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1611,8 +1542,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1620,8 +1550,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1629,8 +1558,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1638,8 +1566,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1647,8 +1574,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1656,8 +1582,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1665,8 +1590,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1674,8 +1598,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1683,8 +1606,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1692,8 +1614,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1701,8 +1622,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1710,8 +1630,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1719,8 +1638,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1728,8 +1646,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1737,8 +1654,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1746,8 +1662,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1755,8 +1670,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1764,8 +1678,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1773,8 +1686,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1782,8 +1694,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1791,8 +1702,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1800,8 +1710,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1809,8 +1718,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1818,8 +1726,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1827,8 +1734,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1836,8 +1742,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1845,8 +1750,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1854,8 +1758,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1863,8 +1766,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1872,8 +1774,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1881,8 +1782,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1890,8 +1790,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1899,8 +1798,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1908,8 +1806,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1917,8 +1814,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1926,8 +1822,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": true,
@@ -1935,8 +1830,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1944,8 +1838,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -1953,8 +1846,7 @@
                 "slope": "uphill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1962,8 +1854,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -1971,8 +1862,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1980,8 +1870,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1989,8 +1878,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -1998,8 +1886,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2007,8 +1894,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -2016,8 +1902,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2025,8 +1910,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -2034,8 +1918,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -2043,8 +1926,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2052,8 +1934,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2061,8 +1942,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -2070,8 +1950,7 @@
                 "slope": "flat",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2079,8 +1958,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -2088,8 +1966,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -2097,8 +1974,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -2106,8 +1982,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -2115,8 +1990,7 @@
                 "slope": "uphill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2124,8 +1998,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2133,8 +2006,7 @@
                 "slope": "downhill",
                 "surface": "cobblestone",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2142,8 +2014,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": false,
@@ -2151,8 +2022,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -2160,8 +2030,7 @@
                 "slope": "downhill",
                 "surface": "concrete",
                 "traffic_direction": "two_way",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2169,8 +2038,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             },
             {
                 "roadwork": true,
@@ -2178,8 +2046,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_forward",
-                "stairs": false,
-                "tactile_paving": false
+                "stairs": false
             },
             {
                 "roadwork": false,
@@ -2187,8 +2054,7 @@
                 "slope": "flat",
                 "surface": "concrete",
                 "traffic_direction": "one_way_backward",
-                "stairs": true,
-                "tactile_paving": false
+                "stairs": true
             }
         ],
         "streets": {
@@ -2378,8 +2244,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "Broadway",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2390,6 +2256,7 @@
                 "facilities": {
                     "internet_access": true
                 },
+                "edge": 92,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2398,12 +2265,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Broadwaynear the border of the map",
                 "coords": [
-                    1248.19400488446,
-                    3239.653860199141
-                ],
-                "edge": 92,
-                "location_description": "on Broadway, between the intersection with West 28th Street and the intersection with West 29th Street"
+                    1250.458314774548,
+                    3227.27913975329
+                ]
             },
             {
                 "name": "32nd Street",
@@ -2411,8 +2277,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "operator": "Port Authority of New York and New Jersey",
                 "network": "PATH",
@@ -2420,6 +2286,7 @@
                     "short_name": "33 St"
                 },
                 "distance": 257,
+                "edge": 69,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -2428,12 +2295,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenuenear the intersection with West 32nd Street",
                 "coords": [
-                    1243.6836979001716,
-                    2131.0986418771927
-                ],
-                "edge": 69,
-                "location_description": "on 6th Avenue, near the the intersection with West 32nd Street"
+                    1225.259666845766,
+                    2163.619659027723
+                ]
             },
             {
                 "name": "32nd Street & 5th Avenue",
@@ -2445,6 +2311,7 @@
                     "bus_stop"
                 ],
                 "network": "NYC Transit",
+                "edge": 35,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2453,12 +2320,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on East 32nd Street, between on East 32nd Streetnear the intersection with 5th Avenue and West 32nd Street and on East 32nd Streetnear the intersection with Madison Avenue",
                 "coords": [
-                    2281.7661393423637,
-                    2737.1607763431557
-                ],
-                "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
+                    2283.4950012076742,
+                    2736.8287421830832
+                ]
             },
             {
                 "name": "33rd Street",
@@ -2466,8 +2332,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "East 33rd Street",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "New York City Transit Authority",
@@ -2478,6 +2344,7 @@
                 "facilities": {
                     "internet_access": true
                 },
+                "edge": 39,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2486,12 +2353,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on East 33rd Streetnear the intersection with Park Avenue",
                 "coords": [
-                    3144.6700753410014,
-                    2911.067014961607
-                ],
-                "edge": 39,
-                "location_description": "on East 33rd Street, between the intersection with Park Avenue and the intersection with Madison Avenue"
+                    3131.8215684473307,
+                    2902.294228619804
+                ]
             },
             {
                 "name": "34th Street\u2013Herald Square",
@@ -2499,8 +2365,8 @@
                 "district": "Manhattan Community Board 5",
                 "street": "6th Avenue",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2512,6 +2378,7 @@
                 "name_other": {
                     "short_name": "34 St\u2013Herald Sq"
                 },
+                "edge": 71,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -2520,12 +2387,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenue, between on 6th Avenuenear the intersection with West 33rd Street and on 6th Avenuenear the intersection with West 34th Street",
                 "coords": [
-                    1452.9958424503657,
-                    1753.7715235151181
-                ],
-                "edge": 71,
-                "location_description": "on 6th Avenue, between the intersection with West 33rd Street and the intersection with West 34th Street"
+                    1453.7962890576446,
+                    1752.3378649479773
+                ]
             },
             {
                 "name": "34th Street\u2013Penn Station",
@@ -2533,8 +2399,8 @@
                 "district": "Chelsea District",
                 "street": "7th Avenue",
                 "categories": [
-                    "public_transport",
-                    "subway_station"
+                    "subway_station",
+                    "public_transport"
                 ],
                 "opening_hours": "24/7",
                 "operator": "Metropolitan Transportation Authority",
@@ -2549,6 +2415,7 @@
                 "facilities": {
                     "toilets": false
                 },
+                "edge": 76,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2557,12 +2424,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 7th Avenuenear the intersection with West 34th Street",
                 "coords": [
-                    714.244382731432,
-                    1229.0613430948063
-                ],
-                "edge": 76,
-                "location_description": "on 7th Avenue, between the intersection with West 34th Street and the intersection with West 33rd Street"
+                    705.5016898316509,
+                    1243.3815739683082
+                ]
             },
             {
                 "name": "5th Avenue & 29th Street",
@@ -2574,6 +2440,7 @@
                     "bus_stop"
                 ],
                 "distance": 335,
+                "edge": 54,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2582,12 +2449,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the border of the map and on 5th Avenuenear the intersection with East 30th Street and West 30th Street",
                 "coords": [
-                    1772.4148487301359,
-                    3219.041939743859
-                ],
-                "edge": 54,
-                "location_description": "on 5th Avenue, between the intersection with West 29th Street and the intersection with East 30th Street and West 30th Street"
+                    1773.5731188263203,
+                    3219.249724429053
+                ]
             },
             {
                 "name": "5th Avenue & 32nd Street",
@@ -2599,6 +2465,7 @@
                     "bus_stop"
                 ],
                 "distance": 127,
+                "edge": 14,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2607,12 +2474,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    2120.633249658021,
-                    2579.415742615033
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
+                    2103.135183258546,
+                    2568.2788834407143
+                ]
             },
             {
                 "name": "5th Avenue & West 33rd Street",
@@ -2626,6 +2492,7 @@
                 "operator": "MTA",
                 "network": "NYC Transit",
                 "distance": 103,
+                "edge": 57,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2634,12 +2501,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the intersection with East 32nd Street and West 32nd Street and on 5th Avenuenear the intersection with East 33rd Street and West 33rd Street",
                 "coords": [
-                    2169.857550951269,
-                    2492.2984575642176
-                ],
-                "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with West 32nd Street and East 32nd Street and the intersection with West 33rd Street and East 33rd Street"
+                    2171.461049200923,
+                    2491.6921207249543
+                ]
             },
             {
                 "name": "6th Avenue & West 31st Street",
@@ -2650,6 +2516,7 @@
                     "public_transport",
                     "bus_stop"
                 ],
+                "edge": 68,
                 "accessibility": {
                     "wheelchair_accessible": "limited",
                     "tactile_paving": false,
@@ -2658,12 +2525,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenue, between on 6th Avenuenear the intersection with West 30th Street and on 6th Avenuenear the intersection with West 31st Street",
                 "coords": [
-                    1113.6770624468224,
-                    2432.5056476020786
-                ],
-                "edge": 68,
-                "location_description": "on 6th Avenue, between the intersection with West 31st Street and the intersection with West 30th Street"
+                    1114.0973931958551,
+                    2431.8323289256314
+                ]
             },
             {
                 "name": "6th Avenue & West 34th Street",
@@ -2674,6 +2540,7 @@
                     "public_transport",
                     "bus_stop"
                 ],
+                "edge": 72,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -2682,12 +2549,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenuenear the intersection with West 34th Street",
                 "coords": [
-                    1579.7463454241174,
-                    1583.3674873096504
-                ],
-                "edge": 72,
-                "location_description": "on 6th Avenue, between the intersection with West 34th Street and the intersection with West 35th Street"
+                    1594.0105012346137,
+                    1557.5973205949701
+                ]
             },
             {
                 "name": "6th Avenue & West 37th Street",
@@ -2698,6 +2564,7 @@
                     "public_transport",
                     "bus_stop"
                 ],
+                "edge": 75,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -2706,12 +2573,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenue, between on 6th Avenuenear the intersection with West 37th Street and on 6th Avenuenear the border of the map",
                 "coords": [
-                    2016.2976306853739,
-                    801.9750549642604
-                ],
-                "edge": 75,
-                "location_description": "on 6th Avenue, between the intersection with West 38th Street and the intersection with West 37th Street"
+                    2017.7291061519577,
+                    799.4751632475277
+                ]
             },
             {
                 "name": "American Academy of Dramatic Arts",
@@ -2729,20 +2595,20 @@
                     "phone": "+1-800-463-8990",
                     "website": "https://www.aada.edu/campuses/new-york-campus-overview"
                 },
+                "edge": 79,
                 "accessibility": {
-                    "wheelchair_accessible": false,
-                    "tactile_paving": false,
+                    "wheelchair_accessible": true,
+                    "tactile_paving": true,
                     "tactile_map": false,
                     "reception": true,
-                    "stairs": true,
-                    "elevator": false
+                    "stairs": false,
+                    "elevator": true
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the border of the map and on Madison Avenuenear the intersection with East 31st Street",
                 "coords": [
-                    2330.3271148414115,
-                    3231.773904769928
-                ],
-                "edge": 79,
-                "location_description": "on Madison Avenue, between the intersection with East 30th Street and the intersection with East 31st Street"
+                    2332.110376280122,
+                    3231.9959522136196
+                ]
             },
             {
                 "name": "Andrews NYC Diner",
@@ -2765,6 +2631,7 @@
                     "cuisine": "american;diner",
                     "reservation": "required"
                 },
+                "edge": 77,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -2773,12 +2640,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 7th Avenue, between on 7th Avenuenear the intersection with West 34th Street and on 7th Avenuenear the intersection with West 35th Street",
                 "coords": [
-                    924.1593566083416,
-                    985.0745749191142
-                ],
-                "edge": 77,
-                "location_description": "on 7th Avenue, between the intersection with West 35th Street and the intersection with West 34th Street"
+                    924.3673835013753,
+                    982.7797971992295
+                ]
             },
             {
                 "name": "BCD Tofu House",
@@ -2802,20 +2668,20 @@
                 "catering": {
                     "cuisine": "korean"
                 },
+                "edge": 14,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with Broadway and on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    1975.1990703106985,
-                    2504.519684737619
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
+                    1976.5845058423597,
+                    2503.9270385118134
+                ]
             },
             {
                 "name": "Bank of America",
@@ -2832,6 +2698,7 @@
                     "phone": "+1-212-684-1541",
                     "website": "https://locators.bankofamerica.com/ny/newyork/financial-centers-new-york-15710.html"
                 },
+                "edge": 65,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2840,12 +2707,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenuenear the intersection with West 28th Street",
                 "coords": [
-                    770.1848576662857,
-                    3109.5616330312705
-                ],
-                "edge": 65,
-                "location_description": "on 6th Avenue, between the intersection with West 28th Street and the intersection with West 27th Street"
+                    769.7923840683881,
+                    3110.4171982505695
+                ]
             },
             {
                 "name": "Bank of Hope",
@@ -2863,6 +2729,7 @@
                     "phone": "+1 212-279-2790",
                     "website": "https://www.bankofhope.com"
                 },
+                "edge": 14,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -2871,12 +2738,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with Broadway and on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    1809.699285823457,
-                    2507.109855275316
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
+                    1810.8993231504587,
+                    2506.5201106422155
+                ]
             },
             {
                 "name": "Barn Joo 35",
@@ -2898,20 +2764,20 @@
                 "catering": {
                     "cuisine": "korean"
                 },
+                "edge": 23,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 35th Street, between on West 35th Streetnear the intersection with 6th Avenue and on West 35th Streetnear the intersection with 5th Avenue and East 35th Street",
                 "coords": [
-                    2055.9866237586234,
-                    1705.3608713974966
-                ],
-                "edge": 23,
-                "location_description": "on West 35th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 35th Street"
+                    2057.4625601173066,
+                    1703.8729816540624
+                ]
             },
             {
                 "name": "Blaggards Pub",
@@ -2932,20 +2798,20 @@
                     "takeaway": true,
                     "delivery": true
                 },
+                "edge": 30,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 38th Street, between on West 38th Streetnear the border of the map and on West 38th Streetnear the intersection with 5th Avenue and East 38th Street",
                 "coords": [
-                    2653.283858508761,
-                    1159.017294814248
-                ],
-                "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with East 38th Street and 5th Avenue and the intersection with 6th Avenue"
+                    2661.459681718616,
+                    1146.277713045436
+                ]
             },
             {
                 "name": "Blank Slate Coffee + Kitchen",
@@ -2983,20 +2849,20 @@
                 "production": {
                     "industry": "caterer"
                 },
+                "edge": 79,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the border of the map and on Madison Avenuenear the intersection with East 31st Street",
                 "coords": [
-                    2236.217768470793,
-                    3168.369448564758
-                ],
-                "edge": 79,
-                "location_description": "on Madison Avenue, between the intersection with East 30th Street and the intersection with East 31st Street"
+                    2321.3526236411435,
+                    3216.430978657073
+                ]
             },
             {
                 "name": "Cafe China",
@@ -3019,20 +2885,20 @@
                 "catering": {
                     "cuisine": "chinese"
                 },
+                "edge": 29,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 37th Street, between on West 37th Streetnear the intersection with 6th Avenue and on West 37th Streetnear the intersection with 5th Avenue and East 37th Street",
                 "coords": [
-                    2043.3005180364141,
-                    1019.6223424845689
-                ],
-                "edge": 29,
-                "location_description": "on West 37th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 37th Street"
+                    2044.7622430096728,
+                    1017.3662662898946
+                ]
             },
             {
                 "name": "Cafe R",
@@ -3054,6 +2920,7 @@
                 "catering": {
                     "cuisine": "international"
                 },
+                "edge": 9,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3062,12 +2929,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 31st Street, between on West 31st Streetnear the border of the map and on West 31st Streetnear the intersection with 6th Avenue",
                 "coords": [
-                    926.7361897448267,
-                    2111.981164172528
-                ],
-                "edge": 9,
-                "location_description": "on West 31st Street, between the intersection with 6th Avenue and the limit of the map"
+                    926.9471032895784,
+                    2110.948783615962
+                ]
             },
             {
                 "name": "Chase",
@@ -3087,6 +2953,7 @@
                 "facilities": {
                     "air_conditioning": true
                 },
+                "edge": 58,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -3095,12 +2962,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the intersection with East 33rd Street and West 33rd Street and on 5th Avenuenear the intersection with East 34th Street and West 34th Street",
                 "coords": [
-                    2393.5365348519217,
-                    2272.535256086838
-                ],
-                "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with East 34th Street and West 34th Street and the intersection with West 33rd Street and East 33rd Street"
+                    2395.3906055247585,
+                    2271.6827334103527
+                ]
             },
             {
                 "name": "Chick-fil-A",
@@ -3125,20 +2991,20 @@
                 "catering": {
                     "cuisine": "chicken"
                 },
+                "edge": 74,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenuenear the intersection with West 37th Street",
                 "coords": [
-                    1958.3948169785529,
-                    966.9798624481641
-                ],
-                "edge": 74,
-                "location_description": "on 6th Avenue, between the intersection with West 37th Street and the intersection with West 36th Street"
+                    1947.7991606660344,
+                    988.1621249726718
+                ]
             },
             {
                 "name": "Citizens Bank",
@@ -3158,6 +3024,7 @@
                     "phone": "+1-212-453-9800",
                     "website": "https://locations.citizensbank.com/ny/new-york/800-6th-avenue.html"
                 },
+                "edge": 65,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -3166,12 +3033,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenuenear the border of the map",
                 "coords": [
-                    688.0706526112868,
-                    3258.368754350484
-                ],
-                "edge": 65,
-                "location_description": "on 6th Avenue, between the intersection with West 27th Street and the intersection with West 28th Street"
+                    691.8454202110813,
+                    3251.7244073850875
+                ]
             },
             {
                 "name": "Consulate General of Poland",
@@ -3189,20 +3055,20 @@
                     "email": "nowyjork.kg.sekretariat@msz.gov.pl",
                     "website": "https://newyork.mfa.gov.pl/"
                 },
+                "edge": 85,
                 "accessibility": {
                     "wheelchair_accessible": true,
-                    "tactile_paving": false,
+                    "tactile_paving": true,
                     "tactile_map": true,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": true
                 },
+                "location_description": "on Madison Avenuenear the intersection with East 37th Street",
                 "coords": [
-                    3314.3704897257076,
-                    1725.406938509475
-                ],
-                "edge": 85,
-                "location_description": "on Madison Avenue, near the the intersection with East 37th Street"
+                    3270.0050139263667,
+                    1756.5173279275239
+                ]
             },
             {
                 "name": "Cooper Electric",
@@ -3228,20 +3094,20 @@
                     "level": 0
                 },
                 "distance": 384,
+                "edge": 30,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 38th Street, between on West 38th Streetnear the border of the map and on West 38th Streetnear the intersection with 5th Avenue and East 38th Street",
                 "coords": [
-                    2454.0097359847305,
-                    958.297318964429
-                ],
-                "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with 6th Avenue and the intersection with East 38th Street and 5th Avenue"
+                    2455.931550690919,
+                    955.9725444974483
+                ]
             },
             {
                 "name": "Costas",
@@ -3263,20 +3129,20 @@
                 "catering": {
                     "cuisine": "latin_american"
                 },
+                "edge": 23,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 35th Street, between on West 35th Streetnear the intersection with 6th Avenue and on West 35th Streetnear the intersection with 5th Avenue and East 35th Street",
                 "coords": [
-                    2077.3236033225903,
-                    1718.2387615233326
-                ],
-                "edge": 23,
-                "location_description": "on West 35th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 35th Street"
+                    2078.8234420550216,
+                    1716.7652980084072
+                ]
             },
             {
                 "name": "Dig",
@@ -3302,20 +3168,20 @@
                 "catering": {
                     "cuisine": "regional"
                 },
+                "edge": 92,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on Broadwaynear the border of the map",
                 "coords": [
-                    1290.5087084450702,
-                    3288.0534265257847
-                ],
-                "edge": 92,
-                "location_description": "on Broadway, near the border of the map"
+                    1289.4303386363356,
+                    3247.239513430025
+                ]
             },
             {
                 "name": "East 34th Street & 5th Avenue",
@@ -3328,6 +3194,7 @@
                 ],
                 "network": "NYC Transit",
                 "distance": 116,
+                "edge": 41,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3336,12 +3203,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on East 34th Streetnear the intersection with 5th Avenue and West 34th Street",
                 "coords": [
-                    2468.5947318801855,
-                    2173.985929898642
-                ],
-                "edge": 41,
-                "location_description": "on East 34th Street, near the the intersection with 5th Avenue and West 34th Street"
+                    2503.5775912255276,
+                    2189.5856781405014
+                ]
             },
             {
                 "name": "East 34th Street & Park Avenue",
@@ -3354,6 +3220,7 @@
                 ],
                 "operator": "MTA",
                 "network": "NYC Transit",
+                "edge": 42,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3362,12 +3229,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on East 34th Street, between on East 34th Streetnear the intersection with Madison Avenue and on East 34th Streetnear the intersection with Park Avenue",
                 "coords": [
-                    3172.3362884532253,
-                    2568.5443226208617
-                ],
-                "edge": 42,
-                "location_description": "on East 34th Street, between the intersection with Park Avenue and the intersection with Madison Avenue"
+                    3175.0627957673196,
+                    2568.0233988625764
+                ]
             },
             {
                 "name": "Empire State Building",
@@ -3376,11 +3242,11 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "building.historic",
                     "building.tourism",
                     "building.office",
                     "office",
                     "tourism.attraction",
+                    "building.historic",
                     "heritage"
                 ],
                 "opening_hours": "Mo-Su 08:00-02:00",
@@ -3397,20 +3263,20 @@
                     "architecture": "art_deco",
                     "height": 443.2
                 },
+                "edge": 58,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": true,
                     "tactile_map": "near the entrace, following the tactile paving",
                     "reception": true,
                     "stairs": false,
-                    "elevator": false
+                    "elevator": true
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the intersection with East 33rd Street and West 33rd Street and on 5th Avenuenear the intersection with East 34th Street and West 34th Street",
                 "coords": [
-                    2086.2227800391274,
-                    2164.167628267808
-                ],
-                "edge": 58,
-                "location_description": "on 5th Avenue, between the intersection with West 33rd Street and East 33rd Street and the intersection with East 34th Street and West 34th Street"
+                    2258.6443112416378,
+                    2257.489831887794
+                ]
             },
             {
                 "name": "Food Gallery 32",
@@ -3426,20 +3292,20 @@
                     "phone": "+1 212-967-1678",
                     "website": "https://www.foodgallery32nyc.com/"
                 },
+                "edge": 14,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with Broadway and on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    1927.1079505695106,
-                    2432.906941627019
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
+                    1928.4395128753686,
+                    2432.2340724931014
+                ]
             },
             {
                 "name": "Gammeeok",
@@ -3464,20 +3330,20 @@
                 "catering": {
                     "cuisine": "korean"
                 },
+                "edge": 14,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with Broadway and on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    1953.889729323036,
-                    2462.894549797474
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
+                    1955.251293442575,
+                    2462.2552737509072
+                ]
             },
             {
                 "name": "IchiUmi",
@@ -3505,20 +3371,20 @@
                     "cuisine": "japanese",
                     "reservation": "required"
                 },
+                "edge": 35,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on East 32nd Street, between on East 32nd Streetnear the intersection with 5th Avenue and West 32nd Street and on East 32nd Streetnear the intersection with Madison Avenue",
                 "coords": [
-                    2317.364623374673,
-                    2776.08629692484
-                ],
-                "edge": 35,
-                "location_description": "on East 32nd Street, between the intersection with 5th Avenue and West 32nd Street and the intersection with Madison Avenue"
+                    2319.1333638117203,
+                    2775.7978683903193
+                ]
             },
             {
                 "name": "Joomak Banjum",
@@ -3539,20 +3405,20 @@
                     "cuisine": "korean;chinese",
                     "reservation": "required"
                 },
+                "edge": 56,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the intersection with East 31st Street and West 31st Street and on 5th Avenuenear the intersection with East 32nd Street and West 32nd Street",
                 "coords": [
-                    2035.8933800546322,
-                    2686.050509864752
-                ],
-                "edge": 56,
-                "location_description": "on 5th Avenue, between the intersection with West 31st Street and East 31st Street and the intersection with West 32nd Street and East 32nd Street"
+                    2037.3468073126537,
+                    2685.661220333175
+                ]
             },
             {
                 "name": "Kosher in Midtown",
@@ -3561,8 +3427,8 @@
                 "street": "East 34th Street",
                 "housenumber": "43",
                 "categories": [
-                    "kosher.only",
-                    "catering.food_court"
+                    "catering.food_court",
+                    "kosher.only"
                 ],
                 "opening_hours": "Mo-Th 11:00-20:00; Fr 11:00-15:00; Su 11:00-20:00",
                 "contact": {
@@ -3575,20 +3441,20 @@
                         "kosher": true
                     }
                 },
+                "edge": 42,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on East 34th Street, between on East 34th Streetnear the intersection with Madison Avenue and on East 34th Streetnear the intersection with Park Avenue",
                 "coords": [
-                    2993.625265477798,
-                    2427.544194182138
-                ],
-                "edge": 42,
-                "location_description": "on East 34th Street, between the intersection with Madison Avenue and the intersection with Park Avenue"
+                    2996.151574931121,
+                    2426.8653175253016
+                ]
             },
             {
                 "name": "Legends",
@@ -3604,6 +3470,7 @@
                     "phone": "+1-212-967-7792",
                     "website": "https://www.legends33.com"
                 },
+                "edge": 16,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -3612,12 +3479,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 33rd Street, between on West 33rd Streetnear the intersection with 6th Avenue and on West 33rd Streetnear the intersection with 5th Avenue and East 33rd Street",
                 "coords": [
-                    2024.4786487594567,
-                    2324.594035719532
-                ],
-                "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
+                    2025.9192888667556,
+                    2323.799830969626
+                ]
             },
             {
                 "name": "Mad Dog & Beans Mexican Cantina",
@@ -3642,20 +3508,20 @@
                 "catering": {
                     "cuisine": "mexican"
                 },
+                "edge": 50,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on East 38th Street, between on East 38th Streetnear the intersection with 5th Avenue and West 38th Street and on East 38th Streetnear the intersection with Madison Avenue",
                 "coords": [
-                    3104.5388651078783,
-                    1320.994156463474
-                ],
-                "edge": 50,
-                "location_description": "on East 38th Street, between the intersection with West 38th Street and 5th Avenue and the intersection with Madison Avenue"
+                    3107.1894235583068,
+                    1319.0756867099183
+                ]
             },
             {
                 "name": "Madison Avenue & East 30th Street",
@@ -3668,6 +3534,7 @@
                 ],
                 "network": "NYC Transit",
                 "distance": 347,
+                "edge": 79,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -3676,12 +3543,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenuenear the border of the map",
                 "coords": [
-                    2399.672298405164,
-                    3261.2142938110333
-                ],
-                "edge": 79,
-                "location_description": "on Madison Avenue, between the intersection with East 30th Street and the intersection with East 31st Street"
+                    2404.9289397011585,
+                    3255.5542359843134
+                ]
             },
             {
                 "name": "Madison Avenue & East 32nd Street",
@@ -3693,6 +3559,7 @@
                     "bus_stop"
                 ],
                 "network": "NYC Transit",
+                "edge": 81,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3701,12 +3568,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenuenear the intersection with East 32nd Street",
                 "coords": [
-                    2633.2668328919285,
-                    2819.7948846274194
-                ],
-                "edge": 81,
-                "location_description": "on Madison Avenue, near the the intersection with East 32nd Street"
+                    2654.8031753355435,
+                    2787.703217130336
+                ]
             },
             {
                 "name": "Madison Avenue & East 33rd Street",
@@ -3719,6 +3585,7 @@
                 ],
                 "network": "NYC Transit",
                 "distance": 248,
+                "edge": 81,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -3727,12 +3594,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenuenear the intersection with East 33rd Street",
                 "coords": [
-                    2702.2317740367876,
-                    2694.951940999299
-                ],
-                "edge": 81,
-                "location_description": "on Madison Avenue, between the intersection with East 33rd Street and the intersection with East 32nd Street"
+                    2700.936245665695,
+                    2700.864360098972
+                ]
             },
             {
                 "name": "Madison Avenue & East 34th Street",
@@ -3743,6 +3609,7 @@
                     "public_transport",
                     "bus_stop"
                 ],
+                "edge": 83,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3751,12 +3618,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 34th Street and on Madison Avenuenear the intersection with East 35th Street",
                 "coords": [
-                    2965.9314137832125,
-                    2219.81981350171
-                ],
-                "edge": 83,
-                "location_description": "on Madison Avenue, between the intersection with East 35th Street and the intersection with East 34th Street"
+                    2968.426699689284,
+                    2218.9082372835937
+                ]
             },
             {
                 "name": "Madison Avenue & East 37th Street",
@@ -3767,6 +3633,7 @@
                     "public_transport",
                     "bus_stop"
                 ],
+                "edge": 86,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -3775,12 +3642,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 37th Street and on Madison Avenuenear the intersection with East 38th Street",
                 "coords": [
-                    3339.5773029650154,
-                    1539.2981069338964
-                ],
-                "edge": 86,
-                "location_description": "on Madison Avenue, between the intersection with East 38th Street and the intersection with East 37th Street"
+                    3342.4911590658885,
+                    1537.6241883174478
+                ]
             },
             {
                 "name": "McDonald's",
@@ -3789,9 +3655,9 @@
                 "street": "6th Avenue",
                 "housenumber": "809",
                 "categories": [
-                    "catering.fast_food.burger",
+                    "building.catering",
                     "building.commercial",
-                    "building.catering"
+                    "catering.fast_food.burger"
                 ],
                 "opening_hours": "Mo-Su 07:00-23:00",
                 "brand": "McDonald's",
@@ -3820,20 +3686,20 @@
                     "type": "retail",
                     "height": 7.5
                 },
+                "edge": 65,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on 6th Avenue, between on 6th Avenuenear the border of the map and on 6th Avenuenear the intersection with West 28th Street",
                 "coords": [
-                    630.063803209487,
-                    3040.9585951181675
-                ],
-                "edge": 65,
-                "location_description": "on 6th Avenue, between the intersection with West 28th Street and the intersection with West 27th Street"
+                    629.9423747635461,
+                    3040.966885088153
+                ]
             },
             {
                 "name": "Mulberry & Vine",
@@ -3857,20 +3723,20 @@
                 "catering": {
                     "cuisine": "new_american"
                 },
+                "edge": 0,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 27th Streetnear the border of the map",
                 "coords": [
-                    777.6749113726637,
-                    3313.747330022032
-                ],
-                "edge": 0,
-                "location_description": "on West 27th Street, between the limit of the map and the intersection with 6th Avenue"
+                    749.0396780951531,
+                    3298.418026619288
+                ]
             },
             {
                 "name": "Naya",
@@ -3892,20 +3758,20 @@
                 "catering": {
                     "cuisine": "middle_eastern"
                 },
+                "edge": 16,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 33rd Street, between on West 33rd Streetnear the intersection with 6th Avenue and on West 33rd Streetnear the intersection with 5th Avenue and East 33rd Street",
                 "coords": [
-                    2051.1222346382383,
-                    2339.514877253715
-                ],
-                "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
+                    2052.5927217510966,
+                    2338.737387312478
+                ]
             },
             {
                 "name": "Nelly Spillanes",
@@ -3923,6 +3789,7 @@
                 "catering": {
                     "cuisine": "irish"
                 },
+                "edge": 38,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3931,12 +3798,11 @@
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on East 33rd Street, between on East 33rd Streetnear the intersection with 5th Avenue and West 33rd Street and on East 33rd Streetnear the intersection with Madison Avenue",
                 "coords": [
-                    2512.050742546625,
-                    2611.1909332640207
-                ],
-                "edge": 38,
-                "location_description": "on East 33rd Street, between the intersection with Madison Avenue and the intersection with 5th Avenue and West 33rd Street"
+                    2514.0375766632405,
+                    2610.717783616575
+                ]
             },
             {
                 "name": "Nuchas",
@@ -3963,6 +3829,7 @@
                 "building": {
                     "height": 6.9
                 },
+                "edge": 13,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -3971,12 +3838,11 @@
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Streetnear the intersection with Broadway",
                 "coords": [
-                    1344.7373618529773,
-                    2150.8154815636667
-                ],
-                "edge": 13,
-                "location_description": "on West 32nd Street, between the intersection with Broadway and the intersection with 6th Avenue"
+                    1342.0973297225723,
+                    2147.8741314693716
+                ]
             },
             {
                 "name": "O'Reilly's Pub",
@@ -4001,20 +3867,20 @@
                 "catering": {
                     "cuisine": "pub"
                 },
+                "edge": 10,
                 "accessibility": {
                     "wheelchair_accessible": "limited",
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 31st Street, between on West 31st Streetnear the intersection with 6th Avenue and on West 31st Streetnear the intersection with Broadway",
                 "coords": [
-                    1200.287603371533,
-                    2481.2811124702794
-                ],
-                "edge": 10,
-                "location_description": "on West 31st Street, between the intersection with 6th Avenue and the intersection with Broadway"
+                    1200.804958046257,
+                    2480.6624336451528
+                ]
             },
             {
                 "name": "Peter Dillon's",
@@ -4035,6 +3901,7 @@
                 "facilities": {
                     "outdoor_seating": true
                 },
+                "edge": 46,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4043,12 +3910,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on East 36th Street, between on East 36th Streetnear the intersection with 5th Avenue and West 36th Street and on East 36th Streetnear the intersection with Madison Avenue",
                 "coords": [
-                    2744.131853053165,
-                    1795.6155461083958
-                ],
-                "edge": 46,
-                "location_description": "on East 36th Street, between the intersection with 5th Avenue and West 36th Street and the intersection with Madison Avenue"
+                    2746.378671926598,
+                    1794.2287625670356
+                ]
             },
             {
                 "name": "Pok\u00e9 Bar",
@@ -4064,20 +3930,20 @@
                     "phone": "+1 212-244-4320",
                     "website": "https://www.ilovepokebar.com/locations/new-york"
                 },
+                "edge": 96,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on Broadway, between on Broadwaynear the intersection with West 35th Street and on Broadwaynear the intersection with West 36th Street",
                 "coords": [
-                    1456.423025697156,
-                    1208.5588664626096
-                ],
-                "edge": 96,
-                "location_description": "on Broadway, between the intersection with West 35th Street and the intersection with West 36th Street"
+                    1457.227311545815,
+                    1206.5144430652404
+                ]
             },
             {
                 "name": "Science, Industry and Business Library",
@@ -4096,20 +3962,20 @@
                     "phone": "(917) 275-6975",
                     "website": "https://www.nypl.org/locations/sibl"
                 },
+                "edge": 83,
                 "accessibility": {
                     "wheelchair_accessible": true,
-                    "tactile_paving": true,
+                    "tactile_paving": false,
                     "tactile_map": true,
-                    "reception": false,
+                    "reception": true,
                     "stairs": true,
-                    "elevator": true
+                    "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 34th Street and on Madison Avenuenear the intersection with East 35th Street",
                 "coords": [
-                    2848.799134865638,
-                    2292.928288893629
-                ],
-                "edge": 83,
-                "location_description": "on Madison Avenue, between the intersection with East 34th Street and the intersection with East 35th Street"
+                    2851.163205409185,
+                    2292.098611151242
+                ]
             },
             {
                 "name": "Shake Shack",
@@ -4134,6 +4000,7 @@
                     "cuisine": "burger",
                     "capacity": 135
                 },
+                "edge": 96,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4142,12 +4009,11 @@
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on Broadway, between on Broadwaynear the intersection with West 35th Street and on Broadwaynear the intersection with West 36th Street",
                 "coords": [
-                    1474.3051834424514,
-                    1094.4819190829799
-                ],
-                "edge": 96,
-                "location_description": "on Broadway, between the intersection with West 36th Street and the intersection with West 35th Street"
+                    1475.129501461857,
+                    1092.3097030041715
+                ]
             },
             {
                 "name": "Solle Spa",
@@ -4167,6 +4033,7 @@
                 "commercial": {
                     "type": "massage"
                 },
+                "edge": 16,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4175,12 +4042,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 33rd Street, between on West 33rd Streetnear the intersection with 6th Avenue and on West 33rd Streetnear the intersection with 5th Avenue and East 33rd Street",
                 "coords": [
-                    2092.1378792892942,
-                    2363.556037577898
-                ],
-                "edge": 16,
-                "location_description": "on West 33rd Street, between the intersection with 5th Avenue and East 33rd Street and the intersection with 6th Avenue"
+                    2093.654313452203,
+                    2362.8054793210486
+                ]
             },
             {
                 "name": "Starbucks",
@@ -4189,8 +4055,8 @@
                 "street": "5th Avenue",
                 "housenumber": "350",
                 "categories": [
-                    "catering.cafe.coffee_shop",
-                    "catering.cafe.coffee"
+                    "catering.cafe.coffee",
+                    "catering.cafe.coffee_shop"
                 ],
                 "opening_hours": "Mo-Fr 06:30-18:00",
                 "brand": "Starbucks",
@@ -4210,20 +4076,20 @@
                 "catering": {
                     "cuisine": "coffee_shop"
                 },
+                "edge": 58,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": true,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the intersection with East 33rd Street and West 33rd Street and on 5th Avenuenear the intersection with East 34th Street and West 34th Street",
                 "coords": [
-                    2078.456784879887,
-                    2258.0886711286394
-                ],
-                "edge": 57,
-                "location_description": "on 5th Avenue, between the intersection with West 33rd Street and East 33rd Street and the intersection with West 32nd Street and East 32nd Street"
+                    2217.0595302140014,
+                    2332.8622475003854
+                ]
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -4255,20 +4121,20 @@
                 "building": {
                     "height": 31
                 },
+                "edge": 64,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
-                    "reception": false,
+                    "reception": true,
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the intersection with East 39th Street and West 39th Street and on 5th Avenuenear the border of the map",
                 "coords": [
-                    3241.9655735420392,
-                    975.0787055328301
-                ],
-                "edge": 64,
-                "location_description": "on 5th Avenue, between the intersection with West 39th Street and East 39th Street and the intersection with East 40th Street"
+                    3218.7421059748367,
+                    957.8996010567886
+                ]
             },
             {
                 "name": "Stout NYC",
@@ -4292,6 +4158,7 @@
                 "catering": {
                     "reservation": "required"
                 },
+                "edge": 15,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4300,12 +4167,11 @@
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 33rd Street, between on West 33rd Streetnear the border of the map and on West 33rd Streetnear the intersection with 6th Avenue",
                 "coords": [
-                    914.7622412518054,
-                    1621.6728262132622
-                ],
-                "edge": 15,
-                "location_description": "on West 33rd Street, between the intersection with 7th Avenue and the intersection with 6th Avenue"
+                    914.9597411926654,
+                    1620.0911864182694
+                ]
             },
             {
                 "name": "Szechuan Gourmet",
@@ -4333,6 +4199,7 @@
                     "cuisine": "chinese;tea",
                     "reservation": "required"
                 },
+                "edge": 31,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4341,12 +4208,11 @@
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 39th Street, between on West 39th Streetnear the border of the map and on West 39th Streetnear the intersection with 5th Avenue and East 39th Street",
                 "coords": [
-                    2669.424786047587,
-                    736.3817222532962
-                ],
-                "edge": 31,
-                "location_description": "on West 39th Street, between the limit of the map and the intersection with 5th Avenue and East 39th Street"
+                    2671.587915651327,
+                    733.8083507664242
+                ]
             },
             {
                 "name": "The Australian NYC",
@@ -4371,20 +4237,20 @@
                     "cuisine": "australian",
                     "reservation": "required"
                 },
+                "edge": 30,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 38th Street, between on West 38th Streetnear the border of the map and on West 38th Streetnear the intersection with 5th Avenue and East 38th Street",
                 "coords": [
-                    2582.916047700546,
-                    1122.536019670493
-                ],
-                "edge": 30,
-                "location_description": "on West 38th Street, between the intersection with East 38th Street and 5th Avenue and the intersection with 6th Avenue"
+                    2592.4752351260004,
+                    1107.1759299537687
+                ]
             },
             {
                 "name": "The Harold",
@@ -4393,8 +4259,8 @@
                 "street": "Broadway",
                 "housenumber": "1271",
                 "categories": [
-                    "vegetarian",
                     "catering.restaurant.american",
+                    "vegetarian",
                     "gluten_free"
                 ],
                 "opening_hours": "Mo-Fr 07:00-23:00; Sa-Su 08:00-23:00",
@@ -4409,20 +4275,20 @@
                         "gluten_free": true
                     }
                 },
+                "edge": 95,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Broadway, between on Broadwaynear the intersection with West 31st Street and on Broadwaynear the intersection with West 32nd Street",
                 "coords": [
-                    1302.1168638733968,
-                    2217.412049342784
-                ],
-                "edge": 95,
-                "location_description": "on Broadway, between the intersection with West 32nd Street and the intersection with West 31st Street"
+                    1311.6951310971112,
+                    2217.8331251414234
+                ]
             },
             {
                 "name": "The Italian Table",
@@ -4447,20 +4313,20 @@
                 "catering": {
                     "cuisine": "italian"
                 },
+                "edge": 86,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 37th Street and on Madison Avenuenear the intersection with East 38th Street",
                 "coords": [
-                    3331.9490563961544,
-                    1590.116523212765
-                ],
-                "edge": 86,
-                "location_description": "on Madison Avenue, between the intersection with East 37th Street and the intersection with East 38th Street"
+                    3334.8543670888093,
+                    1588.4995330278002
+                ]
             },
             {
                 "name": "The Morgan Library & Museum",
@@ -4476,6 +4342,7 @@
                     "phone": "+1-212-685-0008",
                     "website": "https://www.themorgan.org/"
                 },
+                "edge": 85,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4484,12 +4351,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 36th Street and on Madison Avenuenear the intersection with East 37th Street",
                 "coords": [
-                    3312.268641346099,
-                    1896.1278525285443
-                ],
-                "edge": 85,
-                "location_description": "on Madison Avenue, between the intersection with East 36th Street and the intersection with East 37th Street"
+                    3292.7119521970844,
+                    1881.9714707612197
+                ]
             },
             {
                 "name": "Tina's Cuban Cuisine",
@@ -4508,20 +4374,20 @@
                 "catering": {
                     "cuisine": "cuban"
                 },
+                "edge": 82,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 33rd Street and on Madison Avenuenear the intersection with East 34th Street",
                 "coords": [
-                    2825.389262224997,
-                    2535.018030760741
-                ],
-                "edge": 82,
-                "location_description": "on Madison Avenue, between the intersection with East 33rd Street and the intersection with East 34th Street"
+                    2827.727108273012,
+                    2534.4595497673267
+                ]
             },
             {
                 "name": "Valley Bank",
@@ -4537,6 +4403,7 @@
                     "phone": "+1-212-481-6109",
                     "website": "https://locations.valley.com/ny/newyork/valley-bank-135.html"
                 },
+                "edge": 54,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4545,12 +4412,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on 5th Avenue, between on 5th Avenuenear the border of the map and on 5th Avenuenear the intersection with East 30th Street and West 30th Street",
                 "coords": [
-                    1894.7708183315121,
-                    3178.5842056064944
-                ],
-                "edge": 54,
-                "location_description": "on 5th Avenue, between the intersection with East 30th Street and West 30th Street and the intersection with West 29th Street"
+                    1896.0661555372626,
+                    3178.746668231017
+                ]
             },
             {
                 "name": "Wafels & Dinges",
@@ -4571,20 +4437,20 @@
                 "catering": {
                     "cuisine": "dessert"
                 },
+                "edge": 22,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 35th Street, between on West 35th Streetnear the intersection with Broadway and on West 35th Streetnear the intersection with 6th Avenue",
                 "coords": [
-                    1547.3698582533812,
-                    1413.2553013060383
-                ],
-                "edge": 22,
-                "location_description": "on West 35th Street, between the intersection with Broadway and the intersection with 6th Avenue"
+                    1548.2760256816905,
+                    1411.4401854672121
+                ]
             },
             {
                 "name": "Wells Fargo",
@@ -4598,6 +4464,7 @@
                     "phone": "+1-212-213-0936",
                     "website": "https://www.wellsfargo.com/locator/bank/180__MADISON__AVE_NEW__YORK_NY_10016/"
                 },
+                "edge": 82,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4606,12 +4473,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on Madison Avenue, between on Madison Avenuenear the intersection with East 33rd Street and on Madison Avenuenear the intersection with East 34th Street",
                 "coords": [
-                    2764.888422536081,
-                    2438.4884442968846
-                ],
-                "edge": 82,
-                "location_description": "on Madison Avenue, between the intersection with East 34th Street and the intersection with East 33rd Street"
+                    2767.1584935891415,
+                    2437.821827742555
+                ]
             },
             {
                 "name": "West 31st Street & 6th Avenue",
@@ -4624,6 +4490,7 @@
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
+                "edge": 10,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4632,12 +4499,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 31st Street, between on West 31st Streetnear the intersection with 6th Avenue and on West 31st Streetnear the intersection with Broadway",
                 "coords": [
-                    1231.0304500790935,
-                    2402.4450768805796
-                ],
-                "edge": 10,
-                "location_description": "on West 31st Street, between the intersection with 6th Avenue and the intersection with Broadway"
+                    1231.582243883774,
+                    2401.738083381775
+                ]
             },
             {
                 "name": "West 32nd Street & Avenue of the Americas",
@@ -4650,6 +4516,7 @@
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
+                "edge": 13,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4658,12 +4525,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with 6th Avenue and on West 32nd Streetnear the intersection with Broadway",
                 "coords": [
-                    1331.855970112008,
-                    2209.89690666415
-                ],
-                "edge": 13,
-                "location_description": "on West 32nd Street, between the intersection with Broadway and the intersection with 6th Avenue"
+                    1332.520711921158,
+                    2208.974214485258
+                ]
             },
             {
                 "name": "West 32nd Street & Broadway",
@@ -4675,6 +4541,7 @@
                     "bus_stop"
                 ],
                 "distance": 184,
+                "edge": 14,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4683,12 +4550,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with Broadway and on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    1499.6773948966302,
-                    2302.26749533212
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with Broadway and the intersection with 5th Avenue and East 32nd Street"
+                    1500.5301356868958,
+                    2301.448279670466
+                ]
             },
             {
                 "name": "West 34th Street & 5th Avenue",
@@ -4701,6 +4567,7 @@
                 ],
                 "network": "NYC Transit",
                 "distance": 54,
+                "edge": 19,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4709,12 +4576,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 34th Street, between on West 34th Streetnear the intersection with 6th Avenue and on West 34th Streetnear the intersection with 5th Avenue and East 34th Street",
                 "coords": [
-                    2157.3925538251483,
-                    2000.895681353215
-                ],
-                "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with 5th Avenue and East 34th Street and the intersection with 6th Avenue"
+                    2158.9820883823695,
+                    1999.7388592504424
+                ]
             },
             {
                 "name": "West 34th Street & Broadway",
@@ -4727,6 +4593,7 @@
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
+                "edge": 18,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4735,12 +4602,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 34th Street, between on West 34th Streetnear the intersection with 7th Avenue and on West 34th Streetnear the intersection with 6th Avenue",
                 "coords": [
-                    1375.442002207777,
-                    1565.7105501403237
-                ],
-                "edge": 18,
-                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with 7th Avenue"
+                    1376.1555704980235,
+                    1564.066219595946
+                ]
             },
             {
                 "name": "West 34th Street/Broadway",
@@ -4753,6 +4619,7 @@
                 ],
                 "operator": "New York City Transit Authority",
                 "network": "NYC Transit",
+                "edge": 19,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -4761,12 +4628,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 34th Street, between on West 34th Streetnear the intersection with 6th Avenue and on West 34th Streetnear the intersection with 5th Avenue and East 34th Street",
                 "coords": [
-                    1590.1108108859678,
-                    1743.1189911740794
-                ],
-                "edge": 19,
-                "location_description": "on West 34th Street, between the intersection with 6th Avenue and the intersection with 5th Avenue and East 34th Street"
+                    1591.0648581100609,
+                    1741.6733992961053
+                ]
             },
             {
                 "name": "West 37th Street & 5th Avenue",
@@ -4778,6 +4644,7 @@
                     "bus_stop"
                 ],
                 "distance": 294,
+                "edge": 29,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4786,12 +4653,11 @@
                     "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 37th Street, between on West 37th Streetnear the intersection with 6th Avenue and on West 37th Streetnear the intersection with 5th Avenue and East 37th Street",
                 "coords": [
-                    2693.028128709053,
-                    1415.517140365197
-                ],
-                "edge": 29,
-                "location_description": "on West 37th Street, between the intersection with 5th Avenue and East 37th Street and the intersection with 6th Avenue"
+                    2695.217699539692,
+                    1413.7045583115485
+                ]
             },
             {
                 "name": "Windfall Lounge",
@@ -4818,6 +4684,7 @@
                 "catering": {
                     "reservation": "required"
                 },
+                "edge": 31,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -4826,12 +4693,11 @@
                     "stairs": true,
                     "elevator": false
                 },
+                "location_description": "on West 39th Streetnear the border of the map",
                 "coords": [
-                    2635.4293393492107,
-                    743.9698274806537
-                ],
-                "edge": 31,
-                "location_description": "on West 39th Street, between the limit of the map and the intersection with 5th Avenue and East 39th Street"
+                    2651.7813731157617,
+                    749.7241267755916
+                ]
             },
             {
                 "name": "Woorijip",
@@ -4857,20 +4723,20 @@
                 "catering": {
                     "cuisine": "korean"
                 },
+                "edge": 14,
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
+                "location_description": "on West 32nd Street, between on West 32nd Streetnear the intersection with Broadway and on West 32nd Streetnear the intersection with 5th Avenue and East 32nd Street",
                 "coords": [
-                    1866.8005808718349,
-                    2529.764727138945
-                ],
-                "edge": 14,
-                "location_description": "on West 32nd Street, between the intersection with 5th Avenue and East 32nd Street and the intersection with Broadway"
+                    1868.064584914071,
+                    2529.2003612251183
+                ]
             }
         ]
     },

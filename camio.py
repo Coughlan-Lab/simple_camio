@@ -1,21 +1,23 @@
 import os
+
+os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
+
 import sys
 import threading as th
 import time
 from functools import partial
 from typing import Any, Dict, List, Optional
 
-from src.frame_processing import VideoCapture, WindowManager
-from src.input_handler import InputHandler, InputListener
-from src.navigation import NavigationAction, NavigationManager
-
-os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
-from src.frame_processing import HandStatus, PoseDetector, SIFTModelDetector
+from src.frame_processing import (HandStatus, PoseDetector, SIFTModelDetector,
+                                  VideoCapture, WindowManager)
 from src.graph import Coords, Graph, PositionHandler, WayPoint
+from src.input_handler import InputHandler, InputListener
 from src.llm import LLM
+from src.navigation import NavigationAction, NavigationManager
 from src.utils import Buffer, Gender, Lang, get_args, load_map_parameters
 
 DEBUG = False

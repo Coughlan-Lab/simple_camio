@@ -5,7 +5,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
-
+from mediapipe.tasks.python.vision import RunningMode
 from src.graph import Coords
 from src.utils import Buffer
 
@@ -137,7 +137,8 @@ class PoseDetector:
         self.movement_threshold = self.MOVEMENT_THRESHOLD * feets_per_inch
 
         self.hands_detector = mp_hands.Hands(
-            model_complexity=0,
+            static_image_mode=False,
+            model_complexity=1,
             min_detection_confidence=0.75,
             min_tracking_confidence=0.75,
             max_num_hands=4,

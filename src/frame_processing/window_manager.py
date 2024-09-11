@@ -66,7 +66,7 @@ class WindowManager:
         )
 
         if len(self.waypoints) > 0:
-            color_step = 100 // len(self.waypoints)
+            color_step = 155 // len(self.waypoints)
             for i, waypoint in enumerate(self.waypoints):
                 x, y = waypoint / self.position_handler.feets_per_pixel
                 x, y = int(x), int(y)

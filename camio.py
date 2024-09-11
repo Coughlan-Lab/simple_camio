@@ -391,7 +391,6 @@ class UserInputThread(th.Thread):
 
 
 if __name__ == "__main__":
-
     args = get_args()
     DEBUG = args.debug
     NO_STT = args.no_stt

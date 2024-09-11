@@ -1,5 +1,8 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
 os.environ["OPENCV_LOG_LEVEL"] = "SILENT"
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 
@@ -19,7 +22,7 @@ from src.graph import Coords, Graph, PositionHandler, WayPoint
 from src.input_handler import InputHandler, InputListener
 from src.llm import LLM
 from src.navigation import NavigationAction, NavigationManager
-from src.utils import Buffer, Gender, Lang, get_args, load_map_parameters
+from src.utils import Buffer, Lang, get_args, load_map_parameters
 
 DEBUG = False
 NO_STT = False
@@ -30,9 +33,8 @@ class CamIO:
     def __init__(
         self,
         model: Dict[str, Any],
-        lang: Lang = Lang.EN_US,
+        lang: Lang = Lang.EN,
         tts_rate: int = 200,
-        tts_gender: Gender = Gender.NEUTRAL,
         disable_llm: bool = False,
     ) -> None:
         self.description = model["context"].get("description", None)
@@ -58,7 +60,7 @@ class CamIO:
         self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
 
         # Audio
-        self.tts = CamIOTTS(f"res/strings_{lang}.json", lang, tts_gender, tts_rate)
+        self.tts = CamIOTTS(f"res/strings_{lang}.json", tts_rate)
         self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
@@ -389,9 +391,6 @@ class UserInputThread(th.Thread):
 
 
 if __name__ == "__main__":
-    from dotenv import load_dotenv
-
-    load_dotenv()
 
     args = get_args()
     DEBUG = args.debug
@@ -414,7 +413,6 @@ if __name__ == "__main__":
             model,
             lang=args.lang,
             tts_rate=args.tts_rate,
-            tts_gender=args.tts_gender,
             disable_llm=args.no_llm,
         )
         camio.main_loop()

@@ -4,15 +4,8 @@ from .utils import StrEnum
 
 
 class Lang(StrEnum):
-    EN_US = "en_US"
-    EN_GB = "en_GB"
-    IT = "it_IT"
-
-
-class Gender(StrEnum):
-    MALE = "VoiceGenderMale"
-    FEMALE = "VoiceGenderFemale"
-    NEUTRAL = "VoiceGenderNeuter"
+    EN = "en"
+    IT = "it"
 
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
@@ -25,20 +18,13 @@ camio_parser.add_argument(
 )
 
 camio_parser.add_argument(
-    "--lang", help="System language", type=Lang, choices=list(Lang), default=Lang.EN_GB
+    "--lang", help="System language", type=Lang, choices=list(Lang), default=Lang.EN
 )
 camio_parser.add_argument(
     "--tts-rate",
     help="TTS speed rate (words per minute).",
     type=int,
     default=200,
-)
-camio_parser.add_argument(
-    "--tts-gender",
-    help="TTS voice gender",
-    type=Gender,
-    choices=list(Gender),
-    default=Gender.MALE,
 )
 
 camio_parser.add_argument(

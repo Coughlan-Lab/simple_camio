@@ -4,7 +4,6 @@ import os
 import time
 
 from src.graph import NONE_POSITION_INFO, MovementDirection, PositionInfo
-from src.utils import Gender, Lang
 
 from .tts import TTS, Announcement
 
@@ -16,14 +15,8 @@ class CamIOTTS(TTS):
     ANNOUNCEMENT_INTERVAL = 0.25
     ERROR_INTERVAL = 3.5
 
-    def __init__(
-        self,
-        res_file: str,
-        lang: Lang = Lang.EN_US,
-        gender: Gender = Gender.NEUTRAL,
-        rate: int = TTS.DEFAULT_RATE,
-    ) -> None:
-        super().__init__(lang, gender, rate)
+    def __init__(self, res_file: str, rate: int = TTS.DEFAULT_RATE) -> None:
+        super().__init__(rate)
 
         if not os.path.exists(res_file):
             raise FileNotFoundError("Resource file not found.")

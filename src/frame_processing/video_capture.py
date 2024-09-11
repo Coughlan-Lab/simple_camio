@@ -30,7 +30,7 @@ class VideoCapture:
 
     @staticmethod
     def get_capture() -> Optional[cv2.VideoCapture]:
-        cam_port = 1  # select_camera_port()
+        cam_port = select_camera_port()
         if cam_port is None:
             return None
 

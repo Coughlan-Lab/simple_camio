@@ -16,7 +16,7 @@ To run the code, simply run the following command:
 python camio.py --model <path_to_model>
 ```
 
-Root privileges are required to run the code.
+Root privileges may be required to run the code.
 
 For a list of all command line arguments, run:
 

@@ -204,8 +204,8 @@ tool_calls = [
                         "type": "boolean",
                         "description": (
                             "If true, provide step-by-step directions. "
-                            "If false, provide direct navigation to the destination. "
-                            "If unsure, ask me if I want step-by-step directions or direct navigation to the destination."
+                            "If false, help me locate the destination on the map. "
+                            "If unsure, ask me if I want step-by-step directions or help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {
@@ -248,8 +248,8 @@ tool_calls = [
                         "type": "boolean",
                         "description": (
                             "If true, provide step-by-step directions. "
-                            "If false, provide direct navigation to the destination. "
-                            "If unsure, ask me if I want step-by-step directions or direct navigation to the destination."
+                            "If false, help me locate the destination on the map. "
+                            "If unsure, ask me if I want step-by-step directions or help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {
@@ -270,8 +270,8 @@ tool_calls = [
         function=FunctionDefinition(
             name=ToolCall.ENABLE_POINTS_OF_INTERESTS,
             description=(
-                "Enable points of interest to be used in the conversation. "
-                "You MUST call this function everytime I ask you a question; otherwise, I won't be able to locate them. "
+                "Enable points of interest to be used in the conversation and highlight them on the map. "
+                "You MUST call this function everytime I ask you a question. "
                 "Include all the points of interest that are relevant to the conversation."
             ),
             parameters={

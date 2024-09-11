@@ -139,8 +139,8 @@ class CamIOTTS(TTS):
         )
 
     def announce_position(self, info: PositionInfo) -> bool:
-        current_time = info.timestamp
-        if self.last_pos_info.graph_element != info.graph_element:
+        current_time = time.time()
+        if self.__has_changed_position(info):
             self.last_pos_change_timestamp = current_time
 
         if (
@@ -186,7 +186,7 @@ class CamIOTTS(TTS):
 
         return (
             info.movement == MovementDirection.NONE
-            and info.timestamp - self.last_pos_change_timestamp > self.__get_delay(info)
+            and time.time() - self.last_pos_change_timestamp > self.__get_delay(info)
             and not self.__is_repeated(info.graph_element.get_complete_description())
         )
 

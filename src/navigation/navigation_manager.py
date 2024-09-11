@@ -14,10 +14,12 @@ def on_action_placeholder(action: "NavigationManager.Action", **kwargs) -> None:
 class NavigationManager:
     ARRIVED_THRESHOLD = 0.35  # inch
     FAR_THRESHOLD = 4.0  # inch
+    WRONG_DIRECTION_MARGIN = 0.25  # inch
 
     def __init__(self, graph: Graph, feets_per_inch: float) -> None:
         self.arrived_threshold = self.ARRIVED_THRESHOLD * feets_per_inch
         self.far_threshold = self.FAR_THRESHOLD * feets_per_inch
+        self.wrong_direction_margin = self.WRONG_DIRECTION_MARGIN * feets_per_inch
 
         self.on_action = on_action_placeholder
         self.graph = graph
@@ -40,7 +42,7 @@ class NavigationManager:
         self.navigator = StepByStepNavigator(
             self.graph,
             self.arrived_threshold,
-            self.far_threshold,
+            self.wrong_direction_margin,
             self.on_action,
             waypoints,
         )

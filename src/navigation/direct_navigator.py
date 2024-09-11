@@ -20,7 +20,10 @@ class DirectNavigator(Navigator):
         on_action: ActionHandler,
         destination: WayPoint,
     ) -> None:
-        super().__init__(graph, arrived_threshold, far_threshold, on_action)
+        super().__init__(graph, on_action)
+
+        self.arrived_threshold = arrived_threshold
+        self.far_threshold = far_threshold
 
         self.destination = destination
         self.last_announcement_timestamp = 0.0

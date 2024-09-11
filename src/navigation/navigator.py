@@ -21,15 +21,10 @@ class Navigator(ABC):
     def __init__(
         self,
         graph: Graph,
-        arrived_threshold: float,
-        far_threshold: float,
         on_action: ActionHandler,
     ) -> None:
         self.graph = graph
         self.on_action = on_action
-
-        self.arrived_threshold = arrived_threshold
-        self.far_threshold = far_threshold
 
         self.destination_reached = False
 

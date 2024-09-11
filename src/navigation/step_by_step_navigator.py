@@ -15,11 +15,14 @@ class StepByStepNavigator(Navigator):
         self,
         graph: Graph,
         arrived_threshold: float,
-        far_threshold: float,
+        wrong_direction_margin: float,
         on_action: ActionHandler,
         waypoints: List[WayPoint],
     ) -> None:
-        super().__init__(graph, arrived_threshold, far_threshold, on_action)
+        super().__init__(graph, on_action)
+
+        self.arrived_threshold = arrived_threshold
+        self.wrong_direction_margin = wrong_direction_margin
 
         self.waypoints = deque(waypoints)
 
@@ -71,10 +74,13 @@ class StepByStepNavigator(Navigator):
             self.__stop_timestamp = current_time
             self.__new_route_needed(position.real_pos, self.waypoints[-1].coords)
 
-        elif position.movement != MovementDirection.NONE and self.graph.get_distance(
-            position.real_pos, current_waypoint.coords
-        ) > self.graph.get_distance(
-            self.last_position.real_pos, current_waypoint.coords
+        elif (
+            position.movement != MovementDirection.NONE
+            and self.graph.get_distance(position.real_pos, current_waypoint.coords)
+            > self.graph.get_distance(
+                self.last_position.real_pos, current_waypoint.coords
+            )
+            + self.wrong_direction_margin
         ):
             self.on_waypoint = False
             self._wrong_direction()

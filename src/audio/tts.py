@@ -9,8 +9,6 @@ from typing import Callable, Optional
 
 import pyttsx3
 
-from src.utils import Lang
-
 
 def generate_random_id() -> str:
     return str(uuid.uuid4())
@@ -53,7 +51,7 @@ class TTS:
     ONE_MSG_LOOP_INTERVAL = 7
 
     def __init__(self, rate: int = DEFAULT_RATE) -> None:
-        self.engine = pyttsx3.init("espeak")
+        self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
 
         self.engine.connect("started-utterance", self.__on_utterance_started)

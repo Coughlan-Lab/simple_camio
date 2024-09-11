@@ -31,8 +31,8 @@ class Buffer(Generic[T]):
         return self.buffer
 
     def clear(self) -> None:
-        self.buffer.clear()
         self.buffer = deque(maxlen=self.max_size)
+        self.buffer_timestamps = deque(maxlen=self.max_size)
 
     def mode(self) -> Optional[T]:
         items = self.items()

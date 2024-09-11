@@ -9,7 +9,7 @@ from .navigator import ActionHandler, Navigator
 
 
 class StepByStepNavigator(Navigator):
-    NEXT_STEP_THRESHOLD = 1.5  # seconds
+    NEXT_STEP_THRESHOLD = 2.5  # seconds
 
     def __init__(
         self,

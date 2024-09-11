@@ -109,6 +109,7 @@ class PositionHandler:
 
     def clear(self) -> None:
         self.positions_buffer.clear()
+        self.last_info = NONE_INFO
 
     @property
     def last_position(self) -> Optional[Coords]:

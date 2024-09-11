@@ -12,8 +12,9 @@ from typing import Any, Dict, List, Optional
 import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
-from src.frame_processing import (HandStatus, PoseDetector, SIFTModelDetector,
-                                  VideoCapture, WindowManager)
+from src.frame_processing import (HandStatus, PoseDetector, PoseResult,
+                                  SIFTModelDetector, VideoCapture,
+                                  WindowManager)
 from src.graph import Coords, Graph, PositionHandler, WayPoint
 from src.input_handler import InputHandler, InputListener
 from src.llm import LLM
@@ -126,17 +127,18 @@ class CamIO:
                 self.audio_manager.update(HandStatus.NOT_FOUND)
                 continue
 
-            hand_status, finger_pos, frame = self.pose_detector.detect(
-                frame, homography
-            )
+            hand, frame = self.pose_detector.detect(frame, homography)
 
-            hand_status = self.__process_hand_status(hand_status, finger_pos)
-            if finger_pos is None:
+            hand_status = self.__process_hand_status(hand)
+            if hand.new_hand or hand_status != HandStatus.POINTING:
+                self.position_handler.clear()
+
+            if hand.position is None:
                 continue
 
-            self.position_handler.process_position(finger_pos)
+            self.position_handler.process_position(hand.position)
             position = self.position_handler.get_position_info()
-            if not hand_status == HandStatus.POINTING or self.is_handling_user_input():
+            if hand_status != HandStatus.POINTING or self.is_handling_user_input():
                 continue
 
             if self.navigation_manager.running:
@@ -206,15 +208,14 @@ class CamIO:
         else:
             self.navigation_manager.navigate(waypoints[0])
 
-    def __process_hand_status(
-        self, hand_status: HandStatus, finger_pos: Optional[Coords]
-    ) -> HandStatus:
+    def __process_hand_status(self, hand: PoseResult) -> HandStatus:
+        hand_status = hand.status
 
         if (
-            hand_status == HandStatus.POINTING
-            and finger_pos is not None
+            hand.status == HandStatus.POINTING
+            and hand.position is not None
             and not self.position_handler.is_valid_position(
-                finger_pos * self.position_handler.feets_per_pixel
+                hand.position * self.position_handler.feets_per_pixel
             )
         ):
             hand_status = HandStatus.NOT_FOUND

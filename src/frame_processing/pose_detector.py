@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from enum import Enum, IntEnum
 from typing import Any, List, Optional, Tuple
 
@@ -6,6 +7,7 @@ import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
 from mediapipe.tasks.python.vision import RunningMode
+
 from src.graph import Coords
 from src.utils import Buffer
 
@@ -129,6 +131,18 @@ class Hand:
         return float(overall)
 
 
+@dataclass(frozen=True)
+class PoseResult:
+    status: HandStatus
+    position: Optional[Coords]
+    new_hand: bool
+
+
+NOT_FOUND = PoseResult(HandStatus.NOT_FOUND, None, False)
+MORE_THAN_ONE_HAND = PoseResult(HandStatus.MORE_THAN_ONE_HAND, None, False)
+EXPLORING = PoseResult(HandStatus.EXPLORING, None, False)
+
+
 class PoseDetector:
     MOVEMENT_THRESHOLD = 0.25  # inch
 
@@ -150,7 +164,7 @@ class PoseDetector:
 
     def detect(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> Tuple[HandStatus, Optional[Coords], npt.NDArray[np.uint8]]:
+    ) -> Tuple[PoseResult, npt.NDArray[np.uint8]]:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img.flags.writeable = False
@@ -161,7 +175,7 @@ class PoseDetector:
 
         hands = self.process_results(img, H, results)
         if len(hands) == 0:
-            return HandStatus.NOT_FOUND, None, img
+            return NOT_FOUND, img
 
         hands_per_side = {
             side: [h for h in hands if h.side == side] for side in Hand.Side
@@ -172,7 +186,7 @@ class PoseDetector:
         ):
             for hand in hands:
                 hand.draw(img, active=False)
-            return HandStatus.MORE_THAN_ONE_HAND, None, img
+            return MORE_THAN_ONE_HAND, img
 
         for hand in hands:
             self.buffers[hand.side].add(self.get_index_position(hand, img, H))
@@ -183,28 +197,30 @@ class PoseDetector:
             self.last_side_pointing = None
             for hand in hands:
                 hand.draw(img, active=False)
-            return HandStatus.EXPLORING, None, img
+            return EXPLORING, img
 
+        side_pointing = self.last_side_pointing
         if len(pointing_hands) == 1:
-            self.last_side_pointing = pointing_hands[0].side
-
-        if self.is_moving(Hand.Side.LEFT):
-            self.last_side_pointing = Hand.Side.LEFT
-
-        if self.is_moving(Hand.Side.RIGHT):
-            self.last_side_pointing = Hand.Side.RIGHT
+            side_pointing = pointing_hands[0].side
+        elif self.is_moving(Hand.Side.RIGHT):
+            side_pointing = Hand.Side.RIGHT
+        elif self.is_moving(Hand.Side.LEFT):
+            side_pointing = Hand.Side.LEFT
 
         for hand in hands:
             hand.draw(img, active=hand.side == self.last_side_pointing)
 
-        if self.last_side_pointing is not None:
-            return (
-                HandStatus.POINTING,
-                self.buffers[self.last_side_pointing].last(),
-                img,
-            )
+        if side_pointing is None:
+            return EXPLORING, img
 
-        return HandStatus.EXPLORING, None, img
+        result = PoseResult(
+            HandStatus.POINTING,
+            self.buffers[side_pointing].last(),
+            self.last_side_pointing != side_pointing,
+        )
+
+        self.last_side_pointing = side_pointing
+        return result, img
 
     def is_moving(self, side: Hand.Side) -> bool:
         first = self.buffers[side].first()

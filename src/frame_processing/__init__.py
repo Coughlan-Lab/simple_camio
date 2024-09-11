@@ -1,5 +1,5 @@
 from .model_detector import SIFTModelDetector
-from .pose_detector import HandStatus, PoseDetector
+from .pose_detector import HandStatus, PoseDetector, PoseResult
 from .video_capture import VideoCapture
 from .window_manager import WindowManager
 
@@ -9,4 +9,5 @@ __all__ = [
     "HandStatus",
     "VideoCapture",
     "WindowManager",
+    "PoseResult",
 ]

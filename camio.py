@@ -16,7 +16,7 @@ import cv2
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.config import config, get_args
-from src.frame_processing import (GestureRecognizer, GestureResult, HandStatus,
+from src.frame_processing import (GestureRecognizer, GestureResult, Hand,
                                   ModelDetector, VideoCapture, WindowManager)
 from src.graph import Graph, WayPoint
 from src.input import InputListener, KeyboardManager, QuestionHandler
@@ -43,7 +43,7 @@ class CamIO:
         self.window_manager = WindowManager()
         self.model_detector = ModelDetector()
         self.gesture_recognizer = GestureRecognizer()
-        self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
+        self.hand_status_buffer = Buffer[GestureResult.Status](max_size=5, max_life=5)
 
         # Audio
         self.tts = CamIOTTS(f"res/strings_{config.lang}.json", rate=config.tts_rate)
@@ -101,6 +101,7 @@ class CamIO:
             self.tts.map_description(self.description)
 
         self.audio_manager.start()
+        last_hand_side: Optional[Hand.Side] = None
 
         self.running = True
         while self.running and video_capture.is_opened():
@@ -115,21 +116,30 @@ class CamIO:
             homography = self.model_detector.detect(frame_gray)
 
             if homography is None:
-                self.audio_manager.hand_feedback(HandStatus.NOT_FOUND)
+                self.audio_manager.hand_feedback(GestureResult.Status.NOT_FOUND)
                 continue
 
             hand, frame = self.gesture_recognizer.detect(frame, homography)
-            hand_status = self.__process_hand_status(hand)
 
-            if hand.new_hand or hand_status != HandStatus.POINTING:
+            self.audio_manager.hand_feedback(hand.status)
+
+            if hand.status == GestureResult.Status.MORE_THAN_ONE_HAND:
+                self.tts.more_than_one_hand()
+
+            if hand.position is None or hand.status != GestureResult.Status.POINTING:
                 self.position_handler.clear()
-
-            if hand.position is None:
                 continue
+
+            if hand.side != last_hand_side:
+                last_hand_side = hand.side
+                self.position_handler.clear()
+                if hand.side is not None:
+                    self.tts.hand_side(str(hand.side))
 
             self.position_handler.process_position(hand.position)
             position = self.position_handler.get_position_info()
-            if hand_status != HandStatus.POINTING or self.is_handling_user_input():
+
+            if self.is_handling_user_input():
                 continue
 
             if self.navigation_manager.running:
@@ -138,7 +148,6 @@ class CamIO:
                     ignore_not_moving=self.is_handling_user_input()
                     or self.tts.is_speaking(),
                 )
-
             else:
                 self.tts.announce_position(position)
                 self.audio_manager.position_feedback(position)
@@ -198,25 +207,20 @@ class CamIO:
         else:
             self.navigation_manager.navigate(waypoints[0])
 
-    def __process_hand_status(self, hand: GestureResult) -> HandStatus:
+    def __average_gesture_status(self, hand: GestureResult) -> GestureResult.Status:
         hand_status = hand.status
 
         if (
-            hand.status == HandStatus.POINTING
+            hand.status == GestureResult.Status.POINTING
             and hand.position is not None
             and not self.position_handler.is_valid_position(
                 hand.position * config.feets_per_pixel
             )
         ):
-            hand_status = HandStatus.NOT_FOUND
+            hand_status = GestureResult.Status.NOT_FOUND
 
         self.hand_status_buffer.add(hand_status)
-        hand_status = self.hand_status_buffer.mode() or HandStatus.NOT_FOUND
-
-        if hand_status == HandStatus.MORE_THAN_ONE_HAND:
-            self.tts.more_than_one_hand()
-
-        self.audio_manager.hand_feedback(hand_status)
+        hand_status = self.hand_status_buffer.mode() or GestureResult.Status.NOT_FOUND
 
         return hand_status
 
@@ -227,7 +231,7 @@ class CamIO:
         elif self.llm.is_waiting_for_response():
             self.tts.waiting_llm()
 
-        elif self.hand_status_buffer.mode() == HandStatus.POINTING:
+        elif self.hand_status_buffer.mode() == GestureResult.Status.POINTING:
             self.stop_interaction()
             self.question_handler = QuestionHandler(repository)
             self.question_handler.handle_question()
@@ -253,7 +257,7 @@ class CamIO:
 
         elif action == NavigationAction.DESTINATION_REACHED:
             self.tts.destination_reached()
-            self.tts.pause(2.0)
+            self.tts.add_pause(2.0)
             self.audio_manager.play_destination_reached()
             self.window_manager.clear_waypoints()
 

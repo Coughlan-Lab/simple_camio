@@ -5,7 +5,7 @@ from abc import ABC
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum, IntEnum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, ClassVar, Optional
 
 import pyttsx3
 
@@ -31,25 +31,35 @@ class Announcement(ABC):
         HIGH = 3
 
     id: str = field(default_factory=generate_random_id)
+    category: Category = field(default=Category.SYSTEM, compare=False)
+    priority: Priority = field(default=Priority.LOW, compare=False)
+
+    NONE: ClassVar["Announcement"]
+
+    def is_error(self) -> bool:
+        return self.category == Announcement.Category.ERROR
+
+    def is_system(self) -> bool:
+        return self.category == Announcement.Category.SYSTEM
+
+    def is_graph(self) -> bool:
+        return self.category == Announcement.Category.GRAPH
+
+    def is_llm(self) -> bool:
+        return self.category == Announcement.Category.LLM
+
+
+Announcement.NONE = Announcement(priority=Announcement.Priority.NONE)
 
 
 @dataclass(frozen=True)
 class TextAnnouncement(Announcement):
-    text: Optional[str] = field(default=None, compare=False)
-    category: Announcement.Category = field(
-        default=Announcement.Category.SYSTEM, compare=False
-    )
-    priority: Announcement.Priority = field(
-        default=Announcement.Priority.LOW, compare=False
-    )
+    text: str = field(default="", compare=False)
 
 
 @dataclass(frozen=True)
 class PauseAnnouncement(Announcement):
     duration: float = field(default=1.0, compare=False)
-
-
-NONE_ANNOUNCEMENT = TextAnnouncement(priority=Announcement.Priority.NONE)
 
 
 class TTS(Module):
@@ -67,8 +77,8 @@ class TTS(Module):
         self.engine.connect("started-word", self.__on_word_started)
 
         self.current_announcement_index = 0
-        self.current_announcement: TextAnnouncement = NONE_ANNOUNCEMENT
-        self.last_announcement: TextAnnouncement = NONE_ANNOUNCEMENT
+        self.current_announcement = Announcement.NONE
+        self.last_announcement = Announcement.NONE
         self.paused_announcement: Optional[TextAnnouncement] = None
 
         self.queue: deque[Announcement] = deque()
@@ -89,6 +99,9 @@ class TTS(Module):
 
         self.loop_thread: Optional[th.Thread] = None
 
+    def is_speaking(self) -> bool:
+        return self.__is_speaking.is_set()
+
     def start(self) -> None:
         with self.main_lock:
             if self.__running.is_set():
@@ -106,6 +119,7 @@ class TTS(Module):
 
             with self.queue_cond:
                 self.queue_cond.notify_all()
+
             with self.is_speaking_cond:
                 self.is_speaking_cond.notify_all()
 
@@ -115,112 +129,39 @@ class TTS(Module):
     def __loop(self) -> None:
         self.__running.set()
 
-        try:
-            self.engine.startLoop(False)
+        self.engine.startLoop(False)
 
-            while self.__running.is_set():
-                with self.queue_cond:
-                    while not self.queue and self.__running.is_set():
-                        self.queue_cond.wait()
+        while self.__running.is_set():
+            announcement = self.__get_next_announcement()
+            if announcement is None:
+                continue
 
-                    if not self.__running.is_set():
-                        break
+            self.last_announcement = self.current_announcement
+            self.current_announcement = announcement
 
-                    next_announcement = self.queue.popleft()
+            if isinstance(announcement, PauseAnnouncement):
+                self.__announce_pause(announcement)
+            elif isinstance(announcement, TextAnnouncement):
+                self.__announce_text(announcement)
 
-                if isinstance(next_announcement, PauseAnnouncement):
-                    time.sleep(next_announcement.duration)
-                    self.__on_announcement_ended(next_announcement, True)
+            self.last_announcement = self.current_announcement
+            self.current_announcement = Announcement.NONE
 
-                elif isinstance(next_announcement, TextAnnouncement):
-                    with self.is_speaking_cond:
-                        self.last_announcement = self.current_announcement
-                        self.current_announcement = next_announcement
+            self.__on_announcement_ended(self.last_announcement, True)
 
-                        self.engine.say(
-                            self.current_announcement.text,
-                            name=self.current_announcement.id,
-                        )
-                        self.engine.iterate()
-
-                        self._timestamps[self.current_announcement.category] = (
-                            time.time()
-                        )
-
-                        while self.is_speaking() and self.__running.is_set():
-                            self.is_speaking_cond.wait()
-
-                    self.__on_announcement_ended(self.current_announcement, True)
-
-                    if isinstance(next_announcement, TextAnnouncement):
-                        self.last_announcement = self.current_announcement
-                        self.current_announcement = NONE_ANNOUNCEMENT
-
-            self.engine.endLoop()
-
-        except KeyboardInterrupt:
-            pass
-        except Exception as e:
-            print(f"An error occurred in TTS loop: {e}")
+        self.engine.endLoop()
 
     def stop_speaking(self) -> None:
-        if len(self.queue) > 0:
-            with self.queue_cond:
-                for announcement in self.queue:
-                    self.__on_announcement_ended(announcement, False)
+        with self.queue_cond:
+            for announcement in self.queue:
+                self.__on_announcement_ended(announcement, False)
 
-                self.queue.clear()
-                self.queue_cond.notify_all()
+            self.queue.clear()
+            self.queue_cond.notify_all()
 
-                with self.is_speaking_cond:
-                    self.engine.stop()
-                    self.is_speaking_cond.notify_all()
-
-    def is_speaking(self) -> bool:
-        return self.__is_speaking.is_set()
-
-    def toggle_pause(self) -> None:
-        if self.paused_announcement is not None:
-            self.stop_and_say(
-                self.paused_announcement.text,
-                self.paused_announcement.category,
-                Announcement.Priority.HIGH,
-            )
-
-            self.paused_announcement = None
-            return
-
-        with self.is_speaking_cond:
-            if (
-                self.is_speaking()
-                and self.current_announcement.text is not None
-                and self.current_announcement_index
-                < len(self.current_announcement.text)
-            ):
-                if self.current_announcement.category not in [
-                    Announcement.Category.ERROR,
-                    Announcement.Category.GRAPH,
-                ]:
-                    self.paused_announcement = TextAnnouncement(
-                        text=self.current_announcement.text[
-                            self.current_announcement_index :
-                        ],
-                        priority=self.current_announcement.priority,
-                        category=self.current_announcement.category,
-                    )
-
-                self.stop_speaking()
-
-    def __on_utterance_started(self, name: str) -> None:
-        self.__is_speaking.set()
-
-    def __on_utterance_finished(self, name: str, completed: bool) -> None:
-        self.__is_speaking.clear()
-        with self.is_speaking_cond:
-            self.is_speaking_cond.notify_all()
-
-    def __on_word_started(self, name: str, location: int, length: int) -> None:
-        self.current_announcement_index = location
+            with self.is_speaking_cond:
+                self.engine.stop()
+                self.is_speaking_cond.notify_all()
 
     def say(
         self,
@@ -250,17 +191,30 @@ class TTS(Module):
         priority: Announcement.Priority = Announcement.Priority.LOW,
     ) -> Optional[Announcement]:
         with self.queue_cond:
-            if priority < self.current_announcement.priority:
+            max_priority = Announcement.Priority.NONE
+            if len(self.queue) > 0:
+                max_priority = max([ann.priority for ann in self.queue])
+
+            if self.current_announcement.priority > max_priority:
+                max_priority = self.current_announcement.priority
+
+            if priority < max_priority:
                 return None
 
             self.stop_speaking()
 
             return self.say(text, category, priority)
 
-    def pause(self, duration: float) -> None:
+    def add_pause(self, duration: float) -> None:
         with self.queue_cond:
             self.queue.append(PauseAnnouncement(duration=duration))
             self.queue_cond.notify_all()
+
+    def toggle_pause(self) -> None:
+        if self.paused_announcement is not None:
+            self.__resume_paused()
+        else:
+            self.__pause_current()
 
     def _start_one_msg_loop(self, msg_fn: Callable[[], Any]) -> None:
         if self.__one_msg_loop_running.is_set():
@@ -287,3 +241,78 @@ class TTS(Module):
     ) -> None:
         if self.on_announcement_ended is not None:
             self.on_announcement_ended(announcement, announced)
+
+    def __resume_paused(self) -> None:
+        if self.paused_announcement is None:
+            return
+
+        self.stop_and_say(
+            self.paused_announcement.text,
+            self.paused_announcement.category,
+            self.paused_announcement.priority,
+        )
+
+        self.paused_announcement = None
+
+    def __pause_current(self) -> None:
+        if not isinstance(self.current_announcement, TextAnnouncement):
+            return
+
+        with self.is_speaking_cond:
+            if not self.is_speaking():
+                return
+
+            current = self.current_announcement
+            if self.current_announcement_index >= len(current.text):
+                return
+
+            if not current.is_error() and not current.is_graph():
+                self.paused_announcement = TextAnnouncement(
+                    text=current.text[self.current_announcement_index :],
+                    priority=Announcement.Priority.HIGH,
+                    category=current.category,
+                )
+
+            self.stop_speaking()
+
+    def __on_utterance_started(self, name: str) -> None:
+        pass
+
+    def __on_utterance_finished(self, name: str, completed: bool) -> None:
+        self.current_announcement_index = 0
+
+        with self.is_speaking_cond:
+            self.__is_speaking.clear()
+            self.is_speaking_cond.notify_all()
+
+    def __on_word_started(self, name: str, location: int, length: int) -> None:
+        self.current_announcement_index = location
+
+    def __get_next_announcement(self) -> Optional[Announcement]:
+        with self.queue_cond:
+            while not self.queue and self.__running.is_set():
+                self.queue_cond.wait()
+
+            if not self.__running.is_set():
+                return None
+
+            return self.queue.popleft()
+
+    def __announce_pause(self, announcement: PauseAnnouncement) -> None:
+        self._timestamps[announcement.category] = time.time()
+        time.sleep(announcement.duration)
+
+    def __announce_text(self, announcement: TextAnnouncement) -> None:
+        with self.is_speaking_cond:
+            self.engine.say(
+                announcement.text,
+                name=announcement.id,
+            )
+
+            self.__is_speaking.set()
+            self._timestamps[announcement.category] = time.time()
+
+            self.engine.iterate()
+
+            while self.is_speaking() and self.__running.is_set():
+                self.is_speaking_cond.wait()

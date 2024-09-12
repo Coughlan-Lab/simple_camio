@@ -6,7 +6,7 @@ from typing import Optional
 
 from src.position import MovementDirection, PositionInfo
 
-from .tts import TTS, Announcement
+from .tts import TTS, Announcement, TextAnnouncement
 
 
 class CamIOTTS(TTS):
@@ -139,6 +139,13 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.MEDIUM,
         )
 
+    def hand_side(self, side: str) -> Optional[Announcement]:
+        return self.stop_and_say(
+            self.res["hand_side"].format(side),
+            category=Announcement.Category.SYSTEM,
+            priority=Announcement.Priority.MEDIUM,
+        )
+
     def announce_position(self, info: PositionInfo) -> None:
         current_time = time.time()
         if self.__has_changed_position(info):
@@ -172,10 +179,14 @@ class CamIOTTS(TTS):
         return self.last_pos_info.graph_element != info.graph_element
 
     def __is_repeated(self, description: str) -> bool:
-        return description in [
-            self.last_announcement.text,
-            self.current_announcement.text,
-        ]
+        repeated = False
+        if isinstance(self.last_announcement, TextAnnouncement):
+            repeated = self.last_announcement.text == description
+
+        if isinstance(self.current_announcement, TextAnnouncement):
+            repeated = repeated or self.current_announcement.text == description
+
+        return repeated
 
     def __should_play_detailed(self, info: PositionInfo) -> bool:
         if info.graph_element is None:

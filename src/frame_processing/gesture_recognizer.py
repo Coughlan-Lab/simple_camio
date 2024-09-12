@@ -29,13 +29,6 @@ for landmark1 in landmarks:
     inactive_landmark_style[landmark1] = red_style
 
 
-class HandStatus(Enum):
-    MORE_THAN_ONE_HAND = -1
-    NOT_FOUND = 0
-    POINTING = 1
-    EXPLORING = 2
-
-
 def ratio(coors: npt.NDArray[np.float32]) -> np.float32:
     """
     This function calculates a value between 0 and 1 that represents how close the points are to be collinear.
@@ -53,8 +46,11 @@ class Hand:
     POINTING_THRESHOLD = 0.15
 
     class Side(IntEnum):
-        LEFT = 0
-        RIGHT = 1
+        RIGHT = 0
+        LEFT = 1
+
+        def __str__(self) -> str:
+            return self.name.lower()
 
     def __init__(self, side: Side, visible: bool, landmarks) -> None:
         self.side = side
@@ -133,14 +129,20 @@ class Hand:
 
 @dataclass(frozen=True)
 class GestureResult:
-    status: HandStatus
-    position: Optional[Coords]
-    new_hand: bool
+    class Status(Enum):
+        MORE_THAN_ONE_HAND = -1
+        NOT_FOUND = 0
+        POINTING = 1
+        EXPLORING = 2
+
+    status: Status
+    position: Optional[Coords] = None
+    side: Optional[Hand.Side] = None
 
 
-NOT_FOUND = GestureResult(HandStatus.NOT_FOUND, None, False)
-MORE_THAN_ONE_HAND = GestureResult(HandStatus.MORE_THAN_ONE_HAND, None, False)
-EXPLORING = GestureResult(HandStatus.EXPLORING, None, False)
+NOT_FOUND = GestureResult(GestureResult.Status.NOT_FOUND)
+MORE_THAN_ONE_HAND = GestureResult(GestureResult.Status.MORE_THAN_ONE_HAND)
+EXPLORING = GestureResult(GestureResult.Status.EXPLORING)
 
 
 class GestureRecognizer(Module):
@@ -207,19 +209,17 @@ class GestureRecognizer(Module):
                 return EXPLORING, img
 
             result = GestureResult(
-                HandStatus.POINTING,
+                GestureResult.Status.POINTING,
                 self.buffers[side_pointing].last(),
-                self.last_side_pointing != side_pointing,
+                side_pointing,
             )
 
-            self.last_side_pointing = side_pointing
             return result, img
 
         hands = self.__get_hands(img, H)
         gesture, img = detection(hands)
 
-        if gesture.status != HandStatus.POINTING:
-            self.last_side_pointing = None
+        self.last_side_pointing = gesture.side
 
         for hand in hands:
             hand.draw(img, active=hand.side == self.last_side_pointing)

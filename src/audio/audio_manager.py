@@ -3,7 +3,7 @@ import os
 
 import pygame
 
-from src.frame_processing import HandStatus
+from src.frame_processing import GestureResult
 from src.modules_repository import Module
 from src.position import PositionInfo
 
@@ -36,7 +36,7 @@ class AudioManager(Module):
 
         self.pointing_sound = pygame.mixer.Sound(sounds["pointing"])
         self.poi_sound = pygame.mixer.Sound(sounds["poi"])
-        self.hand_status = HandStatus.NOT_FOUND
+        self.hand_status = GestureResult.Status.NOT_FOUND
 
         self.start_recording_sound = pygame.mixer.Sound(sounds["start_recording"])
         self.end_recording_sound = pygame.mixer.Sound(sounds["end_recording"])
@@ -72,12 +72,12 @@ class AudioManager(Module):
     def play_destination_reached(self) -> None:
         self.destination_reached_sound.play()
 
-    def hand_feedback(self, hand_status: HandStatus) -> None:
+    def hand_feedback(self, hand_status: GestureResult.Status) -> None:
         if hand_status == self.hand_status:
             return
         self.hand_status = hand_status
 
-        if self.hand_status == HandStatus.POINTING:
+        if self.hand_status == GestureResult.Status.POINTING:
             self.background_player.pause()
             self.play_pointing()
         else:

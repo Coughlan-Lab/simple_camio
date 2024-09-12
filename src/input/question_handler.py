@@ -3,7 +3,7 @@ from typing import Optional
 
 from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.config import config
-from src.frame_processing import HandStatus
+from src.frame_processing import GestureResult
 from src.input import KeyboardManager
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
@@ -129,7 +129,7 @@ class QuestionHandler(th.Thread):
         if self.announcement_id != announcement.id:
             return
 
-        if self.hand_status == HandStatus.POINTING:
+        if self.hand_status == GestureResult.Status.POINTING:
             self.audio_manager.play_pointing()
 
         self.stop_event.set()
@@ -147,7 +147,7 @@ class QuestionHandler(th.Thread):
         return self.repository[STT]
 
     @property
-    def hand_status(self) -> HandStatus:
+    def hand_status(self) -> GestureResult.Status:
         return self.audio_manager.hand_status
 
     @property

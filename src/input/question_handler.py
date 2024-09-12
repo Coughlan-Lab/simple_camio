@@ -6,13 +6,15 @@ from src.config import config
 from src.frame_processing import HandStatus
 from src.input import KeyboardManager
 from src.llm import LLM
-from src.modules_repository import repository
+from src.modules_repository import ModulesRepository
 from src.position import PositionHandler
 
 
 class QuestionHandler(th.Thread):
-    def __init__(self) -> None:
+    def __init__(self, repository: ModulesRepository) -> None:
         super().__init__()
+
+        self.repository = repository
 
         self.stop_event = th.Event()
         self.announcement_id: Optional[str] = None
@@ -138,11 +140,11 @@ class QuestionHandler(th.Thread):
 
     @property
     def tts(self) -> CamIOTTS:
-        return repository[CamIOTTS]
+        return self.repository[CamIOTTS]
 
     @property
     def stt(self) -> STT:
-        return repository[STT]
+        return self.repository[STT]
 
     @property
     def hand_status(self) -> HandStatus:
@@ -150,16 +152,16 @@ class QuestionHandler(th.Thread):
 
     @property
     def position_handler(self) -> PositionHandler:
-        return repository[PositionHandler]
+        return self.repository[PositionHandler]
 
     @property
     def llm(self) -> LLM:
-        return repository[LLM]
+        return self.repository[LLM]
 
     @property
     def audio_manager(self) -> AudioManager:
-        return repository[AudioManager]
+        return self.repository[AudioManager]
 
     @property
     def keyboard(self) -> KeyboardManager:
-        return repository[KeyboardManager]
+        return self.repository[KeyboardManager]

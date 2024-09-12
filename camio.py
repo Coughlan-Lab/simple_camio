@@ -21,9 +21,12 @@ from src.frame_processing import (GestureRecognizer, GestureResult, HandStatus,
 from src.graph import Graph, WayPoint
 from src.input import InputListener, KeyboardManager, QuestionHandler
 from src.llm import LLM
+from src.modules_repository import ModulesRepository
 from src.navigation import NavigationAction, NavigationManager
 from src.position import PositionHandler
 from src.utils import Buffer, Coords, load_map_parameters
+
+repository = ModulesRepository()
 
 
 class CamIO:
@@ -226,7 +229,7 @@ class CamIO:
 
         elif self.hand_status_buffer.mode() == HandStatus.POINTING:
             self.stop_interaction()
-            self.question_handler = QuestionHandler()
+            self.question_handler = QuestionHandler(repository)
             self.question_handler.handle_question()
 
         else:

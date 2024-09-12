@@ -34,13 +34,13 @@ class ModulesRepository:
         return cls in self.__services
 
 
-repository = ModulesRepository()
+_repository = ModulesRepository()
 
 
 class Module(ABC):
     def __init__(self) -> None:
-        self._repository = repository
+        self._repository = _repository
         self._repository.register(self)
 
 
-__all__ = ["Module", "repository"]
+__all__ = ["ModulesRepository", "Module"]

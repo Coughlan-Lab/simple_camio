@@ -14,7 +14,8 @@ from typing import Any, Dict, List, Optional
 
 import cv2
 
-from src.audio import STT, Announcement, AudioManager, CamIOTTS
+from src.audio import (STT, Announcement, AudioManager, CamIOTTS,
+                       TextAnnouncement)
 from src.frame_processing import (HandStatus, PoseDetector, PoseResult,
                                   SIFTModelDetector, VideoCapture,
                                   WindowManager)
@@ -61,7 +62,6 @@ class CamIO:
 
         # Audio
         self.tts = CamIOTTS(f"res/strings_{lang}.json", tts_rate)
-        self.tts.on_announcement_ended = self.on_announcement_ended
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
 
@@ -168,9 +168,7 @@ class CamIO:
         self.tts.stop()
 
     def is_handling_user_input(self) -> bool:
-        return (
-            self.user_input_thread is not None and self.user_input_thread.is_alive()
-        ) or self.tts.current_announcement.category == Announcement.Category.LLM
+        return self.user_input_thread is not None and self.user_input_thread.is_alive()
 
     def stop(self) -> None:
         self.running = False
@@ -277,13 +275,6 @@ class CamIO:
                 priority=Announcement.Priority.MEDIUM,
             )
 
-    def on_announcement_ended(self, category: Announcement.Category) -> None:
-        if (
-            category == Announcement.Category.LLM
-            and self.hand_status_buffer.mode() == HandStatus.POINTING
-        ):
-            self.audio_manager.play_pointing()
-
 
 class UserInputThread(th.Thread):
     def __init__(self, camio: "CamIO"):
@@ -291,6 +282,10 @@ class UserInputThread(th.Thread):
 
         self.camio = camio
         self.stop_event = th.Event()
+        self.announcement_id: Optional[str] = None
+        self.camio.tts.on_announcement_ended = self.on_announcement_ended
+
+        self.waiting_stt = th.Condition()
 
     def run(self) -> None:
         self.tts.stop_speaking()
@@ -354,20 +349,48 @@ class UserInputThread(th.Thread):
 
         if len(answer) == 0:
             print("No answer received.")
-            self.tts.llm_error()
+            announcement = self.tts.llm_error()
         else:
             print(f"Answer: {answer}")
-            self.tts.llm_response(answer)
+            announcement = self.tts.llm_response(answer)
+
+        if announcement is not None:
+            self.announcement_id = announcement.id
 
         self.tts.pause(2.0)
+        self.wait_stt()
+
+    def wait_stt(self) -> None:
+        if self.announcement_id is None:
+            return
+
+        with self.waiting_stt:
+            while not self.stop_event.is_set():
+                self.waiting_stt.wait()
 
     def stop(self) -> None:
         if self.stop_event.is_set():
             return
 
         self.stop_event.set()
+        self.camio.tts.on_announcement_ended = None
         self.llm.stop()
         self.tts.stop_waiting_llm_loop()
+
+    def on_announcement_ended(
+        self, announcement: Announcement, announced: bool
+    ) -> None:
+        if self.announcement_id != announcement.id:
+            return
+
+        if self.hand_status == HandStatus.POINTING:
+            self.audio_manager.play_pointing()
+
+        self.stop_event.set()
+        with self.waiting_stt:
+            self.waiting_stt.notify_all()
+
+        self.camio.tts.on_announcement_ended = None
 
     @property
     def tts(self) -> CamIOTTS:

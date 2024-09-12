@@ -5,7 +5,7 @@ from abc import ABC
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum, IntEnum
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 import pyttsx3
 
@@ -34,8 +34,12 @@ class Announcement(ABC):
 @dataclass(frozen=True)
 class TextAnnouncement(Announcement):
     text: Optional[str] = field(default=None, compare=False)
-    category: Announcement.Category = Announcement.Category.SYSTEM
-    priority: Announcement.Priority = Announcement.Priority.LOW
+    category: Announcement.Category = field(
+        default=Announcement.Category.SYSTEM, compare=False
+    )
+    priority: Announcement.Priority = field(
+        default=Announcement.Priority.LOW, compare=False
+    )
 
 
 @dataclass(frozen=True)
@@ -75,8 +79,8 @@ class TTS:
 
         self._timestamps = {category: 0.0 for category in Announcement.Category}
 
-        self.on_announcement_ended: Callable[[Announcement.Category], None] = (
-            lambda _: None
+        self.on_announcement_ended: Optional[Callable[[Announcement, bool], None]] = (
+            None
         )
 
         self.loop_thread: Optional[th.Thread] = None
@@ -122,6 +126,7 @@ class TTS:
 
                 if isinstance(next_announcement, PauseAnnouncement):
                     time.sleep(next_announcement.duration)
+                    self.__on_announcement_ended(next_announcement, True)
 
                 elif isinstance(next_announcement, TextAnnouncement):
                     with self.is_speaking_cond:
@@ -138,14 +143,14 @@ class TTS:
                             time.time()
                         )
 
-                with self.is_speaking_cond:
-                    while self.is_speaking() and self.__running.is_set():
-                        self.is_speaking_cond.wait()
+                        while self.is_speaking() and self.__running.is_set():
+                            self.is_speaking_cond.wait()
 
-                if isinstance(next_announcement, TextAnnouncement):
-                    self.on_announcement_ended(self.current_announcement.category)
-                    self.last_announcement = self.current_announcement
-                    self.current_announcement = NONE_ANNOUNCEMENT
+                    self.__on_announcement_ended(self.current_announcement, True)
+
+                    if isinstance(next_announcement, TextAnnouncement):
+                        self.last_announcement = self.current_announcement
+                        self.current_announcement = NONE_ANNOUNCEMENT
 
             self.engine.endLoop()
 
@@ -157,10 +162,15 @@ class TTS:
     def stop_speaking(self) -> None:
         if len(self.queue) > 0:
             with self.queue_cond:
+                for announcement in self.queue:
+                    self.__on_announcement_ended(announcement, False)
+
                 self.queue.clear()
                 self.queue_cond.notify_all()
 
-        self.engine.stop()
+                with self.is_speaking_cond:
+                    self.engine.stop()
+                    self.is_speaking_cond.notify_all()
 
     def is_speaking(self) -> bool:
         return self.__is_speaking.is_set()
@@ -194,15 +204,16 @@ class TTS:
                         priority=self.current_announcement.priority,
                         category=self.current_announcement.category,
                     )
+
                 self.stop_speaking()
 
     def __on_utterance_started(self, name: str) -> None:
         self.__is_speaking.set()
 
     def __on_utterance_finished(self, name: str, completed: bool) -> None:
+        self.__is_speaking.clear()
         with self.is_speaking_cond:
-            self.__is_speaking.clear()
-            self.is_speaking_cond.notify()
+            self.is_speaking_cond.notify_all()
 
     def __on_word_started(self, name: str, location: int, length: int) -> None:
         self.current_announcement_index = location
@@ -212,34 +223,33 @@ class TTS:
         text: Optional[str],
         category: Announcement.Category,
         priority: Announcement.Priority = Announcement.Priority.LOW,
-    ) -> bool:
+    ) -> Optional[Announcement]:
         if text is None:
-            return False
+            return None
 
         text = text.strip()
         if len(text) == 0:
-            return False
+            return None
 
         announcement = TextAnnouncement(text=text, priority=priority, category=category)
 
         with self.queue_cond:
             self.queue.append(announcement)
-            self.queue_cond.notify()
+            self.queue_cond.notify_all()
 
-        return True
+        return announcement
 
     def stop_and_say(
         self,
         text: Optional[str],
         category: Announcement.Category,
         priority: Announcement.Priority = Announcement.Priority.LOW,
-    ) -> bool:
+    ) -> Optional[Announcement]:
         with self.queue_cond:
             if priority < self.current_announcement.priority:
-                return False
+                return None
 
-            with self.is_speaking_cond:
-                self.stop_speaking()
+            self.stop_speaking()
 
             return self.say(text, category, priority)
 
@@ -248,7 +258,7 @@ class TTS:
             self.queue.append(PauseAnnouncement(duration=duration))
             self.queue_cond.notify_all()
 
-    def _start_one_msg_loop(self, msg_fn: Callable[[], bool]) -> None:
+    def _start_one_msg_loop(self, msg_fn: Callable[[], Any]) -> None:
         if self.__one_msg_loop_running.is_set():
             return
 
@@ -260,10 +270,16 @@ class TTS:
 
         self.__one_msg_loop_running.clear()
 
-    def __one_msg_loop(self, msg_fn: Callable[[], bool]) -> None:
+    def __one_msg_loop(self, msg_fn: Callable[[], Any]) -> None:
         self.__one_msg_loop_running.set()
         time.sleep(TTS.ONE_MSG_LOOP_INTERVAL / 2)
 
         while self.__one_msg_loop_running.is_set():
             msg_fn()
             time.sleep(TTS.ONE_MSG_LOOP_INTERVAL)
+
+    def __on_announcement_ended(
+        self, announcement: Announcement, announced: bool
+    ) -> None:
+        if self.on_announcement_ended is not None:
+            self.on_announcement_ended(announcement, announced)

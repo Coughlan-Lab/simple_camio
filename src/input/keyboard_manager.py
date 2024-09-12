@@ -16,7 +16,7 @@ class InputListener(Enum):
     STOP_NAVIGATION = 5
 
 
-class InputHandler(Module):
+class KeyboardManager(Module):
     def __init__(self, listeners: Mapping[InputListener, Callable[[], None]]) -> None:
         super().__init__()
 

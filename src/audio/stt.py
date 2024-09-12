@@ -3,24 +3,19 @@ from typing import Optional
 
 import speech_recognition as sr
 
+from src.modules_repository import Module
 
-class STT:
+
+class STT(Module):
     TIMEOUT = 10
     PHRASE_TIME_LIMIT = 20
     FINAL_SILENCE_DURATION = 3.0
 
-    def __init__(
-        self,
-        timeout: int = TIMEOUT,
-        phrase_time_limit: int = PHRASE_TIME_LIMIT,
-        final_silence_duration: float = FINAL_SILENCE_DURATION,
-    ) -> None:
-        self.timeout = timeout
-        self.phrase_time_limit = phrase_time_limit
-        self.final_silence_duration = final_silence_duration
+    def __init__(self) -> None:
+        super().__init__()
 
         self.recognizer = sr.Recognizer()
-        self.recognizer.pause_threshold = self.final_silence_duration
+        self.recognizer.pause_threshold = STT.FINAL_SILENCE_DURATION
 
         self.recording_audio = False
 
@@ -45,8 +40,8 @@ class STT:
             with sr.Microphone() as source:
                 audio = self.recognizer.listen(
                     source,
-                    timeout=self.timeout,
-                    phrase_time_limit=self.phrase_time_limit,
+                    timeout=STT.TIMEOUT,
+                    phrase_time_limit=STT.PHRASE_TIME_LIMIT,
                 )
         except Exception:
             return None

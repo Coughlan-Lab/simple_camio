@@ -46,10 +46,6 @@ class PositionHandler(Module):
 
         self.last_info = PositionInfo.NONE
 
-    @property
-    def __graph(self) -> Graph:
-        return self._repository[Graph]
-
     def clear(self) -> None:
         self.positions_buffer.clear()
         self.last_info = PositionInfo.NONE
@@ -185,3 +181,7 @@ class PositionHandler(Module):
         if abs(dot) < 0.5:  # Angle greater than 60 degrees
             return MovementDirection.NONE
         return MovementDirection.FORWARD if dot > 0 else MovementDirection.BACKWARD
+
+    @property
+    def __graph(self) -> Graph:
+        return self._repository[Graph]

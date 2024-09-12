@@ -7,9 +7,9 @@ import numpy as np
 import numpy.typing as npt
 
 from src.config import config
-from src.graph import Graph
+from src.graph import PoI
 from src.modules_repository import Module
-from src.position import PositionHandler
+from src.position import PositionInfo
 from src.utils import Coords
 
 
@@ -37,9 +37,11 @@ class FPSManager:
         self.fps = 0.0
 
 
-class WindowManager(Module):
-    def __init__(self) -> None:
+class ViewManager(Module):
+    def __init__(self, points_of_interest: List[PoI]) -> None:
         super().__init__()
+
+        self.pois = points_of_interest
 
         self.fps_manager = FPSManager()
 
@@ -48,18 +50,16 @@ class WindowManager(Module):
 
         if config.debug:
             self.template = cv2.imread(config.template_path, cv2.IMREAD_COLOR)
-            if self.template is None:
-                raise ValueError("Template image not found")
 
     @property
     def window_name(self) -> str:
         return config.name
 
-    def update(self, frame: npt.NDArray[np.uint8]) -> None:
+    def update(self, frame: npt.NDArray[np.uint8], position: PositionInfo) -> None:
         self.fps_manager.update()
 
         if config.debug:
-            self.__draw_debug_info()
+            self.__draw_debug_info(position)
 
         cv2.imshow(self.window_name, frame)
         cv2.waitKey(1)  # Necessary for the window to show
@@ -69,7 +69,7 @@ class WindowManager(Module):
         self.fps_manager.clear()
         cv2.destroyAllWindows()
 
-    def __draw_debug_info(self) -> None:
+    def __draw_debug_info(self, position: PositionInfo) -> None:
         template = self.template.copy()
 
         cv2.putText(
@@ -89,20 +89,19 @@ class WindowManager(Module):
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 100 + i * color_step, 0), -1)
 
-        for poi in self.__graph.pois:
+        for poi in self.pois:
             if poi.enabled:
                 x, y = poi.coords / config.feets_per_pixel
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
 
-        last_pos_info = self.__position_handler.last_info
-        border = -1 if last_pos_info.is_still_valid() else 2
+        border = -1 if position.is_still_valid() else 2
 
-        snapped_pos = last_pos_info.snap_to_graph() / config.feets_per_pixel
+        snapped_pos = position.snap_to_graph() / config.feets_per_pixel
         snapped_x, snapped_y = int(snapped_pos.x), int(snapped_pos.y)
         cv2.circle(template, (snapped_x, snapped_y), 10, (28, 172, 255), border)
 
-        pos = last_pos_info.real_pos / config.feets_per_pixel
+        pos = position.real_pos / config.feets_per_pixel
         x, y = int(pos.x), int(pos.y)
         cv2.circle(template, (x, y), 10, (255, 0, 0), border)
 
@@ -115,11 +114,3 @@ class WindowManager(Module):
 
     def add_waypoint(self, coords: Coords) -> None:
         self.waypoints.append(coords)
-
-    @property
-    def __position_handler(self) -> PositionHandler:
-        return self._repository.get(PositionHandler)
-
-    @property
-    def __graph(self) -> Graph:
-        return self._repository.get(Graph)

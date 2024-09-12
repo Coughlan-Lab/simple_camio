@@ -10,7 +10,7 @@ from src.config import config
 from src.modules_repository import Module
 
 
-class ModelDetector(Module):
+class MapDetector(Module):
     DETECTION_INTERVAL = 2  # seconds
     RATIO_THRESH = 0.75
 
@@ -40,7 +40,7 @@ class ModelDetector(Module):
 
         good_matches = list()
         for m, n in knn_matches:
-            if m.distance < ModelDetector.RATIO_THRESH * n.distance:
+            if m.distance < MapDetector.RATIO_THRESH * n.distance:
                 good_matches.append(m)
 
         if len(good_matches) < 4:

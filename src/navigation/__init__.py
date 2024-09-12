@@ -1,4 +1,4 @@
-from .navigation_manager import NavigationManager
+from .navigation_controller import NavigationController
 from .navigator import NavigationAction
 
-__all__ = ["NavigationManager", "NavigationAction"]
+__all__ = ["NavigationController", "NavigationAction"]

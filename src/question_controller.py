@@ -1,16 +1,16 @@
 import threading as th
 from typing import Optional
 
-from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.config import config
 from src.frame_processing import GestureResult
-from src.input import KeyboardManager
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
 from src.position import PositionHandler
+from src.view import KeyboardManager
+from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 
-class QuestionHandler(th.Thread):
+class QuestionController(th.Thread):
     def __init__(self, repository: ModulesRepository) -> None:
         super().__init__()
 
@@ -103,7 +103,7 @@ class QuestionHandler(th.Thread):
         if announcement is not None:
             self.announcement_id = announcement.id
 
-        self.tts.pause(2.0)
+        self.tts.add_pause(2.0)
         self.wait_tts()
 
     def wait_tts(self) -> None:

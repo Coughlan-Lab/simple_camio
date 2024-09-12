@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from src.config import config
 from src.graph import Graph, WayPoint
-from src.modules_repository import Module
+from src.modules_repository import ModulesRepository
 from src.position import PositionInfo
 
 from .direct_navigator import DirectNavigator
@@ -10,17 +10,17 @@ from .navigator import Navigator
 from .step_by_step_navigator import StepByStepNavigator
 
 
-def on_action_placeholder(action: "NavigationManager.Action", **kwargs) -> None:
+def on_action_placeholder(action: "NavigationController.Action", **kwargs) -> None:
     return
 
 
-class NavigationManager(Module):
+class NavigationController:
     ARRIVED_THRESHOLD = 0.35  # inch
     FAR_THRESHOLD = 4.0  # inch
     WRONG_DIRECTION_MARGIN = 0.25  # inch
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, repository: ModulesRepository) -> None:
+        self.repository = repository
 
         self.arrived_threshold = self.ARRIVED_THRESHOLD * config.feets_per_inch
         self.far_threshold = self.FAR_THRESHOLD * config.feets_per_inch
@@ -71,4 +71,4 @@ class NavigationManager(Module):
 
     @property
     def __graph(self) -> Graph:
-        return self._repository[Graph]
+        return self.repository[Graph]

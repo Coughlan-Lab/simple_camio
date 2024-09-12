@@ -1,7 +1,8 @@
 import math
 import time
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
+from typing import ClassVar, Optional
 
 from src.graph import Edge, Node, PoI
 from src.utils import Coords, Position
@@ -13,27 +14,21 @@ class MovementDirection(Enum):
     BACKWARD = 2
 
 
+@dataclass(frozen=True)
 class PositionInfo:
-    NONE: "PositionInfo"
+    DEFAULT_MAX_LIFE: ClassVar[float] = 6.0  # seconds
+    NONE: ClassVar["PositionInfo"]
 
-    DEFAULT_MAX_LIFE = 6.0  # seconds
+    real_pos: Coords = field()
+    graph_element: Optional[Position] = field(default=None)
+    description: str = field(default="")
+    movement: MovementDirection = field(default=MovementDirection.NONE)
+    max_life: float = field(default=DEFAULT_MAX_LIFE)
+    timestamp: float = field(default_factory=time.time)
 
-    def __init__(
-        self,
-        real_pos: Coords,
-        graph_element: Optional[Position] = None,
-        description: str = "",
-        movement: MovementDirection = MovementDirection.NONE,
-        max_life: float = DEFAULT_MAX_LIFE,
-    ) -> None:
-        self.description = description
-        self.real_pos = real_pos
-        self.graph_element = graph_element
-        self.distance = self.get_distance_to_graph_element(real_pos)
-        self.movement = movement
-
-        self.max_life = max_life
-        self.timestamp = time.time()
+    @property
+    def distance(self) -> float:
+        return self.get_distance_to_graph_element(self.real_pos)
 
     def get_distance_to_graph_element(self, pos: Coords) -> float:
         if self.graph_element is None:
@@ -49,6 +44,13 @@ class PositionInfo:
             return self.real_pos
 
         return self.graph_element.closest_point(self.real_pos)
+
+    @property
+    def complete_description(self) -> str:
+        if self.graph_element is None:
+            return ""
+
+        return self.graph_element.get_complete_description()
 
     def is_node(self) -> bool:
         return isinstance(self.graph_element, Node)

@@ -550,6 +550,10 @@ def load_pois(edges: List[Edge], graph_dict: Dict[str, Any]) -> List[PoI]:
         poi = PoI(i, poi_data["name"], coords, edge, poi_data)
         pois.append(poi)
 
+    if not config.llm_enabled:
+        for poi in pois:
+            poi.enable()
+
     return pois
 
 

@@ -14,53 +14,53 @@ from typing import Any, Dict, List, Optional
 
 import cv2
 
-from src.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.config import config, get_args
 from src.frame_processing import (GestureRecognizer, GestureResult, Hand,
-                                  ModelDetector, VideoCapture, WindowManager)
+                                  MapDetector)
 from src.graph import Graph, WayPoint
-from src.input import InputListener, KeyboardManager, QuestionHandler
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
-from src.navigation import NavigationAction, NavigationManager
+from src.navigation import NavigationAction, NavigationController
 from src.position import PositionHandler
-from src.utils import Buffer, Coords, load_map_parameters
+from src.question_controller import QuestionController
+from src.utils import Coords, load_map_parameters
+from src.view import InputListener, KeyboardManager, VideoCapture, ViewManager
+from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 repository = ModulesRepository()
 
 
-class CamIO:
+class CamIOController:
 
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
 
-        # Model graph
+        self.question_handler: Optional[QuestionController] = None
+        self.running = False
+
+        # Model
         self.graph = Graph(model["graph"])
         self.graph.on_new_route = self.enable_navigation_mode
         self.position_handler = PositionHandler()
 
-        # Frame processing
-        self.window_manager = WindowManager()
-        self.model_detector = ModelDetector()
+        self.model_detector = MapDetector()
         self.gesture_recognizer = GestureRecognizer()
-        self.hand_status_buffer = Buffer[GestureResult.Status](max_size=5, max_life=5)
+        self.hand_status = GestureResult.Status.NOT_FOUND
 
-        # Audio
+        # View
+        self.view = ViewManager(self.graph.pois)
         self.tts = CamIOTTS(f"res/strings_{config.lang}.json", rate=config.tts_rate)
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
 
-        # User iteraction
-        self.navigation_manager = NavigationManager()
+        self.navigation_manager = NavigationController(repository)
         self.navigation_manager.on_action = self.__on_navigation_action
         self.llm = LLM(
             f"res/prompt_{config.lang}.yaml",
             model["context"],
             temperature=config.temperature,
         )
-        self.question_handler: Optional[QuestionHandler] = None
 
-        # Input handling
         input_listeners = {
             InputListener.STOP_INTERACTION: partial(self.stop_interaction),
             InputListener.SAY_MAP_DESCRIPTION: partial(self.say_map_description),
@@ -72,12 +72,8 @@ class CamIO:
 
         if not config.llm_enabled:
             input_listeners[InputListener.QUESTION] = partial(lambda: None)
-            for poi in self.graph.pois:
-                poi.enable()
 
         self.keyboard = KeyboardManager(input_listeners)
-
-        self.running = False
 
     def main_loop(self) -> None:
         video_capture = VideoCapture.get_capture()
@@ -105,7 +101,7 @@ class CamIO:
 
         self.running = True
         while self.running and video_capture.is_opened():
-            self.window_manager.update(frame)
+            self.view.update(frame, self.position_handler.last_info)
 
             frame = video_capture.read()
             if frame is None:
@@ -120,6 +116,7 @@ class CamIO:
                 continue
 
             hand, frame = self.gesture_recognizer.detect(frame, homography)
+            self.hand_status = hand.status
 
             self.audio_manager.hand_feedback(hand.status)
 
@@ -149,18 +146,17 @@ class CamIO:
                     or self.tts.is_speaking(),
                 )
             else:
-                self.tts.announce_position(position)
+                self.tts.position(position)
                 self.audio_manager.position_feedback(position)
 
         self.audio_manager.stop()
         video_capture.stop()
 
         self.keyboard.disable_shortcuts()
-        self.window_manager.close()
+        self.view.close()
 
         self.stop_interaction()
         self.position_handler.clear()
-        self.hand_status_buffer.clear()
 
         self.tts.goodbye()
         time.sleep(2)
@@ -194,11 +190,11 @@ class CamIO:
     def enable_navigation_mode(
         self, start: Coords, step_by_step: bool, waypoints: List[WayPoint]
     ) -> None:
-        self.window_manager.clear_waypoints()
+        self.view.clear_waypoints()
 
-        self.window_manager.add_waypoint(start)
+        self.view.add_waypoint(start)
         for waypoint in waypoints:
-            self.window_manager.add_waypoint(waypoint.coords)
+            self.view.add_waypoint(waypoint.coords)
 
         if step_by_step:
             self.navigation_manager.navigate_step_by_step(
@@ -207,23 +203,6 @@ class CamIO:
         else:
             self.navigation_manager.navigate(waypoints[0])
 
-    def __average_gesture_status(self, hand: GestureResult) -> GestureResult.Status:
-        hand_status = hand.status
-
-        if (
-            hand.status == GestureResult.Status.POINTING
-            and hand.position is not None
-            and not self.position_handler.is_valid_position(
-                hand.position * config.feets_per_pixel
-            )
-        ):
-            hand_status = GestureResult.Status.NOT_FOUND
-
-        self.hand_status_buffer.add(hand_status)
-        hand_status = self.hand_status_buffer.mode() or GestureResult.Status.NOT_FOUND
-
-        return hand_status
-
     def __on_spacebar_pressed(self) -> None:
         if self.stt.is_recording:
             self.stt.on_question_ended()
@@ -231,9 +210,9 @@ class CamIO:
         elif self.llm.is_waiting_for_response():
             self.tts.waiting_llm()
 
-        elif self.hand_status_buffer.mode() == GestureResult.Status.POINTING:
+        elif self.hand_status == GestureResult.Status.POINTING:
             self.stop_interaction()
-            self.question_handler = QuestionHandler(repository)
+            self.question_handler = QuestionController(repository)
             self.question_handler.handle_question()
 
         else:
@@ -259,7 +238,7 @@ class CamIO:
             self.tts.destination_reached()
             self.tts.add_pause(2.0)
             self.audio_manager.play_destination_reached()
-            self.window_manager.clear_waypoints()
+            self.view.clear_waypoints()
 
         elif action == NavigationAction.ANNOUNCE_DIRECTION:
             instructions: str = kwargs["instructions"]
@@ -287,9 +266,8 @@ if __name__ == "__main__":
     config.load_model(model)
     print(f"\nLoaded map: {model.get('name', 'Unknown')}\n")
 
-    camio: Optional[CamIO] = None
     try:
-        camio = CamIO(model)
+        camio = CamIOController(model)
         camio.main_loop()
 
     except KeyboardInterrupt:
@@ -298,8 +276,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nAn error occurred:\n{e}")
 
-    finally:
-        if camio is not None:
-            camio.stop()
-            camio.save_chat(args.out)
-            print(f"\nChat saved to {args.out}")
+    else:
+        camio.stop()
+        camio.save_chat(args.out)
+        print(f"\nChat saved to {args.out}")

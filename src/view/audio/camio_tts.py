@@ -10,9 +10,6 @@ from .tts import TTS, Announcement, TextAnnouncement
 
 
 class CamIOTTS(TTS):
-    DETAILED_NODES_ANNOUNCEMENT_DELAY = 1.5
-    DETAILED_ANNOUNCEMENT_DELAY = 2.5
-
     ANNOUNCEMENT_INTERVAL = 0.25
     ERROR_INTERVAL = 3.5
 
@@ -25,8 +22,7 @@ class CamIOTTS(TTS):
         with open(res_file, "r") as f:
             self.res = json.load(f)
 
-        self.last_pos_info = PositionInfo.NONE
-        self.last_pos_change_timestamp = math.inf
+        self.position_handler = PositionAnnouncer(self)
 
     def llm_response(self, response: str) -> Optional[Announcement]:
         return self.stop_and_say(
@@ -146,45 +142,64 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.MEDIUM,
         )
 
-    def announce_position(self, info: PositionInfo) -> None:
-        current_time = time.time()
-        if self.__has_changed_position(info):
-            self.last_pos_change_timestamp = current_time
-
+    def position(self, info: PositionInfo) -> Optional[Announcement]:
         if (
-            current_time - self._timestamps[Announcement.Category.GRAPH]
+            time.time() - self._timestamps[Announcement.Category.GRAPH]
             < CamIOTTS.ANNOUNCEMENT_INTERVAL
         ):
             return
 
-        if info.graph_element is None:
-            return
+        return self.position_handler.announce(info)
 
-        if self.__has_changed_position(info) and not self.__is_repeated(
-            info.description
+
+class PositionAnnouncer:
+    DETAILED_NODES_ANNOUNCEMENT_DELAY = 1.5
+    DETAILED_ANNOUNCEMENT_DELAY = 2.5
+
+    def __init__(self, tts: TTS) -> None:
+        self.tts = tts
+
+        self.last_position = PositionInfo.NONE
+        self.last_pos_change_timestamp = math.inf
+
+    def announce(self, position: PositionInfo) -> Optional[Announcement]:
+        current_time = time.time()
+        if self.__has_changed_position(position):
+            self.last_pos_change_timestamp = current_time
+
+        if position.graph_element is None:
+            return None
+
+        announcement: Optional[Announcement] = None
+        if self.__has_changed_position(position) and not self.__is_repeated(
+            position.description
         ):
             self.last_pos_change_timestamp = current_time
 
-            if len(info.description) == 0 or self.__stop_and_say_position(info):
-                self.last_pos_info = info
+            if len(position.description) == 0 or (
+                announcement := self.__announce_base(position)
+            ):
+                self.last_position = position
 
-            return
-
-        if not self.last_pos_info.is_still_valid() or self.__should_play_detailed(info):
-            if self.__say_position_detailed(info):
-                self.last_pos_info = info
+        if not self.last_position.is_still_valid() or self.__should_play_detailed(
+            position
+        ):
+            if announcement := self.__announce_detailed(position):
+                self.last_position = position
                 self.last_pos_change_timestamp = math.inf
 
+        return announcement
+
     def __has_changed_position(self, info: PositionInfo) -> bool:
-        return self.last_pos_info.graph_element != info.graph_element
+        return self.last_position.graph_element != info.graph_element
 
     def __is_repeated(self, description: str) -> bool:
         repeated = False
-        if isinstance(self.last_announcement, TextAnnouncement):
-            repeated = self.last_announcement.text == description
+        if isinstance(self.tts.last_announcement, TextAnnouncement):
+            repeated = self.tts.last_announcement.text == description
 
-        if isinstance(self.current_announcement, TextAnnouncement):
-            repeated = repeated or self.current_announcement.text == description
+        if isinstance(self.tts.current_announcement, TextAnnouncement):
+            repeated = repeated or self.tts.current_announcement.text == description
 
         return repeated
 
@@ -195,31 +210,29 @@ class CamIOTTS(TTS):
         return (
             info.movement == MovementDirection.NONE
             and time.time() - self.last_pos_change_timestamp > self.__get_delay(info)
-            and not self.__is_repeated(info.graph_element.get_complete_description())
+            and not self.__is_repeated(info.complete_description)
         )
 
     def __get_delay(self, info: PositionInfo) -> float:
         return (
-            CamIOTTS.DETAILED_NODES_ANNOUNCEMENT_DELAY
+            PositionAnnouncer.DETAILED_NODES_ANNOUNCEMENT_DELAY
             if info.is_node()
-            else CamIOTTS.DETAILED_ANNOUNCEMENT_DELAY
+            else PositionAnnouncer.DETAILED_ANNOUNCEMENT_DELAY
         )
 
-    def __stop_and_say_position(self, info: PositionInfo) -> Optional[Announcement]:
-        return self.stop_and_say(
+    def __announce_base(self, info: PositionInfo) -> Optional[Announcement]:
+        return self.tts.stop_and_say(
             info.description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,
         )
 
-    def __say_position_detailed(self, info: PositionInfo) -> Optional[Announcement]:
+    def __announce_detailed(self, info: PositionInfo) -> Optional[Announcement]:
         description = (
-            info.graph_element.get_complete_description()
-            if info.graph_element is not None
-            else ""
+            info.complete_description if info.graph_element is not None else ""
         )
 
-        return self.say(
+        return self.tts.say(
             description,
             category=Announcement.Category.GRAPH,
             priority=Announcement.Priority.LOW,

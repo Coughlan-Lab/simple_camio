@@ -9,6 +9,8 @@ from typing import Any, Callable, Optional
 
 import pyttsx3
 
+from src.modules_repository import Module
+
 
 def generate_random_id() -> str:
     return str(uuid.uuid4())
@@ -50,11 +52,13 @@ class PauseAnnouncement(Announcement):
 NONE_ANNOUNCEMENT = TextAnnouncement(priority=Announcement.Priority.NONE)
 
 
-class TTS:
+class TTS(Module):
     DEFAULT_RATE = 200
     ONE_MSG_LOOP_INTERVAL = 7
 
     def __init__(self, rate: int = DEFAULT_RATE) -> None:
+        super().__init__()
+
         self.engine = pyttsx3.init()
         self.engine.setProperty("rate", rate)
 

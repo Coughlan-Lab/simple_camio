@@ -10,29 +10,30 @@ from openai.types.chat import (ChatCompletionAssistantMessageParam,
 from openai.types.chat.chat_completion_message_tool_call_param import \
     Function as FunctionParam
 
-from src.graph import Graph, PositionInfo
+from src.graph import Graph
+from src.modules_repository import Module
+from src.position import PositionInfo
 
 from .prompt_formatter import PromptFormatter
 
 
-class LLM:
+class LLM(Module):
     MODEL = "gpt-4o-2024-08-06"  # "gpt-4o-mini-2024-07-18"
     MAX_TOKENS = 2000
-    TEMPERATURE = 0.0
+    DEFAULT_TEMPERATURE = 0.0
 
     def __init__(
         self,
         prompt_file: str,
-        graph: Graph,
         context: Dict[str, str],
-        max_tokens: int = MAX_TOKENS,
-        temperature: float = TEMPERATURE,
+        temperature: float = DEFAULT_TEMPERATURE,
     ) -> None:
-        self.max_tokens = max_tokens
+        super().__init__()
+
         self.temperature = temperature
 
         self.client = OpenAI()
-        self.prompt_formatter = PromptFormatter(prompt_file, graph)
+        self.prompt_formatter = PromptFormatter(prompt_file, self.__graph)
 
         self.context = context
         self.history: List[ChatCompletionMessageParam] = list()
@@ -40,6 +41,10 @@ class LLM:
         self.usage: List[Optional[CompletionUsage]] = list()
 
         self.running = False
+
+    @property
+    def __graph(self) -> Graph:
+        return self._repository[Graph]
 
     def is_waiting_for_response(self) -> bool:
         return self.running
@@ -65,7 +70,7 @@ class LLM:
 
                 response = self.client.chat.completions.create(
                     model=LLM.MODEL,
-                    max_tokens=self.max_tokens,
+                    max_tokens=LLM.MAX_TOKENS,
                     temperature=self.temperature,
                     messages=self.history,
                     tools=self.prompt_formatter.get_tool_calls(),
@@ -101,6 +106,7 @@ class LLM:
         except OpenAIError as e:
             print(f"An error occurred: {e}")
             return None
+
         finally:
             self.running = False
 

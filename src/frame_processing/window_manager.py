@@ -1,47 +1,64 @@
 # type: ignore
-from typing import List, Optional
+import time
+from typing import List
 
 import cv2
 import numpy as np
 import numpy.typing as npt
 
-from src.graph import Coords, PositionHandler
-from src.utils import FPSManager
+from src.config import config
+from src.graph import Graph
+from src.modules_repository import Module
+from src.position import PositionHandler
+from src.utils import Coords
 
 
-class WindowManager:
-    def __init__(
-        self,
-        window_name: str,
-        debug_mode: bool = False,
-        template_path: Optional[str] = None,
-        position_handler: Optional[PositionHandler] = None,
-    ) -> None:
-        self.window_name = window_name
+class FPSManager:
+    def __init__(self) -> None:
+        self.last_time = time.time()
+        self.frame_count = 0
+        self.fps = 0.0
+
+    def update(self) -> float:
+        current_time = time.time()
+        self.frame_count += 1
+        elapsed_time = current_time - self.last_time
+
+        if elapsed_time > 1.0:
+            self.fps = self.frame_count / elapsed_time
+            self.frame_count = 0
+            self.last_time = current_time
+
+        return self.fps
+
+    def clear(self) -> None:
+        self.last_time = time.time()
+        self.frame_count = 0
+        self.fps = 0.0
+
+
+class WindowManager(Module):
+    def __init__(self) -> None:
+        super().__init__()
+
         self.fps_manager = FPSManager()
-        self.debug = debug_mode
 
         self.template: npt.NDArray[np.uint8]
-        self.position_handler: PositionHandler
         self.waypoints: List[Coords] = list()
 
-        if self.debug:
-            assert (
-                template_path is not None
-            ), "Template path must be provided in debug mode"
-            assert (
-                position_handler is not None
-            ), "Position handler must be provided in debug mode"
-
-            self.template = cv2.imread(template_path, cv2.IMREAD_COLOR)
+        if config.debug:
+            self.template = cv2.imread(config.template_path, cv2.IMREAD_COLOR)
             if self.template is None:
                 raise ValueError("Template image not found")
-            self.position_handler = position_handler
+
+    @property
+    def window_name(self) -> str:
+        return config.name
 
     def update(self, frame: npt.NDArray[np.uint8]) -> None:
         self.fps_manager.update()
 
-        if self.debug:
+        if config.debug:
             self.__draw_debug_info()
 
         cv2.imshow(self.window_name, frame)
@@ -68,26 +85,24 @@ class WindowManager:
         if len(self.waypoints) > 0:
             color_step = 155 // len(self.waypoints)
             for i, waypoint in enumerate(self.waypoints):
-                x, y = waypoint / self.position_handler.feets_per_pixel
+                x, y = waypoint / config.feets_per_pixel
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 100 + i * color_step, 0), -1)
 
-        for poi in self.position_handler.graph.pois:
+        for poi in self.__graph.pois:
             if poi.enabled:
-                x, y = poi.coords / self.position_handler.feets_per_pixel
+                x, y = poi.coords / config.feets_per_pixel
                 x, y = int(x), int(y)
                 cv2.circle(template, (x, y), 10, (0, 0, 255), -1)
 
-        last_pos_info = self.position_handler.last_info
+        last_pos_info = self.__position_handler.last_info
         border = -1 if last_pos_info.is_still_valid() else 2
 
-        snapped_pos = (
-            last_pos_info.snap_to_graph() / self.position_handler.feets_per_pixel
-        )
+        snapped_pos = last_pos_info.snap_to_graph() / config.feets_per_pixel
         snapped_x, snapped_y = int(snapped_pos.x), int(snapped_pos.y)
         cv2.circle(template, (snapped_x, snapped_y), 10, (28, 172, 255), border)
 
-        pos = last_pos_info.real_pos / self.position_handler.feets_per_pixel
+        pos = last_pos_info.real_pos / config.feets_per_pixel
         x, y = int(pos.x), int(pos.y)
         cv2.circle(template, (x, y), 10, (255, 0, 0), border)
 
@@ -100,3 +115,11 @@ class WindowManager:
 
     def add_waypoint(self, coords: Coords) -> None:
         self.waypoints.append(coords)
+
+    @property
+    def __position_handler(self) -> PositionHandler:
+        return self._repository.get(PositionHandler)
+
+    @property
+    def __graph(self) -> Graph:
+        return self._repository.get(Graph)

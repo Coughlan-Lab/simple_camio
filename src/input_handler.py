@@ -4,6 +4,8 @@ from typing import Callable, Mapping, Optional, Union
 from pynput.keyboard import Key, KeyCode
 from pynput.keyboard import Listener as KeyboardListener
 
+from src.modules_repository import Module
+
 
 class InputListener(Enum):
     STOP_INTERACTION = 0
@@ -14,8 +16,10 @@ class InputListener(Enum):
     STOP_NAVIGATION = 5
 
 
-class InputHandler:
+class InputHandler(Module):
     def __init__(self, listeners: Mapping[InputListener, Callable[[], None]]) -> None:
+        super().__init__()
+
         self.keyboard: Optional[KeyboardListener] = None
         self.listeners = listeners
         self.paused = False

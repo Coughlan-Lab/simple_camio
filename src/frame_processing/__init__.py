@@ -1,13 +1,13 @@
-from .model_detector import SIFTModelDetector
-from .pose_detector import HandStatus, PoseDetector, PoseResult
+from .gesture_recognizer import GestureRecognizer, GestureResult, HandStatus
+from .model_detector import ModelDetector
 from .video_capture import VideoCapture
 from .window_manager import WindowManager
 
 __all__ = [
-    "PoseDetector",
-    "SIFTModelDetector",
+    "GestureRecognizer",
+    "ModelDetector",
     "HandStatus",
     "VideoCapture",
     "WindowManager",
-    "PoseResult",
+    "GestureResult",
 ]

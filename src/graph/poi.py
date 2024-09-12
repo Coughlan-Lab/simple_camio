@@ -1,9 +1,8 @@
 from types import MappingProxyType
 from typing import Any, Dict, List, Mapping
 
-from src.utils import StrEnum, str_dict
+from src.utils import Coords, Position, StrEnum, str_dict
 
-from .coords import Coords, Position
 from .edge import Edge
 
 POIS_IMPORTANT_KEYS = [
@@ -48,9 +47,10 @@ class PoI(Position):
     ) -> None:
         self.index = index
         self.name = name
-        self.__info = info
         self.coords = coords
         self.edge = edge
+
+        self.__info = info
 
         if "name" in self.__info:
             del self.__info["name"]

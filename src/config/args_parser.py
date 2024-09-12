@@ -1,12 +1,6 @@
 import argparse
 
-from .utils import StrEnum
-
-
-class Lang(StrEnum):
-    EN = "en"
-    IT = "it"
-
+from .config import Lang
 
 camio_parser = argparse.ArgumentParser(description="CamIO, with LLM integration")
 
@@ -47,6 +41,4 @@ camio_parser.add_argument(
     default=False,
 )
 
-
-def get_args() -> argparse.Namespace:
-    return camio_parser.parse_args()
+get_args = camio_parser.parse_args

@@ -4,7 +4,7 @@ import os
 import time
 from typing import Optional
 
-from src.graph import NONE_POSITION_INFO, MovementDirection, PositionInfo
+from src.position import MovementDirection, PositionInfo
 
 from .tts import TTS, Announcement
 
@@ -25,7 +25,7 @@ class CamIOTTS(TTS):
         with open(res_file, "r") as f:
             self.res = json.load(f)
 
-        self.last_pos_info = NONE_POSITION_INFO
+        self.last_pos_info = PositionInfo.NONE
         self.last_pos_change_timestamp = math.inf
 
     def llm_response(self, response: str) -> Optional[Announcement]:

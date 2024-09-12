@@ -1,6 +1,7 @@
 import time
 
-from src.graph import Graph, PositionInfo, WayPoint
+from src.graph import Graph, WayPoint
+from src.position import PositionInfo
 from src.utils import CardinalDirection
 
 from .navigator import ActionHandler, Navigator
@@ -46,6 +47,7 @@ class DirectNavigator(Navigator):
 
         error = self.destination.coords - position.real_pos
         max_index = max(range(2), key=lambda i: abs(error[i]))
+
         direction = directions[
             (north_index + (max_index + 1) * 2 + (4 if error[max_index] < 0 else 0))
             % len(directions)

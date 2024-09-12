@@ -1,8 +1,6 @@
 from typing import Any, Dict, List, Optional, Union
 
-from src.utils import StrEnum
-
-from .coords import Coords, Position
+from src.utils import Coords, Position, StrEnum
 
 
 class Features(StrEnum):

@@ -1,6 +1,7 @@
 import math
 from abc import ABC, abstractmethod
-from typing import Iterator, Union
+from dataclasses import dataclass
+from typing import ClassVar, Iterator, Tuple, Union
 
 
 class StraightLine(ABC):
@@ -29,17 +30,17 @@ class Position(ABC):
         pass
 
 
+@dataclass(frozen=True)
 class Coords(Position):
-    def __init__(self, x: float, y: float) -> None:
-        self.coords = (x, y)
+    x: float
+    y: float
+
+    ZERO: ClassVar["Coords"]
+    INF: ClassVar["Coords"]
 
     @property
-    def x(self) -> float:
-        return self.coords[0]
-
-    @property
-    def y(self) -> float:
-        return self.coords[1]
+    def coords(self) -> Tuple[float, float]:
+        return self.x, self.y
 
     def closest_point(self, coords: "Coords") -> "Coords":
         return self
@@ -78,7 +79,7 @@ class Coords(Position):
         return self.x * other.y - self.y * other.x
 
     def length(self) -> float:
-        return self.distance_to(ZERO)
+        return self.distance_to(Coords.ZERO)
 
     def normalized(self) -> "Coords":
         return self / self.length()
@@ -118,8 +119,8 @@ class Coords(Position):
         return str(self)
 
 
-ZERO = Coords(0, 0)
-INF = Coords(math.inf, math.inf)
+Coords.ZERO = Coords(0, 0)
+Coords.INF = Coords(math.inf, math.inf)
 
 
 class LatLngReference:

@@ -2,8 +2,9 @@ import time
 from collections import deque
 from typing import List
 
-from src.graph import (NONE_POSITION_INFO, Coords, Graph, MovementDirection,
-                       PositionInfo, WayPoint)
+from src.graph import Graph, WayPoint
+from src.position import MovementDirection, PositionInfo
+from src.utils import Coords
 
 from .navigator import ActionHandler, Navigator
 
@@ -26,7 +27,7 @@ class StepByStepNavigator(Navigator):
 
         self.waypoints = deque(waypoints)
 
-        self.last_position = NONE_POSITION_INFO
+        self.last_position = PositionInfo.NONE
         self.__stop_timestamp = 0.0
 
         self.on_waypoint = False
@@ -43,11 +44,7 @@ class StepByStepNavigator(Navigator):
             return
 
         current_time = time.time()
-        if (
-            ignore_not_moving
-            or position.graph_element != self.last_position.graph_element
-            or position.movement != MovementDirection.NONE
-        ):
+        if ignore_not_moving or self.__has_changed_position(position):
             self.__stop_timestamp = current_time
 
         if self.__waiting_new_route or position.graph_element is None:
@@ -72,16 +69,9 @@ class StepByStepNavigator(Navigator):
 
         elif current_time - self.__stop_timestamp > self.NEXT_STEP_THRESHOLD:
             self.__stop_timestamp = current_time
-            self.__new_route_needed(position.real_pos, self.waypoints[-1].coords)
+            self._new_route_needed(position.real_pos, self.waypoints[-1].coords)
 
-        elif (
-            position.movement != MovementDirection.NONE
-            and self.graph.get_distance(position.real_pos, current_waypoint.coords)
-            > self.graph.get_distance(
-                self.last_position.real_pos, current_waypoint.coords
-            )
-            + self.wrong_direction_margin
-        ):
+        elif self.__moving_in_wrong_direction(position):
             self.on_waypoint = False
             self._wrong_direction()
 
@@ -90,6 +80,26 @@ class StepByStepNavigator(Navigator):
 
         self.last_position = position
 
-    def __new_route_needed(self, start: Coords, destination: Coords) -> None:
+    def __has_changed_position(self, position: PositionInfo) -> bool:
+        return (
+            position.graph_element != self.last_position.graph_element
+            or position.movement != MovementDirection.NONE
+        )
+
+    def __moving_in_wrong_direction(self, position: PositionInfo) -> bool:
+        if position.movement == MovementDirection.NONE:
+            return False
+
+        current_distance = self.graph.get_distance(
+            position.real_pos, self.waypoints[0].coords
+        )
+
+        last_distance = self.graph.get_distance(
+            self.last_position.real_pos, self.waypoints[0].coords
+        )
+
+        return current_distance > last_distance + self.wrong_direction_margin
+
+    def _new_route_needed(self, start: Coords, destination: Coords) -> None:
         self.__waiting_new_route = True
         return super()._new_route_needed(start, destination)

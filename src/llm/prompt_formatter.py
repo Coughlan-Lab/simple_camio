@@ -11,9 +11,10 @@ from openai.types.chat import (ChatCompletionMessageToolCall,
                                ChatCompletionToolParam,
                                ChatCompletionUserMessageParam)
 
-from src.graph import (Coords, Edge, EdgeFeatures, Graph, GraphEncoder, Node,
-                       NodeFeatures, PoI, PositionInfo)
-from src.utils import str_dict
+from src.graph import (Edge, EdgeFeatures, Graph, GraphEncoder, Node,
+                       NodeFeatures, PoI)
+from src.position import PositionInfo
+from src.utils import Coords, str_dict
 
 from .tool_calls import ToolCall, tool_calls
 
@@ -28,85 +29,59 @@ class PromptFormatter:
         with open(prompt_file, "r") as file:
             self.prompt_components = yaml.safe_load(file)
 
-    def handle_tool_call(
-        self, tool_call: ChatCompletionMessageToolCall
-    ) -> ChatCompletionToolMessageParam:
-        params = json.loads(tool_call.function.arguments)
+    def get_tool_calls(self) -> List[ChatCompletionToolParam]:
+        return tool_calls
 
-        result: Any = None
+    def get_main_prompt(
+        self, context: Dict[str, str]
+    ) -> ChatCompletionSystemMessageParam:
+        main_prompts = self.prompt_components["main"]
+        prompt = main_prompts["header"] + "\n"
 
-        print(f"Function call: {tool_call.function.name}")
-        print(f"Parameters: {params}")
+        prompt += "###Context###\n\n"
+        prompt += main_prompts["graph"]["nodes"]
+        prompt += self.__nodes_prompt() + "\n\n"
 
-        fnc = ToolCall.get(tool_call.function.name)
+        prompt += main_prompts["graph"]["edges"]
+        prompt += self.__edges_prompt() + "\n\n"
+        prompt += main_prompts["graph"]["streets"] + "\n"
 
-        try:
-            if fnc == ToolCall.GET_DISTANCE:
-                result = self.graph.get_distance(
-                    Coords(params["x1"], params["y1"]),
-                    Coords(params["x2"], params["y2"]),
-                )
+        prompt += main_prompts["graph"]["nodes_naming"] + "\n"
 
-            elif fnc == ToolCall.GET_DISTANCE_TO_POINT_OF_INTEREST:
-                result = self.graph.get_distance_to_poi(
-                    Coords(params["x"], params["y"]),
-                    params["poi_index"],
-                )
+        prompt += main_prompts["graph"]["points_of_interest"] + "\n"
+        prompt += self.__poi_prompt() + "\n\n"
 
-            elif fnc == ToolCall.GET_NEARBY_POINTS_OF_INTEREST:
-                result = self.graph.get_nearby_pois(
-                    Coords(params["x"], params["y"]), params.get("distance", None)
-                )
+        prompt += main_prompts["graph"]["accessibility_features"] + "\n"
+        prompt += self.__road_features_prompt() + "\n\n"
 
-            elif fnc == ToolCall.AM_I_AT_POINT_OF_INTEREST:
-                result = self.graph.am_i_at(
-                    Coords(params["x"], params["y"]), params["poi_index"]
-                )
+        prompt += (
+            main_prompts["units"].format(
+                self.graph.reference_system.north,
+                self.graph.reference_system.south,
+                self.graph.reference_system.west,
+                self.graph.reference_system.east,
+            )
+            + "\n"
+        )
 
-            elif fnc == ToolCall.GET_POINT_OF_INTEREST_DETAILS:
-                poi = self.graph.get_poi_details(params["poi_index"])
-                result = str_dict(poi.info)
+        prompt += main_prompts["context"].format(
+            datetime.now().strftime("%A %m-%d-%Y %H:%M:%S"), str_dict(context)
+        )
 
-            elif fnc == ToolCall.GUIDE_TO_DESTINATION:
-                self.graph.guide_to_destination(
-                    Coords(params["x1"], params["y1"]),
-                    Coords(params["x2"], params["y2"]),
-                    params.get("step_by_step", False),
-                    params.get("alternative_route_index", 0),
-                )
-                result = "Navigation mode is now enabled."
+        prompt += "###Instructions###\n\n"
+        prompt += (
+            main_prompts["instructions"].format(
+                self.prompt_components["base_instructions"].strip()
+            )
+            + "\n\n"
+        )
 
-            elif fnc == ToolCall.GUIDE_TO_POINT_OF_INTEREST:
-                self.graph.guide_to_poi(
-                    Coords(params["x"], params["y"]),
-                    params["poi_index"],
-                    params.get("step_by_step", False),
-                    params.get("alternative_route_index", 0),
-                )
-                result = "Navigation mode is now enabled."
+        prompt += "###Examples###\n"
+        prompt += "\n".join(self.prompt_components["examples"])
 
-            elif fnc == ToolCall.ENABLE_POINTS_OF_INTERESTS:
-                if params["disable_previous"]:
-                    self.graph.disable_pois()
-                self.graph.enable_pois(params["points_of_interest"])
-                result = "Points of interest are now enabled."
-
-            else:
-                result = "Unknown function call."
-
-        except Exception as e:
-            print(f"An error occurred during a function call: {e}")
-            result = "An error occurred while processing the function call."
-
-        if not isinstance(result, str):
-            result = json.dumps(result, cls=GraphEncoder)
-
-        print(f"Result:\n{result}")
-
-        return ChatCompletionToolMessageParam(
-            role="tool",
-            tool_call_id=tool_call.id,
-            content=result,
+        return ChatCompletionSystemMessageParam(
+            content=prompt,
+            role="system",
         )
 
     def get_user_message(
@@ -170,60 +145,85 @@ class PromptFormatter:
 
         return ChatCompletionUserMessageParam(content=instructions, role="user")
 
-    def get_main_prompt(
-        self, context: Dict[str, str]
-    ) -> ChatCompletionSystemMessageParam:
-        main_prompts = self.prompt_components["main"]
-        prompt = main_prompts["header"] + "\n"
+    def handle_tool_call(
+        self, tool_call: ChatCompletionMessageToolCall
+    ) -> ChatCompletionToolMessageParam:
+        params = json.loads(tool_call.function.arguments)
 
-        prompt += "###Context###\n\n"
-        prompt += main_prompts["graph"]["nodes"]
-        prompt += self.__nodes_prompt() + "\n\n"
+        result: Any = None
+        fnc = tool_call.function.name
 
-        prompt += main_prompts["graph"]["edges"]
-        prompt += self.__edges_prompt() + "\n\n"
-        prompt += main_prompts["graph"]["streets"] + "\n"
+        print(f"Function call: {fnc}")
+        print(f"Parameters: {params}")
 
-        prompt += main_prompts["graph"]["nodes_naming"] + "\n"
+        try:
+            if fnc == ToolCall.GET_DISTANCE:
+                result = self.graph.get_distance(
+                    Coords(params["x1"], params["y1"]),
+                    Coords(params["x2"], params["y2"]),
+                )
 
-        prompt += main_prompts["graph"]["points_of_interest"] + "\n"
-        prompt += self.__poi_prompt() + "\n\n"
+            elif fnc == ToolCall.GET_DISTANCE_TO_POINT_OF_INTEREST:
+                result = self.graph.get_distance_to_poi(
+                    Coords(params["x"], params["y"]),
+                    params["poi_index"],
+                )
 
-        prompt += main_prompts["graph"]["accessibility_features"] + "\n"
-        prompt += self.__road_features_prompt() + "\n\n"
+            elif fnc == ToolCall.GET_NEARBY_POINTS_OF_INTEREST:
+                result = self.graph.get_nearby_pois(
+                    Coords(params["x"], params["y"]), params.get("distance", None)
+                )
 
-        prompt += (
-            main_prompts["units"].format(
-                self.graph.reference_system.north,
-                self.graph.reference_system.south,
-                self.graph.reference_system.west,
-                self.graph.reference_system.east,
-            )
-            + "\n"
+            elif fnc == ToolCall.AM_I_AT_POINT_OF_INTEREST:
+                result = self.graph.am_i_at(
+                    Coords(params["x"], params["y"]), params["poi_index"]
+                )
+
+            elif fnc == ToolCall.GET_POINT_OF_INTEREST_DETAILS:
+                poi = self.graph.get_poi_details(params["poi_index"])
+                result = str_dict(poi.info)
+
+            elif fnc == ToolCall.GUIDE_TO_DESTINATION:
+                self.graph.guide_to_destination(
+                    Coords(params["x1"], params["y1"]),
+                    Coords(params["x2"], params["y2"]),
+                    params.get("step_by_step", False),
+                    params.get("alternative_route_index", 0),
+                )
+                result = "Navigation mode is now enabled."
+
+            elif fnc == ToolCall.GUIDE_TO_POINT_OF_INTEREST:
+                self.graph.guide_to_poi(
+                    Coords(params["x"], params["y"]),
+                    params["poi_index"],
+                    params.get("step_by_step", False),
+                    params.get("alternative_route_index", 0),
+                )
+                result = "Navigation mode is now enabled."
+
+            elif fnc == ToolCall.ENABLE_POINTS_OF_INTERESTS:
+                if params["disable_previous"]:
+                    self.graph.disable_pois()
+                self.graph.enable_pois(params["points_of_interest"])
+                result = "Points of interest are now enabled."
+
+            else:
+                result = "Unknown function call."
+
+        except Exception as e:
+            print(f"An error occurred during a function call: {e}")
+            result = "An error occurred while processing the tool call."
+
+        if not isinstance(result, str):
+            result = json.dumps(result, cls=GraphEncoder)
+
+        print(f"Result:\n{result}")
+
+        return ChatCompletionToolMessageParam(
+            role="tool",
+            tool_call_id=tool_call.id,
+            content=result,
         )
-
-        prompt += main_prompts["context"].format(
-            datetime.now().strftime("%A %m-%d-%Y %H:%M:%S"), str_dict(context)
-        )
-
-        prompt += "###Instructions###\n\n"
-        prompt += (
-            main_prompts["instructions"].format(
-                self.prompt_components["base_instructions"].strip()
-            )
-            + "\n\n"
-        )
-
-        prompt += "###Examples###\n"
-        prompt += "\n".join(self.prompt_components["examples"])
-
-        return ChatCompletionSystemMessageParam(
-            content=prompt,
-            role="system",
-        )
-
-    def get_tool_calls(self) -> List[ChatCompletionToolParam]:
-        return tool_calls
 
     def __nodes_prompt(self) -> str:
         return "\n".join([str(node) for node in self.graph.nodes])

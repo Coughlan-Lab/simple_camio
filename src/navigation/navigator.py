@@ -2,7 +2,9 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Protocol
 
-from src.graph import Coords, Graph, PositionInfo, WayPoint
+from src.graph import Graph, WayPoint
+from src.position import PositionInfo
+from src.utils import Coords
 
 
 class NavigationAction(Enum):

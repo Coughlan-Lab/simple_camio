@@ -5,10 +5,11 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import requests
 
-from src.utils import CardinalDirection
+from src.config import config
+from src.modules_repository import Module
+from src.utils import (CardinalDirection, Coords, LatLngReference, Position,
+                       coords_to_latlng, latlng_to_coords)
 
-from .coords import (Coords, LatLngReference, Position, coords_to_latlng,
-                     latlng_to_coords)
 from .edge import Edge, Street
 from .node import Node
 from .poi import PoI
@@ -64,15 +65,17 @@ def on_new_route_placeholder(
     pass
 
 
-class Graph:
+class Graph(Module):
     AM_I_THRESHOLD = 0.75  # inch
     SNAP_MIN_DISTANCE = 0.25  # inch
     NEARBY_THRESHOLD = 1400.0  # feets
     INF = 999999
 
-    def __init__(self, graph_dict: Dict[str, Any], feets_per_inch: float) -> None:
-        self.feets_per_inch = feets_per_inch
-        self.am_i_threshold = Graph.AM_I_THRESHOLD * self.feets_per_inch
+    def __init__(self, graph_dict: Dict[str, Any]) -> None:
+        super().__init__()
+
+        self.am_i_threshold = Graph.AM_I_THRESHOLD * config.feets_per_inch
+        self.snap_min_distance = Graph.SNAP_MIN_DISTANCE * config.feets_per_inch
 
         self.nodes = load_nodes(graph_dict)
         self.edges, self.streets = load_edges(self.nodes, graph_dict)
@@ -121,6 +124,7 @@ class Graph:
                 key=lambda edge: coords.distance_to_line(edge),
             )
             distance = coords.distance_to_line(edge)
+
         else:
             edge = min(
                 self.edges,

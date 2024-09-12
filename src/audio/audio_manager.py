@@ -4,7 +4,8 @@ import os
 import pygame
 
 from src.frame_processing import HandStatus
-from src.graph import NONE_POSITION_INFO, PositionInfo
+from src.modules_repository import Module
+from src.position import PositionInfo
 
 pygame.mixer.init()
 
@@ -23,11 +24,10 @@ class AudioLooper:
         pygame.mixer.music.stop()
 
 
-class AudioManager:
-    def __init__(
-        self,
-        sound_file: str,
-    ) -> None:
+class AudioManager(Module):
+    def __init__(self, sound_file: str) -> None:
+        super().__init__()
+
         if not os.path.exists(sound_file):
             raise FileNotFoundError("Sound file not found.")
 
@@ -49,18 +49,7 @@ class AudioManager:
         self.background_player = AudioLooper(sounds["background"])
         self.background_player.play()
 
-        self.last_pos_info = NONE_POSITION_INFO
-
-    def update(self, hand_status: HandStatus) -> None:
-        if hand_status == self.hand_status:
-            return
-        self.hand_status = hand_status
-
-        if self.hand_status == HandStatus.POINTING:
-            self.background_player.pause()
-            self.play_pointing()
-        else:
-            self.background_player.play()
+        self.last_pos_info = PositionInfo.NONE
 
     def start(self) -> None:
         self.background_player.play()
@@ -82,6 +71,17 @@ class AudioManager:
 
     def play_destination_reached(self) -> None:
         self.destination_reached_sound.play()
+
+    def hand_feedback(self, hand_status: HandStatus) -> None:
+        if hand_status == self.hand_status:
+            return
+        self.hand_status = hand_status
+
+        if self.hand_status == HandStatus.POINTING:
+            self.background_player.pause()
+            self.play_pointing()
+        else:
+            self.background_player.play()
 
     def position_feedback(self, info: PositionInfo) -> None:
         if self.last_pos_info.graph_element == info.graph_element:

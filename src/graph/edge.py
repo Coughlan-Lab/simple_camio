@@ -1,8 +1,7 @@
 from typing import Any, Dict, Iterator, List, Optional, Set
 
-from src.utils import StrEnum
+from src.utils import Coords, Position, StraightLine, StrEnum
 
-from .coords import Coords, Position, StraightLine
 from .node import Node
 
 

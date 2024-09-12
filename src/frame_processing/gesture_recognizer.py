@@ -6,10 +6,10 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import numpy.typing as npt
-from mediapipe.tasks.python.vision import RunningMode
 
-from src.graph import Coords
-from src.utils import Buffer
+from src.config import config
+from src.modules_repository import Module
+from src.utils import Buffer, Coords
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
@@ -132,23 +132,27 @@ class Hand:
 
 
 @dataclass(frozen=True)
-class PoseResult:
+class GestureResult:
     status: HandStatus
     position: Optional[Coords]
     new_hand: bool
 
 
-NOT_FOUND = PoseResult(HandStatus.NOT_FOUND, None, False)
-MORE_THAN_ONE_HAND = PoseResult(HandStatus.MORE_THAN_ONE_HAND, None, False)
-EXPLORING = PoseResult(HandStatus.EXPLORING, None, False)
+NOT_FOUND = GestureResult(HandStatus.NOT_FOUND, None, False)
+MORE_THAN_ONE_HAND = GestureResult(HandStatus.MORE_THAN_ONE_HAND, None, False)
+EXPLORING = GestureResult(HandStatus.EXPLORING, None, False)
 
 
-class PoseDetector:
+class GestureRecognizer(Module):
     MOVEMENT_THRESHOLD = 0.25  # inch
 
-    def __init__(self, image_size: Tuple[float, float], feets_per_inch: float) -> None:
-        self.image_size = image_size
-        self.movement_threshold = self.MOVEMENT_THRESHOLD * feets_per_inch
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.movement_threshold = self.MOVEMENT_THRESHOLD * config.feets_per_inch
+
+        template = cv2.imread(config.template_path, cv2.IMREAD_GRAYSCALE)
+        self.image_size = template.shape[:2]
 
         self.hands_detector = mp_hands.Hands(
             static_image_mode=False,
@@ -157,70 +161,70 @@ class PoseDetector:
             min_tracking_confidence=0.75,
             max_num_hands=4,
         )
+
         self.buffers = [
             Buffer[Coords](15) for _ in range(2)
         ]  # Left and right hand buffers
+
         self.last_side_pointing: Optional[Hand.Side] = None
 
     def detect(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> Tuple[PoseResult, npt.NDArray[np.uint8]]:
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    ) -> Tuple[GestureResult, npt.NDArray[np.uint8]]:
+        def detection(hands: List[Hand]) -> Tuple[GestureResult, npt.NDArray[np.uint8]]:
+            if len(hands) == 0:
+                return NOT_FOUND, img
 
-        img.flags.writeable = False
-        results = self.hands_detector.process(img)
-        img.flags.writeable = True
+            hands_per_side = {
+                side: [h for h in hands if h.side == side] for side in Hand.Side
+            }
 
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+            if (
+                len(hands_per_side[Hand.Side.LEFT]) > 1
+                or len(hands_per_side[Hand.Side.RIGHT]) > 1
+            ):
+                return MORE_THAN_ONE_HAND, img
 
-        hands = self.process_results(img, H, results)
-        if len(hands) == 0:
-            return NOT_FOUND, img
-
-        hands_per_side = {
-            side: [h for h in hands if h.side == side] for side in Hand.Side
-        }
-        if (
-            len(hands_per_side[Hand.Side.LEFT]) > 1
-            or len(hands_per_side[Hand.Side.RIGHT]) > 1
-        ):
             for hand in hands:
-                hand.draw(img, active=False)
-            return MORE_THAN_ONE_HAND, img
+                self.buffers[hand.side].add(self.get_index_position(hand, img, H))
 
-        for hand in hands:
-            self.buffers[hand.side].add(self.get_index_position(hand, img, H))
+            pointing_hands = list(filter(lambda h: h.is_pointing, hands))
 
-        pointing_hands = [h for h in hands if h.is_pointing]
+            if len(pointing_hands) == 0:
+                return EXPLORING, img
 
-        if len(pointing_hands) == 0:
+            side_pointing = self.last_side_pointing
+            if len(pointing_hands) == 1:
+                side_pointing = pointing_hands[0].side
+
+            elif self.is_moving(Hand.Side.RIGHT):
+                side_pointing = Hand.Side.RIGHT
+
+            elif self.is_moving(Hand.Side.LEFT):
+                side_pointing = Hand.Side.LEFT
+
+            if side_pointing is None:
+                return EXPLORING, img
+
+            result = GestureResult(
+                HandStatus.POINTING,
+                self.buffers[side_pointing].last(),
+                self.last_side_pointing != side_pointing,
+            )
+
+            self.last_side_pointing = side_pointing
+            return result, img
+
+        hands = self.__get_hands(img, H)
+        gesture, img = detection(hands)
+
+        if gesture.status != HandStatus.POINTING:
             self.last_side_pointing = None
-            for hand in hands:
-                hand.draw(img, active=False)
-            return EXPLORING, img
-
-        side_pointing = self.last_side_pointing
-        if len(pointing_hands) == 1:
-            side_pointing = pointing_hands[0].side
-        elif self.is_moving(Hand.Side.RIGHT):
-            side_pointing = Hand.Side.RIGHT
-        elif self.is_moving(Hand.Side.LEFT):
-            side_pointing = Hand.Side.LEFT
 
         for hand in hands:
             hand.draw(img, active=hand.side == self.last_side_pointing)
 
-        if side_pointing is None:
-            return EXPLORING, img
-
-        result = PoseResult(
-            HandStatus.POINTING,
-            self.buffers[side_pointing].last(),
-            self.last_side_pointing != side_pointing,
-        )
-
-        self.last_side_pointing = side_pointing
-        return result, img
+        return gesture, img
 
     def is_moving(self, side: Hand.Side) -> bool:
         first = self.buffers[side].first()
@@ -247,7 +251,7 @@ class PoseDetector:
         position = cv2.perspectiveTransform(position, H)[0][0]
         return Coords(position[0], position[1])
 
-    def is_index_on_the_map(
+    def is_index_visible(
         self, hand_landmarks, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
     ) -> bool:
         index_position = self.get_index_position(hand_landmarks, img, H)
@@ -266,8 +270,21 @@ class PoseDetector:
         return [
             Hand(
                 side=Hand.Side(results.multi_handedness[i].classification[0].index),
-                visible=self.is_index_on_the_map(hand, img, H),
+                visible=self.is_index_visible(hand, img, H),
                 landmarks=hand.landmark,
             )
             for i, hand in enumerate(results.multi_hand_landmarks)
         ]
+
+    def __get_hands(
+        self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
+    ) -> List[Hand]:
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        img.flags.writeable = False
+        results = self.hands_detector.process(img)
+        img.flags.writeable = True
+
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+        return self.process_results(img, H, results)

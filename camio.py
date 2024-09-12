@@ -14,61 +14,47 @@ from typing import Any, Dict, List, Optional
 
 import cv2
 
-from src.audio import (STT, Announcement, AudioManager, CamIOTTS,
-                       TextAnnouncement)
-from src.frame_processing import (HandStatus, PoseDetector, PoseResult,
-                                  SIFTModelDetector, VideoCapture,
-                                  WindowManager)
-from src.graph import Coords, Graph, PositionHandler, WayPoint
+from src.audio import STT, Announcement, AudioManager, CamIOTTS
+from src.config import config, get_args
+from src.frame_processing import (GestureRecognizer, GestureResult, HandStatus,
+                                  ModelDetector, VideoCapture, WindowManager)
+from src.graph import Graph, WayPoint
 from src.input_handler import InputHandler, InputListener
 from src.llm import LLM
 from src.navigation import NavigationAction, NavigationManager
-from src.utils import Buffer, Lang, get_args, load_map_parameters
-
-DEBUG = False
-NO_STT = False
+from src.position import PositionHandler
+from src.utils import Buffer, Coords, load_map_parameters
 
 
 class CamIO:
 
-    def __init__(
-        self,
-        model: Dict[str, Any],
-        lang: Lang = Lang.EN,
-        tts_rate: int = 200,
-        disable_llm: bool = False,
-    ) -> None:
+    def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
 
         # Model graph
-        self.graph = Graph(model["graph"], feets_per_inch=model["feets_per_inch"])
+        self.graph = Graph(model["graph"])
         self.graph.on_new_route = self.enable_navigation_mode
-        self.position_handler = PositionHandler(
-            self.graph,
-            feets_per_pixel=model["feets_per_pixel"],
-            feets_per_inch=model["feets_per_inch"],
-        )
+        self.position_handler = PositionHandler()
 
         # Frame processing
-        self.window_manager = WindowManager(
-            "CamIO", DEBUG, model["template_image"], self.position_handler
-        )
-        self.model_detector = SIFTModelDetector(model["template_image"])
-        template = cv2.imread(model["template_image"], cv2.IMREAD_GRAYSCALE)
-        self.pose_detector = PoseDetector(
-            template.shape[:2], feets_per_inch=model["feets_per_inch"]
-        )
+        self.window_manager = WindowManager()
+        self.model_detector = ModelDetector()
+        self.gesture_recognizer = GestureRecognizer()
         self.hand_status_buffer = Buffer[HandStatus](max_size=5, max_life=5)
 
         # Audio
-        self.tts = CamIOTTS(f"res/strings_{lang}.json", tts_rate)
+        self.tts = CamIOTTS(f"res/strings_{config.lang}.json", rate=config.tts_rate)
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
 
         # User iteraction
-        self.navigation_manager = NavigationManager(self.graph, model["feets_per_inch"])
+        self.navigation_manager = NavigationManager()
         self.navigation_manager.on_action = self.__on_navigation_action
-        self.llm = LLM(f"res/prompt_{lang}.yaml", self.graph, model["context"])
+        self.llm = LLM(
+            f"res/prompt_{config.lang}.yaml",
+            model["context"],
+            temperature=config.temperature,
+        )
         self.user_input_thread: Optional[UserInputThread] = None
 
         # Input handling
@@ -81,7 +67,7 @@ class CamIO:
             InputListener.STOP_NAVIGATION: partial(self.navigation_manager.clear),
         }
 
-        if disable_llm:
+        if not config.llm_enabled:
             input_listeners[InputListener.QUESTION] = partial(lambda: None)
             for poi in self.graph.pois:
                 poi.enable()
@@ -126,10 +112,10 @@ class CamIO:
             homography = self.model_detector.detect(frame_gray)
 
             if homography is None:
-                self.audio_manager.update(HandStatus.NOT_FOUND)
+                self.audio_manager.hand_feedback(HandStatus.NOT_FOUND)
                 continue
 
-            hand, frame = self.pose_detector.detect(frame, homography)
+            hand, frame = self.gesture_recognizer.detect(frame, homography)
 
             hand_status = self.__process_hand_status(hand)
             if hand.new_hand or hand_status != HandStatus.POINTING:
@@ -208,14 +194,14 @@ class CamIO:
         else:
             self.navigation_manager.navigate(waypoints[0])
 
-    def __process_hand_status(self, hand: PoseResult) -> HandStatus:
+    def __process_hand_status(self, hand: GestureResult) -> HandStatus:
         hand_status = hand.status
 
         if (
             hand.status == HandStatus.POINTING
             and hand.position is not None
             and not self.position_handler.is_valid_position(
-                hand.position * self.position_handler.feets_per_pixel
+                hand.position * config.feets_per_pixel
             )
         ):
             hand_status = HandStatus.NOT_FOUND
@@ -226,7 +212,7 @@ class CamIO:
         if hand_status == HandStatus.MORE_THAN_ONE_HAND:
             self.tts.more_than_one_hand()
 
-        self.audio_manager.update(hand_status)
+        self.audio_manager.hand_feedback(hand_status)
 
         return hand_status
 
@@ -291,7 +277,7 @@ class UserInputThread(th.Thread):
         self.tts.stop_speaking()
         position = self.position_handler.last_info
 
-        if not NO_STT:
+        if config.stt_enabled:
             question = self.get_question_from_stt()
         else:
             question = self.get_question_from_keyboard()
@@ -415,8 +401,7 @@ class UserInputThread(th.Thread):
 
 if __name__ == "__main__":
     args = get_args()
-    DEBUG = args.debug
-    NO_STT = args.no_stt
+    config.load_args(args)
 
     out_dir = os.path.dirname(args.out)
     if not os.path.exists(out_dir):
@@ -427,16 +412,13 @@ if __name__ == "__main__":
     if model is None:
         print(f"\nModel file {args.model} not found.")
         sys.exit(0)
+
+    config.load_model(model)
     print(f"\nLoaded map: {model.get('name', 'Unknown')}\n")
 
     camio: Optional[CamIO] = None
     try:
-        camio = CamIO(
-            model,
-            lang=args.lang,
-            tts_rate=args.tts_rate,
-            disable_llm=args.no_llm,
-        )
+        camio = CamIO(model)
         camio.main_loop()
 
     except KeyboardInterrupt:

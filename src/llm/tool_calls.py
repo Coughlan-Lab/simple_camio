@@ -15,10 +15,6 @@ class ToolCall(StrEnum):
     GUIDE_TO_POINT_OF_INTEREST = "guide_to_point_of_interest"
     ENABLE_POINTS_OF_INTERESTS = "enable_points_of_interests"
 
-    @classmethod
-    def get(cls, function_name: str) -> "ToolCall":
-        return cls(function_name)
-
 
 tool_calls = [
     ChatCompletionToolParam(

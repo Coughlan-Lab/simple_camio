@@ -56,6 +56,7 @@ class InteractionPolicy2D:
         self.prev_position = None
         self.model = model
         self.audio_level_up_key = model["audio_level_up_color"][0]*256*256+model["audio_level_up_color"][1]*256+model["audio_level_up_color"][2]
+        self.scale_dictionary = model["scale_dictionary"]
         self.image_map_color = cv.imread(model["filename"], cv.IMREAD_COLOR)
         self.ZONE_FILTER_SIZE = 5
         self.Z_THRESHOLD = 2.0
@@ -80,6 +81,8 @@ class InteractionPolicy2D:
             zone = zone[0]
         if np.abs(position[2]) >= self.Z_THRESHOLD:
             zone = -1
+        if str(zone) in self.scale_dictionary:
+            return zone, self.scale_dictionary[str(zone)]
         if zone == self.audio_level_up_key:
             if not self.on_key:
                 self.on_key = True
@@ -125,9 +128,12 @@ class CamIOPlayer2D:
         self.current_zone = -1
         self.sound_files = {}
         self.hotspots = {}
+        self.finelevelhotspots = {}
         self.player = pyglet.media.Player()
         self.blip_sound = pyglet.media.load(self.model["blipsound"], streaming=False)
         self.sparkle_sound = pyglet.media.load(self.model["sparkle"], streaming=False)
+        self.enter_sound = pyglet.media.load(self.model["enter"], streaming=False)
+        self.leave_sound = pyglet.media.load(self.model["leave"], streaming=False)
         self.enable_blips = False
         self.time_of_last_warning = 0
         if "map_description" in self.model:
@@ -171,6 +177,18 @@ class CamIOPlayer2D:
                     self.loaded_text_descriptions[text_description] = pyglet.media.load('hello.mp3', streaming=False)
                     os.remove("hello.mp3")
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
+        for hotspot in self.model["fine-level hotspots"]:
+            key =  ( hotspot["color"][2] + hotspot["color"][1] * 256 + hotspot["color"][0] * 256 * 256)
+            new_list = list()
+            for streetside in hotspot['buildings']:
+                new_dict = dict()
+                for text_description in streetside:
+                    key_coords = tuple(streetside[text_description])
+                    new_color = self.add_new_hotspot(text_description)
+                    new_key = new_color[2]*256*256 + new_color[1]*256 + new_color[0]
+                    new_dict.update({key_coords:new_key})
+                new_list.append(new_dict)
+            self.finelevelhotspots.update({key:new_list})
 
     def get_new_key(self):
         new_color = [random.randint(1,254),random.randint(1,254),random.randint(1,254)]
@@ -199,6 +217,18 @@ class CamIOPlayer2D:
             self.sound_files[new_key].append(self.loaded_text_descriptions[text_description])
         return new_color
 
+    def get_fine_hotspot(self, zone_id, streetside, gesture_loc):
+        best_dist = 10000000
+        for key_pair in self.finelevelhotspots[zone_id][streetside]:
+            dist = np.sqrt((key_pair[0]-gesture_loc[0])**2+(key_pair[1]-gesture_loc[1])**2)
+            if dist < best_dist:
+                best_dist = dist
+                best_pair = key_pair
+        if best_dist < 50:
+            return self.finelevelhotspots[zone_id][streetside][best_pair]
+        else:
+            return -1
+
     def play_description(self):
         if not self.have_played_description:
             self.player = self.map_description.play()
@@ -216,6 +246,12 @@ class CamIOPlayer2D:
     def play_sparkle(self):
         self.sparkle_sound.play()
 
+    def play_enter(self):
+        self.enter_sound.play()
+
+    def play_leave(self):
+        self.leave_sound.play()
+
     def play_warning(self):
         if time.time() - self.time_of_last_warning < 2:
             return
@@ -225,7 +261,7 @@ class CamIOPlayer2D:
         self.player = self.warning.play()
 
     def convey(self, zone, status, layer=0):
-        if layer:
+        if layer == 1:
             #zone = self.current_zone
             self.audiolayer += layer
             self.player.pause()
@@ -235,7 +271,7 @@ class CamIOPlayer2D:
         if status =="too_many":
             #self.play_warning()
             return
-        if status == "moving" and not layer:
+        if status == "moving" and not layer == 1:
             if (
                 self.curr_zone_moving != zone
                 and self.prev_zone_moving == zone
@@ -257,7 +293,7 @@ class CamIOPlayer2D:
             self.prev_zone_name = None
             return
         zone_name = self.hotspots[zone]["textDescription"]
-        if self.prev_zone_name != zone_name or layer:
+        if self.prev_zone_name != zone_name or layer == 1:
             if not layer:
                 self.audiolayer = 0
             self.player.pause()
@@ -271,6 +307,24 @@ class CamIOPlayer2D:
                     print("Exception raised. Cannot play sound. Please restart the application.")
             self.prev_zone_name = zone_name
 
+    def interpolate_point(self, zone_id, proportion):
+        pt1 = self.hotspots[zone_id]['points'][0]
+        pt2 = self.hotspots[zone_id]['points'][1]
+        if pt1[0] == pt2[0]:
+            if pt1[1] > pt2[1]:
+                pt_hold = pt2
+                pt2 = pt1
+                pt1 = pt_hold
+        elif pt1[0] > pt2[0]:
+            pt_hold = pt2
+            pt2 = pt1
+            pt1 = pt_hold
+        delta_x = pt2[0] - pt1[0]
+        delta_y = pt2[1] - pt1[1]
+        interpolated_pt = np.zeros((3,1), dtype=np.float32)
+        interpolated_pt[0] = pt1[0] + proportion * delta_x
+        interpolated_pt[1] = pt1[1] + proportion * delta_y
+        return interpolated_pt
 
 # Function to sort corners by id based on the order specified in the id_list,
 # such that the scene array matches the obj array in terms of aruco marker ids

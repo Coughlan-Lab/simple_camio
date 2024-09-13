@@ -11,6 +11,7 @@ from ..simple_camio import (
 )
 from ..simple_camio_mp import HotspotConstructor
 import numpy as np
+from collections import deque
 import pyglet
 
 
@@ -38,7 +39,10 @@ class FrameProcessor:
         self.heartbeat_player.set_volume(0.05)
         self.frame_count = 0
         self.timer = 0
+        self.slider_flag = False
         self.audio_player.play_description()
+        self.xlist = deque(maxlen=30)
+        self.ylist = deque(maxlen=30)
 
     def get_interaction_policy(self):
         raise NotImplementedError(

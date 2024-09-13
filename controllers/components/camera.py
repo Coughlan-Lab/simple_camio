@@ -45,6 +45,7 @@ class Camera(tk.CTkFrame):
         if self.capture is None or not self.capture.isOpened():
             return
         ret, image = self.capture.read()
+        #image = cv2.resize(image, (640,360), interpolation=cv2.INTER_AREA)
         if not ret:
             self.__on_error()
         else:

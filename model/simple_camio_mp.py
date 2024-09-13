@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 import cv2 as cv
 import mediapipe as mp
@@ -106,9 +107,11 @@ class PoseDetectorMP:
                                                   hand_landmarks.landmark[8].y*image.shape[0], 1]))
                 if index_pos is None:
                     index_pos = np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float)
+                    #index_pos = np.array([hand_landmarks.landmark[8].x, hand_landmarks.landmark[8].y, 0])
                 if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
                     if movement_status != "pointing" or len(handedness) > 1 and handedness[1] == handedness[0]:
                         index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
+                        #index_pos = np.array([hand_landmarks.landmark[8].x, hand_landmarks.landmark[8].y, 0])
                         movement_status = "pointing"
                     else:
                         index_pos =np.append(index_pos, np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float))
@@ -257,6 +260,7 @@ class SIFTModelDetectorMP:
         )
         self.requires_homography = True
         self.H = None
+        self.MIN_INLIER_COUNT = 40
 
     def detect(self, frame):
         # If we have already computed the coordinate transform then simply return it
@@ -288,7 +292,31 @@ class SIFTModelDetectorMP:
         H, self.mask_out = cv.findHomography(
             self.scene, obj, cv.RANSAC, ransacReprojThreshold=8.0, confidence=0.995
         )
-        self.H = H
-        self.requires_homography = False
-        return True, H, None
+        total = sum([int(i) for i in self.mask_out])
+        obj_in = np.empty((total,2),dtype=np.float32)
+        scene_in = np.empty((total,2),dtype=np.float32)
+        index = 0
+        for i in range(len(self.mask_out)):
+            if self.mask_out[i]:
+                obj_in[index,:] = obj[i,:]
+                scene_in[index,:] = self.scene[i,:]
+                index += 1
+        scene_out = np.squeeze(cv2.perspectiveTransform(scene_in.reshape(-1,1,2), H))
+        biggest_distance = 0
+        sum_distance = 0
+        for i in range(len(scene_out)):
+            dist = cv2.norm(obj_in[i,:],scene_out[i,:],cv2.NORM_L2)
+            sum_distance += dist
+            if dist > biggest_distance:
+                biggest_distance = dist
+        ave_dist = sum_distance/total
+        print(f'Inlier count: {total}. Biggest distance: {biggest_distance}. Average distance: {ave_dist}.')
+        if total > self.MIN_INLIER_COUNT:
+            self.H = H
+            self.requires_homography = False
+            return True, H, None
+        elif self.H is not None:
+            return True, self.H, None
+        else:
+            return False, None, None
 

@@ -25,6 +25,7 @@ class FingerSift2DFP(FrameProcessor):
     def process(self, img: np.ndarray) -> np.ndarray:
         img = super().process(img)
         tic = time.time()
+        is_slider = False
         if self.frame_count == 0:
             self.model_detector.requires_homography = True
         self.frame_count = (self.frame_count + 1) % 100
@@ -35,6 +36,7 @@ class FingerSift2DFP(FrameProcessor):
             self.crickets_player.play_sound()
             return img
         self.crickets_player.pause_sound()
+
 
         gesture_loc, gesture_status, img, hand_results = self.pose_detector.detect(
             img, rotation, translation
@@ -58,17 +60,30 @@ class FingerSift2DFP(FrameProcessor):
             return img
         self.heartbeat_player.play_sound()
 
+        self.xlist.append(gesture_loc[0])
+        self.ylist.append(gesture_loc[1])
+        print(np.std(self.xlist), np.std(self.ylist))
         gesture_loc = gesture_loc / self.interaction[0].model['pixels_per_cm']
         if gesture_status == "too_many":
             zone_id, layer_change = self.interaction[0].push_gesture(gesture_loc)
             zone_id_1, layer_change_1 = self.interaction[1].push_gesture(gesture_loc[3:])
-            if layer_change:
+            if layer_change == 1:
                 zone_id = zone_id_1
                 gesture_status = "pointing"
-            if layer_change_1:
+            if layer_change_1 == 1:
                 layer_change = layer_change_1
                 gesture_status = "pointing"
             self.finger_count = 2
+            if 1 > abs(layer_change) > 0:
+                is_slider = True
+                zone_id = zone_id_1
+            if 1 > abs(layer_change_1) > 0 or is_slider:
+                is_slider = True
+                gesture_status = "pointing"
+                if zone_id in self.audio_player.hotspots:
+                    if len(self.audio_player.hotspots[zone_id]['points']) > 1:
+                        gesture_loc = self.audio_player.interpolate_point(zone_id, abs(layer_change))
+                        zone_id = self.audio_player.get_fine_hotspot(zone_id,int(layer_change < 0), gesture_loc)
         else:
             if self.finger_count == 2:
                 if self.interaction[0].get_distance(gesture_loc) > self.interaction[1].get_distance(gesture_loc):
@@ -77,6 +92,16 @@ class FingerSift2DFP(FrameProcessor):
                     self.interaction[1] = temp_hold
             zone_id, layer_change = self.interaction[0].push_gesture(gesture_loc)
             self.finger_count = 1
+
+        if not self.slider_flag:
+            if is_slider:
+                self.slider_flag = True
+                self.audio_player.play_enter()
+        else:
+            if not is_slider:
+                self.slider_flag = False
+                self.audio_player.play_leave()
+
         if zone_id in self.audio_player.hotspots:
             text = self.audio_player.hotspots[zone_id]['textDescription'][self.audio_player.audiolayer%len(self.audio_player.hotspots[zone_id]['textDescription'])]
             col = (0, 255, 0)

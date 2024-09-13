@@ -99,3 +99,8 @@ python3.8 camio.py --help
 -   `Enter`: Pause/Resume TTS
 -   `n`: Disable navigation mode
 -   `d`: Play map description
+
+## Model creation:
+
+A software utility for creating map models is available at:
+[CamIO Model Creation Utility](https://github.com/Matteo-3033/CamIO-Model-creation-utility)

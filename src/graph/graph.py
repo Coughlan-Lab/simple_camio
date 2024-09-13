@@ -232,11 +232,11 @@ class Graph(Module):
         self, coords: Coords, force: bool = False
     ) -> Tuple[Coords, Position]:
         node, distance = self.get_nearest_node(coords)
-        if distance < Graph.SNAP_MIN_DISTANCE * self.feets_per_inch:
+        if distance < Graph.SNAP_MIN_DISTANCE * config.feets_per_inch:
             return node.coords, node
 
         edge, distance = self.get_nearest_edge(coords)
-        if force or distance < Graph.SNAP_MIN_DISTANCE * self.feets_per_inch:
+        if force or distance < Graph.SNAP_MIN_DISTANCE * config.feets_per_inch:
             return coords.project_on(edge), edge
 
         return coords, coords
@@ -406,7 +406,7 @@ class Graph(Module):
                 round(
                     Coords(to_coords.x - from_coords.x, to_coords.y - from_coords.y)
                     * 10
-                    / self.feets_per_inch
+                    / config.feets_per_inch
                 )
                 / 10
             )

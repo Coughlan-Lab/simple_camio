@@ -22,7 +22,36 @@ git switch llm
 
 # Install Python libraries
 pip install -r requirements.txt
+
+cp example.env .env
 ```
+
+Edit the `.env` file to set the correct values for the environment variables.
+
+### Environment variables:
+
+The following environment variables must be set in the `.env` file:
+
+-   `OPENAI_API_KEY`: API key for the OpenAI LLM model, can be obtained [here](https://platform.openai.com/api-keys)
+-   `GOOGLE_SPEECH_CLOUD_KEY_FILE`: path to the Google Cloud service account key file, follow this guide to create one.
+-   `GOOGLE_ROUTES_API_KEY`: API key for the Google Routes API, follow this guide to create one.
+
+### Google Cloud project setup:
+
+For the speech-to-text and the routing systems to work, a Google Cloud project must be set up with the following APIs enabled:
+
+-   Speech-to-text API
+-   Routes API
+
+To create a Google Cloud project and enable the required APIs, follow this steps:
+
+1. Access this [link](https://console.cloud.google.com/welcome) and create a new project.
+2. Set the new project as active by selecting it from the project dropdown menu in the top left corner
+3. In the search bar at the top of the page, search for "Cloud Speech-to-Text API" and enable it.
+4. Do the same for the "Routes API".
+5. In the search bar, search for "Credentials".
+6. Click on "Create credentials" and select "API key". This will generate a new API key that you can use as the `GOOGLE_ROUTES_API_KEY`.
+7. Click on "Create credentials" again and select "Service account key". Create a new service account with the role "Owner". Click on the newly created service account and in the "Keys" tab, click on "Add key" and select "JSON". This will download a JSON file that you can use as the `GOOGLE_SPEECH_CLOUD_KEY_FILE`.
 
 ### For Apple Silicon machines:
 

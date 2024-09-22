@@ -23,4 +23,4 @@ out
 *.spec
 .DS_STORE
 .vscode
-
+.venv

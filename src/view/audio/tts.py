@@ -304,15 +304,18 @@ class TTS(Module):
 
     def __announce_text(self, announcement: TextAnnouncement) -> None:
         with self.is_speaking_cond:
-            self.engine.say(
-                announcement.text,
-                name=announcement.id,
-            )
-
+            self.engine.iterate()
             self.__is_speaking.set()
             self._timestamps[announcement.category] = time.time()
 
-            self.engine.iterate()
+        # Should block until the utterance is finished
+        # But on MacOS, the engine doesn't seem to be blocking
+        # The while loop is a workaround
+        self.engine.say(
+            announcement.text,
+            name=announcement.id,
+        )
 
+        with self.is_speaking_cond:
             while self.is_speaking() and self.__running.is_set():
                 self.is_speaking_cond.wait()

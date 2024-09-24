@@ -7,8 +7,14 @@ import requests
 
 from src.config import config
 from src.modules_repository import Module
-from src.utils import (CardinalDirection, Coords, LatLngReference, Position,
-                       coords_to_latlng, latlng_to_coords)
+from src.utils import (
+    CardinalDirection,
+    Coords,
+    LatLngReference,
+    Position,
+    coords_to_latlng,
+    latlng_to_coords,
+)
 
 from .edge import Edge, Street
 from .node import Node
@@ -66,9 +72,12 @@ def on_new_route_placeholder(
 
 
 class Graph(Module):
+    DISTANCE_STEP = 10
+
     AM_I_THRESHOLD = 0.75  # inch
     SNAP_MIN_DISTANCE = 0.25  # inch
     NEARBY_THRESHOLD = 1400.0  # feets
+
     INF = 999999
 
     def __init__(self, graph_dict: Dict[str, Any]) -> None:
@@ -167,8 +176,7 @@ class Graph(Module):
             + dist_to_e2
         )
 
-        # round to nearest 5 multiple
-        return 5 * round(d / 5)
+        return round(d / Graph.DISTANCE_STEP) * Graph.DISTANCE_STEP
 
     def get_distance_to_poi(self, p1: Coords, poi_index: int) -> float:
         poi = self.pois[poi_index]

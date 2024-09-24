@@ -4,13 +4,13 @@ from typing import List
 
 from src.graph import Graph, WayPoint
 from src.position import MovementDirection, PositionInfo
-from src.utils import Coords
+from src.utils import Coords, Buffer
 
 from .navigator import ActionHandler, Navigator
 
 
 class StepByStepNavigator(Navigator):
-    NEXT_STEP_THRESHOLD = 2.5  # seconds
+    NEXT_STEP_INTERVAL = 2.0  # seconds
 
     def __init__(
         self,
@@ -27,7 +27,7 @@ class StepByStepNavigator(Navigator):
 
         self.waypoints = deque(waypoints)
 
-        self.last_position = PositionInfo.NONE
+        self.positions_buffer = Buffer[PositionInfo](max_size=20, max_life=2.0)
         self.__stop_timestamp = 0.0
 
         self.on_waypoint = False
@@ -38,6 +38,10 @@ class StepByStepNavigator(Navigator):
     @property
     def running(self) -> bool:
         return not self.destination_reached and len(self.waypoints) > 0
+
+    @property
+    def last_position(self) -> PositionInfo:
+        return self.positions_buffer.first() or PositionInfo.NONE
 
     def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
         if not self.running:
@@ -61,13 +65,13 @@ class StepByStepNavigator(Navigator):
                 self.on_waypoint = True
                 self._waypoint_reached(current_waypoint)
 
-            elif current_time - self.__stop_timestamp > self.NEXT_STEP_THRESHOLD:
+            elif current_time - self.__stop_timestamp > self.NEXT_STEP_INTERVAL:
                 self.waypoints.popleft()
                 self.__stop_timestamp = current_time
                 self.on_waypoint = False
                 self._announce_directions(self.waypoints[0].instructions)
 
-        elif current_time - self.__stop_timestamp > self.NEXT_STEP_THRESHOLD:
+        elif current_time - self.__stop_timestamp > self.NEXT_STEP_INTERVAL:
             self.__stop_timestamp = current_time
             self._new_route_needed(position.real_pos, self.waypoints[-1].coords)
 
@@ -78,7 +82,7 @@ class StepByStepNavigator(Navigator):
         else:
             self.on_waypoint = False
 
-        self.last_position = position
+        self.positions_buffer.add(position)
 
     def __has_changed_position(self, position: PositionInfo) -> bool:
         return (
@@ -87,9 +91,6 @@ class StepByStepNavigator(Navigator):
         )
 
     def __moving_in_wrong_direction(self, position: PositionInfo) -> bool:
-        if position.movement == MovementDirection.NONE:
-            return False
-
         current_distance = self.graph.get_distance(
             position.real_pos, self.waypoints[0].coords
         )
@@ -98,6 +99,12 @@ class StepByStepNavigator(Navigator):
             self.last_position.real_pos, self.waypoints[0].coords
         )
 
+        if current_distance > last_distance:
+            print(
+                f"{current_distance} > {last_distance}, {self.wrong_direction_margin}"
+            )
+            print(-self.last_position.timestamp + position.timestamp)
+            print("..........")
         return current_distance > last_distance + self.wrong_direction_margin
 
     def _new_route_needed(self, start: Coords, destination: Coords) -> None:

@@ -15,9 +15,9 @@ def on_action_placeholder(action: "NavigationController.Action", **kwargs) -> No
 
 
 class NavigationController:
-    ARRIVED_THRESHOLD = 0.35  # inch
+    ARRIVED_THRESHOLD = 0.3  # inch
     FAR_THRESHOLD = 4.0  # inch
-    WRONG_DIRECTION_MARGIN = 0.25  # inch
+    WRONG_DIRECTION_MARGIN = 0.2  # inch
 
     def __init__(self, repository: ModulesRepository) -> None:
         self.repository = repository

@@ -48,7 +48,6 @@ class QuestionController(th.Thread):
             return
 
         if len(question) == 0:
-            print("No question recognized.")
             self.tts.stop_waiting_llm_loop()
             self.tts.question_error()
             return
@@ -94,10 +93,8 @@ class QuestionController(th.Thread):
         self.tts.stop_speaking()
 
         if len(answer) == 0:
-            print("No answer received.")
             announcement = self.tts.llm_error()
         else:
-            print(f"Answer: {answer}")
             announcement = self.tts.llm_response(answer)
 
         if announcement is not None:

@@ -136,7 +136,6 @@ class TTS(Module):
             if announcement is None:
                 continue
 
-            self.last_announcement = self.current_announcement
             self.current_announcement = announcement
 
             if isinstance(announcement, PauseAnnouncement):
@@ -195,8 +194,9 @@ class TTS(Module):
             if len(self.queue) > 0:
                 max_priority = max([ann.priority for ann in self.queue])
 
-            if self.current_announcement.priority > max_priority:
-                max_priority = self.current_announcement.priority
+            current_priority = self.current_announcement.priority
+            if current_priority > max_priority:
+                max_priority = current_priority
 
             if priority < max_priority:
                 return None
@@ -307,6 +307,8 @@ class TTS(Module):
             self.engine.iterate()
             self.__is_speaking.set()
             self._timestamps[announcement.category] = time.time()
+
+        print(announcement.text)
 
         # Should block until the utterance is finished
         # But on MacOS, the engine doesn't seem to be blocking

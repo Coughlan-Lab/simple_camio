@@ -167,6 +167,7 @@ class GestureRecognizer(Module):
         self.buffers = [
             Buffer[Coords](15) for _ in range(2)
         ]  # Left and right hand buffers
+        self.gesture_buffer = GestureBuffer()
 
         self.last_side_pointing: Optional[Hand.Side] = None
 
@@ -224,7 +225,7 @@ class GestureRecognizer(Module):
         for hand in hands:
             hand.draw(img, active=hand.side == self.last_side_pointing)
 
-        return gesture, img
+        return self.gesture_buffer.aggregate(gesture), img
 
     def is_moving(self, side: Hand.Side) -> bool:
         first = self.buffers[side].first()
@@ -261,7 +262,20 @@ class GestureRecognizer(Module):
             and 0 <= index_position[1] < self.image_size[1]
         )
 
-    def process_results(
+    def __get_hands(
+        self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
+    ) -> List[Hand]:
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        img.flags.writeable = False
+        results = self.hands_detector.process(img)
+        img.flags.writeable = True
+
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+        return self.__process_results(img, H, results)
+
+    def __process_results(
         self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32], results
     ) -> List[Hand]:
         if not results.multi_hand_landmarks:
@@ -276,15 +290,27 @@ class GestureRecognizer(Module):
             for i, hand in enumerate(results.multi_hand_landmarks)
         ]
 
-    def __get_hands(
-        self, img: npt.NDArray[np.uint8], H: npt.NDArray[np.float32]
-    ) -> List[Hand]:
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        img.flags.writeable = False
-        results = self.hands_detector.process(img)
-        img.flags.writeable = True
+class GestureBuffer:
+    def __init__(self) -> None:
+        self.buffer = Buffer[GestureResult.Status](max_size=5, max_life=1)
+        self.last_position: Optional[Coords] = None
 
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    def aggregate(self, gesture: GestureResult) -> GestureResult:
+        self.buffer.add(gesture.status)
 
-        return self.process_results(img, H, results)
+        res = NOT_FOUND
+        status = self.buffer.mode()
+
+        if status == GestureResult.Status.EXPLORING:
+            res = EXPLORING
+
+        elif status == GestureResult.Status.MORE_THAN_ONE_HAND:
+            res = MORE_THAN_ONE_HAND
+
+        elif status == GestureResult.Status.POINTING:
+            position = gesture.position or self.last_position
+            res = GestureResult(GestureResult.Status.POINTING, position, gesture.side)
+
+        self.last_position = gesture.position or self.last_position
+        return res

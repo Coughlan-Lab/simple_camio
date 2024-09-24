@@ -16,7 +16,7 @@ class PositionHandler(Module):
     POIS_MIN_DISTANCE = 0.25  # inch
 
     GRAVITY_EFFECT = 0.2  # inch
-    MOVEMENT_THRESHOLD = 0.35  # inch
+    MOVEMENT_THRESHOLD = 0.2  # inch
 
     def __init__(self) -> None:
         super().__init__()
@@ -40,9 +40,7 @@ class PositionHandler(Module):
         self.min_corner -= map_margin
         self.max_corner += map_margin
 
-        self.positions_buffer = ArithmeticBuffer[Coords](
-            max_size=20  # should be set to target FPS
-        )
+        self.positions_buffer = ArithmeticBuffer[Coords](max_size=20, max_life=2.0)
 
         self.last_info = PositionInfo.NONE
 
@@ -96,9 +94,9 @@ class PositionHandler(Module):
 
             return PositionInfo(pos)
 
-        announcement = implementation()
-        self.last_info = announcement
-        return announcement
+        position_info = implementation()
+        self.last_info = position_info
+        return position_info
 
     def __should_stick_to_last(self, pos: Coords) -> bool:
         if not self.last_info.is_node() and not self.last_info.is_poi():

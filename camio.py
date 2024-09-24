@@ -15,8 +15,7 @@ from typing import Any, Dict, List, Optional
 import cv2
 
 from src.config import config, get_args
-from src.frame_processing import (GestureRecognizer, GestureResult, Hand,
-                                  MapDetector)
+from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
 from src.graph import Graph, WayPoint
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
@@ -139,7 +138,7 @@ class CamIOController:
             if self.is_handling_user_input():
                 continue
 
-            if self.navigation_manager.running:
+            if self.navigation_manager.is_running():
                 self.navigation_manager.update(
                     position,
                     ignore_not_moving=self.is_handling_user_input()

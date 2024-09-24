@@ -31,8 +31,7 @@ class NavigationController:
         self.on_action = on_action_placeholder
         self.navigator: Optional[Navigator] = None
 
-    @property
-    def running(self) -> bool:
+    def is_running(self) -> bool:
         return self.navigator is not None and self.navigator.running
 
     def navigate_step_by_step(

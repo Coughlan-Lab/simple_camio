@@ -77,13 +77,14 @@ class FingerSift2DFP(FrameProcessor):
             if 1 > abs(layer_change) > 0:
                 is_slider = True
                 zone_id = zone_id_1
+                layer_change_1 = layer_change
             if 1 > abs(layer_change_1) > 0 or is_slider:
                 is_slider = True
                 gesture_status = "pointing"
                 if zone_id in self.audio_player.hotspots:
                     if len(self.audio_player.hotspots[zone_id]['points']) > 1:
-                        gesture_loc = self.audio_player.interpolate_point(zone_id, abs(layer_change))
-                        zone_id = self.audio_player.get_fine_hotspot(zone_id,int(layer_change < 0), gesture_loc)
+                        gesture_loc = self.audio_player.interpolate_point(zone_id, abs(layer_change_1))
+                        zone_id = self.audio_player.get_fine_hotspot(zone_id,int(layer_change_1 < 0), gesture_loc)
         else:
             if self.finger_count == 2:
                 if self.interaction[0].get_distance(gesture_loc) > self.interaction[1].get_distance(gesture_loc):

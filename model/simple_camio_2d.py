@@ -219,6 +219,8 @@ class CamIOPlayer2D:
 
     def get_fine_hotspot(self, zone_id, streetside, gesture_loc):
         best_dist = 10000000
+        if zone_id not in self.finelevelhotspots:
+            return zone_id
         for key_pair in self.finelevelhotspots[zone_id][streetside]:
             dist = np.sqrt((key_pair[0]-gesture_loc[0])**2+(key_pair[1]-gesture_loc[1])**2)
             if dist < best_dist:

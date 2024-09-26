@@ -23,7 +23,13 @@ from src.navigation import NavigationAction, NavigationController
 from src.position import PositionHandler
 from src.question_controller import QuestionController
 from src.utils import Coords, load_map_parameters
-from src.view import InputListener, KeyboardManager, VideoCapture, ViewManager
+from src.view import (
+    InputListener,
+    KeyboardManager,
+    VideoCapture,
+    ViewManager,
+    ignore_unpress,
+)
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 repository = ModulesRepository()
@@ -61,12 +67,18 @@ class CamIOController:
         )
 
         input_listeners = {
-            InputListener.STOP_INTERACTION: partial(self.stop_interaction),
-            InputListener.SAY_MAP_DESCRIPTION: partial(self.say_map_description),
-            InputListener.TOGGLE_TTS: partial(self.tts.toggle_pause),
-            InputListener.STOP: partial(self.stop),
+            InputListener.STOP_INTERACTION: ignore_unpress(
+                partial(self.stop_interaction)
+            ),
+            InputListener.SAY_MAP_DESCRIPTION: ignore_unpress(
+                partial(self.say_map_description)
+            ),
+            InputListener.TOGGLE_TTS: ignore_unpress(partial(self.tts.toggle_pause)),
+            InputListener.STOP: ignore_unpress(partial(self.stop)),
             InputListener.QUESTION: partial(self.__on_spacebar_pressed),
-            InputListener.STOP_NAVIGATION: partial(self.navigation_manager.clear),
+            InputListener.STOP_NAVIGATION: ignore_unpress(
+                partial(self.navigation_manager.clear)
+            ),
         }
 
         if not config.llm_enabled:
@@ -178,7 +190,7 @@ class CamIOController:
 
         self.stt.on_question_ended()
 
-    def say_map_description(self, _: Any = None) -> None:
+    def say_map_description(self) -> None:
         self.stop_interaction()
 
         if self.description is not None:
@@ -202,9 +214,10 @@ class CamIOController:
         else:
             self.navigation_manager.navigate(waypoints[0])
 
-    def __on_spacebar_pressed(self) -> None:
-        if self.stt.is_recording:
-            self.stt.on_question_ended()
+    def __on_spacebar_pressed(self, pressed: bool) -> None:
+        if not pressed:
+            if self.stt.is_recording:
+                self.stt.on_question_ended()
 
         elif self.llm.is_waiting_for_response():
             self.tts.waiting_llm()

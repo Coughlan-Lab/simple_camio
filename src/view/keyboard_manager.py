@@ -8,16 +8,26 @@ from src.modules_repository import Module
 
 
 class InputListener(Enum):
-    STOP_INTERACTION = 0
-    SAY_MAP_DESCRIPTION = 1
-    TOGGLE_TTS = 2
-    STOP = 3
-    QUESTION = 4
-    STOP_NAVIGATION = 5
+    STOP_INTERACTION = Key.esc
+    SAY_MAP_DESCRIPTION = KeyCode.from_char("d")
+    TOGGLE_TTS = Key.enter
+    STOP = KeyCode.from_char("q")
+    QUESTION = Key.space
+    STOP_NAVIGATION = KeyCode.from_char("n")
+
+    @staticmethod
+    def from_key(key: Union[Key, KeyCode]) -> Optional["InputListener"]:
+        return InputListener(key)
+
+    @staticmethod
+    def has_listener(key: Union[Key, KeyCode]) -> bool:
+        return key in InputListener._value2member_map_
 
 
 class KeyboardManager(Module):
-    def __init__(self, listeners: Mapping[InputListener, Callable[[], None]]) -> None:
+    def __init__(
+        self, listeners: Mapping[InputListener, Callable[[bool], None]]
+    ) -> None:
         super().__init__()
 
         self.keyboard: Optional[KeyboardListener] = None
@@ -31,23 +41,14 @@ class KeyboardManager(Module):
             if not key or key in self.__pressed_keys:
                 return
 
-            if key == Key.space:
-                self.__call_listener(InputListener.QUESTION)
-            elif key == Key.enter:
-                self.__call_listener(InputListener.TOGGLE_TTS)
-            elif key == Key.esc:
-                self.__call_listener(InputListener.STOP_INTERACTION)
-            elif key == KeyCode.from_char("d"):
-                self.__call_listener(InputListener.SAY_MAP_DESCRIPTION)
-            elif key == KeyCode.from_char("q"):
-                self.__call_listener(InputListener.STOP)
-            elif key == KeyCode.from_char("n"):
-                self.__call_listener(InputListener.STOP_NAVIGATION)
-
-            self.__pressed_keys.add(key)
+            if InputListener.has_listener(key):
+                self.__call_listener(InputListener.from_key(key), pressed=True)
+                self.__pressed_keys.add(key)
 
         def on_release(key: Optional[Union[Key, KeyCode]]) -> None:
-            self.__pressed_keys.discard(key)
+            if key in self.__pressed_keys:
+                self.__call_listener(InputListener.from_key(key), pressed=False)
+                self.__pressed_keys.remove(key)
 
         self.keyboard = KeyboardListener(on_press=on_press, on_release=on_release)
         self.keyboard.start()
@@ -62,6 +63,16 @@ class KeyboardManager(Module):
     def resume(self) -> None:
         self.paused = False
 
-    def __call_listener(self, listener: InputListener) -> None:
+    def __call_listener(self, listener: InputListener, pressed: bool) -> None:
         if not self.paused and listener in self.listeners:
-            self.listeners[listener]()
+            self.listeners[listener](pressed)
+
+
+def ignore_unpress(fn: Callable[[], None]) -> Callable[[bool], None]:
+    def wrapper(pressed: bool) -> None:
+        if not pressed:
+            return
+
+        fn()
+
+    return wrapper

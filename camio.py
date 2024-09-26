@@ -119,8 +119,7 @@ class CamIOController:
                 print("No camera image returned.")
                 break
 
-            frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            homography = self.model_detector.detect(frame_gray)
+            homography, frame = self.model_detector.detect(frame)
 
             if homography is None:
                 self.audio_manager.hand_feedback(GestureResult.Status.NOT_FOUND)

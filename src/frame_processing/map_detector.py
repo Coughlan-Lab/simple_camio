@@ -1,6 +1,6 @@
 # type: ignore
 import time
-from typing import Optional
+from typing import Optional, Tuple
 
 import cv2
 import numpy as np
@@ -18,6 +18,7 @@ class MapDetector(Module):
         super().__init__()
 
         img_template = cv2.imread(config.template_path, cv2.IMREAD_GRAYSCALE)
+        self.map_shape = img_template.shape
 
         self.detector = cv2.SIFT_create()
         self.template_keypoints, self.template_descriptors = (
@@ -26,17 +27,29 @@ class MapDetector(Module):
 
         self.last_detection = 0.0, np.zeros((3, 3), dtype=np.float32)
 
-    def detect(self, frame: npt.NDArray[np.uint8]) -> Optional[npt.NDArray[np.float32]]:
-        if time.time() - self.last_detection[0] < self.DETECTION_INTERVAL:
-            return self.last_detection[1]
+    @property
+    def homography(self) -> npt.NDArray[np.float32]:
+        return self.last_detection[1]
 
-        keypoints, descriptors = self.detector.detectAndCompute(frame, None)
+    def detect(
+        self, img: npt.NDArray[np.uint8]
+    ) -> Tuple[Optional[npt.NDArray[np.float32]], npt.NDArray[np.uint8]]:
+        if time.time() - self.last_detection[0] < self.DETECTION_INTERVAL:
+
+            if self.homography is not None and config.debug:
+                img = self.__draw_corners(img, self.last_detection[1])
+
+            return self.homography, img
+
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        keypoints, descriptors = self.detector.detectAndCompute(img_gray, None)
         matcher = cv2.DescriptorMatcher_create(cv2.DescriptorMatcher_FLANNBASED)
 
         try:
             knn_matches = matcher.knnMatch(self.template_descriptors, descriptors, 2)
         except:
-            return None
+            return None, img
 
         good_matches = list()
         for m, n in knn_matches:
@@ -44,7 +57,7 @@ class MapDetector(Module):
                 good_matches.append(m)
 
         if len(good_matches) < 4:
-            return None
+            return None, img
 
         obj = np.empty((len(good_matches), 2), dtype=np.float32)
         scene = np.empty((len(good_matches), 2), dtype=np.float32)
@@ -60,4 +73,25 @@ class MapDetector(Module):
         )
 
         self.last_detection = time.time(), H
-        return H
+
+        if H is not None and config.debug:
+            img = self.__draw_corners(img, H)
+
+        return H, img
+
+    def __draw_corners(
+        self, img: npt.NDArray[np.uint8], homography: npt.NDArray[np.float32]
+    ) -> npt.NDArray[np.uint8]:
+        inverted_homography = np.linalg.inv(homography)
+
+        h, w = self.map_shape[:2]
+        corners = np.float32([[0, 0], [0, h], [w, h], [w, 0]]).reshape(-1, 1, 2)
+        projected_corners = cv2.perspectiveTransform(corners, inverted_homography)
+
+        for i in range(len(projected_corners)):
+            x, y = projected_corners[i][0]
+            x, y = int(x), int(y)
+            cv2.circle(img, (x, y), 8, (255, 255, 255), -1)
+            cv2.circle(img, (x, y), 6, (0, 0, 0), -1)
+
+        return img

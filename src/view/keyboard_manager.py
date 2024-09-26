@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Callable, Mapping, Optional, Union
+from typing import Callable, Mapping, Optional, Union, Set
 
 from pynput.keyboard import Key, KeyCode
 from pynput.keyboard import Listener as KeyboardListener
@@ -24,8 +24,12 @@ class KeyboardManager(Module):
         self.listeners = listeners
         self.paused = False
 
+        self.__pressed_keys: Set[Union[Key, KeyCode]] = set()
+
     def init_shortcuts(self) -> None:
         def on_press(key: Optional[Union[Key, KeyCode]]) -> None:
+            if not key or key in self.__pressed_keys:
+                return
 
             if key == Key.space:
                 self.__call_listener(InputListener.QUESTION)
@@ -40,7 +44,12 @@ class KeyboardManager(Module):
             elif key == KeyCode.from_char("n"):
                 self.__call_listener(InputListener.STOP_NAVIGATION)
 
-        self.keyboard = KeyboardListener(on_press=on_press)
+            self.__pressed_keys.add(key)
+
+        def on_release(key: Optional[Union[Key, KeyCode]]) -> None:
+            self.__pressed_keys.discard(key)
+
+        self.keyboard = KeyboardListener(on_press=on_press, on_release=on_release)
         self.keyboard.start()
 
     def disable_shortcuts(self) -> None:

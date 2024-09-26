@@ -153,8 +153,8 @@ class CamIOTTS(TTS):
 
 
 class PositionAnnouncer:
-    DETAILED_NODES_ANNOUNCEMENT_DELAY = 1.5
-    DETAILED_ANNOUNCEMENT_DELAY = 2.5
+    DETAILED_NODES_ANNOUNCEMENT_DELAY = 1.0
+    DETAILED_ANNOUNCEMENT_DELAY = 2.0
 
     def __init__(self, tts: TTS) -> None:
         self.tts = tts

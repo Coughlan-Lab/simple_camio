@@ -4,6 +4,7 @@ from typing import Optional
 import speech_recognition as sr
 
 from src.modules_repository import Module
+from google.cloud import speech  # unused, but needed for pre-loading the module
 
 
 class STT(Module):
@@ -18,6 +19,7 @@ class STT(Module):
         self.recognizer.pause_threshold = STT.FINAL_SILENCE_DURATION
 
         self.recording_audio = False
+        self.microphone = sr.Microphone()
 
     @property
     def is_recording(self) -> bool:
@@ -27,7 +29,7 @@ class STT(Module):
         self.recognizer.stop_listening()
 
     def calibrate(self) -> None:
-        with sr.Microphone() as source:
+        with self.microphone as source:
             self.recognizer.adjust_for_ambient_noise(source)
 
     def get_audio(self) -> Optional[sr.AudioData]:
@@ -37,7 +39,7 @@ class STT(Module):
         self.recording_audio = True
 
         try:
-            with sr.Microphone() as source:
+            with self.microphone as source:
                 audio = self.recognizer.listen(
                     source,
                     timeout=STT.TIMEOUT,

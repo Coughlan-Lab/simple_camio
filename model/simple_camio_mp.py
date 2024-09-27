@@ -58,7 +58,6 @@ class PoseDetectorMP:
         image.flags.writeable = True
         image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
         index_pos = None
-        two_finger_flag = False
         movement_status = None
         if results.multi_hand_landmarks:
             for h, hand_landmarks in enumerate(results.multi_hand_landmarks):
@@ -106,17 +105,10 @@ class PoseDetectorMP:
 
                 position = np.matmul(H, np.array([hand_landmarks.landmark[8].x*image.shape[1],
                                                   hand_landmarks.landmark[8].y*image.shape[0], 1]))
-                distance = np.linalg.norm(np.array([hand_landmarks.landmark[8].x - hand_landmarks.landmark[12].x,
-                                                    hand_landmarks.landmark[8].y - hand_landmarks.landmark[12].y,
-                                                    hand_landmarks.landmark[8].z - hand_landmarks.landmark[12].z]))
-                two_finger_point = False
-                if (ratio_index > 0.7) and (ratio_middle > 0.7) and (ratio_ring < 0.95) and (ratio_little < 0.95) and distance < 0.09:
-                    two_finger_point = True
-                    two_finger_flag = True
                 if index_pos is None:
                     index_pos = np.array([position[0]/position[2], position[1]/position[2], 0], dtype=float)
                     #index_pos = np.array([hand_landmarks.landmark[8].x, hand_landmarks.landmark[8].y, 0])
-                if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95) or two_finger_point:
+                if (ratio_index > 0.7) and (ratio_middle < 0.95) and (ratio_ring < 0.95) and (ratio_little < 0.95):
                     if movement_status != "pointing" or len(handedness) > 1 and handedness[1] == handedness[0]:
                         index_pos = np.array([position[0] / position[2], position[1] / position[2], 0], dtype=float)
                         #index_pos = np.array([hand_landmarks.landmark[8].x, hand_landmarks.landmark[8].y, 0])
@@ -126,7 +118,7 @@ class PoseDetectorMP:
                         movement_status = "too_many"
                 elif movement_status != "pointing":
                     movement_status = "moving"
-        return index_pos, movement_status, image, results, two_finger_flag
+        return index_pos, movement_status, image, results
 
 
 class InteractionPolicyMP:

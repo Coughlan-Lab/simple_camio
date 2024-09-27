@@ -38,7 +38,7 @@ class FingerSift2DFP(FrameProcessor):
         self.crickets_player.pause_sound()
 
 
-        gesture_loc, gesture_status, img, hand_results, two_fingers = self.pose_detector.detect(
+        gesture_loc, gesture_status, img, hand_results = self.pose_detector.detect(
             img, rotation, translation
         )
 
@@ -83,8 +83,8 @@ class FingerSift2DFP(FrameProcessor):
                 gesture_status = "pointing"
                 if zone_id in self.audio_player.hotspots:
                     if len(self.audio_player.hotspots[zone_id]['points']) > 1:
-                        gesture_loc = self.audio_player.interpolate_point(zone_id, abs(layer_change_1))
-                        zone_id = self.audio_player.get_fine_hotspot(zone_id,int(two_fingers), gesture_loc)
+                        gesture_loc = self.audio_player.interpolate_point(zone_id, abs(layer_change))
+                        zone_id = self.audio_player.get_fine_hotspot(zone_id, gesture_loc)
         else:
             if self.finger_count == 2:
                 if self.interaction[0].get_distance(gesture_loc) > self.interaction[1].get_distance(gesture_loc):

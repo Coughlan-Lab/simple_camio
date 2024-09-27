@@ -179,16 +179,13 @@ class CamIOPlayer2D:
                     self.sound_files[key].append(self.loaded_text_descriptions[text_description])
         for hotspot in self.model["fine-level hotspots"]:
             key =  ( hotspot["color"][2] + hotspot["color"][1] * 256 + hotspot["color"][0] * 256 * 256)
-            new_list = list()
-            for streetside in hotspot['buildings']:
-                new_dict = dict()
-                for text_description in streetside:
-                    key_coords = tuple(streetside[text_description])
-                    new_color = self.add_new_hotspot(text_description)
-                    new_key = new_color[2]*256*256 + new_color[1]*256 + new_color[0]
-                    new_dict.update({key_coords:new_key})
-                new_list.append(new_dict)
-            self.finelevelhotspots.update({key:new_list})
+            new_dict = dict()
+            for text_description in hotspot['buildings']:
+                key_coords = tuple(hotspot['buildings'][text_description])
+                new_color = self.add_new_hotspot(text_description)
+                new_key = new_color[2]*256*256 + new_color[1]*256 + new_color[0]
+                new_dict.update({key_coords:new_key})
+            self.finelevelhotspots.update({key:new_dict})
 
     def get_new_key(self):
         new_color = [random.randint(1,254),random.randint(1,254),random.randint(1,254)]
@@ -217,17 +214,17 @@ class CamIOPlayer2D:
             self.sound_files[new_key].append(self.loaded_text_descriptions[text_description])
         return new_color
 
-    def get_fine_hotspot(self, zone_id, streetside, gesture_loc):
+    def get_fine_hotspot(self, zone_id, gesture_loc):
         best_dist = 10000000
         if zone_id not in self.finelevelhotspots:
             return zone_id
-        for key_pair in self.finelevelhotspots[zone_id][streetside]:
+        for key_pair in self.finelevelhotspots[zone_id]:
             dist = np.sqrt((key_pair[0]-gesture_loc[0])**2+(key_pair[1]-gesture_loc[1])**2)
             if dist < best_dist:
                 best_dist = dist
                 best_pair = key_pair
         if best_dist < 50:
-            return self.finelevelhotspots[zone_id][streetside][best_pair]
+            return self.finelevelhotspots[zone_id][best_pair]
         else:
             return -1
 

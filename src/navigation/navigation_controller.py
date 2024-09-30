@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Callable, Dict, Any
 
 from src.config import config
 from src.graph import Graph, WayPoint
@@ -10,16 +10,16 @@ from .navigator import Navigator
 from .step_by_step_navigator import StepByStepNavigator
 
 
-def on_action_placeholder(action: "NavigationController.Action", **kwargs) -> None:
-    return
-
-
 class NavigationController:
     ARRIVED_THRESHOLD = 0.3  # inch
     FAR_THRESHOLD = 4.0  # inch
     WRONG_DIRECTION_MARGIN = 0.2  # inch
 
-    def __init__(self, repository: ModulesRepository) -> None:
+    def __init__(
+        self,
+        repository: ModulesRepository,
+        on_action: Callable[["NavigationController.Action", Dict[str, Any]], None],
+    ) -> None:
         self.repository = repository
 
         self.arrived_threshold = self.ARRIVED_THRESHOLD * config.feets_per_inch
@@ -28,7 +28,7 @@ class NavigationController:
             self.WRONG_DIRECTION_MARGIN * config.feets_per_inch
         )
 
-        self.on_action = on_action_placeholder
+        self.on_action = on_action
         self.navigator: Optional[Navigator] = None
 
     def is_running(self) -> bool:

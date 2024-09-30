@@ -10,6 +10,7 @@ import sys
 import threading as th
 import time
 from typing import Any, Dict, List, Optional, Callable
+from functools import partial
 
 from src.config import config, get_args
 from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
@@ -37,13 +38,15 @@ class CamIOController:
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
 
-        self.question_handler: Optional[CommandController] = None
-        self.running = False
-
         # Model
         self.graph = Graph(model["graph"])
         self.graph.on_new_route = self.enable_navigation_mode
         self.position_handler = PositionHandler()
+        self.llm = LLM(
+            f"res/prompt_{config.lang}.yaml",
+            model["context"],
+            temperature=config.temperature,
+        )
 
         self.model_detector = MapDetector()
         self.gesture_recognizer = GestureRecognizer()
@@ -55,16 +58,17 @@ class CamIOController:
         self.stt = STT()
         self.audio_manager = AudioManager("res/sounds.json")
 
-        self.navigation_manager = NavigationController(repository)
-        self.navigation_manager.on_action = self.__on_navigation_action
-        self.llm = LLM(
-            f"res/prompt_{config.lang}.yaml",
-            model["context"],
-            temperature=config.temperature,
+        # User interaction
+        self.navigation_controller = NavigationController(
+            repository, self.__on_navigation_action
         )
-
         self.__action_listeners = self.__get_action_listeners()
-        self.keyboard = KeyboardManager("res/shortcuts.json", self.__on_keyboard_action)
+        self.command_controller = CommandController(
+            repository, "res/voice_commands.json", self.__on_user_action
+        )
+        self.keyboard = KeyboardManager("res/shortcuts.json", self.__on_user_action)
+
+        self.running = False
 
     def main_loop(self) -> None:
         video_capture = VideoCapture.get_capture()
@@ -129,8 +133,8 @@ class CamIOController:
             if self.is_handling_user_input():
                 continue
 
-            if self.navigation_manager.is_running():
-                self.navigation_manager.update(
+            if self.navigation_controller.is_running():
+                self.navigation_controller.update(
                     position,
                     ignore_not_moving=self.is_handling_user_input()
                     or self.tts.is_speaking(),
@@ -153,7 +157,7 @@ class CamIOController:
         self.tts.stop()
 
     def is_handling_user_input(self) -> bool:
-        return self.question_handler is not None and self.question_handler.running
+        return self.command_controller.is_handling_command()
 
     def stop(self) -> None:
         self.running = False
@@ -164,8 +168,8 @@ class CamIOController:
     def stop_interaction(self) -> None:
         self.tts.stop_speaking()
 
-        if self.question_handler is not None:
-            self.question_handler.stop()
+        if self.is_handling_user_input():
+            self.command_controller.stop_handling_command()
 
         self.stt.on_question_ended()
 
@@ -187,24 +191,23 @@ class CamIOController:
             self.view.add_waypoint(waypoint.coords)
 
         if step_by_step:
-            self.navigation_manager.navigate_step_by_step(
+            self.navigation_controller.navigate_step_by_step(
                 waypoints, self.position_handler.last_info
             )
         else:
-            self.navigation_manager.navigate(waypoints[0])
+            self.navigation_controller.navigate(waypoints[0])
 
     def __on_command(self, ended: bool) -> None:
         if ended:
             if self.stt.is_recording:
                 self.stt.on_question_ended()
 
-        elif self.llm.is_waiting_for_response():
+        elif self.command_controller.is_handling_command():
             self.tts.waiting_llm()
 
         elif self.hand_status == GestureResult.Status.POINTING:
             self.stop_interaction()
-            self.question_handler = CommandController(repository)
-            self.question_handler.handle_question()
+            self.command_controller.handle_command()
 
         else:
             self.tts.no_pointing()
@@ -247,13 +250,13 @@ class CamIOController:
             UserAction.STOP: ignore_action_end(self.stop),
             UserAction.COMMAND: self.__on_command,
             UserAction.STOP_NAVIGATION: ignore_action_end(
-                self.navigation_manager.clear
+                self.navigation_controller.clear
             ),
             UserAction.DISABLE_POSITION_TTS: ignore_action_end(
-                lambda _: self.tts.disable_category(Announcement.Category.POSITION)
+                partial(self.tts.disable_category, Announcement.Category.GRAPH)
             ),
             UserAction.ENABLE_POSITION_TTS: ignore_action_end(
-                lambda _: self.tts.enable_category(Announcement.Category.POSITION)
+                partial(self.tts.enable_category, Announcement.Category.GRAPH)
             ),
         }
 
@@ -262,9 +265,9 @@ class CamIOController:
 
         return listeners
 
-    def __on_keyboard_action(self, action: UserAction, pressed: bool) -> None:
+    def __on_user_action(self, action: UserAction, started: bool = True) -> None:
         if action in self.__action_listeners:
-            self.__action_listeners[action](not pressed)
+            self.__action_listeners[action](not started)
 
 
 if __name__ == "__main__":

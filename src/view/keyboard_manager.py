@@ -56,12 +56,12 @@ class KeyboardManager(Module):
                 return
 
             if key in self.shortcuts:
-                self.on_action(self.shortcuts[key], pressed=True)
+                self.on_action(self.shortcuts[key], True)
                 self.__pressed_keys.add(key)
 
         def on_release(key: Optional[Union[Key, KeyCode]]) -> None:
             if key in self.__pressed_keys:
-                self.on_action(self.shortcuts[key], pressed=False)
+                self.on_action(self.shortcuts[key], False)
                 self.__pressed_keys.remove(key)
 
         self.keyboard = KeyboardListener(on_press=on_press, on_release=on_release)

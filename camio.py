@@ -9,7 +9,6 @@ os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import sys
 import threading as th
 import time
-from functools import partial
 from typing import Any, Dict, List, Optional
 
 from src.config import config, get_args
@@ -64,23 +63,19 @@ class CamIOController:
             temperature=config.temperature,
         )
 
-        input_listeners = {
-            UserAction.STOP_INTERACTION: ignore_unpress(partial(self.stop_interaction)),
-            UserAction.SAY_MAP_DESCRIPTION: ignore_unpress(
-                partial(self.say_map_description)
-            ),
-            UserAction.TOGGLE_TTS: ignore_unpress(partial(self.tts.toggle_pause)),
-            UserAction.STOP: ignore_unpress(partial(self.stop)),
-            UserAction.QUESTION: partial(self.__on_spacebar_pressed),
-            UserAction.STOP_NAVIGATION: ignore_unpress(
-                partial(self.navigation_manager.clear)
-            ),
+        action_listeners = {
+            UserAction.STOP_INTERACTION: ignore_unpress(self.stop_interaction),
+            UserAction.SAY_MAP_DESCRIPTION: ignore_unpress(self.say_map_description),
+            UserAction.TOGGLE_TTS: ignore_unpress(self.tts.toggle_pause),
+            UserAction.STOP: ignore_unpress(self.stop),
+            UserAction.QUESTION: self.__on_spacebar_pressed,
+            UserAction.STOP_NAVIGATION: ignore_unpress(self.navigation_manager.clear),
         }
 
         if not config.llm_enabled:
-            input_listeners[UserAction.QUESTION] = partial(lambda: None)
+            del action_listeners[UserAction.QUESTION]
 
-        self.keyboard = KeyboardManager("res/shortcuts.json", input_listeners)
+        self.keyboard = KeyboardManager("res/shortcuts.json", action_listeners)
 
     def main_loop(self) -> None:
         video_capture = VideoCapture.get_capture()

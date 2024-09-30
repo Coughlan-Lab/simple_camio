@@ -1,0 +1,8 @@
+{
+    "STOP_INTERACTION": "esc",
+    "SAY_MAP_DESCRIPTION": "d",
+    "TOGGLE_TTS": "enter",
+    "STOP": "q",
+    "QUESTION": "space",
+    "STOP_NAVIGATION": "n"
+}

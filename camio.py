@@ -12,8 +12,6 @@ import time
 from functools import partial
 from typing import Any, Dict, List, Optional
 
-import cv2
-
 from src.config import config, get_args
 from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
 from src.graph import Graph, WayPoint
@@ -21,10 +19,10 @@ from src.llm import LLM
 from src.modules_repository import ModulesRepository
 from src.navigation import NavigationAction, NavigationController
 from src.position import PositionHandler
-from src.question_controller import QuestionController
+from src.command_controller import CommandController
 from src.utils import Coords, load_map_parameters
 from src.view import (
-    InputListener,
+    UserAction,
     KeyboardManager,
     VideoCapture,
     ViewManager,
@@ -40,7 +38,7 @@ class CamIOController:
     def __init__(self, model: Dict[str, Any]) -> None:
         self.description = model["context"].get("description", None)
 
-        self.question_handler: Optional[QuestionController] = None
+        self.question_handler: Optional[CommandController] = None
         self.running = False
 
         # Model
@@ -67,24 +65,22 @@ class CamIOController:
         )
 
         input_listeners = {
-            InputListener.STOP_INTERACTION: ignore_unpress(
-                partial(self.stop_interaction)
-            ),
-            InputListener.SAY_MAP_DESCRIPTION: ignore_unpress(
+            UserAction.STOP_INTERACTION: ignore_unpress(partial(self.stop_interaction)),
+            UserAction.SAY_MAP_DESCRIPTION: ignore_unpress(
                 partial(self.say_map_description)
             ),
-            InputListener.TOGGLE_TTS: ignore_unpress(partial(self.tts.toggle_pause)),
-            InputListener.STOP: ignore_unpress(partial(self.stop)),
-            InputListener.QUESTION: partial(self.__on_spacebar_pressed),
-            InputListener.STOP_NAVIGATION: ignore_unpress(
+            UserAction.TOGGLE_TTS: ignore_unpress(partial(self.tts.toggle_pause)),
+            UserAction.STOP: ignore_unpress(partial(self.stop)),
+            UserAction.QUESTION: partial(self.__on_spacebar_pressed),
+            UserAction.STOP_NAVIGATION: ignore_unpress(
                 partial(self.navigation_manager.clear)
             ),
         }
 
         if not config.llm_enabled:
-            input_listeners[InputListener.QUESTION] = partial(lambda: None)
+            input_listeners[UserAction.QUESTION] = partial(lambda: None)
 
-        self.keyboard = KeyboardManager(input_listeners)
+        self.keyboard = KeyboardManager("res/shortcuts.json", input_listeners)
 
     def main_loop(self) -> None:
         video_capture = VideoCapture.get_capture()
@@ -223,7 +219,7 @@ class CamIOController:
 
         elif self.hand_status == GestureResult.Status.POINTING:
             self.stop_interaction()
-            self.question_handler = QuestionController(repository)
+            self.question_handler = CommandController(repository)
             self.question_handler.handle_question()
 
         else:
@@ -255,7 +251,7 @@ class CamIOController:
             instructions: str = kwargs["instructions"]
             self.tts.stop_and_say(
                 instructions,
-                category=Announcement.Category.GRAPH,
+                category=Announcement.Category.NAVIGATION,
                 priority=Announcement.Priority.MEDIUM,
             )
 

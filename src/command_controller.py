@@ -75,7 +75,7 @@ class CommandController:
             self.handling_thread = None
 
     def is_handling_command(self) -> bool:
-        return self.handling_thread is not None and self.handling_thread.is_running
+        return self.handling_thread is not None and self.handling_thread.is_running()
 
     def __on_voice_command(self, command: str) -> None:
         if command in self.voice_commands:
@@ -112,7 +112,6 @@ class HandlingThread(th.Thread):
         handling_thread.start()
         return handling_thread
 
-    @property
     def is_running(self) -> bool:
         return not self.stop_event.is_set() and self.is_alive()
 
@@ -205,6 +204,9 @@ class HandlingThread(th.Thread):
         self.tts.on_announcement_ended = None
         self.llm.stop()
         self.tts.stop_waiting_llm_loop()
+
+        with self.waiting_tts:
+            self.waiting_tts.notify_all()
 
     def on_announcement_ended(
         self, announcement: Announcement, announced: bool

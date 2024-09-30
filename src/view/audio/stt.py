@@ -18,14 +18,17 @@ class STT(Module):
         self.recognizer = sr.Recognizer()
         self.recognizer.pause_threshold = STT.FINAL_SILENCE_DURATION
 
-        self.recording_audio = False
         self.microphone = sr.Microphone()
-
         self.commands: Set[str] = set()
 
-    @property
+        self.__recording_audio = False
+        self.__processing_audio = False
+
     def is_recording(self) -> bool:
-        return self.recording_audio
+        return self.__recording_audio
+
+    def is_processing_audio(self) -> bool:
+        return self.__processing_audio
 
     def on_question_ended(self) -> None:
         self.recognizer.stop_listening()
@@ -41,10 +44,10 @@ class STT(Module):
         self.commands.discard(command)
 
     def get_audio(self) -> Optional[sr.AudioData]:
-        if self.recording_audio:
+        if self.__recording_audio:
             return None
 
-        self.recording_audio = True
+        self.__recording_audio = True
 
         try:
             with self.microphone as source:
@@ -56,12 +59,14 @@ class STT(Module):
         except Exception:
             return None
         finally:
-            self.recording_audio = False
+            self.__recording_audio = False
 
         return audio
 
     def audio_to_text(self, audio: sr.AudioData) -> Optional[str]:
         try:
+            self.__processing_audio = True
+
             result = self.recognizer.recognize_google_cloud(
                 audio,
                 os.getenv("GOOGLE_SPEECH_CLOUD_KEY_FILE"),
@@ -72,3 +77,5 @@ class STT(Module):
             return str(result).strip()
         except Exception:
             return None
+        finally:
+            self.__processing_audio = False

@@ -52,15 +52,15 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.HIGH,
         )
 
-    def waiting_llm(self) -> Optional[Announcement]:
+    def waiting(self) -> Optional[Announcement]:
         return self.say(
-            self.res["waiting_llm"],
+            self.res["waiting"],
             category=Announcement.Category.SYSTEM,
             priority=Announcement.Priority.MEDIUM,
         )
 
     def start_waiting_llm_loop(self) -> None:
-        return self._start_one_msg_loop(self.waiting_llm)
+        return self._start_one_msg_loop(self.waiting)
 
     def stop_waiting_llm_loop(self) -> None:
         return self._stop_one_msg_loop()

@@ -199,11 +199,11 @@ class CamIOController:
 
     def __on_command(self, ended: bool) -> None:
         if ended:
-            if self.stt.is_recording:
+            if self.stt.is_recording():
                 self.stt.on_question_ended()
 
-        elif self.command_controller.is_handling_command():
-            self.tts.waiting_llm()
+        elif self.llm.is_waiting_for_response() or self.stt.is_processing_audio():
+            self.tts.waiting()
 
         elif self.hand_status == GestureResult.Status.POINTING:
             self.stop_interaction()

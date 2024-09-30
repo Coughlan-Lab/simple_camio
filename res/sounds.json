@@ -1,9 +1,9 @@
 {
-    "background": "res/crickets.wav",
-    "pointing": "res/pointing.mp3",
-    "poi": "res/poi.mp3",
-    "waypoint_reached": "res/waypoint_reached.mp3",
-    "destination_reached": "res/destination_reached.mp3",
-    "start_recording": "res/start_stt.wav",
-    "end_recording": "res/end_stt.wav"
+    "background": "res/audio/crickets.wav",
+    "pointing": "res/audio/pointing.mp3",
+    "poi": "res/audio/poi.mp3",
+    "waypoint_reached": "res/audio/waypoint_reached.mp3",
+    "destination_reached": "res/audio/destination_reached.mp3",
+    "start_recording": "res/audio/start_stt.wav",
+    "end_recording": "res/audio/end_stt.wav"
 }

@@ -9,7 +9,7 @@ os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import sys
 import threading as th
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Callable
 
 from src.config import config, get_args
 from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
@@ -25,7 +25,7 @@ from src.view import (
     KeyboardManager,
     VideoCapture,
     ViewManager,
-    ignore_unpress,
+    ignore_action_end,
 )
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
@@ -63,19 +63,8 @@ class CamIOController:
             temperature=config.temperature,
         )
 
-        action_listeners = {
-            UserAction.STOP_INTERACTION: ignore_unpress(self.stop_interaction),
-            UserAction.SAY_MAP_DESCRIPTION: ignore_unpress(self.say_map_description),
-            UserAction.TOGGLE_TTS: ignore_unpress(self.tts.toggle_pause),
-            UserAction.STOP: ignore_unpress(self.stop),
-            UserAction.QUESTION: self.__on_spacebar_pressed,
-            UserAction.STOP_NAVIGATION: ignore_unpress(self.navigation_manager.clear),
-        }
-
-        if not config.llm_enabled:
-            del action_listeners[UserAction.QUESTION]
-
-        self.keyboard = KeyboardManager("res/shortcuts.json", action_listeners)
+        self.__action_listeners = self.__get_action_listeners()
+        self.keyboard = KeyboardManager("res/shortcuts.json", self.__on_keyboard_action)
 
     def main_loop(self) -> None:
         video_capture = VideoCapture.get_capture()
@@ -204,8 +193,8 @@ class CamIOController:
         else:
             self.navigation_manager.navigate(waypoints[0])
 
-    def __on_spacebar_pressed(self, pressed: bool) -> None:
-        if not pressed:
+    def __on_command(self, ended: bool) -> None:
+        if ended:
             if self.stt.is_recording:
                 self.stt.on_question_ended()
 
@@ -249,6 +238,33 @@ class CamIOController:
                 category=Announcement.Category.NAVIGATION,
                 priority=Announcement.Priority.MEDIUM,
             )
+
+    def __get_action_listeners(self) -> Dict[UserAction, Callable[[bool], None]]:
+        listeners = {
+            UserAction.STOP_INTERACTION: ignore_action_end(self.stop_interaction),
+            UserAction.SAY_MAP_DESCRIPTION: ignore_action_end(self.say_map_description),
+            UserAction.TOGGLE_TTS: ignore_action_end(self.tts.toggle_pause),
+            UserAction.STOP: ignore_action_end(self.stop),
+            UserAction.COMMAND: self.__on_command,
+            UserAction.STOP_NAVIGATION: ignore_action_end(
+                self.navigation_manager.clear
+            ),
+            UserAction.DISABLE_POSITION_TTS: ignore_action_end(
+                lambda _: self.tts.disable_category(Announcement.Category.POSITION)
+            ),
+            UserAction.ENABLE_POSITION_TTS: ignore_action_end(
+                lambda _: self.tts.enable_category(Announcement.Category.POSITION)
+            ),
+        }
+
+        if not config.llm_enabled:
+            del listeners[UserAction.COMMAND]
+
+        return listeners
+
+    def __on_keyboard_action(self, action: UserAction, pressed: bool) -> None:
+        if action in self.__action_listeners:
+            self.__action_listeners[action](not pressed)
 
 
 if __name__ == "__main__":

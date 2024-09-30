@@ -39,12 +39,12 @@ class KeyboardManager(Module):
     def __init__(
         self,
         shortcuts_file: str,
-        listeners: Mapping[UserAction, Callable[[bool], None]],
+        on_action: Callable[[UserAction, bool], None],
     ) -> None:
         super().__init__()
 
         self.keyboard: Optional[KeyboardListener] = None
-        self.listeners = listeners
+        self.on_action = on_action
         self.paused = False
 
         self.shortcuts = Shortcuts(shortcuts_file)
@@ -56,12 +56,12 @@ class KeyboardManager(Module):
                 return
 
             if key in self.shortcuts:
-                self.__call_listener(self.shortcuts[key], pressed=True)
+                self.on_action(self.shortcuts[key], pressed=True)
                 self.__pressed_keys.add(key)
 
         def on_release(key: Optional[Union[Key, KeyCode]]) -> None:
             if key in self.__pressed_keys:
-                self.__call_listener(self.shortcuts[key], pressed=False)
+                self.on_action(self.shortcuts[key], pressed=False)
                 self.__pressed_keys.remove(key)
 
         self.keyboard = KeyboardListener(on_press=on_press, on_release=on_release)
@@ -76,17 +76,3 @@ class KeyboardManager(Module):
 
     def resume(self) -> None:
         self.paused = False
-
-    def __call_listener(self, listener: UserAction, pressed: bool) -> None:
-        if not self.paused and listener in self.listeners:
-            self.listeners[listener](pressed)
-
-
-def ignore_unpress(fn: Callable[[], None]) -> Callable[[bool], None]:
-    def wrapper(pressed: bool) -> None:
-        if not pressed:
-            return
-
-        fn()
-
-    return wrapper

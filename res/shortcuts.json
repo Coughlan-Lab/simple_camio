@@ -3,6 +3,6 @@
     "SAY_MAP_DESCRIPTION": "d",
     "TOGGLE_TTS": "enter",
     "STOP": "q",
-    "QUESTION": "space",
+    "COMMAND": "space",
     "STOP_NAVIGATION": "n"
 }

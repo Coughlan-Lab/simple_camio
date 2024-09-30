@@ -21,6 +21,7 @@ class Announcement(ABC):
     class Category(Enum):
         SYSTEM = "system"
         GRAPH = "graph"
+        NAVIGATION = "navigation"
         LLM = "llm"
         ERROR = "error"
 
@@ -92,6 +93,7 @@ class TTS(Module):
         self.is_speaking_cond = th.Condition()
 
         self._timestamps = {category: 0.0 for category in Announcement.Category}
+        self._enabled = {category: True for category in Announcement.Category}
 
         self.on_announcement_ended: Optional[Callable[[Announcement, bool], None]] = (
             None
@@ -125,6 +127,12 @@ class TTS(Module):
 
             self.loop_thread.join()
             self.loop_thread = None
+
+    def disable_category(self, category: Announcement.Category) -> None:
+        self._enabled[category] = False
+
+    def enable_category(self, category: Announcement.Category) -> None:
+        self._enabled[category] = True
 
     def __loop(self) -> None:
         self.__running.set()
@@ -168,7 +176,7 @@ class TTS(Module):
         category: Announcement.Category,
         priority: Announcement.Priority = Announcement.Priority.LOW,
     ) -> Optional[Announcement]:
-        if text is None:
+        if text is None or not self._enabled[category]:
             return None
 
         text = text.strip()

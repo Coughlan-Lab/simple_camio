@@ -72,7 +72,7 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.HIGH,
         )
 
-    def question_error(self) -> Optional[Announcement]:
+    def no_question_error(self) -> Optional[Announcement]:
         return self.stop_and_say(
             self.res["no_question_error"],
             category=Announcement.Category.ERROR,
@@ -103,7 +103,7 @@ class CamIOTTS(TTS):
     def destination_reached(self) -> Optional[Announcement]:
         announced = self.stop_and_say(
             self.res["destination_reached"],
-            category=Announcement.Category.GRAPH,
+            category=Announcement.Category.NAVIGATION,
             priority=Announcement.Priority.MEDIUM,
         )
 

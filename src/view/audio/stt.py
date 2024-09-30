@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Optional, Set
 
 import speech_recognition as sr
 
@@ -21,6 +21,8 @@ class STT(Module):
         self.recording_audio = False
         self.microphone = sr.Microphone()
 
+        self.commands: Set[str] = set()
+
     @property
     def is_recording(self) -> bool:
         return self.recording_audio
@@ -31,6 +33,12 @@ class STT(Module):
     def calibrate(self) -> None:
         with self.microphone as source:
             self.recognizer.adjust_for_ambient_noise(source)
+
+    def add_command(self, command: str) -> None:
+        self.commands.add(command)
+
+    def remove_command(self, command: str) -> None:
+        self.commands.discard(command)
 
     def get_audio(self) -> Optional[sr.AudioData]:
         if self.recording_audio:
@@ -55,8 +63,12 @@ class STT(Module):
     def audio_to_text(self, audio: sr.AudioData) -> Optional[str]:
         try:
             result = self.recognizer.recognize_google_cloud(
-                audio, os.getenv("GOOGLE_SPEECH_CLOUD_KEY_FILE")
+                audio,
+                os.getenv("GOOGLE_SPEECH_CLOUD_KEY_FILE"),
+                model="latest_short",
+                preferred_phrases=list(self.commands),
             )
+
             return str(result).strip()
         except Exception:
             return None

@@ -33,6 +33,9 @@ class VoiceCommands:
     def __getitem__(self, command: str) -> UserAction:
         return self.__commands[command]
 
+    def __iter__(self):
+        return iter(self.__commands.keys())
+
 
 class CommandController:
     def __init__(
@@ -47,9 +50,16 @@ class CommandController:
         self.on_action = on_action
         self.handling_thread: Optional[HandlingThread] = None
 
+        for command in self.voice_commands:
+            self.stt.add_command(command)
+
     @property
     def llm(self) -> LLM:
         return self.repository[LLM]
+
+    @property
+    def stt(self) -> STT:
+        return self.repository[STT]
 
     def handle_command(self) -> None:
         if self.is_handling_command():

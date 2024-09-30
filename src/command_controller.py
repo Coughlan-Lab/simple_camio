@@ -10,7 +10,7 @@ from src.view import KeyboardManager
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 
-class QuestionController(th.Thread):
+class CommandController(th.Thread):
     def __init__(self, repository: ModulesRepository) -> None:
         super().__init__()
 
@@ -38,26 +38,26 @@ class QuestionController(th.Thread):
         position = self.position_handler.last_info
 
         if config.stt_enabled:
-            question = self.get_question_from_stt()
+            command = self.get_command_from_stt()
         else:
-            question = self.get_question_from_keyboard()
+            command = self.get_command_from_keyboard()
 
         if self.stop_event.is_set():
-            print("Stopping user input handler.")
-            self.tts.stop_waiting_llm_loop()
+            print("Stopping command handler.")
             return
 
-        if len(question) == 0:
-            self.tts.stop_waiting_llm_loop()
-            self.tts.question_error()
+        if len(command) == 0:
+            self.tts.no_question_error()
             return
 
-        print(f"Question: {question}")
+        self.tts.start_waiting_llm_loop()
+
+        print(f"Question: {command}")
 
         if self.position_handler.last_info.is_still_valid():
             position = self.position_handler.last_info
 
-        answer = self.llm.ask(question, position) or ""
+        answer = self.llm.ask(command, position) or ""
         self.tts.stop_waiting_llm_loop()
 
         if self.stop_event.is_set():
@@ -66,7 +66,7 @@ class QuestionController(th.Thread):
 
         self.process_answer(answer)
 
-    def get_question_from_stt(self) -> str:
+    def get_command_from_stt(self) -> str:
         print("Listening...")
 
         self.audio_manager.play_start_recording()
@@ -76,10 +76,9 @@ class QuestionController(th.Thread):
         if recording is None or self.stop_event.is_set():
             return ""
 
-        self.tts.start_waiting_llm_loop()
         return self.stt.audio_to_text(recording) or ""
 
-    def get_question_from_keyboard(self) -> str:
+    def get_command_from_keyboard(self) -> str:
         self.keyboard.pause()
 
         self.audio_manager.play_start_recording()

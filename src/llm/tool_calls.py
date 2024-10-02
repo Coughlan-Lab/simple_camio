@@ -199,9 +199,9 @@ tool_calls = [
                     "step_by_step": {
                         "type": "boolean",
                         "description": (
-                            "If true, provide step-by-step directions. "
-                            "If false, help me locate the destination on the map. "
-                            "If unsure, ask me if I want step-by-step directions or help locating the destination on the map."
+                            "If true, provide step-by-step directions (step-by-step navigation mode). "
+                            "If false, assist in locating the destination on the map (directional guidance). "
+                            "If unsure, ask me if I prefer step-by-step directions or directional guidance to help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {
@@ -243,9 +243,9 @@ tool_calls = [
                     "step_by_step": {
                         "type": "boolean",
                         "description": (
-                            "If true, provide step-by-step directions. "
-                            "If false, help me locate the destination on the map. "
-                            "If unsure, ask me if I want step-by-step directions or help locating the destination on the map."
+                            "If true, provide step-by-step directions (step-by-step navigation mode). "
+                            "If false, assist in locating the destination on the map (directional guidance). "
+                            "If unsure, ask me if I prefer step-by-step directions or directional guidance to help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {

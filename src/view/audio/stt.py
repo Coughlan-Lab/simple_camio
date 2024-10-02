@@ -1,4 +1,5 @@
 import os
+import threading as th
 from typing import Optional, Set
 
 import speech_recognition as sr
@@ -30,8 +31,12 @@ class STT(Module):
     def is_processing_audio(self) -> bool:
         return self.__processing_audio
 
-    def on_question_ended(self) -> None:
-        self.recognizer.stop_listening()
+    def on_question_ended(self, add_final_silence: bool = False) -> None:
+        if add_final_silence:
+            timer = th.Timer(0.5, self.recognizer.stop_listening)
+            timer.start()
+        else:
+            self.recognizer.stop_listening()
 
     def calibrate(self) -> None:
         with self.microphone as source:

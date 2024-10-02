@@ -171,7 +171,8 @@ class CamIOController:
         if self.is_handling_user_input():
             self.command_controller.stop_handling_command()
 
-        self.stt.on_question_ended()
+        if self.stt.is_recording():
+            self.stt.on_question_ended()
 
     def say_map_description(self) -> None:
         self.stop_interaction()
@@ -200,7 +201,7 @@ class CamIOController:
     def __on_command(self, ended: bool) -> None:
         if ended:
             if self.stt.is_recording():
-                self.stt.on_question_ended()
+                self.stt.on_question_ended(add_final_silence=True)
 
         elif self.llm.is_waiting_for_response() or self.stt.is_processing_audio():
             self.tts.waiting()

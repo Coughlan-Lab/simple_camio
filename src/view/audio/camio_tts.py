@@ -69,7 +69,7 @@ class CamIOTTS(TTS):
     def llm_error(self) -> Optional[Announcement]:
         return self.stop_and_say(
             self.res["llm_error"],
-            category=Announcement.Category.ERROR | Announcement.Category.LLM,
+            category=Announcement.Category.ERROR,
             priority=Announcement.Priority.HIGH,
         )
 

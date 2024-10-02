@@ -49,6 +49,9 @@ class Announcement(ABC):
     def is_llm(self) -> bool:
         return self.category == Announcement.Category.LLM
 
+    def is_navigation(self) -> bool:
+        return self.category == Announcement.Category.NAVIGATION
+
 
 Announcement.NONE = Announcement(priority=Announcement.Priority.NONE)
 

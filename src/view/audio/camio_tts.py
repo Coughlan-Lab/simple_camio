@@ -5,6 +5,7 @@ import time
 from typing import Optional
 
 from src.position import MovementDirection, PositionInfo
+from src.frame_processing import Hand
 
 from .tts import TTS, Announcement, TextAnnouncement
 
@@ -68,7 +69,7 @@ class CamIOTTS(TTS):
     def llm_error(self) -> Optional[Announcement]:
         return self.stop_and_say(
             self.res["llm_error"],
-            category=Announcement.Category.ERROR,
+            category=Announcement.Category.ERROR | Announcement.Category.LLM,
             priority=Announcement.Priority.HIGH,
         )
 
@@ -109,6 +110,20 @@ class CamIOTTS(TTS):
 
         return announced
 
+    def position_paused(self) -> Optional[Announcement]:
+        return self.stop_and_say(
+            self.res["position_paused"],
+            category=Announcement.Category.SYSTEM,
+            priority=Announcement.Priority.MEDIUM,
+        )
+
+    def position_resumed(self) -> Optional[Announcement]:
+        return self.stop_and_say(
+            self.res["position_resumed"],
+            category=Announcement.Category.SYSTEM,
+            priority=Announcement.Priority.MEDIUM,
+        )
+
     def wrong_direction(self) -> Optional[Announcement]:
         if (
             time.time() - self._timestamps[Announcement.Category.ERROR]
@@ -135,7 +150,7 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.MEDIUM,
         )
 
-    def hand_side(self, side: str) -> Optional[Announcement]:
+    def hand_side(self, side: Hand.Side) -> Optional[Announcement]:
         return self.stop_and_say(
             self.res["hand_side"].format(side),
             category=Announcement.Category.SYSTEM,

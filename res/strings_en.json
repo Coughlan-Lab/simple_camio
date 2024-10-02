@@ -10,5 +10,7 @@
     "wrong_direction": "Wrong direction",
     "hand_side": "Tracking {} hand",
     "destination_reached": "You have reached your destination.",
+    "position_paused": "Position tracking paused.",
+    "position_resumed": "Position tracking resumed.",
     "instructions": "Use your index finger to explore the map and ask the system questions by pressing the space bar. After pressing the space bar, ask your questions aloud and press the space bar again when you've finished your question. You can stop the response at any time by pressing the Escape key."
 }

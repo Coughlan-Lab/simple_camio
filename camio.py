@@ -254,10 +254,10 @@ class CamIOController:
                 self.navigation_controller.clear
             ),
             UserAction.DISABLE_POSITION_TTS: ignore_action_end(
-                partial(self.tts.disable_category, Announcement.Category.GRAPH)
+                self.__disable_position_tts
             ),
             UserAction.ENABLE_POSITION_TTS: ignore_action_end(
-                partial(self.tts.enable_category, Announcement.Category.GRAPH)
+                self.__enable_position_tts
             ),
         }
 
@@ -269,6 +269,14 @@ class CamIOController:
     def __on_user_action(self, action: UserAction, started: bool = True) -> None:
         if action in self.__action_listeners:
             self.__action_listeners[action](not started)
+
+    def __disable_position_tts(self) -> None:
+        self.tts.disable_category(Announcement.Category.GRAPH)
+        self.tts.position_paused()
+
+    def __enable_position_tts(self) -> None:
+        self.tts.enable_category(Announcement.Category.GRAPH)
+        self.tts.position_resumed()
 
 
 if __name__ == "__main__":

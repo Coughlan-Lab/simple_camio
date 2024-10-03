@@ -10,7 +10,7 @@ directions = list(CardinalDirection.__members__.values())
 north_index = directions.index(CardinalDirection.NORTH)
 
 
-class DirectNavigator(Navigator):
+class FlyOverNavigator(Navigator):
     ANNOUNCEMENTS_INTERVAL = 1.25  # seconds
 
     def __init__(

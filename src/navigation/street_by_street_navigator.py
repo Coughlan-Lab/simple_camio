@@ -9,7 +9,7 @@ from src.utils import Coords, Buffer
 from .navigator import ActionHandler, Navigator
 
 
-class StepByStepNavigator(Navigator):
+class StreetByStreetNavigator(Navigator):
     NEXT_STEP_INTERVAL = 2.0  # seconds
 
     def __init__(

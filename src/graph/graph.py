@@ -66,7 +66,7 @@ class WayPoint:
 
 
 def on_new_route_placeholder(
-    start: Coords, step_by_step: bool, waypoints: List[WayPoint]
+    start: Coords, street_by_street: bool, waypoints: List[WayPoint]
 ) -> None:
     pass
 
@@ -253,7 +253,7 @@ class Graph(Module):
         self,
         start: Coords,
         destination_poi_index: int,
-        step_by_step: bool = True,
+        street_by_street: bool = True,
         route_index: int = 0,
     ) -> None:
         poi = self.pois[destination_poi_index]
@@ -261,7 +261,7 @@ class Graph(Module):
         self.guide_to_destination(
             start,
             poi.coords,
-            step_by_step,
+            street_by_street,
             route_index,
         )
 
@@ -269,19 +269,19 @@ class Graph(Module):
         self,
         start: Coords,
         destination: Coords,
-        step_by_step: bool = True,
+        street_by_street: bool = True,
         route_index: int = 0,
     ) -> None:
         start = self.snap_to_graph(start, force=True)[0]
         destination = self.snap_to_graph(destination, force=True)[0]
 
         if start == destination:
-            return self.on_new_route(start, step_by_step, list())
+            return self.on_new_route(start, street_by_street, list())
 
-        if not step_by_step:
+        if not street_by_street:
             return self.on_new_route(
                 start,
-                step_by_step,
+                street_by_street,
                 [
                     WayPoint(
                         destination,
@@ -336,7 +336,7 @@ class Graph(Module):
             raise ValueError("No route found")
 
         self.on_new_route(
-            start, step_by_step, self.__process_instructions(instructions)
+            start, street_by_street, self.__process_instructions(instructions)
         )
 
     def get_min_path(self, start: Node, destination: Node) -> List[Node]:

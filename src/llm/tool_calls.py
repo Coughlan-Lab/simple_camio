@@ -196,12 +196,12 @@ tool_calls = [
                         "type": "number",
                         "description": "The y coordinate of the destination",
                     },
-                    "step_by_step": {
+                    "street_by_street": {
                         "type": "boolean",
                         "description": (
-                            "If true, provide step-by-step directions (step-by-step navigation mode). "
-                            "If false, assist in locating the destination on the map (directional guidance). "
-                            "If unsure, ask me if I prefer step-by-step directions or directional guidance to help locating the destination on the map."
+                            "If true, provide street-by-street directions (street-by-street navigation mode). "
+                            "If false, assist in locating the destination on the map (fly-over navigation mode). "
+                            "If unsure, ask me if I prefer street-by-street directions or fly-over directions to help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {
@@ -240,12 +240,12 @@ tool_calls = [
                         "type": "number",
                         "description": "The index of the point of interest to reach",
                     },
-                    "step_by_step": {
+                    "street_by_street": {
                         "type": "boolean",
                         "description": (
-                            "If true, provide step-by-step directions (step-by-step navigation mode). "
-                            "If false, assist in locating the destination on the map (directional guidance). "
-                            "If unsure, ask me if I prefer step-by-step directions or directional guidance to help locating the destination on the map."
+                            "If true, provide street-by-street directions (street-by-street navigation mode). "
+                            "If false, assist in locating the destination on the map (fly-over navigation mode). "
+                            "If unsure, ask me if I prefer street-by-street directions or fly-over directions to help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {

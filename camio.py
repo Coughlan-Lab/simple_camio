@@ -183,7 +183,7 @@ class CamIOController:
             self.tts.no_map_description()
 
     def enable_navigation_mode(
-        self, start: Coords, step_by_step: bool, waypoints: List[WayPoint]
+        self, start: Coords, street_by_street: bool, waypoints: List[WayPoint]
     ) -> None:
         self.view.clear_waypoints()
 
@@ -191,8 +191,8 @@ class CamIOController:
         for waypoint in waypoints:
             self.view.add_waypoint(waypoint.coords)
 
-        if step_by_step:
-            self.navigation_controller.navigate_step_by_step(
+        if street_by_street:
+            self.navigation_controller.navigate_street_by_street(
                 waypoints, self.position_handler.last_info
             )
         else:

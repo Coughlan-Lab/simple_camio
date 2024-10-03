@@ -5,9 +5,9 @@ from src.graph import Graph, WayPoint
 from src.modules_repository import ModulesRepository
 from src.position import PositionInfo
 
-from .direct_navigator import DirectNavigator
+from .fly_over_navigator import FlyOverNavigator
 from .navigator import Navigator
-from .step_by_step_navigator import StepByStepNavigator
+from .street_by_street_navigator import StreetByStreetNavigator
 
 
 class NavigationController:
@@ -34,7 +34,7 @@ class NavigationController:
     def is_running(self) -> bool:
         return self.navigator is not None and self.navigator.running
 
-    def navigate_step_by_step(
+    def navigate_street_by_street(
         self, waypoints: List[WayPoint], current_position: PositionInfo
     ) -> None:
         first_waypoint = waypoints[0]
@@ -44,7 +44,7 @@ class NavigationController:
         ):
             waypoints.pop(0)
 
-        self.navigator = StepByStepNavigator(
+        self.navigator = StreetByStreetNavigator(
             self.__graph,
             self.arrived_threshold,
             self.wrong_direction_margin,
@@ -53,7 +53,7 @@ class NavigationController:
         )
 
     def navigate(self, destination: WayPoint) -> None:
-        self.navigator = DirectNavigator(
+        self.navigator = FlyOverNavigator(
             self.__graph,
             self.arrived_threshold,
             self.far_threshold,

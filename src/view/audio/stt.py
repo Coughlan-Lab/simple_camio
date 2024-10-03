@@ -80,7 +80,6 @@ class STT(Module):
             )
 
             return str(result).strip()
-        except Exception:
-            return None
+
         finally:
             self.__processing_audio = False

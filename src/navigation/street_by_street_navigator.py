@@ -99,12 +99,6 @@ class StreetByStreetNavigator(Navigator):
             self.last_position.real_pos, self.waypoints[0].coords
         )
 
-        if current_distance > last_distance:
-            print(
-                f"{current_distance} > {last_distance}, {self.wrong_direction_margin}"
-            )
-            print(-self.last_position.timestamp + position.timestamp)
-            print("..........")
         return current_distance > last_distance + self.wrong_direction_margin
 
     def _new_route_needed(self, start: Coords, destination: Coords) -> None:

@@ -103,6 +103,10 @@ source ~/.zshrc
 ```
 
 Now, proceed with the general setup instructions from [Environment Setup](#environment-setup), replacing `python3.8` with `ipython3.8` and `brew` with `ibrew`.
+Additionally, once the virtual environment is activated and you are in the `src` folder, you might need to run the following command:
+```bash
+alias ipython3.8="../bin/python"
+```
 
 ## Running the code:
 
@@ -111,6 +115,7 @@ To run the code, simply run the following command:
 ```bash
 python3.8 camio.py --model <path_to_model>
 ```
+Replace python3.8 with ipython3.8 if you're on an Apple Silicon Machine.
 
 Root privileges may be required to run the code.
 
@@ -124,8 +129,8 @@ python3.8 camio.py --help
 
 -   `q`: Quit the application
 -   `Space`: Start/Stop LLM question recording
--   `Escape`: Stop TTS
--   `Enter`: Pause/Resume TTS
+-   `Enter`: Stop TTS
+-   `Escape`: Pause/Resume TTS
 -   `n`: Disable navigation mode
 -   `d`: Play map description
 

@@ -5,7 +5,7 @@ from src.config import config
 from src.frame_processing import GestureResult
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
-from src.position import PositionHandler
+from src.position import PositionHandler, PositionInfo
 from src.view import KeyboardManager, UserAction
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 from src.llm import LLM
@@ -117,7 +117,7 @@ class HandlingThread(th.Thread):
 
     def run(self) -> None:
         self.tts.stop_speaking()
-        position = self.position_handler.last_info
+        position = self.__get_position()
 
         if config.stt_enabled:
             command = self.__get_command_from_stt()
@@ -140,8 +140,7 @@ class HandlingThread(th.Thread):
 
         self.tts.start_waiting_llm_loop()
 
-        if self.position_handler.last_info.is_still_valid():
-            position = self.position_handler.last_info
+        position = self.__get_position() or position
 
         answer = self.llm.ask(command, position) or ""
         self.tts.stop_waiting_llm_loop()
@@ -222,6 +221,13 @@ class HandlingThread(th.Thread):
             self.waiting_tts.notify_all()
 
         self.tts.on_announcement_ended = None
+
+    def __get_position(self) -> Optional[PositionInfo]:
+        if (
+            self.hand_status == GestureResult.Status.POINTING
+            and self.position_handler.last_info.is_still_valid()
+        ):
+            return self.position_handler.last_info
 
     @property
     def tts(self) -> CamIOTTS:

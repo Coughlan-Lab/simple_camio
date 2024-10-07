@@ -5,14 +5,15 @@ from datetime import datetime
 from typing import Any, Dict, List, Optional, cast
 
 import yaml
-from openai.types.chat import (ChatCompletionMessageToolCall,
-                               ChatCompletionSystemMessageParam,
-                               ChatCompletionToolMessageParam,
-                               ChatCompletionToolParam,
-                               ChatCompletionUserMessageParam)
+from openai.types.chat import (
+    ChatCompletionMessageToolCall,
+    ChatCompletionSystemMessageParam,
+    ChatCompletionToolMessageParam,
+    ChatCompletionToolParam,
+    ChatCompletionUserMessageParam,
+)
 
-from src.graph import (Edge, EdgeFeatures, Graph, GraphEncoder, Node,
-                       NodeFeatures, PoI)
+from src.graph import Edge, EdgeFeatures, Graph, GraphEncoder, Node, NodeFeatures, PoI
 from src.position import PositionInfo
 from src.utils import Coords, str_dict
 
@@ -90,7 +91,7 @@ class PromptFormatter:
         components = self.prompt_components["question"]
         position_prompt = ""
 
-        if position is not None and position.is_still_valid():
+        if position is not None:
             coords = position.snap_to_graph()
 
             graph_position: str

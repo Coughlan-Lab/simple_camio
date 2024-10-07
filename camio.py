@@ -10,7 +10,6 @@ import sys
 import threading as th
 import time
 from typing import Any, Dict, List, Optional, Callable
-from functools import partial
 
 from src.config import config, get_args
 from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
@@ -206,12 +205,9 @@ class CamIOController:
         elif self.llm.is_waiting_for_response() or self.stt.is_processing_audio():
             self.tts.waiting()
 
-        elif self.hand_status == GestureResult.Status.POINTING:
+        else:
             self.stop_interaction()
             self.command_controller.handle_command()
-
-        else:
-            self.tts.no_pointing()
 
     def __on_navigation_action(self, action: NavigationAction, **kwargs) -> None:
         if self.is_handling_user_input():

@@ -124,6 +124,7 @@ For a list of all available command line arguments, run:
 ```bash
 python3.8 camio.py --help
 ```
+Enabling debug mode (`--debug`) is highly recommended to visualize the user's finger movements and the activated points of interest.
 
 ## Keyboard shortcuts:
 

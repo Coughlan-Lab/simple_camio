@@ -171,7 +171,7 @@ class CamIOController:
             self.command_controller.stop_handling_command()
 
         if self.stt.is_recording():
-            self.stt.on_question_ended()
+            self.stt.end_recording()
 
     def say_map_description(self) -> None:
         self.stop_interaction()
@@ -200,7 +200,7 @@ class CamIOController:
     def __on_command(self, ended: bool) -> None:
         if ended:
             if self.stt.is_recording():
-                self.stt.on_question_ended(add_final_silence=True)
+                self.stt.end_recording(add_final_silence=True)
 
         elif self.llm.is_waiting_for_response() or self.stt.is_processing_audio():
             self.tts.waiting()
@@ -292,6 +292,7 @@ if __name__ == "__main__":
     config.load_model(model)
     print(f"\nLoaded map: {model.get('name', 'Unknown')}\n")
 
+    camio: Optional[CamIOController] = None
     try:
         camio = CamIOController(model)
         camio.main_loop()
@@ -302,7 +303,7 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nAn error occurred:\n{e}")
 
-    else:
+    if camio is not None:
         camio.stop()
         camio.save_chat(args.out)
         print(f"\nChat saved to {args.out}")

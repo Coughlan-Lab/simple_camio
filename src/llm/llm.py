@@ -2,13 +2,16 @@ from typing import Dict, Iterable, List, Optional
 
 from openai import OpenAI, OpenAIError
 from openai.types import CompletionUsage
-from openai.types.chat import (ChatCompletionAssistantMessageParam,
-                               ChatCompletionMessage,
-                               ChatCompletionMessageParam,
-                               ChatCompletionMessageToolCall,
-                               ChatCompletionMessageToolCallParam)
-from openai.types.chat.chat_completion_message_tool_call_param import \
-    Function as FunctionParam
+from openai.types.chat import (
+    ChatCompletionAssistantMessageParam,
+    ChatCompletionMessage,
+    ChatCompletionMessageParam,
+    ChatCompletionMessageToolCall,
+    ChatCompletionMessageToolCallParam,
+)
+from openai.types.chat.chat_completion_message_tool_call_param import (
+    Function as FunctionParam,
+)
 
 from src.graph import Graph
 from src.modules_repository import Module
@@ -18,7 +21,7 @@ from .prompt_formatter import PromptFormatter
 
 
 class LLM(Module):
-    MODEL = "gpt-4o-2024-08-06"  # "gpt-4o-mini-2024-07-18"
+    MODEL = "gpt-4o-2024-08-06"
     MAX_TOKENS = 2000
     DEFAULT_TEMPERATURE = 0.0
 

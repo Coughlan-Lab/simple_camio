@@ -1,7 +1,7 @@
 {
-    "STOP_INTERACTION": "esc",
+    "STOP_INTERACTION": "enter",
     "SAY_MAP_DESCRIPTION": "d",
-    "TOGGLE_TTS": "enter",
+    "TOGGLE_TTS": "esc",
     "STOP": "q",
     "COMMAND": "space",
     "STOP_NAVIGATION": "n"

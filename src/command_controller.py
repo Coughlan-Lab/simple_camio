@@ -155,7 +155,7 @@ class HandlingThread(th.Thread):
         print("Listening...")
 
         self.audio_manager.play_start_recording()
-        recording = self.stt.get_audio()
+        recording = self.stt.start_recording()
         self.audio_manager.play_end_recording()
 
         if recording is None or self.stop_event.is_set():

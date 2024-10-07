@@ -12,6 +12,7 @@ class STT(Module):
     TIMEOUT = 10
     PHRASE_TIME_LIMIT = 20
     FINAL_SILENCE_DURATION = 3.0
+    END_RECORDING_DELAY = 1.0
 
     def __init__(self) -> None:
         super().__init__()
@@ -31,13 +32,6 @@ class STT(Module):
     def is_processing_audio(self) -> bool:
         return self.__processing_audio
 
-    def on_question_ended(self, add_final_silence: bool = False) -> None:
-        if add_final_silence:
-            timer = th.Timer(0.5, self.recognizer.stop_listening)
-            timer.start()
-        else:
-            self.recognizer.stop_listening()
-
     def calibrate(self) -> None:
         with self.microphone as source:
             self.recognizer.adjust_for_ambient_noise(source)
@@ -48,7 +42,7 @@ class STT(Module):
     def remove_command(self, command: str) -> None:
         self.commands.discard(command)
 
-    def get_audio(self) -> Optional[sr.AudioData]:
+    def start_recording(self) -> Optional[sr.AudioData]:
         if self.__recording_audio:
             return None
 
@@ -67,6 +61,13 @@ class STT(Module):
             self.__recording_audio = False
 
         return audio
+
+    def end_recording(self, add_final_silence: bool = False) -> None:
+        if add_final_silence:
+            timer = th.Timer(STT.END_RECORDING_DELAY, self.recognizer.stop_listening)
+            timer.start()
+        else:
+            self.recognizer.stop_listening()
 
     def audio_to_text(self, audio: sr.AudioData) -> Optional[str]:
         try:

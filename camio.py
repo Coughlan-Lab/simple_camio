@@ -123,7 +123,7 @@ class CamIOController:
             if hand.side != last_hand_side:
                 last_hand_side = hand.side
                 self.position_handler.clear()
-                if hand.side is not None:
+                if hand.side is not None and not self.is_handling_user_input():
                     self.tts.hand_side(str(hand.side))
 
             self.position_handler.process_position(hand.position)

@@ -200,8 +200,8 @@ tool_calls = [
                         "type": "boolean",
                         "description": (
                             "If true, provide street-by-street directions (street-by-street navigation mode). "
-                            "If false, assist in locating the destination on the map (fly-over navigation mode). "
-                            "If unsure, ask me if I prefer street-by-street directions or fly-over directions to help locating the destination on the map."
+                            "If false, assist in locating the destination on the map (fly-me-there guidance mode). "
+                            "If unsure, ask me if I prefer street-by-street directions or fly-me-there guidance mode to help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {
@@ -244,8 +244,8 @@ tool_calls = [
                         "type": "boolean",
                         "description": (
                             "If true, provide street-by-street directions (street-by-street navigation mode). "
-                            "If false, assist in locating the destination on the map (fly-over navigation mode). "
-                            "If unsure, ask me if I prefer street-by-street directions or fly-over directions to help locating the destination on the map."
+                            "If false, assist in locating the destination on the map (fly-me-there guidance mode). "
+                            "If unsure, ask me if I prefer street-by-street directions or fly-me-there guidance mode to help locating the destination on the map."
                         ),
                     },
                     "alternative_route_index": {

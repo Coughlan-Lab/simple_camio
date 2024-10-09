@@ -55,7 +55,7 @@ class KeyboardManager(Module):
             if not key or key in self.__pressed_keys:
                 return
 
-            if key in self.shortcuts:
+            if key in self.shortcuts and not self.paused:
                 self.on_action(self.shortcuts[key], True)
                 self.__pressed_keys.add(key)
 

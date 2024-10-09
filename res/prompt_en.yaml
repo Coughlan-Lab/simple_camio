@@ -28,7 +28,7 @@ examples:
         Question: How can I get to the nearest restaurant?
         Answer by calling get_distance_to_point_of_interest for all the relevant restaurants, enable the nearest one and then call guide_to_point_of_interest with the street-by-street parameter set accordingly. Then, tell me you have enabled street-by-street navigation mode.
     - |
-        Question: Are there roadworks on this street?
+        Question: Are there roadwork on this street?
         Answer by telling me if there are roadworks on the graph edge I'm currently on. If I'm not on an edge, tell me that it's not clear which street I'm referring to.
     - |
         Question: Is there a walklight here?

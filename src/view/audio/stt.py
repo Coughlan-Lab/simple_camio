@@ -12,7 +12,7 @@ class STT(Module):
     TIMEOUT = 10
     PHRASE_TIME_LIMIT = 20
     FINAL_SILENCE_DURATION = 3.0
-    END_RECORDING_DELAY = 1.0
+    END_RECORDING_DELAY = 1.5
 
     def __init__(self) -> None:
         super().__init__()

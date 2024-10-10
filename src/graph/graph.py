@@ -76,7 +76,7 @@ class Graph(Module):
 
     AM_I_THRESHOLD = 0.75  # inch
     SNAP_MIN_DISTANCE = 0.25  # inch
-    NEARBY_THRESHOLD = 1400.0  # feets
+    NEARBY_THRESHOLD = 700.0  # feets
 
     INF = 999999
 

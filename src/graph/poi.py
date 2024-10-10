@@ -109,7 +109,15 @@ class PoI(Position):
 
     @property
     def info(self) -> Mapping[str, Any]:
-        return MappingProxyType(self.__info)
+        return MappingProxyType(
+            {
+                "name": self.name,
+                "index": self.index,
+                "coords": self.coords,
+                "edge": self.edge,
+            }
+            | self.__info
+        )
 
     def __hash__(self) -> int:
         return hash(self.index)

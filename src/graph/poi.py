@@ -115,8 +115,8 @@ class PoI(Position):
                 "index": self.index,
                 "coords": self.coords,
                 "edge": self.edge,
+                **self.__info,
             }
-            | self.__info
         )
 
     def __hash__(self) -> int:

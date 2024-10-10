@@ -52,7 +52,9 @@ def select_camera_port() -> Optional[int]:
         print(f"{i + 1}) Camera {ports[i][0]}: {ports[i][1]} x {ports[i][2]}")
 
     while True:
-        selected_index = input("Please, select which camera you would like to use: ")
+        selected_index = input(
+            "Please, select which camera you would like to use: "
+        ).strip()
 
         if selected_index.isnumeric() and 1 <= int(selected_index) <= len(ports):
             break

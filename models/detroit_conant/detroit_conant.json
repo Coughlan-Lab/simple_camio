@@ -263,9 +263,7 @@
                 "name": "American Academy of Dramatic Arts",
                 "street": "Revere Avenue",
                 "housenumber": "120",
-                "categories": [
-                    "education.college"
-                ],
+                "categories": ["education.college"],
                 "name_other": {
                     "short_name": "AADA"
                 },
@@ -280,14 +278,11 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": true,
-                    "stairs": true,
-                    "elevator": false
+                    "stairs": false,
+                    "elevator": true
                 },
                 "location_description": "on Revere Avenuenear the intersection with East Grixdale Avenue",
-                "coords": [
-                    2810.232045577399,
-                    2271.1478545595496
-                ]
+                "coords": [2810.232045577399, 2271.1478545595496]
             },
             {
                 "name": "Antioch Missionary Baptist Church",
@@ -312,18 +307,13 @@
                     "elevator": false
                 },
                 "location_description": "on McDougall Streetnear the intersection with Berry Street",
-                "coords": [
-                    1959.726337823806,
-                    3028.8474516531423
-                ]
+                "coords": [1959.726337823806, 3028.8474516531423]
             },
             {
                 "name": "Bank of America",
                 "street": "Klinger Street",
                 "housenumber": "812",
-                "categories": [
-                    "service.financial.bank"
-                ],
+                "categories": ["service.financial.bank"],
                 "opening_hours": "Mo-Fr 9:00 AM - 5:00 PM; Sa 9:00 AM - 2:00 PM",
                 "brand": "Bank of America",
                 "contact": {
@@ -341,19 +331,14 @@
                     "elevator": false
                 },
                 "location_description": "on Klinger Street, between the intersection with East Brentwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    2590.6714905192625,
-                    841.7511593448629
-                ]
+                "coords": [2590.6714905192625, 841.7511593448629]
             },
             {
                 "name": "Bank of Hope",
                 "commercial": "Korea Town",
                 "street": "Joseph Campau Avenue",
                 "housenumber": "16",
-                "categories": [
-                    "service.financial.bank"
-                ],
+                "categories": ["service.financial.bank"],
                 "opening_hours": "Mo-Fr 8:30 AM - 5:00 PM",
                 "operator": "Hope Bancorp Inc.",
                 "branch": "Joseph Campau Avenue",
@@ -372,18 +357,13 @@
                     "elevator": false
                 },
                 "location_description": "on Joseph Campau Avenue, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    1358.1418951403896,
-                    2145.2189472888995
-                ]
+                "coords": [1358.1418951403896, 2145.2189472888995]
             },
             {
                 "name": "Blaggards Pub",
                 "street": "East Robinwood Street",
                 "housenumber": "8",
-                "categories": [
-                    "catering.pub"
-                ],
+                "categories": ["catering.pub"],
                 "opening_hours": "Mo-Sa 11:00 AM - 8:00 PM; Su 12:00 PM - 8:30 PM",
                 "contact": {
                     "phone": "+1 212-382-2611",
@@ -405,19 +385,13 @@
                     "elevator": false
                 },
                 "location_description": "on East Robinwood Street, between the intersection with Gallagher Street and the intersection with Klinger Street",
-                "coords": [
-                    2486.69621256138,
-                    1626.2684581625085
-                ]
+                "coords": [2486.69621256138, 1626.2684581625085]
             },
             {
                 "name": "Blank Slate Coffee + Kitchen",
                 "street": "Revere Avenue",
                 "housenumber": "121",
-                "categories": [
-                    "vegetarian",
-                    "catering.cafe"
-                ],
+                "categories": ["catering.cafe", "vegetarian"],
                 "opening_hours": "Fr-Su 7:30 AM - 7:00 PM; Mo-Th 7:30 AM - 9:00 PM",
                 "branch": "Revere Avenue",
                 "craft": "caterer",
@@ -455,18 +429,13 @@
                     "elevator": false
                 },
                 "location_description": "on Revere Avenuenear the intersection with East Hildale Street",
-                "coords": [
-                    2710.8158826768413,
-                    1947.04325572493
-                ]
+                "coords": [2710.8158826768413, 1947.04325572493]
             },
             {
                 "name": "Cafe China",
                 "street": "Mitchell Street",
                 "housenumber": "59",
-                "categories": [
-                    "catering.restaurant.chinese"
-                ],
+                "categories": ["catering.restaurant.chinese"],
                 "opening_hours": "Su-We 11:30 AM - 9:30 PM; Th-Sa 11:30 AM - 8:00 PM",
                 "contact": {
                     "phone": "+12122132810",
@@ -482,26 +451,21 @@
                 "city": "Detroit, Conant Street",
                 "edge": 43,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on Mitchell Street, between the intersection with Kalsh Street and the intersection with East Brentwood Street",
-                "coords": [
-                    1614.611596521854,
-                    1262.3306108658448
-                ]
+                "coords": [1614.611596521854, 1262.3306108658448]
             },
             {
                 "name": "Citizens Bank",
                 "street": "Klinger Street",
                 "housenumber": "800",
-                "categories": [
-                    "service.financial.bank"
-                ],
+                "categories": ["service.financial.bank"],
                 "opening_hours": "Mo-Fr 9:00 AM - 5:00 PM",
                 "brand": "Citizens Bank",
                 "name_other": {
@@ -522,10 +486,7 @@
                     "elevator": false
                 },
                 "location_description": "on Klinger Street, between the intersection with East Robinwood Street and the intersection with East Brentwood Street",
-                "coords": [
-                    2600.038146596331,
-                    1430.0062919994696
-                ]
+                "coords": [2600.038146596331, 1430.0062919994696]
             },
             {
                 "name": "Conant Ave United Methodist Church",
@@ -550,10 +511,7 @@
                     "elevator": false
                 },
                 "location_description": "on Conant Street, between the intersection with East Hildale Street and the intersection with East Robinwood Street",
-                "coords": [
-                    1917.739500108291,
-                    1883.7991348217952
-                ]
+                "coords": [1917.739500108291, 1883.7991348217952]
             },
             {
                 "name": "Conant Gardens Church of Christ",
@@ -578,18 +536,13 @@
                     "elevator": false
                 },
                 "location_description": "on Conant Street, between the intersection with Gallagher Street and Stockton Street and the intersection with East Grixdale Avenue",
-                "coords": [
-                    2185.920513525858,
-                    2493.2221136723506
-                ]
+                "coords": [2185.920513525858, 2493.2221136723506]
             },
             {
                 "name": "Cooper Electric",
                 "street": "Joseph Campau Avenue",
                 "housenumber": "29",
-                "categories": [
-                    "commercial.trade"
-                ],
+                "categories": ["commercial.trade"],
                 "opening_hours": "Mo-Fr 7:00 AM - 3:00 PM",
                 "brand": "Cooper Electric",
                 "branch": "Joseph Campau Avenue",
@@ -608,26 +561,21 @@
                 "city": "Detroit, Conant Street",
                 "edge": 14,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
                     "stairs": true,
                     "elevator": false
                 },
-                "location_description": "on Joseph Campau Avenue, between the intersection with East Robinwood Street and the intersection with Conant Street and East Brentwood Street",
-                "coords": [
-                    1542.6721546527772,
-                    1579.7610841973963
-                ]
+                "location_description": "on Joseph Campau Avenue, between the intersection with East Robinwood Street and the intersection with East Brentwood Street and Conant Street",
+                "coords": [1542.6721546527772, 1579.7610841973963]
             },
             {
                 "name": "Dig",
                 "street": "Charest Street",
                 "housenumber": "1178",
-                "categories": [
-                    "catering.fast_food"
-                ],
+                "categories": ["catering.fast_food"],
                 "opening_hours": "Mo-Fr 11:00 AM - 9:00 PM",
                 "brand": "Dig",
                 "name_other": {
@@ -650,22 +598,17 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on Charest Streetnear the intersection with East Hildale Street",
-                "coords": [
-                    1926.6664368644938,
-                    1946.981833066181
-                ]
+                "coords": [1926.6664368644938, 1946.981833066181]
             },
             {
                 "name": "Eden Crest",
                 "street": "East Grixdale Avenue",
                 "housenumber": "202",
-                "categories": [
-                    "catering.pub"
-                ],
+                "categories": ["catering.pub"],
                 "opening_hours": "Mo-Su 11:00 AM - 9:00 PM",
                 "contact": {
                     "phone": "+1-212-239-4820",
@@ -691,19 +634,14 @@
                     "elevator": false
                 },
                 "location_description": "on East Grixdale Avenuenear the intersection with Angling Street",
-                "coords": [
-                    820.2883660744154,
-                    2446.804858550425
-                ]
+                "coords": [820.2883660744154, 2446.804858550425]
             },
             {
                 "name": "Food Gallery 32",
                 "commercial": "Korea Town",
                 "street": "Joseph Campau Avenue",
                 "housenumber": "11",
-                "categories": [
-                    "catering.food_court"
-                ],
+                "categories": ["catering.food_court"],
                 "opening_hours": "Mo-Su 11:15 AM - 9:15 PM",
                 "contact": {
                     "phone": "+1 212-967-1678",
@@ -712,7 +650,7 @@
                 "city": "Detroit, Conant Street",
                 "edge": 13,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
@@ -720,18 +658,13 @@
                     "elevator": false
                 },
                 "location_description": "on Joseph Campau Avenue, between the intersection with East Hildale Street and the intersection with East Robinwood Street",
-                "coords": [
-                    1551.632153115209,
-                    2018.3181932191005
-                ]
+                "coords": [1551.632153115209, 2018.3181932191005]
             },
             {
                 "name": "Fry & Shake",
                 "street": "Charest Street",
                 "housenumber": "1333",
-                "categories": [
-                    "catering.fast_food.burger"
-                ],
+                "categories": ["catering.fast_food.burger"],
                 "opening_hours": "10:30 AM - 8:00 PM",
                 "brand": "Shake Shack",
                 "branch": "Charest Street",
@@ -753,22 +686,17 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on Charest Street, between the intersection with East Robinwood Street and the intersection with East Brentwood Street",
-                "coords": [
-                    1936.8010960495685,
-                    1321.744464201951
-                ]
+                "coords": [1936.8010960495685, 1321.744464201951]
             },
             {
                 "name": "Harrison & Co.",
                 "street": "Klinger Street",
                 "housenumber": "917",
-                "categories": [
-                    "commercial.supermarket"
-                ],
+                "categories": ["commercial.supermarket"],
                 "opening_hours": "Open 24 hours, 7 days a week",
                 "contact": {
                     "phone": "+1-212-586-8784",
@@ -801,39 +729,27 @@
                     "elevator": false
                 },
                 "location_description": "on Klinger Street, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    2598.0573075979455,
-                    2052.5277569884415
-                ]
+                "coords": [2598.0573075979455, 2052.5277569884415]
             },
             {
                 "name": "HealthGuard Pharmacy",
-                "street": "Angling Street",
-                "housenumber": "29",
-                "categories": [
-                    "health.pharmacy"
-                ],
-                "opening_hours": "Open 24 hours, 7 days a week",
+                "street": "Revere Avenue",
+                "housenumber": "179",
+                "categories": ["healthcare.pharmacy"],
+                "opening_hours": "Mo-Fr 8:00 AM - 8:00 PM",
                 "contact": {
-                    "phone": "+1-212-696-2593",
-                    "website": "http://www.healthguardpharmacy.com/"
-                },
-                "facilities": {
-                    "toilets": false,
-                    "wheelchair_access": true
-                },
-                "payment_options": {
-                    "cash": true,
-                    "credit_cards": true,
-                    "insurance": true
+                    "phone": "+1-212-679-4000",
+                    "website": "https://healthguardpharmacy.com"
                 },
                 "pharmacy": {
-                    "prescription_services": true,
-                    "over_the_counter": true,
-                    "vaccination": true
+                    "services": [
+                        "prescription",
+                        "over_the_counter",
+                        "consultation"
+                    ]
                 },
                 "city": "Detroit, Conant Street",
-                "edge": 5,
+                "edge": 34,
                 "accessibility": {
                     "wheelchair_accessible": false,
                     "tactile_paving": false,
@@ -842,19 +758,14 @@
                     "stairs": false,
                     "elevator": false
                 },
-                "location_description": "on Angling Street, between the intersection with East Robinwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    804.646762583906,
-                    1138.1566403642937
-                ]
+                "location_description": "on Revere Avenuenear the intersection with East Brentwood Street",
+                "coords": [2758.432231060014, 992.0632615926711]
             },
             {
                 "name": "House of Sushi",
                 "street": "Joseph Campau Avenue",
                 "housenumber": "6",
-                "categories": [
-                    "catering.restaurant.japanese"
-                ],
+                "categories": ["catering.restaurant.japanese"],
                 "accessibility": {
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
@@ -883,18 +794,13 @@
                 "city": "Detroit, Conant Street",
                 "edge": 12,
                 "location_description": "on Joseph Campau Avenuenear the intersection with East Grixdale Avenue",
-                "coords": [
-                    1512.6658350494013,
-                    2397.702924895102
-                ]
+                "coords": [1512.6658350494013, 2397.702924895102]
             },
             {
                 "name": "Jewelry Shopping Mall",
                 "street": "Angling Street",
                 "housenumber": "44",
-                "categories": [
-                    "commercial.marketplace"
-                ],
+                "categories": ["commercial.marketplace"],
                 "opening_hours": "Mo-Sa 9:00 AM - 6:00 PM",
                 "contact": {
                     "phone": "+1-212-575-1115",
@@ -904,7 +810,7 @@
                 "city": "Detroit, Conant Street",
                 "edge": 3,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
@@ -912,10 +818,7 @@
                     "elevator": false
                 },
                 "location_description": "on Angling Streetnear the intersection with East Grixdale Avenue",
-                "coords": [
-                    965.4925687314559,
-                    2511.310048175427
-                ]
+                "coords": [965.4925687314559, 2511.310048175427]
             },
             {
                 "name": "Keynote Lounge",
@@ -923,9 +826,7 @@
                 "district": "Conant Gardens",
                 "street": "Conant Street",
                 "housenumber": "19437",
-                "categories": [
-                    "catering.bar"
-                ],
+                "categories": ["catering.bar"],
                 "edge": 114,
                 "accessibility": {
                     "wheelchair_accessible": false,
@@ -936,19 +837,14 @@
                     "elevator": false
                 },
                 "location_description": "on Conant Street, between the intersection with Gallagher Street and Stockton Street and the intersection with East Grixdale Avenue",
-                "coords": [
-                    2191.8279806642186,
-                    2679.8685236765996
-                ]
+                "coords": [2191.8279806642186, 2679.8685236765996]
             },
             {
                 "name": "Korean Bites",
                 "commercial": "Korea Town",
                 "street": "Joseph Campau Avenue",
                 "housenumber": "9",
-                "categories": [
-                    "catering.restaurant.korean"
-                ],
+                "categories": ["catering.restaurant.korean"],
                 "opening_hours": "9:00 AM - 9:00 PM",
                 "branch": "Joseph Campau Avenue",
                 "contact": {
@@ -966,27 +862,21 @@
                 "city": "Detroit, Conant Street",
                 "edge": 12,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on Joseph Campau Avenue, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    1370.483815881173,
-                    2368.0612436227552
-                ]
+                "coords": [1370.483815881173, 2368.0612436227552]
             },
             {
                 "name": "Kosher",
                 "street": "Conant Street",
                 "housenumber": "43",
-                "categories": [
-                    "catering.food_court",
-                    "kosher.only"
-                ],
+                "categories": ["catering.food_court", "kosher.only"],
                 "opening_hours": "Mo-Th 11:00 AM - 8:00 PM; Fr 11:00 AM - 3:00 PM; Su 11:00 AM - 8:00 PM",
                 "contact": {
                     "phone": "+1-212-725-8100",
@@ -1009,18 +899,13 @@
                     "elevator": false
                 },
                 "location_description": "on Conant Street, between the intersection with Kalsh Street and the intersection with East Brentwood Street and Joseph Campau Avenue",
-                "coords": [
-                    1448.5361951659363,
-                    1418.1951782123933
-                ]
+                "coords": [1448.5361951659363, 1418.1951782123933]
             },
             {
                 "name": "Mad Dog",
                 "street": "East Robinwood Street",
                 "housenumber": "5",
-                "categories": [
-                    "catering.restaurant.mexican"
-                ],
+                "categories": ["catering.restaurant.mexican"],
                 "opening_hours": "Su-We 12:00 PM - 9:30 PM; Th-Sa 12:00 PM - 8:00 PM",
                 "contact": {
                     "phone": "+1-646-998-5722",
@@ -1038,7 +923,7 @@
                 "city": "Detroit, Conant Street",
                 "edge": 69,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
@@ -1046,19 +931,16 @@
                     "elevator": false
                 },
                 "location_description": "on East Robinwood Street, between the intersection with Angling Street and the intersection with Brinker Avenue",
-                "coords": [
-                    936.2235661195975,
-                    1565.3686684582394
-                ]
+                "coords": [936.2235661195975, 1565.3686684582394]
             },
             {
                 "name": "McDonald's",
                 "street": "Klinger Street",
                 "housenumber": "809",
                 "categories": [
-                    "building.catering",
                     "building.commercial",
-                    "catering.fast_food.burger"
+                    "catering.fast_food.burger",
+                    "building.catering"
                 ],
                 "opening_hours": "Mo-Su 7:00 AM - 8:00 PM",
                 "brand": "McDonald's",
@@ -1098,18 +980,13 @@
                     "elevator": false
                 },
                 "location_description": "on Klinger Street, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    2603.1124162229257,
-                    2196.7530010273285
-                ]
+                "coords": [2603.1124162229257, 2196.7530010273285]
             },
             {
                 "name": "Mondo",
                 "street": "Revere Avenue",
                 "housenumber": "102",
-                "categories": [
-                    "office.employment_agency"
-                ],
+                "categories": ["office.employment_agency"],
                 "opening_hours": "Mo-Fr 7:00 AM - 7:00 PM",
                 "contact": {
                     "phone": "+1-212-257-5111",
@@ -1121,15 +998,12 @@
                     "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
-                    "reception": false,
+                    "reception": true,
                     "stairs": false,
-                    "elevator": false
+                    "elevator": true
                 },
                 "location_description": "on Revere Avenue, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    2888.8990937243916,
-                    1973.339725821814
-                ]
+                "coords": [2888.8990937243916, 1973.339725821814]
             },
             {
                 "name": "New Merchant Food Center",
@@ -1137,35 +1011,28 @@
                 "district": "Northeast Central District",
                 "street": "East Seven Mile Road",
                 "housenumber": "2819",
-                "categories": [
-                    "commercial.convenience"
-                ],
+                "categories": ["commercial.convenience"],
                 "opening_hours": "Mo-Fr 7:00 AM - 8:00 PM",
                 "commercial": {
                     "type": "convenience"
                 },
                 "edge": 84,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on East Seven Mile Road, between the intersection with Angling Street and the intersection with Angling Street",
-                "coords": [
-                    816.6775872039115,
-                    689.1141684845728
-                ]
+                "coords": [816.6775872039115, 689.1141684845728]
             },
             {
                 "name": "Nomad",
                 "street": "Charest Street",
                 "housenumber": "1170",
-                "categories": [
-                    "catering.restaurant.indian"
-                ],
+                "categories": ["catering.restaurant.indian"],
                 "opening_hours": "Mo-Su 9:00 AM - 9:30 PM",
                 "contact": {
                     "phone": "+1-347-472-5660",
@@ -1181,47 +1048,78 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
                 "location_description": "on Charest Street, between the intersection with East Brentwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    1909.951811842152,
-                    917.6420941080365
-                ]
+                "coords": [1909.951811842152, 917.6420941080365]
             },
             {
-                "name": "Pershing High School",
+                "name": "Pershing Park",
                 "city": "Detroit",
                 "district": "Conant Gardens",
                 "street": "Revere Avenue",
                 "housenumber": "18875",
-                "categories": [
-                    "education.school"
-                ],
+                "categories": ["leisure.park"],
                 "accessibility": {
                     "tactile_map": true,
-                    "wheelchair_accessible": true,
+                    "wheelchair_access": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "reception": false,
                     "stairs": false,
-                    "elevator": true
+                    "elevator": false
                 },
-                "operator": "Detroit Public Schools",
+                "operator": "City of Detroit",
                 "edge": 34,
                 "location_description": "on Revere Avenue, between the intersection with East Brentwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    2863.5605513749165,
-                    1073.6790705683138
-                ]
+                "coords": [2863.5605513749165, 1073.6790705683138]
+            },
+            {
+                "name": "Pixel Arcade",
+                "street": "Angling Street",
+                "housenumber": "29",
+                "categories": ["entertainment.arcade"],
+                "opening_hours": "Mo-Su 10:00 AM - 2:00 AM",
+                "contact": {
+                    "phone": "+1-212-555-1234",
+                    "website": "http://www.pixelarcade.com/"
+                },
+                "facilities": {
+                    "toilets": true,
+                    "wheelchair_access": true,
+                    "food_and_drink": true,
+                    "parking": false
+                },
+                "payment_options": {
+                    "cash": true,
+                    "credit_cards": true,
+                    "digital_wallets": true
+                },
+                "arcade": {
+                    "classic_games": true,
+                    "modern_games": true,
+                    "multiplayer_zone": true,
+                    "virtual_reality": true
+                },
+                "city": "Detroit, Conant Street",
+                "edge": 5,
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "location_description": "on Angling Street, between the intersection with East Robinwood Street and the intersection with East Seven Mile Road",
+                "coords": [804.646762583906, 1138.1566403642937]
             },
             {
                 "name": "Pok\u00e9 Bar",
                 "street": "Charest Street",
                 "housenumber": "1333",
-                "categories": [
-                    "catering.fast_food"
-                ],
+                "categories": ["catering.fast_food"],
                 "opening_hours": "Mo-Fr 11:00 AM - 9:00 PM; Sa 11:00 AM - 8:00 PM; Su 11:30 AM - 8:00 PM",
                 "contact": {
                     "phone": "+1 212-244-4320",
@@ -1234,22 +1132,17 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on Charest Streetnear the intersection with East Seven Mile Road",
-                "coords": [
-                    2025.282097194965,
-                    801.940970932828
-                ]
+                "coords": [2025.282097194965, 801.940970932828]
             },
             {
                 "name": "Prosek",
                 "street": "Revere Avenue",
                 "housenumber": "105",
-                "categories": [
-                    "office.company"
-                ],
+                "categories": ["office.company"],
                 "opening_hours": "Mo-Fr 8:30 AM - 5:30 PM",
                 "contact": {
                     "phone": "+1-212-279-3115",
@@ -1258,27 +1151,21 @@
                 "city": "Detroit, Conant Street",
                 "edge": 31,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
-                    "elevator": false
+                    "stairs": false,
+                    "elevator": true
                 },
                 "location_description": "on Revere Avenue, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    2703.2104249955482,
-                    2284.8664942316123
-                ]
+                "coords": [2703.2104249955482, 2284.8664942316123]
             },
             {
                 "name": "PureLeaf",
                 "street": "Charest Street",
                 "housenumber": "1164",
-                "categories": [
-                    "catering.fast_food.salad",
-                    "vegetarian"
-                ],
+                "categories": ["vegetarian", "catering.fast_food.salad"],
                 "opening_hours": "Mo-Su 10:30 AM - 8:30 PM",
                 "brand": "PureLeaf",
                 "contact": {
@@ -1307,18 +1194,13 @@
                     "elevator": false
                 },
                 "location_description": "on Charest Street, between the intersection with East Robinwood Street and the intersection with East Brentwood Street",
-                "coords": [
-                    2054.765238963427,
-                    1403.7106759577907
-                ]
+                "coords": [2054.765238963427, 1403.7106759577907]
             },
             {
                 "name": "QuickBite Grill",
                 "street": "Klinger Street",
                 "housenumber": "1000",
-                "categories": [
-                    "catering.fast_food"
-                ],
+                "categories": ["catering.fast_food"],
                 "opening_hours": "Mo-Sa 6:30 AM - 9:00 PM",
                 "brand": "QuickBite Grill",
                 "branch": "Klinger Street",
@@ -1336,27 +1218,21 @@
                 "city": "Detroit, Conant Street",
                 "edge": 25,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
                 "location_description": "on Klinger Street, between the intersection with East Hildale Street and the intersection with East Robinwood Street",
-                "coords": [
-                    2603.8968634629045,
-                    1808.7750891651647
-                ]
+                "coords": [2603.8968634629045, 1808.7750891651647]
             },
             {
                 "name": "Sheraton Commander Grand Lake Hotel",
                 "street": "Mitchell Street",
                 "housenumber": "145",
-                "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
-                ],
+                "categories": ["building.accommodation", "accommodation.hotel"],
                 "opening_hours": "Open 24 hours, 7 days a week",
                 "brand": "Sheraton",
                 "operator": "Sheraton Hotels & Resorts",
@@ -1393,17 +1269,12 @@
                     "elevator": false
                 },
                 "location_description": "on Mitchell Street, between the intersection with East Grixdale Avenue and the intersection with East Hildale Street",
-                "coords": [
-                    1734.374679776977,
-                    2309.1107065420197
-                ]
+                "coords": [1734.374679776977, 2309.1107065420197]
             },
             {
                 "name": "Silver Creek",
                 "street": "Gallagher Street",
-                "categories": [
-                    "catering.pub"
-                ],
+                "categories": ["catering.pub"],
                 "opening_hours": "Mo-Su 11:00 AM - 4:00 PM",
                 "contact": {
                     "phone": "+12127929673",
@@ -1419,24 +1290,18 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
-                "location_description": "on Gallagher Street, between the intersection with Stockton Street and Conant Street and the intersection with East Grixdale Avenue",
-                "coords": [
-                    2284.5701065234307,
-                    2534.368549382756
-                ]
+                "location_description": "on Gallagher Street, between the intersection with Conant Street and Stockton Street and the intersection with East Grixdale Avenue",
+                "coords": [2284.5701065234307, 2534.368549382756]
             },
             {
                 "name": "Star Kitchen",
                 "street": "Angling Street",
                 "housenumber": "463",
-                "categories": [
-                    "catering.restaurant",
-                    "fine_dining"
-                ],
-                "opening_hours": "6:00 PM - 11:30 PM",
+                "categories": ["catering.restaurant", "fine_dining"],
+                "opening_hours": "6:00 PM - 9:30 PM",
                 "contact": {
                     "phone": "+1-212-695-1962",
                     "website": "https://starkitchen.com"
@@ -1460,10 +1325,39 @@
                     "elevator": false
                 },
                 "location_description": "on Angling Street, between the intersection with East Robinwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    971.041324584839,
-                    949.5532811401258
-                ]
+                "coords": [971.041324584839, 949.5532811401258]
+            },
+            {
+                "name": "Starlight Cinema",
+                "street": "Revere Avenue",
+                "housenumber": "110",
+                "categories": ["entertainment.cinema"],
+                "opening_hours": "Mo-Su 10:00 AM - 11:00 PM",
+                "contact": {
+                    "phone": "(917) 261-4326",
+                    "website": "https://www.starlightcinema.com/"
+                },
+                "building": {
+                    "levels": 17,
+                    "material": "brick",
+                    "color": "#E1E7EB",
+                    "height": 46,
+                    "roof": {
+                        "shape": "flat"
+                    }
+                },
+                "city": "Detroit, Conant Street",
+                "edge": 33,
+                "accessibility": {
+                    "wheelchair_accessible": false,
+                    "tactile_paving": false,
+                    "tactile_map": false,
+                    "reception": false,
+                    "stairs": false,
+                    "elevator": false
+                },
+                "location_description": "on Revere Avenue, between the intersection with East Robinwood Street and the intersection with East Brentwood Street",
+                "coords": [2866.3722477755946, 1183.4605068074504]
             },
             {
                 "name": "Stavros Niarchos Foundation Library",
@@ -1491,25 +1385,20 @@
                 "edge": 90,
                 "accessibility": {
                     "wheelchair_accessible": true,
-                    "tactile_paving": true,
+                    "tactile_paving": false,
                     "tactile_map": false,
                     "reception": true,
                     "stairs": false,
-                    "elevator": true
+                    "elevator": false
                 },
                 "location_description": "on East Seven Mile Roadnear the intersection with Mitchell Street",
-                "coords": [
-                    1726.924326443411,
-                    725.9192377066973
-                ]
+                "coords": [1726.924326443411, 725.9192377066973]
             },
             {
                 "name": "Stout Detroit",
                 "street": "Gallagher Street",
                 "housenumber": "133",
-                "categories": [
-                    "catering.pub"
-                ],
+                "categories": ["catering.pub"],
                 "opening_hours": "Th-Su 11:30 AM - 8:45 PM; Mo-We 11:30 AM - 9:45 PM",
                 "branch": "Gallagher Street",
                 "contact": {
@@ -1533,20 +1422,14 @@
                     "stairs": true,
                     "elevator": false
                 },
-                "location_description": "on Gallagher Street, between the intersection with Stockton Street and Conant Street and the intersection with East Grixdale Avenue",
-                "coords": [
-                    2296.2512221917705,
-                    2665.9644228965244
-                ]
+                "location_description": "on Gallagher Street, between the intersection with Conant Street and Stockton Street and the intersection with East Grixdale Avenue",
+                "coords": [2296.2512221917705, 2665.9644228965244]
             },
             {
                 "name": "Sunset Hotel",
                 "street": "Maine Street",
                 "housenumber": "305",
-                "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
-                ],
+                "categories": ["building.accommodation", "accommodation.hotel"],
                 "opening_hours": "Open 24 hours, 7 days a week",
                 "operator": "Sunset Hotel",
                 "branch": "Maine Street",
@@ -1583,18 +1466,13 @@
                     "elevator": false
                 },
                 "location_description": "on Maine Street, between the intersection with East Robinwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    660.2608888184417,
-                    1228.9836725215603
-                ]
+                "coords": [660.2608888184417, 1228.9836725215603]
             },
             {
                 "name": "The Australian Detroit",
                 "street": "East Robinwood Street",
                 "housenumber": "20",
-                "categories": [
-                    "catering.restaurant.american"
-                ],
+                "categories": ["catering.restaurant.american"],
                 "opening_hours": "Su 11:30 AM - 7:00 PM; Tu-Sa 11:30 AM - 8:00 PM",
                 "contact": {
                     "phone": "+1 212-869-9601",
@@ -1616,24 +1494,18 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": false,
+                    "stairs": true,
                     "elevator": false
                 },
                 "location_description": "on East Robinwood Street, between the intersection with Brinker Avenue and the intersection with Joseph Campau Avenue",
-                "coords": [
-                    1350.002222634441,
-                    1574.784318833575
-                ]
+                "coords": [1350.002222634441, 1574.784318833575]
             },
             {
                 "name": "The Italian Table",
                 "street": "Revere Avenue",
                 "housenumber": "241",
-                "categories": [
-                    "catering.restaurant.italian",
-                    "vegetarian"
-                ],
-                "opening_hours": "Mo-Su 7:00 AM - 9:00 PM",
+                "categories": ["catering.restaurant.italian", "vegetarian"],
+                "opening_hours": "Mo-Su 7:00 AM - 11:00 PM",
                 "branch": "Revere Avenue",
                 "contact": {
                     "phone": "+1-646-779-7667",
@@ -1658,19 +1530,16 @@
                     "elevator": false
                 },
                 "location_description": "on Revere Avenue, between the intersection with East Brentwood Street and the intersection with East Seven Mile Road",
-                "coords": [
-                    2750.265722155371,
-                    828.9997739158786
-                ]
+                "coords": [2750.265722155371, 828.9997739158786]
             },
             {
                 "name": "The Lincoln Detroit",
                 "street": "Klinger Street",
                 "housenumber": "29",
                 "categories": [
-                    "building.facility",
+                    "service.social_facility.shelter",
                     "building.accommodation",
-                    "service.social_facility.shelter"
+                    "building.facility"
                 ],
                 "contact": {
                     "phone": "+1-212-689-1900",
@@ -1698,10 +1567,7 @@
                     "elevator": false
                 },
                 "location_description": "on Klinger Streetnear the intersection with East Grixdale Avenue",
-                "coords": [
-                    2552.669648186611,
-                    2497.1228969468134
-                ]
+                "coords": [2552.669648186611, 2497.1228969468134]
             },
             {
                 "name": "The Plaza Cinema",
@@ -1709,8 +1575,8 @@
                 "street": "East Seven Mile Road",
                 "housenumber": "768",
                 "categories": [
-                    "building.entertainment",
-                    "entertainment.cinema"
+                    "entertainment.cinema",
+                    "building.entertainment"
                 ],
                 "operator": "Plaza Entertainment Group",
                 "contact": {
@@ -1743,50 +1609,14 @@
                     "elevator": false
                 },
                 "location_description": "on East Seven Mile Road, between the intersection with Angling Street and the intersection with Brinker Avenue",
-                "coords": [
-                    880.6806789090817,
-                    703.9473526357083
-                ]
-            },
-            {
-                "name": "Tina's Cuban Cuisine",
-                "street": "Revere Avenue",
-                "housenumber": "179",
-                "categories": [
-                    "catering.fast_food"
-                ],
-                "opening_hours": "Mo-Fr 8:00 AM - 8:00 PM",
-                "contact": {
-                    "phone": "+1-212-679-3500",
-                    "website": "https://tinascubancuisine.com"
-                },
-                "catering": {
-                    "cuisine": "cuban"
-                },
-                "city": "Detroit, Conant Street",
-                "edge": 34,
-                "accessibility": {
-                    "wheelchair_accessible": true,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "location_description": "on Revere Avenuenear the intersection with East Brentwood Street",
-                "coords": [
-                    2758.432231060014,
-                    992.0632615926711
-                ]
+                "coords": [880.6806789090817, 703.9473526357083]
             },
             {
                 "name": "Tofu House",
                 "commercial": "Korea Town",
                 "street": "Joseph Campau Avenue",
                 "housenumber": "5",
-                "categories": [
-                    "catering.restaurant.korean"
-                ],
+                "categories": ["catering.restaurant.korean"],
                 "opening_hours": "10:30 AM - 7:00 PM",
                 "branch": "Joseph Campau Avenue",
                 "contact": {
@@ -1803,18 +1633,15 @@
                 "city": "Detroit, Conant Street",
                 "edge": 14,
                 "accessibility": {
-                    "wheelchair_accessible": true,
+                    "wheelchair_accessible": false,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
                 "location_description": "on Joseph Campau Avenuenear the intersection with East Robinwood Street",
-                "coords": [
-                    1478.2300831747402,
-                    1603.7540682816425
-                ]
+                "coords": [1478.2300831747402, 1603.7540682816425]
             },
             {
                 "name": "United Grill Coney Island",
@@ -1831,22 +1658,17 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
                 "location_description": "on Conant Street, between the intersection with East Robinwood Street and the intersection with Kalsh Street",
-                "coords": [
-                    1527.1357935352303,
-                    1568.6218083852464
-                ]
+                "coords": [1527.1357935352303, 1568.6218083852464]
             },
             {
                 "name": "Valley Bank",
                 "street": "East Seven Mile Road",
                 "housenumber": "279",
-                "categories": [
-                    "service.financial.bank"
-                ],
+                "categories": ["service.financial.bank"],
                 "opening_hours": "Mo-Fr 9:00 AM - 5:00 PM",
                 "contact": {
                     "phone": "+1-212-481-6109",
@@ -1863,19 +1685,13 @@
                     "elevator": false
                 },
                 "location_description": "on East Seven Mile Roadnear the intersection with Angling Street",
-                "coords": [
-                    834.3790913524653,
-                    785.5806202599924
-                ]
+                "coords": [834.3790913524653, 785.5806202599924]
             },
             {
                 "name": "Waldorf Astoria",
                 "street": "East Grixdale Avenue",
                 "housenumber": "301",
-                "categories": [
-                    "accommodation.hotel",
-                    "building.accommodation"
-                ],
+                "categories": ["building.accommodation", "accommodation.hotel"],
                 "brand": "Waldorf Astoria",
                 "contact": {
                     "phone": "+1 212 355 3000",
@@ -1906,10 +1722,7 @@
                     "elevator": false
                 },
                 "location_description": "on East Grixdale Avenue, between the intersection with Mitchell Street and the intersection with McDougall Street",
-                "coords": [
-                    1842.5007082239085,
-                    2458.2844087081344
-                ]
+                "coords": [1842.5007082239085, 2458.2844087081344]
             },
             {
                 "name": "Whole Foods Market",
@@ -1917,9 +1730,9 @@
                 "housenumber": "10",
                 "categories": [
                     "vegan",
+                    "organic",
                     "vegetarian",
-                    "commercial.supermarket",
-                    "organic"
+                    "commercial.supermarket"
                 ],
                 "opening_hours": "Mo-Su 7:00 AM - 9:00 PM",
                 "brand": "Whole Foods Market",
@@ -1937,7 +1750,7 @@
                 "city": "Detroit, Conant Street",
                 "edge": 66,
                 "accessibility": {
-                    "wheelchair_accessible": false,
+                    "wheelchair_accessible": true,
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
@@ -1945,18 +1758,13 @@
                     "elevator": false
                 },
                 "location_description": "on East Grixdale Avenue, between the intersection with Norwood Street and the limit of the map",
-                "coords": [
-                    3141.7765847154096,
-                    2486.4106500475987
-                ]
+                "coords": [3141.7765847154096, 2486.4106500475987]
             },
             {
                 "name": "Wolfgang\u2019s Steakhouse",
                 "street": "Brinker Avenue",
                 "housenumber": "4",
-                "categories": [
-                    "catering.restaurant.american"
-                ],
+                "categories": ["catering.restaurant.american"],
                 "opening_hours": "Mo-Su 12:00 PM - 9:30 PM",
                 "contact": {
                     "phone": "+12128893369",
@@ -1969,23 +1777,18 @@
                     "tactile_paving": false,
                     "tactile_map": false,
                     "reception": false,
-                    "stairs": true,
+                    "stairs": false,
                     "elevator": false
                 },
                 "location_description": "on Brinker Avenue, between the intersection with East Grixdale Avenue and the intersection with East Robinwood Street",
-                "coords": [
-                    1294.2625665601183,
-                    2412.846505585001
-                ]
+                "coords": [1294.2625665601183, 2412.846505585001]
             },
             {
                 "name": "Yakisch Playground",
                 "city": "Detroit",
                 "street": "Angling Street",
                 "district": "Northeast Central District",
-                "categories": [
-                    "leisure.park"
-                ],
+                "categories": ["leisure.park"],
                 "opening_hours": "Mo-Su 8:00 AM - 10:00 PM",
                 "accessibility": {
                     "tactile_map": true,
@@ -1997,51 +1800,7 @@
                 },
                 "edge": 3,
                 "location_description": "on Angling Street, between the limit of the map and the intersection with East Grixdale Avenue",
-                "coords": [
-                    1015.0630547224376,
-                    2697.7960230527124
-                ]
-            },
-            {
-                "name": "on",
-                "street": "Revere Avenue",
-                "housenumber": "110",
-                "categories": [
-                    "building.catering",
-                    "catering.restaurant.korean"
-                ],
-                "opening_hours": "12:00 PM - 2:15 PM; 6:00 PM - 9:00 PM",
-                "contact": {
-                    "phone": "(917) 261-4326",
-                    "website": "https://www.ondetroit.net/"
-                },
-                "catering": {
-                    "cuisine": "korean"
-                },
-                "building": {
-                    "levels": 17,
-                    "material": "brick",
-                    "color": "#E1E7EB",
-                    "height": 46,
-                    "roof": {
-                        "shape": "flat"
-                    }
-                },
-                "city": "Detroit, Conant Street",
-                "edge": 33,
-                "accessibility": {
-                    "wheelchair_accessible": true,
-                    "tactile_paving": false,
-                    "tactile_map": false,
-                    "reception": false,
-                    "stairs": false,
-                    "elevator": false
-                },
-                "location_description": "on Revere Avenue, between the intersection with East Robinwood Street and the intersection with East Brentwood Street",
-                "coords": [
-                    2866.3722477755946,
-                    1183.4605068074504
-                ]
+                "coords": [1015.0630547224376, 2697.7960230527124]
             }
         ],
         "nodes_features": [

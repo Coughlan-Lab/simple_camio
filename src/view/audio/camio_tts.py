@@ -4,8 +4,8 @@ import os
 import time
 from typing import Optional
 
-from src.position import MovementDirection, PositionInfo
 from src.frame_processing import Hand
+from src.position import MovementDirection, PositionInfo
 
 from .tts import TTS, Announcement, TextAnnouncement
 
@@ -102,13 +102,11 @@ class CamIOTTS(TTS):
         )
 
     def destination_reached(self) -> Optional[Announcement]:
-        announced = self.stop_and_say(
+        return self.stop_and_say(
             self.res["destination_reached"],
             category=Announcement.Category.NAVIGATION,
             priority=Announcement.Priority.MEDIUM,
         )
-
-        return announced
 
     def position_paused(self) -> Optional[Announcement]:
         return self.stop_and_say(

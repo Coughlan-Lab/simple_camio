@@ -33,18 +33,21 @@ class StreetByStreetNavigator(Navigator):
         self.on_waypoint = False
         self.__waiting_new_route = False
 
-        self._announce_directions(self.waypoints[0].instructions)
+    def is_running(self) -> bool:
+        return super().is_running() and len(self.waypoints) > 0
 
-    @property
-    def running(self) -> bool:
-        return not self.destination_reached and len(self.waypoints) > 0
+    def start(self) -> None:
+        super().start()
+
+        self._announce_directions(self.waypoints[0].instructions)
+        self.__stop_timestamp = time.time()
 
     @property
     def last_position(self) -> PositionInfo:
         return self.positions_buffer.first() or PositionInfo.NONE
 
     def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
-        if not self.running:
+        if not self.is_running():
             return
 
         current_time = time.time()

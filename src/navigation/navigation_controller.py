@@ -1,4 +1,4 @@
-from typing import List, Optional, Callable, Dict, Any
+from typing import Any, Callable, Dict, List, Optional
 
 from src.config import config
 from src.graph import Graph, WayPoint
@@ -32,7 +32,7 @@ class NavigationController:
         self.navigator: Optional[Navigator] = None
 
     def is_running(self) -> bool:
-        return self.navigator is not None and self.navigator.running
+        return self.navigator is not None and self.navigator._running
 
     def navigate_street_by_street(
         self, waypoints: List[WayPoint], current_position: PositionInfo
@@ -62,7 +62,15 @@ class NavigationController:
         )
 
     def update(self, position: PositionInfo, ignore_not_moving: bool = False) -> None:
-        if self.navigator is not None and self.navigator.running:
+        if self.navigator is None:
+            return
+
+        if not self.navigator.is_running():
+            # ignore_not_moving is used to avoid starting the navigator when the LLM or the TTS are running
+            if not ignore_not_moving:
+                self.navigator.start()
+
+        elif self.navigator.is_running():
             self.navigator.update(position, ignore_not_moving)
 
     def clear(self) -> None:

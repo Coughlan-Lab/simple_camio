@@ -28,11 +28,13 @@ class Navigator(ABC):
         self.graph = graph
         self.on_action = on_action
 
-        self.destination_reached = False
+        self._running = False
 
-    @property
-    def running(self) -> bool:
-        return not self.destination_reached
+    def start(self) -> None:
+        self._running = True
+
+    def is_running(self) -> bool:
+        return self._running
 
     @abstractmethod
     def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
@@ -49,7 +51,7 @@ class Navigator(ABC):
         self.on_action(NavigationAction.WAYPOINT_REACHED, waypoint=waypoint)
 
     def _destination_reached(self, waypoint: WayPoint) -> None:
-        self.destination_reached = True
+        self.running = False
         self.on_action(NavigationAction.DESTINATION_REACHED, waypoint=waypoint)
 
     def _wrong_direction(self) -> None:

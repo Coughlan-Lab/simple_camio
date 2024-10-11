@@ -4,13 +4,13 @@ from typing import List
 
 from src.graph import Graph, WayPoint
 from src.position import MovementDirection, PositionInfo
-from src.utils import Coords, Buffer
+from src.utils import Buffer, Coords
 
 from .navigator import ActionHandler, Navigator
 
 
 class StreetByStreetNavigator(Navigator):
-    NEXT_STEP_INTERVAL = 2.0  # seconds
+    NEXT_STEP_INTERVAL = 1.0  # seconds
 
     def __init__(
         self,

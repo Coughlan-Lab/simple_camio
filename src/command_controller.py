@@ -1,5 +1,7 @@
+import json
+import os
 import threading as th
-from typing import Optional, Callable, Dict
+from typing import Callable, Dict, Optional, Set
 
 from src.config import config
 from src.frame_processing import GestureResult
@@ -8,10 +10,6 @@ from src.modules_repository import ModulesRepository
 from src.position import PositionHandler, PositionInfo
 from src.view import KeyboardManager, UserAction
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
-from src.llm import LLM
-
-import os
-import json
 
 
 class VoiceCommands:
@@ -117,6 +115,7 @@ class HandlingThread(th.Thread):
 
     def run(self) -> None:
         self.tts.stop_speaking()
+
         position = self.__get_position()
 
         if config.stt_enabled:
@@ -154,9 +153,18 @@ class HandlingThread(th.Thread):
     def __get_command_from_stt(self) -> str:
         print("Listening...")
 
+        categories: Set[Announcement.Category] = set()
+        for category in Announcement.Category:
+            if self.tts.is_enabled(category):
+                categories.add(category)
+                self.tts.disable_category(category)
+
         self.audio_manager.play_start_recording()
         recording = self.stt.start_recording()
         self.audio_manager.play_end_recording()
+
+        for category in categories:
+            self.tts.enable_category(category)
 
         if recording is None or self.stop_event.is_set():
             return ""
@@ -228,6 +236,7 @@ class HandlingThread(th.Thread):
             and self.position_handler.last_info.is_still_valid()
         ):
             return self.position_handler.last_info
+        return None
 
     @property
     def tts(self) -> CamIOTTS:

@@ -134,8 +134,19 @@ class TTS(Module):
     def disable_category(self, category: Announcement.Category) -> None:
         self._enabled[category] = False
 
+    def disable_all_categories(self) -> None:
+        for category in self._enabled:
+            self._enabled[category] = False
+
     def enable_category(self, category: Announcement.Category) -> None:
         self._enabled[category] = True
+
+    def enable_all_categories(self) -> None:
+        for category in self._enabled:
+            self._enabled[category] = True
+
+    def is_enabled(self, category: Announcement.Category) -> bool:
+        return self._enabled[category]
 
     def __loop(self) -> None:
         self.__running.set()

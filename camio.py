@@ -9,24 +9,20 @@ os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import sys
 import threading as th
 import time
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any, Callable, Dict, List, Optional
 
+from src.command_controller import CommandController
 from src.config import config, get_args
-from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
+from src.frame_processing import (GestureRecognizer, GestureResult, Hand,
+                                  MapDetector)
 from src.graph import Graph, WayPoint
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
 from src.navigation import NavigationAction, NavigationController
 from src.position import PositionHandler
-from src.command_controller import CommandController
 from src.utils import Coords, load_map_parameters
-from src.view import (
-    UserAction,
-    KeyboardManager,
-    VideoCapture,
-    ViewManager,
-    ignore_action_end,
-)
+from src.view import (KeyboardManager, UserAction, VideoCapture, ViewManager,
+                      ignore_action_end)
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 repository = ModulesRepository()

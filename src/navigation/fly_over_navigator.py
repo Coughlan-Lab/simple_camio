@@ -30,7 +30,7 @@ class FlyOverNavigator(Navigator):
         self.last_announcement_timestamp = 0.0
 
     def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
-        if not self.running:
+        if not self.is_running():
             return
 
         distance = position.real_pos.distance_to(self.destination.coords)

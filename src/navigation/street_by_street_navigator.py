@@ -27,7 +27,7 @@ class StreetByStreetNavigator(Navigator):
 
         self.waypoints = deque(waypoints)
 
-        self.positions_buffer = Buffer[PositionInfo](max_size=20, max_life=2.0)
+        self.positions_buffer = Buffer[PositionInfo](max_size=10, max_life=2.0)
         self.__stop_timestamp = 0.0
 
         self.on_waypoint = False

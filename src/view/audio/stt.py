@@ -9,10 +9,10 @@ from google.cloud import speech  # unused, but needed for pre-loading the module
 
 
 class STT(Module):
-    TIMEOUT = 10
-    PHRASE_TIME_LIMIT = 20
+    TIMEOUT = 20
+    PHRASE_TIME_LIMIT = 30
     FINAL_SILENCE_DURATION = 3.0
-    END_RECORDING_DELAY = 1.5
+    END_RECORDING_DELAY = 1.0
 
     def __init__(self) -> None:
         super().__init__()

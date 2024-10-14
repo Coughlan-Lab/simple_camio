@@ -129,16 +129,13 @@ class CamIOController:
             self.position_handler.process_position(hand.position)
             position = self.position_handler.get_position_info()
 
-            if self.is_handling_user_input():
-                continue
-
             if self.navigation_controller.is_navigation_running():
                 self.navigation_controller.update(
                     position,
                     ignore_not_moving=self.is_handling_user_input()
                     or self.tts.is_speaking(),
                 )
-            else:
+            elif not self.is_handling_user_input():
                 self.tts.position(position)
                 self.audio_manager.position_feedback(position)
 
@@ -223,7 +220,8 @@ class CamIOController:
             self.audio_manager.play_waypoint_reached()
 
         elif action == NavigationAction.WRONG_DIRECTION:
-            self.tts.wrong_direction()
+            if not self.is_handling_user_input():
+                self.tts.wrong_direction()
 
         elif action == NavigationAction.DESTINATION_REACHED:
             self.tts.destination_reached()
@@ -232,6 +230,9 @@ class CamIOController:
             self.view.clear_waypoints()
 
         elif action == NavigationAction.ANNOUNCE_DIRECTION:
+            if self.is_handling_user_input():
+                return
+
             instructions: str = kwargs["instructions"]
             self.tts.stop_and_say(
                 instructions,

@@ -11,7 +11,7 @@ from src.modules_repository import Module
 
 
 class MapDetector(Module):
-    DETECTION_INTERVAL = 2  # seconds
+    DETECTION_INTERVAL = 5  # seconds
     RATIO_THRESH = 0.75
 
     def __init__(self) -> None:

@@ -51,7 +51,7 @@ class Navigator(ABC):
         self.on_action(NavigationAction.WAYPOINT_REACHED, waypoint=waypoint)
 
     def _destination_reached(self, waypoint: WayPoint) -> None:
-        self.running = False
+        self._running = False
         self.on_action(NavigationAction.DESTINATION_REACHED, waypoint=waypoint)
 
     def _wrong_direction(self) -> None:

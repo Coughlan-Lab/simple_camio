@@ -6,7 +6,7 @@ from src.modules_repository import ModulesRepository
 from src.position import PositionInfo
 
 from .fly_over_navigator import FlyOverNavigator
-from .navigator import Navigator
+from .navigator import Navigator, NavigationAction, ActionHandler
 from .street_by_street_navigator import StreetByStreetNavigator
 
 
@@ -15,11 +15,7 @@ class NavigationController:
     FAR_THRESHOLD = 4.0  # inch
     WRONG_DIRECTION_MARGIN = 0.2  # inch
 
-    def __init__(
-        self,
-        repository: ModulesRepository,
-        on_action: Callable[["NavigationController.Action", Dict[str, Any]], None],
-    ) -> None:
+    def __init__(self, repository: ModulesRepository, on_action: ActionHandler) -> None:
         self.repository = repository
 
         self.arrived_threshold = self.ARRIVED_THRESHOLD * config.feets_per_inch
@@ -31,8 +27,13 @@ class NavigationController:
         self.on_action = on_action
         self.navigator: Optional[Navigator] = None
 
-    def is_running(self) -> bool:
-        return self.navigator is not None and self.navigator._running
+    def __on_action(self, action: "NavigationAction", **kwargs) -> None:
+        if action == NavigationAction.DESTINATION_REACHED:
+            self.clear()
+        self.on_action(action, **kwargs)
+
+    def is_navigation_running(self) -> bool:
+        return self.navigator is not None
 
     def navigate_street_by_street(
         self, waypoints: List[WayPoint], current_position: PositionInfo
@@ -48,7 +49,7 @@ class NavigationController:
             self.__graph,
             self.arrived_threshold,
             self.wrong_direction_margin,
-            self.on_action,
+            self.__on_action,
             waypoints,
         )
 
@@ -57,7 +58,7 @@ class NavigationController:
             self.__graph,
             self.arrived_threshold,
             self.far_threshold,
-            self.on_action,
+            self.__on_action,
             destination,
         )
 

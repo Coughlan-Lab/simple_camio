@@ -13,16 +13,20 @@ from typing import Any, Callable, Dict, List, Optional
 
 from src.command_controller import CommandController
 from src.config import config, get_args
-from src.frame_processing import (GestureRecognizer, GestureResult, Hand,
-                                  MapDetector)
+from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
 from src.graph import Graph, WayPoint
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
 from src.navigation import NavigationAction, NavigationController
 from src.position import PositionHandler
 from src.utils import Coords, load_map_parameters
-from src.view import (KeyboardManager, UserAction, VideoCapture, ViewManager,
-                      ignore_action_end)
+from src.view import (
+    KeyboardManager,
+    UserAction,
+    VideoCapture,
+    ViewManager,
+    ignore_action_end,
+)
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 repository = ModulesRepository()
@@ -128,7 +132,7 @@ class CamIOController:
             if self.is_handling_user_input():
                 continue
 
-            if self.navigation_controller.is_running():
+            if self.navigation_controller.is_navigation_running():
                 self.navigation_controller.update(
                     position,
                     ignore_not_moving=self.is_handling_user_input()

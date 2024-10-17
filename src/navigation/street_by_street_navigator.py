@@ -27,7 +27,8 @@ class StreetByStreetNavigator(Navigator):
 
         self.waypoints = deque(waypoints)
 
-        self.positions_buffer = Buffer[PositionInfo](max_size=10, max_life=2.0)
+        self.positions_buffer = ArithmeticBuffer[Coords](max_size=10, max_life=2.0)
+        self.last_position_info = PositionInfo.NONE
         self.__stop_timestamp = 0.0
 
         self.on_waypoint = False
@@ -43,8 +44,8 @@ class StreetByStreetNavigator(Navigator):
         self.__stop_timestamp = time.time()
 
     @property
-    def last_position(self) -> PositionInfo:
-        return self.positions_buffer.first() or PositionInfo.NONE
+    def average_position(self) -> Coords:
+        return self.positions_buffer.average() or Coords.ZERO
 
     def update(self, position: PositionInfo, ignore_not_moving: bool) -> None:
         if not self.is_running():
@@ -85,11 +86,12 @@ class StreetByStreetNavigator(Navigator):
         else:
             self.on_waypoint = False
 
-        self.positions_buffer.add(position)
+        self.last_position_info = position
+        self.positions_buffer.add(position.real_pos)
 
     def __has_changed_position(self, position: PositionInfo) -> bool:
         return (
-            position.graph_element != self.last_position.graph_element
+            position.graph_element != self.last_position_info.graph_element
             or position.movement != MovementDirection.NONE
         )
 
@@ -99,7 +101,7 @@ class StreetByStreetNavigator(Navigator):
         )
 
         last_distance = self.graph.get_distance(
-            self.last_position.real_pos, self.waypoints[0].coords
+            self.average_position, self.waypoints[0].coords
         )
 
         return current_distance > last_distance + self.wrong_direction_margin

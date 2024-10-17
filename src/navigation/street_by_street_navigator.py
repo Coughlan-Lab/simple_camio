@@ -38,6 +38,10 @@ class StreetByStreetNavigator(Navigator):
         return super().is_running() and len(self.waypoints) > 0
 
     def start(self) -> None:
+        if len(self.waypoints) == 0:
+            self._destination_reached(WayPoint.NONE)
+            return
+
         super().start()
 
         self._announce_directions(self.waypoints[0].instructions)
@@ -63,6 +67,7 @@ class StreetByStreetNavigator(Navigator):
         current_waypoint = self.waypoints[0]
         if distance < self.arrived_threshold:
             if len(self.waypoints) == 1:
+                self.waypoints.popleft()
                 self._destination_reached(current_waypoint)
 
             elif not self.on_waypoint:

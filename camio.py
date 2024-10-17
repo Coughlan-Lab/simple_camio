@@ -225,6 +225,10 @@ class CamIOController:
                 self.tts.wrong_direction()
 
         elif action == NavigationAction.DESTINATION_REACHED:
+            waypoint = kwargs["waypoint"]
+            if waypoint == WayPoint.NONE:
+                return
+
             self.tts.destination_reached()
             self.tts.add_pause(2.0)
             self.audio_manager.play_destination_reached()

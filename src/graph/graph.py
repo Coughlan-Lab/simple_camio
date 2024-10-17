@@ -1,7 +1,8 @@
 import math
 import os
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple, Union
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple, Union, ClassVar
 
 import requests
 
@@ -50,11 +51,13 @@ GOOGLE_ROUTES_API_FIELDS = [
 
 @dataclass(frozen=True)
 class WayPoint:
-    coords: Coords
-    destination: Position
-    distance: Union[float, Coords]
-    direction: CardinalDirection
-    instructions: str = ""
+    NONE: ClassVar["WayPoint"]
+
+    coords: Coords = field(compare=False)
+    destination: Position = field(compare=True)
+    distance: Union[float, Coords] = field(compare=False)
+    direction: CardinalDirection = field(compare=False)
+    instructions: str = field(default="", compare=False)
 
     @property
     def name(self) -> Optional[str]:
@@ -63,6 +66,9 @@ class WayPoint:
         elif isinstance(self.destination, PoI):
             return self.destination.name
         return None
+
+
+WayPoint.NONE = WayPoint(Coords(0, 0), None, 0, CardinalDirection.NORTH)
 
 
 def on_new_route_placeholder(

@@ -301,8 +301,9 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
 
-    except Exception as e:
-        print(f"\nAn error occurred:\n{e}")
+    except Exception:
+        print(f"\nAn error occurred:\n")
+        print(traceback.format_exc())
 
     if camio is not None:
         camio.stop()

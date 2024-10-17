@@ -252,9 +252,7 @@ class CamIOController:
             UserAction.TOGGLE_TTS: ignore_action_end(self.tts.toggle_pause),
             UserAction.STOP: ignore_action_end(self.stop),
             UserAction.COMMAND: self.__on_command,
-            UserAction.STOP_NAVIGATION: ignore_action_end(
-                self.navigation_controller.clear
-            ),
+            UserAction.STOP_NAVIGATION: ignore_action_end(self.__stop_navigation),
             UserAction.DISABLE_POSITION_TTS: ignore_action_end(
                 self.__disable_position_tts
             ),
@@ -279,6 +277,10 @@ class CamIOController:
     def __enable_position_tts(self) -> None:
         self.tts.enable_category(Announcement.Category.GRAPH)
         self.tts.position_resumed()
+
+    def __stop_navigation(self) -> None:
+        self.navigation_controller.clear()
+        self.view.clear_waypoints()
 
 
 if __name__ == "__main__":

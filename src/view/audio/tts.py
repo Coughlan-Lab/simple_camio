@@ -312,7 +312,7 @@ class TTS(Module):
 
     def __get_next_announcement(self) -> Optional[Announcement]:
         with self.queue_cond:
-            while not self.queue and self.__running.is_set():
+            while len(self.queue) == 0 and self.__running.is_set():
                 self.queue_cond.wait()
 
             if not self.__running.is_set():

@@ -70,6 +70,9 @@ class STT(Module):
             self.recognizer.stop_listening()
 
     def audio_to_text(self, audio: sr.AudioData) -> Optional[str]:
+        if self.__processing_audio:
+            return None
+
         try:
             self.__processing_audio = True
 

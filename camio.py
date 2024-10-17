@@ -9,6 +9,7 @@ os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import sys
 import threading as th
 import time
+import traceback
 from typing import Any, Callable, Dict, List, Optional
 
 from src.command_controller import CommandController

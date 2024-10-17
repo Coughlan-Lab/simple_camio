@@ -16,7 +16,7 @@ class PositionHandler(Module):
     POIS_MIN_DISTANCE = 0.25  # inch
 
     GRAVITY_EFFECT = 0.2  # inch
-    MOVEMENT_THRESHOLD = 0.2  # inch
+    MOVEMENT_THRESHOLD = 0.125  # inch
 
     def __init__(self) -> None:
         super().__init__()

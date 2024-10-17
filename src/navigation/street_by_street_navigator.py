@@ -25,26 +25,26 @@ class StreetByStreetNavigator(Navigator):
         self.arrived_threshold = arrived_threshold
         self.wrong_direction_margin = wrong_direction_margin
 
-        self.waypoints = deque(waypoints)
+        self.__waypoints = deque(waypoints)
 
         self.positions_buffer = ArithmeticBuffer[Coords](max_size=10, max_life=2.0)
         self.last_position_info = PositionInfo.NONE
         self.__stop_timestamp = 0.0
 
-        self.on_waypoint = False
+        self.__on_waypoint = False
         self.__waiting_new_route = False
 
     def is_running(self) -> bool:
-        return super().is_running() and len(self.waypoints) > 0
+        return super().is_running() and len(self.__waypoints) > 0
 
     def start(self) -> None:
-        if len(self.waypoints) == 0:
+        if len(self.__waypoints) == 0:
             self._destination_reached(WayPoint.NONE)
             return
 
         super().start()
 
-        self._announce_directions(self.waypoints[0].instructions)
+        self._announce_directions(self.__waypoints[0].instructions)
         self.__stop_timestamp = time.time()
 
     @property
@@ -62,34 +62,34 @@ class StreetByStreetNavigator(Navigator):
         if self.__waiting_new_route or position.graph_element is None:
             return
 
-        distance = position.real_pos.distance_to(self.waypoints[0].coords)
+        distance = position.real_pos.distance_to(self.__waypoints[0].coords)
 
-        current_waypoint = self.waypoints[0]
+        current_waypoint = self.__waypoints[0]
         if distance < self.arrived_threshold:
-            if len(self.waypoints) == 1:
-                self.waypoints.popleft()
+            if len(self.__waypoints) == 1:
+                self.__waypoints.popleft()
                 self._destination_reached(current_waypoint)
 
-            elif not self.on_waypoint:
-                self.on_waypoint = True
+            elif not self.__on_waypoint:
+                self.__on_waypoint = True
                 self._waypoint_reached(current_waypoint)
 
             elif current_time - self.__stop_timestamp > self.NEXT_STEP_INTERVAL:
-                self.waypoints.popleft()
+                self.__waypoints.popleft()
                 self.__stop_timestamp = current_time
-                self.on_waypoint = False
-                self._announce_directions(self.waypoints[0].instructions)
+                self.__on_waypoint = False
+                self._announce_directions(self.__waypoints[0].instructions)
 
         elif current_time - self.__stop_timestamp > self.NEXT_STEP_INTERVAL:
             self.__stop_timestamp = current_time
-            self._new_route_needed(position.real_pos, self.waypoints[-1].coords)
+            self._new_route_needed(position.real_pos, self.__waypoints[-1].coords)
 
         elif self.__moving_in_wrong_direction(position):
-            self.on_waypoint = False
+            self.__on_waypoint = False
             self._wrong_direction()
 
         else:
-            self.on_waypoint = False
+            self.__on_waypoint = False
 
         self.last_position_info = position
         self.positions_buffer.add(position.real_pos)
@@ -102,11 +102,11 @@ class StreetByStreetNavigator(Navigator):
 
     def __moving_in_wrong_direction(self, position: PositionInfo) -> bool:
         current_distance = self.graph.get_distance(
-            position.real_pos, self.waypoints[0].coords
+            position.real_pos, self.__waypoints[0].coords
         )
 
         last_distance = self.graph.get_distance(
-            self.average_position, self.waypoints[0].coords
+            average_position, self.__waypoints[0].coords
         )
 
         return current_distance > last_distance + self.wrong_direction_margin

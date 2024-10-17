@@ -101,6 +101,10 @@ class StreetByStreetNavigator(Navigator):
         )
 
     def __moving_in_wrong_direction(self, position: PositionInfo) -> bool:
+        average_position = self.average_position
+        if average_position == Coords.ZERO:
+            return False
+
         current_distance = self.graph.get_distance(
             position.real_pos, self.__waypoints[0].coords
         )

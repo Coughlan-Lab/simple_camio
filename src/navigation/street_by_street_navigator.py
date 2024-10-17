@@ -4,7 +4,7 @@ from typing import List
 
 from src.graph import Graph, WayPoint
 from src.position import MovementDirection, PositionInfo
-from src.utils import Buffer, Coords
+from src.utils import Buffer, Coords, ArithmeticBuffer
 
 from .navigator import ActionHandler, Navigator
 

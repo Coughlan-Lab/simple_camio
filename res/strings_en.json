@@ -2,7 +2,7 @@
     "welcome": "Welcome to CamIO!",
     "no_question_error": "No question recognized. Please try again.",
     "llm_error": "An error occurred in obtaining a response. Please try again.",
-    "more_than_one_hand": "Please, only one pointing hand at a time",
+    "more_than_one_hand": "Please, no more than one hand per side",
     "waiting": "Waiting for a response...",
     "no_map_description": "No map description available.",
     "no_pointing": "Please, point at the map to ask a question.",

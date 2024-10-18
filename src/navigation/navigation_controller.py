@@ -1,4 +1,3 @@
-import threading as th
 from typing import List, Optional
 
 from src.config import config
@@ -28,8 +27,6 @@ class NavigationController:
         self.on_action = on_action
         self.navigator: Optional[Navigator] = None
 
-        self.__lock = th.RLock()
-
     def __on_action(self, action: "NavigationAction", **kwargs) -> None:
         if action == NavigationAction.DESTINATION_REACHED:
             self.clear()
@@ -38,52 +35,47 @@ class NavigationController:
     def is_navigation_running(self) -> bool:
         return self.navigator is not None
 
-    def navigate_street_by_street(self, waypoints: List[WayPoint]) -> bool:
-        if len(waypoints) == 0:
-            return False
+    def navigate_street_by_street(
+        self, waypoints: List[WayPoint], current_position: PositionInfo
+    ) -> None:
+        first_waypoint = waypoints[0]
+        if (
+            first_waypoint.coords.distance_to(current_position.real_pos)
+            < self.arrived_threshold
+        ):
+            waypoints.pop(0)
 
-        with self.__lock:
-            self.navigator = StreetByStreetNavigator(
-                self.__graph,
-                self.arrived_threshold,
-                self.wrong_direction_margin,
-                self.__on_action,
-                waypoints,
-            )
+        self.navigator = StreetByStreetNavigator(
+            self.__graph,
+            self.arrived_threshold,
+            self.wrong_direction_margin,
+            self.__on_action,
+            waypoints,
+        )
 
-        return True
-
-    def navigate(self, destination: WayPoint) -> bool:
-        with self.__lock:
-            self.navigator = FlyOverNavigator(
-                self.__graph,
-                self.arrived_threshold,
-                self.far_threshold,
-                self.__on_action,
-                destination,
-            )
-
-        return True
+    def navigate(self, destination: WayPoint) -> None:
+        self.navigator = FlyOverNavigator(
+            self.__graph,
+            self.arrived_threshold,
+            self.far_threshold,
+            self.__on_action,
+            destination,
+        )
 
     def update(self, position: PositionInfo, ignore_not_moving: bool = False) -> None:
         if self.navigator is None:
             return
 
-        with self.__lock:
-            if self.navigator is None:
-                return
+        if not self.navigator.is_running():
+            # ignore_not_moving is used to avoid starting the navigator when the LLM or the TTS are running
+            if not ignore_not_moving:
+                self.navigator.start()
 
-            if not self.navigator.is_running():
-                # ignore_not_moving is used to avoid starting the navigator when the LLM or the TTS are running
-                if not ignore_not_moving:
-                    self.navigator.start(position)
-
-            elif self.navigator.is_running():
-                self.navigator.update(position, ignore_not_moving)
+        elif self.navigator.is_running():
+            self.navigator.update(position, ignore_not_moving)
 
     def clear(self) -> None:
-        with self.__lock:
-            self.navigator = None
+        self.navigator = None
 
     @property
     def __graph(self) -> Graph:

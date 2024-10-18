@@ -178,6 +178,10 @@ class GestureRecognizer(Module):
             if len(hands) == 0:
                 return NOT_FOUND, img
 
+            hands = list(filter(lambda h: h.visible, hands))
+            if len(hands) == 0:
+                return EXPLORING, img
+
             hands_per_side = {
                 side: [h for h in hands if h.side == side] for side in Hand.Side
             }

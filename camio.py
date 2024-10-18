@@ -189,11 +189,12 @@ class CamIOController:
             self.view.add_waypoint(waypoint.coords)
 
         if street_by_street:
-            self.navigation_controller.navigate_street_by_street(
-                waypoints, self.position_handler.last_info
-            )
+            started = self.navigation_controller.navigate_street_by_street(waypoints)
         else:
-            self.navigation_controller.navigate(waypoints[0])
+            started = self.navigation_controller.navigate(waypoints[0])
+
+        if not started:
+            self.tts.navigation_error()
 
     def __on_command(self, ended: bool) -> None:
         if ended:

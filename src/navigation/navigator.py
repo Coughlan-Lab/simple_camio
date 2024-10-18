@@ -30,7 +30,7 @@ class Navigator(ABC):
 
         self._running = False
 
-    def start(self) -> None:
+    def start(self, position: PositionInfo) -> None:
         self._running = True
 
     def is_running(self) -> bool:

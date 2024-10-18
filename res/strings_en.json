@@ -10,6 +10,7 @@
     "wrong_direction": "Wrong direction",
     "hand_side": "Tracking {} hand",
     "destination_reached": "You have reached your destination.",
+    "navigation_error": "Could not find a route to your destination. Please try again.",
     "position_paused": "Position tracking paused.",
     "position_resumed": "Position tracking resumed.",
     "instructions": "Use your index finger to explore the map and ask the system questions by pressing and holding the left button. While holding the button, ask your questions aloud. Release the button when you've finished your question. You can stop the response at any time by pressing the right button."

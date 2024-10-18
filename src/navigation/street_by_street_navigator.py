@@ -22,6 +22,9 @@ class StreetByStreetNavigator(Navigator):
     ) -> None:
         super().__init__(graph, on_action)
 
+        if len(waypoints) == 0:
+            raise ValueError("Waypoints list cannot be empty")
+
         self.arrived_threshold = arrived_threshold
         self.wrong_direction_margin = wrong_direction_margin
 
@@ -37,13 +40,22 @@ class StreetByStreetNavigator(Navigator):
     def is_running(self) -> bool:
         return super().is_running() and len(self.__waypoints) > 0
 
-    def start(self) -> None:
-        if len(self.__waypoints) == 0:
-            self._destination_reached(WayPoint.NONE)
+    def start(self, position: PositionInfo) -> None:
+        if self.is_running():
             return
 
-        super().start()
+        first_waypoint = self.__waypoints[0]
+        if (
+            first_waypoint.coords.distance_to(position.real_pos)
+            < self.arrived_threshold
+        ):
+            self.__waypoints.popleft()
 
+        if len(self.__waypoints) == 0:
+            self._destination_reached(first_waypoint)
+            return
+
+        super().start(position)
         self._announce_directions(self.__waypoints[0].instructions)
         self.__stop_timestamp = time.time()
 

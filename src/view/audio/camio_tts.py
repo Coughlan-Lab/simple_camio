@@ -108,6 +108,13 @@ class CamIOTTS(TTS):
             priority=Announcement.Priority.MEDIUM,
         )
 
+    def navigation_error(self) -> Optional[Announcement]:
+        return self.stop_and_say(
+            self.res["navigation_error"],
+            category=Announcement.Category.ERROR,
+            priority=Announcement.Priority.HIGH,
+        )
+
     def position_paused(self) -> Optional[Announcement]:
         return self.stop_and_say(
             self.res["position_paused"],

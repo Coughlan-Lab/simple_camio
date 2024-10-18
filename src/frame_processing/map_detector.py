@@ -26,16 +26,22 @@ class MapDetector(Module):
         )
 
         self.last_detection = 0.0, np.zeros((3, 3), dtype=np.float32)
+        self.__run_detection = True
 
     @property
     def homography(self) -> npt.NDArray[np.float32]:
         return self.last_detection[1]
 
+    def fix_model(self) -> None:
+        self.__run_detection = False
+
     def detect(
         self, img: npt.NDArray[np.uint8]
     ) -> Tuple[Optional[npt.NDArray[np.float32]], npt.NDArray[np.uint8]]:
-        if time.time() - self.last_detection[0] < self.DETECTION_INTERVAL:
-
+        if (
+            not self.__run_detection
+            or time.time() - self.last_detection[0] < self.DETECTION_INTERVAL
+        ):
             if self.homography is not None and config.debug:
                 img = self.__draw_corners(img, self.last_detection[1])
 

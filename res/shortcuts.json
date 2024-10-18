@@ -4,5 +4,6 @@
     "TOGGLE_TTS": "esc",
     "STOP": "q",
     "COMMAND": "space",
-    "STOP_NAVIGATION": "n"
+    "STOP_NAVIGATION": "n",
+    "FIX_MODEL": "m"
 }

@@ -11,6 +11,7 @@ class UserAction(Enum):
     TOGGLE_TTS = 5  # Pause or resume TTS
     DISABLE_POSITION_TTS = 6  # Disable TTS position messages
     ENABLE_POSITION_TTS = 7  # Enable TTS position messages
+    FIX_MODEL = 8  # Fix the model
 
 
 def ignore_action_end(fn: Callable[[], None]) -> Callable[[bool], None]:

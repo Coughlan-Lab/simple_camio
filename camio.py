@@ -255,6 +255,7 @@ class CamIOController:
             UserAction.ENABLE_POSITION_TTS: ignore_action_end(
                 self.__enable_position_tts
             ),
+            UserAction.FIX_MODEL: ignore_action_end(self.model_detector.fix_model),
         }
 
         if not config.llm_enabled:

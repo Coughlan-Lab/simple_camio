@@ -114,8 +114,8 @@ class CamIOController:
 
             self.audio_manager.hand_feedback(hand.status)
 
-            if hand.status == GestureResult.Status.MORE_THAN_ONE_HAND:
-                self.tts.more_than_one_hand()
+            # if hand.status == GestureResult.Status.MORE_THAN_ONE_HAND:
+            #    self.tts.more_than_one_hand()
 
             if hand.position is None or hand.status != GestureResult.Status.POINTING:
                 self.position_handler.clear()

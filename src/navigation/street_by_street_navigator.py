@@ -4,7 +4,7 @@ from typing import List
 
 from src.graph import Graph, WayPoint
 from src.position import MovementDirection, PositionInfo
-from src.utils import Buffer, Coords, ArithmeticBuffer
+from src.utils import ArithmeticBuffer, Buffer, Coords
 
 from .navigator import ActionHandler, Navigator
 
@@ -128,5 +128,6 @@ class StreetByStreetNavigator(Navigator):
         return current_distance > last_distance + self.wrong_direction_margin
 
     def _new_route_needed(self, start: Coords, destination: Coords) -> None:
+        print("New route needed")
         self.__waiting_new_route = True
         return super()._new_route_needed(start, destination)

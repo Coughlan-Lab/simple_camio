@@ -7,7 +7,7 @@ from src.modules_repository import ModulesRepository
 from src.position import PositionInfo
 
 from .fly_over_navigator import FlyOverNavigator
-from .navigator import Navigator, NavigationAction, ActionHandler
+from .navigator import ActionHandler, NavigationAction, Navigator
 from .street_by_street_navigator import StreetByStreetNavigator
 
 
@@ -39,6 +39,7 @@ class NavigationController:
         return self.navigator is not None
 
     def navigate_street_by_street(self, waypoints: List[WayPoint]) -> bool:
+        print("Starting street by street navigation")
         if len(waypoints) == 0:
             return False
 
@@ -54,6 +55,8 @@ class NavigationController:
         return True
 
     def navigate(self, destination: WayPoint) -> bool:
+        print("Starting fly-me-there navigation")
+
         with self.__lock:
             self.navigator = FlyOverNavigator(
                 self.__graph,

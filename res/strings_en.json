@@ -13,5 +13,6 @@
     "navigation_error": "Could not find a route to your destination. Please try again.",
     "position_paused": "Position tracking paused.",
     "position_resumed": "Position tracking resumed.",
+    "calculating_route": "Recalculating route...",
     "instructions": "Use your index finger to explore the map and ask the system questions by pressing and holding the left button. While holding the button, ask your questions aloud. Release the button when you've finished your question. You can stop the response at any time by pressing the right button."
 }

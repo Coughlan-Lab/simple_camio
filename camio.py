@@ -14,20 +14,16 @@ from typing import Any, Callable, Dict, List, Optional
 
 from src.command_controller import CommandController
 from src.config import config, get_args
-from src.frame_processing import GestureRecognizer, GestureResult, Hand, MapDetector
-from src.graph import Graph, WayPoint
+from src.frame_processing import (GestureRecognizer, GestureResult, Hand,
+                                  MapDetector)
+from src.graph import Graph, RouteAction, WayPoint
 from src.llm import LLM
 from src.modules_repository import ModulesRepository
 from src.navigation import NavigationAction, NavigationController
 from src.position import PositionHandler
 from src.utils import Coords, load_map_parameters
-from src.view import (
-    KeyboardManager,
-    UserAction,
-    VideoCapture,
-    ViewManager,
-    ignore_action_end,
-)
+from src.view import (KeyboardManager, UserAction, VideoCapture, ViewManager,
+                      ignore_action_end)
 from src.view.audio import STT, Announcement, AudioManager, CamIOTTS
 
 repository = ModulesRepository()
@@ -39,8 +35,7 @@ class CamIOController:
         self.description = model["context"].get("description", None)
 
         # Model
-        self.graph = Graph(model["graph"])
-        self.graph.on_new_route = self.enable_navigation_mode
+        self.graph = Graph(model["graph"], self.__on_route)
         self.position_handler = PositionHandler()
         self.llm = LLM(
             f"res/prompt_{config.lang}.yaml",
@@ -179,9 +174,22 @@ class CamIOController:
         else:
             self.tts.no_map_description()
 
-    def enable_navigation_mode(
-        self, start: Coords, street_by_street: bool, waypoints: List[WayPoint]
+    def __on_route(
+        self,
+        action: RouteAction,
+        start: Coords,
+        street_by_street: bool,
+        waypoints: Optional[List[WayPoint]],
     ) -> None:
+        if action == RouteAction.CALCULATING_ROUTE:
+            return self.tts.start_calculating_route_loop()
+
+        if action == RouteAction.ERROR or waypoints is None:
+            return self.tts.stop_calculating_route_loop()
+
+        # New route
+        self.tts.stop_calculating_route_loop()
+
         self.view.clear_waypoints()
 
         self.view.add_waypoint(start)
@@ -281,6 +289,7 @@ class CamIOController:
         self.tts.position_resumed()
 
     def __stop_navigation(self) -> None:
+        self.tts.stop_calculating_route_loop()
         self.navigation_controller.clear()
         self.view.clear_waypoints()
 

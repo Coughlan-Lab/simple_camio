@@ -66,6 +66,19 @@ class CamIOTTS(TTS):
     def stop_waiting_llm_loop(self) -> None:
         return self._stop_one_msg_loop()
 
+    def calculating_route(self) -> Optional[Announcement]:
+        return self.say(
+            self.res["calculating_route"],
+            category=Announcement.Category.SYSTEM,
+            priority=Announcement.Priority.MEDIUM,
+        )
+
+    def start_calculating_route_loop(self) -> None:
+        return self._start_one_msg_loop(self.calculating_route)
+
+    def stop_calculating_route_loop(self) -> None:
+        return self._stop_one_msg_loop()
+
     def llm_error(self) -> Optional[Announcement]:
         return self.stop_and_say(
             self.res["llm_error"],

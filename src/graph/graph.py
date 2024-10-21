@@ -1,20 +1,15 @@
 import math
 import os
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple, Union, ClassVar
+from enum import Enum
+from typing import Any, Callable, ClassVar, Dict, List, Optional, Tuple, Union
 
 import requests
 
 from src.config import config
 from src.modules_repository import Module
-from src.utils import (
-    CardinalDirection,
-    Coords,
-    LatLngReference,
-    Position,
-    coords_to_latlng,
-    latlng_to_coords,
-)
+from src.utils import (CardinalDirection, Coords, LatLngReference, Position,
+                       coords_to_latlng, latlng_to_coords)
 
 from .edge import Edge, Street
 from .node import Node
@@ -67,13 +62,25 @@ class WayPoint:
         return None
 
 
-WayPoint.NONE = WayPoint(Coords(0, 0), None, 0, CardinalDirection.NORTH)
+WayPoint.NONE = WayPoint(Coords(0, 0), Coords(0, 0), 0, CardinalDirection.NORTH)
 
 
-def on_new_route_placeholder(
-    start: Coords, street_by_street: bool, waypoints: List[WayPoint]
+class RouteAction(Enum):
+    ERROR = 0
+    CALCULATING_ROUTE = 1
+    ON_ROUTE = 2
+
+
+def on_route_placeholder(
+    action: RouteAction,
+    start: Coords,
+    street_by_street: bool,
+    waypoints: Optional[List[WayPoint]],
 ) -> None:
     pass
+
+
+route_callback = Callable[[RouteAction, Coords, bool, Optional[List[WayPoint]]], None]
 
 
 class Graph(Module):
@@ -85,7 +92,11 @@ class Graph(Module):
 
     INF = 999999
 
-    def __init__(self, graph_dict: Dict[str, Any]) -> None:
+    def __init__(
+        self,
+        graph_dict: Dict[str, Any],
+        on_route: route_callback = on_route_placeholder,
+    ) -> None:
         super().__init__()
 
         self.am_i_threshold = Graph.AM_I_THRESHOLD * config.feets_per_inch
@@ -109,7 +120,7 @@ class Graph(Module):
             graph_dict["latlng_reference"]["lng"],
         )
 
-        self.on_new_route = on_new_route_placeholder
+        self.__on_route = on_route
 
     @property
     def bounds(self) -> Tuple[Coords, Coords]:
@@ -281,10 +292,11 @@ class Graph(Module):
         destination = self.snap_to_graph(destination, force=True)[0]
 
         if start == destination:
-            return self.on_new_route(start, street_by_street, list())
+            return self.__on_route(RouteAction.ERROR, start, street_by_street, None)
 
         if not street_by_street:
-            return self.on_new_route(
+            return self.__on_route(
+                RouteAction.ON_ROUTE,
                 start,
                 street_by_street,
                 [
@@ -296,6 +308,8 @@ class Graph(Module):
                     )
                 ],
             )
+
+        self.__on_route(RouteAction.CALCULATING_ROUTE, start, street_by_street, None)
 
         start_latlng = coords_to_latlng(self.latlng_reference, start)
         destination_latlng = coords_to_latlng(self.latlng_reference, destination)
@@ -338,10 +352,14 @@ class Graph(Module):
         )
 
         if len(instructions) == 0:
+            self.__on_route(RouteAction.ERROR, start, street_by_street, None)
             raise ValueError("No route found")
 
-        self.on_new_route(
-            start, street_by_street, self.__process_instructions(instructions)
+        self.__on_route(
+            RouteAction.ON_ROUTE,
+            start,
+            street_by_street,
+            self.__process_instructions(instructions),
         )
 
     def get_min_path(self, start: Node, destination: Node) -> List[Node]:
@@ -350,13 +368,14 @@ class Graph(Module):
 
         path: List[Node] = [destination]
 
-        current = destination
-        while start != current:
+        current: Optional[Node] = destination
+        while current is not None and start != current:
             current = self.prev_distances[start.id][current.id]
-            assert (
-                current is not None
-            ), f"No path found between n{start.id} and n{destination.id}"
-            path.append(current)
+            if current is not None:
+                path.append(current)
+
+        if current is None:
+            raise ValueError("Points are not connected")
 
         return path[::-1]
 

@@ -43,7 +43,7 @@ def ratio(coors: npt.NDArray[np.float32]) -> np.float32:
 
 
 class Hand:
-    POINTING_THRESHOLD = 0.15
+    POINTING_THRESHOLD = 0.08
 
     class Side(IntEnum):
         RIGHT = 0

@@ -1,122 +1,14 @@
-import os.path
-import pyglet
-import numpy as np
-from scipy import stats
-import cv2 as cv
+"""
+Simple CamIO 2D module - Legacy compatibility layer.
 
+This module re-exports classes from the new modular structure for backward compatibility
+with existing code that imports from simple_camio_2d.
+"""
 
-# The InteractionPolicy class takes the position and determines where on the
-# map it is, finding the color of the zone, if any, which is decoded into
-# zone ID number. This zone ID number is filtered through a ring buffer that
-# returns the mode. If the position is near enough to the plane (within 2cm)
-# then the zone ID number is returned.
-class InteractionPolicy2D:
-    def __init__(self, model):
-        self.model = model
-        self.image_map_color = cv.imread(model['filename'], cv.IMREAD_COLOR)
-        self.ZONE_FILTER_SIZE = 10
-        self.Z_THRESHOLD = 2.0
-        self.zone_filter = -1 * np.ones(self.ZONE_FILTER_SIZE, dtype=int)
-        self.zone_filter_cnt = 0
+# Import from new modular structure
+from interaction_policy import InteractionPolicy2D
+from audio import ZoneAudioPlayer as CamIOPlayer2D
 
-    # Sergio: we are currently returning the zone id also when the ring buffer is not full. Is this the desired behavior?
-    # the impact is clearly minor, but conceptually I am not convinced that this is the right behavior.
-    # Sergio (2): I have a concern about this function, I will discuss it in an email.
-    def push_gesture(self, position):
-        zone_color = self.get_zone(position, self.image_map_color)
-        self.zone_filter[self.zone_filter_cnt] = self.get_dict_idx_from_color(zone_color)
-        self.zone_filter_cnt = (self.zone_filter_cnt + 1) % self.ZONE_FILTER_SIZE
-        zone = stats.mode(self.zone_filter).mode
-        if isinstance(zone, np.ndarray):
-            zone = zone[0]
-        if np.abs(position[2]) < self.Z_THRESHOLD:
-            return zone
-        else:
-            return -1
-
-    # Retrieves the zone of the point of interest on the map
-    def get_zone(self, point_of_interest, img_map):
-        x = int(point_of_interest[0])
-        y = int(point_of_interest[1])
-        #map_copy = img_map.copy()
-        if 0 <= x < img_map.shape[1] and 0 <= y < img_map.shape[0]:
-            # cv.line(map_copy, (x-1, y), (x+1, y), (255, 0, 0), 2)
-            # cv.line(map_copy, (x,y-1), (x,y+1), (255, 0, 0), 2)
-            # cv.circle(map_copy, (x, y), 4, (255, 0, 0), 2)
-            return img_map[y, x]#, map_copy
-        else:
-            return [0,0,0]#, map_copy
-
-    # Returns the key of the dictionary in the dictionary of dictionaries that matches the color given
-    def get_dict_idx_from_color(self, color):
-        color_idx = 256*256*color[2] + 256*color[1] + color[0]
-        return color_idx
-
-
-class CamIOPlayer2D:
-    def __init__(self, model):
-        self.model = model
-        self.prev_zone_name = ''
-        self.prev_zone_moving = -1
-        self.curr_zone_moving = -1
-        self.sound_files = {}
-        self.hotspots = {}
-        self.player = pyglet.media.Player()
-        self.blip_sound = pyglet.media.load(self.model['blipsound'], streaming=False)
-        self.enable_blips = False
-        if "map_description" in self.model:
-            self.map_description = pyglet.media.load(self.model['map_description'], streaming=False)
-            self.have_played_description = False
-        else:
-            self.have_played_description = True
-        self.welcome_message = pyglet.media.load(self.model['welcome_message'], streaming=False)
-        self.goodbye_message = pyglet.media.load(self.model['goodbye_message'], streaming=False)
-        for hotspot in self.model['hotspots']:
-            key = hotspot['color'][2] + hotspot['color'][1] * 256 + hotspot['color'][0] * 256 * 256
-            self.hotspots.update({key:hotspot})
-            if os.path.exists(hotspot['audioDescription']):
-                self.sound_files[key] = pyglet.media.load(hotspot['audioDescription'], streaming=False)
-            else:
-                print("warning. file not found:" + hotspot['audioDescription'])
-
-    def play_description(self):
-        if not self.have_played_description:
-            self.player = self.map_description.play()
-            self.have_played_description = True
-
-    def play_welcome(self):
-        self.welcome_message.play()
-
-    def play_goodbye(self):
-        self.goodbye_message.play()
-
-    def convey(self, zone, status):
-        if status == "moving":
-            if self.curr_zone_moving != zone and self.prev_zone_moving == zone and self.enable_blips:
-                if self.player.playing:
-                    self.player.delete()
-                try:
-                    self.player = self.blip_sound.play()
-                except(BaseException):
-                    print("Exception raised. Cannot play sound. Please restart the application.")
-                self.curr_zone_moving = zone
-            self.prev_zone_moving = zone
-            #self.prev_zone_name = None
-            return
-        if zone not in self.hotspots:
-            self.prev_zone_name = None
-            return
-        zone_name = self.hotspots[zone]['textDescription']
-        if self.prev_zone_name != zone_name:
-        # if self.player.playing:
-        #     self.player.pause()
-            self.player.pause()
-            self.player.delete()
-            if zone in self.sound_files:
-                sound = self.sound_files[zone]
-                try:
-                    self.player = sound.play()
-                except(BaseException):
-                    print("Exception raised. Cannot play sound. Please restart the application.")
-            self.prev_zone_name = zone_name
+# Re-export for backward compatibility
+__all__ = ['InteractionPolicy2D', 'CamIOPlayer2D']
 

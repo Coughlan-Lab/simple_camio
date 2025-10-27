@@ -18,3 +18,7 @@ simple_calibration
 
 *.spec
 .DS_STORE
+
+venv/
+
+.idea/

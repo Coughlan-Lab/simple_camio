@@ -1,0 +1,23 @@
+{
+    "model":{
+      "name":"Heart",
+      "filename":"models/Heart/ColorHeart.png",
+      "template_image": "models/Heart/Black_Heart.png",
+      "map_description":"models/Heart/Sound/Aorta.mp3",
+      "blipsound":"MP3/quick_blip.wav",
+      "welcome_message":"MP3/welcome.mp3",
+      "goodbye_message":"MP3/goodbye.mp3",
+      "heartbeat": "MP3/white_noise.mp3",
+      "crickets": "MP3/crickets.mp3",
+      "modelType": "sift_2d_mediapipe",
+      "hotspots":[
+        {"color":[255,0,4], "colorComment":"red", "textDescription":"Aorta", "audioDescription":"models/Heart/Sound/Aorta.mp3"},
+        {"color":[0,156,255], "colorComment":"orange", "textDescription":"Live peredserdya", "audioDescription":"models/Heart/Sound/Live peredserdya.mp3"},
+        {"color":[230,81,0], "colorComment":"bright yellow", "textDescription":"Liviy shlunochok", "audioDescription":"models/Heart/Sound/Liviy shlunochok.mp3"},
+        {"color":[0,30,255], "colorComment":"lime green", "textDescription":"Miokard", "audioDescription":"models/Heart/Sound/Miokard.mp3"},
+        {"color":[255,0,228], "colorComment":"green", "textDescription":"Prave peredserdya", "audioDescription":"models/Heart/Sound/Prave peredserdya.mp3"},
+        {"color":[36,91,2], "colorComment":"cyan", "textDescription":"Praviy shlunochok", "audioDescription":"models/Heart/Sound/Praviy shlunochok.mp3"},
+        {"color":[0,255,222], "colorComment":"blue", "textDescription":"Serceva peregorodka", "audioDescription":"models/Heart/Sound/Serceva peregorodka.mp3"}
+        ]
+    }
+  }

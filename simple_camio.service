@@ -1,0 +1,48 @@
+[Unit]
+Description=Simple CamIO - Interactive Tactile Map System
+# Wait for camera and audio devices to be ready (NO network dependency)
+After=sound.target systemd-udev-settle.service
+# Ensure USB camera and audio devices are initialized
+Requires=sound.target
+
+[Service]
+Type=simple
+User=user
+Group=user
+WorkingDirectory=/home/user/simple_camio
+
+# Environment variables for headless operation
+# DISPLAY required for Pyglet audio (even without actual display)
+Environment="DISPLAY=:0"
+Environment="PULSE_RUNTIME_PATH=/run/user/1000/pulse/"
+
+# Wait for hardware to be fully ready (camera, audio, USB devices)
+# This ensures camera is detected before starting
+ExecStartPre=/bin/sleep 10
+
+# Run in headless mode (no display window)
+# Using xvfb-run for virtual display support (recommended)
+# Install with: sudo apt-get install xvfb
+ExecStart=/usr/bin/xvfb-run -a /home/user/simple_camio/venv/bin/python /home/user/simple_camio/simple_camio.py --headless --input1 /home/user/simple_camio/models/CnapMap/CnapFirstFloor.json
+
+# Alternative without xvfb (if DISPLAY and audio work):
+# ExecStart=/home/user/simple_camio/venv/bin/python /home/user/simple_camio/simple_camio.py --headless --input1 /home/user/simple_camio/models/CnapMap/CnapFirstFloor.json
+
+# Restart on failure with delay to allow hardware to stabilize
+Restart=on-failure
+RestartSec=10s
+
+# Give service time to start (camera initialization can take time)
+# TimeoutStartSec=15s
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=simple_camio
+
+# Security settings (optional, adjust as needed)
+# NoNewPrivileges=true
+# PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

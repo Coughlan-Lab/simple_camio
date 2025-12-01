@@ -4,3 +4,6 @@ scipy>=1.5.4,<2.0
 opencv-contrib-python>=4.5.5.64,<5.0.0
 pyglet>=1.5.0,<3.0.0
 
+# Optional: pygame for headless audio (Raspberry Pi without X11)
+# Install with: pip install pygame
+pygame>=2.0.0

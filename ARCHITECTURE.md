@@ -8,114 +8,178 @@ This document describes the refactored architecture of Simple CamIO, an interact
 
 ```
 simple_camio/
-├── config.py                  # Centralized configuration parameters (Camera, SIFT, Tap, Workers...)
-├── utils.py                   # Utility functions (camera helpers, I/O, drawing, normalization)
-├── audio.py                   # Audio playback components (AmbientSoundPlayer, ZoneAudioPlayer)
-├── gesture_detection.py       # Movement filters and gesture analysis
-├── pose_detector.py           # Hand pose detection classes (Combined/Enhanced detectors)
-├── sift_detector.py           # SIFT-based template detection and tracking (SIFTModelDetectorMP)
-├── interaction_policy.py      # Zone-based interaction logic (InteractionPolicy2D)
-├── workers.py                 # Background worker threads (PoseWorker, SIFTWorker, AudioWorker)
-├── simple_camio.py            # Main application entry point and UI loop
-├── simple_camio_2d.py         # Legacy compatibility layer
-├── simple_camio_mp.py         # Legacy compatibility layer
-└── models/                    # Map configurations and assets (JSON, images, audio)
+├── simple_camio.py                  # Main application entry point and UI loop
+├── requirements.txt                 # Python dependencies
+├── README.md                        # Project overview and quick start
+├── ARCHITECTURE.md                  # This file - architecture documentation
+├── LAUNCH_GUIDE.md                  # Detailed setup and launch instructions
+│
+├── src/                            # Source code package
+│   ├── __init__.py
+│   ├── config.py                   # Centralized configuration
+│   │
+│   ├── core/                       # Core system components
+│   │   ├── __init__.py
+│   │   ├── utils.py               # Utility functions
+│   │   ├── workers.py             # Background worker threads (Pose, SIFT, Audio)
+│   │   ├── interaction_policy.py  # Zone-based interaction logic
+│   │   ├── camera_thread.py       # Non-blocking camera capture thread
+│   │   └── display_thread.py      # Non-blocking display rendering thread
+│   │
+│   ├── detection/                 # Detection & tracking modules
+│   │   ├── __init__.py
+│   │   ├── pose_detector.py       # Hand pose detection with tap recognition
+│   │   ├── sift_detector.py       # SIFT-based template tracking
+│   │   └── gesture_detection.py   # Movement filtering and gesture analysis
+│   │
+│   ├── audio/                     # Audio playback
+│   │   ├── __init__.py
+│   │   └── audio.py               # Ambient and zone audio players
+│   │
+│   ├── ui/                        # UI & display components
+│   │   ├── __init__.py
+│   │   └── display.py             # Drawing and overlay rendering
+│   │
+│   └── tap_classifier/            # ML tap classifier package
+│       ├── __init__.py
+│       ├── tap_classifier.py          # Classifier implementation
+│       ├── train_tap_classifier.py    # Training script
+│       ├── test_tap_classifier.py     # Testing utilities
+│       ├── tap_data_collector.py      # Data collection for training
+│       ├── TAP_CLASSIFIER_README.md   # Classifier documentation
+│       └── DATA_COLLECTION_GUIDE.md   # Guide for collecting training data
+│
+├── models/                        # Map configurations & assets
+│   ├── tap_model.json            # Trained tap classifier model
+│   ├── UkraineMap/               # Example map: Ukraine
+│   ├── RivneMap/                 # Example map: Rivne
+│   └── TestDemo/                 # Test/demo map
+│
+├── data/                         # Runtime data
+│   └── tap_dataset/              # Collected tap training data
+│
+├── tests/                        # Unit tests (future)
+│   └── __init__.py
+│
+└── legacy/                       # Legacy compatibility files
+    ├── simple_camio_2d.py       # Old 2D compatibility layer
+    └── simple_camio_mp.py       # Old MediaPipe compatibility layer
 ```
 
 ## Top-level Flow
 
 1. `simple_camio.py` loads a map model JSON and initializes components via `initialize_system()`.
-2. Camera is configured via `setup_camera()`.
+2. Camera is configured via `src.ui.display.setup_camera()` (optionally wrapped in `ThreadedCamera`).
 3. Background workers are created with `create_worker_threads()`:
    - `PoseWorker` processes (frame, homography) tuples and updates latest pose/gesture results.
    - `SIFTWorker` processes grayscale frames: validates tracking and (re-)detects homography.
    - `AudioWorker` handles all audio commands asynchronously via an internal queue.
-4. The main loop (`run_main_loop`) captures frames, feeds worker queues, reads pose results, draws overlays, processes gestures into audio commands, and handles keyboard input.
-5. `cleanup()` performs a graceful shutdown: stop workers, pause ambient sounds, release camera.
+4. The main loop (`run_main_loop`) captures frames (optionally via `ThreadedCamera`), feeds worker queues, reads pose results, draws overlays using `src.ui.display` functions, processes gestures into audio commands, displays frames (optionally via `DisplayThread`), and handles keyboard input.
+5. Helper functions break down the main loop:
+   - `initialize_display()` - Sets up display system (threaded or traditional)
+   - `capture_and_preprocess()` - Captures and converts frames
+   - `get_pose_results()` - Retrieves latest pose data from worker
+   - `process_map_detection()` - Handles map tracking and gesture processing
+   - `handle_display_and_input()` - Manages display and keyboard input
+   - `update_performance_stats()` - Logs performance metrics
+6. `cleanup()` performs a graceful shutdown: stop workers, stop display thread, pause ambient sounds, release camera.
 
 ## Module Descriptions
 
-### `config.py`
-Centralized configuration module. Main configuration classes (examples):
-- `CameraConfig` (DEFAULT_WIDTH, DEFAULT_HEIGHT, BUFFER_SIZE, POSE_PROCESSING_SCALE)
-- `MovementFilterConfig` (smoothing and buffer sizes)
-- `GestureDetectorConfig` (dwell thresholds, history lengths)
-- `TapDetectionConfig` (comprehensive tap detection thresholds and adaptive scaling)
-- `InteractionConfig` (zone filter size, Z threshold)
-- `SIFTConfig` (SIFT/ORB params, matching thresholds, REDETECT_INTERVAL, MIN_TRACKING_QUALITY)
-- `MediaPipeConfig` (model complexity, confidence thresholds, max hands)
-- `AudioConfig` (ambient volumes)
-- `UIConfig` (colors, font sizes, flash frames)
-- `WorkerConfig` (queue sizes, timeouts, retry attempts, shutdown timeout)
+### `src/config.py` - Configuration (Root Level)
 
-Refer to `config.py` for full parameter names and tuned defaults.
+Centralized configuration module at the src root for easy importing.
 
-### `utils.py`
-Utility helpers used throughout the system. Notable functions:
+Main configuration classes:
+- `CameraConfig` - Camera settings (resolution, buffer, processing scale, threaded capture/display)
+- `MovementFilterConfig` - Movement smoothing parameters
+- `GestureDetectorConfig` - Gesture detection thresholds
+- `TapDetectionConfig` - Comprehensive tap detection parameters
+- `InteractionConfig` - Zone filtering and interaction settings
+- `SIFTConfig` - SIFT/ORB feature detection and matching parameters
+- `MediaPipeConfig` - MediaPipe hand tracking configuration
+- `AudioConfig` - Audio volume and playback settings
+- `UIConfig` - Display colors, fonts, and UI elements
+- `WorkerConfig` - Worker thread queue sizes and timeouts
+
+### `src/core/` - Core System Components
+
+#### `utils.py`
+Utility helpers used throughout the system:
 - Camera helpers: `list_camera_ports()`, `select_camera_port()`
 - Map I/O: `load_map_parameters()`
 - Drawing helpers: `draw_rectangle_on_image()`, `draw_rectangle_from_points()`
 - Gesture helpers: `is_gesture_valid()`, `normalize_gesture_location()`
-- Misc helpers: color utilities, small math helpers used by detectors
+- Misc: color utilities and math helpers
 
-### `audio.py`
-Audio playback components:
-- `AmbientSoundPlayer`: Looping/ambient sound player (heartbeat, crickets). Methods: `play_sound()`, `pause_sound()`, `set_volume()`.
-- `ZoneAudioPlayer`: Responsible for zone-based audio interactions and controls such as `play_welcome()`, `play_goodbye()`, `convey(zone_id, gesture_status)` and an `enable_blips` toggle.
+#### `workers.py`
+Background worker threads for asynchronous processing:
+- `AudioCommand` - Command objects for audio operations
+- `AudioWorker` - Non-blocking audio playback thread
+- `PoseWorker` - Hand pose detection worker (downscaled frames)
+- `SIFTWorker` - Template tracking and homography validation
 
-Audio is driven through `AudioWorker` to keep playback non-blocking.
+#### `camera_thread.py`
+Non-blocking camera capture:
+- `ThreadedCamera` - Background thread for camera frame capture
+- Eliminates camera I/O blocking from main loop
+- Configurable via `CameraConfig.USE_THREADED_CAPTURE`
 
-### `gesture_detection.py`
-Movement filtering and gesture analysis:
-- `MovementFilter`/`MovementMedianFilter`: Position smoothing and robust median filtering
-- `GestureDetector`: Tracks position history and classifies dwell vs moving gestures
+#### `display_thread.py`
+Non-blocking display rendering:
+- `DisplayThread` - Background thread for cv.imshow() operations
+- Queues frames for display without blocking main processing
+- Handles keyboard input asynchronously
+- Configurable via `CameraConfig.USE_THREADED_DISPLAY`
 
-These modules produce a canonical gesture location object used by interaction logic.
+#### `interaction_policy.py`
+Zone-based mapping from gestures to map zones:
+- `InteractionPolicy2D` - Maps normalized gesture locations to zone IDs with flicker filtering
 
-### `pose_detector.py`
+### `src/detection/` - Detection & Tracking
+
+#### `pose_detector.py`
 Hand pose detection and tap recognition:
-- `CombinedPoseDetector` (entry point used by the app): wraps MediaPipe-based tracking with enhanced tap detectors.
-- Tap detection strategies combined in `TapDetectionConfig`:
-  - Z-depth velocity and baselines
-  - Angle-based detection (finger DIP flexion)
-  - Palm-plane penetration and relative depth signals
-  - A small engineered linear classifier for final tap validation
-- Detectors support adaptive thresholds based on measured palm width (hand-size scaling) and multiple history buffers for robust baselines.
-- The detector's `detect(frame, H, ...)` returns `(gesture_loc, gesture_status, annotated_image)` when asked to draw.
+- `CombinedPoseDetector` - Main detector combining MediaPipe tracking with multi-modal tap detection
+- Supports Z-depth, angle-based, and enhanced palm-plane tap detection
+- Hand-size adaptive thresholds for robust detection
+- Integrated with tap classifier and data collector
 
-### `sift_detector.py`
-SIFT-based template detection and tracking (`SIFTModelDetectorMP`):
-- `detect(frame, force_redetect=False)` performs template detection and homography estimation.
-- `quick_validate_position(frame, min_matches, position_threshold)` checks if current homography still matches the scene.
-- Members used by workers: `H` (current homography), `requires_homography`, `last_rect_pts`, `frames_since_last_detection`, `homography_updated`.
-- Uses SIFT (with ORB fallback), optional CLAHE / blur preprocessing, RANSAC/MAGSAC-style homography estimation and inlier counting.
+#### `sift_detector.py`
+SIFT-based template detection and tracking:
+- `SIFTModelDetectorMP` - Detects and tracks physical maps using SIFT features
+- Homography estimation with RANSAC
+- Periodic validation and automatic re-detection
+- CLAHE preprocessing and multiple detection strategies
 
-### `interaction_policy.py`
-Zone-based mapping from normalized gesture locations to zone IDs (`InteractionPolicy2D`):
-- Maintains a small ring buffer to filter zone flicker
-- Provides `push_gesture(gesture_loc)` which returns the resolved `zone_id` for audio playback
-- Handles out-of-bounds gestures gracefully
+#### `gesture_detection.py`
+Movement filtering and gesture analysis:
+- `MovementFilter` / `MovementMedianFilter` - Position smoothing with median filtering
+- `GestureDetector` - Classifies dwell vs moving gestures from position history
 
-### `workers.py`
-Background workers (threaded) to keep the main loop responsive.
+### `src/audio/` - Audio Playback
 
-Audio worker:
-- `AudioCommand`: Lightweight command object (type and params)
-- `AudioWorker`: Thread that consumes commands from an internal queue and executes them via `ZoneAudioPlayer` and `AmbientSoundPlayer` instances.
-- Supported commands include: `play_zone` (zone_id + gesture_status), `play_welcome`, `play_goodbye`, `heartbeat_play`, `heartbeat_pause`, `crickets_play`, `crickets_pause`, `toggle_blips`.
-- `enqueue_command(AudioCommand)` is non-blocking and returns False if the queue is full.
+#### `audio.py`
+Audio playback components:
+- `AmbientSoundPlayer` - Looping background audio (heartbeat, crickets)
+- `ZoneAudioPlayer` - Zone-based audio descriptions with welcome/goodbye messages
 
-Pose worker:
-- `PoseWorker` consumes `(frame, H)` tuples and runs `pose_detector.detect(...)` on downscaled frames.
-- Results are stored in `self.latest = (gesture_loc, gesture_status, annotated_image)` and accessed under a shared lock by the main thread.
-- Uses `processing_scale` from `CameraConfig.POSE_PROCESSING_SCALE` when created.
+### `src/ui/` - User Interface
 
-SIFT worker:
-- `SIFTWorker` consumes grayscale frames for either quick validation or full (re-)detection.
-- Periodic validation uses `quick_validate_position()`; when validation fails or `requires_homography` is True it runs full detection attempts with multiple preprocessing variants.
-- Provides `trigger_redetect()` to force a manual re-detection (used from keyboard handler).
+#### `display.py`
+Display and rendering functions:
+- `setup_camera()` - Camera initialization and configuration
+- `draw_map_tracking()` - Renders tracking rectangles with flash effects
+- `draw_ui_overlay()` - Draws status text, FPS counter, and gesture info
 
-## Main Application: `simple_camio.py`
+### `src/tap_classifier/` - Machine Learning Tap Detection
+
+ML-based tap classifier for improved detection accuracy:
+- `TapClassifier` - Linear classifier for tap validation
+- `train_tap_classifier.py` - Training script with synthetic and real data support
+- `tap_data_collector.py` - Automatic data collection during runtime
+- Supports training from collected real-world usage data
+- See `TAP_CLASSIFIER_README.md` and `DATA_COLLECTION_GUIDE.md` for details
 
 Key functions and responsibilities:
 - `initialize_system(model_path)`: Loads model JSON, constructs detectors and players. For `modelType == 'sift_2d_mediapipe'` it initializes:
@@ -138,11 +202,14 @@ Key functions and responsibilities:
 
 ## Threading and Performance Notes
 
-- Main thread: camera capture, UI rendering, event handling.
-- PoseWorker: downscaled detection; returns annotated image and a canonical gesture object.
-- SIFTWorker: full-resolution detection/validation and preprocessing attempts.
-- AudioWorker: single-threaded audio command processing to avoid blocking I/O.
+- **Main thread**: Camera capture (or reading from ThreadedCamera), UI rendering (or queuing to DisplayThread), event handling.
+- **ThreadedCamera** (optional): Background camera capture to eliminate I/O blocking from main loop. Enabled via `CameraConfig.USE_THREADED_CAPTURE`.
+- **DisplayThread** (optional): Background display rendering to eliminate cv.imshow() blocking from main loop. Enabled via `CameraConfig.USE_THREADED_DISPLAY`.
+- **PoseWorker**: Downscaled detection; returns annotated image and a canonical gesture object.
+- **SIFTWorker**: Full-resolution detection/validation and preprocessing attempts.
+- **AudioWorker**: Single-threaded audio command processing to avoid blocking I/O.
 - Queues for pose and SIFT use `WorkerConfig.POSE_QUEUE_MAXSIZE` and `SIFT_QUEUE_MAXSIZE` (defaults are 1) to keep only the latest frame and avoid backlog.
+- **Frame skipping**: `CameraConfig.DISPLAY_FRAME_SKIP` controls how often frames are displayed (less critical when using DisplayThread).
 
 ## Runtime Controls and Keys
 

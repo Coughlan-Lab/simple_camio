@@ -6,7 +6,7 @@ The refactored code is **100% backward compatible** with the previous version. Y
 
 ### Method 1: Using Default Map (Recommended)
 
-```bash
+```powershell
 python simple_camio.py
 ```
 
@@ -14,19 +14,19 @@ This will load the default map: `models/UkraineMap/UkraineMap.json`
 
 ### Method 2: Specifying a Custom Map
 
-```bash
+```powershell
 python simple_camio.py --input1 models/RivneMap/RivneMap.json
 ```
 
 Or with the TestDemo:
 
-```bash
+```powershell
 python simple_camio.py --input1 models/TestDemo/demo_map.json
 ```
 
 ### Method 3: Using the Executable (if built)
 
-```bash
+```powershell
 simple_camio.exe --input1 models/UkraineMap/UkraineMap.json
 ```
 
@@ -122,23 +122,22 @@ LOG_LEVEL = logging.DEBUG  # Change from logging.INFO
 
 Make sure you have all dependencies installed:
 
-```bash
+```powershell
 pip install -r requirements.txt
 ```
 
-Required packages:
-- opencv-python
-- mediapipe
-- numpy
-- scipy
-- pyglet
-- google-protobuf
+Required packages (from `requirements.txt`):
+- `mediapipe>=0.10.0,<0.11.0`
+- `numpy>=1.19.5,<1.27`
+- `scipy>=1.5.4,<2.0`
+- `opencv-contrib-python>=4.5.5.64,<5.0.0`
+- `pyglet>=1.5.0,<3.0.0`
 
 ## Testing the Installation
 
 Quick test to verify everything works:
 
-```bash
+```powershell
 python -c "from simple_camio_mp import PoseDetectorMP, SIFTModelDetectorMP; print('Import successful!')"
 ```
 
@@ -154,7 +153,7 @@ If you see "Import successful!" without errors, you're ready to run!
 ✅ **Better logging and error handling**
 
 Just run:
-```bash
+```powershell
 python simple_camio.py
 ```
 

@@ -78,7 +78,10 @@ class Node(Position):
         return streets_str
 
     def get_llm_description(self) -> str:
-        if len(self.adjacents_streets) == 1:
+        print(self)
+        if len(self.adjacents_streets) == 0:
+            return "An isolated point"
+        elif len(self.adjacents_streets) == 1:
             if self.on_border:
                 return f"{self.adjacents_streets[0]}, at the limit of the map"
             return f"end of {self.adjacents_streets[0]}"

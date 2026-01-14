@@ -78,7 +78,6 @@ class Node(Position):
         return streets_str
 
     def get_llm_description(self) -> str:
-        print(self)
         if len(self.adjacents_streets) == 0:
             return "An isolated point"
         elif len(self.adjacents_streets) == 1:

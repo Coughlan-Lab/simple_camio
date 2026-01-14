@@ -63,7 +63,9 @@ class Node(Position):
         return IntersectionType.UNKNOWN
 
     def get_short_description(self) -> str:
-        if len(self.adjacents_streets) == 1:
+        if len(self.adjacents_streets) == 0:
+            return "An isolated point"
+        elif len(self.adjacents_streets) == 1:
             if self.on_border:
                 return f"{self.adjacents_streets[0]}, at the limit of the map"
             return f"end of {self.adjacents_streets[0]}"
@@ -117,7 +119,7 @@ class Node(Position):
         return description
 
     def is_dead_end(self) -> bool:
-        return not self.on_border and len(self.adjacents_streets) == 1
+        return not self.on_border and len(self.adjacents_streets) <= 1
 
     def distance_to(self, coords: Union["Node", Coords]) -> float:
         if isinstance(coords, Node):

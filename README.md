@@ -32,16 +32,16 @@ Edit the `.env` file to set the correct values for the environment variables.
 
 The following environment variables must be set in the `.env` file:
 
--   `OPENAI_API_KEY`: API key for the OpenAI LLM model, can be obtained [here](https://platform.openai.com/api-keys)
--   `GOOGLE_SPEECH_CLOUD_KEY_FILE`: path to the Google Cloud service account key file, follow the guide below to create one.
--   `GOOGLE_ROUTES_API_KEY`: API key for the Google Routes API, follow the guide below to create one.
+- `OPENAI_API_KEY`: API key for the OpenAI LLM model, can be obtained [here](https://platform.openai.com/api-keys)
+- `GOOGLE_SPEECH_CLOUD_KEY_FILE`: path to the Google Cloud service account key file, follow the guide below to create one.
+- `GOOGLE_ROUTES_API_KEY`: API key for the Google Routes API, follow the guide below to create one.
 
 ### Google Cloud project setup:
 
 For the speech-to-text and the routing systems to work, a Google Cloud project must be set up with the following APIs enabled:
 
--   Speech-to-text API
--   Routes API
+- Speech-to-text API
+- Routes API
 
 To create a Google Cloud project and enable the required APIs, follow this steps:
 
@@ -131,15 +131,15 @@ Enabling debug mode (`--debug`) is highly recommended to visualize the user's fi
 
 ## Keyboard shortcuts:
 
--   `q`: Quit the application
--   `Space`: Start/Stop LLM question recording
--   `Enter`: Stop TTS
--   `Escape`: Pause/Resume TTS
--   `n`: Disable navigation mode
--   `d`: Play map description
--   `m`: Fix map model detection
+- `q`: Quit the application
+- `Space`: Start/Stop LLM question recording
+- `Enter`: Stop TTS
+- `Escape`: Pause/Resume TTS
+- `n`: Disable navigation mode
+- `d`: Play map description
+- `m`: Fix map model detection
 
 ## Model creation:
 
 A software utility for creating map models is available at:
-[MapIO Model Creation Utility](https://github.com/Matteo-3033/CamIO-Model-creation-utility)
+[MapIO Model Creation Utility](https://github.com/Matteo-3033/MapIO-model-creation-utility)

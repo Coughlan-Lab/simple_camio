@@ -8,6 +8,7 @@ drawing, and other common operations.
 import os
 import sys
 import json
+import zipfile
 import cv2 as cv
 import numpy as np
 import logging
@@ -76,6 +77,40 @@ def select_camera_port():
 
 
 # ==================== File Loading ====================
+
+def load_camio_file(filename):
+    model = {"filename":"ColorMap.png",
+      "template_image": "template.png",
+      "blipsound":"MP3/quick_blip.wav",
+      "welcome_message":"MP3/welcome.mp3",
+      "goodbye_message":"MP3/goodbye.mp3",
+      "heartbeat": "MP3/white_noise.mp3",
+      "crickets": "MP3/crickets.mp3",
+      "modelType": "sift_2d_mediapipe"
+        }
+    if os.path.isfile(filename):
+        with zipfile.ZipFile(filename, "r") as zip_ref:
+            zip_ref.extractall()
+            zip_list = zip_ref.namelist()
+        for filename in zip_list:
+            if "data.json" in filename:
+                datafile = filename
+                break
+        for filename in zip_list:
+            if "ColorMap.png" in filename:
+                model["filename"] = filename
+                break
+        for filename in zip_list:
+            if "template.png" in filename:
+                model['template_image'] = filename
+                break
+        with open(datafile, "r") as f:
+            map_params = json.load(f)
+            model["hotspots"] = map_params["hotspots"]
+            for hotspot in model["hotspots"]:
+                hotspot["audioDescription"] = hotspot["sound"]
+                hotspot['textDescription'] = hotspot['title']
+    return model, zip_list
 
 def load_map_parameters(filename):
     """

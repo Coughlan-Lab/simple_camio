@@ -7,6 +7,7 @@ and gesture recognition to enable interactive exploration of physical maps.
 
 import cv2 as cv
 import time
+import os
 import argparse
 import pyglet
 import queue
@@ -17,7 +18,7 @@ import numpy as np  # moved to top to avoid per-call imports
 
 # Import from new modular structure
 from src.config import CameraConfig, AudioConfig, WorkerConfig, UIConfig, TapDetectionConfig
-from src.core.utils import select_camera_port, load_map_parameters, is_gesture_valid
+from src.core.utils import select_camera_port, load_map_parameters, is_gesture_valid, load_camio_file
 from src.audio.audio import AmbientSoundPlayer, ZoneAudioPlayer
 from src.detection.gesture_detection import GestureDetector, MovementMedianFilter
 from src.detection.pose_detector import CombinedPoseDetector
@@ -50,8 +51,12 @@ def initialize_system(model_path):
     """
     logger.info("Initializing CamIO system...")
 
-    # Load map configuration
-    model = load_map_parameters(model_path)
+    if ".camio" in model_path:
+        model, zip_list = load_camio_file(model_path)
+    else:
+        # Load map configuration
+        model = load_map_parameters(model_path)
+        zip_list = None
 
     # Select camera
     cam_port = select_camera_port()
@@ -77,6 +82,9 @@ def initialize_system(model_path):
     # Note: Welcome message will be played by AudioWorker after it starts
 
     logger.info("System initialization complete")
+    if zip_list:
+        for file in zip_list:
+            os.remove(file)
 
     return {
         'model': model,

@@ -13,6 +13,7 @@ Pygame doesn't require X11 display for audio operations.
 import os
 import sys
 import logging
+from gtts import gTTS
 
 logger = logging.getLogger(__name__)
 
@@ -242,6 +243,20 @@ class ZoneAudioPlayer:
                     self.sound_files[key] = pygame.mixer.Sound(hotspot['audioDescription'])
             else:
                 logger.warning(f"Audio file not found: {hotspot['audioDescription']}")
+                if hotspot['textDescription']:
+                    tts = gTTS(text=hotspot['textDescription'],lang='en')
+                    tts.save("temp.mp3")
+                    if USE_PYGLET:
+                        import pyglet.media
+                        self.sound_files[key] = pyglet.media.load(
+                            "temp.mp3",
+                            streaming=False
+                        )
+                    elif USE_PYGAME:
+                        import pygame
+                        self.sound_files[key] = pygame.mixer.Sound("temp.mp3")
+                    os.remove("temp.mp3")
+
 
     def set_zone_volume(self, volume):
         """

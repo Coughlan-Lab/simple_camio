@@ -1,6 +1,7 @@
 import os.path
 import pyglet
 import numpy as np
+from gtts import gTTS
 from scipy import stats
 import cv2 as cv
 
@@ -78,6 +79,11 @@ class CamIOPlayer2D:
                 self.sound_files[key] = pyglet.media.load(hotspot['audioDescription'], streaming=False)
             else:
                 print("warning. file not found:" + hotspot['audioDescription'])
+                if hotspot['textDescription']:
+                    tts = gTTS(text=hotspot['textDescription'],lang='en')
+                    tts.save("temp.mp3")
+                    self.sound_files[key] = pyglet.media.load("temp.mp3", streaming=False)
+                    os.remove("temp.mp3")
 
     def play_description(self):
         if not self.have_played_description:

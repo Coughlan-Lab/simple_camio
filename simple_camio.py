@@ -182,8 +182,11 @@ def load_camio_file(filename):
             map_params = json.load(f)
             model["hotspots"] = map_params["hotspots"]
             for hotspot in model["hotspots"]:
-                hotspot["audioDescription"] = hotspot["sound"]
-                hotspot['textDescription'] = hotspot['title']
+                if "sound" in hotspot:
+                    hotspot["audioDescription"] = hotspot["sound"]
+                else:
+                    hotspot["audioDescription"] = ""
+                hotspot['textDescription'] = hotspot['title'] + '. ' + hotspot['description']
     return model, zip_list
 
 
@@ -233,7 +236,8 @@ if model["modelType"] == "sift_2d_mediapipe":
 
 if zip_list:
     for file in zip_list:
-        os.remove(file)
+        if os.path.isfile(file):
+            os.remove(file)
 heartbeat_player.set_volume(.05)
 cap = cv.VideoCapture(cam_port)
 cap.set(cv.CAP_PROP_FRAME_HEIGHT, 1080)  # set camera image height

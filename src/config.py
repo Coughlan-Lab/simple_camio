@@ -39,7 +39,7 @@ class CameraConfig:
     
     # Use threaded display (non-blocking cv.imshow for smoother rendering)
     # Highly recommended for high FPS systems
-    USE_THREADED_DISPLAY = True
+    USE_THREADED_DISPLAY = False
     
     # Display frame skip - show every Nth frame to improve smoothness
     # Higher = smoother but lower display FPS (processing still happens on all frames)
@@ -56,7 +56,7 @@ class CameraConfig:
     if os.name == 'nt':  # Windows
         BACKEND = None  # Change to cv.CAP_MSMF for potentially better performance
     else:  # Linux/Mac
-        BACKEND = cv.CAP_V4L2
+        BACKEND = cv.CAP_AVFOUNDATION
     
     # Headless mode (no display window) - useful for Raspberry Pi daemon mode
     # When True, disables all cv.imshow() and display thread operations
@@ -219,7 +219,7 @@ class InteractionConfig:
     """Configuration for 2D interaction policy."""
 
     # Size of the zone filter buffer
-    ZONE_FILTER_SIZE = 10
+    ZONE_FILTER_SIZE = 1
 
     # Z-axis threshold for touch detection (cm)
     Z_THRESHOLD = 2.0

@@ -256,11 +256,11 @@ class SIFTConfig:
     RANSAC_MAX_ITERS = 5000
 
     # Tracking quality monitoring
-    REDETECT_INTERVAL = 150         # Force validation every N frames
+    REDETECT_INTERVAL = 9000         # Force validation every N frames
     MIN_TRACKING_QUALITY = 8        # Minimum inliers to maintain tracking
 
     # Quick validation parameters
-    VALIDATION_INTERVAL = 2.0       # Seconds between validation checks
+    VALIDATION_INTERVAL = 60       # Seconds between validation checks
     VALIDATION_MIN_MATCHES = 6
     VALIDATION_POSITION_THRESHOLD = 40  # Pixels
 
